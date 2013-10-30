@@ -1,20 +1,36 @@
+
 buildscript {
     repositories {
-        mavenCentral()
+        maven { url "http://repo1.maven.org/maven2" }
+        // repo for Roboelectric plugin
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
+        // load plugin
+        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
     }
 }
 apply plugin: 'android'
+apply plugin: 'robolectric' // apply robo plugin
 
 repositories {
     mavenCentral()
 }
 
+dependencies {
+    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.android.support:support-v4:18.0.0'
+
+    // test's dependencies
+    robolectricCompile 'org.robolectric:robolectric:2.1.1'
+    robolectricCompile 'junit:junit:4.11'
+}
+
 android {
     compileSdkVersion 18
-    buildToolsVersion "18.1.0"
+    buildToolsVersion "18.1.1"
 
     defaultConfig {
         minSdkVersion 8
@@ -22,7 +38,4 @@ android {
     }
 }
 
-dependencies {
-	compile 'com.android.support:appcompat-v7:18.0.0'
-	compile 'com.android.support:support-v4:18.0.0'
-}
+
