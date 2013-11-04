@@ -9,11 +9,11 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
         // load plugin
-        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
+        //classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
     }
 }
 apply plugin: 'android'
-apply plugin: 'robolectric' // apply robo plugin
+//apply plugin: 'robolectric' // apply robo plugin
 
 repositories {
     mavenCentral()
@@ -23,9 +23,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile 'com.android.support:support-v4:18.0.0'
 
+    compile 'com.google.code.gson:gson:2.2.4'
+	compile 'ch.acra:acra:4.5.0'
+
+	compile fileTree(dir: '../libs', include: '*.jar')
+	
     // test's dependencies
-    robolectricCompile 'org.robolectric:robolectric:2.1.1'
-    robolectricCompile 'junit:junit:4.11'
+    //robolectricCompile 'org.robolectric:robolectric:2.1.1'
+    //robolectricCompile 'junit:junit:4.11'
 }
 
 android {
