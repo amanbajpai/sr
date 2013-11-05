@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- PO Android Lint rules based on lint version 22.3 -->
+<lint>
+
+    <!-- Blocker Bugs -->
+    <issue id="HardcodedText" severity="fatal" />
+
+    <issue id="OnClick" severity="fatal" />
+    <issue id="MissingSuperCall" severity="fatal" />
+    <issue id="StyleCycle" severity="fatal" />
+    <issue id="UnknownId" severity="fatal" />
+    <issue id="CommitTransaction" severity="fatal" />
+    <issue id="PxUsage" severity="fatal" />
+    <issue id="StringFormatInvalid" severity="fatal" />
+    <issue id="StringFormatMatches" severity="fatal" />
+    <issue id="PackagedPrivateKey" severity="fatal" />
+    <issue id="ViewConstructor" severity="fatal" />
+
+
+   <!-- Critical and Hight Bugs -->
+    <issue id="AdapterViewChildren" severity="error" />
+    <issue id="StopShip" severity="error" />
+
+    <!-- Low level Bugs (can be ignored) -->
+    <issue id="MissingTranslation" severity="ignore" />
+    <issue id="NewApi" severity="ignore" />
+    <issue id="OldTargetApi" severity="ignore" />
+
+
+</lint>
