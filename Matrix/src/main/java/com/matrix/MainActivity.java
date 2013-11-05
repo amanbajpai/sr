@@ -2,6 +2,7 @@ package com.matrix;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.adapter.TaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
+import com.matrix.location.LocationService;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.net.WSUrl;
@@ -36,6 +38,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startService(new Intent(this, LocationService.class));
+
         handler = new MessageHandler(getContentResolver());
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
@@ -47,6 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         adapter = new TaskAdapter(this);
 
         taskList.setAdapter(adapter);
+
 
         getTasks();
         getTasksFromServer();

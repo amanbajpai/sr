@@ -15,6 +15,9 @@ public class Config {
     public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory(
             "/Android/data/com.matrix/cache/").getPath();
 
+    public static final int REFRESH_LOCATION_DISTANCE = 100;
+    public static final int REFRESH_LOCATION_TIME = 0;
+
     public static final String ACRA_FORM_KEY = "";
     public static final boolean ACRA_ENABLED;
 
