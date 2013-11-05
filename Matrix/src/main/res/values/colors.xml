@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
-    <color name="white" >#ffffffff</color >
-    <color name="black" >#ff000000</color >
-    <color name="red" >#ffff0000</color >
-    <color name="yellow" >#f9c82c</color >
-    <color name="blue" >#ff0082c4</color >
-    <color name="grey" >#858585</color >
-    <color name="light_grey" >#dddddd</color >
-    <color name="dark_grey" >#696969</color >
-    <color name="green" >#0cc722</color >
-    <color name="silver" >#c0c0c0</color >
-    <color name="light_blue" >#9acbff</color >
-    <color name="violet" >#3100a3</color >
-    <color name="orange" >#FF6600</color >
-    <color name="shadow_white" >#4d000000</color >
-    <color name="shadow_black" >#c0ffffff</color >
-    <color name="black_transparence" >#aa000000</color >
-    <color name="gray_transparence" >#20000000</color >
-    <color name="white_transparence" >#80ffffff</color >
+    <color name="tasklisttitle" >#ff0082c4</color >
+    <color name="tasklistdescription" >#ff9acbff</color >
 </resources >

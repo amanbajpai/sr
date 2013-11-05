@@ -5,4 +5,17 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- Task List Styles -->
+    <style name="TaskListTitle" parent="@android:style/Widget.TextView" >
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_tasktitle</item>
+        <item name="android:textColor">@color/tasklisttitle</item>
+    </style>
+
+    <style name="TaskListDescription" parent="@android:style/Widget.TextView" >
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size_taskdescription</item>
+        <item name="android:textColor">@color/tasklistdescription</item>
+    </style>
+
 </resources>
