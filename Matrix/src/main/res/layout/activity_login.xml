@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp" >
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" >
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_launcher" />
+                <TextView
+                    android:id="@+id/welcome"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@+id/logo"
+                    android:text="@string/welcome_to" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@+id/logo"
+                    android:layout_below="@+id/welcome"
+                    android:text="@string/welcome_to"
+                    android:textSize="@dimen/text_size_large" />
+            </RelativeLayout >
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:hint="@string/your_email_hint" />
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:hint="@string/your_password_hint" />
+            <TextView
+                android:id="@+id/forgotPasswordButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:autoLink="web"
+                android:text="@string/forgot_password" />
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginTop="30dp"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/login" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:autoLink="web"
+                android:layout_marginTop="30dp"
+                android:text="@string/you_can_register" />
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/i_new_user" />
+        </LinearLayout >
+    </ScrollView >
+</LinearLayout >

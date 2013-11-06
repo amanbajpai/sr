@@ -7,9 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.matrix.R;
 import com.matrix.db.TaskDbSchema;
-import com.matrix.db.entity.BaseEntity;
-import com.matrix.db.entity.ResponseError;
-import com.matrix.db.entity.Task;
+import com.matrix.db.entity.*;
 import com.matrix.utils.L;
 
 import java.util.ArrayList;
@@ -56,15 +54,26 @@ public class NetworkService extends BaseNetworkService {
         String responseString = operation.getResponseString();
         if (responseCode == 200 && responseString != null) {
             try {
+                ContentResolver contentResolver = getContentResolver();
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.GET_TASKS_ID:
-                        ContentResolver contentResolver = getContentResolver();
                         Task[] tasks = gson.fromJson(responseString, Task[].class);
                         for(Task task: tasks){
                             contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
                         }
 
                         //operation.responseEntities.addAll(new ArrayList<Task>(Arrays.asList(tasks)));
+                        break;
+
+                    case WSUrl.LOGIN_ID:
+                        LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
+                        operation.responseEntities.add(loginResponse);
+                        preferencesManager.setString(TOKEN, loginResponse.getToken());
+                        break;
+                    case WSUrl.REGISTRATION_ID:
+                        RegistrationResponse registrationResponse = gson.fromJson(responseString,
+                                RegistrationResponse.class);
+                        operation.responseEntities.add(registrationResponse);
                         break;
                     default:
                         break;

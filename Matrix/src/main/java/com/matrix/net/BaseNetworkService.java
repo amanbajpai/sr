@@ -37,13 +37,6 @@ public abstract class BaseNetworkService extends IntentService {
     public static final String BROADCAST_ACTION = "operation";
     public static final String TOKEN = "token";
 
-    public static final String STORE_ENTITIES_ACTION = "store_enteties_action";
-    public static final String FIRST_SYNC_ACTION = "first_sync_action";
-    public static final String BATCH_ARRAY_KEY = "batch_array";
-
-    public static final String SYNC_PUSH_OPERATION_TAG = "send_sync_operation";
-    public static final String SYNC_PULL_OPERATION_TAG = "get_sync_operation";
-
     public static final int NO_INTERNET = -100500;
 
     public BaseNetworkService(String name) {

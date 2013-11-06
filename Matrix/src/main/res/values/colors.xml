@@ -2,4 +2,7 @@
 <resources >
     <color name="tasklisttitle" >#ff0082c4</color >
     <color name="tasklistdescription" >#ff9acbff</color >
+
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
 </resources >

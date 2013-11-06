@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="app_name">Matrix</string>
-    <string name="get_tasks">Get Tasks</string>
-
-    //ERROR STRINGS
-    <string name="error">Error</string>
-    <string name="no_internet">No Internet connection. Please, try later.</string>
-</resources>
+<resources >
+    <string name="app_name" >Matrix</string >
+    <string name="get_tasks" >Get Tasks</string >
+    <!-- LOGIN ACTIVITY -->
+    <string name="welcome_to" >Welcome to</string >
+    <string name="your_email_hint" >Your e-mail</string >
+    <string name="your_password_hint" >Your password</string >
+    <string name="forgot_password" ><u >Forgot password?</u ></string >
+    <string name="login" >Log in</string >
+    <string name="you_can_register" >You can register if you are a new user</string >
+    <string name="i_new_user" >I\'am a new user</string >
+    <!-- REGISTRATION ACTIVITY -->
+    <string name="full_name" >Full name</string >
+    <string name="password" >Password</string >
+    <string name="minimum_6_letters" >Minimum 6 letters</string >
+    <string name="gender" >Gender</string >
+    <string name="birthday" >Birthday</string >
+    <string name="i" >i</string >
+    <string name="day" >Day</string >
+    <string name="month" >Month</string >
+    <string name="year" >Year</string >
+    <string name="your_country_hint" >Your Country</string >
+    <string name="your_city_hint" >Your City</string >
+    <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
+    <string name="confirm_and_register" >Confirm &amp; Register</string >
+    <string name="cancel" >Cancel</string >
+    <string name="fill_in_field" >Please, fill in field</string >
+    <!-- ERROR STRINGS -->
+    <string name="error" >Error</string >
+    <string name="success" >Success</string >
+    <string name="no_internet" >No Internet connection. Please, try later.</string >
+</resources >

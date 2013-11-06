@@ -12,11 +12,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <!-- Cloud to Device Messaging permissions -->
     <permission
         android:name="com.ua.makeev.youropinion.permission.C2D_MESSAGE"
@@ -24,55 +22,50 @@
 
     <uses-permission android:name="com.ua.makeev.youropinion.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
     <!-- App must have this permission to use the library -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     <!-- Crach loger -->
     <uses-permission android:name="android.permission.READ_LOGS" />
-
     <application
         android:name="com.matrix.App"
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.matrix.MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
+            android:name="com.matrix.activity.LoginActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            </intent-filter >
+        </activity >
+        <activity
+            android:name="com.matrix.activity.RegistrationActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <service
             android:name="com.matrix.net.NetworkService"
             android:exported="false" />
-
         <provider
             android:name="com.matrix.db.AppContentProvider"
             android:authorities="com.matrix"
             android:exported="false" />
-
         <!-- Used for install referral measurement -->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
-
         <receiver
             android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
             android:exported="true" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-
+            </intent-filter >
+        </receiver >
         <service android:name="com.matrix.location.LocationService" />
-    </application>
-
+    </application >
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
-
-</manifest>
+</manifest >
