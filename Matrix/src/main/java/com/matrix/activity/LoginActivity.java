@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.BaseActivity;
+import com.matrix.MainActivity;
 import com.matrix.R;
 import com.matrix.db.entity.Login;
 import com.matrix.db.entity.LoginResponse;
@@ -77,7 +78,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginButton:
-                login();
+                //TODO Delete
+                //login();
+                finish();
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.registerButton:
                 startActivity(new Intent(this, RegistrationActivity.class));

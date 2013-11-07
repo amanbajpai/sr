@@ -58,7 +58,7 @@ public class NetworkService extends BaseNetworkService {
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.GET_TASKS_ID:
                         Task[] tasks = gson.fromJson(responseString, Task[].class);
-                        for(Task task: tasks){
+                        for (Task task : tasks) {
                             contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
                         }
 
@@ -74,6 +74,11 @@ public class NetworkService extends BaseNetworkService {
                         RegistrationResponse registrationResponse = gson.fromJson(responseString,
                                 RegistrationResponse.class);
                         operation.responseEntities.add(registrationResponse);
+                        break;
+                    case WSUrl.SUBSCRIPTION_ID:
+                        SubscriptionResponse subscriptionResponse = gson.fromJson(responseString,
+                                SubscriptionResponse.class);
+                        operation.responseEntities.add(subscriptionResponse);
                         break;
                     default:
                         break;

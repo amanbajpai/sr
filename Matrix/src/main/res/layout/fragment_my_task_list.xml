@@ -7,7 +7,10 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="Hardcodetext"/>
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/text_size_large"
+        android:padding="20dp"
+        android:text="@string/my_tasks" />
     <Button
         android:id="@+id/getTasksButton"
         android:layout_height="wrap_content"
