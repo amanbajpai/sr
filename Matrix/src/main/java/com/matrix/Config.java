@@ -9,11 +9,11 @@ public class Config {
     }
 
     public static final Environment ENV = Environment.DEVELOPMENT;
+    public static final String cachePrefixDir = "/Android/data/com.matrix/cache/";
 
     public static final String APP_VERSION;
 
-    public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory(
-            "/Android/data/com.matrix/cache/").getPath();
+    public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory(cachePrefixDir).getPath();
 
     public static final int REFRESH_LOCATION_DISTANCE = 100;
     public static final int REFRESH_LOCATION_TIME = 0;

@@ -11,6 +11,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import com.matrix.db.entity.MatrixLocation;
+import com.matrix.utils.L;
+import com.matrix.utils.PreferencesManager;
 
 public class LocationService extends Service implements LocationListener {
     private static final String TAG = LocationService.class.getSimpleName();
@@ -34,9 +37,11 @@ public class LocationService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            Log.i(TAG, "New location: " + location.getLatitude() + ", " + location.getLongitude() + ", Provider: "
-                    + location.getProvider());
-            //TODO Save actual location here
+            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", " +
+                    "Provider: " + location.getProvider() + "]");
+
+            /* Save actual location here */
+            PreferencesManager.getInstance().setCurrentLocation(new MatrixLocation(location));
         }
     }
 
@@ -65,10 +70,11 @@ public class LocationService extends Service implements LocationListener {
             networkTime = networkLocation.getTime();
         }
 
+        /* Select last get location and save it */
         if ((gpsTime - networkTime) > 0) {
-            //TODO Save last known GPS location here
+            PreferencesManager.getInstance().setCurrentLocation(new MatrixLocation(gpsLocation));
         } else {
-            //TODO Save last known NETWORK location here
+            PreferencesManager.getInstance().setCurrentLocation(new MatrixLocation(networkLocation));
         }
     }
 

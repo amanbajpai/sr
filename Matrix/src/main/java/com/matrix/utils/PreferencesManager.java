@@ -2,11 +2,17 @@ package com.matrix.utils;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.preference.PreferenceManager;
+import com.google.gson.Gson;
 import com.matrix.App;
+import com.matrix.Keys;
+import com.matrix.db.entity.MatrixLocation;
+import com.matrix.db.entity.RegistrationResponse;
 
 
 public class PreferencesManager {
+    private static final String TAG = "PreferencesManager";
     private SharedPreferences _preferences;
     private static PreferencesManager preferencesManager = null;
 
@@ -25,6 +31,31 @@ public class PreferencesManager {
         return _preferences;
     }
 
+
+    /**/
+    public void setCurrentLocation(MatrixLocation location) {
+        Gson gson = new Gson();
+        String json = gson.toJson(location);
+        Editor editor = getPreferences().edit();
+        editor.putString(Keys.PREFERENCE_CURRENT_LOCATION, json);
+        editor.commit();
+        Location newLocation = getCurrentLocation();
+        if (newLocation != null) {
+            L.i(TAG, "curr location[" + newLocation + "]");
+        }
+
+    }
+
+    public Location getCurrentLocation() {
+        Location location = null;
+        Gson gson = new Gson();
+        String locationJson = getString(Keys.PREFERENCE_CURRENT_LOCATION, "");
+        if (!locationJson.equals("")) {
+            MatrixLocation matrixLocation = gson.fromJson(locationJson, MatrixLocation.class);
+            location = matrixLocation.getLocation();
+        }
+        return location;
+    }
 
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);

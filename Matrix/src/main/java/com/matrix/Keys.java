@@ -15,4 +15,6 @@ public interface Keys {
 
     int ACTION_GET_TASKS = 1;
     // last 1
+
+    String PREFERENCE_CURRENT_LOCATION = "current_location";
 }
