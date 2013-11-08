@@ -25,4 +25,28 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="@string/my_tasks" />
+    <Button
+        android:id="@+id/profileButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/profile" />
+    <Button
+        android:id="@+id/settingsButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/settings" />
+    <Button
+        android:id="@+id/aboutMatrixButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/about_matrix" />
+    <Button
+        android:id="@+id/shareButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/share_and_refer_with_friends" />
 </LinearLayout >

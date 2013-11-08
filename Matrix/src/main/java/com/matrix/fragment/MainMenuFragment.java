@@ -16,7 +16,7 @@ import com.matrix.R;
 import com.matrix.activity.LoginActivity;
 
 public class MainMenuFragment extends Fragment implements OnClickListener {
-    private static final String TAG = MainMenuFragment.class.getSimpleName();
+    //private static final String TAG = MainMenuFragment.class.getSimpleName();
     private ViewGroup view;
 
     private ResponseReceiver localReceiver;
@@ -29,6 +29,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.loginButton).setOnClickListener(this);
         view.findViewById(R.id.allTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
+        view.findViewById(R.id.profileButton).setOnClickListener(this);
+        view.findViewById(R.id.settingsButton).setOnClickListener(this);
+        view.findViewById(R.id.aboutMatrixButton).setOnClickListener(this);
+        view.findViewById(R.id.shareButton).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         intentFilter = new IntentFilter();
@@ -71,7 +75,23 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myTasksButton:
-                ((MainActivity) getActivity()).startFragment(new MylTaskListFragment());
+                ((MainActivity) getActivity()).startFragment(new MyTaskListFragment());
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.profileButton:
+                ((MainActivity) getActivity()).startFragment(new ProfileFragment());
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.settingsButton:
+                ((MainActivity) getActivity()).startFragment(new SettingsFragment());
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.aboutMatrixButton:
+                ((MainActivity) getActivity()).startFragment(new AboutMatrixFragment());
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.shareButton:
+                ((MainActivity) getActivity()).startFragment(new ShareAndReferFragment());
                 ((MainActivity) getActivity()).togleMenu();
                 break;
         }

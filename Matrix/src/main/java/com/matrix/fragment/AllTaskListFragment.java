@@ -41,7 +41,9 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_all_task_list, null);
 
-        handler = new MessageHandler(getActivity().getContentResolver());
+        getActivity().setTitle(R.string.all_tasks_title);
+
+        handler = new DbHandler(getActivity().getContentResolver());
 
         taskList = (ListView) view.findViewById(R.id.taskList);
         responseTextView = (TextView) view.findViewById(R.id.responseTextView);
@@ -81,9 +83,9 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     }
 
 
-    class MessageHandler extends AsyncQueryHandler {
+    class DbHandler extends AsyncQueryHandler {
 
-        public MessageHandler(ContentResolver cr) {
+        public DbHandler(ContentResolver cr) {
             super(cr);
         }
 

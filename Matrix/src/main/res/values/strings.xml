@@ -30,6 +30,10 @@
     <string name="drawer_close" >Close navigation drawer</string >
     <string name="all_tasks" >All Tasks</string >
     <string name="my_tasks" >My Tasks</string >
+    <string name="profile" >Profile</string >
+    <string name="settings" >Settings</string >
+    <string name="about_matrix" >About Matrix</string >
+    <string name="share_and_refer_with_friends" >Share &amp; Refer with friends</string >
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry</string >
     <string name="we_dont_have_avalable_tesks" >At the moment we do not have the avalable tasks in your area,
@@ -37,8 +41,49 @@
         available</string >
     <string name="subscribe_for_notification" >Subscribe for notification</string >
     <!-- ALL TASK FRAGMENT-->
+    <string name="all_tasks_title" >All Tasks</string >
     <string name="get_tasks" >Get Tasks</string >
     <!-- MY TASK FRAGMENT-->
+    <string name="my_tasks_title" >My Tasks</string >
+    <!-- PROFILE FRAGMENT-->
+    <string name="profile_title" >Profile</string >
+    <string name="your_balance" >Your Balance</string >
+    <string name="balance" >Balance</string >
+    <string name="balance_0" >0$</string >
+    <string name="transfer_funds" >Transfer Funds</string >
+    <string name="registered_account" >Registered account</string >
+    <string name="pay_pal" >PayPal</string >
+    <string name="change_account_info" ><u >Change account info</u ></string >
+    <string name="your_info" >Your Info</string >
+    <string name="change_photo" >Change photo</string >
+    <string name="change_password" ><u >Change password</u ></string >
+    <string name="update_my_location" >Update my location</string >
+    <string name="confirm_and_save" >Confirm &amp; save</string >
+    <!-- SETTINGS FRAGMENT-->
+    <string name="app_settings_title" >App settings</string >
+    <string name="application_settings" >Application settings</string >
+    <string name="language" >Language</string >
+    <string name="location_services" >Location services</string >
+    <string name="push_messages" >Push messages</string >
+    <string name="social_sharing" >Social sharing</string >
+    <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
+    <string name="tasks_in_your_location" >Tasks in your location</string >
+    <string name="task_in_radius" >Tasks in radius</string >
+    <string name="notification_settings" >Notification settings</string >
+    <string name="file_size_warning" >File size warning</string >
+    <string name="deadline_reminder" >Deadline reminder</string >
+    <!-- ABOUT MATRIX FRAGMENT-->
+    <string name="about_matrix_title" >About Matrix</string >
+    <string name="about_matrix_text" >About Matrix text. About Matrix text. About Matrix text. About Matrix text. About Matrix text. About Matrix text. </string >
+    <string name="term_and_conditions" >Term &amp; Conditions agreement</string >
+    <string name="faq" >FAQ</string >
+    <string name="help" >Help</string >
+    <!-- SHARE AND REFER FRAGMENT-->
+    <string name="share_and_refer_title" >Share &amp; Refer</string >
+    <string name="share_and_refer_via_email" >Share &amp; Refer via E-mail</string >
+    <string name="share_and_refer_via_message" >Share &amp; Refer via Message</string >
+    <string name="share_and_refer_via_twitter" >Share &amp; Refer via Twitter</string >
+    <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
     <!-- ERROR STRINGS -->
     <string name="error" >Error</string >
     <string name="success" >Success</string >

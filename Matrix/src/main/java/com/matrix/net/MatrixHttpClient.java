@@ -16,16 +16,16 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
-public class VectorHttpClient {
+public class MatrixHttpClient {
     private static HttpClient httpClientInstance;
 
-    private VectorHttpClient() {
+    private MatrixHttpClient() {
         httpClientInstance = createHttpClient();
     }
 
     public static HttpClient getClient() {
         if (httpClientInstance == null) {
-            new VectorHttpClient();
+            new MatrixHttpClient();
         }
         return httpClientInstance;
     }

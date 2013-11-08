@@ -26,8 +26,8 @@ import com.matrix.utils.L;
 
 import java.util.ArrayList;
 
-public class MylTaskListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
-    private static final String TAG = MylTaskListFragment.class.getSimpleName();
+public class MyTaskListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
+    private static final String TAG = MyTaskListFragment.class.getSimpleName();
     private static final String GET_TASKS_OPERATION_TAG = "get_tasks_operation_tag";
     private ViewGroup view;
 
@@ -41,7 +41,9 @@ public class MylTaskListFragment extends Fragment implements OnClickListener, On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_my_task_list, null);
 
-        handler = new MessageHandler(getActivity().getContentResolver());
+        getActivity().setTitle(R.string.my_tasks_title);
+
+        handler = new DbHandler(getActivity().getContentResolver());
 
         taskList = (ListView) view.findViewById(R.id.taskList);
         responseTextView = (TextView) view.findViewById(R.id.responseTextView);
@@ -81,9 +83,9 @@ public class MylTaskListFragment extends Fragment implements OnClickListener, On
     }
 
 
-    class MessageHandler extends AsyncQueryHandler {
+    class DbHandler extends AsyncQueryHandler {
 
-        public MessageHandler(ContentResolver cr) {
+        public DbHandler(ContentResolver cr) {
             super(cr);
         }
 
