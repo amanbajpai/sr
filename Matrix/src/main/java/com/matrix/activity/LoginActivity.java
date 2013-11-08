@@ -1,6 +1,7 @@
 package com.matrix.activity;
 
 import android.content.Intent;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,16 +32,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
+        final MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
         Location loc = lm.getLocation();
 
         L.i(TAG, "[LOC = " + loc + "]");
-        lm.addRequest(new MatrixLocationManager.ILocationUpdate(){
+        lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
             @Override
             public void onUpdate(Location location) {
                 L.i(TAG, "ASYNC [LOC = " + location + "]");
+
+                lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                    @Override
+                    public void onUpdate(Address address) {
+
+                        /*
+                         * Format the first line of address (if available),
+                         * city, and country name.
+                         */
+                        String addressText = String.format(
+                                "%s, %s, %s",
+                                // If there's a street address, add it
+                                address.getMaxAddressLineIndex() > 0 ?
+                                        address.getAddressLine(0) : "",
+                                // Locality is usually a city
+                                address.getLocality(),
+                                // The country of the address
+                                address.getCountryName());
+
+                        L.d(TAG, "Address =  [" + addressText + "]");
+                    }
+                });
             }
         });
+
+
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 

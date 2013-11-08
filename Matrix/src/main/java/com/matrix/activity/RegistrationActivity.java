@@ -49,6 +49,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         findViewById(R.id.confirmButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
+
+
     }
 
     private void registration() {
