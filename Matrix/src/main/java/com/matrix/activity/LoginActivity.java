@@ -1,6 +1,7 @@
 package com.matrix.activity;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,9 +14,11 @@ import com.matrix.R;
 import com.matrix.db.entity.Login;
 import com.matrix.db.entity.LoginResponse;
 import com.matrix.location.LocationService;
+import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.net.WSUrl;
+import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
@@ -29,7 +32,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        startService(new Intent(this, LocationService.class));
+        //FIXME We dont run our services for location
+        //startService(new Intent(this, LocationService.class));
+        MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
+        Location loc = lm.getLocation();
+
+        L.i(TAG, "[LOC = " + loc + "]");
+        lm.addRequest(new MatrixLocationManager.ILocationUpdate(){
+            @Override
+            public void onUpdate(Location location) {
+                L.i(TAG, "ASYNC [LOC = " + location + "]");
+            }
+        });
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 

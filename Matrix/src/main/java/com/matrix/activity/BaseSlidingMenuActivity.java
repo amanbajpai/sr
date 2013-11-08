@@ -13,7 +13,7 @@ import com.matrix.R;
 import com.matrix.fragment.MainMenuFragment;
 
 public class BaseSlidingMenuActivity extends BaseActivity {
-    //private final static String TAG = MainActivity.class.getSimpleName();
+    //private final static String TAG = BaseSlidingMenuActivity.class.getSimpleName();
 
     private DrawerLayout mDrawerLayout;
     private FrameLayout leftDrawer;

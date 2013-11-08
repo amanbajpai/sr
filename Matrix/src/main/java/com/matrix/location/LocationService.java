@@ -49,7 +49,9 @@ public class LocationService extends Service implements LocationListener,
              * Create a new location client, using the enclosing class to
              * handle callbacks.
              */
-            //locationClient = new LocationClient(getBaseContext(), this, this);
+            locationClient = new LocationClient(getApplicationContext(), this, this);
+            // Connect the client.
+            locationClient.connect();
         } else { // Google Play services was not available for some reason
             L.d(TAG, "Google Play services [ERROR=" + resultCode + "]");
         }

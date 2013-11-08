@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import com.matrix.activity.BaseSlidingMenuActivity;
 import com.matrix.fragment.AllTaskListFragment;
+import com.matrix.location.MatrixLocationManager;
 
 import java.util.ArrayList;
 
