@@ -13,7 +13,6 @@ import com.matrix.MainActivity;
 import com.matrix.R;
 import com.matrix.db.entity.Login;
 import com.matrix.db.entity.LoginResponse;
-import com.matrix.location.LocationService;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
@@ -32,8 +31,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //FIXME We dont run our services for location
-        //startService(new Intent(this, LocationService.class));
         MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
         Location loc = lm.getLocation();
 

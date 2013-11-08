@@ -2,15 +2,16 @@ package com.matrix.location;
 
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
+
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
-import com.matrix.db.entity.MatrixLocation;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.matrix.Keys;
 import com.matrix.utils.L;
-import com.matrix.utils.PreferencesManager;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -25,6 +26,8 @@ public class MatrixLocationManager implements LocationListener,
     private boolean updatesRequested = false;
     private Location lastLocation;
     private Queue<ILocationUpdate> requested;
+    // Define an object that holds accuracy and frequency parameters
+    private LocationRequest locationRequest;
 
 
     /**
@@ -41,6 +44,15 @@ public class MatrixLocationManager implements LocationListener,
             // In debug mode, log the status
             L.d(TAG, "Google Play services is available.");
 
+            // Create the LocationRequest object
+            locationRequest = LocationRequest.create();
+            // Use high accuracy
+            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            // Set the update interval to 10 seconds
+            locationRequest.setInterval(Keys.UPDATE_INTERVAL);
+            // Set the fastest update interval to 1 second
+            locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
+
             /*
              * Create a new location client, using the enclosing class to
              * handle callbacks.
@@ -50,6 +62,7 @@ public class MatrixLocationManager implements LocationListener,
             locationClient.connect();
         } else { // Google Play services was not available for some reason
             L.d(TAG, "Google Play services [ERROR=" + resultCode + "]");
+            //TODO Implement handle logic when Google PLay Services not instaled
         }
     }
 
@@ -97,21 +110,6 @@ public class MatrixLocationManager implements LocationListener,
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        L.i(TAG, "onStatusChanged() [provider= " + provider + ", status=" + status + "]");
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        L.d(TAG, "onProviderEnabled() [provider= " + provider + "]");
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        L.d(TAG, "onProviderDisabled() [provider= " + provider + "]");
-    }
-
-    @Override
     public void onConnected(Bundle bundle) {
         L.i(TAG, "onConnected() [bundle = " + bundle + "]");
         isConnected = true;
@@ -123,6 +121,8 @@ public class MatrixLocationManager implements LocationListener,
             L.w(TAG, "location == null");
         }
 
+        locationClient.requestLocationUpdates(locationRequest, this);
+
         notifyAllRequestedLocation();
     }
 
@@ -130,6 +130,7 @@ public class MatrixLocationManager implements LocationListener,
     public void onDisconnected() {
         L.i(TAG, "onDisconnected()");
         isConnected = false;
+        locationClient.removeLocationUpdates(this);
     }
 
     @Override

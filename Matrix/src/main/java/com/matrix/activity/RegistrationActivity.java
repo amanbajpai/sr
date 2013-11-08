@@ -1,6 +1,5 @@
 package com.matrix.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.matrix.BaseActivity;
 import com.matrix.R;
 import com.matrix.db.entity.Registration;
 import com.matrix.db.entity.RegistrationResponse;
-import com.matrix.location.LocationService;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.net.WSUrl;
