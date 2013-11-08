@@ -10,6 +10,8 @@ import com.matrix.Keys;
 import com.matrix.db.entity.MatrixLocation;
 import com.matrix.db.entity.RegistrationResponse;
 
+import java.util.Date;
+
 
 public class PreferencesManager {
     private static final String TAG = "PreferencesManager";
@@ -42,6 +44,7 @@ public class PreferencesManager {
         Location newLocation = getCurrentLocation();
         if (newLocation != null) {
             L.i(TAG, "curr location[" + newLocation + "]");
+            L.i(TAG, "curr location[time=" + new Date(newLocation.getTime()) + "]");
         }
 
     }
