@@ -26,7 +26,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_main_menu, null);
 
-        view.findViewById(R.id.loginButton).setOnClickListener(this);
         view.findViewById(R.id.allTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.profileButton).setOnClickListener(this);
@@ -67,9 +66,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.loginButton:
-                ((MainActivity) getActivity()).startActivity(new LoginActivity());
-                break;
             case R.id.allTasksButton:
                 ((MainActivity) getActivity()).startFragment(new AllTaskListFragment());
                 ((MainActivity) getActivity()).togleMenu();

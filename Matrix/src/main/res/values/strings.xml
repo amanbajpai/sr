@@ -34,6 +34,8 @@
     <string name="settings" >Settings</string >
     <string name="about_matrix" >About Matrix</string >
     <string name="share_and_refer_with_friends" >Share &amp; Refer with friends</string >
+    <string name="level" >Level</string >
+    <string name="level_0" >0</string >
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry</string >
     <string name="we_dont_have_avalable_tesks" >At the moment we do not have the avalable tasks in your area,
