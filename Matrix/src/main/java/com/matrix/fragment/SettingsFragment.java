@@ -2,10 +2,8 @@ package com.matrix.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
@@ -31,10 +29,14 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
     public ToggleButton deadlineReminderToggleButton;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
-
-        getActivity().setTitle(R.string.app_settings_title);
 
         languageSpinner= (Spinner) view.findViewById(R.id.languageSpinner);
         taskInRadiusSeekBar= (SeekBar) view.findViewById(R.id.taskInRadiusSeekBar);
@@ -83,6 +85,14 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
 
                 break;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        getActivity().setTitle(R.string.app_settings_title);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

@@ -2,10 +2,8 @@ package com.matrix.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import com.matrix.BaseActivity;
 import com.matrix.R;
@@ -28,10 +26,14 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
     public EditText cityEditText;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
-
-        getActivity().setTitle(R.string.profile_title);
 
         fullNameEditText = (EditText) view.findViewById(R.id.fullNameEditText);
         passwordEditText = (EditText) view.findViewById(R.id.passwordEditText);
@@ -93,6 +95,14 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
 
                 break;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        getActivity().setTitle(R.string.profile_title);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

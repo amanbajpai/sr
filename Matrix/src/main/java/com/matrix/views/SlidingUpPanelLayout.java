@@ -731,20 +731,20 @@ public class SlidingUpPanelLayout extends ViewGroup {
         return slidingPane.getVisibility() == View.VISIBLE;
     }
 
+    public void hidePane() {
+        if (mSlideableView == null) {
+            return;
+        }
+        mSlideableView.setVisibility(View.GONE);
+        requestLayout();
+    }
+
     public void showPane() {
         if (getChildCount() < 2) {
             return;
         }
         View slidingPane = getChildAt(1);
         slidingPane.setVisibility(View.VISIBLE);
-        requestLayout();
-    }
-
-    public void hidePane() {
-        if (mSlideableView == null) {
-            return;
-        }
-        mSlideableView.setVisibility(View.GONE);
         requestLayout();
     }
 

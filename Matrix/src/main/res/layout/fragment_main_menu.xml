@@ -49,10 +49,4 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="@string/share_and_refer_with_friends" />
-    <Button
-        android:id="@+id/taskDetailButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/task_detail_title" />
 </LinearLayout >

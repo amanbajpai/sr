@@ -31,6 +31,7 @@
                 <EditText
                     android:id="@+id/passwordEditText"
                     android:layout_marginTop="10dp"
+                    android:inputType="textPassword"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_toRightOf="@+id/profilePhotoImageView"
@@ -77,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
+                android:inputType="textEmailAddress"
                 android:hint="@string/your_email_hint" />
             <EditText
                 android:id="@+id/countryEditText"

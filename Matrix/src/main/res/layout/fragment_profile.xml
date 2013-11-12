@@ -32,14 +32,14 @@
                     android:layout_weight="1" >
                     <TextView
                         android:layout_height="match_parent"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/balance" />
                     <TextView
                         android:id="@+id/balance"
                         android:layout_height="match_parent"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/balance_0" />
@@ -84,8 +84,6 @@
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_toRightOf="@+id/profilePhotoImageView"
-                    android:layout_below="@+id/passwordEditText"
                     android:text="@string/change_account_info" />
             </LinearLayout >
             <TextView
@@ -122,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_toRightOf="@+id/profilePhotoImageView"
                     android:layout_below="@+id/fullNameEditText"
+                    android:inputType="textPassword"
                     android:hint="@string/password" />
                 <TextView
                     android:id="@+id/changePasswordButton"
@@ -172,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
+                android:inputType="textEmailAddress"
                 android:hint="@string/your_email_hint" />
             <EditText
                 android:id="@+id/countryEditText"

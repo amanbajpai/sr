@@ -2,10 +2,8 @@ package com.matrix.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import com.matrix.BaseActivity;
 import com.matrix.R;
 import com.matrix.net.BaseOperation;
@@ -16,12 +14,15 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
     //private static final String TAG = AboutMatrixFragment.class.getSimpleName();
     private ViewGroup view;
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_about_matrix, null);
-
-        getActivity().setTitle(R.string.about_matrix_title);
 
         view.findViewById(R.id.termAndConditionsButton).setOnClickListener(this);
         view.findViewById(R.id.faqButton).setOnClickListener(this);
@@ -62,6 +63,14 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
 
                 break;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        getActivity().setTitle(R.string.about_matrix_title);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

@@ -49,7 +49,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                          * Format the first line of address (if available),
                          * city, and country name.
                          */
-                        String addressText = String.format(
+                        /*String addressText = String.format(
                                 "%s, %s, %s",
                                 // If there's a street address, add it
                                 address.getMaxAddressLineIndex() > 0 ?
@@ -59,7 +59,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 // The country of the address
                                 address.getCountryName());
 
-                        L.d(TAG, "Address =  [" + addressText + "]");
+                        L.d(TAG, "Address =  [" + addressText + "]");*/
                     }
                 });
             }

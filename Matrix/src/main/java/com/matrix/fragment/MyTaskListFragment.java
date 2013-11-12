@@ -2,14 +2,13 @@ package com.matrix.fragment;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
+import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.adapter.TaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
@@ -39,14 +39,20 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
     public TextView responseTextView;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_my_task_list, null);
-
-        getActivity().setTitle(R.string.my_tasks_title);
 
         handler = new DbHandler(getActivity().getContentResolver());
 
         taskList = (ListView) view.findViewById(R.id.taskList);
+        taskList.setOnItemClickListener(this);
+
         responseTextView = (TextView) view.findViewById(R.id.responseTextView);
         view.findViewById(R.id.getTasksButton).setOnClickListener(this);
 
@@ -145,7 +151,19 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Task task = adapter.getItem(position);
 
+        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
+        intent.putExtra(Keys.TASK_ID, task.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        getActivity().setTitle(R.string.my_tasks_title);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

@@ -34,50 +34,43 @@
                     android:text="@string/welcome_to"
                     android:textSize="@dimen/text_size_large" />
             </RelativeLayout >
-            <EditText
-                android:id="@+id/emailEditText"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:inputType="textEmailAddress"
-                android:hint="@string/your_email_hint" />
-            <EditText
-                android:id="@+id/passwordEditText"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:inputType="textPassword"
-                android:layout_width="match_parent"
-                android:hint="@string/your_password_hint" />
             <TextView
-                android:id="@+id/forgotPasswordButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:textSize="@dimen/text_size_medium"
+                android:gravity="left"
+                android:text="@string/since_jobs" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:textSize="@dimen/text_size_small"
+                android:gravity="left"
+                android:textColor="@color/grey"
+                android:text="@string/you_must_have_code" />
+            <EditText
+                android:id="@+id/groupCodeEditText"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/forgot_password" />
+                android:layout_width="match_parent"
+                android:hint="@string/fill_you_code" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:textSize="@dimen/text_size_small"
+                android:gravity="left"
+                android:textColor="@color/grey"
+                android:text="@string/before_start_using" />
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/checkMyLocationButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="30dp"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/login" />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:autoLink="web"
-                android:layout_marginTop="30dp"
-                android:text="@string/you_can_register" />
-            <Button
-                android:id="@+id/registerButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/i_new_user" />
+                android:layout_marginTop="20dp"
+                android:text="@string/check_my_location" />
         </LinearLayout >
     </ScrollView >
 </LinearLayout >

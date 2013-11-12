@@ -44,7 +44,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/location_services" />
@@ -60,7 +60,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/push_messages" />
@@ -76,7 +76,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/social_sharing" />
@@ -92,7 +92,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/save_images_to_camera_roll" />
@@ -108,7 +108,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/tasks_in_your_location" />
@@ -152,7 +152,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/file_size_warning" />
@@ -168,7 +168,7 @@
                 android:orientation="horizontal" >
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/deadline_reminder" />

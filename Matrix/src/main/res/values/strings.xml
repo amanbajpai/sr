@@ -43,6 +43,7 @@
     <!-- ALL TASK FRAGMENT-->
     <string name="all_tasks_title" >All Tasks</string >
     <string name="get_tasks" >Get Tasks</string >
+    <string name="add_tasks" >Add Tasks</string >
     <!-- MY TASK FRAGMENT-->
     <string name="my_tasks_title" >My Tasks</string >
     <!-- PROFILE FRAGMENT-->
@@ -86,6 +87,14 @@
     <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >Task detail title</string >
+    <!-- CHECK LOCATION ACTIVITY -->
+    <string name="since_jobs" >Since jobs for our agents are tied to specific locations? we have to check your
+        location to determine the presence of tasks for your location.</string >
+    <string name="you_must_have_code" >If you want to join to specific agent group you must have a Matrix Group
+        code if you have it then</string >
+    <string name="fill_you_code" >Fill your MATRIX Group code here</string >
+    <string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >
+    <string name="check_my_location" >Check my location</string >
     <!-- ERROR STRINGS -->
     <string name="error" >Error</string >
     <string name="success" >Success</string >

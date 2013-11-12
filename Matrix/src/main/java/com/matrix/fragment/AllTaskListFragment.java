@@ -2,14 +2,13 @@ package com.matrix.fragment;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
+import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.adapter.TaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
@@ -39,16 +39,23 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     public TextView responseTextView;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_all_task_list, null);
-
-        getActivity().setTitle(R.string.all_tasks_title);
 
         handler = new DbHandler(getActivity().getContentResolver());
 
         taskList = (ListView) view.findViewById(R.id.taskList);
+        taskList.setOnItemClickListener(this);
+
         responseTextView = (TextView) view.findViewById(R.id.responseTextView);
         view.findViewById(R.id.getTasksButton).setOnClickListener(this);
+        view.findViewById(R.id.addTasksButton).setOnClickListener(this);
 
         adapter = new TaskAdapter(getActivity());
 
@@ -75,6 +82,19 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
                 TaskDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
+    private void createTasks(int count) {
+        for (int i = 0; i < count; i++) {
+            Task task = new Task();
+            task.setRandomUuid();
+            task.setName("Task name " + i);
+            task.setDescription("Task description " + i + "; Task description " + i);
+
+            handler.startInsert(TaskDbSchema.Query.TOKEN_INSERT, null, TaskDbSchema.CONTENT_URI,
+                    task.toContentValues());
+        }
+        getTasks();
+    }
+
     class DbHandler extends AsyncQueryHandler {
 
         public DbHandler(ContentResolver cr) {
@@ -89,7 +109,6 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
 
                     if (cursor != null) {
                         cursor.moveToFirst();
-
                         do {
                             tasks.add(Task.fromCursor(cursor));
                         } while (cursor.moveToNext());
@@ -140,12 +159,27 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
             case R.id.getTasksButton:
                 apiFacade.getAllTasks(getActivity());
                 break;
+            case R.id.addTasksButton:
+                createTasks(20);
+                break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Task task = adapter.getItem(position);
 
+        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
+        intent.putExtra(Keys.TASK_ID, task.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        getActivity().setTitle(R.string.all_tasks_title);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

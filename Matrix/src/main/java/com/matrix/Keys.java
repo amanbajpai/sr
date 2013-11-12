@@ -19,7 +19,11 @@ public interface Keys {
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String GET_TASK_DETAILS_OPERATION_TAG = "get_task_details_operation_tag";
 
+    //Tasks
+    String TASK_ID = "task_id";
+
     String PREFERENCE_CURRENT_LOCATION = "current_location";
+
 
 
     /* ------------ Location parameters -----------------------*/
