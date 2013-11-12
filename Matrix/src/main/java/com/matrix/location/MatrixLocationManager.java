@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
@@ -87,6 +86,7 @@ public class MatrixLocationManager implements LocationListener,
 
     /**
      * Send request to get Address from {@link Geocoder}
+     *
      * @param location
      * @param callback
      */
@@ -177,7 +177,7 @@ public class MatrixLocationManager implements LocationListener,
         Context сontext;
         IAddress callback;
 
-        public GetAddressTask(Context context, IAddress callback ) {
+        public GetAddressTask(Context context, IAddress callback) {
             super();
             this.сontext = context;
             this.callback = callback;

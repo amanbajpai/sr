@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import com.matrix.BaseActivity;
 import com.matrix.R;
@@ -23,7 +24,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_base_sliding_menu);
+        setContentView(R.layout.activity_base_sliding_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         leftDrawer = (FrameLayout) findViewById(R.id.left_drawer);

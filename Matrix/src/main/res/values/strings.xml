@@ -84,6 +84,8 @@
     <string name="share_and_refer_via_message" >Share &amp; Refer via Message</string >
     <string name="share_and_refer_via_twitter" >Share &amp; Refer via Twitter</string >
     <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
+    <!-- TASK DETAIL ACTIVITY-->
+    <string name="task_detail_title" >Task detail title</string >
     <!-- ERROR STRINGS -->
     <string name="error" >Error</string >
     <string name="success" >Success</string >

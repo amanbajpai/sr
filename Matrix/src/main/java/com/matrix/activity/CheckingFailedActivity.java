@@ -1,25 +1,22 @@
 package com.matrix.activity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.BaseActivity;
+import com.matrix.Keys;
 import com.matrix.R;
-import com.matrix.db.entity.Registration;
-import com.matrix.db.entity.RegistrationResponse;
-import com.matrix.db.entity.Subscription;
 import com.matrix.db.entity.SubscriptionResponse;
+import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
-import com.matrix.net.WSUrl;
 import com.matrix.utils.UIUtils;
 
 public class CheckingFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private final static String TAG = CheckingFailedActivity.class.getSimpleName();
-    private static final String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
+    private APIFacade apiFacade = APIFacade.getInstance();
     public EditText countryEditText;
     public EditText cityEditText;
     public EditText emailEditText;
@@ -38,32 +35,10 @@ public class CheckingFailedActivity extends BaseActivity implements View.OnClick
         findViewById(R.id.subscribeButton).setOnClickListener(this);
     }
 
-    private void subscribe() {
-        String countryName = countryEditText.getText().toString().trim();
-        String cityName = cityEditText.getText().toString().trim();
-        String email = emailEditText.getText().toString().trim();
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(countryName) && !TextUtils.isEmpty(cityName)) {
-
-            Subscription subscriptionEntity = new Subscription();
-            subscriptionEntity.setMail(email);
-            subscriptionEntity.setCountry(countryName);
-            subscriptionEntity.setCountry(cityName);
-
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.SUBSCRIPTION);
-            operation.setTag(SUBSCRIBE_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(subscriptionEntity);
-            sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(this, R.string.fill_in_field);
-        }
-    }
-
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (SUBSCRIBE_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.SUBSCRIBE_OPERATION_TAG.equals(operation.getTag())) {
                 SubscriptionResponse subscriptionResponse = (SubscriptionResponse) operation.getResponseEntities().get(0);
                 if (subscriptionResponse.getState()) {
                     UIUtils.showSimpleToast(this, R.string.success);
@@ -78,7 +53,11 @@ public class CheckingFailedActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.subscribeButton:
-                subscribe();
+                String countryName = countryEditText.getText().toString().trim();
+                String cityName = cityEditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
+
+                apiFacade.subscribe(this, email, countryName, cityName);
                 break;
             case R.id.cancelButton:
 

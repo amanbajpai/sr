@@ -14,6 +14,7 @@ import com.matrix.Keys;
 import com.matrix.MainActivity;
 import com.matrix.R;
 import com.matrix.activity.LoginActivity;
+import com.matrix.activity.TaskDetailsActivity;
 
 public class MainMenuFragment extends Fragment implements OnClickListener {
     //private static final String TAG = MainMenuFragment.class.getSimpleName();
@@ -33,6 +34,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
         view.findViewById(R.id.aboutMatrixButton).setOnClickListener(this);
         view.findViewById(R.id.shareButton).setOnClickListener(this);
+        view.findViewById(R.id.taskDetailButton).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         intentFilter = new IntentFilter();
@@ -93,6 +95,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
             case R.id.shareButton:
                 ((MainActivity) getActivity()).startFragment(new ShareAndReferFragment());
                 ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.taskDetailButton:
+                ((MainActivity) getActivity()).startActivity(new TaskDetailsActivity());
                 break;
         }
     }

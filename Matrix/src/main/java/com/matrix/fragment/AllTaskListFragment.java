@@ -15,20 +15,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.matrix.BaseActivity;
+import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.adapter.TaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
+import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
-import com.matrix.net.WSUrl;
 import com.matrix.utils.L;
 
 import java.util.ArrayList;
 
 public class AllTaskListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = AllTaskListFragment.class.getSimpleName();
-    private static final String GET_TASKS_OPERATION_TAG = "get_tasks_operation_tag";
+    private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
 
     private AsyncQueryHandler handler;
@@ -54,7 +55,7 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
         taskList.setAdapter(adapter);
 
         getTasks();
-        getTasksFromServer();
+        apiFacade.getAllTasks(getActivity());
 
         return view;
     }
@@ -73,15 +74,6 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
         handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
-
-    private void getTasksFromServer() {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_TASKS);
-        operation.setTag(GET_TASKS_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) getActivity()).sendNetworkOperation(operation);
-    }
-
 
     class DbHandler extends AsyncQueryHandler {
 
@@ -134,7 +126,7 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (GET_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_ALL_TASKS_OPERATION_TAG.equals(operation.getTag())) {
                 getTasks();
             }
         } else {
@@ -146,7 +138,7 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.getTasksButton:
-                getTasksFromServer();
+                apiFacade.getAllTasks(getActivity());
                 break;
         }
     }

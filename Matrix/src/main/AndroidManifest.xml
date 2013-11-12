@@ -15,7 +15,6 @@
     <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <!-- Cloud to Device Messaging permissions -->
     <permission
         android:name="com.ua.makeev.youropinion.permission.C2D_MESSAGE"
@@ -28,8 +27,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- Crach loger -->
     <uses-permission android:name="android.permission.READ_LOGS" />
-
-
     <application
         android:name="com.matrix.App"
         android:allowBackup="true"
@@ -46,12 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter >
         </activity >
-
-
         <activity
             android:name="com.matrix.activity.RegistrationActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.matrix.MainActivity" />
+        <activity android:name="com.matrix.activity.TaskDetailsActivity" />
 
         <service
             android:name="com.matrix.net.NetworkService"
@@ -69,6 +65,8 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter >
         </receiver >
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application >
 </manifest >

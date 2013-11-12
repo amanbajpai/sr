@@ -11,10 +11,13 @@ public interface Keys {
     String PROGRESS_STATUS_MESSAGE = "progress_status_message";
     String PROGRESS_STATUS_PERSENT = "progress_status_persent";
 
-    String ACTION = "action";
-
-    int ACTION_GET_TASKS = 1;
-    // last 1
+    // Operation tags
+    String GET_ALL_TASKS_OPERATION_TAG = "get_all_tasks_operation_tag";
+    String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
+    String LOGIN_OPERATION_TAG = "login_operation_tag";
+    String REGISTRETION_OPERATION_TAG = "registration_operation_tag";
+    String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
+    String GET_TASK_DETAILS_OPERATION_TAG = "get_task_details_operation_tag";
 
     String PREFERENCE_CURRENT_LOCATION = "current_location";
 

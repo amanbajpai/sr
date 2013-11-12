@@ -43,7 +43,7 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-
+            //TODO Do something
         } else {
             UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
         }

@@ -56,7 +56,7 @@ public class NetworkService extends BaseNetworkService {
             try {
                 ContentResolver contentResolver = getContentResolver();
                 switch (WSUrl.matchUrl(operation.getUrl())) {
-                    case WSUrl.GET_TASKS_ID:
+                    case WSUrl.GET_ALL_TASKS_ID:
                         Task[] tasks = gson.fromJson(responseString, Task[].class);
                         for (Task task : tasks) {
                             contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());

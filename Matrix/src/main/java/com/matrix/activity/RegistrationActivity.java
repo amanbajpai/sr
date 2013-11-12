@@ -1,24 +1,23 @@
 package com.matrix.activity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.BaseActivity;
+import com.matrix.Keys;
 import com.matrix.R;
-import com.matrix.db.entity.Registration;
 import com.matrix.db.entity.RegistrationResponse;
+import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
-import com.matrix.net.WSUrl;
 import com.matrix.utils.UIUtils;
 
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private final static String TAG = RegistrationActivity.class.getSimpleName();
-    private static final String REGISTRETION_OPERATION_TAG = "login_operation_tag";
+    private APIFacade apiFacade = APIFacade.getInstance();
     public EditText fullNameEditText;
     public EditText passwordEditText;
     public EditText dayEditText;
@@ -53,30 +52,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-    private void registration() {
-        String email = emailEditText.getText().toString().trim();
-        String fullName = fullNameEditText.getText().toString().trim();
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(fullName)) {
-
-            Registration registrationEntity = new Registration();
-            registrationEntity.setMail(email);
-            registrationEntity.setFullName(fullName);
-
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.REGISTRATION);
-            operation.setTag(REGISTRETION_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(registrationEntity);
-            sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(this, R.string.fill_in_field);
-        }
-    }
-
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
                 RegistrationResponse registrationResponse = (RegistrationResponse) operation.getResponseEntities().get(0);
                 if (registrationResponse.getState()) {
                     UIUtils.showSimpleToast(this, R.string.success);
@@ -91,7 +70,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirmButton:
-                registration();
+                String email = emailEditText.getText().toString().trim();
+                String fullName = fullNameEditText.getText().toString().trim();
+                apiFacade.registration(this, email, fullName);
                 break;
             case R.id.cancelButton:
 
