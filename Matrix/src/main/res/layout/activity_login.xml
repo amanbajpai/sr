@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
+                android:text="HARDCODE"
                 android:hint="@string/your_email_hint" />
             <EditText
                 android:id="@+id/passwordEditText"

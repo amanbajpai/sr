@@ -3,8 +3,6 @@
 <lint>
 
     <!-- Blocker Bugs -->
-    <issue id="HardcodedText" severity="fatal" />
-
     <issue id="OnClick" severity="fatal" />
     <issue id="MissingSuperCall" severity="fatal" />
     <issue id="StyleCycle" severity="fatal" />
@@ -22,9 +20,21 @@
     <issue id="StopShip" severity="error" />
 
     <!-- Low level Bugs (can be ignored) -->
+    <issue id="HardcodedText" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore" />
     <issue id="NewApi" severity="ignore" />
     <issue id="OldTargetApi" severity="ignore" />
+
+
+    <issue id="ButtonCase" severity="Information" />
+    <issue id="Accessibility" severity="Information" />
+    <issue id="LabelFor" severity="Information" />
+    <issue id="RtlCompat" severity="Information" />
+    <issue id="RtlHardcoded" severity="Information" />
+    <issue id="RtlEnabled" severity="Information" />
+
+    <issue id="MissingRegistered" severity="fatal" />
+
 
 
 </lint>
