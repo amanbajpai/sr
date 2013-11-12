@@ -27,6 +27,9 @@ import com.matrix.utils.L;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment - display all tasks in {@link android.widget.ListView}
+ */
 public class AllTaskListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = AllTaskListFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();

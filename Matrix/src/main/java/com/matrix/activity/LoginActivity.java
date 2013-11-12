@@ -20,6 +20,9 @@ import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
+/**
+ * Activity for Agents login into system
+ */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private final static String TAG = LoginActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();

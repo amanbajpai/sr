@@ -21,6 +21,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 
+/**
+ * Utils class for easy work with UI Views
+ */
 public class UIUtils {
     private static final String TAG = "UIUtils";
 

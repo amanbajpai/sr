@@ -12,12 +12,18 @@ import com.matrix.db.entity.RegistrationResponse;
 
 import java.util.Date;
 
-
+/**
+ * Global constant storage. Keep here small constants
+ */
 public class PreferencesManager {
     private static final String TAG = "PreferencesManager";
     private SharedPreferences _preferences;
     private static PreferencesManager preferencesManager = null;
 
+    /**
+     * Get instance of {@link PreferencesManager}
+     * @return
+     */
     public static PreferencesManager getInstance() {
         if (preferencesManager == null) {
             preferencesManager = new PreferencesManager();
@@ -34,7 +40,9 @@ public class PreferencesManager {
     }
 
 
-    /**/
+    /**
+     *
+     */
     public void setCurrentLocation(MatrixLocation location) {
         Gson gson = new Gson();
         String json = gson.toJson(location);

@@ -15,6 +15,9 @@ import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
 
+/**
+ * Activity for first Agents registration into system
+ */
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private final static String TAG = RegistrationActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();

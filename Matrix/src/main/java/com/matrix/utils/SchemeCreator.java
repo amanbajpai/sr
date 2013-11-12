@@ -7,7 +7,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+/**
+ * What is this? Where we can use it?
+ */
 public class SchemeCreator {
 
     private static final String TAG = "SchemeCreator";
@@ -101,7 +103,7 @@ public class SchemeCreator {
     }
 
     private static int addRow(StringBuilder enumStringBuilder, StringBuilder projectionStringBuilder,
-            StringBuilder columnsNumbersStringBuilder, int count, String dbType, String name, String nameUpperCase) {
+                              StringBuilder columnsNumbersStringBuilder, int count, String dbType, String name, String nameUpperCase) {
         enumStringBuilder.append(nameUpperCase + "(\"" + name + "\", " + dbType + "),\n");
         projectionStringBuilder.append("Columns." + nameUpperCase + ".getName(),\n");
         columnsNumbersStringBuilder.append("int " + nameUpperCase + " = " + count++ + ";\n");

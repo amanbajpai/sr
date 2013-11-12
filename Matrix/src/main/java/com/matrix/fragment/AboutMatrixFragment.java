@@ -10,6 +10,9 @@ import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
 
+/**
+ * Fragment for display About information
+ */
 public class AboutMatrixFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = AboutMatrixFragment.class.getSimpleName();
     private ViewGroup view;
