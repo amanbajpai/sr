@@ -5,6 +5,7 @@
     <!-- Blocker Bugs -->
     <issue id="OnClick" severity="fatal" />
     <issue id="MissingSuperCall" severity="fatal" />
+    <issue id="MissingRegistered" severity="fatal" />
     <issue id="StyleCycle" severity="fatal" />
     <issue id="UnknownId" severity="fatal" />
     <issue id="CommitTransaction" severity="fatal" />
@@ -13,27 +14,113 @@
     <issue id="StringFormatMatches" severity="fatal" />
     <issue id="PackagedPrivateKey" severity="fatal" />
     <issue id="ViewConstructor" severity="fatal" />
+    <issue id="ValidFragment" severity="fatal" />
+    <issue id="CommitPrefEdits" severity="fatal" />
 
-
-   <!-- Critical and Hight Bugs -->
+    <!-- Critical and Hight Bugs -->
     <issue id="AdapterViewChildren" severity="error" />
     <issue id="StopShip" severity="error" />
+    <issue id="ResAuto" severity="error" />
+    <issue id="UsesMinSdkAttributes" severity="error" />
+    <issue id="WrongViewCast" severity="error" />
+    <issue id="IllegalResourceRef" severity="error" />
+    <issue id="ScrollViewCount" severity="error" />
+    <issue id="DalvikOverride" severity="error" />
+    <issue id="DeviceAdmin" severity="error" />
+    <issue id="DuplicateIds" severity="error" />
+    <issue id="ScrollViewSize" severity="error" />
+    <issue id="CutPasteId" severity="error" />
+    <issue id="InlinedApi" severity="error" />
+    <issue id="Instantiatable" severity="error" />
+    <issue id="InvalidId" severity="error" />
+    <issue id="InvalidPackage" severity="error" />
+    <issue id="LibraryCustomView" severity="error" />
+    <issue id="NewApi" severity="error" />
+    <issue id="NotSibling" severity="error" />
+    <issue id="OldTargetApi" severity="error" />
+    <issue id="Override" severity="error" />
+    <issue id="Registered" severity="error" />
+    <issue id="SdCardPath" severity="error" />
+    <issue id="ServiceCast" severity="error" />
+    <issue id="WrongCall" severity="error" />
+    <issue id="WrongManifestParent" severity="error" />
+    <issue id="DuplicateActivity" severity="error" />
+    <issue id="MissingId" severity="error" />
+    <issue id="StateListReachable" severity="error" />
+    <issue id="UnknownIdInLayout" severity="error" />
+    <issue id="RequiredSize" severity="error" />
+    <!--<issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />
+    <issue id="" severity="error" />-->
+    <issue id="HardcodedText" severity="error" />
 
-    <!-- Low level Bugs (can be ignored) -->
-    <issue id="HardcodedText" severity="ignore" />
-    <issue id="MissingTranslation" severity="ignore" />
-    <issue id="NewApi" severity="ignore" />
-    <issue id="OldTargetApi" severity="ignore" />
 
+    <!-- Warnings level Bugs (can be ignored) -->
 
-    <issue id="ButtonCase" severity="Information" />
-    <issue id="Accessibility" severity="Information" />
-    <issue id="LabelFor" severity="Information" />
-    <issue id="RtlCompat" severity="Information" />
-    <issue id="RtlHardcoded" severity="Information" />
-    <issue id="RtlEnabled" severity="Information" />
+   
+    <issue id="SuspiciousImport" severity="warning" />
+    <issue id="NamespaceTypo" severity="warning" />
+    <issue id="Proguard" severity="warning" />
+    <issue id="WrongCase" severity="warning" />
+    <issue id="WrongFolder" severity="warning" />
+    <issue id="NestedScrolling" severity="warning" />
+    <issue id="ResourceAsColor" severity="warning" />
+    <issue id="TextViewEdits" severity="warning" />
+    <issue id="DefaultLocale" severity="warning" />
+    <issue id="DuplicateDefinition" severity="warning" />
+    <issue id="DuplicateIncludedIds" severity="warning" />
+    <issue id="InconsistentLayout" severity="warning" />
+    <issue id="MultipleUsesSdk" severity="warning" />
+    <issue id="ShowToast" severity="warning" />
+    <issue id="SimpleDateFormat" severity="warning" />
+    <issue id="Suspicious0dp" severity="warning" />
+    <issue id="UniquePermission" severity="warning" />
+    <issue id="DuplicateUsesFeature" severity="warning" />
+    <issue id="ManifestOrder" severity="warning" />
+    <issue id="ManifestTypo" severity="warning" />
+    <issue id="ProtectedPermissions" severity="warning" />
+    <issue id="InOrMmUsage" severity="warning" />
+    <issue id="ExtraText" severity="warning" />
+    <!--<issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" />
+    <issue id="" severity="warning" /> -->
 
-    <issue id="MissingRegistered" severity="fatal" />
+    <!-- Low level can be ignored -->
+    <issue id="InconsistentArrays" severity="ignore" />
+    <issue id="MissingPrefix" severity="ignore" />
+    <issue id="UnlocalizedSms" severity="ignore" />
+    <issue id="GridLayout" severity="ignore" />
+    <issue id="InnerclassSeparator" severity="ignore" />
+    <issue id="LocalSuppress" severity="ignore" />
+    <issue id="PrivateResource" severity="ignore" />
+    <issue id="ProguardSplit" severity="ignore" />
+    <issue id="ButtonCase" severity="ignore" />
+    <issue id="Accessibility" severity="ignore" />
+    <issue id="LabelFor" severity="ignore" />
+    <issue id="RtlCompat" severity="ignore" />
+    <issue id="RtlHardcoded" severity="ignore" />
+    <issue id="RtlEnabled" severity="ignore" />
+
 
 
 

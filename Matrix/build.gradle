@@ -4,14 +4,13 @@ buildscript {
         maven { url "http://repo1.maven.org/maven2" }
         // repo for Roboelectric plugin
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/public/" }
 
 
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
-        classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1.1-SNAPSHOT'
+        classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
         // load plugin
         //classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
     }
