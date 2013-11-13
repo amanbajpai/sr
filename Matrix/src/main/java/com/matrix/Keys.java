@@ -39,4 +39,10 @@ public interface Keys {
     public static final int FASTEST_INTERVAL_IN_SECONDS = 1;
     // A fast frequency ceiling in milliseconds
     public static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
+
+
+    /* ------------ GCM parameters -----------------------*/
+    public static final String GCM_ID = "145199350695";
+
+
 }
