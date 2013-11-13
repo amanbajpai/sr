@@ -148,7 +148,7 @@ public class AppContentProvider extends ContentProvider {
             case ENTITY:
                 if (tableName != null) {
                     db = dbHelper.getWritableDatabase();
-                    count = db.update(getTable(uri), values, "_id=?", new String[] { uri.getLastPathSegment() });
+                    count = db.update(getTable(uri), values, "_id=?", new String[]{uri.getLastPathSegment()});
                 }
                 break;
             case ENTITIES:
@@ -170,7 +170,7 @@ public class AppContentProvider extends ContentProvider {
             case ENTITY:
                 if (tableName != null) {
                     db = dbHelper.getWritableDatabase();
-                    count = db.delete(tableName, "id=?", new String[] { uri.getLastPathSegment() });
+                    count = db.delete(tableName, "id=?", new String[]{uri.getLastPathSegment()});
                 }
                 break;
             case ENTITIES:

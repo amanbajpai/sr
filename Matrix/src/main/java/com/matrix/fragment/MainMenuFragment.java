@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.matrix.Keys;
 import com.matrix.MainActivity;
 import com.matrix.R;
-import com.matrix.activity.LoginActivity;
 
 public class MainMenuFragment extends Fragment implements OnClickListener {
     //private static final String TAG = MainMenuFragment.class.getSimpleName();

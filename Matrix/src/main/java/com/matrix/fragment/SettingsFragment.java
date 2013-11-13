@@ -38,16 +38,16 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
 
-        languageSpinner= (Spinner) view.findViewById(R.id.languageSpinner);
-        taskInRadiusSeekBar= (SeekBar) view.findViewById(R.id.taskInRadiusSeekBar);
+        languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
+        taskInRadiusSeekBar = (SeekBar) view.findViewById(R.id.taskInRadiusSeekBar);
 
-        locationToggleButton= (ToggleButton) view.findViewById(R.id.locationToggleButton);
-        pushMessagesToggleButton= (ToggleButton) view.findViewById(R.id.pushMessagesToggleButton);
-        socialSharingToggleButton= (ToggleButton) view.findViewById(R.id.socialSharingToggleButton);
-        saveImageToggleButton= (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
-        tasksInLocationToggleButton= (ToggleButton) view.findViewById(R.id.tasksInLocationToggleButton);
-        fileSizeToggleButton= (ToggleButton) view.findViewById(R.id.fileSizeToggleButton);
-        deadlineReminderToggleButton= (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
+        locationToggleButton = (ToggleButton) view.findViewById(R.id.locationToggleButton);
+        pushMessagesToggleButton = (ToggleButton) view.findViewById(R.id.pushMessagesToggleButton);
+        socialSharingToggleButton = (ToggleButton) view.findViewById(R.id.socialSharingToggleButton);
+        saveImageToggleButton = (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
+        tasksInLocationToggleButton = (ToggleButton) view.findViewById(R.id.tasksInLocationToggleButton);
+        fileSizeToggleButton = (ToggleButton) view.findViewById(R.id.fileSizeToggleButton);
+        deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
 
 
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);

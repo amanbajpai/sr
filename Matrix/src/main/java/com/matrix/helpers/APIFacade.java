@@ -12,6 +12,9 @@ import com.matrix.net.BaseOperation;
 import com.matrix.net.WSUrl;
 import com.matrix.utils.UIUtils;
 
+/**
+ * Singleton class for work with server API
+ */
 public class APIFacade {
     private static APIFacade instance = null;
 

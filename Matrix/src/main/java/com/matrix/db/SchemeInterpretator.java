@@ -95,19 +95,19 @@ public class SchemeInterpretator {
         return columnsMap;
     }
 
-    
+
     public String[] getColumnsNameArray() {
         try {
             Method valuesMethod;
             valuesMethod = columnsClass.getDeclaredMethod("values");
             Object[] columns = (Object[]) valuesMethod.invoke(null);
-            
+
             columnsArray = new String[columns.length];
             for (int i = 0; i < columns.length; i++) {
                 Object column = columns[i];
                 Method getNameMethod = column.getClass().getDeclaredMethod("getName");
                 String columnName = (String) getNameMethod.invoke(column);
-                
+
                 columnsArray[i] = columnName;
             }
         } catch (NoSuchMethodException e) {

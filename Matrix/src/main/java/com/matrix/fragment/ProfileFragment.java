@@ -7,7 +7,6 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import com.matrix.BaseActivity;
 import com.matrix.R;
-import com.matrix.db.entity.SubscriptionResponse;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;

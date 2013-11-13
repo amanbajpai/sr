@@ -70,7 +70,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
 
                 Cursor c = null;
                 try {
-                   c = db.query(table.getName(), null, null, null, null, null, null);
+                    c = db.query(table.getName(), null, null, null, null, null, null);
                 } catch (Exception e) {
                     L.e(TAG, "Error process table: " + table.getName() + " Exception text: " + e.getLocalizedMessage());
                 }

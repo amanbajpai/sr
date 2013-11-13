@@ -25,7 +25,6 @@ public interface Keys {
     String PREFERENCE_CURRENT_LOCATION = "current_location";
 
 
-
     /* ------------ Location parameters -----------------------*/
     // Milliseconds per second
     public static final int MILLISECONDS_PER_SECOND = 1000;
