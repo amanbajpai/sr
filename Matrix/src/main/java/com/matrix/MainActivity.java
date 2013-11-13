@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import com.matrix.activity.BaseSlidingMenuActivity;
-import com.matrix.fragment.AllTaskListFragment;
-import com.matrix.location.MatrixLocationManager;
+import com.matrix.fragment.SurveyListFragment;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
             mFragmentList = new ArrayList<Fragment>();
         }
 
-        startFragment(new AllTaskListFragment());
+        startFragment(new SurveyListFragment());
     }
 
     public void startFragment(Fragment fragment) {

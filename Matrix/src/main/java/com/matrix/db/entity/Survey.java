@@ -1,12 +1,11 @@
 package com.matrix.db.entity;
 
 import android.database.Cursor;
-import com.matrix.db.TaskDbSchema;
+import com.matrix.db.SurveyDbSchema;
 
-public class Task extends BaseEntity {
+public class Survey extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private Long SurveyId;
     private Long UserId;
     private String Name;
     private String Description;
@@ -15,26 +14,25 @@ public class Task extends BaseEntity {
     private String Language;
 
 
-    public Task() {
+    public Survey() {
     }
 
-    public Task(String name, String description) {
+    public Survey(String name, String description) {
         this.Name = name;
         this.Description = description;
     }
 
-    public static Task fromCursor(Cursor c) {
-        Task result = new Task();
+    public static Survey fromCursor(Cursor c) {
+        Survey result = new Survey();
         if (c.getCount() > 0) {
-            result.set_id(c.getInt(TaskDbSchema.Query._ID));
-            result.setId(c.getLong(TaskDbSchema.Query.ID));
-            result.setSurveyId(c.getLong(TaskDbSchema.Query.SURVEY_ID));
-            result.setUserId(c.getLong(TaskDbSchema.Query.USER_ID));
-            result.setName(c.getString(TaskDbSchema.Query.NAME));
-            result.setDescription(c.getString(TaskDbSchema.Query.DESCRIPTION));
-            result.setLongitude(c.getFloat(TaskDbSchema.Query.LONGITUDE));
-            result.setLatitude(c.getFloat(TaskDbSchema.Query.LATITUDE));
-            result.setLanguage(c.getString(TaskDbSchema.Query.LANGUAGE));
+            result.set_id(c.getInt(SurveyDbSchema.Query._ID));
+            result.setId(c.getLong(SurveyDbSchema.Query.ID));
+            result.setUserId(c.getLong(SurveyDbSchema.Query.USER_ID));
+            result.setName(c.getString(SurveyDbSchema.Query.NAME));
+            result.setDescription(c.getString(SurveyDbSchema.Query.DESCRIPTION));
+            result.setLongitude(c.getFloat(SurveyDbSchema.Query.LONGITUDE));
+            result.setLatitude(c.getFloat(SurveyDbSchema.Query.LATITUDE));
+            result.setLanguage(c.getString(SurveyDbSchema.Query.LANGUAGE));
         }
         return result;
     }
@@ -61,14 +59,6 @@ public class Task extends BaseEntity {
 
     public void setUserId(Long userId) {
         UserId = userId;
-    }
-
-    public Long getSurveyId() {
-        return SurveyId;
-    }
-
-    public void setSurveyId(Long surveyId) {
-        SurveyId = surveyId;
     }
 
     public Float getLongitude() {

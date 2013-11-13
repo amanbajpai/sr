@@ -12,7 +12,8 @@ public interface Keys {
     String PROGRESS_STATUS_PERSENT = "progress_status_persent";
 
     // Operation tags
-    String GET_ALL_TASKS_OPERATION_TAG = "get_all_tasks_operation_tag";
+    String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
+    String GET_SURVEYS_TASKS_OPERATION_TAG = "get_surveys_tasks_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String REGISTRETION_OPERATION_TAG = "registration_operation_tag";
@@ -21,6 +22,8 @@ public interface Keys {
 
     //Tasks
     String TASK_ID = "task_id";
+    //Survey
+    String SURVEY_ID = "survey_id";
 
     String PREFERENCE_CURRENT_LOCATION = "current_location";
 

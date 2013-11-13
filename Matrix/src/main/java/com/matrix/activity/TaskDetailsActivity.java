@@ -31,7 +31,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private AsyncQueryHandler handler;
 
-    public String taskId;
+    public Long taskId;
     public Task task = new Task();
 
     public TextView taskName;
@@ -43,12 +43,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_details);
+        setTitle(R.string.task_detail_title);
 
         if (getIntent() != null) {
-            taskId = getIntent().getStringExtra(Keys.TASK_ID);
+            taskId = getIntent().getLongExtra(Keys.TASK_ID, 0);
         }
 
-        setTitle(R.string.task_detail_title);
 
         handler = new DbHandler(getContentResolver());
 
@@ -97,9 +97,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         getTasks(taskId);
     }
 
-    private void getTasks(String taskId) {
+    private void getTasks(Long taskId) {
         handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{taskId}, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
+                TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
     class DbHandler extends AsyncQueryHandler {

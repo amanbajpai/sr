@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.UUID;
+import java.util.Random;
 
 public abstract class BaseEntity implements Serializable {
 
@@ -26,7 +26,7 @@ public abstract class BaseEntity implements Serializable {
     /**
      * Server UUID
      */
-    protected String id;
+    protected Long id;
 
     protected Boolean deleted;
 
@@ -112,8 +112,8 @@ public abstract class BaseEntity implements Serializable {
         return contentValues;
     }
 
-    public void setRandomUuid() {
-        setId(UUID.randomUUID().toString());
+    public void setRandomId() {
+        setId(new Random().nextLong());
     }
 
     public long get_id() {
@@ -124,11 +124,11 @@ public abstract class BaseEntity implements Serializable {
         this._id = _id;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -47,6 +47,7 @@
             android:name="com.matrix.activity.RegistrationActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.matrix.MainActivity" />
+        <activity android:name="com.matrix.activity.SurveysTaskListActivity" />
         <activity android:name="com.matrix.activity.TaskDetailsActivity" />
 
         <service

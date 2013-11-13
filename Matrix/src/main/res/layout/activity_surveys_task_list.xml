@@ -4,13 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/text_size_large"
-        android:padding="20dp"
-        android:text="@string/all_tasks" />
     <Button
         android:id="@+id/getTasksButton"
         android:layout_height="wrap_content"

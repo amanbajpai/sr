@@ -1,10 +1,12 @@
 package com.matrix.db;
 
+import com.matrix.db.entity.Survey;
 import com.matrix.db.entity.Task;
 
 @SuppressWarnings("rawtypes")
 public enum Table {
-    TASK("Task", TaskDbSchema.class, Task.class.getSimpleName());
+    TASK("Task", TaskDbSchema.class, Task.class.getSimpleName()),
+    SURVEY("Survey", SurveyDbSchema.class, Survey.class.getSimpleName());
 
     private String name;
     private Class schema;

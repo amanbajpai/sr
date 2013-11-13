@@ -12,9 +12,14 @@ public interface TaskDbSchema {
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
-        ID("id", DBType.TEXT),
-        NAME("name", DBType.TEXT),
-        DESCRIPTION("description", DBType.TEXT),
+        ID("id", DBType.NUMERIC),
+        SURVEY_ID("SurveyId", DBType.NUMERIC),
+        USER_ID("UserId", DBType.NUMERIC),
+        NAME("Name", DBType.TEXT),
+        DESCRIPTION("Description", DBType.TEXT),
+        LONGITUDE("Longitude", DBType.FLOAT),
+        LATITUDE("Latitude", DBType.FLOAT),
+        LANGUAGE("Language", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 
@@ -47,13 +52,23 @@ public interface TaskDbSchema {
 
         String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                 Table.TASK.getName() + "." + Columns.ID.getName(),
+                Table.TASK.getName() + "." + Columns.SURVEY_ID.getName(),
+                Table.TASK.getName() + "." + Columns.USER_ID.getName(),
                 Table.TASK.getName() + "." + Columns.NAME.getName(),
-                Table.TASK.getName() + "." + Columns.DESCRIPTION.getName()
+                Table.TASK.getName() + "." + Columns.DESCRIPTION.getName(),
+                Table.TASK.getName() + "." + Columns.LONGITUDE.getName(),
+                Table.TASK.getName() + "." + Columns.LATITUDE.getName(),
+                Table.TASK.getName() + "." + Columns.LANGUAGE.getName()
         };
 
         int _ID = 0;
         int ID = 1;
-        int NAME = 2;
-        int DESCRIPTION = 3;
+        int SURVEY_ID = 2;
+        int USER_ID = 3;
+        int NAME = 4;
+        int DESCRIPTION = 5;
+        int LONGITUDE = 6;
+        int LATITUDE = 7;
+        int LANGUAGE = 8;
     }
 }

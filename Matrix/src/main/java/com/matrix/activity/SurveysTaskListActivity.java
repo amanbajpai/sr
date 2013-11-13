@@ -1,4 +1,4 @@
-package com.matrix.fragment;
+package com.matrix.activity;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
-import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.adapter.TaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
@@ -27,13 +26,11 @@ import com.matrix.utils.L;
 
 import java.util.ArrayList;
 
-/**
- * Fragment - display all tasks in {@link android.widget.ListView}
- */
-public class AllTaskListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
-    private static final String TAG = AllTaskListFragment.class.getSimpleName();
+public class SurveysTaskListActivity extends BaseActivity implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
+    private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ViewGroup view;
+
+    public Long surveyId;
 
     private AsyncQueryHandler handler;
 
@@ -42,60 +39,51 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     public TextView responseTextView;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_surveys_task_list);
+        setTitle(R.string.surveys_task_list_title);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_all_task_list, null);
+        if (getIntent() != null) {
+            surveyId = getIntent().getLongExtra(Keys.SURVEY_ID, 0);
+        }
 
-        handler = new DbHandler(getActivity().getContentResolver());
+        handler = new DbHandler(getContentResolver());
 
-        taskList = (ListView) view.findViewById(R.id.taskList);
+        taskList = (ListView) findViewById(R.id.taskList);
         taskList.setOnItemClickListener(this);
 
-        responseTextView = (TextView) view.findViewById(R.id.responseTextView);
-        view.findViewById(R.id.getTasksButton).setOnClickListener(this);
-        view.findViewById(R.id.addTasksButton).setOnClickListener(this);
+        responseTextView = (TextView) findViewById(R.id.responseTextView);
+        findViewById(R.id.getTasksButton).setOnClickListener(this);
+        findViewById(R.id.addTasksButton).setOnClickListener(this);
 
-        adapter = new TaskAdapter(getActivity());
-
+        adapter = new TaskAdapter(this);
         taskList.setAdapter(adapter);
 
-        getTasks();
-        apiFacade.getAllTasks(getActivity());
-
-        return view;
+        getTasks(surveyId);
+        apiFacade.getSurveysTask(this, surveyId);
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        if (!hidden) {
-            //TODO Move to fragment second time
-        }
-    }
-
-    private void getTasks() {
+    private void getTasks(long surveyId) {
         handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
+                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=?",
+                new String[]{String.valueOf(surveyId)},
+                TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    private void createTasks(int count) {
+    private void createTasks(int count, long surveyId) {
         for (int i = 0; i < count; i++) {
             Task task = new Task();
-            task.setRandomUuid();
-            task.setName("Task name " + i);
+            task.setRandomId();
+            task.setSurveyId(surveyId);
+            task.setName("Survey: " + surveyId + " Task: " + i);
             task.setDescription("Task description " + i + "; Task description " + i);
 
             handler.startInsert(TaskDbSchema.Query.TOKEN_INSERT, null, TaskDbSchema.CONTENT_URI,
                     task.toContentValues());
         }
-        getTasks();
+        getTasks(surveyId);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -119,27 +107,9 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
                         cursor.close();
                     }
 
-                    responseTextView.setText("tasks from local DB. Count:" + tasks.size());
+                    responseTextView.setText("From local DB. Count:" + tasks.size());
 
                     adapter.setData(tasks);
-                    break;
-            }
-        }
-
-        @Override
-        protected void onUpdateComplete(int token, Object cookie, int result) {
-            switch (token) {
-                case TaskDbSchema.Query.TOKEN_UPDATE:
-
-                    break;
-            }
-        }
-
-        @Override
-        protected void onInsertComplete(int token, Object cookie, Uri uri) {
-            switch (token) {
-                case TaskDbSchema.Query.TOKEN_INSERT:
-
                     break;
             }
         }
@@ -148,8 +118,8 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.GET_ALL_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-                getTasks();
+            if (Keys.GET_SURVEYS_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+                getTasks(surveyId);
             }
         } else {
             L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
@@ -160,10 +130,10 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.getTasksButton:
-                apiFacade.getAllTasks(getActivity());
+                apiFacade.getSurveys(this);
                 break;
             case R.id.addTasksButton:
-                createTasks(20);
+                createTasks(20, surveyId);
                 break;
         }
     }
@@ -172,28 +142,31 @@ public class AllTaskListFragment extends Fragment implements OnClickListener, On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Task task = adapter.getItem(position);
 
-        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
+        Intent intent = new Intent(this, TaskDetailsActivity.class);
         intent.putExtra(Keys.TASK_ID, task.getId());
         startActivity(intent);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        getActivity().setTitle(R.string.all_tasks_title);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
 
-        super.onCreateOptionsMenu(menu, inflater);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+        addNetworkOperationListener(this);
     }
 
     @Override
     public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        removeNetworkOperationListener(this);
         super.onStop();
     }
 }

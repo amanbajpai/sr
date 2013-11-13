@@ -56,7 +56,15 @@ public class NetworkService extends BaseNetworkService {
             try {
                 ContentResolver contentResolver = getContentResolver();
                 switch (WSUrl.matchUrl(operation.getUrl())) {
-                    case WSUrl.GET_ALL_TASKS_ID:
+                    case WSUrl.GET_SURVEYS_ID:
+                        Survey[] surveys = gson.fromJson(responseString, Survey[].class);
+                        for (Survey survey : surveys) {
+                            contentResolver.insert(TaskDbSchema.CONTENT_URI, survey.toContentValues());
+                        }
+
+                        //operation.responseEntities.addAll(new ArrayList<Survey>(Arrays.asList(surveys)));
+                        break;
+                    case WSUrl.GET_SURVEYS_TASKS_ID:
                         Task[] tasks = gson.fromJson(responseString, Task[].class);
                         for (Task task : tasks) {
                             contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
@@ -64,7 +72,6 @@ public class NetworkService extends BaseNetworkService {
 
                         //operation.responseEntities.addAll(new ArrayList<Task>(Arrays.asList(tasks)));
                         break;
-
                     case WSUrl.LOGIN_ID:
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);

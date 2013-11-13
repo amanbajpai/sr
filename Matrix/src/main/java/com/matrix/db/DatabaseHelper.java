@@ -7,19 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import com.matrix.utils.L;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
     private static final String DB_NAME = "matrix_db";
-    private static Comparator<String> ALPHABETICAL_ORDER = new Comparator<String>() {
-        public int compare(String str1, String str2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
-            return (res != 0) ? res : str1.compareTo(str2);
-        }
-    };
     private static DatabaseHelper instance;
 
     private DatabaseHelper(Context context) {

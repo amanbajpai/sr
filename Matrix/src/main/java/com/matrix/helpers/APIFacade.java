@@ -65,10 +65,18 @@ public class APIFacade {
         }
     }
 
-    public void getAllTasks(Activity activity) {
+    public void getSurveys(Activity activity) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_ALL_TASKS);
-        operation.setTag(Keys.GET_ALL_TASKS_OPERATION_TAG);
+        operation.setUrl(WSUrl.GET_SURVEYS);
+        operation.setTag(Keys.GET_SURVEYS_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    public void getSurveysTask(Activity activity, Long surveyId) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_SURVEYS_TASKS, String.valueOf(surveyId));
+        operation.setTag(Keys.GET_SURVEYS_TASKS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
