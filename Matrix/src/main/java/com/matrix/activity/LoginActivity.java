@@ -18,6 +18,7 @@ import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.net.gcm.CommonUtilities;
 import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
@@ -79,8 +80,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         //  GCM registration.
         if (checkPlayServices()) {
             String regid = PreferencesManager.getInstance().getGCMRegistrationId();
-
-            if (regid.isEmpty()) {
+            if ("".equals(regid)) {
                 registerGCMInBackground();
             }
         } else {
@@ -141,21 +141,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     /**
      * Registers the application with GCM servers asynchronously.
-     * <p>
+     * <p/>
      * Stores the registration ID and app versionCode in the application's
      * shared preferences.
      */
     private void registerGCMInBackground() {
-        new AsyncTask() {
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
-            protected Object doInBackground(Object[] params) {
+            protected Void doInBackground(Void... params) {
                 String msg = "";
                 try {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(App.getInstance());
                     }
-                    String regId = gcm.register(Keys.GCM_ID);
+                    String regId = gcm.register(CommonUtilities.SENDER_ID);
                     msg = "Device registered, registration ID=" + regId;
                     L.i(TAG, msg);
 
@@ -163,7 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     // so it can use GCM/HTTP or CCS to send messages to your app.
                     // The request to your server should be authenticated if your app
                     // is using accounts.
-                    //TODO: API call for register ID (regid);
+                    APIFacade.getInstance().registerGCMId(regId);
 
                     // For this demo: we don't need to send it because the device
                     // will send upstream messages to a server that echo back the
@@ -173,6 +173,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     PreferencesManager.getInstance().setGCMRegistrationId(regId);
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
+                    L.e(TAG, msg);
                     // If there is an error, don't just keep trying to register.
                     // Require the user to click a button again, or perform
                     // exponential back-off.

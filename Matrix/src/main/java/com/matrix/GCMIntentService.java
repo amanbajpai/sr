@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
-import com.matrix.net.gcm.ServerUtilities;
+import com.matrix.net.gcm.CommonUtilities;
 import com.matrix.utils.L;
 
 import static com.matrix.net.gcm.CommonUtilities.displayMessage;
@@ -18,7 +18,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     private static final String TAG = GCMIntentService.class.getSimpleName();
 
     public GCMIntentService() {
-        super(Keys.GCM_ID);
+        super(CommonUtilities.SENDER_ID);
     }
 
     @Override

@@ -29,6 +29,12 @@ public class APIFacade {
     private APIFacade() {
     }
 
+    /**
+     *
+     * @param activity
+     * @param email
+     * @param password
+     */
     public void login(Activity activity, String email, String password) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
@@ -47,6 +53,12 @@ public class APIFacade {
         }
     }
 
+    /**
+     *
+     * @param activity
+     * @param email
+     * @param fullName
+     */
     public void registration(Activity activity, String email, String fullName) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(fullName)) {
 
@@ -65,6 +77,10 @@ public class APIFacade {
         }
     }
 
+    /**
+     *
+     * @param activity
+     */
     public void getSurveys(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_SURVEYS);
@@ -73,6 +89,11 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     *
+     * @param activity
+     * @param surveyId
+     */
     public void getSurveysTask(Activity activity, Long surveyId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_SURVEYS_TASKS, String.valueOf(surveyId));
@@ -81,6 +102,10 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     *
+     * @param activity
+     */
     public void getMyTasks(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_MY_TASKS);
@@ -89,6 +114,13 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     *
+     * @param activity
+     * @param email
+     * @param countryName
+     * @param cityName
+     */
     public void subscribe(Activity activity, String email, String countryName, String cityName) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(countryName) && !TextUtils.isEmpty(cityName)) {
 
@@ -106,5 +138,9 @@ public class APIFacade {
         } else {
             UIUtils.showSimpleToast(activity, R.string.fill_in_field);
         }
+    }
+
+    public void registerGCMId(String regId) {
+        // TODO: Implement registration logic
     }
 }
