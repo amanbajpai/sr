@@ -3,22 +3,26 @@ package com.matrix.activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.matrix.BaseActivity;
-import com.matrix.Keys;
-import com.matrix.MainActivity;
-import com.matrix.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.matrix.*;
 import com.matrix.db.entity.LoginResponse;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
+import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
+
+import java.io.IOException;
 
 /**
  * Activity for Agents login into system
@@ -26,8 +30,11 @@ import com.matrix.utils.UIUtils;
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private final static String TAG = LoginActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
+    GoogleCloudMessaging gcm;
     public EditText emailEditText;
     public EditText passwordEditText;
+
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
+        // Check device for Play Services APK. If check succeeds, proceed with
+        //  GCM registration.
+        if (checkPlayServices()) {
+            String regid = PreferencesManager.getInstance().getGCMRegistrationId();
+
+            if (regid.isEmpty()) {
+                registerGCMInBackground();
+            }
+        } else {
+            L.i(TAG, "No valid Google Play Services APK found.");
+        }
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
@@ -119,5 +137,67 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    /**
+     * Registers the application with GCM servers asynchronously.
+     * <p>
+     * Stores the registration ID and app versionCode in the application's
+     * shared preferences.
+     */
+    private void registerGCMInBackground() {
+        new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                String msg = "";
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(App.getInstance());
+                    }
+                    String regId = gcm.register(Keys.GCM_ID);
+                    msg = "Device registered, registration ID=" + regId;
+                    L.i(TAG, msg);
+
+                    // You should send the registration ID to your server over HTTP,
+                    // so it can use GCM/HTTP or CCS to send messages to your app.
+                    // The request to your server should be authenticated if your app
+                    // is using accounts.
+                    //TODO: API call for register ID (regid);
+
+                    // For this demo: we don't need to send it because the device
+                    // will send upstream messages to a server that echo back the
+                    // message using the 'from' address in the message.
+
+                    // Persist the regID - no need to register again.
+                    PreferencesManager.getInstance().setGCMRegistrationId(regId);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                    // If there is an error, don't just keep trying to register.
+                    // Require the user to click a button again, or perform
+                    // exponential back-off.
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                L.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 }

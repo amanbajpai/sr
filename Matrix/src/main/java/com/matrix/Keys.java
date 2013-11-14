@@ -44,5 +44,8 @@ public interface Keys {
     /* ------------ GCM parameters -----------------------*/
     public static final String GCM_ID = "145199350695";
 
+    public static final String GCM_PROPERTY_REG_ID = "gcm_registration_id";
+    public static final String GCM_PROPERTY_APP_VERSION = "gcm_appVersion";
+
 
 }

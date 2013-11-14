@@ -1,5 +1,6 @@
 package com.matrix.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
@@ -22,6 +23,7 @@ public class PreferencesManager {
 
     /**
      * Get instance of {@link PreferencesManager}
+     *
      * @return
      */
     public static PreferencesManager getInstance() {
@@ -39,6 +41,46 @@ public class PreferencesManager {
         return _preferences;
     }
 
+    /**
+     * Gets the current registration ID for application on GCM service.
+     * <p/>
+     * If result is empty, the app needs to register.
+     *
+     * @return registration ID, or empty string if there is no existing
+     * registration ID.
+     */
+    public String getGCMRegistrationId() {
+        Context context = App.getInstance().getApplicationContext();
+        final SharedPreferences prefs = getPreferences();
+        String registrationId = prefs.getString(Keys.GCM_PROPERTY_REG_ID, "");
+        if (registrationId.isEmpty()) {
+            L.i(TAG, "Registration not found.");
+            return "";
+        }
+        // Check if app was updated; if so, it must clear the registration ID
+        // since the existing regID is not guaranteed to work with the new
+        // app version.
+        int registeredVersion = prefs.getInt(Keys.GCM_PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int currentVersion = UIUtils.getAppVersionCode(context);
+        if (registeredVersion != currentVersion) {
+            L.i(TAG, "App version changed.");
+            return "";
+        }
+        return registrationId;
+    }
+
+    /**
+     * Save registration Id in preferences
+     *
+     * @param regId
+     * @return
+     */
+    public void setGCMRegistrationId(String regId) {
+        Context context = App.getInstance().getApplicationContext();
+        Editor editor = getPreferences().edit();
+        editor.putString(Keys.GCM_PROPERTY_REG_ID, regId);
+        editor.commit();
+    }
 
     /**
      *

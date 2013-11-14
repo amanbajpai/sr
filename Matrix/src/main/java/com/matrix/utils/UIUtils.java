@@ -27,6 +27,11 @@ import java.util.List;
 public class UIUtils {
     private static final String TAG = "UIUtils";
 
+    /**
+     * Show simple Toast message
+     * @param context
+     * @param resId
+     */
     public static void showSimpleToast(Context context, int resId) {
         if (context != null) {
             Toast toast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
@@ -35,6 +40,12 @@ public class UIUtils {
         }
     }
 
+    /**
+     * Show simple Toast message
+     * @param context
+     * @param resId
+     * @param duration
+     */
     public static void showSimpleToast(Context context, int resId, int duration) {
         if (context != null) {
             Toast toast = Toast.makeText(context, resId, duration);
@@ -43,6 +54,11 @@ public class UIUtils {
         }
     }
 
+    /**
+     * Show simple Toast message
+     * @param context
+     * @param msg
+     */
     public static void showSimpleToast(Context context, String msg) {
         if (context != null && msg != null) {
             Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
@@ -61,12 +77,33 @@ public class UIUtils {
         imm.toggleSoftInput(InputMethodManager.RESULT_SHOWN, 0);
     }
 
+    /**
+     * Get version name visible for users
+     * @param context
+     * @return
+     */
     public static String getAppVersion(Context context) {
         String curent_version = "";
         try {
             curent_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (Exception e) {
-            L.e(TAG, "Error get app version");
+            L.e(TAG, "getAppVersion() Error get app version");
+        }
+        return curent_version;
+    }
+
+
+    /**
+     * Get developer version of application
+     * @param context
+     * @return
+     */
+    public static int getAppVersionCode(Context context) {
+        int curent_version = 0;
+        try {
+            curent_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (Exception e) {
+            L.e(TAG, "getAppVersionCode() Error get app version");
         }
         return curent_version;
     }
