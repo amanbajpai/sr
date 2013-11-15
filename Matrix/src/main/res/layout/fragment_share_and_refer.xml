@@ -1,40 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent" >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" >
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp" >
+        <Button
+            android:id="@+id/emailButton"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp" >
-            <Button
-                android:id="@+id/emailButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:text="@string/share_and_refer_via_email" />
-            <Button
-                android:id="@+id/messageButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:text="@string/share_and_refer_via_message" />
-            <Button
-                android:id="@+id/twitterButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:text="@string/share_and_refer_via_twitter" />
-            <Button
-                android:id="@+id/facebookButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:text="@string/share_and_refer_via_facebook" />
-        </LinearLayout >
-    </ScrollView >
-</LinearLayout >
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_email" />
+        <Button
+            android:id="@+id/messageButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_message" />
+        <Button
+            android:id="@+id/twitterButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_twitter" />
+        <Button
+            android:id="@+id/facebookButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_facebook" />
+    </LinearLayout >
+</ScrollView >

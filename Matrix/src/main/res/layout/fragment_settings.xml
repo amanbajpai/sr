@@ -1,206 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent" >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" >
+        android:orientation="vertical"
+        android:padding="20dp" >
+        <TextView
+            style="@style/profileSectionTextStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/application_settings" />
+        <View
+            style="@style/profileSectionDividerStyle"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp" >
+            android:orientation="horizontal" >
             <TextView
-                style="@style/profileSectionTextStyle"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:text="@string/application_settings" />
-            <View
-                style="@style/profileSectionDividerStyle"
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/language" />
-                <Spinner
-                    android:id="@+id/languageSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/location_services" />
-                <ToggleButton
-                    android:id="@+id/locationToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/push_messages" />
-                <ToggleButton
-                    android:id="@+id/pushMessagesToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/social_sharing" />
-                <ToggleButton
-                    android:id="@+id/socialSharingToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/save_images_to_camera_roll" />
-                <ToggleButton
-                    android:id="@+id/saveImageToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/tasks_in_your_location" />
-                <ToggleButton
-                    android:id="@+id/tasksInLocationToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/task_in_radius" />
-                <SeekBar
-                    android:id="@+id/taskInRadiusSeekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout >
-            <TextView
-                style="@style/profileSectionTextStyle"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="@string/notification_settings" />
-            <View
-                style="@style/profileSectionDividerStyle"
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/file_size_warning" />
-                <ToggleButton
-                    android:id="@+id/fileSizeToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/deadline_reminder" />
-                <ToggleButton
-                    android:id="@+id/deadlineReminderToggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
-                <Button
-                    android:id="@+id/confirmAndSaveButton"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/confirm_and_save" />
-                <Button
-                    android:id="@+id/cancelButton"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:layout_weight="2"
-                    android:text="@string/cancel" />
-            </LinearLayout >
+                android:text="@string/language" />
+            <Spinner
+                android:id="@+id/languageSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
         </LinearLayout >
-    </ScrollView >
-</LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/location_services" />
+            <ToggleButton
+                android:id="@+id/locationToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/push_messages" />
+            <ToggleButton
+                android:id="@+id/pushMessagesToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/social_sharing" />
+            <ToggleButton
+                android:id="@+id/socialSharingToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/save_images_to_camera_roll" />
+            <ToggleButton
+                android:id="@+id/saveImageToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/tasks_in_your_location" />
+            <ToggleButton
+                android:id="@+id/tasksInLocationToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/task_in_radius" />
+            <SeekBar
+                android:id="@+id/taskInRadiusSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout >
+        <TextView
+            style="@style/profileSectionTextStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/notification_settings" />
+        <View
+            style="@style/profileSectionDividerStyle"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/file_size_warning" />
+            <ToggleButton
+                android:id="@+id/fileSizeToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/deadline_reminder" />
+            <ToggleButton
+                android:id="@+id/deadlineReminderToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/confirmAndSaveButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/confirm_and_save" />
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="2"
+                android:text="@string/cancel" />
+        </LinearLayout >
+    </LinearLayout >
+</ScrollView >

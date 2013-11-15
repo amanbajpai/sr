@@ -15,14 +15,14 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
     //private static final String TAG = ProfileFragment.class.getSimpleName();
     private ViewGroup view;
 
-    public EditText fullNameEditText;
-    public EditText passwordEditText;
-    public EditText dayEditText;
-    public EditText monthEditText;
-    public EditText yearEditText;
-    public EditText emailEditText;
-    public EditText countryEditText;
-    public EditText cityEditText;
+    private EditText fullNameEditText;
+    private EditText passwordEditText;
+    private EditText dayEditText;
+    private EditText monthEditText;
+    private EditText yearEditText;
+    private EditText emailEditText;
+    private EditText countryEditText;
+    private EditText cityEditText;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

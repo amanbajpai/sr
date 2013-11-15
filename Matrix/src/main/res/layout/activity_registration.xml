@@ -1,126 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent" >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" >
+        android:orientation="vertical"
+        android:padding="20dp" >
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" >
+            <ImageView
+                android:id="@+id/profilePhotoImageView"
+                android:layout_height="76dp"
+                android:layout_width="76dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_launcher" />
+            <EditText
+                android:id="@+id/fullNameEditText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@+id/profilePhotoImageView"
+                android:hint="@string/full_name" />
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_marginTop="10dp"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@+id/profilePhotoImageView"
+                android:layout_below="@+id/fullNameEditText"
+                android:hint="@string/password" />
+        </RelativeLayout >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp" >
-            <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+            <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent" >
-                <ImageView
-                    android:id="@+id/profilePhotoImageView"
-                    android:layout_height="76dp"
-                    android:layout_width="76dp"
-                    android:layout_marginRight="20dp"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_launcher" />
-                <EditText
-                    android:id="@+id/fullNameEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_toRightOf="@+id/profilePhotoImageView"
-                    android:hint="@string/full_name" />
-                <EditText
-                    android:id="@+id/passwordEditText"
-                    android:layout_marginTop="10dp"
-                    android:inputType="textPassword"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_toRightOf="@+id/profilePhotoImageView"
-                    android:layout_below="@+id/fullNameEditText"
-                    android:hint="@string/password" />
-            </RelativeLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/gender" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/birthday" />
-                <EditText
-                    android:id="@+id/dayEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:hint="@string/day" />
-                <EditText
-                    android:id="@+id/monthEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:hint="@string/month" />
-                <EditText
-                    android:id="@+id/yearEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:hint="@string/year" />
-            </LinearLayout >
-            <EditText
-                android:id="@+id/emailEditText"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:inputType="textEmailAddress"
-                android:hint="@string/your_email_hint" />
-            <EditText
-                android:id="@+id/countryEditText"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:hint="@string/your_country_hint" />
-            <EditText
-                android:id="@+id/cityEditText"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:hint="@string/your_city_hint" />
-            <CheckBox
-                android:id="@+id/agreeCheckBox"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:text="@string/i_agree_with_matrix_term" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-                <Button
-                    android:id="@+id/confirmButton"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/confirm_and_register" />
-                <Button
-                    android:id="@+id/cancelButton"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:layout_weight="2"
-                    android:text="@string/cancel" />
-            </LinearLayout >
+                android:layout_width="wrap_content"
+                android:text="@string/gender" />
         </LinearLayout >
-    </ScrollView >
-</LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/birthday" />
+            <EditText
+                android:id="@+id/dayEditText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="@string/day" />
+            <EditText
+                android:id="@+id/monthEditText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="@string/month" />
+            <EditText
+                android:id="@+id/yearEditText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="@string/year" />
+        </LinearLayout >
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/your_email_hint" />
+        <EditText
+            android:id="@+id/countryEditText"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:hint="@string/your_country_hint" />
+        <EditText
+            android:id="@+id/cityEditText"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:hint="@string/your_city_hint" />
+        <CheckBox
+            android:id="@+id/agreeCheckBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:text="@string/i_agree_with_matrix_term" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/confirmButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/confirm_and_register" />
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="2"
+                android:text="@string/cancel" />
+        </LinearLayout >
+    </LinearLayout >
+</ScrollView >

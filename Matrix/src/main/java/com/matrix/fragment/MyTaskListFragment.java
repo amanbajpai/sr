@@ -33,9 +33,9 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
 
     private AsyncQueryHandler handler;
 
-    public ListView taskList;
-    public TaskAdapter adapter;
-    public TextView responseTextView;
+    private ListView taskList;
+    private TaskAdapter adapter;
+    private TextView responseTextView;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

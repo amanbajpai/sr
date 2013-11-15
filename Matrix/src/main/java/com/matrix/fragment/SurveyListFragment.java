@@ -37,9 +37,9 @@ public class SurveyListFragment extends Fragment implements OnClickListener, OnI
 
     private AsyncQueryHandler handler;
 
-    public ListView surveyList;
-    public SurveyAdapter adapter;
-    public TextView responseTextView;
+    private ListView surveyList;
+    private SurveyAdapter adapter;
+    private TextView responseTextView;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

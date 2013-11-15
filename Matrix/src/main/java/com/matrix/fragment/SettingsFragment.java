@@ -17,16 +17,16 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
     //private static final String TAG = SettingsFragment.class.getSimpleName();
     private ViewGroup view;
 
-    public Spinner languageSpinner;
-    public SeekBar taskInRadiusSeekBar;
+    private Spinner languageSpinner;
+    private SeekBar taskInRadiusSeekBar;
 
-    public ToggleButton locationToggleButton;
-    public ToggleButton pushMessagesToggleButton;
-    public ToggleButton socialSharingToggleButton;
-    public ToggleButton saveImageToggleButton;
-    public ToggleButton tasksInLocationToggleButton;
-    public ToggleButton fileSizeToggleButton;
-    public ToggleButton deadlineReminderToggleButton;
+    private ToggleButton locationToggleButton;
+    private ToggleButton pushMessagesToggleButton;
+    private ToggleButton socialSharingToggleButton;
+    private ToggleButton saveImageToggleButton;
+    private ToggleButton tasksInLocationToggleButton;
+    private ToggleButton fileSizeToggleButton;
+    private ToggleButton deadlineReminderToggleButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
