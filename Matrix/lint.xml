@@ -16,6 +16,7 @@
     <issue id="ViewConstructor" severity="fatal" />
     <issue id="ValidFragment" severity="fatal" />
     <issue id="CommitPrefEdits" severity="fatal" />
+    <issue id="DrawAllocation" severity="fatal" />
 
     <!-- Critical and Hight Bugs -->
     <issue id="AdapterViewChildren" severity="error" />
@@ -49,22 +50,25 @@
     <issue id="StateListReachable" severity="error" />
     <issue id="UnknownIdInLayout" severity="error" />
     <issue id="RequiredSize" severity="error" />
-    <!--<issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />
-    <issue id="" severity="error" />-->
+    <issue id="JavascriptInterface" severity="error" />
+    <issue id="HardcodedDebugMode" severity="error" />
+    <issue id="SecureRandom" severity="error" />
+    <issue id="Wakelock" severity="error" />
+    <issue id="UseValueOf" severity="error" />
+    <issue id="Overdraw" severity="error" />
+    <issue id="UnusedResources" severity="error" />
+    <issue id="UselessParent" severity="error" />
+    <issue id="IconNoDpi" severity="error" />
+    <issue id="IconXmlAndPng" severity="error" />
+    <issue id="GifUsage" severity="error" />
+    <issue id="IconDipSize" severity="error" />
+    <issue id="IconDuplicatesConfig" severity="error" />
+    <issue id="IconExpectedSize" severity="error" />
+    <issue id="IconMixedNinePatch" severity="error" />
+    <issue id="MissingApplicationIcon" severity="error" />
+    <issue id="IconDuplicates" severity="error" />
+    <issue id="IconExtension" severity="error" />
+    <issue id="EnforceUTF8" severity="error" />
     <issue id="HardcodedText" severity="error" />
 
 
@@ -94,16 +98,42 @@
     <issue id="ProtectedPermissions" severity="warning" />
     <issue id="InOrMmUsage" severity="warning" />
     <issue id="ExtraText" severity="warning" />
-    <!--<issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" />
-    <issue id="" severity="warning" /> -->
+    <issue id="SpUsage" severity="warning" />
+    <issue id="Deprecated" severity="warning" />
+    <issue id="MangledCRLF" severity="warning" />
+    <issue id="MissingQuantity" severity="warning" />
+    <issue id="MissingTranslation" severity="warning" />
+    <issue id="ExtraTranslation" severity="warning" />
+    <issue id="StringFormatCount" severity="warning" />
+    <issue id="GrantAllUris" severity="warning" />
+    <issue id="EasterEgg" severity="warning" />
+    <issue id="SetJavaScriptEnabled" severity="warning" />
+    <issue id="ExportedContentProvider" severity="warning" />
+    <issue id="ExportedReceiver" severity="warning" />
+    <issue id="ExportedService" severity="warning" />
+    <issue id="WorldReadableFiles" severity="warning" />
+    <issue id="WorldWriteableFiles" severity="warning" />
+    <issue id="Recycle" severity="warning" />
+    <issue id="ObsoleteLayoutParam" severity="warning" />
+    <issue id="ViewTag" severity="warning" />
+    <issue id="FieldGetter" severity="warning" />
+    <issue id="HandlerLeak" severity="warning" />
+    <issue id="MergeRootFrame" severity="warning" />
+    <issue id="UseSparseArrays" severity="warning" />
+    <issue id="DisableBaselineAlignment" severity="warning" />
+    <issue id="FloatMath" severity="warning" />
+    <issue id="InefficientWeight" severity="warning" />
+    <issue id="NestedWeights" severity="warning" />
+    <issue id="UselessLeaf" severity="warning" />
+    <issue id="TooDeepLayout" severity="warning" />
+    <issue id="TooManyViews" severity="warning" />
+    <issue id="IconLocation" severity="warning" />
+    <issue id="IconDensities" severity="warning" />
+    <issue id="ButtonOrder" severity="warning" />
+    <issue id="BackButton" severity="warning" />
+    <issue id="ButtonStyle" severity="warning" />
+    <issue id="MenuTitle" severity="warning" />
+    <issue id="ParcelCreator" severity="warning" />
 
     <!-- Low level can be ignored -->
     <issue id="InconsistentArrays" severity="ignore" />
@@ -114,14 +144,27 @@
     <issue id="LocalSuppress" severity="ignore" />
     <issue id="PrivateResource" severity="ignore" />
     <issue id="ProguardSplit" severity="ignore" />
+    <issue id="Typos" severity="ignore" />
+    <issue id="UnusedQuantity" severity="ignore" />
+    <issue id="UseCompoundDrawables" severity="ignore" />
+    <issue id="UnusedIds" severity="ignore" />
+    <issue id="UnusedNamespace" severity="ignore" />
+    <issue id="TypographyDashes" severity="ignore" />
+    <issue id="TypographyEllipsis" severity="ignore" />
+    <issue id="TypographyFractions" severity="ignore" />
+    <issue id="TypographyQuotes" severity="ignore" />
+    <issue id="TypographyOther" severity="ignore" />
+    <issue id="IconColors" severity="ignore" />
+    <issue id="IconLauncherShape" severity="ignore" />
+    <issue id="IconMissingDensityFolder" severity="ignore" />
+    <issue id="SelectableText" severity="ignore" />
+    <issue id="TextFields" severity="ignore" />
+    <issue id="SmallSp" severity="ignore" />
+    <issue id="AlwaysShowAction" severity="ignore" />
     <issue id="ButtonCase" severity="ignore" />
     <issue id="Accessibility" severity="ignore" />
     <issue id="LabelFor" severity="ignore" />
     <issue id="RtlCompat" severity="ignore" />
     <issue id="RtlHardcoded" severity="ignore" />
     <issue id="RtlEnabled" severity="ignore" />
-
-
-
-
 </lint>
