@@ -13,7 +13,7 @@ public class Task extends BaseEntity {
     private Float Longitude;
     private Float Latitude;
     private String Language;
-    private String Price;
+    private Float Price;
     private String Address;
 
 
@@ -39,7 +39,7 @@ public class Task extends BaseEntity {
             result.setLongitude(c.getFloat(TaskDbSchema.Query.LONGITUDE));
             result.setLatitude(c.getFloat(TaskDbSchema.Query.LATITUDE));
             result.setLanguage(c.getString(TaskDbSchema.Query.LANGUAGE));
-            result.setPrice(c.getString(TaskDbSchema.Query.PRICE));
+            result.setPrice(c.getFloat(TaskDbSchema.Query.PRICE));
             result.setAddress(c.getString(TaskDbSchema.Query.ADDRESS));
             result.setDistance(c.getFloat(TaskDbSchema.Query.DISTANCE));
         }
@@ -102,11 +102,11 @@ public class Task extends BaseEntity {
         Language = language;
     }
 
-    public String getPrice() {
-        return Price == null ? "0" : Price;
+    public Float getPrice() {
+        return Price == null ? 0 : Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         Price = price;
     }
 

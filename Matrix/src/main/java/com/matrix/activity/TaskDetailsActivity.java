@@ -121,14 +121,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskName.setText(task.getName());
         taskDescription.setText(task.getDescription());
 
-        taskPrice.setText(Html.fromHtml(String.format(getString(R.string.task_price), String.format(Locale.US, "%," +
-                "d", task.getPrice()))));
+        taskPrice.setText(Html.fromHtml(String.format(getString(R.string.task_price), String.format(Locale.US, "%.1f",
+                task.getPrice()))));
+
+        //TODO Set EXP
         taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
                 130))));
         taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
-                String.format(Locale.US, "%,d", task.getDistance()))));
+                String.format(Locale.US, "%.0f", task.getDistance()))));
 
-
+        taskAddress.setText(task.getAddress());
     }
 
     @Override

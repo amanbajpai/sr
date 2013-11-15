@@ -20,7 +20,7 @@ public interface TaskDbSchema {
         LONGITUDE("Longitude", DBType.FLOAT),
         LATITUDE("Latitude", DBType.FLOAT),
         LANGUAGE("Language", DBType.TEXT),
-        PRICE("Price", DBType.TEXT),
+        PRICE("Price", DBType.FLOAT),
         ADDRESS("Address", DBType.TEXT),
         DISTANCE("Distance", DBType.FLOAT),
 
