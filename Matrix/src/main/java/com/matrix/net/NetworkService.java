@@ -2,6 +2,8 @@ package com.matrix.net;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -66,11 +68,23 @@ public class NetworkService extends BaseNetworkService {
                         break;
                     case WSUrl.GET_SURVEYS_TASKS_ID:
                         Task[] tasks = gson.fromJson(responseString, Task[].class);
+
+                        Location currentLocation = preferencesManager.getCurrentLocation();
+
                         for (Task task : tasks) {
+                            Location temp = new Location(LocationManager.NETWORK_PROVIDER);
+                            temp.setLatitude(task.getLatitude());
+                            temp.setLongitude(task.getLongitude());
+                            task.setDistance(currentLocation.distanceTo(temp));
+
                             contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
                         }
 
                         //operation.responseEntities.addAll(new ArrayList<Task>(Arrays.asList(tasks)));
+                        break;
+                    case WSUrl.BOOK_TASKS_ID:
+                        BookTaskResponse bookTaskResponse = gson.fromJson(responseString, BookTaskResponse.class);
+                        operation.responseEntities.add(bookTaskResponse);
                         break;
                     case WSUrl.LOGIN_ID:
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);

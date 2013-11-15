@@ -117,6 +117,19 @@ public class APIFacade {
     /**
      *
      * @param activity
+     * @param taskId
+     */
+    public void bookTask(Activity activity, Long taskId) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.BOOK_TASKS, String.valueOf(taskId));
+        operation.setTag(Keys.BOOK_TASK_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     *
+     * @param activity
      * @param email
      * @param countryName
      * @param cityName

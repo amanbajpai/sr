@@ -20,6 +20,9 @@ public interface TaskDbSchema {
         LONGITUDE("Longitude", DBType.FLOAT),
         LATITUDE("Latitude", DBType.FLOAT),
         LANGUAGE("Language", DBType.TEXT),
+        PRICE("Price", DBType.TEXT),
+        ADDRESS("Address", DBType.TEXT),
+        DISTANCE("Distance", DBType.FLOAT),
 
         DELETED("deleted", DBType.INT);
 
@@ -58,7 +61,10 @@ public interface TaskDbSchema {
                 Table.TASK.getName() + "." + Columns.DESCRIPTION.getName(),
                 Table.TASK.getName() + "." + Columns.LONGITUDE.getName(),
                 Table.TASK.getName() + "." + Columns.LATITUDE.getName(),
-                Table.TASK.getName() + "." + Columns.LANGUAGE.getName()
+                Table.TASK.getName() + "." + Columns.LANGUAGE.getName(),
+                Table.TASK.getName() + "." + Columns.PRICE.getName(),
+                Table.TASK.getName() + "." + Columns.ADDRESS.getName(),
+                Table.TASK.getName() + "." + Columns.DISTANCE.getName()
         };
 
         int _ID = 0;
@@ -70,5 +76,8 @@ public interface TaskDbSchema {
         int LONGITUDE = 6;
         int LATITUDE = 7;
         int LANGUAGE = 8;
+        int PRICE = 9;
+        int ADDRESS = 10;
+        int DISTANCE = 11;
     }
 }
