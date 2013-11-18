@@ -1,0 +1,35 @@
+println '=== Build Clusterkraf gradle script ==='
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+
+apply plugin: 'android-library'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  compile 'com.google.android.gms:play-services:4.0.30'
+  compile 'com.nineoldandroids:library:2.4.0'
+}
+
+android {
+  compileSdkVersion 17
+  buildToolsVersion '18.1.1'
+
+  sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+      java.srcDirs = ['src']
+      res.srcDirs = ['res']
+    }
+  }
+}
