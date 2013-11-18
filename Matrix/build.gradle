@@ -51,6 +51,25 @@ android {
         minSdkVersion 8
         targetSdkVersion 19
     }
+
+    /*buildTypes {
+        debug {
+            println("======= \nDEBUG:\n=======")
+            packageNameSuffix ""
+            zipAlign false
+            runProguard false
+            proguardFile file('configs/proguard-project-debug.txt')
+        }
+
+        release {
+            println("******* \nRelease:\n*******")
+            zipAlign false
+            runProguard false
+            proguardFile 'configs/proguard-project-release.txt'
+        }
+    }*/
 }
+
+
 
 

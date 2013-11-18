@@ -18,10 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
 import com.matrix.App;
 import com.matrix.db.entity.Task;
 import com.matrix.utils.L;
@@ -90,12 +87,12 @@ public class TasksMapFragment extends Fragment {
 
     private void loadStoreDetails(Long id) {
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("storeId", String.valueOf(id));
+        params.put("taskId", String.valueOf(id));
     }
 
     public void onLoadingComplete() {
 
-        Log.i(TAG, "[stores.size=" + inputPoints.size() + "]");
+        Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
         if (inputPoints.size() > 0) {
             initClusterkraf();
         } else if (getActivity() != null) {
@@ -114,7 +111,15 @@ public class TasksMapFragment extends Fragment {
             return;
         }
 
+        InputPoint point1 = new InputPoint(new LatLng(50.4267053, 30.5041295));
+        InputPoint point2 = new InputPoint(new LatLng(51.4267053, 30.5141295));
+        InputPoint point3 = new InputPoint(new LatLng(52.4267053, 30.5241295));
+        inputPoints.add(point1);
+        inputPoints.add(point2);
+        inputPoints.add(point3);
+
         //TODO get TASK List!
+        onLoadingComplete();
     }
 
 

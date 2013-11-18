@@ -66,7 +66,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.allTasksButton:
-                ((MainActivity) getActivity()).startFragment(new SurveyListFragment());
+                ((MainActivity) getActivity()).startFragment(new TasksMapFragment());
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myTasksButton:

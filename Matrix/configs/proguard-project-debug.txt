@@ -1,0 +1,6 @@
+#Obfuscate settings
+-dontobfuscate
+
+#Optimization settings
+-dontoptimize
+
