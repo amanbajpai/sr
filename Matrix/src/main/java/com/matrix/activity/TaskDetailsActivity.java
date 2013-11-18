@@ -2,9 +2,9 @@ package com.matrix.activity;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,15 +12,16 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
-import com.matrix.MainActivity;
 import com.matrix.R;
 import com.matrix.db.TaskDbSchema;
+import com.matrix.db.entity.BookTaskResponse;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
-import com.matrix.views.SlidingUpPanelLayout;
+
+import java.util.Locale;
 
 /**
  * Activity for view Task detail information
@@ -35,8 +36,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public Task task = new Task();
 
     public TextView taskName;
+    public TextView taskPrice;
+    public TextView taskExp;
+    public TextView taskDistance;
+    public TextView taskAddress;
     public TextView taskDescription;
-    public SlidingUpPanelLayout slidingUpPanelLayout;
+    public TextView taskDeadline;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,55 +54,25 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             taskId = getIntent().getLongExtra(Keys.TASK_ID, 0);
         }
 
-
         handler = new DbHandler(getContentResolver());
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
-        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        slidingUpPanelLayout.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
-        slidingUpPanelLayout.setAnchorPoint(0.3f);
-        slidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                /*if (slideOffset < 0.2) {
-                    if (getSupportActionBar().isShowing()) {
-                        getSupportActionBar().hide();
-                    }
-                } else {
-                    if (!getSupportActionBar().isShowing()) {
-                        getSupportActionBar().show();
-                    }
-                }*/
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-
-
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-
-
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-
-
-            }
-        });
-
         taskName = (TextView) findViewById(R.id.taskName);
+        taskPrice = (TextView) findViewById(R.id.taskPrice);
+        taskExp = (TextView) findViewById(R.id.taskExp);
+        taskDistance = (TextView) findViewById(R.id.taskDistance);
         taskDescription = (TextView) findViewById(R.id.taskDescription);
+        taskAddress = (TextView) findViewById(R.id.taskAddress);
+        taskDeadline = (TextView) findViewById(R.id.taskDeadline);
 
-        getTasks(taskId);
+        findViewById(R.id.bookButton).setOnClickListener(this);
+        findViewById(R.id.cancelButton).setOnClickListener(this);
+
+        getTask(taskId);
     }
 
-    private void getTasks(Long taskId) {
+    private void getTask(Long taskId) {
         handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
                 TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
@@ -129,8 +104,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-
+            if (Keys.BOOK_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                BookTaskResponse bookTaskResponse = (BookTaskResponse) operation.getResponseEntities().get(0);
+                if (bookTaskResponse.getState()) {
+                    UIUtils.showSimpleToast(TaskDetailsActivity.this, R.string.success);
+                } else {
+                    UIUtils.showSimpleToast(TaskDetailsActivity.this, R.string.error);
+                }
             }
         } else {
             UIUtils.showSimpleToast(TaskDetailsActivity.this, "Server Error. Response Code: " + operation.getResponseStatusCode());
@@ -140,21 +120,27 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setData() {
         taskName.setText(task.getName());
         taskDescription.setText(task.getDescription());
+
+        taskPrice.setText(Html.fromHtml(String.format(getString(R.string.task_price), String.format(Locale.US, "%.1f",
+                task.getPrice()))));
+
+        //TODO Set EXP
+        taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
+                130))));
+        taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
+                String.format(Locale.US, "%.0f", task.getDistance()))));
+
+        taskAddress.setText(task.getAddress());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.loginButton:
-                //TODO Delete
-                /*String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                apiFacade.login(this, email, password);*/
-                finish();
-                startActivity(new Intent(this, MainActivity.class));
+            case R.id.bookButton:
+                apiFacade.bookTask(this, taskId);
                 break;
-            case R.id.registerButton:
-                startActivity(new Intent(this, RegistrationActivity.class));
+            case R.id.cancelButton:
+                finish();
                 break;
         }
     }

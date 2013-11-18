@@ -43,7 +43,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/text_size_medium"
             android:gravity="left"
-            android:text="@string/we_dont_have_avalable_tesks" />
+            android:text="@string/we_dont_have_available_tasks" />
         <EditText
             android:id="@+id/countryEditText"
             android:layout_height="wrap_content"

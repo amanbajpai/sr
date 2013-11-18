@@ -1,5 +1,6 @@
 package com.matrix.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
@@ -14,6 +15,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.matrix.*;
 import com.matrix.db.entity.LoginResponse;
+import com.matrix.dialog.DefaultInfoDialog;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
@@ -34,6 +36,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     GoogleCloudMessaging gcm;
     public EditText emailEditText;
     public EditText passwordEditText;
+    public DefaultInfoDialog locationDialog;
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
@@ -94,6 +97,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         findViewById(R.id.loginButton).setOnClickListener(this);
         findViewById(R.id.registerButton).setOnClickListener(this);
+
+        showLocationDialog();
+    }
+
+    public void showLocationDialog() {
+        locationDialog = new DefaultInfoDialog(this,
+                getText(R.string.turn_on_location_dialog_title),
+                getText(R.string.turn_on_location_dialog_text),
+                R.string.settings, R.string.cancel);
+        locationDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override

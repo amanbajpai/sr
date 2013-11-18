@@ -38,7 +38,7 @@
     <string name="level_0" >0</string >
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry</string >
-    <string name="we_dont_have_avalable_tesks" >At the moment we do not have the avalable tasks in your area,
+    <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,
         but you can leave your details to us and we will inform you as soon as the objectives for your region will be
         available</string >
     <string name="subscribe_for_notification" >Subscribe for notification</string >
@@ -92,7 +92,14 @@
     <string name="share_and_refer_via_twitter" >Share &amp; Refer via Twitter</string >
     <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
     <!-- TASK DETAIL ACTIVITY-->
-    <string name="task_detail_title" >Task detail title</string >
+    <string name="task_detail_title" >Task details</string >
+    <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >
+    <string name="task_exp" >EXP: &lt;b>%1$s&lt;/b></string >
+    <string name="task_distance" >Distance: &lt;b>%1$s m&lt;/b></string >
+    <string name="task_description" >Task description</string >
+    <string name="task_address" >Task address</string >
+    <string name="task_deadline" >Task deadline</string >
+    <string name="book_this_task" >Book this task</string >
     <!-- CHECK LOCATION ACTIVITY -->
     <string name="since_jobs" >Since jobs for our agents are tied to specific locations? we have to check your
         location to determine the presence of tasks for your location.</string >
@@ -105,9 +112,10 @@
     <string name="error" >Error</string >
     <string name="success" >Success</string >
     <string name="no_internet" >No Internet connection. Please, try later.</string >
-
-
-
+    <!-- TURN ON LOCATION DIALOG -->
+    <string name="turn_on_location_dialog_title" >Info pop-up</string >
+    <string name="turn_on_location_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
+        Services on your phone</string >
     <!-- GCM -->
     <string name="gcm_registered">From GCM: device successfully registered!</string>
     <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>

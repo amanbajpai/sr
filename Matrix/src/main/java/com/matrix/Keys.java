@@ -18,7 +18,7 @@ public interface Keys {
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String REGISTRETION_OPERATION_TAG = "registration_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
-    String GET_TASK_DETAILS_OPERATION_TAG = "get_task_details_operation_tag";
+    String BOOK_TASK_OPERATION_TAG = "book_task_operation_tag";
 
     //Tasks
     String TASK_ID = "task_id";
