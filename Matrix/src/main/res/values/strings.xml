@@ -115,4 +115,7 @@
     <string name="gcm_error">From GCM: error (%1$s).</string>
     <string name="gcm_recoverable_error">From GCM: recoverable error (%1$s).</string>
     <string name="gcm_deleted">From GCM: server deleted %1$d pending messages!</string>
+
+    <!-- Google Map Fragment -->
+    <string name="no_tasks_found">No Tasks found!</string>
 </resources >

@@ -35,6 +35,8 @@ dependencies {
 	compile 'ch.acra:acra:4.5.0'
 
 	compile fileTree(dir: '../libs', include: '*.jar')
+    // Cluster map's pins
+    compile project(':libs:clusterkraf')
 	
     // test's dependencies
     //robolectricCompile 'org.robolectric:robolectric:2.1.1'
