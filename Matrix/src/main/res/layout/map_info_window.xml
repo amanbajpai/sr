@@ -1,28 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:background="@drawable/map_info_bubble"
-  android:orientation="horizontal">
-  <ImageView
-    android:id="@+id/storeImage"
-    android:layout_height="62dp"
-    android:layout_width="62dp"
-    android:padding="1dp"
-    android:layout_marginRight="5dp"
-    android:adjustViewBounds="true">
-  </ImageView>
-  <LinearLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@drawable/map_info_bubble"
+    android:orientation="horizontal" >
+    <ImageView
+        android:id="@+id/img"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:padding="1dp"
+        android:layout_marginRight="5dp"
+        android:adjustViewBounds="true" />
     <TextView
-      android:id="@+id/title"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:ellipsize="end"
-      android:singleLine="true"
-      style="@style/TaskListTitle"/>
-  </LinearLayout>
-</LinearLayout>
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Big Text Task title"
+        android:layout_marginTop="5dp"
+        style="@style/MapTaskTitle"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/img" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HK$"
+        android:id="@+id/price_label"
+        style="@style/MapTaskLabel"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/title"
+
+        android:layout_toRightOf="@+id/img" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:id="@+id/price_value"
+        style="@style/MapTaskValue"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/price_label"
+        android:layout_toRightOf="@+id/price_label" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/map_popup_distance"
+        style="@style/MapTaskLabel"
+        android:id="@+id/distance_label"
+        android:layout_marginLeft="15dp"
+        android:layout_alignTop="@+id/price_label"
+        android:layout_toRightOf="@+id/price_value"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.3km"
+        style="@style/MapTaskValue"
+        android:id="@+id/distance_value"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/distance_label"
+        android:layout_toRightOf="@+id/distance_label"/>
+
+
+</RelativeLayout >

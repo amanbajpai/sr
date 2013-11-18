@@ -1,19 +1,19 @@
 package com.matrix.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
+import android.view.InflateException;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,17 +22,14 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.reflect.TypeToken;
 import com.matrix.App;
-import com.matrix.db.entity.MatrixLocation;
 import com.matrix.db.entity.Task;
-import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 import com.twotoasters.clusterkraf.*;
 
+import com.matrix.R;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -197,7 +194,6 @@ public class TasksMapFragment extends Fragment {
     /**
      * Chooser for
      */
-
     private class StoreMarkerOptionsChooser extends MarkerOptionsChooser {
         private final WeakReference<Context> contextRef;
         private final Paint clusterPaintLarge;
@@ -314,19 +310,21 @@ public class TasksMapFragment extends Fragment {
             Task model = getTaskById(storeId);
 
             String title = marker.getTitle();
-            TextView titleUi = ((TextView) view.findViewById(R.id.storeName));
+            TextView titleUi = ((TextView) view.findViewById(R.id.title));
             if (title != null) {
                 titleUi.setText(title);
-            } else {
-                titleUi.setText("");
             }
 
-            String address = model.getName();
-            TextView subtextUi = ((TextView) view.findViewById(R.id.storeAddress));
+            String rate = "";
+            TextView rateText = ((TextView) view.findViewById(R.id.price_value));
             if (title != null) {
-                subtextUi.setText(address);
-            } else {
-                titleUi.setText("");
+                rateText.setText(rate);
+            }
+
+            String distance = "";
+            TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
+            if (title != null) {
+                distanceText.setText(distance);
             }
         }
 

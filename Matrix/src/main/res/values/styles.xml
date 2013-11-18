@@ -3,6 +3,24 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:buttonStyle" >@style/Button</item >
     </style >
+
+    <!-- MAP - Task POPUP Styles -->
+    <style name="MapTaskTitle" parent="@android:style/Widget.TextView" >
+        <item name="android:textStyle" >bold</item >
+        <item name="android:textSize" >@dimen/text_size_medium</item >
+        <item name="android:textColor" >@color/black</item >
+    </style >
+    <style name="MapTaskLabel" parent="@android:style/Widget.TextView" >
+        <item name="android:textStyle" >normal</item >
+        <item name="android:textSize" >@dimen/text_size_small</item >
+        <item name="android:textColor" >@color/grey</item >
+    </style >
+    <style name="MapTaskValue" parent="@android:style/Widget.TextView" >
+        <item name="android:textStyle" >bold</item >
+        <item name="android:textSize" >@dimen/text_size_small</item >
+        <item name="android:textColor" >@color/black</item >
+    </style>
+
     <!-- Task List Styles -->
     <style name="TaskListTitle" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
