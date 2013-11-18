@@ -1,6 +1,8 @@
 package com.matrix;
 
 import android.app.Application;
+import com.matrix.db.entity.MatrixLocation;
+import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.UIUtils;
 import org.acra.ACRA;
 import org.acra.ReportField;
@@ -18,6 +20,7 @@ public class App extends Application {
     protected String deviceId;
     protected int deviceApiNumber;
     protected String deviceType;
+    private MatrixLocationManager locationManager;
 
     @Override
     public void onCreate() {
@@ -28,6 +31,7 @@ public class App extends Application {
         deviceId = UIUtils.getDeviceId(this);
         deviceApiNumber = android.os.Build.VERSION.SDK_INT;
         deviceType = "android";
+        locationManager = new MatrixLocationManager(getApplicationContext());
     }
 
     protected void initACRA() {
@@ -40,15 +44,33 @@ public class App extends Application {
         return instance;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDeviceId() {
         return deviceId;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDeviceApiNumber() {
         return String.valueOf(deviceApiNumber);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDeviceType() {
         return deviceType;
     }
+
+    /**
+     * Get Location Manager for coordinates retrieval
+     * @return
+     */
+    public MatrixLocationManager getLocationManager() { return locationManager; };
 }

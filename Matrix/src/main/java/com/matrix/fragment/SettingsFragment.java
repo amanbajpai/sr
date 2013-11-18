@@ -13,6 +13,9 @@ import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
 
+/**
+ * Setting fragment with all application related settings
+ */
 public class SettingsFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = SettingsFragment.class.getSimpleName();
     private ViewGroup view;
