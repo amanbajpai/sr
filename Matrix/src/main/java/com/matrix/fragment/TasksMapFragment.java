@@ -1,7 +1,11 @@
 package com.matrix.fragment;
 
+import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.*;
 import android.location.Location;
 import android.os.Build;
@@ -16,16 +20,22 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.*;
 import com.matrix.App;
+import com.matrix.Keys;
+import com.matrix.R;
+import com.matrix.activity.TaskDetailsActivity;
+import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
+import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 import com.twotoasters.clusterkraf.*;
 
-import com.matrix.R;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,12 +45,15 @@ public class TasksMapFragment extends Fragment {
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private View fragmentView;
     private GoogleMap map;
+    private CameraPosition restoreCameraPosition;
 
     private boolean mLoading = false;
 
     private ArrayList<InputPoint> inputPoints;
     private Clusterkraf clusterkraf;
     private ClusterOptions options;
+
+    private AsyncQueryHandler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,11 +62,13 @@ public class TasksMapFragment extends Fragment {
         if (this.options == null) {
             this.options = new ClusterOptions();
         }
+        handler = new DbHandler(getActivity().getContentResolver());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" +savedInstanceState + "]");
+        Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" + savedInstanceState + "]");
+
 
         if (fragmentView != null) {
             ViewGroup parent = (ViewGroup) fragmentView.getParent();
@@ -69,29 +84,41 @@ public class TasksMapFragment extends Fragment {
             L.w(TAG, "map is already there, just return view as it is ");
         }
 
-
-        map = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-
         setHasOptionsMenu(true);
+
         return fragmentView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Location coords = App.getInstance().getLocationManager().getLocation();
+        initMap();
+        MatrixLocationManager lm = App.getInstance().getLocationManager();
+        Location coords = lm.getLocation();
         if (coords != null) {
-           this.loadNearbyStores(coords);
+            loadNearbyStores(coords);
+        } else {
+            UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    loadNearbyStores(location);
+                }
+            });
         }
     }
 
-    private void loadStoreDetails(Long id) {
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("taskId", String.valueOf(id));
+    private void showTaskDetails(Long taskId) {
+        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
+        intent.putExtra(Keys.TASK_ID, taskId);
+        startActivity(intent);
     }
 
-    public void onLoadingComplete() {
-
+    public void onLoadingComplete(ArrayList<Task> list) {
+        inputPoints.clear();
+        for (Task item : list) {
+            inputPoints.add(new InputPoint(item.getLatLng(), item));
+        }
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
         if (inputPoints.size() > 0) {
             initClusterkraf();
@@ -101,7 +128,7 @@ public class TasksMapFragment extends Fragment {
     }
 
     public void loadNearbyStores(Location location) {
-        if(location != null) {
+        if (location != null) {
             loadNearbyStores(location.getLatitude(), location.getLongitude(), 5000, 100);
         }
     }
@@ -111,23 +138,71 @@ public class TasksMapFragment extends Fragment {
             return;
         }
 
-        InputPoint point1 = new InputPoint(new LatLng(50.4267053, 30.5041295));
-        InputPoint point2 = new InputPoint(new LatLng(51.4267053, 30.5141295));
-        InputPoint point3 = new InputPoint(new LatLng(52.4267053, 30.5241295));
-        inputPoints.add(point1);
-        inputPoints.add(point2);
-        inputPoints.add(point3);
-
-        //TODO get TASK List!
-        onLoadingComplete();
+        L.i(TAG, "Get Tasks() ...");
+        getTasks();
     }
 
+    private void getTasks() {
+        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
+    }
 
     /* ==============================================
     * Methods for Clusters pins display on the map
     * ============================================== */
+    /**
+     * Initialize Google Map
+     */
+    private void initMap() {
+        if (map == null) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+            if (mapFragment != null) {
+                map = mapFragment.getMap();
+                if (map != null) {
+                    UiSettings uiSettings = map.getUiSettings();
+                    uiSettings.setAllGesturesEnabled(false);
+                    uiSettings.setScrollGesturesEnabled(true);
+                    uiSettings.setZoomGesturesEnabled(true);
+                    map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                        @Override
+                        public void onCameraChange(CameraPosition arg0) {
+                            moveMapCameraToBoundsAndInitClusterkraf();
+                        }
+                    });
+                }
+            }
+        } else {
+            moveMapCameraToBoundsAndInitClusterkraf();
+        }
+    }
 
-     private void initClusterkraf() {
+    /**
+     * Move Camera to position
+     */
+    private void moveMapCameraToBoundsAndInitClusterkraf() {
+        if (map != null && options != null && inputPoints != null) {
+            try {
+                if (restoreCameraPosition != null) {
+                    /**
+                     * if a restoreCameraPosition is available, move the camera
+                     * there
+                     */
+                    map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
+                    restoreCameraPosition = null;
+                } else {
+                    //TODO: Move camera to my location or ???
+                }
+                initClusterkraf();
+            } catch (IllegalStateException ise) {
+                L.e(TAG, "moveMapCameraToBoundsAndInitClusterkraf()" + ise);
+            }
+        }
+    }
+
+    /**
+     * Inirialize Cluster library and add pins
+     */
+    private void initClusterkraf() {
         if (this.map != null && this.inputPoints != null && this.inputPoints.size() > 0) {
             com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
             applyemoApplicationOptionsToClusterkrafOptions(options);
@@ -160,52 +235,66 @@ public class TasksMapFragment extends Fragment {
         /*Live hack from library developers ^)*/
         options.setZoomToBoundsPadding(getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
 
-        options.setMarkerOptionsChooser(new StoreMarkerOptionsChooser(getActivity()));
+        options.setMarkerOptionsChooser(new TaskOptionsChooser(getActivity()));
         options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
         options.setOnInfoWindowClickDownstreamListener(onInfoWindowClickListener);
         options.setInfoWindowDownstreamAdapter(new CustomInfoWindowAdapter());
         //options.setProcessingListener(this);
     }
 
+    /**
+     * Help util method to get px for Cluster icon
+     * @return
+     */
     private int getPixelDistanceToJoinCluster() {
         return convertDeviceIndependentPixelsToPixels(this.options.dipDistanceToJoinCluster);
     }
 
+    /**
+     *
+     * @param dip
+     * @return
+     */
     private int convertDeviceIndependentPixelsToPixels(int dip) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return Math.round(displayMetrics.density * dip);
     }
 
+    /**
+     *
+     */
     private OnMarkerClickDownstreamListener onMarkerClickListener = new OnMarkerClickDownstreamListener() {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
-            //Log.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
-            return false;
-        }
-    };
-
-    private OnInfoWindowClickDownstreamListener onInfoWindowClickListener = new OnInfoWindowClickDownstreamListener() {
-        @Override
-        public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
-            //Log.d(TAG, "onInfoWindowClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
-
-            Long storeId = Long.valueOf(marker.getSnippet());
-            loadStoreDetails(storeId);
+            L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
             return false;
         }
     };
 
     /**
-     * Chooser for
+     *
      */
-    private class StoreMarkerOptionsChooser extends MarkerOptionsChooser {
+    private OnInfoWindowClickDownstreamListener onInfoWindowClickListener = new OnInfoWindowClickDownstreamListener() {
+        @Override
+        public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
+            L.d(TAG, "onInfoWindowClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
+            Long taskId = Long.valueOf(marker.getSnippet());
+            showTaskDetails(taskId);
+            return false;
+        }
+    };
+
+    /**
+     * Chooser image for cluster and pin
+     */
+    private class TaskOptionsChooser extends MarkerOptionsChooser {
         private final WeakReference<Context> contextRef;
         private final Paint clusterPaintLarge;
         private final Paint clusterPaintMedium;
         private final Paint clusterPaintSmall;
 
-        public StoreMarkerOptionsChooser(Context context) {
+        public TaskOptionsChooser(Context context) {
             this.contextRef = new WeakReference<Context>(context);
 
             Resources res = context.getResources();
@@ -226,6 +315,7 @@ public class TasksMapFragment extends Fragment {
 
         @Override
         public void choose(MarkerOptions markerOptions, ClusterPoint clusterPoint) {
+            L.d(TAG, "choose() [size=" + clusterPoint.size() + "]");
             Context context = contextRef.get();
             if (context != null) {
                 Resources res = context.getResources();
@@ -235,10 +325,9 @@ public class TasksMapFragment extends Fragment {
                 if (isCluster) {
                     int clusterSize = clusterPoint.size();
                     icon = BitmapDescriptorFactory.fromBitmap(getClusterBitmap(res, R.drawable.ic_map_cluster_pin, clusterSize));
-                    //title = res.getQuantityString(R.plurals.count_points, clusterSize, clusterSize);
                     title = "" + clusterSize;
                 } else {
-                    Task data = (Task)clusterPoint.getPointAtOffset(0).getTag();
+                    Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
                     icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
                     title = data.getName();
                     markerOptions.snippet("" + data.getId());
@@ -284,7 +373,7 @@ public class TasksMapFragment extends Fragment {
     /**
      * Settings for Cluster library
      */
-    static class ClusterOptions {
+    private static class ClusterOptions {
 
         // clusterkraf library options
         int transitionDuration = 500;
@@ -310,43 +399,70 @@ public class TasksMapFragment extends Fragment {
             mContents = getActivity().getLayoutInflater().inflate(R.layout.map_info_contents, null);
         }
 
-        private void render(Marker marker, View view) {
-            Long storeId = Long.valueOf(marker.getSnippet());
-            Task model = getTaskById(storeId);
+        private void render(Marker marker, View view, ClusterPoint clusterPoint) {
+            Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-            String title = marker.getTitle();
+            // Set Price prefix
+            String title = task.getName();
             TextView titleUi = ((TextView) view.findViewById(R.id.title));
-            if (title != null) {
-                titleUi.setText(title);
-            }
+            titleUi.setText(title);
 
-            String rate = "";
+            // Set Price prefix
+            String prefix = "HK$";
+            TextView prefixTitleUi = ((TextView) view.findViewById(R.id.price_label));
+            prefixTitleUi.setText(prefix);
+
+            // Set Price
+            String price = "" + task.getPrice();
             TextView rateText = ((TextView) view.findViewById(R.id.price_value));
-            if (title != null) {
-                rateText.setText(rate);
-            }
+            rateText.setText(price);
 
-            String distance = "";
+            // Set Distance
+            String distance = "" + task.getDistance();
             TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
-            if (title != null) {
-                distanceText.setText(distance);
-            }
+            distanceText.setText(distance);
         }
 
         @Override
         public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
-            render(marker, mContents);
+            render(marker, mContents, clusterPoint);
             return mContents;
         }
 
         @Override
         public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
-            render(marker, mWindow);
+            render(marker, mWindow, clusterPoint);
             return mWindow;
         }
     }
 
-    private Task getTaskById(Long taskId) {
-        return new Task();
+    /**
+     * Database Helper for Data fetching
+     */
+    private class DbHandler extends AsyncQueryHandler {
+
+        public DbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case TaskDbSchema.Query.TOKEN_QUERY:
+                    ArrayList<Task> tasks = new ArrayList<Task>();
+
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        do {
+                            tasks.add(Task.fromCursor(cursor));
+                        } while (cursor.moveToNext());
+
+                        cursor.close();
+                    }
+
+                    onLoadingComplete(tasks);
+                    break;
+            }
+        }
     }
 }

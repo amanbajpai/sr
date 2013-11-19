@@ -25,6 +25,7 @@ import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SurveysTaskListActivity extends BaseActivity implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
@@ -77,6 +78,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
             Task task = new Task();
             task.setRandomId();
             task.setSurveyId(surveyId);
+            task.setLatitude(50 + (new Random().nextDouble()/10));
+            task.setLongitude(30 + (new Random().nextDouble()/10));
             task.setName("Survey: " + surveyId + " Task: " + i);
             task.setDescription("Task description " + i + "; Task description " + i);
 

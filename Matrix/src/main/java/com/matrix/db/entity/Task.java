@@ -1,8 +1,13 @@
 package com.matrix.db.entity;
 
 import android.database.Cursor;
+import com.google.android.gms.maps.model.LatLng;
 import com.matrix.db.TaskDbSchema;
+import com.matrix.utils.L;
 
+/**
+ * Data model of Task entity
+ */
 public class Task extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
@@ -10,12 +15,11 @@ public class Task extends BaseEntity {
     private Long UserId;
     private String Name;
     private String Description;
-    private Float Longitude;
-    private Float Latitude;
+    private Double Longitude;
+    private Double Latitude;
     private String Language;
-    private Float Price;
+    private Double Price;
     private String Address;
-
 
     transient private Float Distance;
 
@@ -36,13 +40,14 @@ public class Task extends BaseEntity {
             result.setUserId(c.getLong(TaskDbSchema.Query.USER_ID));
             result.setName(c.getString(TaskDbSchema.Query.NAME));
             result.setDescription(c.getString(TaskDbSchema.Query.DESCRIPTION));
-            result.setLongitude(c.getFloat(TaskDbSchema.Query.LONGITUDE));
-            result.setLatitude(c.getFloat(TaskDbSchema.Query.LATITUDE));
+            result.setLongitude(c.getDouble(TaskDbSchema.Query.LONGITUDE));
+            result.setLatitude(c.getDouble(TaskDbSchema.Query.LATITUDE));
             result.setLanguage(c.getString(TaskDbSchema.Query.LANGUAGE));
-            result.setPrice(c.getFloat(TaskDbSchema.Query.PRICE));
+            result.setPrice(c.getDouble(TaskDbSchema.Query.PRICE));
             result.setAddress(c.getString(TaskDbSchema.Query.ADDRESS));
             result.setDistance(c.getFloat(TaskDbSchema.Query.DISTANCE));
         }
+        L.d("Task", result.toString());
         return result;
     }
 
@@ -78,19 +83,19 @@ public class Task extends BaseEntity {
         SurveyId = surveyId;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
@@ -102,11 +107,11 @@ public class Task extends BaseEntity {
         Language = language;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return Price == null ? 0 : Price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         Price = price;
     }
 
@@ -125,5 +130,29 @@ public class Task extends BaseEntity {
 
     public void setDistance(Float distance) {
         Distance = distance;
+    }
+
+    /**
+     * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link com.matrix.db.entity.Task}
+     * coordinates
+     * @return
+     */
+    public LatLng getLatLng() {
+        return new LatLng(getLatitude(), getLongitude());
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "SurveyId=" + SurveyId +
+                ", UserId='" + UserId + '\'' +
+                ", Name='" + Name + '\'' +
+                ", Description='" + Description + '\'' +
+                ", Language=" + Language +
+                ", Latitude='" + Latitude + '\'' +
+                ", Longitude='" + Longitude + '\'' +
+                ", Price='" + Price + '\'' +
+                ", Address=" + Address +
+                '}';
     }
 }

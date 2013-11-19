@@ -19,7 +19,6 @@
         android:layout_gravity="center_horizontal"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="Big Text Task title"
         android:layout_marginTop="5dp"
         style="@style/MapTaskTitle"
         android:layout_alignParentTop="true"
@@ -27,7 +26,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HK$"
         android:id="@+id/price_label"
         style="@style/MapTaskLabel"
         android:layout_marginTop="5dp"
@@ -37,7 +35,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10"
         android:id="@+id/price_value"
         style="@style/MapTaskValue"
         android:layout_marginLeft="5dp"
@@ -55,12 +52,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.3km"
         style="@style/MapTaskValue"
         android:id="@+id/distance_value"
         android:layout_marginLeft="5dp"
         android:layout_alignTop="@+id/distance_label"
         android:layout_toRightOf="@+id/distance_label"/>
-
-
 </RelativeLayout >

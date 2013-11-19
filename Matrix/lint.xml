@@ -162,7 +162,7 @@
     <issue id="SmallSp" severity="ignore" />
     <issue id="AlwaysShowAction" severity="ignore" />
     <issue id="ButtonCase" severity="ignore" />
-    <issue id="Accessibility" severity="ignore" />
+    <issue id="ContentDescription" severity="ignore" />
     <issue id="LabelFor" severity="ignore" />
     <issue id="RtlCompat" severity="ignore" />
     <issue id="RtlHardcoded" severity="ignore" />

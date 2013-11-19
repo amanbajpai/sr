@@ -125,6 +125,10 @@
     <string name="gcm_deleted">From GCM: server deleted %1$d pending messages!</string>
 
     <!-- Google Map Fragment -->
+
     <string name="no_tasks_found">No Tasks found!</string>
     <string name="map_popup_distance" >Distance:</string >
+
+    <!-- Current Location -->
+    <string name="looking_for_location">Looking for your current location...</string>
 </resources >
