@@ -8,13 +8,14 @@ import com.matrix.BaseActivity;
 import com.matrix.R;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
 /**
  * Fragment for display About information
  */
 public class AboutMatrixFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = AboutMatrixFragment.class.getSimpleName();
+    private static final String TAG = AboutMatrixFragment.class.getSimpleName();
     private ViewGroup view;
 
     @Override
@@ -41,6 +42,7 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
 
         if (!hidden) {
             //TODO Move to fragment second time
+            L.w(TAG, "TODO Move to fragment second time");
         }
     }
 
@@ -48,6 +50,7 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             //TODO Do something
+            L.w(TAG, "TODO Do something");
         } else {
             UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
         }

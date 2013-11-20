@@ -72,6 +72,7 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
 
         if (!hidden) {
             //TODO Move to fragment second time
+            L.w(TAG, "TODO Move to fragment second time");
         }
     }
 

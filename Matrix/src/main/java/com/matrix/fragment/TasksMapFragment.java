@@ -191,6 +191,7 @@ public class TasksMapFragment extends Fragment {
                     restoreCameraPosition = null;
                 } else {
                     //TODO: Move camera to my location or ???
+                    L.w(TAG, "TODO: Move camera to my location or ???");
                 }
                 initClusterkraf();
             } catch (IllegalStateException ise) {

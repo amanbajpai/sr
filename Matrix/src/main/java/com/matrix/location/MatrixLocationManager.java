@@ -154,15 +154,15 @@ public class MatrixLocationManager implements LocationListener,
          * start a Google Play services activity that can resolve
          * error.
          */
-        if (connectionResult.hasResolution()) {
-
-        } else {
-            /*
-             * If no resolution is available, display a dialog to the
-             * user with the error.
-             */
-            // TODO: showErrorDialog(connectionResult.getErrorCode());
-        }
+//        if (connectionResult.hasResolution()) {
+//
+//        } else {
+//            /*
+//             * If no resolution is available, display a dialog to the
+//             * user with the error.
+//             */
+//            // TODO: showErrorDialog(connectionResult.getErrorCode());
+//        }
     }
 
     /**

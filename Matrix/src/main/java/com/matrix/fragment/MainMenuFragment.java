@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import com.matrix.Keys;
 import com.matrix.MainActivity;
 import com.matrix.R;
+import com.matrix.utils.L;
 
 public class MainMenuFragment extends Fragment implements OnClickListener {
-    //private static final String TAG = MainMenuFragment.class.getSimpleName();
+    private static final String TAG = MainMenuFragment.class.getSimpleName();
     private ViewGroup view;
 
     private ResponseReceiver localReceiver;
@@ -48,16 +49,19 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
 
         if (!hidden) {
             //TODO Move to fragment second time
+            L.w(TAG, "TODO Move to fragment second time");
         }
     }
 
     public class ResponseReceiver extends BroadcastReceiver {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
             if (action.equals(Keys.REFRESH_MAIN_MENU)) {
                 //TODO Refresh main menu
+                L.w(TAG, "TODO Refresh main menu");
             }
         }
     }

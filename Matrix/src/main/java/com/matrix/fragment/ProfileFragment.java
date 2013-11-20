@@ -9,10 +9,11 @@ import com.matrix.BaseActivity;
 import com.matrix.R;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
 public class ProfileFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = ProfileFragment.class.getSimpleName();
+    private static final String TAG = ProfileFragment.class.getSimpleName();
     private ViewGroup view;
 
     private EditText fullNameEditText;
@@ -60,6 +61,7 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
 
         if (!hidden) {
             //TODO Move to fragment second time
+            L.w(TAG, "TODO Move to fragment second time");
         }
     }
 
