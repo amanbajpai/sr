@@ -14,15 +14,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnFilter"
-        android:src="@drawable/ic_map_pin"
+        android:src="@drawable/ic_drawer"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true" />
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnMyLocation"
-        android:src="@drawable/ic_drawer"
+        android:src="@drawable/abc_ic_go"
         android:layout_marginBottom="30dp"
         android:layout_above="@+id/btnFilter"
         android:layout_alignParentRight="true" />
+
+    <RelativeLayout
+        android:id="@+id/hidden_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:background="@color/grey"
+
+        android:layout_alignParentBottom="true">
+        <SeekBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBarRadius"
+            android:layout_marginLeft="22dp" />
+    </RelativeLayout>
 </RelativeLayout >

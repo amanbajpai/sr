@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,6 +46,10 @@ public class TasksMapFragment extends Fragment {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private View fragmentView;
+    private ImageButton btnFilter;
+    private ImageButton btnMyLocation;
+    private RelativeLayout rlFilterPanel;
+    private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
 
@@ -84,7 +90,25 @@ public class TasksMapFragment extends Fragment {
             L.w(TAG, "map is already there, just return view as it is ");
         }
 
+        btnFilter = (ImageButton) fragmentView.findViewById(R.id.btnFilter);
+        btnMyLocation = (ImageButton) fragmentView.findViewById(R.id.btnMyLocation);
+        rlFilterPanel = (RelativeLayout) fragmentView.findViewById(R.id.hidden_panel);
         setHasOptionsMenu(true);
+
+        btnMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Move Camera
+                // togleFilterPannel();
+            }
+        });
+
+        btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togleFilterPannel();
+            }
+        });
 
         return fragmentView;
     }
@@ -106,6 +130,7 @@ public class TasksMapFragment extends Fragment {
                 }
             });
         }
+        showFilterPannel(false);
     }
 
     private void showTaskDetails(Long taskId) {
@@ -465,5 +490,14 @@ public class TasksMapFragment extends Fragment {
                     break;
             }
         }
+    }
+
+    private void togleFilterPannel() {
+        showFilterPannel(!isFilterShow);
+    }
+
+    private void showFilterPannel(boolean show) {
+        this.isFilterShow = show;
+        rlFilterPanel.setVisibility(isFilterShow ? View.VISIBLE : View.INVISIBLE);
     }
 }
