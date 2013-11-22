@@ -500,7 +500,7 @@ public class TasksMapFragment extends Fragment {
 
     private void showFilterPannel(boolean show) {
         this.isFilterShow = show;
-        
+
         if (isFilterShow) {
             Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_up);
             rlFilterPanel.startAnimation(bottomUp);
