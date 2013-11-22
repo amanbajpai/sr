@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:id="@+id/llroot"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <FrameLayout
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
-    </FrameLayout >
-</LinearLayout >
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFilter"
+        android:src="@drawable/ic_map_pin"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnMyLocation"
+        android:src="@drawable/ic_drawer"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@+id/btnFilter"
+        android:layout_alignParentRight="true" />
+</RelativeLayout >
