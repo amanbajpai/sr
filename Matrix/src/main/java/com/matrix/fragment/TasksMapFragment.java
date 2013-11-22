@@ -17,6 +17,8 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -498,6 +500,15 @@ public class TasksMapFragment extends Fragment {
 
     private void showFilterPannel(boolean show) {
         this.isFilterShow = show;
-        rlFilterPanel.setVisibility(isFilterShow ? View.VISIBLE : View.INVISIBLE);
+        
+        if (isFilterShow) {
+            Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_up);
+            rlFilterPanel.startAnimation(bottomUp);
+            rlFilterPanel.setVisibility(View.VISIBLE);
+        } else {
+            Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_down);
+            rlFilterPanel.startAnimation(bottomDown);
+            rlFilterPanel.setVisibility(View.INVISIBLE);
+        }
     }
 }
