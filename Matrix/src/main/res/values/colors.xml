@@ -3,4 +3,10 @@
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="grey">#949494</color>
+
+    <color name="map_radius_stroke">#aaff0033</color>
+    <color name="map_radius_fill">#07ff0033</color>
+
+    <color name="map_accuracy_stroke">#aa0099ff</color>
+    <color name="map_accuracy_fill">#110099ff</color>
 </resources >

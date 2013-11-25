@@ -490,10 +490,8 @@ public class TasksMapFragment extends Fragment {
                         do {
                             tasks.add(Task.fromCursor(cursor));
                         } while (cursor.moveToNext());
-
                         cursor.close();
                     }
-
                     onLoadingComplete(tasks);
                     break;
             }
@@ -529,6 +527,7 @@ public class TasksMapFragment extends Fragment {
                 .center(coordinates)
                 .radius(radius)
                 .strokeColor(strokeColor)
+                .strokeWidth(5f)
                 .fillColor(fillColor));
     }
 
@@ -542,13 +541,24 @@ public class TasksMapFragment extends Fragment {
         moveCameraToMyLocation();
     }
 
+    /**
+     * Add My location pin to the Map with radius and accuracy circle
+     * @param location
+     * @param radius
+     */
     private void addMyLocationAndRadius(Location location, int radius) {
         LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
         addMyLocation(coord);
-        addCircle(coord, radius, Color.RED, Color.TRANSPARENT);
-        addCircle(coord, (int)location.getAccuracy(), Color.MAGENTA, Color.GREEN);
+        Resources r = getResources();
+        addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
+                r.getColor(R.color.map_radius_fill));
+        addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
+                r.getColor(R.color.map_accuracy_fill));
     }
 
+    /**
+     * Move camera to current location or show Toast message if location not defined.
+     */
     private void moveCameraToMyLocation() {
         if (restoreCameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
