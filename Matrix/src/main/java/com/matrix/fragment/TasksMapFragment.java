@@ -47,6 +47,7 @@ import java.util.HashMap;
 public class TasksMapFragment extends Fragment {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
+    private static final String MYLOC = "MyLoc";
     private View fragmentView;
     private ImageButton btnFilter;
     private ImageButton btnMyLocation;
@@ -54,6 +55,9 @@ public class TasksMapFragment extends Fragment {
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
+    private int taskRadius = 5000;
+    private float defaultZoomLevel = 11f;
+
 
     private boolean mLoading = false;
 
@@ -76,7 +80,6 @@ public class TasksMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" + savedInstanceState + "]");
-
 
         if (fragmentView != null) {
             ViewGroup parent = (ViewGroup) fragmentView.getParent();
@@ -102,6 +105,9 @@ public class TasksMapFragment extends Fragment {
             public void onClick(View v) {
                 //TODO: Move Camera
                 // togleFilterPannel();
+                if (restoreCameraPosition != null) {
+                    moveMapCameraToBoundsAndInitClusterkraf();
+                }
             }
         });
 
@@ -120,15 +126,18 @@ public class TasksMapFragment extends Fragment {
         super.onResume();
         initMap();
         MatrixLocationManager lm = App.getInstance().getLocationManager();
-        Location coords = lm.getLocation();
-        if (coords != null) {
-            loadNearbyStores(coords);
+        Location location = lm.getLocation();
+        if (location != null) {
+            loadTasks(location);
+            addMyLocationAndRadius(location, taskRadius);
         } else {
             UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
-                    loadNearbyStores(location);
+                    L.i(TAG, "Location Updated!");
+                    loadTasks(location);
+                    addMyLocationAndRadius(location, taskRadius);
                 }
             });
         }
@@ -154,13 +163,13 @@ public class TasksMapFragment extends Fragment {
         }
     }
 
-    public void loadNearbyStores(Location location) {
+    public void loadTasks(Location location) {
         if (location != null) {
-            loadNearbyStores(location.getLatitude(), location.getLongitude(), 5000, 100);
+            loadTasks(location.getLatitude(), location.getLongitude(), taskRadius, 100);
         }
     }
 
-    public void loadNearbyStores(double latitude, double longitude, int radius, int limit) {
+    public void loadTasks(double latitude, double longitude, int radius, int limit) {
         if (mLoading) {
             return;
         }
@@ -210,15 +219,7 @@ public class TasksMapFragment extends Fragment {
         if (map != null && options != null && inputPoints != null) {
             try {
                 if (restoreCameraPosition != null) {
-                    /**
-                     * if a restoreCameraPosition is available, move the camera
-                     * there
-                     */
                     map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
-                    restoreCameraPosition = null;
-                } else {
-                    //TODO: Move camera to my location or ???
-                    L.w(TAG, "TODO: Move camera to my location or ???");
                 }
                 initClusterkraf();
             } catch (IllegalStateException ise) {
@@ -295,8 +296,10 @@ public class TasksMapFragment extends Fragment {
     private OnMarkerClickDownstreamListener onMarkerClickListener = new OnMarkerClickDownstreamListener() {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
-            L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
-            return false;
+            L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + ", " +
+                    "snipped="+ marker.getSnippet() +"]");
+            boolean result = false;
+            return result;
         }
     };
 
@@ -449,18 +452,27 @@ public class TasksMapFragment extends Fragment {
             String distance = "" + task.getDistance();
             TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
             distanceText.setText(distance);
+
         }
 
         @Override
         public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
-            render(marker, mContents, clusterPoint);
-            return mContents;
+            if (!marker.getSnippet().equals(MYLOC)) {
+                render(marker, mContents, clusterPoint);
+                return mContents;
+            } else {
+                return null;
+            }
         }
 
         @Override
         public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
-            render(marker, mWindow, clusterPoint);
-            return mWindow;
+            if (!marker.getSnippet().equals(MYLOC)) {
+                render(marker, mWindow, clusterPoint);
+                return mWindow;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -510,5 +522,38 @@ public class TasksMapFragment extends Fragment {
             rlFilterPanel.startAnimation(bottomDown);
             rlFilterPanel.setVisibility(View.INVISIBLE);
         }
+    }
+
+    /**
+     * Draw circle on the map
+     * @param coordinates
+     * @param radius
+     */
+    private void addCircle(LatLng coordinates, int radius, int strokeColor, int fillColor) {
+        // Add a circle in Sydney
+        Circle circle = map.addCircle(new CircleOptions()
+                .center(coordinates)
+                .radius(radius)
+                .strokeColor(strokeColor)
+                .fillColor(fillColor));
+    }
+
+    private void addMyLocation(LatLng coordinates) {
+        map.addMarker(new MarkerOptions()
+                .snippet(MYLOC)
+                .position(coordinates)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
+        );
+
+        restoreCameraPosition = new CameraPosition(coordinates, defaultZoomLevel
+                , 0, 0);
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
+    }
+
+    private void addMyLocationAndRadius(Location location, int radius) {
+        LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
+        addMyLocation(coord);
+        addCircle(coord, radius, Color.RED, Color.TRANSPARENT);
+        addCircle(coord, (int)location.getAccuracy(), Color.MAGENTA, Color.GREEN);
     }
 }

@@ -141,8 +141,10 @@ public class MatrixLocationManager implements LocationListener,
     @Override
     public void onDisconnected() {
         L.i(TAG, "onDisconnected()");
-        isConnected = false;
-        locationClient.removeLocationUpdates(this);
+        if (isConnected) {
+            isConnected = false;
+            locationClient.removeLocationUpdates(this);
+        }
     }
 
     @Override
