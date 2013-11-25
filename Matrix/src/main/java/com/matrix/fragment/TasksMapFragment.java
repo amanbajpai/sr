@@ -57,6 +57,7 @@ public class TasksMapFragment extends Fragment {
     private CameraPosition restoreCameraPosition;
     private int taskRadius = 5000;
     private float defaultZoomLevel = 11f;
+    private float zoomLevel = defaultZoomLevel;
 
 
     private boolean mLoading = false;
@@ -103,14 +104,9 @@ public class TasksMapFragment extends Fragment {
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Move Camera
-                // togleFilterPannel();
-                if (restoreCameraPosition != null) {
-                    moveMapCameraToBoundsAndInitClusterkraf();
-                }
+                moveCameraToMyLocation();
             }
         });
-
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,9 +214,7 @@ public class TasksMapFragment extends Fragment {
     private void moveMapCameraToBoundsAndInitClusterkraf() {
         if (map != null && options != null && inputPoints != null) {
             try {
-                if (restoreCameraPosition != null) {
-                    map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
-                }
+                moveCameraToMyLocation();
                 initClusterkraf();
             } catch (IllegalStateException ise) {
                 L.e(TAG, "moveMapCameraToBoundsAndInitClusterkraf()" + ise);
@@ -544,10 +538,8 @@ public class TasksMapFragment extends Fragment {
                 .position(coordinates)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
         );
-
-        restoreCameraPosition = new CameraPosition(coordinates, defaultZoomLevel
-                , 0, 0);
-        map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
+        restoreCameraPosition = new CameraPosition(coordinates, defaultZoomLevel, 0, 0);
+        moveCameraToMyLocation();
     }
 
     private void addMyLocationAndRadius(Location location, int radius) {
@@ -555,5 +547,13 @@ public class TasksMapFragment extends Fragment {
         addMyLocation(coord);
         addCircle(coord, radius, Color.RED, Color.TRANSPARENT);
         addCircle(coord, (int)location.getAccuracy(), Color.MAGENTA, Color.GREEN);
+    }
+
+    private void moveCameraToMyLocation() {
+        if (restoreCameraPosition != null) {
+            map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
+        } else {
+            UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
+        }
     }
 }
