@@ -29,11 +29,11 @@ public final class ServerUtilities {
     private static final String TAG = ServerUtilities.class.getSimpleName();
 
     private Context context;
-    public ResponseReceiver receiver;
+    private ResponseReceiver receiver;
 
-    public IntentFilter filterRegister;
-    public IntentFilter filterUnregister;
-    public boolean loadingCompleted = true;
+    private IntentFilter filterRegister;
+    private IntentFilter filterUnregister;
+    private boolean loadingCompleted = true;
 
     public ServerUtilities(Context context) {
         this.context = context;

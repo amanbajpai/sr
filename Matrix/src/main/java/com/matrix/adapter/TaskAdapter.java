@@ -18,8 +18,8 @@ public class TaskAdapter extends BaseAdapter {
     private LayoutInflater inflater;
 
     public static class ViewHolder {
-        TextView name;
-        TextView description;
+        private TextView name;
+        private TextView description;
     }
 
     public TaskAdapter(Activity activity) {
@@ -39,7 +39,7 @@ public class TaskAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    
+
     public void setData(final ArrayList<Task> items) {
         this.items = items;
         notifyDataSetChanged();

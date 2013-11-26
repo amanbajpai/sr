@@ -135,6 +135,7 @@ public class Task extends BaseEntity {
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link com.matrix.db.entity.Task}
      * coordinates
+     *
      * @return
      */
     public LatLng getLatLng() {
@@ -143,16 +144,6 @@ public class Task extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "SurveyId=" + SurveyId +
-                ", UserId='" + UserId + '\'' +
-                ", Name='" + Name + '\'' +
-                ", Description='" + Description + '\'' +
-                ", Language=" + Language +
-                ", Latitude='" + Latitude + '\'' +
-                ", Longitude='" + Longitude + '\'' +
-                ", Price='" + Price + '\'' +
-                ", Address=" + Address +
-                '}';
+        return "Task{ SurveyId=" + SurveyId + ", UserId='" + UserId + '\'' + ", Name='" + Name + '\'' + ", Description='" + Description + '\'' + ", Language=" + Language + ", Latitude='" + Latitude + '\'' + ", Longitude='" + Longitude + '\'' + ", Price='" + Price + '\'' + ", Address=" + Address + '}';
     }
 }

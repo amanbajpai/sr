@@ -63,6 +63,8 @@ public class AppContentProvider extends ContentProvider {
             case ENTITIES:
                 type = "vnd.android.cursor.dir/vnd.com.matrix.entity." + tableName;
                 break;
+            default:
+                break;
         }
 
         return type;
@@ -109,6 +111,8 @@ public class AppContentProvider extends ContentProvider {
                     resultUri = Uri.parse(BASE_CONTENT_URI + "/entity/" + tableName + "/" + id);
                 }
                 break;
+            default:
+                break;
         }
 
         return resultUri;
@@ -129,6 +133,8 @@ public class AppContentProvider extends ContentProvider {
                                 db = dbHelper.getWritableDatabase();
                                 long id = db.insert(tableName, null, values[i]);
                             }
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -157,6 +163,8 @@ public class AppContentProvider extends ContentProvider {
                     count = db.update(getTable(uri), values, selection, selectionArgs);
                 }
                 break;
+            default:
+                break;
         }
         return count;
     }
@@ -178,6 +186,8 @@ public class AppContentProvider extends ContentProvider {
                     db = dbHelper.getWritableDatabase();
                     count = db.delete(tableName, selection, selectionArgs);
                 }
+                break;
+            default:
                 break;
         }
 

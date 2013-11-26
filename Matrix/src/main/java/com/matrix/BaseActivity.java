@@ -20,9 +20,9 @@ public class BaseActivity extends ActionBarActivity {
 
     public static final String KEY_SAVED_ACTIVITY_INTENT = "KEY_SAVED_ACTIVITY_INTENT";
 
-    protected BroadcastReceiver receiver;
-    protected IntentFilter filter;
-    protected ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
+    private BroadcastReceiver receiver;
+    private IntentFilter filter;
+    private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
 
     @Override
     public void onCreate(Bundle bundle) {

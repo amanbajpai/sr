@@ -30,8 +30,8 @@ import java.io.*;
 public abstract class BaseNetworkService extends IntentService {
     protected static final String TAG = "BaseNetworkService";
 
-    protected AndroidHttpClient client;
-    protected PreferencesManager preferencesManager;
+    private AndroidHttpClient client;
+    private PreferencesManager preferencesManager;
 
     public static final String KEY_OPERATION = "operation";
     public static final String BROADCAST_ACTION = "operation";

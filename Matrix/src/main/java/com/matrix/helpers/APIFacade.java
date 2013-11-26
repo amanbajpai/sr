@@ -56,7 +56,12 @@ public class APIFacade {
     /**
      * @param activity
      * @param email
+     * @param password
      * @param fullName
+     * @param berthDay
+     * @param countryId
+     * @param cityId
+     * @param agree
      */
     public void registration(Activity activity, String email, String password, String fullName, String berthDay,
                              Integer countryId, Integer cityId, Boolean agree) {

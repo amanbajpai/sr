@@ -8,7 +8,7 @@ public interface TaskDbSchema {
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC";
-    String SORT_ORDER = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC";
+    //String SORT_ORDER = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
@@ -34,14 +34,26 @@ public interface TaskDbSchema {
             this.type = type;
         }
 
+        /**
+         *
+         * @return
+         */
         public String getName() {
             return columnName;
         }
 
+        /**
+         *
+         * @return
+         */
         public DBType getType() {
             return type;
         }
 
+        /**
+         *
+         * @return
+         */
         public String toString() {
             return this.getName();
         }
@@ -50,8 +62,8 @@ public interface TaskDbSchema {
     public interface Query {
         int TOKEN_QUERY = 1;
         int TOKEN_INSERT = 2;
-        int TOKEN_UPDATE = 3;
-        int TOKEN_DELETE = 4;
+        //int TOKEN_UPDATE = 3;
+        //int TOKEN_DELETE = 4;
 
         String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                 Table.TASK.getName() + "." + Columns.ID.getName(),

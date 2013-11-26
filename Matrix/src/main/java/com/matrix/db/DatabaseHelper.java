@@ -36,7 +36,9 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
             if (skipTable(table)) {
                 continue;
             }
-            if (appendCreateTableSQL(sql, table)) continue;
+            if (appendCreateTableSQL(sql, table)){
+                continue;
+            }
             db.execSQL(sql.toString());
             sql.setLength(0);
         }
@@ -116,7 +118,9 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                 db.execSQL("DROP TABLE IF EXISTS " + table.getName());
 
                 StringBuilder sql = new StringBuilder(1024);
-                if (appendCreateTableSQL(sql, table)) continue;
+                if (appendCreateTableSQL(sql, table)){
+                    continue;
+                }
                 db.execSQL(sql.toString());
                 sql.setLength(0);
 

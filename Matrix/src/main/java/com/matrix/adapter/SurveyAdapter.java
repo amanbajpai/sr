@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.matrix.R;
 import com.matrix.db.entity.Survey;
-import com.matrix.db.entity.Task;
 
 import java.util.ArrayList;
 
@@ -19,12 +18,11 @@ public class SurveyAdapter extends BaseAdapter {
     private LayoutInflater inflater;
 
     public static class ViewHolder {
-        TextView name;
-        TextView description;
+        private TextView name;
+        private TextView description;
     }
 
     public SurveyAdapter(Activity activity) {
-        this.activity = activity;
 
         inflater = LayoutInflater.from(activity);
     }
@@ -40,7 +38,7 @@ public class SurveyAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    
+
     public void setData(final ArrayList<Survey> items) {
         this.items = items;
         notifyDataSetChanged();

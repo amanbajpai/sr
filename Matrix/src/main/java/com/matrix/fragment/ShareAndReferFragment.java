@@ -7,6 +7,9 @@ import android.view.View.OnClickListener;
 import com.matrix.R;
 import com.matrix.utils.L;
 
+/**
+ * Share app info fragment
+ */
 public class ShareAndReferFragment extends Fragment implements OnClickListener {
     private static final String TAG = ShareAndReferFragment.class.getSimpleName();
     private ViewGroup view;

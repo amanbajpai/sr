@@ -17,9 +17,9 @@ import com.matrix.utils.UIUtils;
 public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     public final static String TAG = CheckLocationFailedActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
-    public EditText countryEditText;
-    public EditText cityEditText;
-    public EditText emailEditText;
+    private EditText countryEditText;
+    private EditText cityEditText;
+    private EditText emailEditText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -115,8 +115,7 @@ public class MatrixLocationManager implements LocationListener,
     public void onLocationChanged(Location location) {
         lastLocation = location;
         if (location != null) {
-            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", " +
-                    "Provider: " + location.getProvider() + "]");
+            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", Provider: " + location.getProvider() + "]");
             notifyAllRequestedLocation();
         }
     }
@@ -176,8 +175,8 @@ public class MatrixLocationManager implements LocationListener,
      * String   - An address passed to onPostExecute()
      */
     public class GetAddressTask extends AsyncTask<Location, Void, Address> {
-        Context сontext;
-        IAddress callback;
+        private Context сontext;
+        private IAddress callback;
 
         public GetAddressTask(Context context, IAddress callback) {
             super();

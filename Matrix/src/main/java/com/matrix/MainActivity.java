@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import com.matrix.activity.BaseSlidingMenuActivity;
-import com.matrix.fragment.SurveyListFragment;
 import com.matrix.fragment.TasksMapFragment;
 
 import java.util.ArrayList;
@@ -32,7 +31,9 @@ public class MainActivity extends BaseSlidingMenuActivity {
     public void startFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if (lastFragment != null) ft.hide(lastFragment);
+        if (lastFragment != null) {
+            ft.hide(lastFragment);
+        }
 
         boolean containFragment = false;
         for (int i = 0; i < mFragmentList.size(); i++) {
@@ -83,7 +84,9 @@ public class MainActivity extends BaseSlidingMenuActivity {
             }
         }
 
-        if (fragmentIdToRemove != -1) mFragmentList.remove(fragmentIdToRemove);
+        if (fragmentIdToRemove != -1) {
+            mFragmentList.remove(fragmentIdToRemove);
+        }
     }
 
     public void removeAllFragmentFromList() {

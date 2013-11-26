@@ -1,7 +1,6 @@
 package com.matrix;
 
 import android.app.Application;
-import com.matrix.db.entity.MatrixLocation;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.UIUtils;
 import org.acra.ACRA;
@@ -17,9 +16,9 @@ import org.acra.annotation.ReportsCrashes;
 public class App extends Application {
     private static App instance;
 
-    protected String deviceId;
-    protected int deviceApiNumber;
-    protected String deviceType;
+    private String deviceId;
+    private int deviceApiNumber;
+    private String deviceType;
     private MatrixLocationManager locationManager;
 
     @Override
@@ -45,7 +44,6 @@ public class App extends Application {
     }
 
     /**
-     *
      * @return
      */
     public String getDeviceId() {
@@ -53,7 +51,6 @@ public class App extends Application {
     }
 
     /**
-     *
      * @return
      */
     public String getDeviceApiNumber() {
@@ -61,7 +58,6 @@ public class App extends Application {
     }
 
     /**
-     *
      * @return
      */
     public String getDeviceType() {
@@ -70,7 +66,12 @@ public class App extends Application {
 
     /**
      * Get Location Manager for coordinates retrieval
+     *
      * @return
      */
-    public MatrixLocationManager getLocationManager() { return locationManager; };
+    public MatrixLocationManager getLocationManager() {
+        return locationManager;
+    }
+
+    ;
 }

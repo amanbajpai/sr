@@ -21,15 +21,18 @@ public abstract class BaseEntity implements Serializable {
     /**
      * Database _id field. Required for AdapterViews
      */
-    transient protected long _id;
+    transient private long _id;
 
     /**
      * Server UUID
      */
-    protected Long id;
+    private Long id;
 
-    protected Boolean deleted;
+    private Boolean deleted;
 
+    /**
+     * return
+     */
     public static BaseEntity fromCursor() {
         return null;
     }

@@ -31,12 +31,12 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.*;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private final static String TAG = LoginActivity.class.getSimpleName();
-    private APIFacade apiFacade = APIFacade.getInstance();
-    GoogleCloudMessaging gcm;
-    public EditText emailEditText;
-    public EditText passwordEditText;
-
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private GoogleCloudMessaging gcm;
+    private EditText emailEditText;
+
+    private EditText passwordEditText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

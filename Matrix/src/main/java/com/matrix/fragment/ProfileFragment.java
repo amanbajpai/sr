@@ -12,6 +12,9 @@ import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
+/**
+ * Profile fragment for current user
+ */
 public class ProfileFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private ViewGroup view;

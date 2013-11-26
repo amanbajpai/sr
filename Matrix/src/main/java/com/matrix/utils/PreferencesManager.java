@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.matrix.App;
 import com.matrix.Keys;
 import com.matrix.db.entity.MatrixLocation;
-import com.matrix.db.entity.RegistrationResponse;
 
 import java.util.Date;
 

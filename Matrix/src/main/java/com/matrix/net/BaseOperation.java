@@ -11,15 +11,15 @@ import java.util.Arrays;
 public class BaseOperation implements Serializable {
     private static final long serialVersionUID = -5529432321201760124L;
 
-    protected String url;
-    protected String tag = "BaseOperation";
-    protected Method method;
-    protected ArrayList<BaseEntity> requestEntities = new ArrayList<BaseEntity>();
-    protected ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
+    private String url;
+    private String tag = "BaseOperation";
+    private Method method;
+    private ArrayList<BaseEntity> requestEntities = new ArrayList<BaseEntity>();
+    private ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
 
-    protected int responseStatusCode;
-    protected String responseError;
-    protected String responseString;
+    private int responseStatusCode;
+    private String responseError;
+    private String responseString;
 
     public enum Method {
         GET, POST, PUT, PATCH, DELETE, POST_MULTIPART

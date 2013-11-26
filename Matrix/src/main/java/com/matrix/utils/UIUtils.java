@@ -32,6 +32,7 @@ public class UIUtils {
 
     /**
      * Show simple Toast message
+     *
      * @param context
      * @param resId
      */
@@ -45,6 +46,7 @@ public class UIUtils {
 
     /**
      * Show simple Toast message
+     *
      * @param context
      * @param resId
      * @param duration
@@ -59,6 +61,7 @@ public class UIUtils {
 
     /**
      * Show simple Toast message
+     *
      * @param context
      * @param msg
      */
@@ -82,6 +85,7 @@ public class UIUtils {
 
     /**
      * Get version name visible for users
+     *
      * @param context
      * @return
      */
@@ -98,17 +102,18 @@ public class UIUtils {
 
     /**
      * Get developer version of application
+     *
      * @param context
      * @return
      */
     public static int getAppVersionCode(Context context) {
-        int curent_version = 0;
+        int curentVersion = 0;
         try {
-            curent_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+            curentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             L.e(TAG, "getAppVersionCode() Error get app version");
         }
-        return curent_version;
+        return curentVersion;
     }
 
     public static boolean isApplicationRuning(Context context) {
@@ -142,7 +147,9 @@ public class UIUtils {
     }
 
     public static int gcd(int a, int b) {
-        if (b == 0) return a;
+        if (b == 0) {
+            return a;
+        }
         int x = a % b;
         return gcd(b, x);
     }
@@ -157,6 +164,8 @@ public class UIUtils {
                     return info.totalMemory() - info.freeMemory();
                 case 3:
                     return info.totalMemory();
+                default:
+                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();
