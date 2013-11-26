@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 
 public final class WSUrl {
-    public final static String LOGIN = Config.WEB_SERVICE_URL + "Authorize";
-    public final static String REGISTRATION = Config.WEB_SERVICE_URL + "Register";
+    public final static String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
+    public final static String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public final static String SUBSCRIPTION = Config.WEB_SERVICE_URL + "Subscription";
     public final static String GET_SURVEYS = Config.WEB_SERVICE_URL + "Surveys";
     public final static String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "Surveys/%s/Tasks";

@@ -49,7 +49,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
 
         if (!hidden) {
             //TODO Move to fragment second time
-            L.w(TAG, "TODO Move to fragment second time");
+            L.i(TAG, "TODO Move to fragment second time");
         }
     }
 
@@ -92,6 +92,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
             case R.id.shareButton:
                 ((MainActivity) getActivity()).startFragment(new ShareAndReferFragment());
                 ((MainActivity) getActivity()).togleMenu();
+                break;
+            default:
                 break;
         }
     }

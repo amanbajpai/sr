@@ -61,14 +61,14 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
 
         if (!hidden) {
             //TODO Move to fragment second time
-            L.w(TAG, "TODO Move to fragment second time");
+            L.i(TAG, "TODO Move to fragment second time");
         }
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-
+            UIUtils.showSimpleToast(getActivity(), "Success");
         } else {
             UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
         }
@@ -94,6 +94,8 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
                 break;
             case R.id.cancelButton:
 
+                break;
+            default:
                 break;
         }
     }

@@ -111,7 +111,7 @@ public abstract class BaseNetworkService extends IntentService {
         method.addHeader("device-type", App.getInstance().getDeviceType());
         method.addHeader("device-os-version", App.getInstance().getDeviceApiNumber());
         method.addHeader("Accept-Encoding", "gzip");
-        method.addHeader("x-token", preferencesManager.getString(NetworkService.TOKEN, ""));
+        method.addHeader("Token", preferencesManager.getString(NetworkService.TOKEN, ""));
         method.addHeader("App-version", Config.APP_VERSION);
     }
 
@@ -176,7 +176,7 @@ public abstract class BaseNetworkService extends IntentService {
     }
 
     protected void logToFile(BaseOperation operation) {
-        File log = new File(Environment.getExternalStorageDirectory() + "/aeva_network_log.txt");
+        File log = new File(Environment.getExternalStorageDirectory() + "/matrix_log.txt");
         try {
             FileWriter fileWriter = new FileWriter(log, true);
             fileWriter.append(operation.toString());

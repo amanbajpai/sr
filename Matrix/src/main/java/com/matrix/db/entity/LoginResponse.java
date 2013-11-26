@@ -5,7 +5,6 @@ public class LoginResponse extends BaseEntity {
 
     private String Token;
     private Boolean State = false;
-    private String Message;
 
     public String getToken() {
         return Token;
@@ -21,14 +20,6 @@ public class LoginResponse extends BaseEntity {
 
     public void setState(Boolean state) {
         this.State = state;
-    }
-
-    public String getMessage() {
-        return Message;
-    }
-
-    public void setMessage(String message) {
-        Message = message;
     }
 
 }

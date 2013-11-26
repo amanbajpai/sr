@@ -76,7 +76,6 @@ public class PreferencesManager {
      * @return
      */
     public void setGCMRegistrationId(String regId) {
-        Context context = App.getInstance().getApplicationContext();
         Editor editor = getPreferences().edit();
         editor.putString(Keys.GCM_PROPERTY_REG_ID, regId);
         editor.commit();

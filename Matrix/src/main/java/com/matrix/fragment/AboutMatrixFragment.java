@@ -42,7 +42,7 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
 
         if (!hidden) {
             //TODO Move to fragment second time
-            L.w(TAG, "TODO Move to fragment second time");
+            L.i(TAG, "TODO Move to fragment second time");
         }
     }
 
@@ -67,6 +67,8 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
                 break;
             case R.id.helpButton:
 
+                break;
+            default:
                 break;
         }
     }

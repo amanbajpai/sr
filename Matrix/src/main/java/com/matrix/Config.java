@@ -31,13 +31,13 @@ public class Config {
             case PRODUCTION:
                 LOG_ENABLED = false;
                 ACRA_ENABLED = false;
-                WEB_SERVICE_URL = "https://baseurl.com/";
+                WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
                 break;
             case DEVELOPMENT:
             default:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = true;
-                WEB_SERVICE_URL = "https://baseurl.com/";
+                WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
                 break;
         }
     }

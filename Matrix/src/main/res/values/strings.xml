@@ -3,12 +3,13 @@
     <string name="app_name" >Matrix</string >
     <!-- LOGIN ACTIVITY -->
     <string name="welcome_to" >Welcome to</string >
-    <string name="your_email_hint" >Your e-mail</string >
+    <string name="your_email_hint" >Your e-email</string >
     <string name="your_password_hint" >Your password</string >
     <string name="forgot_password" ><u >Forgot password?</u ></string >
     <string name="login" >Log in</string >
     <string name="you_can_register" >You can register if you are a new user</string >
     <string name="i_new_user" >I\'am a new user</string >
+    <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
     <!-- REGISTRATION ACTIVITY -->
     <string name="full_name" >Full name</string >
     <string name="password" >Password</string >
@@ -25,6 +26,7 @@
     <string name="confirm_and_register" >Confirm &amp; Register</string >
     <string name="cancel" >Cancel</string >
     <string name="fill_in_field" >Please, fill in field</string >
+    <string name="do_you_agree_with_term" >Do you agree with Matrix Term&amp;Conditions?</string >
     <!-- MAIN MENU ACTIVITY -->
     <string name="drawer_open" >Open navigation drawer</string >
     <string name="drawer_close" >Close navigation drawer</string >
@@ -87,7 +89,7 @@
     <string name="help" >Help</string >
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_and_refer_title" >Share &amp; Refer</string >
-    <string name="share_and_refer_via_email" >Share &amp; Refer via E-mail</string >
+    <string name="share_and_refer_via_email" >Share &amp; Refer via E-email</string >
     <string name="share_and_refer_via_message" >Share &amp; Refer via Message</string >
     <string name="share_and_refer_via_twitter" >Share &amp; Refer via Twitter</string >
     <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
@@ -117,20 +119,17 @@
     <string name="turn_on_location_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
         Services on your phone</string >
     <!-- GCM -->
-    <string name="gcm_registered">From GCM: device successfully registered!</string>
-    <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>
-    <string name="gcm_message">From GCM: you got message!</string>
-    <string name="gcm_error">From GCM: error (%1$s).</string>
-    <string name="gcm_recoverable_error">From GCM: recoverable error (%1$s).</string>
-    <string name="gcm_deleted">From GCM: server deleted %1$d pending messages!</string>
-
+    <string name="gcm_registered" >From GCM: device successfully registered!</string >
+    <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >
+    <string name="gcm_message" >From GCM: you got message!</string >
+    <string name="gcm_error" >From GCM: error (%1$s).</string >
+    <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
+    <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
     <!-- Google Map Fragment -->
-
-    <string name="no_tasks_found">No Tasks found!</string>
+    <string name="no_tasks_found" >No Tasks found!</string >
     <string name="map_popup_distance" >Distance:</string >
-
     <!-- Current Location -->
-    <string name="looking_for_location">Looking for your current location...</string>
-    <string name="current_location_not_defined">There is no current location. Looking for your current location,
-        please wait...</string>
+    <string name="looking_for_location" >Looking for your current location...</string >
+    <string name="current_location_not_defined" >There is no current location. Looking for your current location,
+        please wait...</string >
 </resources >

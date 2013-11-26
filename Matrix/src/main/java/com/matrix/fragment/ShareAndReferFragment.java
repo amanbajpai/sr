@@ -4,14 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import android.view.View.OnClickListener;
-import com.matrix.BaseActivity;
 import com.matrix.R;
-import com.matrix.net.BaseOperation;
-import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
-import com.matrix.utils.UIUtils;
 
-public class ShareAndReferFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
+public class ShareAndReferFragment extends Fragment implements OnClickListener {
     private static final String TAG = ShareAndReferFragment.class.getSimpleName();
     private ViewGroup view;
 
@@ -40,16 +36,7 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener, 
 
         if (!hidden) {
             //TODO Move to fragment second time
-            L.w(TAG, "TODO Move to fragment second time");
-        }
-    }
-
-    @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
-
-        } else {
-            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
+            L.i(TAG, "TODO Move to fragment second time");
         }
     }
 
@@ -68,7 +55,8 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener, 
             case R.id.facebookButton:
 
                 break;
-
+            default:
+                break;
         }
     }
 
@@ -78,17 +66,5 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener, 
         getActivity().setTitle(R.string.share_and_refer_title);
 
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
-        super.onStop();
     }
 }

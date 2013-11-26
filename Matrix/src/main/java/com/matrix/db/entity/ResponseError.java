@@ -4,13 +4,13 @@ public class ResponseError extends BaseEntity {
 
     private static final long serialVersionUID = -2989395260527906044L;
 
-    private String error;
+    private String ErrorMessage;
 
-    public String getError() {
-        return error;
+    public String getErrorMessage() {
+        return ErrorMessage;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setErrorMessage(String errorMessage) {
+        this.ErrorMessage = errorMessage;
     }
 }

@@ -3,15 +3,15 @@ package com.matrix.db.entity;
 public class Login extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Mail;
+    private String Email;
     private String Password;
 
-    public String getMail() {
-        return Mail;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setMail(String mail) {
-        Mail = mail;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getPassword() {

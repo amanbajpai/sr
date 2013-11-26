@@ -112,8 +112,8 @@ public class NetworkService extends BaseNetworkService {
         } else {
             try {
                 ResponseError error = gson.fromJson(responseString, ResponseError.class);
-                if (error != null && error.getError() != null) {
-                    operation.setResponseError(error.getError());
+                if (error != null && error.getErrorMessage() != null) {
+                    operation.setResponseError(error.getErrorMessage());
                 }
             } catch (JsonSyntaxException e) {
                 operation.setResponseError(getString(R.string.error));

@@ -30,7 +30,6 @@ public class APIFacade {
     }
 
     /**
-     *
      * @param activity
      * @param email
      * @param password
@@ -39,7 +38,7 @@ public class APIFacade {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             Login loginEntity = new Login();
-            loginEntity.setMail(email);
+            loginEntity.setEmail(email);
             loginEntity.setPassword(password);
 
             BaseOperation operation = new BaseOperation();
@@ -49,22 +48,26 @@ public class APIFacade {
             operation.getEntities().add(loginEntity);
             ((BaseActivity) activity).sendNetworkOperation(operation);
         } else {
-            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
+            UIUtils.showSimpleToast(activity, R.string.credentials_wrong);
         }
     }
 
     /**
-     *
      * @param activity
      * @param email
      * @param fullName
      */
-    public void registration(Activity activity, String email, String fullName) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(fullName)) {
+    public void registration(Activity activity, String email, String password, String fullName, String berthDay,
+                             Integer countryId, Integer cityId, Boolean agree) {
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(fullName)) {
 
             Registration registrationEntity = new Registration();
-            registrationEntity.setMail(email);
+            registrationEntity.setEmail(email);
+            registrationEntity.setPassword(password);
             registrationEntity.setFullName(fullName);
+            registrationEntity.setBirthday(berthDay);
+            registrationEntity.setCountryId(countryId);
+            registrationEntity.setCityId(cityId);
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.REGISTRATION);
@@ -72,13 +75,15 @@ public class APIFacade {
             operation.setMethod(BaseOperation.Method.POST);
             operation.getEntities().add(registrationEntity);
             ((BaseActivity) activity).sendNetworkOperation(operation);
+        } else if (!agree) {
+            UIUtils.showSimpleToast(activity, R.string.do_you_agree_with_term);
         } else {
             UIUtils.showSimpleToast(activity, R.string.fill_in_field);
+
         }
     }
 
     /**
-     *
      * @param activity
      */
     public void getSurveys(Activity activity) {
@@ -90,7 +95,6 @@ public class APIFacade {
     }
 
     /**
-     *
      * @param activity
      * @param surveyId
      */
@@ -103,7 +107,6 @@ public class APIFacade {
     }
 
     /**
-     *
      * @param activity
      */
     public void getMyTasks(Activity activity) {
@@ -115,7 +118,6 @@ public class APIFacade {
     }
 
     /**
-     *
      * @param activity
      * @param taskId
      */
@@ -128,7 +130,6 @@ public class APIFacade {
     }
 
     /**
-     *
      * @param activity
      * @param email
      * @param countryName

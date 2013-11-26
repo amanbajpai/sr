@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
@@ -11,13 +12,16 @@ import com.matrix.BaseActivity;
 import com.matrix.R;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
 /**
  * Setting fragment with all application related settings
  */
 public class SettingsFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = SettingsFragment.class.getSimpleName();
+    private static final String TAG = SettingsFragment.class.getSimpleName();
+    public static String[] SUPPORTED_LANGS_CODE = new String[] { "en", "ru" };
+    public static String[] SUPPORTED_LANGUAGE = new String[] { "English", "Русский" };
     private ViewGroup view;
 
     private Spinner languageSpinner;
@@ -56,6 +60,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
         view.findViewById(R.id.cancelButton).setOnClickListener(this);
 
+        ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
+                SUPPORTED_LANGUAGE);
+        languageSpinner.setAdapter(languageAdapter);
+
         return view;
     }
 
@@ -66,13 +74,14 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
 
         if (!hidden) {
             //TODO Move to fragment second time
+            L.i(TAG, "TODO Move to fragment second time");
         }
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            //TODO Process response
+            UIUtils.showSimpleToast(getActivity(), "Success");
         } else {
             UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
         }
@@ -82,10 +91,19 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirmAndSaveButton:
-
+                //String langCode = SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
+                L.i(TAG, "locationToggleButton: "+locationToggleButton.isChecked());
+                L.i(TAG, "pushMessagesToggleButton: "+pushMessagesToggleButton.isChecked());
+                L.i(TAG, "socialSharingToggleButton: "+socialSharingToggleButton.isChecked());
+                L.i(TAG, "saveImageToggleButton: "+saveImageToggleButton.isChecked());
+                L.i(TAG, "tasksInLocationToggleButton: "+tasksInLocationToggleButton.isChecked());
+                L.i(TAG, "fileSizeToggleButton: "+fileSizeToggleButton.isChecked());
+                L.i(TAG, "deadlineReminderToggleButton: "+deadlineReminderToggleButton.isChecked());
                 break;
             case R.id.cancelButton:
 
+                break;
+            default:
                 break;
         }
     }

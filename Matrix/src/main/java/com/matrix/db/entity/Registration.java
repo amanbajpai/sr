@@ -3,21 +3,30 @@ package com.matrix.db.entity;
 public class Registration extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Mail;
+    private String Email;
+    private String Password;
     private String FullName;
     private Boolean Gender;
     private String Birthday;
-    private String Country;
-    private String City;
+    private Integer CountryId;
+    private Integer CityId;
     private String Longitude;
     private String Latitude;
 
-    public String getMail() {
-        return Mail;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setMail(String mail) {
-        Mail = mail;
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 
     public String getFullName() {
@@ -44,20 +53,20 @@ public class Registration extends BaseEntity {
         Birthday = birthday;
     }
 
-    public String getCountry() {
-        return Country;
+    public Integer getCountryId() {
+        return CountryId;
     }
 
-    public void setCountry(String country) {
-        Country = country;
+    public void setCountryId(Integer countryId) {
+        CountryId = countryId;
     }
 
-    public String getCity() {
-        return City;
+    public Integer getCityId() {
+        return CityId;
     }
 
-    public void setCity(String city) {
-        City = city;
+    public void setCityId(Integer cityId) {
+        CityId = cityId;
     }
 
     public String getLongitude() {

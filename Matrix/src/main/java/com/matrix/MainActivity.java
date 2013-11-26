@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import com.matrix.activity.BaseSlidingMenuActivity;
 import com.matrix.fragment.SurveyListFragment;
+import com.matrix.fragment.TasksMapFragment;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
             mFragmentList = new ArrayList<Fragment>();
         }
 
-        startFragment(new SurveyListFragment());
+        startFragment(new TasksMapFragment());
     }
 
     public void startFragment(Fragment fragment) {
@@ -71,6 +72,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
         try {
             ft.commitAllowingStateLoss();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         int fragmentIdToRemove = -1;
@@ -92,6 +94,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
         try {
             ft.commitAllowingStateLoss();
         } catch (Exception e) {
+            e.printStackTrace();
         }
         mFragmentList.clear();
     }

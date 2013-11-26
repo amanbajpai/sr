@@ -55,6 +55,8 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
                     onDialogButtonClicklistener.onRightButtonPressed(this);
                 }
                 break;
+            default:
+                break;
         }
     }
 

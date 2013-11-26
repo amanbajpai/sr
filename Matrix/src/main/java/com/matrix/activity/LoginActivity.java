@@ -14,7 +14,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.matrix.*;
-import com.matrix.db.entity.LoginResponse;
 import com.matrix.dialog.DefaultInfoDialog;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
@@ -123,13 +122,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
-                if (loginResponse.getState()) {
-                    UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
-                }
+                //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+                UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
+                finish();
+                startActivity(new Intent(this, MainActivity.class));
             }
         } else {
-            UIUtils.showSimpleToast(LoginActivity.this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(LoginActivity.this, "Server Error. Response Code: " + operation
+                    .getResponseStatusCode() + " Error Message: " + operation.getResponseError());
         }
     }
 
@@ -137,15 +137,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginButton:
-                //TODO Delete
-                /*String email = emailEditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
-                apiFacade.login(this, email, password);*/
-                finish();
-                startActivity(new Intent(this, MainActivity.class));
+                apiFacade.login(this, email, password);
                 break;
             case R.id.registerButton:
                 startActivity(new Intent(this, RegistrationActivity.class));
+                break;
+            default:
                 break;
         }
     }

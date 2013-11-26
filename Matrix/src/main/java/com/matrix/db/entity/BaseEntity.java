@@ -104,8 +104,11 @@ public abstract class BaseEntity implements Serializable {
                             + this.getClass().getSimpleName() + "\" not added to ContentValues");
                 }
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
 

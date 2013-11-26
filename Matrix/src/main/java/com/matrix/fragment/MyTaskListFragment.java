@@ -72,7 +72,7 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
 
         if (!hidden) {
             //TODO Move to fragment second time
-            L.w(TAG, "TODO Move to fragment second time");
+            L.i(TAG, "TODO Move to fragment second time");
         }
     }
 
@@ -107,6 +107,8 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
 
                     responseTextView.setText("From local DB. Count:" + tasks.size());
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -127,6 +129,8 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
         switch (v.getId()) {
             case R.id.getTasksButton:
                 apiFacade.getMyTasks(getActivity());
+                break;
+            default:
                 break;
         }
     }

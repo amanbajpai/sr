@@ -1,6 +1,7 @@
 package com.matrix.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,6 +15,8 @@ import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
+
+import java.util.Calendar;
 
 /**
  * Activity for first Agents registration into system
@@ -74,11 +77,31 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.confirmButton:
                 String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+
                 String fullName = fullNameEditText.getText().toString().trim();
-                apiFacade.registration(this, email, fullName);
+                String day = dayEditText.getText().toString().trim();
+                String month = monthEditText.getText().toString().trim();
+                String year = yearEditText.getText().toString().trim();
+                String country = countryEditText.getText().toString().trim();
+                String city = cityEditText.getText().toString().trim();
+                String birthDay;
+
+                if (TextUtils.isDigitsOnly(day) && TextUtils.isDigitsOnly(day) && TextUtils.isDigitsOnly(day)) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));
+                    birthDay = String.valueOf(calendar.getTime());
+                } else {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
+                    break;
+                }
+
+                apiFacade.registration(this, email, password, fullName, birthDay, 0, 0, agreeCheckBox.isChecked());
                 break;
             case R.id.cancelButton:
 
+                break;
+            default:
                 break;
         }
     }
