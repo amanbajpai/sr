@@ -57,16 +57,19 @@
                 android:id="@+id/dayEditText"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:inputType="number"
                 android:hint="@string/day" />
             <EditText
                 android:id="@+id/monthEditText"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:inputType="number"
                 android:hint="@string/month" />
             <EditText
                 android:id="@+id/yearEditText"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:inputType="number"
                 android:hint="@string/year" />
         </LinearLayout >
         <EditText

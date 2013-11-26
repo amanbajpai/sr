@@ -6,12 +6,12 @@ import android.location.Address;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.matrix.*;
 import com.matrix.dialog.DefaultInfoDialog;
@@ -26,6 +26,8 @@ import com.matrix.utils.UIUtils;
 
 import java.io.IOException;
 
+import static com.google.android.gms.common.GooglePlayServicesUtil.*;
+
 /**
  * Activity for Agents login into system
  */
@@ -35,7 +37,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     GoogleCloudMessaging gcm;
     public EditText emailEditText;
     public EditText passwordEditText;
-    public DefaultInfoDialog locationDialog;
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
@@ -81,8 +82,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         // Check device for Play Services APK. If check succeeds, proceed with
         //  GCM registration.
         if (checkPlayServices()) {
-            String regid = PreferencesManager.getInstance().getGCMRegistrationId();
-            if ("".equals(regid)) {
+            String regId = PreferencesManager.getInstance().getGCMRegistrationId();
+            if ("".equals(regId)) {
                 registerGCMInBackground();
             }
         } else {
@@ -96,12 +97,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         findViewById(R.id.loginButton).setOnClickListener(this);
         findViewById(R.id.registerButton).setOnClickListener(this);
-
-        showLocationDialog();
     }
 
     public void showLocationDialog() {
-        locationDialog = new DefaultInfoDialog(this,
+        DefaultInfoDialog locationDialog = new DefaultInfoDialog(this,
                 getText(R.string.turn_on_location_dialog_title),
                 getText(R.string.turn_on_location_dialog_text),
                 R.string.settings, R.string.cancel);
@@ -109,6 +108,44 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showNetworkDialog() {
+        DefaultInfoDialog networkDialog = new DefaultInfoDialog(this,
+                getText(R.string.turn_on_network_dialog_title),
+                getText(R.string.turn_on_network_dialog_text),
+                R.string.settings, R.string.cancel);
+        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showGoogleSDKDialog() {
+        DefaultInfoDialog networkDialog = new DefaultInfoDialog(this,
+                getText(R.string.turn_on_google_sdk_dialog_title),
+                getText(R.string.turn_on_google_sdk_dialog_text),
+                R.string.settings, R.string.cancel);
+        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                int resultCode = isGooglePlayServicesAvailable(LoginActivity.this);
+                getErrorDialog(resultCode, LoginActivity.this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
             }
 
             @Override
@@ -137,9 +174,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginButton:
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                apiFacade.login(this, email, password);
+                if (!UIUtils.isOnline(this)) {
+                    showNetworkDialog();
+                } else if (UIUtils.isGpsEnabled(this)) {
+                    showLocationDialog();
+                } else if (UIUtils.isGooglePlayServicesEnabled(this)) {
+                    showGoogleSDKDialog();
+                } else {
+                    String email = emailEditText.getText().toString().trim();
+                    String password = passwordEditText.getText().toString().trim();
+                    apiFacade.login(this, email, password);
+                }
+
                 break;
             case R.id.registerButton:
                 startActivity(new Intent(this, RegistrationActivity.class));
@@ -211,10 +257,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      * the Google Play Store or enable it in the device's system settings.
      */
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        int resultCode = isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            if (isUserRecoverableError(resultCode)) {
+                getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 L.i(TAG, "This device is not supported.");
                 finish();

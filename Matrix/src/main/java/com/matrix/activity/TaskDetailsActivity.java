@@ -27,21 +27,21 @@ import java.util.Locale;
  * Activity for view Task detail information
  */
 public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    private final static String TAG = TaskDetailsActivity.class.getSimpleName();
+    public final static String TAG = TaskDetailsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
 
     private AsyncQueryHandler handler;
 
-    public Long taskId;
-    public Task task = new Task();
+    private Long taskId;
+    private Task task = new Task();
 
-    public TextView taskName;
-    public TextView taskPrice;
-    public TextView taskExp;
-    public TextView taskDistance;
-    public TextView taskAddress;
-    public TextView taskDescription;
-    public TextView taskDeadline;
+    private TextView taskName;
+    private TextView taskPrice;
+    private TextView taskExp;
+    private TextView taskDistance;
+    private TextView taskAddress;
+    private TextView taskDescription;
+    private TextView taskDeadline;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +97,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         cursor.close();
                     }
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -142,6 +144,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case R.id.cancelButton:
                 finish();
                 break;
+            default:
+                break;
         }
     }
 
@@ -150,6 +154,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            default:
                 break;
 
         }

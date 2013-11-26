@@ -15,7 +15,7 @@ import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
 
 public class CheckingFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    private final static String TAG = CheckingFailedActivity.class.getSimpleName();
+    public final static String TAG = CheckingFailedActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     public EditText countryEditText;
     public EditText cityEditText;
@@ -61,6 +61,8 @@ public class CheckingFailedActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.cancelButton:
 
+                break;
+            default:
                 break;
         }
     }

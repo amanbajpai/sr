@@ -31,7 +31,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             case R.id.checkMyLocationButton:
 
                 break;
-
+            default:
+                break;
         }
     }
 }

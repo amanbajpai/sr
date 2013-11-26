@@ -114,6 +114,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
 
                     adapter.setData(tasks);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -138,6 +140,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
             case R.id.addTasksButton:
                 createTasks(20, surveyId);
                 break;
+            default:
+                break;
         }
     }
 
@@ -155,6 +159,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            default:
                 break;
 
         }

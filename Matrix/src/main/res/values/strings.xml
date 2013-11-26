@@ -115,9 +115,17 @@
     <string name="success" >Success</string >
     <string name="no_internet" >No Internet connection. Please, try later.</string >
     <!-- TURN ON LOCATION DIALOG -->
-    <string name="turn_on_location_dialog_title" >Info pop-up</string >
+    <string name="turn_on_location_dialog_title" >GPS moce pop-up</string >
     <string name="turn_on_location_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
-        Services on your phone</string >
+        services on your phone settings</string >
+    <!-- TURN ON NETWORK DIALOG -->
+    <string name="turn_on_network_dialog_title" >Network pop-up</string >
+    <string name="turn_on_network_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Network
+        services on your phone settings</string >
+    <!-- TURN ON GOOGLE SDK DIALOG -->
+    <string name="turn_on_google_sdk_dialog_title" >Google SDK pop-up</string >
+    <string name="turn_on_google_sdk_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
+        services on your phone settings</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >

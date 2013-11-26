@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings.Secure;
@@ -15,6 +16,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -178,6 +181,16 @@ public class UIUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isGpsEnabled(Context c) {
+        LocationManager locationManager = (LocationManager) c.getSystemService(c.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public static boolean isGooglePlayServicesEnabled(Context c) {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(c);
+        return resultCode == ConnectionResult.SUCCESS;
     }
 
     public static String formatAmount(int num) {
