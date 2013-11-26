@@ -31,7 +31,7 @@ public abstract class BaseNetworkService extends IntentService {
     protected static final String TAG = "BaseNetworkService";
 
     private AndroidHttpClient client;
-    private PreferencesManager preferencesManager;
+    public PreferencesManager preferencesManager;
 
     public static final String KEY_OPERATION = "operation";
     public static final String BROADCAST_ACTION = "operation";

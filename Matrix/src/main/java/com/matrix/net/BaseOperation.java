@@ -15,7 +15,7 @@ public class BaseOperation implements Serializable {
     private String tag = "BaseOperation";
     private Method method;
     private ArrayList<BaseEntity> requestEntities = new ArrayList<BaseEntity>();
-    private ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
+    public ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
 
     private int responseStatusCode;
     private String responseError;
