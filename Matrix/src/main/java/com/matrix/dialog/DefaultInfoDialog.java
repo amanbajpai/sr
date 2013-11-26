@@ -2,6 +2,7 @@ package com.matrix.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -14,8 +15,9 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     public static final String TAG = DefaultInfoDialog.class.getSimpleName();
     private DialogButtonClickListener onDialogButtonClicklistener;
 
-    public DefaultInfoDialog(Activity activity, CharSequence title, CharSequence text, int leftButtonResId, int rightButtonResId) {
-        super(activity);
+    public DefaultInfoDialog(Context context, CharSequence title, CharSequence text, int leftButtonResId,
+                             int rightButtonResId) {
+        super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
             show();

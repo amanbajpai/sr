@@ -14,8 +14,8 @@ import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
 
-public class CheckingFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    public final static String TAG = CheckingFailedActivity.class.getSimpleName();
+public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+    public final static String TAG = CheckLocationFailedActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     public EditText countryEditText;
     public EditText cityEditText;

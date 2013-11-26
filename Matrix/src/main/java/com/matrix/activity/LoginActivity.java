@@ -1,12 +1,10 @@
 package com.matrix.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -14,12 +12,12 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.matrix.*;
-import com.matrix.dialog.DefaultInfoDialog;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.net.gcm.CommonUtilities;
+import com.matrix.utils.DialogUtils;
 import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
@@ -99,62 +97,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         findViewById(R.id.registerButton).setOnClickListener(this);
     }
 
-    public void showLocationDialog() {
-        DefaultInfoDialog locationDialog = new DefaultInfoDialog(this,
-                getText(R.string.turn_on_location_dialog_title),
-                getText(R.string.turn_on_location_dialog_text),
-                R.string.settings, R.string.cancel);
-        locationDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
-            @Override
-            public void onLeftButtonPressed(Dialog dialog) {
-                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-
-            @Override
-            public void onRightButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-    public void showNetworkDialog() {
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(this,
-                getText(R.string.turn_on_network_dialog_title),
-                getText(R.string.turn_on_network_dialog_text),
-                R.string.settings, R.string.cancel);
-        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
-            @Override
-            public void onLeftButtonPressed(Dialog dialog) {
-                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-            }
-
-            @Override
-            public void onRightButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-    public void showGoogleSDKDialog() {
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(this,
-                getText(R.string.turn_on_google_sdk_dialog_title),
-                getText(R.string.turn_on_google_sdk_dialog_text),
-                R.string.settings, R.string.cancel);
-        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
-            @Override
-            public void onLeftButtonPressed(Dialog dialog) {
-                int resultCode = isGooglePlayServicesAvailable(LoginActivity.this);
-                getErrorDialog(resultCode, LoginActivity.this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            }
-
-            @Override
-            public void onRightButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-            }
-        });
-    }
-
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
@@ -175,11 +117,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.loginButton:
                 if (!UIUtils.isOnline(this)) {
-                    showNetworkDialog();
-                } else if (UIUtils.isGpsEnabled(this)) {
-                    showLocationDialog();
-                } else if (UIUtils.isGooglePlayServicesEnabled(this)) {
-                    showGoogleSDKDialog();
+                    DialogUtils.showNetworkDialog(this);
+                } else if (!UIUtils.isGpsEnabled(this)) {
+                    DialogUtils.showLocationDialog(this);
+                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
+                    DialogUtils.showGoogleSdkDialog(this);
                 } else {
                     String email = emailEditText.getText().toString().trim();
                     String password = passwordEditText.getText().toString().trim();
@@ -188,7 +130,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.registerButton:
-                startActivity(new Intent(this, RegistrationActivity.class));
+                startActivity(new Intent(this, CheckLocationActivity.class));
                 break;
             default:
                 break;

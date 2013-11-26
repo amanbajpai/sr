@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
+import com.matrix.db.entity.CheckLocation;
 import com.matrix.db.entity.Login;
 import com.matrix.db.entity.Registration;
 import com.matrix.db.entity.Subscription;
@@ -80,6 +81,24 @@ public class APIFacade {
         } else {
             UIUtils.showSimpleToast(activity, R.string.fill_in_field);
 
+        }
+    }
+
+    public void checkLocationForRegistration(Activity activity, String country, String city) {
+        if (!TextUtils.isEmpty(country) && !TextUtils.isEmpty(city)) {
+
+            CheckLocation checkLocationEntity = new CheckLocation();
+            checkLocationEntity.setCountry(country);
+            checkLocationEntity.setCity(city);
+
+            BaseOperation operation = new BaseOperation();
+            operation.setUrl(WSUrl.CHECK_LOCATION);
+            operation.setTag(Keys.CHECK_LOCATION_OPERATION_TAG);
+            operation.setMethod(BaseOperation.Method.POST);
+            operation.getEntities().add(checkLocationEntity);
+            ((BaseActivity) activity).sendNetworkOperation(operation);
+        } else {
+            UIUtils.showSimpleToast(activity, R.string.current_location_not_defined);
         }
     }
 

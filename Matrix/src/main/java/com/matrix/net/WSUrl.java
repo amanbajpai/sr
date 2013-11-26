@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public final class WSUrl {
     public final static String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
+    public final static String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/CheckLocation";
     public final static String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public final static String SUBSCRIPTION = Config.WEB_SERVICE_URL + "Subscription";
     public final static String GET_SURVEYS = Config.WEB_SERVICE_URL + "Surveys";
@@ -21,6 +22,7 @@ public final class WSUrl {
     public final static int REGISTRATION_ID = 5;
     public final static int SUBSCRIPTION_ID = 6;
     public final static int BOOK_TASKS_ID = 7;
+    public final static int CHECK_LOCATION_ID = 8;
 
     public final static HashMap<String, Integer> urls;
 
@@ -33,6 +35,7 @@ public final class WSUrl {
         urls.put(REGISTRATION, REGISTRATION_ID);
         urls.put(SUBSCRIPTION, SUBSCRIPTION_ID);
         urls.put(BOOK_TASKS, BOOK_TASKS_ID);
+        urls.put(CHECK_LOCATION, CHECK_LOCATION_ID);
     }
 
     public static int matchUrl(String url) {

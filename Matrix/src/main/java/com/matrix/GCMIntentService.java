@@ -79,8 +79,8 @@ public class GCMIntentService extends GCMBaseIntentService {
      * Issues a notification to inform the user that server has sent a message.
      */
     private static void generateNotification(Context context, String message, String voucherId) {
-        int icon = R.drawable.ic_launcher;
-        long when = System.currentTimeMillis();
+        //int icon = R.drawable.ic_launcher;
+        //long when = System.currentTimeMillis();
 
         // TODO: Show notification
 //        if (MainActivity.isAppRunning) {

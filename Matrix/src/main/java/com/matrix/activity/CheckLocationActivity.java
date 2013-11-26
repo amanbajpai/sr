@@ -1,17 +1,32 @@
 package com.matrix.activity;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.matrix.App;
 import com.matrix.BaseActivity;
+import com.matrix.Keys;
 import com.matrix.R;
+import com.matrix.db.entity.CheckLocationResponse;
+import com.matrix.helpers.APIFacade;
+import com.matrix.location.MatrixLocationManager;
+import com.matrix.net.BaseOperation;
+import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.DialogUtils;
+import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 
-public class CheckLocationActivity extends BaseActivity implements View.OnClickListener {
-    private final static String TAG = CheckLocationActivity.class.getSimpleName();
-    public EditText groupCodeEditText;
+public class CheckLocationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+    public final static String TAG = CheckLocationActivity.class.getSimpleName();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private EditText groupCodeEditText;
+    private Address currentAddress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,14 +40,66 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.checkMyLocationButton:
+                if (!UIUtils.isOnline(this)) {
+                    DialogUtils.showNetworkDialog(this);
+                } else if (!UIUtils.isGpsEnabled(this)) {
+                    DialogUtils.showLocationDialog(this);
+                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
+                    DialogUtils.showGoogleSdkDialog(this);
+                } else {
+                    lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                        @Override
+                        public void onUpdate(Location location) {
+                            L.i(TAG, "Location Updated!");
 
+                            lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                                @Override
+                                public void onUpdate(Address address) {
+                                    if (address != null) {
+                                        currentAddress = address;
+                                        apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
+                                                address.getCountryName(), address.getLocality());
+                                    } else {
+                                        UIUtils.showSimpleToast(CheckLocationActivity.this,
+                                                R.string.current_location_not_defined);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
                 break;
             default:
                 break;
         }
     }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == 200) {
+            if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
+                CheckLocationResponse checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
+                if (checkLocationResponse.getState()) {
+                    UIUtils.showSimpleToast(this, R.string.success);
+
+                    Intent intent = new Intent(this, RegistrationActivity.class);
+                    intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
+                    intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
+                    intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
+                    intent.putExtra(Keys.CITY_NAME, currentAddress.getLocality());
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(this, CheckLocationFailedActivity.class));
+                }
+            }
+        } else {
+            UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+        }
+    }
+
 }

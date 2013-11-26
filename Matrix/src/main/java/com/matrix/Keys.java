@@ -17,6 +17,7 @@ public interface Keys {
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String REGISTRETION_OPERATION_TAG = "registration_operation_tag";
+    String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String BOOK_TASK_OPERATION_TAG = "book_task_operation_tag";
 
@@ -24,6 +25,12 @@ public interface Keys {
     String TASK_ID = "task_id";
     //Survey
     String SURVEY_ID = "survey_id";
+
+    //Location
+    String COUNTRY_ID = "country_id";
+    String COUNTRY_NAME = "country_name";
+    String CITY_ID = "city_id";
+    String CITY_NAME = "city_name";
 
     String PREFERENCE_CURRENT_LOCATION = "current_location";
 
