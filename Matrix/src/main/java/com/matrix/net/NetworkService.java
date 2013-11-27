@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.matrix.R;
+import com.matrix.db.SurveyDbSchema;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.*;
 import com.matrix.utils.L;
@@ -59,9 +60,13 @@ public class NetworkService extends BaseNetworkService {
                 ContentResolver contentResolver = getContentResolver();
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.GET_SURVEYS_ID:
-                        Survey[] surveys = gson.fromJson(responseString, Survey[].class);
-                        for (Survey survey : surveys) {
-                            contentResolver.insert(TaskDbSchema.CONTENT_URI, survey.toContentValues());
+                        /*Survey[] surveys = gson.fromJson((new org.json.JSONObject(responseString)).getString(Keys.SURVEYS),
+                                Survey[].class);*/
+
+                        Surveys surveys = gson.fromJson(responseString, Surveys.class);
+
+                        for (Survey survey : surveys.getSurveys()) {
+                            contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
                         }
 
                         //operation.responseEntities.addAll(new ArrayList<Survey>(Arrays.asList(surveys)));
@@ -90,6 +95,11 @@ public class NetworkService extends BaseNetworkService {
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);
                         preferencesManager.setString(TOKEN, loginResponse.getToken());
+                        break;
+                    case WSUrl.CHECK_LOCATION_ID:
+                        CheckLocationResponse checkLocationResponse = gson.fromJson(responseString,
+                                CheckLocationResponse.class);
+                        operation.responseEntities.add(checkLocationResponse);
                         break;
                     case WSUrl.REGISTRATION_ID:
                         RegistrationResponse registrationResponse = gson.fromJson(responseString,

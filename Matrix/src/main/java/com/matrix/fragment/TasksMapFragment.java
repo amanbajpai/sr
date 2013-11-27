@@ -148,7 +148,9 @@ public class TasksMapFragment extends Fragment {
     public void onLoadingComplete(ArrayList<Task> list) {
         inputPoints.clear();
         for (Task item : list) {
-            inputPoints.add(new InputPoint(item.getLatLng(), item));
+            if (item.getLatitude() != null && item.getLongitude() != null) {
+                inputPoints.add(new InputPoint(item.getLatLng(), item));
+            }
         }
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
         if (inputPoints.size() > 0) {
@@ -181,6 +183,7 @@ public class TasksMapFragment extends Fragment {
     /* ==============================================
     * Methods for Clusters pins display on the map
     * ============================================== */
+
     /**
      * Initialize Google Map
      */
@@ -266,6 +269,7 @@ public class TasksMapFragment extends Fragment {
 
     /**
      * Help util method to get px for Cluster icon
+     *
      * @return
      */
     private int getPixelDistanceToJoinCluster() {
@@ -273,7 +277,6 @@ public class TasksMapFragment extends Fragment {
     }
 
     /**
-     *
      * @param dip
      * @return
      */
@@ -290,7 +293,7 @@ public class TasksMapFragment extends Fragment {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
             L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + ", " +
-                    "snipped="+ marker.getSnippet() +"]");
+                    "snipped=" + marker.getSnippet() + "]");
             boolean result = false;
             return result;
         }
@@ -517,6 +520,7 @@ public class TasksMapFragment extends Fragment {
 
     /**
      * Draw circle on the map
+     *
      * @param coordinates
      * @param radius
      */
@@ -542,6 +546,7 @@ public class TasksMapFragment extends Fragment {
 
     /**
      * Add My location pin to the Map with radius and accuracy circle
+     *
      * @param location
      * @param radius
      */

@@ -48,8 +48,6 @@ public class APIFacade {
             operation.setMethod(BaseOperation.Method.POST);
             operation.getEntities().add(loginEntity);
             ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.credentials_wrong);
         }
     }
 
@@ -89,12 +87,14 @@ public class APIFacade {
         }
     }
 
-    public void checkLocationForRegistration(Activity activity, String country, String city) {
+    public void checkLocationForRegistration(Activity activity, String country, String city, double latitude,
+                                             double longitude) {
         if (!TextUtils.isEmpty(country) && !TextUtils.isEmpty(city)) {
-
             CheckLocation checkLocationEntity = new CheckLocation();
             checkLocationEntity.setCountry(country);
             checkLocationEntity.setCity(city);
+            checkLocationEntity.setLatitude(latitude);
+            checkLocationEntity.setLongitude(longitude);
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.CHECK_LOCATION);
@@ -109,10 +109,13 @@ public class APIFacade {
 
     /**
      * @param activity
+     * @param language
+     * @param latitude
+     * @param longitude
      */
-    public void getSurveys(Activity activity) {
+    public void getSurveys(Activity activity, String language, double latitude, double longitude) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_SURVEYS);
+        operation.setUrl(WSUrl.GET_SURVEYS, language, String.valueOf(latitude), String.valueOf(longitude));
         operation.setTag(Keys.GET_SURVEYS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

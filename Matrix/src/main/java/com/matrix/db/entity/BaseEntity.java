@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public abstract class BaseEntity implements Serializable {
-
     private static final long serialVersionUID = 7257189225671374288L;
 
     /**
@@ -26,7 +25,7 @@ public abstract class BaseEntity implements Serializable {
     /**
      * Server UUID
      */
-    private Long id;
+    private Integer Id;
 
     private Boolean deleted;
 
@@ -107,11 +106,8 @@ public abstract class BaseEntity implements Serializable {
                             + this.getClass().getSimpleName() + "\" not added to ContentValues");
                 }
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
             }
         }
 
@@ -119,7 +115,7 @@ public abstract class BaseEntity implements Serializable {
     }
 
     public void setRandomId() {
-        setId(new Random().nextLong());
+        setId(new Random().nextInt());
     }
 
     public long get_id() {
@@ -130,12 +126,12 @@ public abstract class BaseEntity implements Serializable {
         this._id = _id;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Integer id) {
+        this.Id = id;
     }
 
     public Boolean isDeleted() {

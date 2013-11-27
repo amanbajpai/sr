@@ -35,7 +35,7 @@ public class Task extends BaseEntity {
         Task result = new Task();
         if (c.getCount() > 0) {
             result.set_id(c.getInt(TaskDbSchema.Query._ID));
-            result.setId(c.getLong(TaskDbSchema.Query.ID));
+            result.setId(c.getInt(TaskDbSchema.Query.ID));
             result.setSurveyId(c.getLong(TaskDbSchema.Query.SURVEY_ID));
             result.setUserId(c.getLong(TaskDbSchema.Query.USER_ID));
             result.setName(c.getString(TaskDbSchema.Query.NAME));

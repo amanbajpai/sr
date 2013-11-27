@@ -110,8 +110,8 @@ public abstract class BaseNetworkService extends IntentService {
         method.addHeader("device-unique", App.getInstance().getDeviceId());
         method.addHeader("device-type", App.getInstance().getDeviceType());
         method.addHeader("device-os-version", App.getInstance().getDeviceApiNumber());
-        method.addHeader("Accept-Encoding", "gzip");
-        method.addHeader("Token", preferencesManager.getString(NetworkService.TOKEN, ""));
+        //method.addHeader("Accept-Encoding", "gzip");
+        method.addHeader("Authorization", "Bearer "+preferencesManager.getString(NetworkService.TOKEN, ""));
         method.addHeader("App-version", Config.APP_VERSION);
     }
 

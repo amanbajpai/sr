@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -31,6 +33,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_check_location);
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
@@ -38,8 +42,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         groupCodeEditText = (EditText) findViewById(R.id.groupCodeEditText);
 
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
-    }
 
+        setSupportProgressBarIndeterminateVisibility(false);
+    }
 
     @Override
     public void onClick(View v) {
@@ -52,26 +57,20 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
                 } else {
-                    lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                        @Override
-                        public void onUpdate(Location location) {
-                            L.i(TAG, "Location Updated!");
+                    setSupportProgressBarIndeterminateVisibility(true);
 
-                            lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                                @Override
-                                public void onUpdate(Address address) {
-                                    if (address != null) {
-                                        currentAddress = address;
-                                        apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
-                                                address.getCountryName(), address.getLocality());
-                                    } else {
-                                        UIUtils.showSimpleToast(CheckLocationActivity.this,
-                                                R.string.current_location_not_defined);
-                                    }
-                                }
-                            });
-                        }
-                    });
+                    Location location = lm.getLocation();
+                    if (location != null) {
+                        getAddressByLocation(location);
+                    } else {
+                        lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                            @Override
+                            public void onUpdate(Location location) {
+                                L.i(TAG, "Location Updated!");
+                                getAddressByLocation(location);
+                            }
+                        });
+                    }
                 }
                 break;
             default:
@@ -79,8 +78,26 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    public void getAddressByLocation(Location location) {
+        lm.getAddress(location, new MatrixLocationManager.IAddress() {
+            @Override
+            public void onUpdate(Address address) {
+                if (address != null) {
+                    currentAddress = address;
+                    apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
+                            address.getCountryName(), address.getLocality(),
+                            address.getLatitude(), address.getLongitude());
+                } else {
+                    UIUtils.showSimpleToast(CheckLocationActivity.this,
+                            R.string.current_location_not_defined);
+                }
+            }
+        });
+    }
+
     @Override
     public void onNetworkOperation(BaseOperation operation) {
+        setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 CheckLocationResponse checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
@@ -99,7 +116,33 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             }
         } else {
             UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            //TODO Remove
+            startActivity(new Intent(this, CheckLocationFailedActivity.class));
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
+    }
 }

@@ -22,13 +22,20 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Utils class for easy work with UI Views
  */
 public class UIUtils {
     private static final String TAG = "UIUtils";
+    public static SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+    public static SimpleDateFormat hourMinute1Format = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
+    public static SimpleDateFormat dayMonthYear1Format = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
 
     /**
      * Show simple Toast message
@@ -244,5 +251,26 @@ public class UIUtils {
 
     public static String getDeviceId(Context context) {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+    }
+
+    public static long isoTimeToLong(String dateString) {
+        try {
+            return isoDateFormat.parse(dateString).getTime();
+        } catch (ParseException e) {
+            L.e("twitterTimeToLong", "Parse error" + e);
+        }
+        return 0;
+    }
+
+    public static String longToString(long dateLong, int formatId) {
+        switch (formatId) {
+            case 0:
+                return hourMinute1Format.format(new Date(dateLong));
+            case 1:
+                return dayMonthYear1Format.format(new Date(dateLong));
+            default:
+                break;
+        }
+        return "longToStringFormatNotFound";
     }
 }

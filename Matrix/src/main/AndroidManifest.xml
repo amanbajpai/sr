@@ -58,6 +58,8 @@
         <activity android:name="com.matrix.MainActivity" />
         <activity android:name="com.matrix.activity.SurveysTaskListActivity" />
         <activity android:name="com.matrix.activity.TaskDetailsActivity" />
+        <activity android:name="com.matrix.activity.CheckLocationActivity" />
+        <activity android:name="com.matrix.activity.CheckLocationFailedActivity" />
 
         <service
             android:name="com.matrix.net.NetworkService"

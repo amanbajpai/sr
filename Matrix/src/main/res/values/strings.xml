@@ -48,10 +48,18 @@
     <string name="survey_list_title" >Survey list</string >
     <string name="get_survey" >Get Survey</string >
     <string name="add_survey" >Add Survey</string >
+    <string name="distance_for_nearest_location" >Distance for nearest location</string >
+    <string name="locations" >&lt;b>%1$s &lt;/b> Locations</string >
+    <string name="survey_distance" >&lt;b>%1$s&lt;/b> %2$s</string >
+    <string name="survey_price" >HK: &lt;b>%1$s $&lt;/b></string >
+    <string name="survey_exp" >EXP: &lt;b>%1$s &lt;/b></string >
+    <string name="distance_m" >m</string >
+    <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
     <string name="surveys_task_list_title" >Survey\'s task list</string >
     <string name="get_tasks" >Get Tasks</string >
     <string name="add_tasks" >Add Tasks</string >
+    <string name="task_expires_at" >Task expires at:</string >
     <!-- MY TASK FRAGMENT-->
     <string name="my_tasks_title" >My Tasks</string >
     <!-- PROFILE FRAGMENT-->
@@ -97,7 +105,7 @@
     <string name="task_detail_title" >Task details</string >
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >
     <string name="task_exp" >EXP: &lt;b>%1$s&lt;/b></string >
-    <string name="task_distance" >Distance: &lt;b>%1$s m&lt;/b></string >
+    <string name="task_distance" >Distance: &lt;b>%1$s m&lt;/b> %2$s</string >
     <string name="task_description" >Task description</string >
     <string name="task_address" >Task address</string >
     <string name="task_deadline" >Task deadline</string >

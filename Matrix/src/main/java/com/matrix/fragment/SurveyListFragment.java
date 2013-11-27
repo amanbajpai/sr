@@ -4,15 +4,16 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.matrix.App;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
@@ -21,6 +22,7 @@ import com.matrix.adapter.SurveyAdapter;
 import com.matrix.db.SurveyDbSchema;
 import com.matrix.db.entity.Survey;
 import com.matrix.helpers.APIFacade;
+import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
@@ -30,8 +32,10 @@ import java.util.ArrayList;
 /**
  * Fragment - display all tasks in {@link android.widget.ListView}
  */
-public class SurveyListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
+public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = SurveyListFragment.class.getSimpleName();
+    private static String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
 
@@ -39,7 +43,6 @@ public class SurveyListFragment extends Fragment implements OnClickListener, OnI
 
     private ListView surveyList;
     private SurveyAdapter adapter;
-    private TextView responseTextView;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -56,47 +59,46 @@ public class SurveyListFragment extends Fragment implements OnClickListener, OnI
         surveyList = (ListView) view.findViewById(R.id.surveyList);
         surveyList.setOnItemClickListener(this);
 
-        responseTextView = (TextView) view.findViewById(R.id.responseTextView);
-        view.findViewById(R.id.getSurveysButton).setOnClickListener(this);
-        view.findViewById(R.id.addSurveysButton).setOnClickListener(this);
-
         adapter = new SurveyAdapter(getActivity());
 
         surveyList.setAdapter(adapter);
 
         getSurveys();
-        apiFacade.getSurveys(getActivity());
-
         return view;
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
+            getSurveys();
         }
     }
 
     private void getSurveys() {
-        handler.startQuery(SurveyDbSchema.Query.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI,
-                SurveyDbSchema.Query.PROJECTION, null, null, SurveyDbSchema.SORT_ORDER_DESC);
+        Location location = lm.getLocation();
+        if (location != null) {
+            getLocalSurveys();
+            apiFacade.getSurveys(getActivity(), DEFAULT_LANG, location.getLatitude(), location.getLongitude());
+        } else {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    L.i(TAG, "Location Updated!");
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    getLocalSurveys();
+                    apiFacade.getSurveys(getActivity(), DEFAULT_LANG, location.getLatitude(), location.getLongitude());
+                }
+            });
+        }
     }
 
-    private void createSurveys(int count) {
-        for (int i = 0; i < count; i++) {
-            Survey survey = new Survey();
-            survey.setRandomId();
-            survey.setName("Survey: " + i);
-            survey.setDescription("Survey description " + i + "; Survey description " + i);
-
-            handler.startInsert(SurveyDbSchema.Query.TOKEN_INSERT, null, SurveyDbSchema.CONTENT_URI,
-                    survey.toContentValues());
-        }
-        getSurveys();
+    private void getLocalSurveys() {
+        handler.startQuery(SurveyDbSchema.Query.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI,
+                SurveyDbSchema.Query.PROJECTION, null, null, SurveyDbSchema.SORT_ORDER_DESC);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -120,8 +122,6 @@ public class SurveyListFragment extends Fragment implements OnClickListener, OnI
                         cursor.close();
                     }
 
-                    responseTextView.setText("From local DB. Count:" + tasks.size());
-
                     adapter.setData(tasks);
                     break;
             }
@@ -132,22 +132,10 @@ public class SurveyListFragment extends Fragment implements OnClickListener, OnI
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
-                getSurveys();
+                getLocalSurveys();
             }
         } else {
             L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.getSurveysButton:
-                apiFacade.getSurveys(getActivity());
-                break;
-            case R.id.addSurveysButton:
-                createSurveys(10);
-                break;
         }
     }
 

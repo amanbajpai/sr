@@ -23,53 +23,55 @@
                 android:layout_width="wrap_content"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_launcher" />
-            <TextView
-                android:id="@+id/name"
+            <LinearLayout
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:singleLine="true"
-                style="@style/SurveyListTitle" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="@string/distance_for_nearest_location" />
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15456" />
+                android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false"
+                    style="@style/TaskListTitle" />
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    style="@style/TaskListDescription"
+                    android:textIsSelectable="false" />
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/task_expires_at" />
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        style="@style/TaskListTime"
+                        android:textIsSelectable="false" />
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        style="@style/TaskListDate"
+                        android:textIsSelectable="false" />
+                </LinearLayout >
+            </LinearLayout >
         </LinearLayout >
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            style="@style/SurveyListDescription" />
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="horizontal" >
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-                <ImageView
-                    android:layout_height="20dp"
-                    android:layout_width="20dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_launcher" />
-                <TextView
-                    android:id="@+id/locations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/locations" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -83,10 +85,10 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/survey_price" />
+                    android:text="@string/task_price" />
             </LinearLayout >
             <LinearLayout
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -100,7 +102,24 @@
                     android:id="@+id/exp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/survey_exp" />
+                    android:text="@string/task_exp" />
+            </LinearLayout >
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_height="20dp"
+                    android:layout_width="20dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_launcher" />
+                <TextView
+                    android:id="@+id/distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_distance" />
             </LinearLayout >
         </LinearLayout >
     </LinearLayout >

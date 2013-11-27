@@ -6,13 +6,23 @@ import com.matrix.db.SurveyDbSchema;
 public class Survey extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private Long UserId;
-    private String Name;
+    private Boolean ClaimableBeforeLive;
+    private Integer ConcurrentClaimsPerAgent;
     private String Description;
-    private Float Longitude;
-    private Float Latitude;
-    private String Language;
+    private String EndDateTime;
+    private String ExpectedEndDateTime;
+    private String ExpectedStartDateTime;
+    private String ExternalId;
+    private Integer MaximumClaimsPerAgent;
+    private String Name;
+    private String StartDateTime;
+    private Integer SuspensionTarget;
+    private Integer TargetMaximum;
+    private Integer TargetMinimum;
+    private Boolean ViewableBeforeLive;
 
+    transient private Float Longitude;
+    transient private Float Latitude;
 
     public Survey() {
     }
@@ -26,13 +36,25 @@ public class Survey extends BaseEntity {
         Survey result = new Survey();
         if (c.getCount() > 0) {
             result.set_id(c.getInt(SurveyDbSchema.Query._ID));
-            result.setId(c.getLong(SurveyDbSchema.Query.ID));
-            result.setUserId(c.getLong(SurveyDbSchema.Query.USER_ID));
+            result.setId(c.getInt(SurveyDbSchema.Query.ID));
             result.setName(c.getString(SurveyDbSchema.Query.NAME));
             result.setDescription(c.getString(SurveyDbSchema.Query.DESCRIPTION));
             result.setLongitude(c.getFloat(SurveyDbSchema.Query.LONGITUDE));
             result.setLatitude(c.getFloat(SurveyDbSchema.Query.LATITUDE));
-            result.setLanguage(c.getString(SurveyDbSchema.Query.LANGUAGE));
+
+            result.setClaimableBeforeLive(c.getInt(SurveyDbSchema.Query.CLAIMABLE_BEFORE_LIVE) == 1);
+            result.setViewableBeforeLive(c.getInt(SurveyDbSchema.Query.VIEWABLE_BEFORE_LIVE) == 1);
+            result.setConcurrentClaimsPerAgent(c.getInt(SurveyDbSchema.Query.CONCURRENT_CLAIMS_PER_AGENT));
+            result.setExternalId(c.getString(SurveyDbSchema.Query.EXTERNAL_ID));
+            result.setStartDateTime(c.getString(SurveyDbSchema.Query.START_DATE_TIME));
+            result.setSuspensionTarget(c.getInt(SurveyDbSchema.Query.SUSPENSION_TARGET));
+            result.setTargetMaximum(c.getInt(SurveyDbSchema.Query.TARGET_MAXIMUM));
+            result.setTargetMinimum(c.getInt(SurveyDbSchema.Query.TARGET_MINIMUM));
+
+            result.setMaximumClaimsPerAgent(c.getInt(SurveyDbSchema.Query.MAXIMUM_CLAIMS_PER_AGENT));
+            result.setEndDateTime(c.getString(SurveyDbSchema.Query.END_DATE_TIME));
+            result.setExpectedEndDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_END_DATE_TIME));
+            result.setExpectedStartDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_START_DATE_TIME));
         }
         return result;
     }
@@ -53,14 +75,6 @@ public class Survey extends BaseEntity {
         this.Description = description;
     }
 
-    public Long getUserId() {
-        return UserId;
-    }
-
-    public void setUserId(Long userId) {
-        UserId = userId;
-    }
-
     public Float getLongitude() {
         return Longitude;
     }
@@ -77,11 +91,99 @@ public class Survey extends BaseEntity {
         Latitude = latitude;
     }
 
-    public String getLanguage() {
-        return Language;
+    public Boolean getClaimableBeforeLive() {
+        return ClaimableBeforeLive;
     }
 
-    public void setLanguage(String language) {
-        Language = language;
+    public void setClaimableBeforeLive(Boolean claimableBeforeLive) {
+        ClaimableBeforeLive = claimableBeforeLive;
+    }
+
+    public Boolean getViewableBeforeLive() {
+        return ViewableBeforeLive;
+    }
+
+    public void setViewableBeforeLive(Boolean viewableBeforeLive) {
+        ViewableBeforeLive = viewableBeforeLive;
+    }
+
+    public Integer getConcurrentClaimsPerAgent() {
+        return ConcurrentClaimsPerAgent;
+    }
+
+    public void setConcurrentClaimsPerAgent(Integer concurrentClaimsPerAgent) {
+        ConcurrentClaimsPerAgent = concurrentClaimsPerAgent;
+    }
+
+    public String getExternalId() {
+        return ExternalId;
+    }
+
+    public void setExternalId(String externalId) {
+        ExternalId = externalId;
+    }
+
+    public String getStartDateTime() {
+        return StartDateTime;
+    }
+
+    public void setStartDateTime(String startDateTime) {
+        StartDateTime = startDateTime;
+    }
+
+    public Integer getSuspensionTarget() {
+        return SuspensionTarget;
+    }
+
+    public void setSuspensionTarget(Integer suspensionTarget) {
+        SuspensionTarget = suspensionTarget;
+    }
+
+    public Integer getTargetMaximum() {
+        return TargetMaximum;
+    }
+
+    public void setTargetMaximum(Integer targetMaximum) {
+        TargetMaximum = targetMaximum;
+    }
+
+    public Integer getTargetMinimum() {
+        return TargetMinimum;
+    }
+
+    public void setTargetMinimum(Integer targetMinimum) {
+        TargetMinimum = targetMinimum;
+    }
+
+    public Integer getMaximumClaimsPerAgent() {
+        return MaximumClaimsPerAgent;
+    }
+
+    public void setMaximumClaimsPerAgent(Integer maximumClaimsPerAgent) {
+        MaximumClaimsPerAgent = maximumClaimsPerAgent;
+    }
+
+    public String getEndDateTime() {
+        return EndDateTime;
+    }
+
+    public void setEndDateTime(String endDateTime) {
+        EndDateTime = endDateTime;
+    }
+
+    public String getExpectedEndDateTime() {
+        return ExpectedEndDateTime;
+    }
+
+    public void setExpectedEndDateTime(String expectedEndDateTime) {
+        ExpectedEndDateTime = expectedEndDateTime;
+    }
+
+    public String getExpectedStartDateTime() {
+        return ExpectedStartDateTime;
+    }
+
+    public void setExpectedStartDateTime(String expectedStartDateTime) {
+        ExpectedStartDateTime = expectedStartDateTime;
     }
 }

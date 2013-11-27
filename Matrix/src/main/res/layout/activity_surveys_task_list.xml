@@ -4,22 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <Button
-        android:id="@+id/getTasksButton"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="@dimen/text_size_medium"
-        android:text="@string/get_tasks" />
-    <Button
-        android:id="@+id/addTasksButton"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="@dimen/text_size_medium"
-        android:text="@string/add_tasks" />
     <TextView
         android:id="@+id/responseTextView"
         android:layout_height="wrap_content"

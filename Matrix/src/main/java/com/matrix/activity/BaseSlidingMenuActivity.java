@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import com.matrix.BaseActivity;
 import com.matrix.R;
@@ -23,6 +24,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_base_sliding_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -57,7 +59,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override

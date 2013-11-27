@@ -1,11 +1,13 @@
 package com.matrix.activity;
 
 import android.content.Intent;
-import android.location.Address;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -35,45 +37,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private APIFacade apiFacade = APIFacade.getInstance();
     private GoogleCloudMessaging gcm;
     private EditText emailEditText;
-
     private EditText passwordEditText;
+    private Button loginButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_login);
 
         final MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
         Location loc = lm.getLocation();
-
         L.i(TAG, "[LOC = " + loc + "]");
         lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-
             @Override
             public void onUpdate(Location location) {
-                L.i(TAG, "ASYNC [LOC = " + location + "]");
-
-                lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                    @Override
-                    public void onUpdate(Address address) {
-
-                        /*
-                         * Format the first line of address (if available),
-                         * city, and country name.
-                         */
-                        /*String addressText = String.format(
-                                "%s, %s, %s",
-                                // If there's a street address, add it
-                                address.getMaxAddressLineIndex() > 0 ?
-                                        address.getAddressLine(0) : "",
-                                // Locality is usually a city
-                                address.getLocality(),
-                                // The country of the address
-                                address.getCountryName());
-
-                        L.d(TAG, "Address =  [" + addressText + "]");*/
-                    }
-                });
+                L.i(TAG, "[NEW LOC = " + location + "]");
             }
         });
 
@@ -93,12 +72,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
-        findViewById(R.id.loginButton).setOnClickListener(this);
+        loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(this);
+
         findViewById(R.id.registerButton).setOnClickListener(this);
+
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
+        setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
@@ -107,6 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, MainActivity.class));
             }
         } else {
+            loginButton.setEnabled(true);
             UIUtils.showSimpleToast(LoginActivity.this, "Server Error. Response Code: " + operation
                     .getResponseStatusCode() + " Error Message: " + operation.getResponseError());
         }
@@ -116,15 +101,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginButton:
+                String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+
                 if (!UIUtils.isOnline(this)) {
                     DialogUtils.showNetworkDialog(this);
                 } else if (!UIUtils.isGpsEnabled(this)) {
                     DialogUtils.showLocationDialog(this);
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
+                } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    UIUtils.showSimpleToast(this, R.string.credentials_wrong);
                 } else {
-                    String email = emailEditText.getText().toString().trim();
-                    String password = passwordEditText.getText().toString().trim();
+                    loginButton.setEnabled(false);
+                    setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.login(this, email, password);
                 }
 

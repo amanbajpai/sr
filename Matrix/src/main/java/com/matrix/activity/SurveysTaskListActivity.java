@@ -4,11 +4,9 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -16,7 +14,7 @@ import android.widget.TextView;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
-import com.matrix.adapter.TaskAdapter;
+import com.matrix.adapter.MyTaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
@@ -27,7 +25,7 @@ import com.matrix.utils.L;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SurveysTaskListActivity extends BaseActivity implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
+public class SurveysTaskListActivity extends BaseActivity implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
 
@@ -36,7 +34,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
     private AsyncQueryHandler handler;
 
     public ListView taskList;
-    public TaskAdapter adapter;
+    public MyTaskAdapter adapter;
     public TextView responseTextView;
 
     @Override
@@ -56,10 +54,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
         taskList.setOnItemClickListener(this);
 
         responseTextView = (TextView) findViewById(R.id.responseTextView);
-        findViewById(R.id.getTasksButton).setOnClickListener(this);
-        findViewById(R.id.addTasksButton).setOnClickListener(this);
 
-        adapter = new TaskAdapter(this);
+        adapter = new MyTaskAdapter(this);
         taskList.setAdapter(adapter);
 
         getTasks(surveyId);
@@ -78,8 +74,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
             Task task = new Task();
             task.setRandomId();
             task.setSurveyId(surveyId);
-            task.setLatitude(50 + (new Random().nextDouble()/10));
-            task.setLongitude(30 + (new Random().nextDouble()/10));
+            task.setLatitude(50 + (new Random().nextDouble() / 10));
+            task.setLongitude(30 + (new Random().nextDouble() / 10));
             task.setName("Survey: " + surveyId + " Task: " + i);
             task.setDescription("Task description " + i + "; Task description " + i);
 
@@ -128,20 +124,6 @@ public class SurveysTaskListActivity extends BaseActivity implements OnClickList
             }
         } else {
             L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.getTasksButton:
-                apiFacade.getSurveys(this);
-                break;
-            case R.id.addTasksButton:
-                createTasks(20, surveyId);
-                break;
-            default:
-                break;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.matrix.activity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -24,6 +25,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_checking_failed);
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
@@ -59,12 +61,21 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
 
                 apiFacade.subscribe(this, email, countryName, cityName);
                 break;
-            case R.id.cancelButton:
+            default:
+                break;
+        }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
                 break;
             default:
                 break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

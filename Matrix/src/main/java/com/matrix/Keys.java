@@ -24,6 +24,7 @@ public interface Keys {
     //Tasks
     String TASK_ID = "task_id";
     //Survey
+    String SURVEYS = "Surveys";
     String SURVEY_ID = "survey_id";
 
     //Location

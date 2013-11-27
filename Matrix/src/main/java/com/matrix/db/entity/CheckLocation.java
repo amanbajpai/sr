@@ -5,6 +5,8 @@ public class CheckLocation extends BaseEntity {
 
     private String Country;
     private String City;
+    private Double Latitude;
+    private Double Longitude;
 
     public String getCountry() {
         return Country;
@@ -22,5 +24,19 @@ public class CheckLocation extends BaseEntity {
         City = city;
     }
 
+    public Double getLatitude() {
+        return Latitude;
+    }
 
+    public void setLatitude(Double latitude) {
+        Latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
+    }
 }

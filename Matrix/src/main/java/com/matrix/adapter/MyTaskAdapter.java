@@ -1,18 +1,21 @@
 package com.matrix.adapter;
 
 import android.app.Activity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.matrix.R;
 import com.matrix.db.entity.Task;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class TaskAdapter extends BaseAdapter {
-    // private static final String TAG = "TaskAdapter";
+public class MyTaskAdapter extends BaseAdapter {
+    // private static final String TAG = "MyTaskAdapter";
     private Activity activity;
     private ArrayList<Task> items = new ArrayList<Task>();
     private LayoutInflater inflater;
@@ -20,9 +23,15 @@ public class TaskAdapter extends BaseAdapter {
     public static class ViewHolder {
         private TextView name;
         private TextView description;
+        private ImageView image;
+        private TextView time;
+        private TextView date;
+        private TextView price;
+        private TextView exp;
+        private TextView distance;
     }
 
-    public TaskAdapter(Activity activity) {
+    public MyTaskAdapter(Activity activity) {
         this.activity = activity;
 
         inflater = LayoutInflater.from(activity);
@@ -53,11 +62,17 @@ public class TaskAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_task, null);
+            convertView = inflater.inflate(R.layout.list_item_my_task, null);
             holder = new ViewHolder();
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.description = (TextView) convertView.findViewById(R.id.description);
+            holder.image = (ImageView) convertView.findViewById(R.id.image);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.price = (TextView) convertView.findViewById(R.id.price);
+            holder.exp = (TextView) convertView.findViewById(R.id.exp);
+            holder.distance = (TextView) convertView.findViewById(R.id.distance);
 
             convertView.setTag(holder);
         } else {
@@ -68,6 +83,21 @@ public class TaskAdapter extends BaseAdapter {
 
         holder.name.setText(task.getName());
         holder.description.setText(task.getDescription());
+        holder.price.setText(Html.fromHtml(String.format(activity.getString(R.string.task_price),
+                String.format(Locale.US, "%.1f", task.getPrice()))));
+
+        //TODO Set EXP
+        holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.task_exp),
+                String.format(Locale.US, "%,d", 130))));
+
+        holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.task_distance),
+                String.format(Locale.US, "%.1f", task.getDistance()), activity.getString(R.string.distance_m))));
+
+
+        /*long timeInMillisecond = UIUtils.isoTimeToLong(task.getExpectedEndDateTime());
+
+        holder.time.setText(UIUtils.longToString(timeInMillisecond, 1));
+        holder.date.setText(UIUtils.longToString(timeInMillisecond, 2));*/
 
         return convertView;
     }

@@ -13,12 +13,22 @@ public interface SurveyDbSchema {
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("Id", DBType.NUMERIC),
-        USER_ID("UserId", DBType.NUMERIC),
         NAME("Name", DBType.TEXT),
         DESCRIPTION("Description", DBType.TEXT),
         LONGITUDE("Longitude", DBType.FLOAT),
         LATITUDE("Latitude", DBType.FLOAT),
-        LANGUAGE("Language", DBType.TEXT),
+        CLAIMABLE_BEFORE_LIVE("ClaimableBeforeLive", DBType.INT),
+        VIEWABLE_BEFORE_LIVE("ViewableBeforeLive", DBType.INT),
+        CONCURRENT_CLAIMS_PER_AGENT("ConcurrentClaimsPerAgent", DBType.TEXT),
+        EXTERNAL_ID("ExternalId", DBType.TEXT),
+        START_DATE_TIME("StartDateTime", DBType.TEXT),
+        SUSPENSION_TARGET("SuspensionTarget", DBType.INT),
+        TARGET_MAXIMUM("TargetMaximum", DBType.INT),
+        TARGET_MINIMUM("TargetMinimum", DBType.INT),
+        MAXIMUM_CLAIMS_PER_AGENT("MaximumClaimsPerAgent", DBType.INT),
+        END_DATE_TIME("EndDateTime", DBType.INT),
+        EXPECTED_END_DATE_TIME("ExpectedEndDateTime", DBType.INT),
+        EXPECTED_START_DATE_TIME("ExpectedStartDateTime", DBType.INT),
 
         DELETED("Deleted", DBType.INT);
 
@@ -51,21 +61,43 @@ public interface SurveyDbSchema {
 
         String[] PROJECTION = {Table.SURVEY.getName() + "." + Columns._ID.getName(),
                 Table.SURVEY.getName() + "." + Columns.ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.USER_ID.getName(),
                 Table.SURVEY.getName() + "." + Columns.NAME.getName(),
                 Table.SURVEY.getName() + "." + Columns.DESCRIPTION.getName(),
                 Table.SURVEY.getName() + "." + Columns.LONGITUDE.getName(),
                 Table.SURVEY.getName() + "." + Columns.LATITUDE.getName(),
-                Table.SURVEY.getName() + "." + Columns.LANGUAGE.getName()
+
+                Table.SURVEY.getName() + "." + Columns.CLAIMABLE_BEFORE_LIVE.getName(),
+                Table.SURVEY.getName() + "." + Columns.VIEWABLE_BEFORE_LIVE.getName(),
+                Table.SURVEY.getName() + "." + Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
+                Table.SURVEY.getName() + "." + Columns.EXTERNAL_ID.getName(),
+                Table.SURVEY.getName() + "." + Columns.START_DATE_TIME.getName(),
+                Table.SURVEY.getName() + "." + Columns.SUSPENSION_TARGET.getName(),
+                Table.SURVEY.getName() + "." + Columns.TARGET_MAXIMUM.getName(),
+                Table.SURVEY.getName() + "." + Columns.TARGET_MINIMUM.getName(),
+                Table.SURVEY.getName() + "." + Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
+
+                Table.SURVEY.getName() + "." + Columns.END_DATE_TIME.getName(),
+                Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
+                Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName()
         };
 
         int _ID = 0;
         int ID = 1;
-        int USER_ID = 2;
-        int NAME = 3;
-        int DESCRIPTION = 4;
-        int LONGITUDE = 5;
-        int LATITUDE = 6;
-        int LANGUAGE = 7;
+        int NAME = 2;
+        int DESCRIPTION = 3;
+        int LONGITUDE = 4;
+        int LATITUDE = 5;
+        int CLAIMABLE_BEFORE_LIVE = 6;
+        int VIEWABLE_BEFORE_LIVE = 7;
+        int CONCURRENT_CLAIMS_PER_AGENT = 8;
+        int EXTERNAL_ID = 9;
+        int START_DATE_TIME = 10;
+        int SUSPENSION_TARGET = 11;
+        int TARGET_MAXIMUM = 12;
+        int TARGET_MINIMUM = 13;
+        int MAXIMUM_CLAIMS_PER_AGENT = 14;
+        int END_DATE_TIME = 15;
+        int EXPECTED_END_DATE_TIME = 16;
+        int EXPECTED_START_DATE_TIME = 17;
     }
 }

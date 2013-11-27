@@ -1,15 +1,18 @@
 package com.matrix.adapter;
 
 import android.app.Activity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.matrix.R;
 import com.matrix.db.entity.Survey;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SurveyAdapter extends BaseAdapter {
     // private static final String TAG = "SurveyAdapter";
@@ -20,10 +23,15 @@ public class SurveyAdapter extends BaseAdapter {
     public static class ViewHolder {
         private TextView name;
         private TextView description;
+        private ImageView image;
+        private TextView locations;
+        private TextView price;
+        private TextView exp;
+        private TextView distance;
     }
 
     public SurveyAdapter(Activity activity) {
-
+        this.activity = activity;
         inflater = LayoutInflater.from(activity);
     }
 
@@ -57,6 +65,11 @@ public class SurveyAdapter extends BaseAdapter {
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.description = (TextView) convertView.findViewById(R.id.description);
+            holder.image = (ImageView) convertView.findViewById(R.id.image);
+            holder.locations = (TextView) convertView.findViewById(R.id.locations);
+            holder.price = (TextView) convertView.findViewById(R.id.price);
+            holder.exp = (TextView) convertView.findViewById(R.id.exp);
+            holder.distance = (TextView) convertView.findViewById(R.id.distance);
 
             convertView.setTag(holder);
         } else {
@@ -67,6 +80,23 @@ public class SurveyAdapter extends BaseAdapter {
 
         holder.name.setText(survey.getName());
         holder.description.setText(survey.getDescription());
+        holder.image.setImageResource(R.drawable.ic_launcher);
+
+        //TODO Get PRICE from task
+        holder.locations.setText(Html.fromHtml(String.format(activity.getString(R.string.locations),
+                String.format("25"))));
+
+        //TODO Get PRICE from task
+        holder.price.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_price),
+                String.format(Locale.US, "%.1f", 100f))));
+
+        //TODO Get EXP from survey
+        holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_exp),
+                String.format(Locale.US, "%,d", 130))));
+
+        //TODO Get DISTANCE from task
+        holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_distance),
+                String.format(Locale.US, "%.0f", 1000f), activity.getString(R.string.distance_m))));
 
         return convertView;
     }

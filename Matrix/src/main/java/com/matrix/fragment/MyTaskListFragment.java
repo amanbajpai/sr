@@ -16,7 +16,7 @@ import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
-import com.matrix.adapter.TaskAdapter;
+import com.matrix.adapter.MyTaskAdapter;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
@@ -34,7 +34,7 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
     private AsyncQueryHandler handler;
 
     private ListView taskList;
-    private TaskAdapter adapter;
+    private MyTaskAdapter adapter;
     private TextView responseTextView;
 
     @Override
@@ -55,7 +55,7 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
         responseTextView = (TextView) view.findViewById(R.id.responseTextView);
         view.findViewById(R.id.getTasksButton).setOnClickListener(this);
 
-        adapter = new TaskAdapter(getActivity());
+        adapter = new MyTaskAdapter(getActivity());
 
         taskList.setAdapter(adapter);
 
