@@ -57,6 +57,7 @@ public interface Keys {
 
     public static final String GCM_PROPERTY_REG_ID = "gcm_registration_id";
     public static final String GCM_PROPERTY_APP_VERSION = "gcm_appVersion";
+    public static final String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";
 
 
 }

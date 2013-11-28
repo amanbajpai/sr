@@ -1,5 +1,6 @@
 package com.matrix.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -35,7 +36,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private final static String TAG = LoginActivity.class.getSimpleName();
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private APIFacade apiFacade = APIFacade.getInstance();
-    private GoogleCloudMessaging gcm;
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -55,17 +55,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 L.i(TAG, "[NEW LOC = " + location + "]");
             }
         });
-
-        // Check device for Play Services APK. If check succeeds, proceed with
-        //  GCM registration.
-        if (checkPlayServices()) {
-            String regId = PreferencesManager.getInstance().getGCMRegistrationId();
-            if ("".equals(regId)) {
-                registerGCMInBackground();
-            }
-        } else {
-            L.i(TAG, "No valid Google Play Services APK found.");
-        }
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
@@ -87,6 +76,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
                 UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
+
+                // Check if we are registered on Server side our GCM Id
+                if(!PreferencesManager.getInstance().isGCMIdRegisteredOnServer()) {
+                    String regId = PreferencesManager.getInstance().getGCMRegistrationId();
+                    if ("".equals(regId)) {
+                        CommonUtilities.registerGCMInBackground();
+                    } else {
+                        APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
+                    }
+                }
+                String regId = PreferencesManager.getInstance().getGCMRegistrationId();
+                if ("".equals(regId)) {
+                    CommonUtilities.registerGCMInBackground();
+                }
+                // Start MainActivity
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
             }
@@ -141,56 +145,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     /**
-     * Registers the application with GCM servers asynchronously.
-     * <p/>
-     * Stores the registration ID and app versionCode in the application's
-     * shared preferences.
-     */
-    private void registerGCMInBackground() {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                String msg = "";
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(App.getInstance());
-                    }
-                    String regId = gcm.register(CommonUtilities.SENDER_ID);
-                    msg = "Device registered, registration ID=" + regId;
-                    L.i(TAG, msg);
-
-                    // You should send the registration ID to your server over HTTP,
-                    // so it can use GCM/HTTP or CCS to send messages to your app.
-                    // The request to your server should be authenticated if your app
-                    // is using accounts.
-                    APIFacade.getInstance().registerGCMId(regId);
-
-                    // For this demo: we don't need to send it because the device
-                    // will send upstream messages to a server that echo back the
-                    // message using the 'from' address in the message.
-
-                    // Persist the regID - no need to register again.
-                    PreferencesManager.getInstance().setGCMRegistrationId(regId);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                    L.e(TAG, msg);
-                    // If there is an error, don't just keep trying to register.
-                    // Require the user to click a button again, or perform
-                    // exponential back-off.
-                }
-                return null;
-            }
-        }.execute();
-    }
-
-    /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
      * the Google Play Store or enable it in the device's system settings.
      */
-    private boolean checkPlayServices() {
-        int resultCode = isGooglePlayServicesAvailable(this);
+    private boolean isPlayServicesAvailable(Context context) {
+        int resultCode = isGooglePlayServicesAvailable(context);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (isUserRecoverableError(resultCode)) {
                 getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();

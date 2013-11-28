@@ -17,7 +17,20 @@ package com.matrix.net.gcm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.matrix.App;
 import com.matrix.Keys;
+import com.matrix.helpers.APIFacade;
+import com.matrix.utils.L;
+import com.matrix.utils.PreferencesManager;
+
+import java.io.IOException;
+
+import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
+import static com.google.android.gms.common.GooglePlayServicesUtil.isUserRecoverableError;
 
 /**
  * Helper class providing methods and constants common to other classes in the
@@ -40,6 +53,8 @@ public final class CommonUtilities {
      */
     public static final String EXTRA_MESSAGE = "message";
 
+    private static final String TAG = CommonUtilities.class.getSimpleName();
+
     /**
      * Notifies UI to display a message.
      * <p/>
@@ -53,5 +68,48 @@ public final class CommonUtilities {
         Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
         intent.putExtra(EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);
+    }
+
+    /**
+     * We should call this methods right after the success login
+     * Registers the application with GCM servers asynchronously.
+     * <p/>
+     * Stores the registration ID and app versionCode in the application's
+     * shared preferences.
+     */
+    public static void registerGCMInBackground() {
+        new AsyncTask<Void, String, String>() {
+
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(App.getInstance());
+                    String regId = gcm.register(CommonUtilities.SENDER_ID);
+                    L.i(TAG, "Device registered, registration ID=" + regId);
+
+                    // You should send the registration ID to your server over HTTP,
+                    // so it can use GCM/HTTP or CCS to send messages to your app.
+                    // The request to your server should be authenticated if your app
+                    // is using accounts.
+                    APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
+
+                    // Persist the regID - no need to register again.
+                    PreferencesManager.getInstance().setGCMRegistrationId(regId);
+
+                    return regId;
+                } catch (IOException ex) {
+                    L.e(TAG, "registerGCMInBackground() [Error :" + ex.getMessage() +"]");
+                    // If there is an error, don't just keep trying to register.
+                    // Require the user to click a button again, or perform
+                    // exponential back-off.
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+        }.execute();
     }
 }

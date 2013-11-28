@@ -90,6 +90,17 @@ public class PreferencesManager {
         editor.commit();
     }
 
+
+    /**
+     * Check is GCM is registered on the server
+     * @return
+     */
+    public boolean isGCMIdRegisteredOnServer() {
+        final SharedPreferences prefs = getPreferences();
+        boolean result = prefs.getBoolean(Keys.GCM_IS_GCMID_REGISTERED, false);
+        return result;
+    }
+
     /**
      *
      */

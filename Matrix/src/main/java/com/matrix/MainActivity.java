@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import com.matrix.activity.BaseSlidingMenuActivity;
 import com.matrix.fragment.TasksMapFragment;
+import com.matrix.helpers.APIFacade;
+import com.matrix.utils.PreferencesManager;
 
 import java.util.ArrayList;
 
 public class MainActivity extends BaseSlidingMenuActivity {
-    //private final static String TAG = MainActivity.class.getSimpleName();
+    private final static String TAG = MainActivity.class.getSimpleName();
 
     private ArrayList<Fragment> mFragmentList;
     private Fragment lastFragment;
@@ -25,6 +27,12 @@ public class MainActivity extends BaseSlidingMenuActivity {
             mFragmentList = new ArrayList<Fragment>();
         }
 
+        PreferencesManager pm = PreferencesManager.getInstance();
+        if (pm.isGCMIdRegisteredOnServer()) {
+            String regId = pm.getGCMRegistrationId();
+
+            APIFacade.getInstance().testGCMPushNotification(getApplicationContext(), regId, "This is my test string");
+        }
         startFragment(new TasksMapFragment());
     }
 

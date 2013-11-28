@@ -1,12 +1,15 @@
 package com.matrix.helpers;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.db.entity.*;
 import com.matrix.net.BaseOperation;
+import com.matrix.net.NetworkService;
 import com.matrix.net.WSUrl;
 import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
@@ -179,11 +182,16 @@ public class APIFacade {
         }
     }
 
-    public void registerGCMId(Activity activity, String regId) {
-        if (!TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
+    /**
+     * We can start registration in GCM not only from Activity
+     * @param context
+     * @param regId
+     */
+    public void registerGCMId(Context context, String regId) {
+        if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
             RegisterDevice registerDeviceEntity = new RegisterDevice();
-            registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID(activity));
+            registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID(context));
             registerDeviceEntity.setRegistrationId(regId);
 
             BaseOperation operation = new BaseOperation();
@@ -191,17 +199,18 @@ public class APIFacade {
             operation.setTag(Keys.GCM_REGISTER_DEVICE_TAG);
             operation.setMethod(BaseOperation.Method.POST);
             operation.getEntities().add(registerDeviceEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
+
+            this.sendRequest(context, operation);
         }
     }
 
     /**
      * API call for push notification test
-     * @param activity
+     * @param context
      * @param regId - GCM user ID (should be registered in cloud)
      * @param data - String data
      */
-    public void testGCMPushNotification(Activity activity, String regId, String data) {
+    public void testGCMPushNotification(Context context, String regId, String data) {
         if (!TextUtils.isEmpty(regId) && !TextUtils.isEmpty(data)) {
 
             PushMessage pushMessageEntity = new PushMessage();
@@ -213,9 +222,16 @@ public class APIFacade {
             operation.setTag(Keys.GCM_TEST_PUSH_TAG);
             operation.setMethod(BaseOperation.Method.POST);
             operation.getEntities().add(pushMessageEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
+
+            this.sendRequest(context, operation);
         } else {
-            UIUtils.showSimpleToast(activity, R.string.credentials_wrong);
+            UIUtils.showSimpleToast(context, R.string.gcm_test_push_noData);
         }
+    }
+
+    private void sendRequest(Context context, BaseOperation operation) {
+        Intent intent = new Intent(context, NetworkService.class);
+        intent.putExtra(NetworkService.KEY_OPERATION, operation);
+        context.startService(intent);
     }
 }

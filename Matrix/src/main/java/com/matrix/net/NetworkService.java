@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.db.SurveyDbSchema;
 import com.matrix.db.TaskDbSchema;
@@ -15,7 +16,9 @@ import com.matrix.utils.L;
 
 import java.util.ArrayList;
 
-
+/**
+ * IntentService for API communication
+ */
 public class NetworkService extends BaseNetworkService {
     private static final String TAG = "NetworkService";
     public static final String TAG_RECRUITING = "recruiting";
@@ -80,7 +83,9 @@ public class NetworkService extends BaseNetworkService {
                             Location temp = new Location(LocationManager.NETWORK_PROVIDER);
                             temp.setLatitude(task.getLatitude());
                             temp.setLongitude(task.getLongitude());
-                            task.setDistance(currentLocation.distanceTo(temp));
+                            if (currentLocation != null) {
+                                task.setDistance(currentLocation.distanceTo(temp));
+                            }
 
                             contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
                         }
@@ -110,6 +115,15 @@ public class NetworkService extends BaseNetworkService {
                         SubscriptionResponse subscriptionResponse = gson.fromJson(responseString,
                                 SubscriptionResponse.class);
                         operation.responseEntities.add(subscriptionResponse);
+                        break;
+                    case WSUrl.GCM_REGISTER_DEVICE_ID:
+                        preferencesManager.setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
+                        break;
+                    case WSUrl.GCM_TEST_PUSH_ID:
+                        L.i(TAG, "GCM [test push send]");
+//                        SubscriptionResponse subscriptionResponse = gson.fromJson(responseString,
+//                                SubscriptionResponse.class);
+//                        operation.responseEntities.add(subscriptionResponse);
                         break;
                     default:
                         break;
