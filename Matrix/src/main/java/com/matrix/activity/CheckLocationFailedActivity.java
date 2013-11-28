@@ -1,16 +1,20 @@
 package com.matrix.activity;
 
+import android.location.Address;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.matrix.App;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.db.entity.SubscriptionResponse;
 import com.matrix.helpers.APIFacade;
+import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.UIUtils;
@@ -18,6 +22,7 @@ import com.matrix.utils.UIUtils;
 public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     public final static String TAG = CheckLocationFailedActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private EditText countryEditText;
     private EditText cityEditText;
     private EditText emailEditText;
@@ -33,6 +38,8 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
+
+        setCurrentAddressByLocation();
 
         findViewById(R.id.subscribeButton).setOnClickListener(this);
     }
@@ -88,5 +95,20 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    private void setCurrentAddressByLocation() {
+        Location location = lm.getLocation();
+        if (location != null) {
+            lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                @Override
+                public void onUpdate(Address address) {
+                    if (address != null) {
+                        countryEditText.setText(address.getCountryName());
+                        cityEditText.setText(address.getLocality());
+                    }
+                }
+            });
+        }
     }
 }
