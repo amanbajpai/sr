@@ -13,6 +13,8 @@ import com.matrix.R;
 public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     public static final String TAG = DefaultInfoDialog.class.getSimpleName();
     private DialogButtonClickListener onDialogButtonClicklistener;
+    private Button leftButton;
+    private Button rightButton;
 
     public DefaultInfoDialog(Context context, CharSequence title, CharSequence text, int leftButtonResId,
                              int rightButtonResId) {
@@ -33,14 +35,22 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         ((TextView) findViewById(R.id.title)).setText(title);
         ((TextView) findViewById(R.id.text)).setText(text);
 
-        Button leftButton = (Button) findViewById(R.id.leftButton);
-        Button rightButton = (Button) findViewById(R.id.rightButton);
+        leftButton = (Button) findViewById(R.id.leftButton);
+        rightButton = (Button) findViewById(R.id.rightButton);
 
         leftButton.setText(leftButtonResId);
         rightButton.setText(rightButtonResId);
 
         leftButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
+    }
+
+    public void hideLeftButton(){
+        leftButton.setVisibility(View.GONE);
+    }
+
+    public void hideRightButton(){
+        rightButton.setVisibility(View.GONE);
     }
 
     @Override

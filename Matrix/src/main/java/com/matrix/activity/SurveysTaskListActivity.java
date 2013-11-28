@@ -29,13 +29,13 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
     private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
 
-    public Long surveyId;
+    private Integer surveyId;
 
     private AsyncQueryHandler handler;
 
-    public ListView taskList;
-    public MyTaskAdapter adapter;
-    public TextView responseTextView;
+    private ListView taskList;
+    private MyTaskAdapter adapter;
+    private TextView responseTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
         setTitle(R.string.surveys_task_list_title);
 
         if (getIntent() != null) {
-            surveyId = getIntent().getLongExtra(Keys.SURVEY_ID, 0);
+            surveyId = getIntent().getIntExtra(Keys.SURVEY_ID, 0);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -58,6 +58,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
         adapter = new MyTaskAdapter(this);
         taskList.setAdapter(adapter);
 
+        createTasks(2, surveyId);
         getTasks(surveyId);
         apiFacade.getSurveysTask(this, surveyId);
     }
@@ -97,7 +98,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
                 case TaskDbSchema.Query.TOKEN_QUERY:
                     ArrayList<Task> tasks = new ArrayList<Task>();
 
-                    if (cursor != null) {
+                    if (cursor != null && cursor.getCount()>0) {
                         cursor.moveToFirst();
                         do {
                             tasks.add(Task.fromCursor(cursor));

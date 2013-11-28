@@ -26,7 +26,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_main_menu, null);
 
-        view.findViewById(R.id.allTasksButton).setOnClickListener(this);
+        view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.profileButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
@@ -68,14 +68,25 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
+        Fragment fragment;
+
         switch (v.getId()) {
-            case R.id.allTasksButton:
-                ((MainActivity) getActivity()).startFragment(new TasksMapFragment());
+            case R.id.findTasksButton:
+                bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
+
+                fragment = new AllTaskFragment();
+                fragment.setArguments(bundle);
+                ((MainActivity) getActivity()).startFragment(fragment);
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myTasksButton:
-                //((MainActivity) getActivity()).startFragment(new MyTaskListFragment());
-                ((MainActivity) getActivity()).startFragment(new SurveyListFragment());
+                bundle.putString(Keys.CONTENT_TYPE, Keys.MY_TASK);
+
+                fragment = new AllTaskFragment();
+                fragment.setArguments(bundle);
+
+                ((MainActivity) getActivity()).startFragment(fragment);
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.profileButton:

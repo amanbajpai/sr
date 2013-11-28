@@ -6,11 +6,11 @@
     android:background="@color/white"
     android:orientation="vertical" >
     <Button
-        android:id="@+id/allTasksButton"
+        android:id="@+id/findTasksButton"
         style="@style/Button"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="@string/all_tasks" />
+        android:text="@string/find_tasks" />
     <Button
         android:id="@+id/myTasksButton"
         style="@style/Button"

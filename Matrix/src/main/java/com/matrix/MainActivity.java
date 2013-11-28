@@ -4,28 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import com.matrix.activity.BaseSlidingMenuActivity;
-import com.matrix.fragment.TasksMapFragment;
+import com.matrix.fragment.AllTaskFragment;
 import com.matrix.helpers.APIFacade;
+import com.matrix.helpers.FragmentHelper;
 import com.matrix.utils.PreferencesManager;
 
-import java.util.ArrayList;
-
 public class MainActivity extends BaseSlidingMenuActivity {
-    private final static String TAG = MainActivity.class.getSimpleName();
-
-    private ArrayList<Fragment> mFragmentList;
-    private Fragment lastFragment;
-
+    //private final static String TAG = MainActivity.class.getSimpleName();
+    private FragmentHelper fragmetHelper = new FragmentHelper();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (mFragmentList == null) {
-            mFragmentList = new ArrayList<Fragment>();
-        }
+        fragmetHelper.removeFragmentFromList(this, new AllTaskFragment());
 
         PreferencesManager pm = PreferencesManager.getInstance();
         if (pm.isGCMIdRegisteredOnServer()) {
@@ -33,81 +26,26 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
             APIFacade.getInstance().testGCMPushNotification(getApplicationContext(), regId, "This is my test string");
         }
-        startFragment(new TasksMapFragment());
+
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
+
+        Fragment fragment = new AllTaskFragment();
+        fragment.setArguments(bundle);
+        fragmetHelper.startFragmentFromStack(this, fragment);
+
     }
 
     public void startFragment(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        fragmetHelper.startFragmentFromStack(this, fragment);
+    }
 
-        if (lastFragment != null) {
-            ft.hide(lastFragment);
-        }
-
-        boolean containFragment = false;
-        for (int i = 0; i < mFragmentList.size(); i++) {
-            if (mFragmentList.get(i).getClass().equals(fragment.getClass())) {
-                containFragment = true;
-                break;
-            }
-        }
-
-        if (containFragment) {
-            for (int i = 0; i < mFragmentList.size(); i++) {
-                if (mFragmentList.get(i).getClass().equals(fragment.getClass())) {
-                    lastFragment = mFragmentList.get(i);
-                    break;
-                }
-            }
-
-            ft.show(lastFragment);
-        } else {
-
-            lastFragment = fragment;
-            mFragmentList.add(lastFragment);
-            ft.add(R.id.content_frame, lastFragment, fragment.getClass().toString());
-        }
-        ft.commitAllowingStateLoss();
-
+    public void removeFragmentFromList(Fragment fragment) {
+        fragmetHelper.removeFragmentFromList(this, fragment);
     }
 
     public void startActivity(Activity activity) {
         Intent i = new Intent(this, activity.getClass());
         startActivity(i);
     }
-
-    public void removeFragmentFromList(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.remove(fragment);
-        try {
-            ft.commitAllowingStateLoss();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        int fragmentIdToRemove = -1;
-        for (int i = 0; i < mFragmentList.size(); i++) {
-            if (mFragmentList.get(i).getClass().equals(fragment.getClass())) {
-                fragmentIdToRemove = i;
-                break;
-            }
-        }
-
-        if (fragmentIdToRemove != -1) {
-            mFragmentList.remove(fragmentIdToRemove);
-        }
-    }
-
-    public void removeAllFragmentFromList() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        for (Fragment fragment : mFragmentList) {
-            ft.remove(fragment);
-        }
-        try {
-            ft.commitAllowingStateLoss();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mFragmentList.clear();
-    }
-
 }

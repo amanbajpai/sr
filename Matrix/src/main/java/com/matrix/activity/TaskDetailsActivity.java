@@ -32,7 +32,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private AsyncQueryHandler handler;
 
-    private Long taskId;
+    private Integer taskId;
     private Task task = new Task();
 
     private TextView taskName;
@@ -51,7 +51,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         setTitle(R.string.task_detail_title);
 
         if (getIntent() != null) {
-            taskId = getIntent().getLongExtra(Keys.TASK_ID, 0);
+            taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -72,7 +72,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         getTask(taskId);
     }
 
-    private void getTask(Long taskId) {
+    private void getTask(Integer taskId) {
         handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
                 TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
@@ -129,8 +129,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         //TODO Set EXP
         taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
                 130))));
+
         taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
-                String.format(Locale.US, "%.0f", task.getDistance()))));
+                String.format(Locale.US, "%.1f", task.getDistance()), getString(R.string.distance_m))));
 
         taskAddress.setText(task.getAddress());
     }

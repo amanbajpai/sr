@@ -11,7 +11,7 @@ public final class WSUrl {
     public final static String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public final static String SUBSCRIPTION = Config.WEB_SERVICE_URL + "Subscription";
     public final static String GET_SURVEYS = Config.WEB_SERVICE_URL + "api/Surveys?language=%s&lat=%s&long=%s";
-    public final static String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "Surveys/%s/Tasks";
+    public final static String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
     public final static String GET_MY_TASKS = Config.WEB_SERVICE_URL + "public/1.0/mytasks.json"; //TODO EditUrl
     public final static String BOOK_TASKS = Config.WEB_SERVICE_URL + "Tasks/%s/Book"; //TODO EditUrl
     public final static String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";

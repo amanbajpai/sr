@@ -2,6 +2,8 @@ package com.matrix.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -107,6 +109,10 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         getActivity().setTitle(R.string.profile_title);
+
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(false);
 
         super.onCreateOptionsMenu(menu, inflater);
     }

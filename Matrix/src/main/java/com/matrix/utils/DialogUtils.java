@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.provider.Settings;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.matrix.MainActivity;
 import com.matrix.R;
 import com.matrix.dialog.DefaultInfoDialog;
 
@@ -18,7 +19,7 @@ public class DialogUtils {
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     /**
-     * Show simple Toast message
+     * Show simple Dialog message
      *
      * @param activity
      */
@@ -42,7 +43,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Toast message
+     * Show simple Dialog message
      *
      * @param activity
      */
@@ -66,7 +67,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Toast message
+     * Show simple Dialog message
      *
      * @param activity
      */
@@ -91,6 +92,11 @@ public class DialogUtils {
         });
     }
 
+    /**
+     * Show simple Dialog message
+     *
+     * @param activity
+     */
     public static void showMockLocationDialog(final Activity activity) {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_of_mock_location_dialog_title),
@@ -106,6 +112,33 @@ public class DialogUtils {
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
                 activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+            }
+        });
+    }
+
+    /**
+     * Show simple Dialog message
+     *
+     * @param activity
+     */
+    public static void showRegistrationSuccessDialog(final Activity activity) {
+        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.registration_success_dialog_title),
+                activity.getText(R.string.registration_success_dialog_text),
+                0, android.R.string.ok);
+        networkDialog.hideLeftButton();
+        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                Intent intent = new Intent(activity, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                activity.startActivity(intent);
             }
         });
     }

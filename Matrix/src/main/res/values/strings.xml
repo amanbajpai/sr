@@ -30,7 +30,7 @@
     <!-- MAIN MENU ACTIVITY -->
     <string name="drawer_open" >Open navigation drawer</string >
     <string name="drawer_close" >Close navigation drawer</string >
-    <string name="all_tasks" >All Tasks</string >
+    <string name="find_tasks" >Find Tasks</string >
     <string name="my_tasks" >My Tasks</string >
     <string name="profile" >Profile</string >
     <string name="settings" >Settings</string >
@@ -44,10 +44,12 @@
         but you can leave your details to us and we will inform you as soon as the objectives for your region will be
         available</string >
     <string name="subscribe_for_notification" >Subscribe for notification</string >
+    <!-- FIND TASK FRAGMENT-->
+    <string name="find_task_title" >Find task</string >
+    <string name="map" >MAP</string >
+    <string name="list" >LIST</string >
     <!-- SURVEY LIST FRAGMENT-->
     <string name="survey_list_title" >Survey list</string >
-    <string name="get_survey" >Get Survey</string >
-    <string name="add_survey" >Add Survey</string >
     <string name="distance_for_nearest_location" >Distance for nearest location</string >
     <string name="locations" >&lt;b>%1$s &lt;/b> Locations</string >
     <string name="survey_distance" >&lt;b>%1$s&lt;/b> %2$s</string >
@@ -138,6 +140,10 @@
     <string name="turn_of_mock_location_dialog_title" >GPS mock OFF pop-up</string >
     <string name="turn_of_mock_location_dialog_text" >For use Matrix you need <b >TURN OFF</b > GPS mock location on y
         our smartphone</string >
+    <!-- REGISTRATION SUCCESS DIALOG -->
+    <string name="registration_success_dialog_title" >Registration pop-up</string >
+    <string name="registration_success_dialog_text" >Congratulate you pass the registration and we send link to <b
+        >%1$s</b > please use it for you e-mail validation before you can start use Matrix app</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >

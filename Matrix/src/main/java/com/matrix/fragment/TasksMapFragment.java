@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,19 +80,7 @@ public class TasksMapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" + savedInstanceState + "]");
 
-        if (fragmentView != null) {
-            ViewGroup parent = (ViewGroup) fragmentView.getParent();
-            if (parent != null) {
-                parent.removeView(fragmentView);
-                L.w(TAG, "parent.removeView(fragmentView);!!!!!!!!!!!1 ");
-            }
-        }
-        try {
-            fragmentView = inflater.inflate(R.layout.fragment_map, container, false);
-        } catch (InflateException e) {
-            /* map is already there, just return view as it is */
-            L.w(TAG, "map is already there, just return view as it is ");
-        }
+        fragmentView = inflater.inflate(R.layout.fragment_map, null);
 
         btnFilter = (ImageButton) fragmentView.findViewById(R.id.btnFilter);
         btnMyLocation = (ImageButton) fragmentView.findViewById(R.id.btnMyLocation);

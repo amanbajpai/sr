@@ -126,7 +126,7 @@ public class APIFacade {
      * @param activity
      * @param surveyId
      */
-    public void getSurveysTask(Activity activity, Long surveyId) {
+    public void getSurveysTask(Activity activity, Integer surveyId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_SURVEYS_TASKS, String.valueOf(surveyId));
         operation.setTag(Keys.GET_SURVEYS_TASKS_OPERATION_TAG);
@@ -149,7 +149,7 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void bookTask(Activity activity, Long taskId) {
+    public void bookTask(Activity activity, Integer taskId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.BOOK_TASKS, String.valueOf(taskId));
         operation.setTag(Keys.BOOK_TASK_OPERATION_TAG);

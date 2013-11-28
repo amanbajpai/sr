@@ -14,6 +14,7 @@ import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.DialogUtils;
 import com.matrix.utils.UIUtils;
 
 import java.util.Calendar;
@@ -118,9 +119,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 if (registrationResponse.getState()) {
                     UIUtils.showSimpleToast(this, R.string.success);
 
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(new Intent(this, MainActivity.class));
+                    DialogUtils.showRegistrationSuccessDialog(this);
                 }
             }
         } else {

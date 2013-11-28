@@ -24,6 +24,9 @@ public interface Keys {
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
     String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
 
+    String CONTENT_TYPE = "content_type";
+    String FIND_TASK = "find_task";
+    String MY_TASK = "my_task";
     //Tasks
     String TASK_ID = "task_id";
     //Survey
