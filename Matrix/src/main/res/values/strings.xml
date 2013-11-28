@@ -145,6 +145,7 @@
     <string name="gcm_error" >From GCM: error (%1$s).</string >
     <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
     <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
+    <string name="gcm_test_push_noData" >There is no data to send</string>
     <!-- Google Map Fragment -->
     <string name="no_tasks_found" >No Tasks found!</string >
     <string name="map_popup_distance" >Distance:</string >

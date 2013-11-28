@@ -11,7 +11,8 @@ public interface Keys {
     String PROGRESS_STATUS_MESSAGE = "progress_status_message";
     String PROGRESS_STATUS_PERSENT = "progress_status_persent";
 
-    // Operation tags
+    // Operation tags - What is this?
+    // TODO: Add more comments here what is this? Where we can use it and how.
     String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
     String GET_SURVEYS_TASKS_OPERATION_TAG = "get_surveys_tasks_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
@@ -20,6 +21,8 @@ public interface Keys {
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String BOOK_TASK_OPERATION_TAG = "book_task_operation_tag";
+    String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
+    String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
 
     //Tasks
     String TASK_ID = "task_id";

@@ -14,6 +14,8 @@ public final class WSUrl {
     public final static String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "Surveys/%s/Tasks";
     public final static String GET_MY_TASKS = Config.WEB_SERVICE_URL + "public/1.0/mytasks.json"; //TODO EditUrl
     public final static String BOOK_TASKS = Config.WEB_SERVICE_URL + "Tasks/%s/Book"; //TODO EditUrl
+    public final static String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
+    public final static String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
 
     public final static int LOGIN_ID = 1;
     public final static int GET_SURVEYS_ID = 2;
@@ -23,6 +25,8 @@ public final class WSUrl {
     public final static int SUBSCRIPTION_ID = 6;
     public final static int BOOK_TASKS_ID = 7;
     public final static int CHECK_LOCATION_ID = 8;
+    public final static int GCM_REGISTER_DEVICE_ID = 9;
+    public final static int GCM_TEST_PUSH_ID = 10;
 
     public final static HashMap<String, Integer> urls;
 
@@ -36,6 +40,8 @@ public final class WSUrl {
         urls.put(SUBSCRIPTION, SUBSCRIPTION_ID);
         urls.put(BOOK_TASKS, BOOK_TASKS_ID);
         urls.put(CHECK_LOCATION, CHECK_LOCATION_ID);
+        urls.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
+        urls.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
     }
 
     public static int matchUrl(String url) {
