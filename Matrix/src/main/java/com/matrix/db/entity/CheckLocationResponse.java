@@ -3,16 +3,16 @@ package com.matrix.db.entity;
 public class CheckLocationResponse extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private Boolean State = false;
+    private Boolean Status = false;
     private Integer CountryId;
     private Integer CityId;
 
-    public Boolean getState() {
-        return State;
+    public Boolean getStatus() {
+        return Status;
     }
 
-    public void setState(Boolean state) {
-        this.State = state;
+    public void setStatus(Boolean status) {
+        this.Status = status;
     }
 
     public Integer getCountryId() {

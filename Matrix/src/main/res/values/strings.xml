@@ -134,6 +134,10 @@
     <string name="turn_on_google_sdk_dialog_title" >Google SDK pop-up</string >
     <string name="turn_on_google_sdk_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
         services on your phone settings</string >
+    <!-- TURN OFF MOCK LOCATION DIALOG -->
+    <string name="turn_of_mock_location_dialog_title" >GPS mock OFF pop-up</string >
+    <string name="turn_of_mock_location_dialog_text" >For use Matrix you need <b >TURN OFF</b > GPS mock location on y
+        our smartphone</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >

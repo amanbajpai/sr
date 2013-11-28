@@ -26,16 +26,17 @@ public class DialogUtils {
         DefaultInfoDialog locationDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_on_location_dialog_title),
                 activity.getText(R.string.turn_on_location_dialog_text),
-                R.string.settings, R.string.cancel);
+                R.string.cancel, R.string.settings);
         locationDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                dialog.dismiss();
             }
 
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+                activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
             }
         });
     }
@@ -49,16 +50,17 @@ public class DialogUtils {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_on_network_dialog_title),
                 activity.getText(R.string.turn_on_network_dialog_text),
-                R.string.settings, R.string.cancel);
+                R.string.cancel, R.string.settings);
         networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                activity.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                dialog.dismiss();
             }
 
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+                activity.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
             }
         });
     }
@@ -72,18 +74,38 @@ public class DialogUtils {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_on_google_sdk_dialog_title),
                 activity.getText(R.string.turn_on_google_sdk_dialog_text),
-                R.string.settings, R.string.cancel);
+                R.string.cancel, R.string.settings);
         networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                int resultCode = isGooglePlayServicesAvailable(activity);
-                GooglePlayServicesUtil.getErrorDialog(resultCode, activity,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                dialog.dismiss();
             }
 
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+                int resultCode = isGooglePlayServicesAvailable(activity);
+                GooglePlayServicesUtil.getErrorDialog(resultCode, activity,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+        });
+    }
+
+    public static void showMockLocationDialog(final Activity activity) {
+        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.turn_of_mock_location_dialog_title),
+                activity.getText(R.string.turn_of_mock_location_dialog_text),
+                R.string.cancel, R.string.settings);
+        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
             }
         });
     }

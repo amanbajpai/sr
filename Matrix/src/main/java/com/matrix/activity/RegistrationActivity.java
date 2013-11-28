@@ -1,5 +1,6 @@
 package com.matrix.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,10 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.matrix.App;
-import com.matrix.BaseActivity;
-import com.matrix.Keys;
-import com.matrix.R;
+import com.matrix.*;
 import com.matrix.db.entity.RegistrationResponse;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
@@ -53,6 +51,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             cityName = getIntent().getStringExtra(Keys.CITY_NAME);
         }
 
+        /*countryId = 1;
+        cityId = 1;
+        countryName = "China";
+        cityName = "Hong Kong";*/
+
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         fullNameEditText = (EditText) findViewById(R.id.fullNameEditText);
@@ -71,20 +74,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         countryEditText.setText(countryName);
         cityEditText.setText(cityName);
-    }
-
-    @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
-            if (Keys.REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
-                RegistrationResponse registrationResponse = (RegistrationResponse) operation.getResponseEntities().get(0);
-                if (registrationResponse.getState()) {
-                    UIUtils.showSimpleToast(this, R.string.success);
-                }
-            }
-        } else {
-            UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
-        }
     }
 
     @Override
@@ -114,10 +103,28 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 apiFacade.registration(this, email, password, fullName, birthDay, countryId, cityId, agreeCheckBox.isChecked());
                 break;
             case R.id.cancelButton:
-
+                finish();
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == 200) {
+            if (Keys.REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
+                RegistrationResponse registrationResponse = (RegistrationResponse) operation.getResponseEntities().get(0);
+                if (registrationResponse.getState()) {
+                    UIUtils.showSimpleToast(this, R.string.success);
+
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(new Intent(this, MainActivity.class));
+                }
+            }
+        } else {
+            UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
         }
     }
 

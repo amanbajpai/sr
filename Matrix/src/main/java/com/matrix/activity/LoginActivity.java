@@ -92,8 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         } else {
             loginButton.setEnabled(true);
-            UIUtils.showSimpleToast(LoginActivity.this, "Server Error. Response Code: " + operation
-                    .getResponseStatusCode() + " Error Message: " + operation.getResponseError());
+            UIUtils.showSimpleToast(this, R.string.credentials_wrong);
         }
     }
 
@@ -110,6 +109,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     DialogUtils.showLocationDialog(this);
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
+                } else if (UIUtils.isMockLocationEnabled(this)) {
+                    DialogUtils.showMockLocationDialog(this);
                 } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     UIUtils.showSimpleToast(this, R.string.credentials_wrong);
                 } else {

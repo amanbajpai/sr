@@ -9,6 +9,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.view.Gravity;
 import android.view.View;
@@ -207,6 +208,11 @@ public class UIUtils {
     public static boolean isGooglePlayServicesEnabled(Context c) {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(c);
         return resultCode == ConnectionResult.SUCCESS;
+    }
+
+    public static boolean isMockLocationEnabled(Context context) {
+        return !Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ALLOW_MOCK_LOCATION).equals("0");
     }
 
     public static String formatAmount(int num) {

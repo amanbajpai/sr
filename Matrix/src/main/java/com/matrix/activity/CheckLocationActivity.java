@@ -56,6 +56,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     DialogUtils.showLocationDialog(this);
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
+                } else if (UIUtils.isMockLocationEnabled(this)) {
+                    DialogUtils.showMockLocationDialog(this);
                 } else {
                     setSupportProgressBarIndeterminateVisibility(true);
 
@@ -101,7 +103,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 CheckLocationResponse checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
-                if (checkLocationResponse.getState()) {
+                if (checkLocationResponse.getStatus()) {
                     UIUtils.showSimpleToast(this, R.string.success);
 
                     Intent intent = new Intent(this, RegistrationActivity.class);
