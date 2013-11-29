@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.*;
+import com.matrix.db.entity.Registration;
 import com.matrix.db.entity.RegistrationResponse;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
@@ -39,6 +40,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private int cityId;
     private String countryName;
     private String cityName;
+    private String groupCode = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             cityId = getIntent().getIntExtra(Keys.CITY_ID, 0);
             countryName = getIntent().getStringExtra(Keys.COUNTRY_NAME);
             cityName = getIntent().getStringExtra(Keys.CITY_NAME);
+            groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
         }
 
-        /*countryId = 1;
+        countryId = 1;
         cityId = 1;
         countryName = "China";
-        cityName = "Hong Kong";*/
+        cityName = "Hong Kong";
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
@@ -95,13 +98,22 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         .isDigitsOnly(month) && !TextUtils.isEmpty(year) && TextUtils.isDigitsOnly(year)) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));
-                    birthDay = String.valueOf(calendar.getTime());
+
+                    birthDay = UIUtils.longToString(calendar.getTimeInMillis(), 2);
                 } else {
                     UIUtils.showSimpleToast(this, R.string.fill_in_field);
                     break;
                 }
 
-                apiFacade.registration(this, email, password, fullName, birthDay, countryId, cityId, agreeCheckBox.isChecked());
+                Registration registrationEntity = new Registration();
+                registrationEntity.setEmail(email);
+                registrationEntity.setPassword(password);
+                registrationEntity.setFullName(fullName);
+                registrationEntity.setBirthday(birthDay);
+                registrationEntity.setCountryId(countryId);
+                registrationEntity.setCityId(cityId);
+
+                apiFacade.registration(this, registrationEntity, agreeCheckBox.isChecked());
                 break;
             case R.id.cancelButton:
                 finish();

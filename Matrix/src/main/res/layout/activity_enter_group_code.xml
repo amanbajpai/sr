@@ -44,14 +44,21 @@
             android:textSize="@dimen/text_size_small"
             android:gravity="left"
             android:textColor="@color/grey"
-            android:text="@string/before_start_using" />
+            android:text="@string/you_must_have_code" />
+        <EditText
+            android:id="@+id/groupCodeEditText"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:hint="@string/fill_you_code" />
+
         <Button
-            android:id="@+id/checkMyLocationButton"
+            android:id="@+id/continueButton"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:gravity="center"
             android:padding="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/check_my_location" />
+            android:text="@string/continue_button" />
     </LinearLayout >
 </ScrollView >

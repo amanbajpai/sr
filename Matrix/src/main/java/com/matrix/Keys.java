@@ -39,6 +39,8 @@ public interface Keys {
     String CITY_ID = "city_id";
     String CITY_NAME = "city_name";
 
+    String GROUP_CODE = "group_code";
+
     String PREFERENCE_CURRENT_LOCATION = "current_location";
 
 

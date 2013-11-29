@@ -54,25 +54,10 @@ public class APIFacade {
 
     /**
      * @param activity
-     * @param email
-     * @param password
-     * @param fullName
-     * @param berthDay
-     * @param countryId
-     * @param cityId
-     * @param agree
+     * @param registrationEntity
      */
-    public void registration(Activity activity, String email, String password, String fullName, String berthDay,
-                             Integer countryId, Integer cityId, Boolean agree) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(fullName)) {
-
-            Registration registrationEntity = new Registration();
-            registrationEntity.setEmail(email);
-            registrationEntity.setPassword(password);
-            registrationEntity.setFullName(fullName);
-            registrationEntity.setBirthday(berthDay);
-            registrationEntity.setCountryId(countryId);
-            registrationEntity.setCityId(cityId);
+    public void registration(Activity activity, Registration registrationEntity, boolean agree) {
+        if (!TextUtils.isEmpty(registrationEntity.getEmail()) && !TextUtils.isEmpty(registrationEntity.getPassword())) {
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.REGISTRATION);
@@ -184,6 +169,7 @@ public class APIFacade {
 
     /**
      * We can start registration in GCM not only from Activity
+     *
      * @param context
      * @param regId
      */
@@ -206,9 +192,10 @@ public class APIFacade {
 
     /**
      * API call for push notification test
+     *
      * @param context
-     * @param regId - GCM user ID (should be registered in cloud)
-     * @param data - String data
+     * @param regId   - GCM user ID (should be registered in cloud)
+     * @param data    - String data
      */
     public void testGCMPushNotification(Context context, String regId, String data) {
         if (!TextUtils.isEmpty(regId) && !TextUtils.isEmpty(data)) {

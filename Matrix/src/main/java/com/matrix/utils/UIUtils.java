@@ -6,6 +6,9 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -215,6 +218,12 @@ public class UIUtils {
                 Settings.Secure.ALLOW_MOCK_LOCATION).equals("0");
     }
 
+    public static boolean isIntentAvailable(Context context, Intent intent) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
+    }
+
     public static String formatAmount(int num) {
         DecimalFormat decimalFormat = new DecimalFormat();
         DecimalFormatSymbols decimalFormateSymbol = new DecimalFormatSymbols();
@@ -274,6 +283,8 @@ public class UIUtils {
                 return hourMinute1Format.format(new Date(dateLong));
             case 1:
                 return dayMonthYear1Format.format(new Date(dateLong));
+            case 2:
+                return isoDateFormat.format(new Date(dateLong));
             default:
                 break;
         }

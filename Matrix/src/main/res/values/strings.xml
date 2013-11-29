@@ -120,6 +120,7 @@
     <string name="fill_you_code" >Fill your MATRIX Group code here</string >
     <string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >
     <string name="check_my_location" >Check my location</string >
+    <string name="continue_button" >Continue</string >
     <!-- ERROR STRINGS -->
     <string name="error" >Error</string >
     <string name="success" >Success</string >
@@ -142,8 +143,7 @@
         our smartphone</string >
     <!-- REGISTRATION SUCCESS DIALOG -->
     <string name="registration_success_dialog_title" >Registration pop-up</string >
-    <string name="registration_success_dialog_text" >Congratulate you pass the registration and we send link to <b
-        >%1$s</b > please use it for you e-mail validation before you can start use Matrix app</string >
+    <string name="registration_success_dialog_text" >Congratulate you pass the registration and we send link to <b >%1$s</b > please use it for you e-mail validation before you can start use Matrix app</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >
@@ -151,7 +151,7 @@
     <string name="gcm_error" >From GCM: error (%1$s).</string >
     <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
     <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
-    <string name="gcm_test_push_noData" >There is no data to send</string>
+    <string name="gcm_test_push_noData" >There is no data to send</string >
     <!-- Google Map Fragment -->
     <string name="no_tasks_found" >No Tasks found!</string >
     <string name="map_popup_distance" >Distance:</string >

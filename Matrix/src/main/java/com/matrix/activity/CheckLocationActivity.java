@@ -27,8 +27,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     public final static String TAG = CheckLocationActivity.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private EditText groupCodeEditText;
     private Address currentAddress;
+    private String groupCode = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,11 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_check_location);
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        if (getIntent() != null) {
+            groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
+        }
 
-        groupCodeEditText = (EditText) findViewById(R.id.groupCodeEditText);
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
 
@@ -115,6 +117,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
                     intent.putExtra(Keys.CITY_NAME, currentAddress.getLocality());
+                    intent.putExtra(Keys.GROUP_CODE, groupCode);
                     startActivity(intent);
                 } else {
                     startActivity(new Intent(this, CheckLocationFailedActivity.class));

@@ -125,7 +125,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.registerButton:
-                startActivity(new Intent(this, CheckLocationActivity.class));
+                startActivity(new Intent(this, EnterGroupCodeActivity.class));
                 break;
             default:
                 break;

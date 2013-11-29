@@ -111,7 +111,12 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+                if (UIUtils.isIntentAvailable(activity, intent)) {
+                    activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+                } else {
+                    activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
             }
         });
     }
