@@ -9,12 +9,16 @@
     <string name="login" >Log in</string >
     <string name="you_can_register" >You can register if you are a new user</string >
     <string name="i_new_user" >I\'am a new user</string >
+    <string name="login_fail_dialog_title" >Log in pop-up</string >
     <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
     <!-- REGISTRATION ACTIVITY -->
-    <string name="full_name" >Full name</string >
+    <string name="first_name" >First name</string >
+    <string name="last_name" >Last name</string >
     <string name="password" >Password</string >
     <string name="minimum_6_letters" >Minimum 6 letters</string >
     <string name="gender" >Gender</string >
+    <string name="male" >Male</string >
+    <string name="female" >Female</string >
     <string name="birthday" >Birthday</string >
     <string name="i" >i</string >
     <string name="day" >Day</string >
@@ -25,6 +29,7 @@
     <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
     <string name="confirm_and_register" >Confirm &amp; Register</string >
     <string name="cancel" >Cancel</string >
+    <string name="show_password" >Show password</string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="do_you_agree_with_term" >Do you agree with Matrix Term&amp;Conditions?</string >
     <!-- MAIN MENU ACTIVITY -->
@@ -143,7 +148,8 @@
         our smartphone</string >
     <!-- REGISTRATION SUCCESS DIALOG -->
     <string name="registration_success_dialog_title" >Registration pop-up</string >
-    <string name="registration_success_dialog_text" >Congratulate you pass the registration and we send link to <b >%1$s</b > please use it for you e-mail validation before you can start use Matrix app</string >
+    <string name="registration_success_dialog_text1" >Congratulate you pass the registration and we send link to </string >
+    <string name="registration_success_dialog_text2" > please use it for you e-mail validation before you can start use Matrix app</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >

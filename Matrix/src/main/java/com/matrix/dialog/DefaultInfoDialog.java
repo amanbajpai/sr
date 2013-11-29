@@ -38,18 +38,22 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         leftButton = (Button) findViewById(R.id.leftButton);
         rightButton = (Button) findViewById(R.id.rightButton);
 
-        leftButton.setText(leftButtonResId);
-        rightButton.setText(rightButtonResId);
+        if (leftButtonResId != 0) {
+            leftButton.setText(leftButtonResId);
+        }
+        if (rightButtonResId != 0) {
+            rightButton.setText(rightButtonResId);
+        }
 
         leftButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
     }
 
-    public void hideLeftButton(){
+    public void hideLeftButton() {
         leftButton.setVisibility(View.GONE);
     }
 
-    public void hideRightButton(){
+    public void hideRightButton() {
         rightButton.setVisibility(View.GONE);
     }
 

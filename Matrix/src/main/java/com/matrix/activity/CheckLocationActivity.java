@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.App;
@@ -88,9 +87,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             public void onUpdate(Address address) {
                 if (address != null) {
                     currentAddress = address;
-//                    apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
-//                            address.getCountryName(), address.getLocality(),
-//                            address.getLatitude(), address.getLongitude());
+                    /*apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
+                            address.getCountryName(), address.getLocality(),
+                            address.getLatitude(), address.getLongitude());*/
 
                     // TODO: FIX it to real data before production
                     apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
@@ -124,7 +123,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                 }
             }
         } else {
-            UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(this, operation.getResponseError());
             //TODO Remove
             startActivity(new Intent(this, CheckLocationFailedActivity.class));
         }

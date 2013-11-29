@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.provider.Settings;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.matrix.MainActivity;
 import com.matrix.R;
 import com.matrix.dialog.DefaultInfoDialog;
 
@@ -126,24 +125,20 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showRegistrationSuccessDialog(final Activity activity) {
+    public static void showRegistrationFailedDialog(final Activity activity) {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
-                activity.getText(R.string.registration_success_dialog_title),
-                activity.getText(R.string.registration_success_dialog_text),
+                activity.getText(R.string.login_fail_dialog_title),
+                activity.getText(R.string.credentials_wrong),
                 0, android.R.string.ok);
         networkDialog.hideLeftButton();
         networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                dialog.dismiss();
             }
 
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                Intent intent = new Intent(activity, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.startActivity(intent);
             }
         });
     }

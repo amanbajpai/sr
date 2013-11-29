@@ -127,6 +127,9 @@ public class UIUtils {
         return curentVersion;
     }
 
+    /**
+     * @param context
+     */
     public static boolean isApplicationRuning(Context context) {
         if (context != null) {
             ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -141,16 +144,29 @@ public class UIUtils {
         return false;
     }
 
+    /**
+     * @param context
+     * @param pixels
+     */
     public static int getDpFromPx(Context context, int pixels) {
         final float d = context.getResources().getDisplayMetrics().density;
         return (int) (pixels / d);
     }
 
+    /**
+     * @param context
+     * @param dp
+     */
     public static int getPxFromDp(Context context, int dp) {
         final float d = context.getResources().getDisplayMetrics().density;
         return (int) (dp * d);
     }
 
+    /**
+     * @param unrounded
+     * @param precision
+     * @param roundingMode
+     */
     public static double round(double unrounded, int precision, int roundingMode) {
         BigDecimal bd = new BigDecimal(unrounded);
         BigDecimal rounded = bd.setScale(precision, roundingMode);
@@ -165,7 +181,7 @@ public class UIUtils {
         return gcd(b, x);
     }
 
-    public static long getMemorySize(int type) {
+    /*public static long getMemorySize(int type) {
         try {
             Runtime info = Runtime.getRuntime();
             switch (type) {
@@ -182,7 +198,7 @@ public class UIUtils {
             e.printStackTrace();
         }
         return 0;
-    }
+    }*/
 
     public static boolean isOnline(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -268,6 +284,7 @@ public class UIUtils {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
 
+    /*
     public static long isoTimeToLong(String dateString) {
         try {
             return isoDateFormat.parse(dateString).getTime();
@@ -275,8 +292,12 @@ public class UIUtils {
             L.e("twitterTimeToLong", "Parse error" + e);
         }
         return 0;
-    }
+    }*/
 
+    /**
+     * @param dateLong
+     * @param formatId
+     */
     public static String longToString(long dateLong, int formatId) {
         switch (formatId) {
             case 0:

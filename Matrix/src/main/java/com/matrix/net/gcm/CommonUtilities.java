@@ -109,6 +109,7 @@ public final class CommonUtilities {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                L.i(TAG, "onPostExecute");
             }
         }.execute();
     }

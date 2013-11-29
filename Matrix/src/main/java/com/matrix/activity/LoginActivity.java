@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         } else {
             loginButton.setEnabled(true);
-            UIUtils.showSimpleToast(this, R.string.credentials_wrong);
+            DialogUtils.showRegistrationFailedDialog(this);
         }
     }
 
@@ -116,7 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else if (UIUtils.isMockLocationEnabled(this)) {
                     DialogUtils.showMockLocationDialog(this);
                 } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    UIUtils.showSimpleToast(this, R.string.credentials_wrong);
+                    DialogUtils.showRegistrationFailedDialog(this);
                 } else {
                     loginButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);

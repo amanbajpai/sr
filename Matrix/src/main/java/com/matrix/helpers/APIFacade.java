@@ -57,7 +57,8 @@ public class APIFacade {
      * @param registrationEntity
      */
     public void registration(Activity activity, Registration registrationEntity, boolean agree) {
-        if (!TextUtils.isEmpty(registrationEntity.getEmail()) && !TextUtils.isEmpty(registrationEntity.getPassword())) {
+        if (!TextUtils.isEmpty(registrationEntity.getEmail()) && !TextUtils.isEmpty(registrationEntity.getPassword())
+                && agree) {
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.REGISTRATION);

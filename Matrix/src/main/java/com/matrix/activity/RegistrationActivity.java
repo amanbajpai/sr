@@ -1,16 +1,18 @@
 package com.matrix.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.matrix.*;
+import com.matrix.App;
+import com.matrix.BaseActivity;
+import com.matrix.Keys;
+import com.matrix.R;
 import com.matrix.db.entity.Registration;
-import com.matrix.db.entity.RegistrationResponse;
+import com.matrix.dialog.RegistrationSuccessDialog;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
@@ -23,11 +25,13 @@ import java.util.Calendar;
 /**
  * Activity for first Agents registration into system
  */
-public class RegistrationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
+        NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
     private final static String TAG = RegistrationActivity.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private EditText fullNameEditText;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
     private EditText passwordEditText;
     private EditText dayEditText;
     private EditText monthEditText;
@@ -41,6 +45,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private String countryName;
     private String cityName;
     private String groupCode = "";
+    private RadioGroup genderRadioGroup;
+    private Double latitude;
+    private Double longitude;
+    private ToggleButton showPasswordToggleButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,16 +61,14 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             countryName = getIntent().getStringExtra(Keys.COUNTRY_NAME);
             cityName = getIntent().getStringExtra(Keys.CITY_NAME);
             groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
+            latitude = getIntent().getDoubleExtra(Keys.LATITUDE, 0);
+            longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
         }
-
-        countryId = 1;
-        cityId = 1;
-        countryName = "China";
-        cityName = "Hong Kong";
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
-        fullNameEditText = (EditText) findViewById(R.id.fullNameEditText);
+        firstNameEditText = (EditText) findViewById(R.id.firstNameEditText);
+        lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         dayEditText = (EditText) findViewById(R.id.dayEditText);
         monthEditText = (EditText) findViewById(R.id.monthEditText);
@@ -70,6 +76,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
+        cityEditText = (EditText) findViewById(R.id.cityEditText);
+        genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
+
+        showPasswordToggleButton = (ToggleButton) findViewById(R.id.showPasswordToggleButton);
+        showPasswordToggleButton.setOnCheckedChangeListener(this);
 
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);
 
@@ -87,7 +98,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-                String fullName = fullNameEditText.getText().toString().trim();
+                String firstName = firstNameEditText.getText().toString().trim();
+                String lastName = lastNameEditText.getText().toString().trim();
                 String day = dayEditText.getText().toString().trim();
                 String month = monthEditText.getText().toString().trim();
                 String year = yearEditText.getText().toString().trim();
@@ -108,10 +120,24 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 Registration registrationEntity = new Registration();
                 registrationEntity.setEmail(email);
                 registrationEntity.setPassword(password);
-                registrationEntity.setFullName(fullName);
+                registrationEntity.setFirstName(firstName);
+                registrationEntity.setLastName(lastName);
                 registrationEntity.setBirthday(birthDay);
                 registrationEntity.setCountryId(countryId);
                 registrationEntity.setCityId(cityId);
+                registrationEntity.setLatitude(latitude);
+                registrationEntity.setLongitude(longitude);
+
+                switch (genderRadioGroup.getCheckedRadioButtonId()) {
+                    case R.id.maleRadioButton:
+                        registrationEntity.setGender(0);
+                        break;
+                    case R.id.femaleRadioButton:
+                        registrationEntity.setGender(1);
+                        break;
+                    default:
+                        break;
+                }
 
                 apiFacade.registration(this, registrationEntity, agreeCheckBox.isChecked());
                 break;
@@ -127,15 +153,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
-                RegistrationResponse registrationResponse = (RegistrationResponse) operation.getResponseEntities().get(0);
-                if (registrationResponse.getState()) {
-                    UIUtils.showSimpleToast(this, R.string.success);
+                UIUtils.showSimpleToast(this, R.string.success);
 
-                    DialogUtils.showRegistrationSuccessDialog(this);
-                }
+                new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
             }
         } else {
-            UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(this, operation.getResponseError());
         }
     }
 
@@ -149,5 +172,22 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.showPasswordToggleButton:
+                String text = passwordEditText.getText().toString().trim();
+                if (isChecked) {
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+                passwordEditText.setSelection(text.length());
+                break;
+            default:
+                break;
+        }
     }
 }

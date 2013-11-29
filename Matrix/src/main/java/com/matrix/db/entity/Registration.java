@@ -5,13 +5,14 @@ public class Registration extends BaseEntity {
 
     private String Email;
     private String Password;
-    private String FullName;
-    private Boolean Gender;
+    private String FirstName;
+    private String LastName;
+    private Integer Gender;
     private String Birthday;
     private Integer CountryId;
     private Integer CityId;
-    private String Longitude;
-    private String Latitude;
+    private Double Longitude;
+    private Double Latitude;
 
     public String getEmail() {
         return Email;
@@ -29,19 +30,27 @@ public class Registration extends BaseEntity {
         Password = password;
     }
 
-    public String getFullName() {
-        return FullName;
+    public String getFirstName() {
+        return FirstName;
     }
 
-    public void setFullName(String fullName) {
-        FullName = fullName;
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
     }
 
-    public Boolean getGender() {
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    public Integer getGender() {
         return Gender;
     }
 
-    public void setGender(Boolean gender) {
+    public void setGender(Integer gender) {
         Gender = gender;
     }
 
@@ -69,19 +78,19 @@ public class Registration extends BaseEntity {
         CityId = cityId;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 }

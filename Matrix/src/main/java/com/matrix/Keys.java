@@ -34,6 +34,8 @@ public interface Keys {
     String SURVEY_ID = "survey_id";
 
     //Location
+    String LATITUDE = "latitude";
+    String LONGITUDE = "longitude";
     String COUNTRY_ID = "country_id";
     String COUNTRY_NAME = "country_name";
     String CITY_ID = "city_id";

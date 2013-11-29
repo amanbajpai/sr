@@ -2,7 +2,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:buttonStyle" >@style/Button</item >
+        <item name="android:buttonStyleToggle">@style/Toggle</item>
     </style >
+
+    <style name="Toggle" parent="android:Widget.Button.Toggle">
+        <item name="android:background">@drawable/btn_toggle</item>
+        <item name="android:minHeight">28dip</item>
+        <item name="android:textOff"></item>
+        <item name="android:textOn"></item>
+    </style>
+
     <!-- MAP - Task POPUP Styles -->
     <style name="MapTaskTitle" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
@@ -92,5 +101,15 @@
 
     <style name="mainMenuDividerStyle" >
         <item name="android:background" >@color/grey</item >
+    </style >
+
+    <style name="DialogTitle" parent="@android:style/Widget.TextView" >
+        <item name="android:textSize" >@dimen/text_size_large</item >
+        <item name="android:textColor" >@color/black</item >
+    </style >
+
+    <style name="DialogText" parent="@android:style/Widget.TextView" >
+        <item name="android:textSize" >@dimen/text_size_medium</item >
+        <item name="android:textColor" >@color/black</item >
     </style >
 </resources >

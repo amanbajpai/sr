@@ -52,7 +52,7 @@ public abstract class AppSQLiteOpenHelper extends SQLiteOpenHelper {
         }
         sql.append(")");
 
-        L.e(getClass().getSimpleName(), sql.toString());
+        L.d(getClass().getSimpleName(), sql.toString());
         return false;
     }
 
