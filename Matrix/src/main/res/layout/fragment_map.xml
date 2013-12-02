@@ -30,16 +30,33 @@
         android:id="@+id/hidden_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
-        android:background="@color/grey"
-
+        android:background="@color/map_filter_bg"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/txtRadius"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true" />
         <SeekBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/seekBarRadius"
-            android:layout_marginLeft="22dp" />
+            android:layout_below="@+id/txtRadius"
+            android:layout_marginRight="20dp"
+            android:layout_alignLeft="@+id/txtRadius" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_update"
+            android:id="@+id/btnUpdate"
+            android:layout_alignBottom="@+id/txtRadius"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 </RelativeLayout >

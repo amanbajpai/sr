@@ -41,37 +41,8 @@ public class Clusterkraf {
 	private ClusterTransitionsBuildingTaskHost clusterTransitionsBuildingTaskHost;
 
 	/**
-	 * Construct a Clusterkraf instance to manage your map with customized
-	 * options and a list of points
-	 * 
-	 * @param map
-	 *            The GoogleMap to be managed by Clusterkraf
-	 * @param options
-	 *            Customized options
-	 */
-	public Clusterkraf(GoogleMap map, Options options, ArrayList<InputPoint> points) {
-		this.mapRef = new WeakReference<GoogleMap>(map);
-		this.options = options;
-		this.innerCallbackListener = new InnerCallbackListener(this);
-		this.transitionsAnimation = new ClusterTransitionsAnimation(map, options, innerCallbackListener);
-
-		if (points != null) {
-			this.points.addAll(points);
-		}
-
-		if (map != null) {
-			map.setOnCameraChangeListener(innerCallbackListener.clusteringOnCameraChangeListener);
-			map.setOnMarkerClickListener(innerCallbackListener);
-			map.setOnInfoWindowClickListener(innerCallbackListener);
-            map.setInfoWindowAdapter(innerCallbackListener);
-		}
-
-		showAllClusters();
-	}
-
-	/**
 	 * Add a single InputPoint for clustering
-	 * 
+	 *
 	 * @param inputPoint
 	 *            The InputPoint object to be clustered
 	 */
@@ -82,6 +53,35 @@ public class Clusterkraf {
 			updateClustersAndTransition();
 		}
 	}
+
+    /**
+     * Construct a Clusterkraf instance to manage your map with customized
+     * options and a list of points
+     *
+     * @param map
+     *            The GoogleMap to be managed by Clusterkraf
+     * @param options
+     *            Customized options
+     */
+    public Clusterkraf(GoogleMap map, Options options, ArrayList<InputPoint> points) {
+        this.mapRef = new WeakReference<GoogleMap>(map);
+        this.options = options;
+        this.innerCallbackListener = new InnerCallbackListener(this);
+        this.transitionsAnimation = new ClusterTransitionsAnimation(map, options, innerCallbackListener);
+
+        if (points != null) {
+            this.points.addAll(points);
+        }
+
+        if (map != null) {
+            map.setOnCameraChangeListener(innerCallbackListener.clusteringOnCameraChangeListener);
+            map.setOnMarkerClickListener(innerCallbackListener);
+            map.setOnInfoWindowClickListener(innerCallbackListener);
+            map.setInfoWindowAdapter(innerCallbackListener);
+        }
+
+        showAllClusters();
+    }
 
 	/**
 	 * Add a list of InputPoint objects for clustering

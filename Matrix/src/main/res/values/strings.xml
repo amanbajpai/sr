@@ -167,4 +167,7 @@
     <string name="looking_for_location" >Looking for your current location...</string >
     <string name="current_location_not_defined" >There is no current location. Looking for your current location,
         please wait...</string >
+
+
+    <string name="btn_update" >Update</string >
 </resources >

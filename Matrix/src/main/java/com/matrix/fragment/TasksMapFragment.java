@@ -19,10 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -48,6 +45,7 @@ public class TasksMapFragment extends Fragment {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
+    private  MatrixLocationManager lm;
     private View fragmentView;
     private ImageButton btnFilter;
     private ImageButton btnMyLocation;
@@ -56,8 +54,12 @@ public class TasksMapFragment extends Fragment {
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
     private int taskRadius = 5000;
+    private int sbRadiusProgress = 10;
+    private int sbRadiusDelta = 500; // 1% = 500m => Max = 50km
+    private TextView txtRadius;
     private float defaultZoomLevel = 11f;
     private float zoomLevel = defaultZoomLevel;
+    private SeekBar sbRadius;
 
 
     private boolean mLoading = false;
@@ -76,6 +78,8 @@ public class TasksMapFragment extends Fragment {
             this.options = new ClusterOptions();
         }
         handler = new DbHandler(getActivity().getContentResolver());
+
+        lm = App.getInstance().getLocationManager();
     }
 
     @Override
@@ -87,6 +91,30 @@ public class TasksMapFragment extends Fragment {
         btnFilter = (ImageButton) fragmentView.findViewById(R.id.btnFilter);
         btnMyLocation = (ImageButton) fragmentView.findViewById(R.id.btnMyLocation);
         rlFilterPanel = (RelativeLayout) fragmentView.findViewById(R.id.hidden_panel);
+        sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
+        txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
+        this.setRaiusText();
+        sbRadius.setProgress(10);
+        sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                sbRadiusProgress = progress;
+                taskRadius = sbRadiusDelta * sbRadiusProgress;
+                updateMapPins();
+                setRaiusText();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         setHasOptionsMenu(true);
 
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +137,7 @@ public class TasksMapFragment extends Fragment {
     public void onResume() {
         super.onResume();
         initMap();
-        MatrixLocationManager lm = App.getInstance().getLocationManager();
+
         Location location = lm.getLocation();
         if (location != null) {
             loadTasks(location);
@@ -127,6 +155,8 @@ public class TasksMapFragment extends Fragment {
         }
         showFilterPannel(false);
     }
+
+
 
     private void showTaskDetails(Long taskId) {
         Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
@@ -188,7 +218,9 @@ public class TasksMapFragment extends Fragment {
                     uiSettings.setZoomGesturesEnabled(true);
                     map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                         @Override
-                        public void onCameraChange(CameraPosition arg0) {
+                        public void onCameraChange(CameraPosition pos) {
+                            zoomLevel = pos.zoom;
+                            L.d(TAG, "ZoomLevel = " + zoomLevel);
                         }
                     });
                 }
@@ -390,7 +422,6 @@ public class TasksMapFragment extends Fragment {
      * Settings for Cluster library
      */
     private static class ClusterOptions {
-
         // clusterkraf library options
         int transitionDuration = 500;
         String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
@@ -534,7 +565,7 @@ public class TasksMapFragment extends Fragment {
                 .position(coordinates)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
         );
-        restoreCameraPosition = new CameraPosition(coordinates, defaultZoomLevel, 0, 0);
+        restoreCameraPosition = new CameraPosition(coordinates, zoomLevel, 0, 0);
         moveCameraToMyLocation();
     }
 
@@ -552,6 +583,22 @@ public class TasksMapFragment extends Fragment {
                 r.getColor(R.color.map_radius_fill));
         addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
                 r.getColor(R.color.map_accuracy_fill));
+    }
+
+    /**
+     * Remove all pins and update mapview
+     */
+    private void updateMapPins() {
+        map.clear();
+        Location location = lm.getLocation();
+        if (location != null) {
+            addMyLocationAndRadius(location, taskRadius);
+        }
+        moveMapCameraToBoundsAndInitClusterkraf();
+    }
+
+    private void setRaiusText() {
+        txtRadius.setText("" + taskRadius + " m");
     }
 
     /**
