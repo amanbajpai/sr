@@ -25,9 +25,6 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onRegistered(Context context, String registrationId) {
         L.d(TAG, "Device registered: regId = " + registrationId);
         displayMessage(context, getString(R.string.gcm_registered));
-        //TODO: Register on Matrix server
-        //ServerUtilities serverUtilities = new ServerUtilities(this);
-        //serverUtilities.makeRequestRegister(registrationId);
     }
 
     @Override
@@ -47,9 +44,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     @Override
     protected void onMessage(Context context, Intent intent) {
-        L.i(TAG, "Received message");
         String message = intent.getStringExtra("message");
         String voucherId = intent.getStringExtra("voucherId");
+        L.d(TAG, "Received message [message=" + message + ", voucherId=" + voucherId + "]");
         displayMessage(context, message);
         generateNotification(context, message, voucherId);
     }

@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:inputType="textEmailAddress"
+            android:text="@string/login_test_account"
             android:hint="@string/your_email_hint" />
         <EditText
             android:id="@+id/passwordEditText"
@@ -43,6 +44,7 @@
             android:layout_marginTop="20dp"
             android:inputType="textPassword"
             android:layout_width="match_parent"
+            android:text="@string/login_test_password"
             android:hint="@string/your_password_hint" />
         <TextView
             android:id="@+id/forgotPasswordButton"

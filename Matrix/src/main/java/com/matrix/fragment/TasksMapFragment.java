@@ -34,8 +34,10 @@ import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
+import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.L;
+import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
 import com.twotoasters.clusterkraf.*;
 
@@ -187,7 +189,6 @@ public class TasksMapFragment extends Fragment {
                     map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                         @Override
                         public void onCameraChange(CameraPosition arg0) {
-                            moveMapCameraToBoundsAndInitClusterkraf();
                         }
                     });
                 }
@@ -202,6 +203,7 @@ public class TasksMapFragment extends Fragment {
      */
     private void moveMapCameraToBoundsAndInitClusterkraf() {
         if (map != null && options != null && inputPoints != null) {
+            L.d(TAG, "moveMapCameraToBoundsAndInitClusterkraf()");
             try {
                 moveCameraToMyLocation();
                 initClusterkraf();
@@ -521,7 +523,12 @@ public class TasksMapFragment extends Fragment {
                 .fillColor(fillColor));
     }
 
+    /**
+     * Add marker with myu location on the map
+     * @param coordinates
+     */
     private void addMyLocation(LatLng coordinates) {
+        L.d(TAG, "addMyLocation");
         map.addMarker(new MarkerOptions()
                 .snippet(MYLOC)
                 .position(coordinates)
@@ -551,6 +558,7 @@ public class TasksMapFragment extends Fragment {
      * Move camera to current location or show Toast message if location not defined.
      */
     private void moveCameraToMyLocation() {
+        L.d(TAG,"moveCameraToMyLocation()");
         if (restoreCameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
         } else {

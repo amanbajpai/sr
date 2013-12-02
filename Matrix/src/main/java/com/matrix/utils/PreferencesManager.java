@@ -66,15 +66,6 @@ public class PreferencesManager {
             L.i(TAG, "Registration not found.");
             return "";
         }
-        // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
-        // app version.
-        int registeredVersion = prefs.getInt(Keys.GCM_PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-        int currentVersion = UIUtils.getAppVersionCode(context);
-        if (registeredVersion != currentVersion) {
-            L.i(TAG, "App version changed.");
-            return "";
-        }
         return registrationId;
     }
 

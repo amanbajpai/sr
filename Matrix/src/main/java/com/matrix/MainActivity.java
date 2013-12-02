@@ -8,10 +8,11 @@ import com.matrix.activity.BaseSlidingMenuActivity;
 import com.matrix.fragment.AllTaskFragment;
 import com.matrix.helpers.APIFacade;
 import com.matrix.helpers.FragmentHelper;
+import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
 
 public class MainActivity extends BaseSlidingMenuActivity {
-    //private final static String TAG = MainActivity.class.getSimpleName();
+    private final static String TAG = MainActivity.class.getSimpleName();
     private FragmentHelper fragmetHelper = new FragmentHelper();
 
     @Override
@@ -22,9 +23,11 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
         PreferencesManager pm = PreferencesManager.getInstance();
         if (pm.isGCMIdRegisteredOnServer()) {
+            L.i(TAG, "Send GCM to server");
             String regId = pm.getGCMRegistrationId();
-
             APIFacade.getInstance().testGCMPushNotification(getApplicationContext(), regId, "This is my test string");
+        } else {
+            L.i(TAG, "NOT registerted GCM at server");
         }
 
         Bundle bundle = new Bundle();

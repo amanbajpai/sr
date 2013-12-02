@@ -11,6 +11,8 @@
     <string name="i_new_user" >I\'am a new user</string >
     <string name="login_fail_dialog_title" >Log in pop-up</string >
     <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
+    <string name="login_test_account" >Admin</string >
+    <string name="login_test_password" >123456</string >
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name" >First name</string >
     <string name="last_name" >Last name</string >

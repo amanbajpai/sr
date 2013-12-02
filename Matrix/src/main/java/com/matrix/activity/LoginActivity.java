@@ -86,10 +86,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
                     }
                 }
-                String regId = PreferencesManager.getInstance().getGCMRegistrationId();
-                if ("".equals(regId)) {
-                    CommonUtilities.registerGCMInBackground();
-                }
                 // Start MainActivity
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
