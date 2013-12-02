@@ -28,7 +28,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
 
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
-        view.findViewById(R.id.profileButton).setOnClickListener(this);
+        view.findViewById(R.id.myAccountButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
         view.findViewById(R.id.aboutMatrixButton).setOnClickListener(this);
         view.findViewById(R.id.shareButton).setOnClickListener(this);
@@ -89,8 +89,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
                 ((MainActivity) getActivity()).startFragment(fragment);
                 ((MainActivity) getActivity()).togleMenu();
                 break;
-            case R.id.profileButton:
-                ((MainActivity) getActivity()).startFragment(new ProfileFragment());
+            case R.id.myAccountButton:
+                ((MainActivity) getActivity()).startFragment(new MyAccountFragment());
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.settingsButton:

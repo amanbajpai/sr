@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import com.matrix.App;
 import com.matrix.Config;
+import com.matrix.Keys;
 import com.matrix.db.entity.BaseEntity;
 import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
@@ -35,7 +36,6 @@ public abstract class BaseNetworkService extends IntentService {
 
     public static final String KEY_OPERATION = "operation";
     public static final String BROADCAST_ACTION = "operation";
-    public static final String TOKEN = "token";
 
     public static final int NO_INTERNET = -100500;
 
@@ -111,7 +111,7 @@ public abstract class BaseNetworkService extends IntentService {
         method.addHeader("device-type", App.getInstance().getDeviceType());
         method.addHeader("device-os-version", App.getInstance().getDeviceApiNumber());
         //method.addHeader("Accept-Encoding", "gzip");
-        method.addHeader("Authorization", "Bearer "+preferencesManager.getString(NetworkService.TOKEN, ""));
+        method.addHeader("Authorization", "Bearer "+preferencesManager.getToken());
         method.addHeader("App-version", Config.APP_VERSION);
     }
 

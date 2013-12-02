@@ -17,8 +17,8 @@ repositories {
 }
 
 dependencies {
-  compile 'com.google.android.gms:play-services:4.0.30'
-  compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.google.android.gms:play-services:4.0.30'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
 
 android {

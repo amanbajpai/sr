@@ -3,6 +3,7 @@ package com.matrix.activity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -17,7 +18,6 @@ import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
-import com.matrix.utils.DialogUtils;
 import com.matrix.utils.UIUtils;
 
 import java.util.Calendar;
@@ -53,6 +53,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_registration);
 
         if (getIntent() != null) {
@@ -163,18 +164,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
-    }
-
-    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.showPasswordToggleButton:
@@ -189,5 +178,30 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
     }
 }

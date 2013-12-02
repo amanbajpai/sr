@@ -99,7 +99,7 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.LOGIN_ID:
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);
-                        preferencesManager.setString(TOKEN, loginResponse.getToken());
+                        preferencesManager.setToken(loginResponse.getToken());
                         break;
                     case WSUrl.CHECK_LOCATION_ID:
                         CheckLocationResponse checkLocationResponse = gson.fromJson(responseString,

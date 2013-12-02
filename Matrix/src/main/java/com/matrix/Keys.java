@@ -3,6 +3,8 @@ package com.matrix;
 public interface Keys {
     // Application
     String APP_VERSION = "app_version";
+    String TOKEN = "token";
+
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
