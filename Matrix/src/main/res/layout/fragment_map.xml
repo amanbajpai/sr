@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:background="@color/map_filter_bg"
         android:paddingBottom="20dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_alignParentBottom="true">
         <TextView
             android:layout_width="wrap_content"
