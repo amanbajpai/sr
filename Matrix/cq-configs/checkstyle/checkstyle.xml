@@ -51,19 +51,19 @@
           <property name="allowThrowsTagsForSubclasses" value="true"/>
           <property name="allowUndeclaredRTE" value="true"/>
           <property name="allowMissingPropertyJavadoc" value="true"/>
-          <property name="severity" value="info"/>
+          <property name="severity" value="ignore"/>
         </module>
         <module name="JavadocType">
           <property name="scope" value="package"/>
-	  <property name="severity" value="info"/>
+	  <property name="severity" value="ignore"/>
         </module>
         <module name="JavadocVariable">
           <property name="scope" value="package"/>
-          <property name="severity" value="info"/>
+          <property name="severity" value="ignore"/>
         </module>
         <module name="JavadocStyle">
           <property name="checkEmptyJavadoc" value="true"/>
-          <property name="severity" value="info"/>
+          <property name="severity" value="ignore"/>
         </module>
 
         <!-- Checks for Naming Conventions.                  -->
