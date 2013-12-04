@@ -67,6 +67,11 @@
         <activity android:name="com.matrix.activity.TaskDetailsActivity" />
         <activity android:name="com.matrix.activity.CheckLocationActivity" />
         <activity android:name="com.matrix.activity.CheckLocationFailedActivity" />
+        <activity
+            android:name="com.matrix.activity.TakePhotoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/CameraTheme"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.matrix.net.NetworkService"

@@ -1,5 +1,7 @@
 package com.matrix.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -18,6 +20,8 @@ import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.BytesBitmap;
+import com.matrix.utils.SelectImageManager;
 import com.matrix.utils.UIUtils;
 
 import java.util.Calendar;
@@ -28,8 +32,15 @@ import java.util.Calendar;
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
     private final static String TAG = RegistrationActivity.class.getSimpleName();
+    public static int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2};
+    public static String[] EDUCATION_LEVEL = new String[]{"Education Level", "First level", "Second level"};
+    public static int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2};
+    public static String[] EMPLOYMENT_STATUS = new String[]{"Employment Status", "First status", "Second status"};
+
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
+    private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
+    private ImageView profilePhotoImageView;
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText passwordEditText;
@@ -49,6 +60,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private Double latitude;
     private Double longitude;
     private ToggleButton showPasswordToggleButton;
+    private Spinner educationLevelSpinner;
+    private Spinner employmentStatusSpinner;
+    private Bitmap photoBitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +82,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
+        profilePhotoImageView = (ImageView) findViewById(R.id.profilePhotoImageView);
+        profilePhotoImageView.setOnClickListener(this);
+
         firstNameEditText = (EditText) findViewById(R.id.firstNameEditText);
         lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -83,6 +100,16 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         showPasswordToggleButton = (ToggleButton) findViewById(R.id.showPasswordToggleButton);
         showPasswordToggleButton.setOnCheckedChangeListener(this);
 
+        educationLevelSpinner = (Spinner) findViewById(R.id.educationLevelSpinner);
+        ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
+                EDUCATION_LEVEL);
+        educationLevelSpinner.setAdapter(educationLevelAdapter);
+
+        employmentStatusSpinner = (Spinner) findViewById(R.id.employmentStatusSpinner);
+        ArrayAdapter employmentStatusAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
+                EMPLOYMENT_STATUS);
+        employmentStatusSpinner.setAdapter(employmentStatusAdapter);
+
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);
 
         findViewById(R.id.confirmButton).setOnClickListener(this);
@@ -95,6 +122,19 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.profilePhotoImageView:
+                selectImageManager.showSelectImageDialog(this, true, new SelectImageManager.OnImageCompleteListener() {
+                    @Override
+                    public void onImageComplete(Bitmap bitmap) {
+                        RegistrationActivity.this.photoBitmap = bitmap;
+                        if (bitmap != null) {
+                            profilePhotoImageView.setImageBitmap(bitmap);
+                        } else {
+                            profilePhotoImageView.setImageResource(R.drawable.no_photo);
+                        }
+                    }
+                });
+                break;
             case R.id.confirmButton:
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
@@ -128,6 +168,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setCityId(cityId);
                 registrationEntity.setLatitude(latitude);
                 registrationEntity.setLongitude(longitude);
+                registrationEntity.setGroupCode(groupCode);
+                registrationEntity.setEducationLevel(EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()]);
+                registrationEntity.setEmploymentStatus(EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()]);
+
+                if(photoBitmap!=null){
+                    registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));
+                }
 
                 switch (genderRadioGroup.getCheckedRadioButtonId()) {
                     case R.id.maleRadioButton:
@@ -178,6 +225,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        selectImageManager.onActivityResult(requestCode, resultCode, intent);
     }
 
     @Override

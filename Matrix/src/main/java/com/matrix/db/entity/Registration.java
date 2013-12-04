@@ -8,11 +8,15 @@ public class Registration extends BaseEntity {
     private String FirstName;
     private String LastName;
     private Integer Gender;
+    private Integer EducationLevel;
+    private Integer EmploymentStatus;
     private String Birthday;
     private Integer CountryId;
     private Integer CityId;
     private Double Longitude;
     private Double Latitude;
+    private String GroupCode;
+    private String photoBase64;
 
     public String getEmail() {
         return Email;
@@ -93,4 +97,40 @@ public class Registration extends BaseEntity {
     public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
+
+    public Integer getEmploymentStatus() {
+        return EmploymentStatus;
+    }
+
+    public void setEmploymentStatus(Integer employmentStatus) {
+        EmploymentStatus = employmentStatus;
+    }
+
+    public Integer getEducationLevel() {
+        return EducationLevel;
+    }
+
+    public void setEducationLevel(Integer educationLevel) {
+        EducationLevel = educationLevel;
+    }
+
+
+    public String getGroupCode() {
+        return GroupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        GroupCode = groupCode;
+    }
+
+
+    public String getPhotoBase64() {
+        return photoBase64;
+    }
+
+    public void setPhotoBase64(String photoBase64) {
+        this.photoBase64 = photoBase64;
+    }
+
+
 }

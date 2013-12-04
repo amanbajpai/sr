@@ -26,7 +26,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -310,5 +309,9 @@ public class UIUtils {
                 break;
         }
         return "longToStringFormatNotFound";
+    }
+
+    public static boolean isCameraAvailable(Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 }

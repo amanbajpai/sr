@@ -3,7 +3,7 @@
     <string name="app_name" >Matrix</string >
     <!-- LOGIN ACTIVITY -->
     <string name="welcome_to" >Welcome to</string >
-    <string name="your_email_hint" >Your e-email</string >
+    <string name="your_email_hint" >Your e-mail</string >
     <string name="your_password_hint" >Your password</string >
     <string name="forgot_password" ><u >Forgot password?</u ></string >
     <string name="login" >Log in</string >
@@ -178,4 +178,12 @@
 
 
     <string name="btn_update" >Update</string >
+
+    <!-- Select image dialog -->
+    <string name="take_picture">Take picture</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="take_from_camera">Take from camera</string>
+    <string name="remove_current_picture">Remove current picture</string>
+    <string name="cancel_set_image">Cancel</string>
+    <string name="capture" >Capture</string >
 </resources >
