@@ -7,16 +7,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.*;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.matrix.BaseActivity;
 import com.matrix.R;
 import com.matrix.activity.LoginActivity;
+import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Profile fragment for current user
@@ -30,6 +34,7 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
     private TextView agentLevel;
     private TextView agentExperience;
     private TextView toNextLevel;
+    private Button btnTransfer;
 
 
     @Override
@@ -46,12 +51,36 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
         agentLevel = (TextView) view.findViewById(R.id.agentLevel);
         agentExperience = (TextView) view.findViewById(R.id.agentExperience);
         toNextLevel = (TextView) view.findViewById(R.id.toNextLevel);
+        btnTransfer = (Button) view.findViewById(R.id.transferFundsButton);
 
 
         payPalEditText.setText(String.valueOf(10));
         agentLevel.setText(String.valueOf(0));
         agentExperience.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), 116)));
         toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), 100)));
+        btnTransfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PreferencesManager pm = PreferencesManager.getInstance();
+                if (pm.isGCMIdRegisteredOnServer()) {
+                    L.i(TAG, "Send GCM to server");
+                    String regId = pm.getGCMRegistrationId();
+                    JSONObject obj = new JSONObject();
+                    JSONObject obj2 = new JSONObject();
+                    try {
+                        obj2.put("title", "SmartRocket");
+                        obj2.put("subtitle","Welcome to SmartRocket world!");
+                        obj.put("message", obj2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String test = obj.toString();
+                    APIFacade.getInstance().testGCMPushNotification(getActivity(), regId, test);
+                } else {
+                    L.i(TAG, "NOT registerted GCM at server");
+                }
+            }
+        });
 
         return view;
     }

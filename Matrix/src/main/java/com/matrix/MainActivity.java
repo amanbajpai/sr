@@ -21,15 +21,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
         fragmetHelper.removeFragmentFromList(this, new AllTaskFragment());
 
-        PreferencesManager pm = PreferencesManager.getInstance();
-        if (pm.isGCMIdRegisteredOnServer()) {
-            L.i(TAG, "Send GCM to server");
-            String regId = pm.getGCMRegistrationId();
-            APIFacade.getInstance().testGCMPushNotification(getApplicationContext(), regId, "This is my test string");
-        } else {
-            L.i(TAG, "NOT registerted GCM at server");
-        }
-
         Bundle bundle = new Bundle();
         bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
 

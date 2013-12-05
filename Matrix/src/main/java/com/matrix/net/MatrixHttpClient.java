@@ -16,8 +16,13 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
+/**
+ * HttpClient for Smart Rocket project
+ */
 public class MatrixHttpClient {
     private static HttpClient httpClientInstance;
+
+    private static int CONNECTION_TIMEOUT = 120000;
 
     private MatrixHttpClient() {
         httpClientInstance = createHttpClient();
@@ -44,8 +49,8 @@ public class MatrixHttpClient {
 
         HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
         HttpProtocolParams.setContentCharset(params, "UTF-8");
-        HttpConnectionParams.setConnectionTimeout(params, 120000);
-        HttpConnectionParams.setSoTimeout(params, 120000);
+        HttpConnectionParams.setConnectionTimeout(params, CONNECTION_TIMEOUT);
+        HttpConnectionParams.setSoTimeout(params, CONNECTION_TIMEOUT);
 
         SchemeRegistry registry = new SchemeRegistry();
         registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
