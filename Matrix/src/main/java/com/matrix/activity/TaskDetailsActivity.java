@@ -130,8 +130,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
                 130))));
 
-        taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
-                String.format(Locale.US, "%.1f", task.getDistance()), getString(R.string.distance_m))));
+        if (task.getDistance() > 1000 ) {
+            taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
+                    String.format(Locale.US, "%.1f", task.getDistance() / 1000), getString(R.string.distance_km))));
+        } else {
+            taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
+                    String.format(Locale.US, "%.1f", task.getDistance()), getString(R.string.distance_m))));
+        }
 
         taskAddress.setText(task.getAddress());
     }

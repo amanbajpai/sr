@@ -17,12 +17,10 @@
     <string name="first_name" >First name</string >
     <string name="last_name" >Last name</string >
     <string name="password" >Password</string >
-    <string name="minimum_6_letters" >Minimum 6 letters</string >
     <string name="gender" >Gender</string >
     <string name="male" >Male</string >
     <string name="female" >Female</string >
     <string name="birthday" >Birthday</string >
-    <string name="i" >i</string >
     <string name="day" >Day</string >
     <string name="month" >Month</string >
     <string name="year" >Year</string >
@@ -66,8 +64,6 @@
     <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
     <string name="surveys_task_list_title" >Survey\'s task list</string >
-    <string name="get_tasks" >Get Tasks</string >
-    <string name="add_tasks" >Add Tasks</string >
     <string name="task_expires_at" >Task expires at:</string >
     <!-- MY TASK FRAGMENT-->
     <string name="my_tasks_title" >My Tasks</string >
@@ -83,14 +79,12 @@
     <string name="pay_pal" >PayPal</string >
     <string name="change_account_info" ><u >Change account info</u ></string >
     <string name="your_account" >Your Account</string >
-    <string name="total_earnings" >Total earnings</string >
     <string name="your_info" >Your Info</string >
     <string name="agent_level" >Agent level</string >
     <string name="agent_experience" >Agent Experience</string >
     <string name="to_next_level" >To next level</string >
     <string name="x_points" >&lt;b>%1$s &lt;/b> points</string >
     <string name="logout" >Log out</string >
-    <string name="change_photo" >Change photo</string >
     <string name="change_password" ><u >Change password</u ></string >
     <string name="update_my_location" >Update my location</string >
     <string name="confirm_and_save" >Confirm &amp; save</string >
@@ -163,7 +157,6 @@
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >
-    <string name="gcm_message" >From GCM: you got message!</string >
     <string name="gcm_error" >From GCM: error (%1$s).</string >
     <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
     <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
@@ -175,7 +168,6 @@
     <string name="looking_for_location" >Looking for your current location...</string >
     <string name="current_location_not_defined" >There is no current location. Looking for your current location,
         please wait...</string >
-
 
     <string name="btn_update" >Update</string >
 

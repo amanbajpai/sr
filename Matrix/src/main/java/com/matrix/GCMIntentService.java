@@ -50,15 +50,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     @Override
     protected void onMessage(Context context, Intent intent) {
-
         Bundle extras = intent.getExtras();
-        String message = extras.getString("alert");
-        L.d(TAG, "Received message [Keys=" + extras.keySet() + "]");
-        L.d(TAG, "Received message [badge=" + extras.get("badge") + "]");
-        L.d(TAG, "Received message [collapse_key=" + extras.get("collapse_key") + "]");
-        L.d(TAG, "Received message [from=" + extras.get("from") + "]");
-        L.d(TAG, "Received message [alert=" + extras.get("alert") + "]");
-        L.d(TAG, "Received message [sound=" + extras.get("sound") + "]");
+        String message = extras.getString("message");
+        L.d(TAG, "Received message [message=" + extras.get("message") + "]");
         displayMessage(context, message);
         generateNotification(context, message);
     }

@@ -26,7 +26,7 @@ import com.matrix.utils.L;
 
 import java.util.ArrayList;
 
-public class MyTaskListFragment extends Fragment implements OnClickListener, OnItemClickListener, NetworkOperationListenerInterface {
+public class MyTaskListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = MyTaskListFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
@@ -53,7 +53,6 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
         taskList.setOnItemClickListener(this);
 
         responseTextView = (TextView) view.findViewById(R.id.responseTextView);
-        view.findViewById(R.id.getTasksButton).setOnClickListener(this);
 
         adapter = new MyTaskAdapter(getActivity());
 
@@ -121,17 +120,6 @@ public class MyTaskListFragment extends Fragment implements OnClickListener, OnI
             }
         } else {
             L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.getTasksButton:
-                apiFacade.getMyTasks(getActivity());
-                break;
-            default:
-                break;
         }
     }
 
