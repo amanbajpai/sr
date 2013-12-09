@@ -20,8 +20,7 @@ public class Task extends BaseEntity {
     private String Language;
     private Double Price;
     private String Address;
-
-    transient private Float Distance;
+    private Float Distance;
 
     public Task() {
     }

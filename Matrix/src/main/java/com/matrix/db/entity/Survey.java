@@ -24,6 +24,9 @@ public class Survey extends BaseEntity {
     transient private Float Longitude;
     transient private Float Latitude;
 
+    @SkipFieldInContentValues
+    private Task[] Tasks;
+
     public Survey() {
     }
 
@@ -185,5 +188,14 @@ public class Survey extends BaseEntity {
 
     public void setExpectedStartDateTime(String expectedStartDateTime) {
         ExpectedStartDateTime = expectedStartDateTime;
+    }
+
+
+    public Task[] getTasks() {
+        return Tasks;
+    }
+
+    public void setTasks(Task[] tasks) {
+        this.Tasks = tasks;
     }
 }

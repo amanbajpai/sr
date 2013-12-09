@@ -58,9 +58,9 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
         adapter = new MyTaskAdapter(this);
         taskList.setAdapter(adapter);
 
-        createTasks(2, surveyId);
+        //createTasks(2, surveyId);
         getTasks(surveyId);
-        apiFacade.getSurveysTask(this, surveyId);
+        //apiFacade.getSurveysTask(this, surveyId);
     }
 
     private void getTasks(long surveyId) {
@@ -70,7 +70,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
                 TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    private void createTasks(int count, long surveyId) {
+    /*private void createTasks(int count, long surveyId) {
         for (int i = 0; i < count; i++) {
             Task task = new Task();
             task.setRandomId();
@@ -84,7 +84,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
                     task.toContentValues());
         }
         getTasks(surveyId);
-    }
+    }*/
 
     class DbHandler extends AsyncQueryHandler {
 

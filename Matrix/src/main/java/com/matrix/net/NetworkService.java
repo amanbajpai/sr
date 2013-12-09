@@ -64,16 +64,16 @@ public class NetworkService extends BaseNetworkService {
                 ContentResolver contentResolver = getContentResolver();
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.GET_SURVEYS_ID:
-                        /*Survey[] surveys = gson.fromJson((new org.json.JSONObject(responseString)).getString(Keys.SURVEYS),
-                                Survey[].class);*/
-
                         Surveys surveys = gson.fromJson(responseString, Surveys.class);
 
                         for (Survey survey : surveys.getSurveys()) {
                             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
+
+                            for (Task task : survey.getTasks()) {
+                                contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
+                            }
                         }
 
-                        //operation.responseEntities.addAll(new ArrayList<Survey>(Arrays.asList(surveys)));
                         break;
                     case WSUrl.GET_SURVEYS_TASKS_ID:
                         Task[] tasks = gson.fromJson(responseString, Task[].class);

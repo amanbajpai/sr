@@ -49,16 +49,20 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
                 contentType = getArguments().getString(Keys.CONTENT_TYPE);
             }
             showMap();
+        } else {
+            fragmetHelper.hideLastFragment(getActivity());
         }
     }
 
-    public void showMap(){
+    public void showMap() {
         fragmetHelper.startFragmentFromStack(getActivity(), new TasksMapFragment());
     }
-    public void showSurveyList(){
+
+    public void showSurveyList() {
         fragmetHelper.startFragmentFromStack(getActivity(), new SurveyListFragment());
     }
-    public void showMyTask(){
+
+    public void showMyTask() {
         fragmetHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment());
     }
 

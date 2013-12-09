@@ -100,9 +100,10 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public void getSurveys(Activity activity, String language, double latitude, double longitude) {
+    public void getSurveys(Activity activity, double latitude, double longitude, int radius, String language) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_SURVEYS, language, String.valueOf(latitude), String.valueOf(longitude));
+        operation.setUrl(WSUrl.GET_SURVEYS, String.valueOf(latitude), String.valueOf(longitude),
+                String.valueOf(radius), language);
         operation.setTag(Keys.GET_SURVEYS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

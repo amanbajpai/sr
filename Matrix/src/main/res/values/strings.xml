@@ -11,7 +11,7 @@
     <string name="i_new_user" >I\'am a new user</string >
     <string name="login_fail_dialog_title" >Log in pop-up</string >
     <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
-    <string name="login_test_account" >Admin</string >
+    <string name="login_test_account" >Agent1</string >
     <string name="login_test_password" >123456</string >
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name" >First name</string >
@@ -179,6 +179,7 @@
     <string name="cancel_set_image" >Cancel</string >
     <string name="capture" >Capture</string >
     <!-- EDUCATION_LEVEL -->
+    <string name="education_level" >Education level</string >
     <string name="no_schooling" >No schooling</string >
     <string name="primary_school" >Primary school</string >
     <string name="junior_secondary_school" >Junior Secondary School</string >
@@ -187,6 +188,7 @@
     <string name="bachelors_degree" >Bachelors Degree</string >
     <string name="master_degree_or_higher" >Masters Degree or higher</string >
     <!-- EMPLOYMENT_STATUS -->
+    <string name="employment_status" >Employment Status</string >
     <string name="student" >Student</string >
     <string name="employed_part_time" >Employed - Part Time</string >
     <string name="employed_full_time" >Employed - Full Time</string >

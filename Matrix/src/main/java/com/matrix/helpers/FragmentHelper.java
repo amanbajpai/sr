@@ -98,4 +98,20 @@ public class FragmentHelper {
         }
         fragmentList.clear();
     }
+
+    public void hideLastFragment(Activity activity){
+        FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
+        if (lastFragment != null) {
+            ft.hide(lastFragment);
+        }
+        ft.commitAllowingStateLoss();
+    }
+
+    public void showLastFragment(Activity activity){
+        FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
+        if (lastFragment != null) {
+            ft.show(lastFragment);
+        }
+        ft.commitAllowingStateLoss();
+    }
 }

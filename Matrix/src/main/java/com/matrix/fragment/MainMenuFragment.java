@@ -11,17 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import com.matrix.Keys;
-import com.matrix.MainActivity;
-import com.matrix.R;
-import com.matrix.utils.L;
+import android.widget.TextView;
+import com.matrix.*;
+import com.matrix.db.entity.MyAccount;
+import com.matrix.helpers.APIFacade;
+import com.matrix.net.BaseOperation;
+import com.matrix.net.NetworkOperationListenerInterface;
+import com.matrix.utils.UIUtils;
 
-public class MainMenuFragment extends Fragment implements OnClickListener {
-    private static final String TAG = MainMenuFragment.class.getSimpleName();
+public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
+    //private static final String TAG = MainMenuFragment.class.getSimpleName();
+    private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
 
     private ResponseReceiver localReceiver;
     private IntentFilter intentFilter;
+    private TextView balanceTextView;
+    private TextView levelTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +35,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
+
+        balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
+        levelTextView = (TextView) view.findViewById(R.id.levelTextView);
 
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
@@ -43,18 +52,15 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
 
         getActivity().registerReceiver(localReceiver, intentFilter);
 
+        setData(App.getInstance().getMyAccount());
+        apiFacade.getMyAccount(getActivity());
+
         return view;
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
-        }
+    public void setData(MyAccount myAccount) {
+        balanceTextView.setText(myAccount.getBalance() + " $");
+        levelTextView.setText(String.valueOf(myAccount.getLavel()));
     }
 
     public class ResponseReceiver extends BroadcastReceiver {
@@ -64,9 +70,20 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
             String action = intent.getAction();
 
             if (action.equals(Keys.REFRESH_MAIN_MENU)) {
-                //TODO Refresh main menu
-                L.w(TAG, "TODO Refresh main menu");
+                apiFacade.getMyAccount(getActivity());
             }
+        }
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == 200) {
+            if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+                MyAccount myAccount = (MyAccount) operation.getResponseEntities().get(0);
+                setData(myAccount);
+            }
+        } else {
+            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
         }
     }
 
@@ -112,6 +129,18 @@ public class MainMenuFragment extends Fragment implements OnClickListener {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        super.onStop();
     }
 
     @Override

@@ -22,7 +22,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.*;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.*;
 import com.matrix.App;
@@ -31,10 +30,8 @@ import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
-import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.L;
-import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
 import com.twotoasters.clusterkraf.*;
 
@@ -45,7 +42,7 @@ public class TasksMapFragment extends Fragment {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
-    private  MatrixLocationManager lm;
+    private MatrixLocationManager lm;
     private View fragmentView;
     private ImageButton btnFilter;
     private ImageButton btnMyLocation;
@@ -53,7 +50,7 @@ public class TasksMapFragment extends Fragment {
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
-    private int taskRadius = 5000;
+    public static int taskRadius = 5000;
     private int sbRadiusProgress = 10;
     private int sbRadiusDelta = 500; // 1% = 500m => Max = 50km
     private TextView txtRadius;
@@ -155,7 +152,6 @@ public class TasksMapFragment extends Fragment {
         }
         showFilterPannel(false);
     }
-
 
 
     private void showTaskDetails(Long taskId) {
@@ -423,15 +419,16 @@ public class TasksMapFragment extends Fragment {
      */
     private static class ClusterOptions {
         // clusterkraf library options
-        int transitionDuration = 500;
-        String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
-        int dipDistanceToJoinCluster = 100;
-        int zoomToBoundsAnimationDuration = 500;
-        int showInfoWindowAnimationDuration = 500;
-        double expandBoundsFactor = 0.5d;
-        com.twotoasters.clusterkraf.Options.SinglePointClickBehavior singlePointClickBehavior = com.twotoasters.clusterkraf.Options.SinglePointClickBehavior.SHOW_INFO_WINDOW;
-        Options.ClusterClickBehavior clusterClickBehavior = Options.ClusterClickBehavior.ZOOM_TO_BOUNDS;
-        Options.ClusterInfoWindowClickBehavior clusterInfoWindowClickBehavior = Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
+        private int transitionDuration = 500;
+        private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
+        private int dipDistanceToJoinCluster = 100;
+        private int zoomToBoundsAnimationDuration = 500;
+        private int showInfoWindowAnimationDuration = 500;
+        private double expandBoundsFactor = 0.5d;
+        private com.twotoasters.clusterkraf.Options.SinglePointClickBehavior singlePointClickBehavior = com
+                .twotoasters.clusterkraf.Options.SinglePointClickBehavior.SHOW_INFO_WINDOW;
+        private Options.ClusterClickBehavior clusterClickBehavior = Options.ClusterClickBehavior.ZOOM_TO_BOUNDS;
+        private Options.ClusterInfoWindowClickBehavior clusterInfoWindowClickBehavior = Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
     }
 
     /**
@@ -556,6 +553,7 @@ public class TasksMapFragment extends Fragment {
 
     /**
      * Add marker with myu location on the map
+     *
      * @param coordinates
      */
     private void addMyLocation(LatLng coordinates) {
@@ -605,7 +603,7 @@ public class TasksMapFragment extends Fragment {
      * Move camera to current location or show Toast message if location not defined.
      */
     private void moveCameraToMyLocation() {
-        L.d(TAG,"moveCameraToMyLocation()");
+        L.d(TAG, "moveCameraToMyLocation()");
         if (restoreCameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
         } else {

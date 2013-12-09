@@ -12,7 +12,6 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.matrix.App;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
@@ -34,7 +33,7 @@ import java.util.ArrayList;
  */
 public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = SurveyListFragment.class.getSimpleName();
-    private static String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
+    private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
@@ -63,7 +62,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
         surveyList.setAdapter(adapter);
 
-        getSurveys();
+        getSurveys(TasksMapFragment.taskRadius);
         return view;
     }
 
@@ -72,15 +71,15 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            getSurveys();
+            getSurveys(TasksMapFragment.taskRadius);
         }
     }
 
-    private void getSurveys() {
+    private void getSurveys(final int radius) {
         Location location = lm.getLocation();
         if (location != null) {
             getLocalSurveys();
-            apiFacade.getSurveys(getActivity(), DEFAULT_LANG, location.getLatitude(), location.getLongitude());
+            apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
         } else {
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
@@ -90,7 +89,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
                     L.i(TAG, "Location Updated!");
                     ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                     getLocalSurveys();
-                    apiFacade.getSurveys(getActivity(), DEFAULT_LANG, location.getLatitude(), location.getLongitude());
+                    apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
                 }
             });
         }
@@ -123,6 +122,8 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
                     }
 
                     adapter.setData(tasks);
+                    break;
+                default:
                     break;
             }
         }

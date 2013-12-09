@@ -32,9 +32,9 @@ import java.util.Calendar;
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
     private final static String TAG = RegistrationActivity.class.getSimpleName();
-    public static int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
+    public static int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     public static String[] EDUCATION_LEVEL = new String[]{};
-    public static int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5};
+    public static int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
     public static String[] EMPLOYMENT_STATUS = new String[]{};
 
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
@@ -80,11 +80,14 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
         }
 
-        EDUCATION_LEVEL = new String[]{getString(R.string.no_schooling), getString(R.string.primary_school),
-                getString(R.string.junior_secondary_school), getString(R.string.senior_secondary_school), getString(R.string.vocational_collage),
+        EDUCATION_LEVEL = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
+                getString(R.string.primary_school), getString(R.string.junior_secondary_school),
+                getString(R.string.senior_secondary_school), getString(R.string.vocational_collage),
                 getString(R.string.bachelors_degree), getString(R.string.master_degree_or_higher)};
-        EMPLOYMENT_STATUS = new String[]{getString(R.string.student), getString(R.string.employed_part_time), getString(R.string.employed_full_time),
-                getString(R.string.not_employed_looking_for_work), getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
+        EMPLOYMENT_STATUS = new String[]{getString(R.string.employment_status), getString(R.string.student),
+                getString(R.string.employed_part_time), getString(R.string.employed_full_time),
+                getString(R.string.not_employed_looking_for_work),
+                getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
 
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
@@ -165,6 +168,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                     break;
                 }
 
+                int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
+                int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
+                if (educationLevel == 0 || employmentStatus == 0) {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
+                    break;
+                }
+
                 Registration registrationEntity = new Registration();
                 registrationEntity.setEmail(email);
                 registrationEntity.setPassword(password);
@@ -176,8 +186,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setLatitude(latitude);
                 registrationEntity.setLongitude(longitude);
                 registrationEntity.setGroupCode(groupCode);
-                registrationEntity.setEducationLevel(EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()]);
-                registrationEntity.setEmploymentStatus(EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()]);
+                registrationEntity.setEducationLevel(educationLevel);
+                registrationEntity.setEmploymentStatus(employmentStatus);
 
                 if (photoBitmap != null) {
                     registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));
