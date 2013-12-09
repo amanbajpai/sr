@@ -1,5 +1,6 @@
 package com.matrix.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -22,8 +23,8 @@ import com.matrix.utils.UIUtils;
  */
 public class SettingsFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = SettingsFragment.class.getSimpleName();
-    public static String[] SUPPORTED_LANGS_CODE = new String[] { "en", "ru" };
-    public static String[] SUPPORTED_LANGUAGE = new String[] { "English", "Русский" };
+    public static String[] SUPPORTED_LANGS_CODE = new String[]{"en", "ru"};
+    public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "Русский"};
     private ViewGroup view;
 
     private Spinner languageSpinner;
@@ -45,7 +46,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_settings, null);
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
         taskInRadiusSeekBar = (SeekBar) view.findViewById(R.id.taskInRadiusSeekBar);
@@ -94,13 +98,13 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
         switch (v.getId()) {
             case R.id.confirmAndSaveButton:
                 //String langCode = SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
-                L.i(TAG, "locationToggleButton: "+locationToggleButton.isChecked());
-                L.i(TAG, "pushMessagesToggleButton: "+pushMessagesToggleButton.isChecked());
-                L.i(TAG, "socialSharingToggleButton: "+socialSharingToggleButton.isChecked());
-                L.i(TAG, "saveImageToggleButton: "+saveImageToggleButton.isChecked());
-                L.i(TAG, "tasksInLocationToggleButton: "+tasksInLocationToggleButton.isChecked());
-                L.i(TAG, "fileSizeToggleButton: "+fileSizeToggleButton.isChecked());
-                L.i(TAG, "deadlineReminderToggleButton: "+deadlineReminderToggleButton.isChecked());
+                L.i(TAG, "locationToggleButton: " + locationToggleButton.isChecked());
+                L.i(TAG, "pushMessagesToggleButton: " + pushMessagesToggleButton.isChecked());
+                L.i(TAG, "socialSharingToggleButton: " + socialSharingToggleButton.isChecked());
+                L.i(TAG, "saveImageToggleButton: " + saveImageToggleButton.isChecked());
+                L.i(TAG, "tasksInLocationToggleButton: " + tasksInLocationToggleButton.isChecked());
+                L.i(TAG, "fileSizeToggleButton: " + fileSizeToggleButton.isChecked());
+                L.i(TAG, "deadlineReminderToggleButton: " + deadlineReminderToggleButton.isChecked());
                 break;
             case R.id.cancelButton:
 

@@ -217,6 +217,18 @@ public class APIFacade {
         }
     }
 
+    /**
+     * @param activity
+     */
+    public void getMyAccount(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_MY_ACCOUNT);
+        operation.setTag(Keys.GET_MY_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+
     private void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);

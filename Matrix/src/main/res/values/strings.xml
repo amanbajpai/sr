@@ -78,8 +78,10 @@
     <string name="registered_account" >Registered account</string >
     <string name="pay_pal" >PayPal</string >
     <string name="change_account_info" ><u >Change account info</u ></string >
+    <string name="total_earnings" >Total earnings</string >
     <string name="your_account" >Your Account</string >
     <string name="your_info" >Your Info</string >
+    <string name="account_info" >Account Info</string >
     <string name="agent_level" >Agent level</string >
     <string name="agent_experience" >Agent Experience</string >
     <string name="to_next_level" >To next level</string >
@@ -168,14 +170,27 @@
     <string name="looking_for_location" >Looking for your current location...</string >
     <string name="current_location_not_defined" >There is no current location. Looking for your current location,
         please wait...</string >
-
     <string name="btn_update" >Update</string >
-
     <!-- Select image dialog -->
-    <string name="take_picture">Take picture</string>
-    <string name="choose_from_gallery">Choose from gallery</string>
-    <string name="take_from_camera">Take from camera</string>
-    <string name="remove_current_picture">Remove current picture</string>
-    <string name="cancel_set_image">Cancel</string>
+    <string name="take_picture" >Take picture</string >
+    <string name="choose_from_gallery" >Choose from gallery</string >
+    <string name="take_from_camera" >Take from camera</string >
+    <string name="remove_current_picture" >Remove current picture</string >
+    <string name="cancel_set_image" >Cancel</string >
     <string name="capture" >Capture</string >
+    <!-- EDUCATION_LEVEL -->
+    <string name="no_schooling" >No schooling</string >
+    <string name="primary_school" >Primary school</string >
+    <string name="junior_secondary_school" >Junior Secondary School</string >
+    <string name="senior_secondary_school" >Senior Secondary School</string >
+    <string name="vocational_collage" >Technical/ Vocational College</string >
+    <string name="bachelors_degree" >Bachelors Degree</string >
+    <string name="master_degree_or_higher" >Masters Degree or higher</string >
+    <!-- EMPLOYMENT_STATUS -->
+    <string name="student" >Student</string >
+    <string name="employed_part_time" >Employed - Part Time</string >
+    <string name="employed_full_time" >Employed - Full Time</string >
+    <string name="not_employed_looking_for_work" >Not Employed - looking for work</string >
+    <string name="not_employed_not_looking_for_work" >Not Employed - not looking for work</string >
+    <string name="retired" >Retired</string >
 </resources >

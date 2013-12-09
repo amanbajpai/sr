@@ -23,6 +23,7 @@ public interface Keys {
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String BOOK_TASK_OPERATION_TAG = "book_task_operation_tag";
+    String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
     String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
 
@@ -46,6 +47,9 @@ public interface Keys {
     String GROUP_CODE = "group_code";
 
     String PREFERENCE_CURRENT_LOCATION = "current_location";
+
+    //My account
+    String MY_ACCOUNT = "my_account";
 
 
     /* ------------ Location parameters -----------------------*/

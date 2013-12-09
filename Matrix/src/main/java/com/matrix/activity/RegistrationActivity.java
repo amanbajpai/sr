@@ -32,10 +32,10 @@ import java.util.Calendar;
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
     private final static String TAG = RegistrationActivity.class.getSimpleName();
-    public static int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2};
-    public static String[] EDUCATION_LEVEL = new String[]{"Education Level", "First level", "Second level"};
-    public static int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2};
-    public static String[] EMPLOYMENT_STATUS = new String[]{"Employment Status", "First status", "Second status"};
+    public static int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
+    public static String[] EDUCATION_LEVEL = new String[]{};
+    public static int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5};
+    public static String[] EMPLOYMENT_STATUS = new String[]{};
 
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
@@ -79,6 +79,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             latitude = getIntent().getDoubleExtra(Keys.LATITUDE, 0);
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
         }
+
+        EDUCATION_LEVEL = new String[]{getString(R.string.no_schooling), getString(R.string.primary_school),
+                getString(R.string.junior_secondary_school), getString(R.string.senior_secondary_school), getString(R.string.vocational_collage),
+                getString(R.string.bachelors_degree), getString(R.string.master_degree_or_higher)};
+        EMPLOYMENT_STATUS = new String[]{getString(R.string.student), getString(R.string.employed_part_time), getString(R.string.employed_full_time),
+                getString(R.string.not_employed_looking_for_work), getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
+
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
@@ -172,7 +179,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setEducationLevel(EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()]);
                 registrationEntity.setEmploymentStatus(EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()]);
 
-                if(photoBitmap!=null){
+                if (photoBitmap != null) {
                     registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));
                 }
 

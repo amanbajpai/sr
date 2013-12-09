@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.matrix.App;
 import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.db.SurveyDbSchema;
@@ -124,6 +125,11 @@ public class NetworkService extends BaseNetworkService {
 //                        SubscriptionResponse subscriptionResponse = gson.fromJson(responseString,
 //                                SubscriptionResponse.class);
 //                        operation.responseEntities.add(subscriptionResponse);
+                        break;
+                    case WSUrl.GET_MY_ACCOUNT_ID:
+                        MyAccount myAccountResponse = gson.fromJson(responseString, MyAccount.class);
+                        operation.responseEntities.add(myAccountResponse);
+                        App.getInstance().setMyAccount(myAccountResponse);
                         break;
                     default:
                         break;

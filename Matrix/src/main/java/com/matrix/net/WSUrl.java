@@ -16,6 +16,7 @@ public final class WSUrl {
     public final static String BOOK_TASKS = Config.WEB_SERVICE_URL + "Tasks/%s/Book"; //TODO EditUrl
     public final static String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public final static String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
+    public final static String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
 
     public final static int LOGIN_ID = 1;
     public final static int GET_SURVEYS_ID = 2;
@@ -27,6 +28,7 @@ public final class WSUrl {
     public final static int CHECK_LOCATION_ID = 8;
     public final static int GCM_REGISTER_DEVICE_ID = 9;
     public final static int GCM_TEST_PUSH_ID = 10;
+    public final static int GET_MY_ACCOUNT_ID = 11;
 
     public final static HashMap<String, Integer> urls;
 
@@ -42,6 +44,7 @@ public final class WSUrl {
         urls.put(CHECK_LOCATION, CHECK_LOCATION_ID);
         urls.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
         urls.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
+        urls.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
     }
 
     public static int matchUrl(String url) {

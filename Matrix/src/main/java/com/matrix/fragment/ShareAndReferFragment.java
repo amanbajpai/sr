@@ -1,5 +1,6 @@
 package com.matrix.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -24,7 +25,10 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_share_and_refer, null);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
 
         view.findViewById(R.id.emailButton).setOnClickListener(this);
         view.findViewById(R.id.messageButton).setOnClickListener(this);

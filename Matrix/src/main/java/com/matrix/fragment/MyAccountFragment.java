@@ -1,5 +1,6 @@
 package com.matrix.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,12 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.matrix.App;
 import com.matrix.BaseActivity;
+import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.activity.LoginActivity;
+import com.matrix.db.entity.MyAccount;
 import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
@@ -28,8 +32,11 @@ import org.json.JSONObject;
 public class MyAccountFragment extends Fragment implements NetworkOperationListenerInterface {
     private static final String TAG = MyAccountFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
 
+    private TextView totalEarnings;
+    private TextView balance;
     private EditText payPalEditText;
     private TextView agentLevel;
     private TextView agentExperience;
@@ -45,19 +52,19 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_my_account, null);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_my_account, null);
+
+        totalEarnings = (TextView) view.findViewById(R.id.totalEarnings);
+        balance = (TextView) view.findViewById(R.id.balance);
         payPalEditText = (EditText) view.findViewById(R.id.payPalEditText);
         agentLevel = (TextView) view.findViewById(R.id.agentLevel);
         agentExperience = (TextView) view.findViewById(R.id.agentExperience);
         toNextLevel = (TextView) view.findViewById(R.id.toNextLevel);
         btnTransfer = (Button) view.findViewById(R.id.transferFundsButton);
 
-
-        payPalEditText.setText(String.valueOf(10));
-        agentLevel.setText(String.valueOf(0));
-        agentExperience.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), 116)));
-        toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), 100)));
         btnTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +76,7 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
                     JSONObject obj2 = new JSONObject();
                     try {
                         obj2.put("title", "SmartRocket");
-                        obj2.put("subtitle","Welcome to SmartRocket world!");
+                        obj2.put("subtitle", "Welcome to SmartRocket world!");
                         obj.put("message", obj2);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -82,24 +89,40 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
             }
         });
 
+        setData(App.getInstance().getMyAccount());
+        apiFacade.getMyAccount(getActivity());
+
         return view;
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
+            setData(App.getInstance().getMyAccount());
+            apiFacade.getMyAccount(getActivity());
         }
+    }
+
+    public void setData(MyAccount myAccount) {
+        totalEarnings.setText(myAccount.getTotalEarnings() + " $");
+        balance.setText(myAccount.getBalance() + " $");
+        //payPalEditText.setText(String.valueOf(10));
+        agentLevel.setText(String.valueOf(myAccount.getLavel()));
+        agentExperience.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points),
+                myAccount.getExpierence())));
+        toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), myAccount.getToNextLavel())));
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            UIUtils.showSimpleToast(getActivity(), "Success");
+            if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+                MyAccount myAccount = (MyAccount) operation.getResponseEntities().get(0);
+                setData(myAccount);
+                UIUtils.showSimpleToast(getActivity(), "Success");
+            }
         } else {
             UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
         }

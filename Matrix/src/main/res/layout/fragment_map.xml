@@ -4,12 +4,11 @@
     android:id="@+id/llroot"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:name="com.matrix.fragment.TransparentSupportMapFragment" />
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +24,6 @@
         android:layout_marginBottom="30dp"
         android:layout_above="@+id/btnFilter"
         android:layout_alignParentRight="true" />
-
     <RelativeLayout
         android:id="@+id/hidden_panel"
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
         android:background="@color/map_filter_bg"
         android:paddingBottom="20dp"
         android:visibility="invisible"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,5 +56,5 @@
             android:id="@+id/btnUpdate"
             android:layout_alignBottom="@+id/txtRadius"
             android:layout_alignParentRight="true" />
-    </RelativeLayout>
+    </RelativeLayout >
 </RelativeLayout >

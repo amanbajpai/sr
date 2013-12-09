@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -51,8 +50,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
         taskList = (ListView) view.findViewById(R.id.taskList);
         taskList.setOnItemClickListener(this);
-
-        responseTextView = (TextView) view.findViewById(R.id.responseTextView);
 
         adapter = new MyTaskAdapter(getActivity());
 
@@ -103,8 +100,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
                     }
 
                     adapter.setData(tasks);
-
-                    responseTextView.setText("From local DB. Count:" + tasks.size());
                     break;
                 default:
                     break;

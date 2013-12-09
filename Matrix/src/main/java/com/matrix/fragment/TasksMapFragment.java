@@ -208,7 +208,7 @@ public class TasksMapFragment extends Fragment {
      */
     private void initMap() {
         if (map == null) {
-            SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+            TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
             if (mapFragment != null) {
                 map = mapFragment.getMap();
                 if (map != null) {

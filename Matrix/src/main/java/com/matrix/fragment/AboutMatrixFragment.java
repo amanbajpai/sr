@@ -1,5 +1,6 @@
 package com.matrix.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -28,7 +29,10 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_about_matrix, null);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_about_matrix, null);
 
         view.findViewById(R.id.termAndConditionsButton).setOnClickListener(this);
         view.findViewById(R.id.faqButton).setOnClickListener(this);

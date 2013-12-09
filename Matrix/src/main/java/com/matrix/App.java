@@ -1,7 +1,10 @@
 package com.matrix;
 
 import android.app.Application;
+import com.google.gson.Gson;
+import com.matrix.db.entity.MyAccount;
 import com.matrix.location.MatrixLocationManager;
+import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
 import org.acra.ACRA;
 import org.acra.ReportField;
@@ -20,6 +23,7 @@ public class App extends Application {
     private int deviceApiNumber;
     private String deviceType;
     private MatrixLocationManager locationManager;
+    protected MyAccount myAccount;
 
     @Override
     public void onCreate() {
@@ -41,6 +45,20 @@ public class App extends Application {
 
     public static App getInstance() {
         return instance;
+    }
+
+    public MyAccount getMyAccount() {
+        if (myAccount == null) {
+            String profileJson = PreferencesManager.getInstance().getString(Keys.MY_ACCOUNT, "{}");
+            myAccount = new Gson().fromJson(profileJson, MyAccount.class);
+        }
+        return myAccount;
+    }
+
+    public void setMyAccount(MyAccount profile) {
+        this.myAccount = profile;
+        String profileJson = new Gson().toJson(profile);
+        PreferencesManager.getInstance().setString(Keys.MY_ACCOUNT, profileJson);
     }
 
     /**
@@ -72,6 +90,4 @@ public class App extends Application {
     public MatrixLocationManager getLocationManager() {
         return locationManager;
     }
-
-    ;
 }
