@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
+import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
@@ -41,11 +43,13 @@ import java.util.ArrayList;
 public class TasksMapFragment extends Fragment {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
+    private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     private static final String MYLOC = "MyLoc";
     private MatrixLocationManager lm;
     private View fragmentView;
     private ImageButton btnFilter;
     private ImageButton btnMyLocation;
+    private Button btnUpdate;
     private RelativeLayout rlFilterPanel;
     private boolean isFilterShow = false;
     private GoogleMap map;
@@ -87,6 +91,7 @@ public class TasksMapFragment extends Fragment {
 
         btnFilter = (ImageButton) fragmentView.findViewById(R.id.btnFilter);
         btnMyLocation = (ImageButton) fragmentView.findViewById(R.id.btnMyLocation);
+        btnUpdate = (Button) fragmentView.findViewById(R.id.btnUpdate);
         rlFilterPanel = (RelativeLayout) fragmentView.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
@@ -108,12 +113,19 @@ public class TasksMapFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                getTasks(taskRadius);
             }
         });
 
         setHasOptionsMenu(true);
 
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSurveysFromServer(taskRadius);
+                togleFilterPannel();
+            }
+        });
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +172,7 @@ public class TasksMapFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void onLoadingComplete(ArrayList<Task> list) {
+    private void onLoadingComplete(ArrayList<Task> list) {
         inputPoints.clear();
         for (Task item : list) {
             if (item.getLatitude() != null && item.getLongitude() != null) {
@@ -175,24 +187,51 @@ public class TasksMapFragment extends Fragment {
         }
     }
 
-    public void loadTasks(Location location) {
+    private void loadTasks(Location location) {
         if (location != null) {
             loadTasks(location.getLatitude(), location.getLongitude(), taskRadius, 100);
         }
     }
 
-    public void loadTasks(double latitude, double longitude, int radius, int limit) {
+    private void loadTasks(double latitude, double longitude, int radius, int limit) {
         if (mLoading) {
             return;
         }
 
         L.i(TAG, "Get Tasks() ...");
-        getTasks();
+        getTasks(radius);
     }
 
-    private void getTasks() {
+    private void getTasks(int radius) {
         handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
+                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=?",
+                new String[]{String.valueOf(radius)}, TaskDbSchema.SORT_ORDER_DESC);
+
+    }
+
+
+    /**
+     * Initiate call to server side and get Tasks
+     *
+     * @param radius
+     */
+    private void getSurveysFromServer(final int radius) {
+        Location location = lm.getLocation();
+        if (location != null) {
+            APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius,
+                    DEFAULT_LANG);
+        } else {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    L.i(TAG, "Location Updated!");
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
+                }
+            });
+        }
     }
 
     /* ==============================================
