@@ -9,7 +9,7 @@
     android:background="@drawable/list_item_background"
     android:orientation="horizontal" >
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical" >
@@ -25,7 +25,7 @@
                 android:src="@drawable/ic_launcher" />
             <TextView
                 android:id="@+id/name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
@@ -38,8 +38,7 @@
             <TextView
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15456" />
+                android:layout_height="wrap_content" />
         </LinearLayout >
         <TextView
             android:id="@+id/description"
