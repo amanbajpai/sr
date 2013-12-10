@@ -31,12 +31,12 @@ public class SelectImageManager {
     private static final int NONE = 0;
     private static final int HORIZONTAL = 1;
     private static final int VERTICAL = 2;
-    /*private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
-            new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
-            new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
-    private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90, NONE}, new int[]{90, HORIZONTAL},
+    private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};
+    /*private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90, NONE}, new int[]{90, HORIZONTAL},
+            new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
+            new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
 
     private static SelectImageManager instance = null;
     private OnImageCompleteListener imageCompliteListener;
@@ -107,7 +107,7 @@ public class SelectImageManager {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                startCustomCamera(activity);
+                startCamera(activity);
             }
         });
 
@@ -265,7 +265,7 @@ public class SelectImageManager {
         try {
             ExifInterface oldExif = new ExifInterface(imagePath);
             int index = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
-            int degrees = CUSTOM_CAMERA_OPERATIONS[index][0];
+            int degrees = OPERATIONS[index][0];
 
             Matrix matrix = new Matrix();
             matrix.postRotate(degrees);
