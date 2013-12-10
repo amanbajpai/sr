@@ -36,6 +36,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Task task = new Task();
 
     private TextView taskName;
+    private TextView startTimeTextView;
+    private TextView deadlineTimeTextView;
+    private TextView expiryTimeTextView;
     private TextView taskPrice;
     private TextView taskExp;
     private TextView taskDistance;
@@ -59,6 +62,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         taskName = (TextView) findViewById(R.id.taskName);
+        startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
+        deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
+        expiryTimeTextView = (TextView) findViewById(R.id.expiryTimeTextView);
         taskPrice = (TextView) findViewById(R.id.taskPrice);
         taskExp = (TextView) findViewById(R.id.taskExp);
         taskDistance = (TextView) findViewById(R.id.taskDistance);
@@ -122,7 +128,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setData() {
         taskName.setText(task.getName());
         taskDescription.setText(task.getDescription());
-
+        startTimeTextView.setText("-");
+        deadlineTimeTextView.setText("-");
+        expiryTimeTextView.setText("-");
         taskPrice.setText(Html.fromHtml(String.format(getString(R.string.task_price), String.format(Locale.US, "%.1f",
                 task.getPrice()))));
 

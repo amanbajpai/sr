@@ -195,4 +195,10 @@
     <string name="not_employed_looking_for_work" >Not Employed - looking for work</string >
     <string name="not_employed_not_looking_for_work" >Not Employed - not looking for work</string >
     <string name="retired" >Retired</string >
+
+    <!-- TASK DETAIL -->
+    <string name="show_map" >Show map</string >
+    <string name="start_time" >Start time:</string >
+    <string name="deadline_time" >Deadline time:</string >
+    <string name="expiry_task_time" >Expiry task time:</string >
 </resources >
