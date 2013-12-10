@@ -16,6 +16,7 @@ import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
 import com.matrix.adapter.MyTaskAdapter;
+import com.matrix.bl.TasksBL;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
@@ -87,18 +88,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    ArrayList<Task> tasks = new ArrayList<Task>();
-
-                    if (cursor != null) {
-                        cursor.moveToFirst();
-
-                        do {
-                            tasks.add(Task.fromCursor(cursor));
-                        } while (cursor.moveToNext());
-
-                        cursor.close();
-                    }
-
+                    ArrayList<Task> tasks =  TasksBL.convertCursorToTasksList(cursor);
                     adapter.setData(tasks);
                     break;
                 default:
