@@ -73,8 +73,8 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     private void getTasks() {
-        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -86,7 +86,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
-                case TaskDbSchema.Query.TOKEN_QUERY:
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
                     ArrayList<Task> tasks = new ArrayList<Task>();
 
                     if (cursor != null) {

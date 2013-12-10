@@ -79,8 +79,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void getTask(Integer taskId) {
-        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
                 TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
@@ -93,7 +93,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
-                case TaskDbSchema.Query.TOKEN_QUERY:
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null) {
                         cursor.moveToFirst();
 

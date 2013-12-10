@@ -1,6 +1,7 @@
 package com.matrix.net;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -69,9 +70,12 @@ public class NetworkService extends BaseNetworkService {
                         for (Survey survey : surveys.getSurveys()) {
                             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
 
+                            ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
-                                contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
+                                vals.add(task.toContentValues());
                             }
+                            ContentValues[] bulk = new ContentValues[vals.size()];
+                            contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
                         }
 
                         break;
@@ -79,6 +83,7 @@ public class NetworkService extends BaseNetworkService {
                         Task[] tasks = gson.fromJson(responseString, Task[].class);
 
                         Location currentLocation = preferencesManager.getCurrentLocation();
+                        ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
 
                         for (Task task : tasks) {
                             Location temp = new Location(LocationManager.NETWORK_PROVIDER);
@@ -87,10 +92,11 @@ public class NetworkService extends BaseNetworkService {
                             if (currentLocation != null) {
                                 task.setDistance(currentLocation.distanceTo(temp));
                             }
-
-                            contentResolver.insert(TaskDbSchema.CONTENT_URI, task.toContentValues());
+                            vals.add(task.toContentValues());
                         }
 
+                        ContentValues[] bulk = new ContentValues[vals.size()];
+                        contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
                         //operation.responseEntities.addAll(new ArrayList<Task>(Arrays.asList(tasks)));
                         break;
                     case WSUrl.BOOK_TASKS_ID:

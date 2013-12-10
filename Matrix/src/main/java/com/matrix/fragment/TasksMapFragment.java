@@ -29,6 +29,7 @@ import com.matrix.App;
 import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
+import com.matrix.bl.TasksBL;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
@@ -203,10 +204,12 @@ public class TasksMapFragment extends Fragment {
     }
 
     private void getTasks(int radius) {
-        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=?",
-                new String[]{String.valueOf(radius)}, TaskDbSchema.SORT_ORDER_DESC);
+//        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+//                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=?",
+//                new String[]{String.valueOf(radius)}, TaskDbSchema.SORT_ORDER_DESC);
 
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
 
@@ -540,16 +543,8 @@ public class TasksMapFragment extends Fragment {
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
-                case TaskDbSchema.Query.TOKEN_QUERY:
-                    ArrayList<Task> tasks = new ArrayList<Task>();
-
-                    if (cursor != null) {
-                        cursor.moveToFirst();
-                        do {
-                            tasks.add(Task.fromCursor(cursor));
-                        } while (cursor.moveToNext());
-                        cursor.close();
-                    }
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
+                    ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
                     onLoadingComplete(tasks);
                     break;
             }

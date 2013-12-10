@@ -64,8 +64,8 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
     }
 
     private void getTasks(long surveyId) {
-        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=?",
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=?",
                 new String[]{String.valueOf(surveyId)},
                 TaskDbSchema.SORT_ORDER_DESC);
     }
@@ -80,7 +80,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
             task.setName("Survey: " + surveyId + " Task: " + i);
             task.setDescription("Task description " + i + "; Task description " + i);
 
-            handler.startInsert(TaskDbSchema.Query.TOKEN_INSERT, null, TaskDbSchema.CONTENT_URI,
+            handler.startInsert(TaskDbSchema.Query.All.TOKEN_INSERT, null, TaskDbSchema.CONTENT_URI,
                     task.toContentValues());
         }
         getTasks(surveyId);
@@ -95,7 +95,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
-                case TaskDbSchema.Query.TOKEN_QUERY:
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
                     ArrayList<Task> tasks = new ArrayList<Task>();
 
                     if (cursor != null && cursor.getCount()>0) {

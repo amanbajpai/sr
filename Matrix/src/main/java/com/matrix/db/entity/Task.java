@@ -33,18 +33,18 @@ public class Task extends BaseEntity {
     public static Task fromCursor(Cursor c) {
         Task result = new Task();
         if (c.getCount() > 0) {
-            result.set_id(c.getInt(TaskDbSchema.Query._ID));
-            result.setId(c.getInt(TaskDbSchema.Query.ID));
-            result.setSurveyId(c.getLong(TaskDbSchema.Query.SURVEY_ID));
-            result.setUserId(c.getLong(TaskDbSchema.Query.USER_ID));
-            result.setName(c.getString(TaskDbSchema.Query.NAME));
-            result.setDescription(c.getString(TaskDbSchema.Query.DESCRIPTION));
-            result.setLongitude(c.getDouble(TaskDbSchema.Query.LONGITUDE));
-            result.setLatitude(c.getDouble(TaskDbSchema.Query.LATITUDE));
-            result.setLanguage(c.getString(TaskDbSchema.Query.LANGUAGE));
-            result.setPrice(c.getDouble(TaskDbSchema.Query.PRICE));
-            result.setAddress(c.getString(TaskDbSchema.Query.ADDRESS));
-            result.setDistance(c.getFloat(TaskDbSchema.Query.DISTANCE));
+            result.set_id(c.getInt(TaskDbSchema.Query.All._ID));
+            result.setId(c.getInt(TaskDbSchema.Query.All.ID));
+            result.setSurveyId(c.getLong(TaskDbSchema.Query.All.SURVEY_ID));
+            result.setUserId(c.getLong(TaskDbSchema.Query.All.USER_ID));
+            result.setName(c.getString(TaskDbSchema.Query.All.NAME));
+            result.setDescription(c.getString(TaskDbSchema.Query.All.DESCRIPTION));
+            result.setLongitude(c.getDouble(TaskDbSchema.Query.All.LONGITUDE));
+            result.setLatitude(c.getDouble(TaskDbSchema.Query.All.LATITUDE));
+            result.setLanguage(c.getString(TaskDbSchema.Query.All.LANGUAGE));
+            result.setPrice(c.getDouble(TaskDbSchema.Query.All.PRICE));
+            result.setAddress(c.getString(TaskDbSchema.Query.All.ADDRESS));
+            result.setDistance(c.getFloat(TaskDbSchema.Query.All.DISTANCE));
         }
         L.d("Task", result.toString());
         return result;
