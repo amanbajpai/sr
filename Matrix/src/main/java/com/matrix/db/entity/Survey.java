@@ -27,6 +27,12 @@ public class Survey extends BaseEntity {
     @SkipFieldInContentValues
     private Task[] Tasks;
 
+    @SkipFieldInContentValues
+    transient private Float Distance;
+
+    @SkipFieldInContentValues
+    transient private int TaskCount;
+
     public Survey() {
     }
 
@@ -58,6 +64,37 @@ public class Survey extends BaseEntity {
             result.setEndDateTime(c.getString(SurveyDbSchema.Query.END_DATE_TIME));
             result.setExpectedEndDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_START_DATE_TIME));
+        }
+        return result;
+    }
+
+    public static Survey fromCursorByDistance(Cursor c) {
+        Survey result = new Survey();
+        if (c.getCount() > 0) {
+            result.set_id(c.getInt(SurveyDbSchema.QuerySurveyByDistance._ID));
+            result.setId(c.getInt(SurveyDbSchema.QuerySurveyByDistance.ID));
+            result.setName(c.getString(SurveyDbSchema.QuerySurveyByDistance.NAME));
+            result.setDescription(c.getString(SurveyDbSchema.QuerySurveyByDistance.DESCRIPTION));
+            result.setLongitude(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.LONGITUDE));
+            result.setLatitude(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.LATITUDE));
+
+            result.setClaimableBeforeLive(c.getInt(SurveyDbSchema.QuerySurveyByDistance.CLAIMABLE_BEFORE_LIVE) == 1);
+            result.setViewableBeforeLive(c.getInt(SurveyDbSchema.QuerySurveyByDistance.VIEWABLE_BEFORE_LIVE) == 1);
+            result.setConcurrentClaimsPerAgent(c.getInt(SurveyDbSchema.QuerySurveyByDistance.CONCURRENT_CLAIMS_PER_AGENT));
+            result.setExternalId(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXTERNAL_ID));
+            result.setStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.START_DATE_TIME));
+            result.setSuspensionTarget(c.getInt(SurveyDbSchema.QuerySurveyByDistance.SUSPENSION_TARGET));
+            result.setTargetMaximum(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TARGET_MAXIMUM));
+            result.setTargetMinimum(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TARGET_MINIMUM));
+
+            result.setMaximumClaimsPerAgent(c.getInt(SurveyDbSchema.QuerySurveyByDistance.MAXIMUM_CLAIMS_PER_AGENT));
+            result.setEndDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.END_DATE_TIME));
+            result.setExpectedEndDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_END_DATE_TIME));
+            result.setExpectedStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_START_DATE_TIME));
+
+            result.setDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.DISTANCE_TO_NEAR));
+            result.setTaskCount(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TASK_COUNT));
+
         }
         return result;
     }
@@ -197,5 +234,21 @@ public class Survey extends BaseEntity {
 
     public void setTasks(Task[] tasks) {
         this.Tasks = tasks;
+    }
+
+    public Float getDistance() {
+        return Distance;
+    }
+
+    public void setDistance(Float distance) {
+        Distance = distance;
+    }
+
+    public int getTaskCount() {
+        return TaskCount;
+    }
+
+    public void setTaskCount(int taskCount) {
+        TaskCount = taskCount;
     }
 }

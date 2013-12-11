@@ -5,6 +5,15 @@ public interface Keys {
     String APP_VERSION = "app_version";
     String TOKEN = "token";
 
+    //Settings
+    String LANGUAGE_CODE = "language_code";
+    String APPOINTMENT_INTERVAL_CODE = "appointment_interval_code";
+    String USE_ONLY_WI_FI_CONNACTION = "use_only_wifi_connaction";
+    String USE_LOCATION_SERVICES = "use_location_services";
+    String USE_SOCIAL_SHARING = "use_social_sharing";
+    String USE_SAVE_IMAGE_TO_CAMERA_ROLL = "use_save_image_to_camera_roll";
+    String USE_PUSH_MESSAGES = "use_push_messages";
+    String USE_DEADLINE_REMINDER = "use_deadline_reminder";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";

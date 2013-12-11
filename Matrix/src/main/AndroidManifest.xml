@@ -55,18 +55,29 @@
         </activity >
         <activity
             android:name="com.matrix.activity.EnterGroupCodeActivity"
+            android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.matrix.activity.RegistrationActivity"
+            android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.matrix.activity.LoginActivity"
+            android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.matrix.MainActivity" />
-        <activity android:name="com.matrix.activity.SurveysTaskListActivity" />
-        <activity android:name="com.matrix.activity.TaskDetailsActivity" />
-        <activity android:name="com.matrix.activity.CheckLocationActivity" />
-        <activity android:name="com.matrix.activity.CheckLocationFailedActivity" />
+        <activity
+            android:name="com.matrix.activity.SurveysTaskListActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.matrix.activity.TaskDetailsActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.matrix.activity.CheckLocationActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.matrix.activity.CheckLocationFailedActivity"
+            android:configChanges="locale" />
         <activity
             android:name="com.matrix.activity.TakePhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -1,8 +1,10 @@
 package com.matrix;
 
 import android.app.Application;
+import android.content.res.Configuration;
 import com.google.gson.Gson;
 import com.matrix.db.entity.MyAccount;
+import com.matrix.fragment.SettingsFragment;
 import com.matrix.location.MatrixLocationManager;
 import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
@@ -35,6 +37,8 @@ public class App extends Application {
         deviceApiNumber = android.os.Build.VERSION.SDK_INT;
         deviceType = "android";
         locationManager = new MatrixLocationManager(getApplicationContext());
+
+        SettingsFragment.setCurrentLanguage();
     }
 
     protected void initACRA() {
@@ -59,6 +63,12 @@ public class App extends Application {
         this.myAccount = profile;
         String profileJson = new Gson().toJson(profile);
         PreferencesManager.getInstance().setString(Keys.MY_ACCOUNT, profileJson);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        SettingsFragment.setCurrentLanguage();
     }
 
     /**

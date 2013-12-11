@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:layout_marginBottom="10dp" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal" >
             <TextView
                 android:layout_height="match_parent"
@@ -36,7 +36,7 @@
         </LinearLayout >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal" >
             <TextView
                 android:layout_height="match_parent"
@@ -45,30 +45,14 @@
                 android:gravity="center_vertical"
                 android:text="@string/location_services" />
             <ToggleButton
-                android:id="@+id/locationToggleButton"
+                android:id="@+id/locationServicesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/push_messages" />
-            <ToggleButton
-                android:id="@+id/pushMessagesToggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal" >
             <TextView
                 android:layout_height="match_parent"
@@ -84,7 +68,23 @@
         </LinearLayout >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/send_only_by_wifi" />
+            <ToggleButton
+                android:id="@+id/useOnlyWifiToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:orientation="horizontal" >
             <TextView
                 android:layout_height="match_parent"
@@ -100,37 +100,19 @@
         </LinearLayout >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal" >
             <TextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/tasks_in_your_location" />
+                android:text="@string/push_messages" />
             <ToggleButton
-                android:id="@+id/tasksInLocationToggleButton"
+                android:id="@+id/pushMessagesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/task_in_radius" />
-            <SeekBar
-                android:id="@+id/taskInRadiusSeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical" />
-
         </LinearLayout >
         <TextView
             style="@style/profileSectionTextStyle"
@@ -144,23 +126,7 @@
             android:layout_marginBottom="10dp" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/file_size_warning" />
-            <ToggleButton
-                android:id="@+id/fileSizeToggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal" >
             <TextView
                 android:layout_height="match_parent"
@@ -174,6 +140,51 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/appointment_interval" />
+            <Spinner
+                android:id="@+id/appointmentIntervalSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
+        <View
+            style="@style/profileSectionDividerStyle"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/app_version" />
+            <TextView
+                android:id="@+id/currentVersion"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:textStyle="italic" />
+        </LinearLayout >
+        <View
+            style="@style/profileSectionDividerStyle"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -98,11 +98,12 @@
     <string name="push_messages" >Push messages</string >
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
-    <string name="tasks_in_your_location" >Tasks in your location</string >
+    <string name="send_only_by_wifi" >Send information only by WiFi</string >
     <string name="task_in_radius" >Tasks in radius</string >
     <string name="notification_settings" >Notification settings</string >
-    <string name="file_size_warning" >File size warning</string >
+    <string name="appointment_interval" >Appointment Interval</string >
     <string name="deadline_reminder" >Deadline reminder</string >
+    <string name="app_version" >App version</string >
     <!-- ABOUT MATRIX FRAGMENT-->
     <string name="about_matrix_title" >About Matrix</string >
     <string name="about_matrix_text" >About Matrix text. About Matrix text. About Matrix text. About Matrix text. About Matrix text. About Matrix text. </string >

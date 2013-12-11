@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ public class AppContentProvider extends ContentProvider {
 
     public static final int ENTITY = 100;
     public static final int ENTITIES = 101;
+    public static final int SURVEY_BY_DISTANCE = SurveyDbSchema.SURVEY_BY_DISTANCE;
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -30,6 +32,7 @@ public class AppContentProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = CONTENT_AUTHORITY;
 
+        matcher.addURI(authority, "entity/" + Table.SURVEY.getName() + SURVEY_BY_DISTANCE, SURVEY_BY_DISTANCE);
         matcher.addURI(authority, "entity/*/*", ENTITY);
         matcher.addURI(authority, "entity/*", ENTITIES);
         return matcher;
@@ -60,6 +63,7 @@ public class AppContentProvider extends ContentProvider {
             case ENTITY:
                 type = "vnd.android.cursor.item/vnd.com.matrix.entity." + tableName;
                 break;
+            case SURVEY_BY_DISTANCE:
             case ENTITIES:
                 type = "vnd.android.cursor.dir/vnd.com.matrix.entity." + tableName;
                 break;
@@ -73,10 +77,11 @@ public class AppContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor cursor = null;
-        /*
-         * String table = null; String[] colums = null; String where = null; String groupBy = null; String
-         * additionalSelection = null;
-         */
+        String table = null;
+        String[] colums = null;
+        String where = null;
+        String groupBy = null;
+        String additionalSelection = null;
 
         SQLiteQueryBuilder builder = null;
         db = dbHelper.getReadableDatabase();
@@ -85,11 +90,25 @@ public class AppContentProvider extends ContentProvider {
                 builder = buildExpandedSelection(uri);
                 cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
-
             case ENTITIES:
                 //builder = buildExpandedSelection(uri);
                 // cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
                 cursor = db.query(getTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+            case SURVEY_BY_DISTANCE:
+                table = Table.SURVEY.getName() + " LEFT JOIN " + Table.TASK.getName() + " ON ("
+                        + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName()
+                        + " = " + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName() + ")";
+
+                additionalSelection = TextUtils.isEmpty(selection) ? "" : " and (" + selection + ")";
+
+                where = Table.TASK.getName() + "." + TaskDbSchema.Columns.DELETED.getName() + "= 0 "
+                        + additionalSelection;
+
+                groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();
+
+                cursor = db.query(table, SurveyDbSchema.QuerySurveyByDistance.PROJECTION, where, selectionArgs, groupBy, null,
+                        TaskDbSchema.SORT_ORDER_DISTANCE_ASC);
                 break;
             default:
                 break;

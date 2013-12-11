@@ -1,41 +1,47 @@
 package com.matrix.fragment;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
-import com.matrix.BaseActivity;
+import com.matrix.App;
 import com.matrix.R;
-import com.matrix.net.BaseOperation;
-import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
+import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
+
+import java.util.Locale;
 
 /**
  * Setting fragment with all application related settings
  */
-public class SettingsFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
+public class SettingsFragment extends Fragment implements OnClickListener {
     private static final String TAG = SettingsFragment.class.getSimpleName();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    public static String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     public static String[] SUPPORTED_LANGS_CODE = new String[]{"en", "ru"};
     public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "Русский"};
+    public static int[] APPOINTMENT_INTERVAL_CODE = new int[]{0, 1, 2};
+    public static String[] APPOINTMENT_INTERVAL = new String[]{"Never", "Always"};
     private ViewGroup view;
 
     private Spinner languageSpinner;
-    private SeekBar taskInRadiusSeekBar;
+    private Spinner appointmentIntervalSpinner;
 
-    private ToggleButton locationToggleButton;
+    private ToggleButton locationServicesToggleButton;
     private ToggleButton pushMessagesToggleButton;
     private ToggleButton socialSharingToggleButton;
     private ToggleButton saveImageToggleButton;
-    private ToggleButton tasksInLocationToggleButton;
-    private ToggleButton fileSizeToggleButton;
+    private ToggleButton useOnlyWifiToggleButton;
     private ToggleButton deadlineReminderToggleButton;
 
     @Override
@@ -52,66 +58,121 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_settings, null);
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
-        taskInRadiusSeekBar = (SeekBar) view.findViewById(R.id.taskInRadiusSeekBar);
+        appointmentIntervalSpinner = (Spinner) view.findViewById(R.id.appointmentIntervalSpinner);
 
-        locationToggleButton = (ToggleButton) view.findViewById(R.id.locationToggleButton);
+        locationServicesToggleButton = (ToggleButton) view.findViewById(R.id.locationServicesToggleButton);
         pushMessagesToggleButton = (ToggleButton) view.findViewById(R.id.pushMessagesToggleButton);
         socialSharingToggleButton = (ToggleButton) view.findViewById(R.id.socialSharingToggleButton);
         saveImageToggleButton = (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
-        tasksInLocationToggleButton = (ToggleButton) view.findViewById(R.id.tasksInLocationToggleButton);
-        fileSizeToggleButton = (ToggleButton) view.findViewById(R.id.fileSizeToggleButton);
+        useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
-
 
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
         view.findViewById(R.id.cancelButton).setOnClickListener(this);
+
+        ((TextView) view.findViewById(R.id.currentVersion)).setText(UIUtils.getAppVersion(getActivity()));
+
+        setData();
+        return view;
+    }
+
+    public void setData() {
+        setLanguageSpinner();
+        setApppointmentIntervalSpinner();
+
+        locationServicesToggleButton.setChecked(preferencesManager.getUseLocationServices());
+        socialSharingToggleButton.setChecked(preferencesManager.getUseSocialSharing());
+        useOnlyWifiToggleButton.setChecked(preferencesManager.getUseOnlyWiFiConnaction());
+        saveImageToggleButton.setChecked(preferencesManager.getUseSaveImageToCameraRoll());
+        pushMessagesToggleButton.setChecked(preferencesManager.getUsePushMessages());
+        deadlineReminderToggleButton.setChecked(preferencesManager.getUseDeadlineReminder());
+    }
+
+    public void setLanguageSpinner() {
+        String currentLanguageCode = preferencesManager.getLanguageCode();
+        if (TextUtils.isEmpty(currentLanguageCode)) {
+            currentLanguageCode = DEFAULT_LANG;
+        }
 
         ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
                 SUPPORTED_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
-        return view;
+        int selectedItemPosition = 0;
+        for (int i = 0; i < SUPPORTED_LANGS_CODE.length; i++) {
+            if (SUPPORTED_LANGS_CODE[i].equals(currentLanguageCode)) {
+                selectedItemPosition = i;
+                break;
+            }
+        }
+        languageSpinner.setSelection(selectedItemPosition);
     }
 
+    public void setApppointmentIntervalSpinner() {
+        int currentIntervalCode = preferencesManager.getAppointmentInervalCode();
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
+        ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
+                APPOINTMENT_INTERVAL);
+        appointmentIntervalSpinner.setAdapter(languageAdapter);
 
-        if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
+        int selectedItemPosition = 0;
+        for (int i = 0; i < APPOINTMENT_INTERVAL_CODE.length; i++) {
+            if (APPOINTMENT_INTERVAL_CODE[i] == currentIntervalCode) {
+                selectedItemPosition = i;
+                break;
+            }
         }
-    }
-
-    @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
-            UIUtils.showSimpleToast(getActivity(), "Success");
-        } else {
-            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
-        }
+        appointmentIntervalSpinner.setSelection(selectedItemPosition);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirmAndSaveButton:
-                //String langCode = SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
-                L.i(TAG, "locationToggleButton: " + locationToggleButton.isChecked());
-                L.i(TAG, "pushMessagesToggleButton: " + pushMessagesToggleButton.isChecked());
-                L.i(TAG, "socialSharingToggleButton: " + socialSharingToggleButton.isChecked());
-                L.i(TAG, "saveImageToggleButton: " + saveImageToggleButton.isChecked());
-                L.i(TAG, "tasksInLocationToggleButton: " + tasksInLocationToggleButton.isChecked());
-                L.i(TAG, "fileSizeToggleButton: " + fileSizeToggleButton.isChecked());
-                L.i(TAG, "deadlineReminderToggleButton: " + deadlineReminderToggleButton.isChecked());
+                preferencesManager.setLanguageCode(SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()]);
+                setDefaultLanguage(getActivity(), preferencesManager.getLanguageCode());
+
+                preferencesManager.setUseLocationServices(locationServicesToggleButton.isChecked());
+                preferencesManager.setUseSocialSharing(socialSharingToggleButton.isChecked());
+                preferencesManager.setUseOnlyWiFiConnaction(useOnlyWifiToggleButton.isChecked());
+                preferencesManager.setUseSaveImageToCameraRoll(saveImageToggleButton.isChecked());
+                preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
+                preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
+
+                preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner.getSelectedItemPosition
+                        ()]);
                 break;
             case R.id.cancelButton:
-
+                setData();
                 break;
             default:
                 break;
         }
+    }
+
+    public static String getLanguageCodeFromSupported() {
+        for (int i = 0; i < SUPPORTED_LANGS_CODE.length; i++) {
+            if (DEFAULT_LANG.equals(SUPPORTED_LANGS_CODE[i])) {
+                return DEFAULT_LANG;
+            }
+        }
+        return "en";
+    }
+
+    public static void setCurrentLanguage() {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+
+        if (!TextUtils.isEmpty(preferencesManager.getLanguageCode())) {
+            setDefaultLanguage(App.getInstance(), preferencesManager.getLanguageCode());
+        } else {
+            setDefaultLanguage(App.getInstance(), getLanguageCodeFromSupported());
+        }
+    }
+
+    public static void setDefaultLanguage(Context context, String languageCode) {
+        Configuration config = context.getResources().getConfiguration();
+        config.locale = new Locale(languageCode);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
     @Override
@@ -124,17 +185,5 @@ public class SettingsFragment extends Fragment implements OnClickListener, Netwo
         actionBar.setDisplayShowCustomEnabled(false);
 
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
-        super.onStop();
     }
 }

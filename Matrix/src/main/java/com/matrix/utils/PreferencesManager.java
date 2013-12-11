@@ -129,6 +129,72 @@ public class PreferencesManager {
         setString(Keys.TOKEN, token);
     }
 
+    public String getLanguageCode() {
+        return getString(Keys.LANGUAGE_CODE, "");
+    }
+
+    public void setLanguageCode(String languageCode) {
+        setString(Keys.LANGUAGE_CODE, languageCode);
+    }
+
+    public int getAppointmentInervalCode() {
+        return getInt(Keys.APPOINTMENT_INTERVAL_CODE, 0);
+    }
+
+    public void setAppointmentInervalCode(int appointmentInervalCode) {
+        setInt(Keys.APPOINTMENT_INTERVAL_CODE, appointmentInervalCode);
+    }
+
+    public boolean getUseOnlyWiFiConnaction() {
+        return getBoolean(Keys.USE_ONLY_WI_FI_CONNACTION, false);
+    }
+
+    public void setUseOnlyWiFiConnaction(boolean use) {
+        setBoolean(Keys.USE_ONLY_WI_FI_CONNACTION, use);
+    }
+
+    public boolean getUseLocationServices() {
+        return getBoolean(Keys.USE_LOCATION_SERVICES, false);
+    }
+
+    public void setUseLocationServices(boolean use) {
+        setBoolean(Keys.USE_LOCATION_SERVICES, use);
+    }
+
+    public boolean getUseSocialSharing() {
+        return getBoolean(Keys.USE_SOCIAL_SHARING, false);
+    }
+
+    public void setUseSocialSharing(boolean use) {
+        setBoolean(Keys.USE_SOCIAL_SHARING, use);
+    }
+
+    public boolean getUseSaveImageToCameraRoll() {
+        return getBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, false);
+    }
+
+    public void setUseSaveImageToCameraRoll(boolean use) {
+        setBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, use);
+    }
+
+    public boolean getUsePushMessages() {
+        return getBoolean(Keys.USE_PUSH_MESSAGES, false);
+    }
+
+    public void setUsePushMessages(boolean use) {
+        setBoolean(Keys.USE_PUSH_MESSAGES, use);
+    }
+
+    public boolean getUseDeadlineReminder() {
+        return getBoolean(Keys.USE_DEADLINE_REMINDER, false);
+    }
+
+    public void setUseDeadlineReminder(boolean use) {
+        setBoolean(Keys.USE_DEADLINE_REMINDER, use);
+    }
+
+
+
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

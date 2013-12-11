@@ -168,6 +168,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                     break;
                 }
 
+                if(!UIUtils.isEmailValid(email)){
+                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
+                    break;
+                }
+
                 int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
                 int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
                 if (educationLevel == 0 || employmentStatus == 0) {
