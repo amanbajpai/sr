@@ -13,6 +13,7 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.matrix.Keys;
+import com.matrix.bl.TasksBL;
 import com.matrix.utils.L;
 
 import java.io.IOException;
@@ -116,6 +117,7 @@ public class MatrixLocationManager implements LocationListener,
         lastLocation = location;
         if (location != null) {
             L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", Provider: " + location.getProvider() + "]");
+            new TasksBL().recalculateTasksDistance(location);
             notifyAllRequestedLocation();
         }
     }

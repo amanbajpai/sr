@@ -79,7 +79,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     class DbHandler extends AsyncQueryHandler {
-
         public DbHandler(ContentResolver cr) {
             super(cr);
         }
@@ -88,7 +87,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    ArrayList<Task> tasks =  TasksBL.convertCursorToTasksList(cursor);
+                    ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
                     adapter.setData(tasks);
                     break;
                 default:
