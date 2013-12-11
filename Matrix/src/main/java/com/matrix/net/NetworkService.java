@@ -99,6 +99,7 @@ public class NetworkService extends BaseNetworkService {
                         contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
                         //operation.responseEntities.addAll(new ArrayList<Task>(Arrays.asList(tasks)));
                         break;
+
                     case WSUrl.BOOK_TASKS_ID:
                         BookTaskResponse bookTaskResponse = gson.fromJson(responseString, BookTaskResponse.class);
                         operation.responseEntities.add(bookTaskResponse);

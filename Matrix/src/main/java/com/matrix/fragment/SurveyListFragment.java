@@ -80,13 +80,14 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         Location location = lm.getLocation();
         if (location != null) {
             int radius = TasksMapFragment.taskRadius;
+            L.i(TAG, "Radius: "+radius);
             getLocalSurveys(radius);
             apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
         }
     }
 
     private void getLocalSurveys(final int radius) {
-        handler.startQuery(SurveyDbSchema.Query.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE,
+        handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE,
                 null, Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + "<= ?",
                 new String[]{String.valueOf(radius)}, SurveyDbSchema.SORT_ORDER_DESC);
     }
@@ -99,7 +100,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
-                case SurveyDbSchema.Query.TOKEN_QUERY:
+                case SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY:
                     ArrayList<Survey> surveys = new ArrayList<Survey>();
 
                     if (cursor != null) {

@@ -82,9 +82,8 @@ public class SurveyAdapter extends BaseAdapter {
         holder.description.setText(survey.getDescription());
         holder.image.setImageResource(R.drawable.ic_launcher);
 
-        //TODO Get PRICE from task
         holder.locations.setText(Html.fromHtml(String.format(activity.getString(R.string.locations),
-                String.format("25"))));
+                survey.getTaskCount())));
 
         //TODO Get PRICE from task
         holder.price.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_price),
@@ -94,9 +93,8 @@ public class SurveyAdapter extends BaseAdapter {
         holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_exp),
                 String.format(Locale.US, "%,d", 130))));
 
-        //TODO Get DISTANCE from task
         holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_distance),
-                String.format(Locale.US, "%.0f", 1000f), activity.getString(R.string.distance_m))));
+                String.format(Locale.US, "%.0f", survey.getDistance()), activity.getString(R.string.distance_m))));
 
         return convertView;
     }

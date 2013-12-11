@@ -3,7 +3,7 @@ package com.matrix.db;
 import android.net.Uri;
 
 public interface SurveyDbSchema {
-    public static final int SURVEY_BY_DISTANCE = 103;
+    public static final int SURVEY_BY_DISTANCE = 102;
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.SURVEY.getName()).build();
     Uri CONTENT_URI_SURVEY_BY_DISTANCE = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity")

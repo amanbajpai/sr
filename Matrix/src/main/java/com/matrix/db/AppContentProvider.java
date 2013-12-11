@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,14 +99,9 @@ public class AppContentProvider extends ContentProvider {
                         + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName()
                         + " = " + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName() + ")";
 
-                additionalSelection = TextUtils.isEmpty(selection) ? "" : " and (" + selection + ")";
-
-                where = Table.TASK.getName() + "." + TaskDbSchema.Columns.DELETED.getName() + "= 0 "
-                        + additionalSelection;
-
                 groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();
 
-                cursor = db.query(table, SurveyDbSchema.QuerySurveyByDistance.PROJECTION, where, selectionArgs, groupBy, null,
+                cursor = db.query(table, SurveyDbSchema.QuerySurveyByDistance.PROJECTION, selection, selectionArgs, groupBy, null,
                         TaskDbSchema.SORT_ORDER_DISTANCE_ASC);
                 break;
             default:

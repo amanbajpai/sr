@@ -95,11 +95,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null) {
-                        cursor.moveToFirst();
+                        if (cursor.getCount() > 0) {
+                            cursor.moveToFirst();
 
-                        task = Task.fromCursor(cursor);
-                        setData();
-
+                            task = Task.fromCursor(cursor);
+                            setData();
+                        }
                         cursor.close();
                     }
                     break;
@@ -138,7 +139,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
                 130))));
 
-        if (task.getDistance() > 1000 ) {
+        if (task.getDistance() > 1000) {
             taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
                     String.format(Locale.US, "%.1f", task.getDistance() / 1000), getString(R.string.distance_km))));
         } else {
