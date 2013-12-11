@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import com.matrix.App;
 import com.matrix.R;
-import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
 import com.matrix.utils.UIUtils;
 
@@ -141,6 +140,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
                 preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner.getSelectedItemPosition
                         ()]);
+
+                UIUtils.showSimpleToast(getActivity(), R.string.success);
                 break;
             case R.id.cancelButton:
                 setData();
