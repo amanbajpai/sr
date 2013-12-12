@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import com.matrix.App;
 import com.matrix.Config;
-import com.matrix.Keys;
 import com.matrix.db.entity.BaseEntity;
 import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;

@@ -11,7 +11,7 @@ import com.matrix.utils.L;
 public class Task extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private Long SurveyId;
+    private Integer SurveyId;
     private Long UserId;
     private String Name;
     private String Description;
@@ -21,6 +21,15 @@ public class Task extends BaseEntity {
     private Double Price;
     private String Address;
     private Float Distance;
+
+    private String RemakeTill;
+    private String Started;
+    private Integer StatusId;
+    private String Status;
+    private String StartDateTime;
+    private String EndDateTime;
+
+    transient private Boolean IsMy = false;
 
     public Task() {
     }
@@ -35,7 +44,7 @@ public class Task extends BaseEntity {
         if (c.getCount() > 0) {
             result.set_id(c.getInt(TaskDbSchema.Query.All._ID));
             result.setId(c.getInt(TaskDbSchema.Query.All.ID));
-            result.setSurveyId(c.getLong(TaskDbSchema.Query.All.SURVEY_ID));
+            result.setSurveyId(c.getInt(TaskDbSchema.Query.All.SURVEY_ID));
             result.setUserId(c.getLong(TaskDbSchema.Query.All.USER_ID));
             result.setName(c.getString(TaskDbSchema.Query.All.NAME));
             result.setDescription(c.getString(TaskDbSchema.Query.All.DESCRIPTION));
@@ -45,6 +54,7 @@ public class Task extends BaseEntity {
             result.setPrice(c.getDouble(TaskDbSchema.Query.All.PRICE));
             result.setAddress(c.getString(TaskDbSchema.Query.All.ADDRESS));
             result.setDistance(c.getFloat(TaskDbSchema.Query.All.DISTANCE));
+            result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
         }
         L.d("Task", result.toString());
         return result;
@@ -74,11 +84,11 @@ public class Task extends BaseEntity {
         UserId = userId;
     }
 
-    public Long getSurveyId() {
+    public Integer getSurveyId() {
         return SurveyId;
     }
 
-    public void setSurveyId(Long surveyId) {
+    public void setSurveyId(Integer surveyId) {
         SurveyId = surveyId;
     }
 
@@ -130,6 +140,64 @@ public class Task extends BaseEntity {
     public void setDistance(Float distance) {
         Distance = distance;
     }
+
+    public Boolean getIsMy() {
+        return IsMy;
+    }
+
+    public void setIsMy(Boolean isMy) {
+        IsMy = isMy;
+    }
+
+
+    public String getRemakeTill() {
+        return RemakeTill;
+    }
+
+    public void setRemakeTill(String remakeTill) {
+        RemakeTill = remakeTill;
+    }
+
+    public String getStarted() {
+        return Started;
+    }
+
+    public void setStarted(String started) {
+        Started = started;
+    }
+
+    public Integer getStatusId() {
+        return StatusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        StatusId = statusId;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getStartDateTime() {
+        return StartDateTime;
+    }
+
+    public void setStartDateTime(String startDateTime) {
+        StartDateTime = startDateTime;
+    }
+
+    public String getEndDateTime() {
+        return EndDateTime;
+    }
+
+    public void setEndDateTime(String endDateTime) {
+        EndDateTime = endDateTime;
+    }
+
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link com.matrix.db.entity.Task}

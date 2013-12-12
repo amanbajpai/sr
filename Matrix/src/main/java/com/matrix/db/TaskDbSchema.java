@@ -24,6 +24,7 @@ public interface TaskDbSchema {
         PRICE("Price", DBType.FLOAT),
         ADDRESS("Address", DBType.TEXT),
         DISTANCE("Distance", DBType.FLOAT),
+        IS_MY("IsMy", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -75,7 +76,8 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.LANGUAGE.getName(),
                     Table.TASK.getName() + "." + Columns.PRICE.getName(),
                     Table.TASK.getName() + "." + Columns.ADDRESS.getName(),
-                    Table.TASK.getName() + "." + Columns.DISTANCE.getName()
+                    Table.TASK.getName() + "." + Columns.DISTANCE.getName(),
+                    Table.TASK.getName() + "." + Columns.IS_MY.getName()
             };
 
             int _ID = 0;
@@ -90,6 +92,7 @@ public interface TaskDbSchema {
             int PRICE = 9;
             int ADDRESS = 10;
             int DISTANCE = 11;
+            int IS_MY = 12;
         }
 
         public interface GetDistance {

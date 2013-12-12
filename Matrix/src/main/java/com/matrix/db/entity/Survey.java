@@ -33,6 +33,9 @@ public class Survey extends BaseEntity {
     @SkipFieldInContentValues
     transient private int TaskCount;
 
+    @SkipFieldInContentValues
+    transient private Double Price;
+
     public Survey() {
     }
 
@@ -94,6 +97,7 @@ public class Survey extends BaseEntity {
 
             result.setDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.DISTANCE_TO_NEAR));
             result.setTaskCount(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TASK_COUNT));
+            result.setPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.PRICE));
 
         }
         return result;
@@ -227,7 +231,6 @@ public class Survey extends BaseEntity {
         ExpectedStartDateTime = expectedStartDateTime;
     }
 
-
     public Task[] getTasks() {
         return Tasks;
     }
@@ -250,5 +253,13 @@ public class Survey extends BaseEntity {
 
     public void setTaskCount(int taskCount) {
         TaskCount = taskCount;
+    }
+
+    public Double getPrice() {
+        return Price;
+    }
+
+    public void setPrice(Double price) {
+        Price = price;
     }
 }

@@ -17,9 +17,8 @@ import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.activity.SurveysTaskListActivity;
 import com.matrix.adapter.SurveyAdapter;
+import com.matrix.bl.SurveysBL;
 import com.matrix.db.SurveyDbSchema;
-import com.matrix.db.Table;
-import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Survey;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
@@ -80,16 +79,11 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         Location location = lm.getLocation();
         if (location != null) {
             int radius = TasksMapFragment.taskRadius;
-            L.i(TAG, "Radius: "+radius);
-            getLocalSurveys(radius);
+            L.i(TAG, "Radius: " + radius);
+
+            SurveysBL.getSurveysListFromDB(handler, radius);
             apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
         }
-    }
-
-    private void getLocalSurveys(final int radius) {
-        handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE,
-                null, Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + "<= ?",
-                new String[]{String.valueOf(radius)}, SurveyDbSchema.SORT_ORDER_DESC);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -101,18 +95,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY:
-                    ArrayList<Survey> surveys = new ArrayList<Survey>();
-
-                    if (cursor != null) {
-                        if (cursor.getCount() > 0) {
-                            cursor.moveToFirst();
-                            do {
-                                surveys.add(Survey.fromCursorByDistance(cursor));
-                            } while (cursor.moveToNext());
-                        }
-                        cursor.close();
-                    }
-
+                    ArrayList<Survey> surveys = SurveysBL.convertCursorToSurveyList(cursor);
                     adapter.setData(surveys);
                     break;
                 default:
@@ -125,7 +108,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
-                getLocalSurveys(TasksMapFragment.taskRadius);
+                SurveysBL.getSurveysListFromDB(handler, TasksMapFragment.taskRadius);
             }
         } else {
             L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());

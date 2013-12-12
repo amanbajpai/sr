@@ -18,12 +18,21 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
-                <TextView
-                    android:id="@+id/taskName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_launcher" />
+                    <TextView
+                        android:id="@+id/taskName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:textSize="@dimen/text_size_large" />
+                </LinearLayout >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,7 +110,8 @@
                     android:id="@+id/mapImageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/map_default"
+                    android:scaleType="centerCrop" />
             </LinearLayout >
         </LinearLayout >
         <LinearLayout
@@ -155,10 +165,10 @@
             android:gravity="left"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:text="@string/task_address"
+            android:text="@string/task_composition"
             android:textSize="@dimen/text_size_medium" />
         <TextView
-            android:id="@+id/taskAddress"
+            android:id="@+id/taskComposition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -170,10 +180,10 @@
             android:gravity="left"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:text="@string/task_deadline"
+            android:text="@string/task_address"
             android:textSize="@dimen/text_size_medium" />
         <TextView
-            android:id="@+id/taskDeadline"
+            android:id="@+id/taskAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"

@@ -56,7 +56,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
         taskList.setAdapter(adapter);
 
-        getTasks();
+        TasksBL.getMyTasksFromDB(handler);
         apiFacade.getMyTasks(getActivity());
 
         return view;
@@ -68,14 +68,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
+            TasksBL.getMyTasksFromDB(handler);
+            apiFacade.getMyTasks(getActivity());
         }
-    }
-
-    private void getTasks() {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -100,7 +95,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-                getTasks();
+                TasksBL.getMyTasksFromDB(handler);
             }
         } else {
             L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());

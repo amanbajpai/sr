@@ -13,8 +13,12 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
+import com.matrix.bl.SurveysBL;
+import com.matrix.bl.TasksBL;
+import com.matrix.db.SurveyDbSchema;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.BookTaskResponse;
+import com.matrix.db.entity.Survey;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
@@ -34,6 +38,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private Integer taskId;
     private Task task = new Task();
+    private Survey survey = new Survey();
 
     private TextView taskName;
     private TextView startTimeTextView;
@@ -44,7 +49,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView taskDistance;
     private TextView taskAddress;
     private TextView taskDescription;
-    private TextView taskDeadline;
+    private TextView taskComposition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,22 +75,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskDistance = (TextView) findViewById(R.id.taskDistance);
         taskDescription = (TextView) findViewById(R.id.taskDescription);
         taskAddress = (TextView) findViewById(R.id.taskAddress);
-        taskDeadline = (TextView) findViewById(R.id.taskDeadline);
+        taskComposition = (TextView) findViewById(R.id.taskComposition);
 
         findViewById(R.id.bookButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
 
-        getTask(taskId);
-    }
-
-    private void getTask(Integer taskId) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
-                TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+        TasksBL.getTaskFromDB(handler, taskId);
     }
 
     class DbHandler extends AsyncQueryHandler {
-
         public DbHandler(ContentResolver cr) {
             super(cr);
         }
@@ -94,15 +92,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    if (cursor != null) {
-                        if (cursor.getCount() > 0) {
-                            cursor.moveToFirst();
+                    task = TasksBL.convertCursorToTask(cursor);
 
-                            task = Task.fromCursor(cursor);
-                            setData();
-                        }
-                        cursor.close();
-                    }
+                    setTaskData(task);
+                    SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
+                    break;
+                case SurveyDbSchema.Query.TOKEN_QUERY:
+                    survey = SurveysBL.convertCursorToSurvey(cursor);
+
+                    setSurveyData(survey);
                     break;
                 default:
                     break;
@@ -126,18 +124,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void setData() {
+    public void setTaskData(Task task) {
         taskName.setText(task.getName());
         taskDescription.setText(task.getDescription());
-        startTimeTextView.setText("-");
-        deadlineTimeTextView.setText("-");
-        expiryTimeTextView.setText("-");
+        taskComposition.setText("-");
         taskPrice.setText(Html.fromHtml(String.format(getString(R.string.task_price), String.format(Locale.US, "%.1f",
                 task.getPrice()))));
-
-        //TODO Set EXP
-        taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
-                130))));
 
         if (task.getDistance() > 1000) {
             taskDistance.setText(Html.fromHtml(String.format(getString(R.string.task_distance),
@@ -148,6 +140,20 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
 
         taskAddress.setText(task.getAddress());
+    }
+
+    public void setSurveyData(Survey survey) {
+        long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
+        long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
+
+        startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
+        deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
+        //TODO Set expiry time
+        expiryTimeTextView.setText("-");
+
+        //TODO Set EXP
+        taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
+                130))));
     }
 
     @Override

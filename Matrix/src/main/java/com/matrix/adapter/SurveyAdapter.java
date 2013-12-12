@@ -85,16 +85,15 @@ public class SurveyAdapter extends BaseAdapter {
         holder.locations.setText(Html.fromHtml(String.format(activity.getString(R.string.locations),
                 survey.getTaskCount())));
 
-        //TODO Get PRICE from task
         holder.price.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_price),
-                String.format(Locale.US, "%.1f", 100f))));
+                String.format(Locale.US, "%.1f", survey.getPrice()))));
 
         //TODO Get EXP from survey
         holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_exp),
                 String.format(Locale.US, "%,d", 130))));
 
         holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_distance),
-                String.format(Locale.US, "%.0f", survey.getDistance()), activity.getString(R.string.distance_m))));
+                String.format(Locale.US, "%.1f", survey.getDistance()), activity.getString(R.string.distance_m))));
 
         return convertView;
     }

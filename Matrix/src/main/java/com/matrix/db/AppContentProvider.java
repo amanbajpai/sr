@@ -95,11 +95,11 @@ public class AppContentProvider extends ContentProvider {
                 cursor = db.query(getTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case SURVEY_BY_DISTANCE:
-                table = Table.SURVEY.getName() + " LEFT JOIN " + Table.TASK.getName() + " ON ("
+                table = Table.TASK.getName() + " LEFT JOIN " + Table.SURVEY.getName() + " ON ("
                         + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName()
                         + " = " + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName() + ")";
 
-                groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();
+                groupBy = Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName();
 
                 cursor = db.query(table, SurveyDbSchema.QuerySurveyByDistance.PROJECTION, selection, selectionArgs, groupBy, null,
                         TaskDbSchema.SORT_ORDER_DISTANCE_ASC);

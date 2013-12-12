@@ -9,7 +9,7 @@ public interface SurveyDbSchema {
     Uri CONTENT_URI_SURVEY_BY_DISTANCE = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity")
             .appendPath(Table.SURVEY.getName() + SURVEY_BY_DISTANCE).build();
 
-    //String SORT_ORDER_DESC_LIMIT_1 = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
+    String SORT_ORDER_DESC_LIMIT_1 = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC";
     //String SORT_ORDER = Table.SURVEY.getName() + "." + Columns._ID.getName() + " ASC";
 
@@ -59,10 +59,10 @@ public interface SurveyDbSchema {
     }
 
     public interface Query {
-        int TOKEN_QUERY = 1;
-        int TOKEN_INSERT = 2;
-        //int TOKEN_UPDATE = 3;
-        //int TOKEN_DELETE = 4;
+        int TOKEN_QUERY = 10;
+        int TOKEN_INSERT = 11;
+        //int TOKEN_UPDATE = 12;
+        //int TOKEN_DELETE = 13;
 
         String[] PROJECTION = {Table.SURVEY.getName() + "." + Columns._ID.getName(),
                 Table.SURVEY.getName() + "." + Columns.ID.getName(),
@@ -107,7 +107,8 @@ public interface SurveyDbSchema {
     }
 
     public interface QuerySurveyByDistance {
-        int TOKEN_QUERY = 1;
+        int TOKEN_QUERY = 10;
+
         String[] PROJECTION = {Table.SURVEY.getName() + "." + Columns._ID.getName(),
                 Table.SURVEY.getName() + "." + Columns.ID.getName(),
                 Table.SURVEY.getName() + "." + Columns.NAME.getName(),
@@ -129,10 +130,11 @@ public interface SurveyDbSchema {
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
 
-                Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName(),
+                "MIN(" + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + ")",
                 "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
                         + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName() + " = " + Table.SURVEY.getName() + "."
-                        + Columns.ID.getName() + ")"
+                        + Columns.ID.getName() + ")",
+                Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName()
         };
 
         int _ID = 0;
@@ -155,5 +157,6 @@ public interface SurveyDbSchema {
         int EXPECTED_START_DATE_TIME = 17;
         int DISTANCE_TO_NEAR = 18;
         int TASK_COUNT = 19;
+        int PRICE = 20;
     }
 }
