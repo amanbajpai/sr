@@ -26,14 +26,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.*;
 import com.matrix.App;
+import com.matrix.BaseActivity;
 import com.matrix.Keys;
 import com.matrix.R;
 import com.matrix.activity.TaskDetailsActivity;
+import com.matrix.bl.SurveysBL;
 import com.matrix.bl.TasksBL;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
 import com.matrix.helpers.APIFacade;
 import com.matrix.location.MatrixLocationManager;
+import com.matrix.net.BaseOperation;
+import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
 import com.matrix.utils.UIUtils;
 import com.twotoasters.clusterkraf.*;
@@ -41,7 +45,7 @@ import com.twotoasters.clusterkraf.*;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class TasksMapFragment extends Fragment {
+public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
@@ -114,7 +118,7 @@ public class TasksMapFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                getTasks(taskRadius);
+                TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
                 Location location = lm.getLocation();
                 if (location == null) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
@@ -148,6 +152,18 @@ public class TasksMapFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        super.onStop();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         initMap();
@@ -167,9 +183,20 @@ public class TasksMapFragment extends Fragment {
                 }
             });
         }
+
         showFilterPannel(false);
     }
 
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == 200) {
+            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
+                TasksBL.getTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
+            }
+        } else {
+            L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
+        }
+    }
 
     private void showTaskDetails(Long taskId) {
         Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
@@ -202,28 +229,9 @@ public class TasksMapFragment extends Fragment {
 
     private void loadTasks(Location location) {
         if (location != null) {
-            loadTasks(location.getLatitude(), location.getLongitude(), taskRadius, 100);
+            TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
         }
     }
-
-    private void loadTasks(double latitude, double longitude, int radius, int limit) {
-        if (mLoading) {
-            return;
-        }
-
-        L.i(TAG, "Get Tasks() ...");
-        getTasks(radius);
-    }
-
-    private void getTasks(int radius) {
-//        handler.startQuery(TaskDbSchema.Query.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-//                TaskDbSchema.Query.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=?",
-//                new String[]{String.valueOf(radius)}, TaskDbSchema.SORT_ORDER_DESC);
-
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
-    }
-
 
     /**
      * Initiate call to server side and get Tasks
@@ -275,8 +283,6 @@ public class TasksMapFragment extends Fragment {
                     });
                 }
             }
-        } else {
-            moveCameraToMyLocation();
         }
     }
 
@@ -417,7 +423,7 @@ public class TasksMapFragment extends Fragment {
                 markerOptions.icon(icon);
                 markerOptions.title(title);
                 markerOptions.anchor(0.5f, 1.0f);
-                L.d(TAG, "choose() [size=" + clusterPoint.size() +", isCluster="
+                L.d(TAG, "choose() [size=" + clusterPoint.size() + ", isCluster="
                         + isCluster + ", " + "title=" + title + "]");
             }
         }

@@ -24,6 +24,12 @@ public interface TaskDbSchema {
         PRICE("Price", DBType.FLOAT),
         ADDRESS("Address", DBType.TEXT),
         DISTANCE("Distance", DBType.FLOAT),
+        REMAKETILL("RemakeTill", DBType.TEXT),
+        STARTED("Started", DBType.TEXT),
+        STATUSID("StatusId", DBType.INT),
+        STATUS("Status", DBType.TEXT),
+        STARTDATETIME("StartDateTime", DBType.TEXT),
+        ENDDATETIME("EndDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
 
         DELETED("deleted", DBType.INT);

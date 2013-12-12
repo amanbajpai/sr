@@ -34,14 +34,20 @@ public class TasksBL {
         calculateTaskDistance(myLocation, cursor);
     }
 
-    private Cursor getTasksFromDB() {
+    private static Cursor getTasksFromDB() {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
                 null, null, TaskDbSchema.SORT_ORDER_DESC);
         return cursor;
     }
 
-    public static void getTaskFromDB(AsyncQueryHandler handler, Integer taskId) {
+    public static void getTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=?",
+                new String[]{String.valueOf(taskRadius)}, TaskDbSchema.SORT_ORDER_DESC);
+    }
+
+    public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
                 TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);

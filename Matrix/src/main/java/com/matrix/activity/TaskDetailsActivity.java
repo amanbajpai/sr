@@ -80,7 +80,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.bookButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
 
-        TasksBL.getTaskFromDB(handler, taskId);
+        TasksBL.getTaskFromDBbyID(handler, taskId);
     }
 
     class DbHandler extends AsyncQueryHandler {
