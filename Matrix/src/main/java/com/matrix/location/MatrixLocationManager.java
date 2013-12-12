@@ -73,15 +73,12 @@ public class MatrixLocationManager implements LocationListener,
      * @return null if not connected to Google Play Service or
      */
     public Location getLocation() {
-        L.i(TAG, "getLocation() >>>");
         if (isConnected) {
             this.lastLocation = locationClient.getLastLocation();
         }
         if (lastLocation != null) {
-            L.i(TAG, "getLocation[" + lastLocation + "]");
-            L.i(TAG, "getLocation[time=" + new Date(lastLocation.getTime()) + "]");
+            L.i(TAG, "getLocation[" + lastLocation + ", time=" + new Date(lastLocation.getTime())+"]");
         }
-        L.i(TAG, "getLocation() <<<");
         return lastLocation;
     }
 

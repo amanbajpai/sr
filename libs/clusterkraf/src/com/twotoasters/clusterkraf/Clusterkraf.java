@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 
+import android.util.Log;
 import android.view.View;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Clusters InputPoint objects on a GoogleMap
  */
 public class Clusterkraf {
+
+    private static final String TAG = "Clusterkraf";
 
 	private final WeakReference<GoogleMap> mapRef;
 	private final Options options;
@@ -146,10 +149,10 @@ public class Clusterkraf {
 		previousMarkers = null;
 		
 		points.clear();
+        Log.d(TAG, "clear()");
 	}
 
 	// TODO: support removing individual InputPoint objects
-
 	private void drawMarkers() {
 		GoogleMap map = mapRef.get();
 		if (map != null && currentClusters != null) {
@@ -166,6 +169,7 @@ public class Clusterkraf {
 				currentMarkers.add(marker);
 				currentClusterPointsByMarker.put(marker, clusterPoint);
 			}
+            Log.d(TAG, "drawMarkers()[size=" + currentClusterPointsByMarker.size() + "]");
 		}
 	}
 
@@ -183,7 +187,6 @@ public class Clusterkraf {
 	private void updateClustersAndTransition() {
 		previousClusters = currentClusters;
 		previousMarkers = currentMarkers;
-
 		startClusteringTask();
 	}
 
@@ -269,7 +272,7 @@ public class Clusterkraf {
 	private static class InnerCallbackListener implements ClusteringOnCameraChangeListener.Host, ClusterTransitionsAnimation.Host, OnMarkerClickListener,
 			OnInfoWindowClickListener, GoogleMap.InfoWindowAdapter {
 
-		private final WeakReference<Clusterkraf> clusterkrafRef;
+        private final WeakReference<Clusterkraf> clusterkrafRef;
 
 		private final Handler handler = new Handler();
 
@@ -352,6 +355,8 @@ public class Clusterkraf {
 			Clusterkraf clusterkraf = clusterkrafRef.get();
 			if (clusterkraf != null) {
 				ClusterPoint clusterPoint = clusterkraf.currentClusterPointsByMarker.get(marker);
+                Log.d(TAG, "1. [clusterPoint=" + clusterPoint + "], size="
+                        + clusterkraf.currentClusterPointsByMarker.size());
 				if (clusterPoint == null) {
 					if (clusterkraf.transitionsAnimation.getAnimatedDestinationClusterPoint(marker) != null) {
 						exempt = true;
@@ -360,6 +365,7 @@ public class Clusterkraf {
 						clusterPoint = clusterkraf.transitionsAnimation.getStationaryClusterPoint(marker);
 					}
 				}
+                Log.d(TAG, "2. [clusterPoint=" + clusterPoint + ", exempt=" + exempt + "]");
 				OnMarkerClickDownstreamListener downstreamListener = clusterkraf.options.getOnMarkerClickDownstreamListener();
 				if (exempt == false && downstreamListener != null) {
 					handled = downstreamListener.onMarkerClick(marker, clusterPoint);

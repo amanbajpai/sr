@@ -62,11 +62,12 @@ public class TasksMapFragment extends Fragment {
     private float defaultZoomLevel = 11f;
     private float zoomLevel = defaultZoomLevel;
     private SeekBar sbRadius;
+    private MarkerOptions myPinLocation;
 
 
     private boolean mLoading = false;
 
-    private ArrayList<InputPoint> inputPoints;
+    //private ArrayList<InputPoint> inputPoints;
     private Clusterkraf clusterkraf;
     private ClusterOptions options;
 
@@ -75,7 +76,7 @@ public class TasksMapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inputPoints = new ArrayList<InputPoint>();
+
         if (this.options == null) {
             this.options = new ClusterOptions();
         }
@@ -97,24 +98,27 @@ public class TasksMapFragment extends Fragment {
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
         this.setRaiusText();
-        sbRadius.setProgress(10);
+        sbRadius.setProgress(sbRadiusProgress);
         sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 sbRadiusProgress = progress;
                 taskRadius = sbRadiusDelta * sbRadiusProgress;
-                updateMapPins();
                 setRaiusText();
+                updateMapPins(lm.getLocation());
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 getTasks(taskRadius);
+                Location location = lm.getLocation();
+                if (location == null) {
+                    UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                }
             }
         });
 
@@ -173,8 +177,12 @@ public class TasksMapFragment extends Fragment {
         startActivity(intent);
     }
 
+    /**
+     * Callback when we finish loading task from Server
+     * @param list
+     */
     private void onLoadingComplete(ArrayList<Task> list) {
-        inputPoints.clear();
+        ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
         for (Task item : list) {
             if (item.getLatitude() != null && item.getLongitude() != null) {
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
@@ -182,7 +190,11 @@ public class TasksMapFragment extends Fragment {
         }
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
         if (inputPoints.size() > 0) {
-            initClusterkraf();
+            if (this.clusterkraf == null) {
+                initClusterkraf(inputPoints);
+            } else {
+                clusterkraf.replace(inputPoints);
+            }
         } else if (getActivity() != null) {
             UIUtils.showSimpleToast(getActivity(), R.string.no_tasks_found, Toast.LENGTH_LONG);
         }
@@ -264,30 +276,15 @@ public class TasksMapFragment extends Fragment {
                 }
             }
         } else {
-            moveMapCameraToBoundsAndInitClusterkraf();
-        }
-    }
-
-    /**
-     * Move Camera to position
-     */
-    private void moveMapCameraToBoundsAndInitClusterkraf() {
-        if (map != null && options != null && inputPoints != null) {
-            L.d(TAG, "moveMapCameraToBoundsAndInitClusterkraf()");
-            try {
-                moveCameraToMyLocation();
-                initClusterkraf();
-            } catch (IllegalStateException ise) {
-                L.e(TAG, "moveMapCameraToBoundsAndInitClusterkraf()" + ise);
-            }
+            moveCameraToMyLocation();
         }
     }
 
     /**
      * Inirialize Cluster library and add pins
      */
-    private void initClusterkraf() {
-        if (this.map != null && this.inputPoints != null && this.inputPoints.size() > 0) {
+    private void initClusterkraf(ArrayList<InputPoint> inputPoints) {
+        if (this.map != null && inputPoints != null && inputPoints.size() > 0) {
             com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
             applyemoApplicationOptionsToClusterkrafOptions(options);
             // customize the options before you construct a Clusterkraf instance
@@ -401,7 +398,6 @@ public class TasksMapFragment extends Fragment {
 
         @Override
         public void choose(MarkerOptions markerOptions, ClusterPoint clusterPoint) {
-            L.d(TAG, "choose() [size=" + clusterPoint.size() + "]");
             Context context = contextRef.get();
             if (context != null) {
                 Resources res = context.getResources();
@@ -421,6 +417,8 @@ public class TasksMapFragment extends Fragment {
                 markerOptions.icon(icon);
                 markerOptions.title(title);
                 markerOptions.anchor(0.5f, 1.0f);
+                L.d(TAG, "choose() [size=" + clusterPoint.size() +", isCluster="
+                        + isCluster + ", " + "title=" + title + "]");
             }
         }
 
@@ -486,6 +484,10 @@ public class TasksMapFragment extends Fragment {
         }
 
         private void render(Marker marker, View view, ClusterPoint clusterPoint) {
+            L.d(TAG, "render() [marker=" + marker + ", clusterPoint=" + clusterPoint + "]");
+            L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", " +
+                    "snipped=" + marker.getSnippet()+ ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
+
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
             // Set Price prefix
@@ -595,8 +597,7 @@ public class TasksMapFragment extends Fragment {
         map.addMarker(new MarkerOptions()
                 .snippet(MYLOC)
                 .position(coordinates)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
-        );
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
         restoreCameraPosition = new CameraPosition(coordinates, zoomLevel, 0, 0);
         moveCameraToMyLocation();
     }
@@ -604,29 +605,27 @@ public class TasksMapFragment extends Fragment {
     /**
      * Add My location pin to the Map with radius and accuracy circle
      *
-     * @param location
+     * @param location - should be not null
      * @param radius
      */
     private void addMyLocationAndRadius(Location location, int radius) {
-        LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
-        addMyLocation(coord);
-        Resources r = getResources();
-        addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
-                r.getColor(R.color.map_radius_fill));
-        addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
-                r.getColor(R.color.map_accuracy_fill));
+        if (location != null) {
+            LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
+            addMyLocation(coord);
+            Resources r = getResources();
+            addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
+                    r.getColor(R.color.map_radius_fill));
+            addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
+                    r.getColor(R.color.map_accuracy_fill));
+        }
     }
 
     /**
      * Remove all pins and update mapview
      */
-    private void updateMapPins() {
+    private void updateMapPins(Location location) {
         map.clear();
-        Location location = lm.getLocation();
-        if (location != null) {
-            addMyLocationAndRadius(location, taskRadius);
-        }
-        moveMapCameraToBoundsAndInitClusterkraf();
+        addMyLocationAndRadius(location, taskRadius);
     }
 
     private void setRaiusText() {
