@@ -172,6 +172,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (location != null) {
             loadTasks(location);
             addMyLocationAndRadius(location, taskRadius);
+            moveCameraToMyLocation();
         } else {
             UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
@@ -180,6 +181,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     L.i(TAG, "Location Updated!");
                     loadTasks(location);
                     addMyLocationAndRadius(location, taskRadius);
+                    moveCameraToMyLocation();
                 }
             });
         }
@@ -605,7 +607,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 .position(coordinates)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
         restoreCameraPosition = new CameraPosition(coordinates, zoomLevel, 0, 0);
-        moveCameraToMyLocation();
     }
 
     /**
