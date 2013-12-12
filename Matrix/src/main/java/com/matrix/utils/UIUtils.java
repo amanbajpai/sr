@@ -26,6 +26,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,7 @@ public class UIUtils {
     public static SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
     public static SimpleDateFormat hourMinute1Format = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     public static SimpleDateFormat dayMonthYear1Format = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
+    public static SimpleDateFormat hourMinuteDyMonthYear1Format = new SimpleDateFormat("HH:mm a dd MMM yy", Locale.ENGLISH);
 
     /**
      * Show simple Toast message
@@ -280,7 +282,6 @@ public class UIUtils {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
 
-    /*
     public static long isoTimeToLong(String dateString) {
         try {
             return isoDateFormat.parse(dateString).getTime();
@@ -288,7 +289,7 @@ public class UIUtils {
             L.e("twitterTimeToLong", "Parse error" + e);
         }
         return 0;
-    }*/
+    }
 
     /**
      * @param dateLong
@@ -302,6 +303,8 @@ public class UIUtils {
                 return dayMonthYear1Format.format(new Date(dateLong));
             case 2:
                 return isoDateFormat.format(new Date(dateLong));
+            case 3:
+                return hourMinuteDyMonthYear1Format.format(new Date(dateLong));
             default:
                 break;
         }

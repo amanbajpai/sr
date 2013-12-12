@@ -79,16 +79,18 @@ public class NetworkService extends BaseNetworkService {
                         }
 
                         break;
-                    case WSUrl.GET_SURVEYS_TASKS_ID:
-                        Task[] tasks = gson.fromJson(responseString, Task[].class);
+                    case WSUrl.GET_MY_TASKS_ID:
+                        Tasks tasks = gson.fromJson(responseString, Tasks.class);
 
-                        Location currentLocation = preferencesManager.getCurrentLocation();
+                        Location currentLocation = App.getInstance().getLocationManager().getLocation();
                         ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
 
-                        for (Task task : tasks) {
+                        for (Task task : tasks.getTasks()) {
                             Location temp = new Location(LocationManager.NETWORK_PROVIDER);
                             temp.setLatitude(task.getLatitude());
                             temp.setLongitude(task.getLongitude());
+                            task.setIsMy(true);
+
                             if (currentLocation != null) {
                                 task.setDistance(currentLocation.distanceTo(temp));
                             }

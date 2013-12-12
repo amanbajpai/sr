@@ -26,11 +26,11 @@ import java.util.Locale;
 public class SettingsFragment extends Fragment implements OnClickListener {
     private static final String TAG = SettingsFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    public static String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
-    public static String[] SUPPORTED_LANGS_CODE = new String[]{"en", "ru"};
-    public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "Русский"};
-    public static int[] APPOINTMENT_INTERVAL_CODE = new int[]{0, 1, 2};
-    public static String[] APPOINTMENT_INTERVAL = new String[]{"Never", "Always"};
+    public static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
+    public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "ru"};
+    public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Русский"};
+    public static final int[] APPOINTMENT_INTERVAL_CODE = new int[]{0, 1, 2};
+    public static final String[] APPOINTMENT_INTERVAL = new String[]{"Never", "Always"};
     private ViewGroup view;
 
     private Spinner languageSpinner;

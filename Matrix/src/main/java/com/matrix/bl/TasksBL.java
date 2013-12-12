@@ -1,15 +1,13 @@
 package com.matrix.bl;
 
+import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
-import android.widget.ArrayAdapter;
 import com.matrix.App;
 import com.matrix.db.TaskDbSchema;
-import com.matrix.db.entity.Survey;
 import com.matrix.db.entity.Task;
-import com.matrix.location.MatrixLocationManager;
 
 import java.util.ArrayList;
 
@@ -35,10 +33,21 @@ public class TasksBL {
         return cursor;
     }
 
+    public static void getTaskFromDB(AsyncQueryHandler handler, Integer taskId) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
+                TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+    }
+
+    public static void getMyTasksFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1",
+                null, TaskDbSchema.SORT_ORDER_DESC);
+    }
+
     /**
-     *
      * @param myLocation - user current location
-     * @param cursor - Cursor with data set from DB
+     * @param cursor     - Cursor with data set from DB
      */
     private void calculateTaskDistance(Location myLocation, Cursor cursor) {
         ArrayList<Task> tasks = convertCursorToTasksList(cursor);
@@ -60,6 +69,7 @@ public class TasksBL {
 
     /**
      * Conveert cursor to Task list
+     *
      * @param cursor - all fields cursor
      * @return
      */
@@ -72,6 +82,24 @@ public class TasksBL {
             } while (cursor.moveToNext());
             cursor.close();
         }
+        return result;
+    }
+
+    /**
+     * Convert cursor to Task
+     *
+     * @param cursor - all fields cursor
+     * @return
+     */
+    public static Task convertCursorToTask(Cursor cursor) {
+        Task result = new Task();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                result = Task.fromCursor(cursor);
+            }
+            cursor.close();
+        }
+
         return result;
     }
 
