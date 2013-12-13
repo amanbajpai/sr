@@ -60,7 +60,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         TasksBL.getMyTasksFromDB(handler);
         apiFacade.getMyTasks(getActivity());
 
-        ((BaseActivity) getActivity()).getSupportActionBar().setSupportProgressBarIndeterminateVisibility(false);
         return view;
     }
 
