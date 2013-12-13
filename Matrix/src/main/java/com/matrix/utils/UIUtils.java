@@ -285,8 +285,12 @@ public class UIUtils {
     public static long isoTimeToLong(String dateString) {
         try {
             return isoDateFormat.parse(dateString).getTime();
-        } catch (ParseException e) {
-            L.e("twitterTimeToLong", "Parse error" + e);
+        }
+        catch (ParseException e) {
+            L.e(TAG, "isoTimeToLong() Parse error" + e);
+        }
+        catch (RuntimeException e) {
+            L.e(TAG, "isoTimeToLong() Wrong format" + e);
         }
         return 0;
     }

@@ -127,7 +127,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         });
 
         setHasOptionsMenu(true);
-
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,6 +146,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 togleFilterPannel();
             }
         });
+
+        getSurveysFromServer(taskRadius);
 
         return fragmentView;
     }
