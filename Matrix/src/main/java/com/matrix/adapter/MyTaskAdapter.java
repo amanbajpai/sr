@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.matrix.R;
 import com.matrix.db.entity.Task;
+import com.matrix.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -90,14 +91,12 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.task_exp),
                 String.format(Locale.US, "%,d", 130))));
 
-        holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.task_distance),
-                String.format(Locale.US, "%.1f", task.getDistance()), activity.getString(R.string.distance_m))));
+        holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, task.getDistance(), R.string.task_distance)));
 
+        long timeInMillisecond = UIUtils.isoTimeToLong(task.getEndDateTime());
 
-        /*long timeInMillisecond = UIUtils.isoTimeToLong(task.getExpectedEndDateTime());
-
-        holder.time.setText(UIUtils.longToString(timeInMillisecond, 1));
-        holder.date.setText(UIUtils.longToString(timeInMillisecond, 2));*/
+        holder.time.setText(UIUtils.longToString(timeInMillisecond, 0));
+        holder.date.setText(UIUtils.longToString(timeInMillisecond, 1));
 
         return convertView;
     }

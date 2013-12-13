@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -59,6 +60,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         TasksBL.getMyTasksFromDB(handler);
         apiFacade.getMyTasks(getActivity());
 
+        ((BaseActivity) getActivity()).getSupportActionBar().setSupportProgressBarIndeterminateVisibility(false);
         return view;
     }
 

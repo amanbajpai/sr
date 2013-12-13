@@ -8,7 +8,7 @@ public interface TaskDbSchema {
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC";
-    String SORT_ORDER_DISTANCE_ASC = Table.TASK.getName() + "." + Columns.DISTANCE.getName() + " ASC";
+    String SORT_ORDER_DISTANCE_ASC = SurveyDbSchema.NEAR_TASK_DISTANCE + " ASC";
     //String SORT_ORDER = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC";
 
     public enum Columns {
@@ -24,12 +24,12 @@ public interface TaskDbSchema {
         PRICE("Price", DBType.FLOAT),
         ADDRESS("Address", DBType.TEXT),
         DISTANCE("Distance", DBType.FLOAT),
-        REMAKETILL("RemakeTill", DBType.TEXT),
+        REMAKE_TILL("RemakeTill", DBType.TEXT),
         STARTED("Started", DBType.TEXT),
-        STATUSID("StatusId", DBType.INT),
+        STATUS_ID("StatusId", DBType.INT),
         STATUS("Status", DBType.TEXT),
-        STARTDATETIME("StartDateTime", DBType.TEXT),
-        ENDDATETIME("EndDateTime", DBType.TEXT),
+        START_DATE_TIME("StartDateTime", DBType.TEXT),
+        END_DATE_TIME("EndDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
 
         DELETED("deleted", DBType.INT);
@@ -83,6 +83,12 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.PRICE.getName(),
                     Table.TASK.getName() + "." + Columns.ADDRESS.getName(),
                     Table.TASK.getName() + "." + Columns.DISTANCE.getName(),
+                    Table.TASK.getName() + "." + Columns.REMAKE_TILL.getName(),
+                    Table.TASK.getName() + "." + Columns.STARTED.getName(),
+                    Table.TASK.getName() + "." + Columns.STATUS_ID.getName(),
+                    Table.TASK.getName() + "." + Columns.STATUS.getName(),
+                    Table.TASK.getName() + "." + Columns.START_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.IS_MY.getName()
             };
 
@@ -98,7 +104,13 @@ public interface TaskDbSchema {
             int PRICE = 9;
             int ADDRESS = 10;
             int DISTANCE = 11;
-            int IS_MY = 12;
+            int REMAKE_TILL = 12;
+            int STARTED = 13;
+            int STATUS_ID = 14;
+            int STATUS = 15;
+            int START_DATE_TIME = 16;
+            int END_DATE_TIME = 17;
+            int IS_MY = 18;
         }
 
         public interface GetDistance {

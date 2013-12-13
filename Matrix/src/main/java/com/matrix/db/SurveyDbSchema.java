@@ -13,7 +13,7 @@ public interface SurveyDbSchema {
     String SORT_ORDER_DESC = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC";
     //String SORT_ORDER = Table.SURVEY.getName() + "." + Columns._ID.getName() + " ASC";
 
-    //final String TASK_COUNT = "task_count";
+    final String NEAR_TASK_DISTANCE = "near_task_distance";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
@@ -130,7 +130,7 @@ public interface SurveyDbSchema {
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
 
-                "MIN(" + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + ")",
+                "MIN(" + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + ") AS " + SurveyDbSchema.NEAR_TASK_DISTANCE,
                 "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
                         + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName() + " = " + Table.SURVEY.getName() + "."
                         + Columns.ID.getName() + ")",
@@ -155,8 +155,8 @@ public interface SurveyDbSchema {
         int END_DATE_TIME = 15;
         int EXPECTED_END_DATE_TIME = 16;
         int EXPECTED_START_DATE_TIME = 17;
-        int DISTANCE_TO_NEAR = 18;
+        int NEAR_TASK_DISTANCE = 18;
         int TASK_COUNT = 19;
-        int PRICE = 20;
+        int NEAR_TASK_PRICE = 20;
     }
 }

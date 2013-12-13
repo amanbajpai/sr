@@ -6,7 +6,6 @@ import com.matrix.db.SurveyDbSchema;
 import com.matrix.db.Table;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Survey;
-import com.matrix.db.entity.Task;
 
 import java.util.ArrayList;
 
@@ -20,8 +19,8 @@ public class SurveysBL {
 
     public static void getSurveysListFromDB(AsyncQueryHandler handler, Integer radius) {
         handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE,
-                null, Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + "<= ?",
-                new String[]{String.valueOf(radius)}, SurveyDbSchema.SORT_ORDER_DESC);
+                null, " AND " + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'",
+                null, null);
 
     }
 
@@ -31,11 +30,11 @@ public class SurveysBL {
      * @param cursor - all fields cursor
      * @return
      */
-    public static ArrayList<Survey> convertCursorToSurveyList(Cursor cursor) {
+    public static ArrayList<Survey> convertCursorToSurveyListByDistance(Cursor cursor) {
         ArrayList<Survey> result = new ArrayList<Survey>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                result.add(Survey.fromCursor(cursor));
+                result.add(Survey.fromCursorByDistance(cursor));
             }
             cursor.close();
         }

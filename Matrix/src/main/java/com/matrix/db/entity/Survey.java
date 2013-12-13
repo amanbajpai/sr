@@ -28,13 +28,13 @@ public class Survey extends BaseEntity {
     private Task[] Tasks;
 
     @SkipFieldInContentValues
-    transient private Float Distance;
+    transient private Float NearTaskDistance;
 
     @SkipFieldInContentValues
     transient private int TaskCount;
 
     @SkipFieldInContentValues
-    transient private Double Price;
+    transient private Double NearTaskPrice;
 
     public Survey() {
     }
@@ -95,9 +95,9 @@ public class Survey extends BaseEntity {
             result.setExpectedEndDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_START_DATE_TIME));
 
-            result.setDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.DISTANCE_TO_NEAR));
+            result.setNearTaskDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_DISTANCE));
             result.setTaskCount(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TASK_COUNT));
-            result.setPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.PRICE));
+            result.setNearTaskPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_PRICE));
 
         }
         return result;
@@ -239,12 +239,12 @@ public class Survey extends BaseEntity {
         this.Tasks = tasks;
     }
 
-    public Float getDistance() {
-        return Distance;
+    public Float getNearTaskDistance() {
+        return NearTaskDistance;
     }
 
-    public void setDistance(Float distance) {
-        Distance = distance;
+    public void setNearTaskDistance(Float nearTaskDistance) {
+        NearTaskDistance = nearTaskDistance;
     }
 
     public int getTaskCount() {
@@ -255,11 +255,11 @@ public class Survey extends BaseEntity {
         TaskCount = taskCount;
     }
 
-    public Double getPrice() {
-        return Price;
+    public Double getNearTaskPrice() {
+        return NearTaskPrice;
     }
 
-    public void setPrice(Double price) {
-        Price = price;
+    public void setNearTaskPrice(Double nearTaskPrice) {
+        NearTaskPrice = nearTaskPrice;
     }
 }

@@ -53,14 +53,14 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         style="@style/TaskListTime"
+                        android:layout_marginLeft="5dp"
                         android:textIsSelectable="false" />
                     <TextView
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
                         style="@style/TaskListDate"
                         android:textIsSelectable="false" />
                 </LinearLayout >

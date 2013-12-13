@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.matrix.R;
 import com.matrix.db.entity.Survey;
+import com.matrix.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -86,14 +87,13 @@ public class SurveyAdapter extends BaseAdapter {
                 survey.getTaskCount())));
 
         holder.price.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_price),
-                String.format(Locale.US, "%.1f", survey.getPrice()))));
+                String.format(Locale.US, "%.1f", survey.getNearTaskPrice()))));
 
         //TODO Get EXP from survey
         holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_exp),
                 String.format(Locale.US, "%,d", 130))));
 
-        holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_distance),
-                String.format(Locale.US, "%.1f", survey.getDistance()), activity.getString(R.string.distance_m))));
+        holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(), R.string.survey_distance)));
 
         return convertView;
     }

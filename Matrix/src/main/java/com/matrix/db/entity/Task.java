@@ -12,6 +12,7 @@ public class Task extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     private Integer SurveyId;
+
     private Long UserId;
     private String Name;
     private String Description;
@@ -54,6 +55,14 @@ public class Task extends BaseEntity {
             result.setPrice(c.getDouble(TaskDbSchema.Query.All.PRICE));
             result.setAddress(c.getString(TaskDbSchema.Query.All.ADDRESS));
             result.setDistance(c.getFloat(TaskDbSchema.Query.All.DISTANCE));
+
+            result.setRemakeTill(c.getString(TaskDbSchema.Query.All.REMAKE_TILL));
+            result.setStarted(c.getString(TaskDbSchema.Query.All.STARTED));
+            result.setStatusId(c.getInt(TaskDbSchema.Query.All.STATUS_ID));
+            result.setStatus(c.getString(TaskDbSchema.Query.All.STATUS));
+            result.setStartDateTime(c.getString(TaskDbSchema.Query.All.START_DATE_TIME));
+            result.setEndDateTime(c.getString(TaskDbSchema.Query.All.END_DATE_TIME));
+
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
         }
         L.d("Task", result.toString());

@@ -95,7 +95,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY:
-                    ArrayList<Survey> surveys = SurveysBL.convertCursorToSurveyList(cursor);
+                    ArrayList<Survey> surveys = SurveysBL.convertCursorToSurveyListByDistance(cursor);
                     adapter.setData(surveys);
                     break;
                 default:

@@ -22,11 +22,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.matrix.R;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -285,12 +285,8 @@ public class UIUtils {
     public static long isoTimeToLong(String dateString) {
         try {
             return isoDateFormat.parse(dateString).getTime();
-        }
-        catch (ParseException e) {
-            L.e(TAG, "isoTimeToLong() Parse error" + e);
-        }
-        catch (RuntimeException e) {
-            L.e(TAG, "isoTimeToLong() Wrong format" + e);
+        } catch (Exception e) {
+            L.e("twitterTimeToLong", "Parse error" + e);
         }
         return 0;
     }
@@ -321,5 +317,20 @@ public class UIUtils {
 
     public static boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public static String convertMToKm(Activity activity, float distance, int textResId) {
+        String result = "0";
+        String format = "%.1f";
+        float convertedDistance = distance > 1000 ? distance / 1000 : distance;
+        String mOrKm = activity.getString(distance > 1000 ? R.string.distance_km : R.string.distance_m);
+
+        if (textResId != 0) {
+            result = String.format(activity.getString(textResId),
+                    String.format(Locale.US, format, convertedDistance), mOrKm);
+        } else {
+            result = String.format(Locale.US, format, convertedDistance);
+        }
+        return result;
     }
 }
