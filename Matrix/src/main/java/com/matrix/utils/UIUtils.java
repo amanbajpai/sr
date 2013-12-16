@@ -37,7 +37,7 @@ import java.util.Locale;
  */
 public class UIUtils {
     private static final String TAG = "UIUtils";
-    public static SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+    public static SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH); //'Z'
     public static SimpleDateFormat hourMinute1Format = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     public static SimpleDateFormat dayMonthYear1Format = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
     public static SimpleDateFormat hourMinuteDyMonthYear1Format = new SimpleDateFormat("HH:mm a dd MMM yy", Locale.ENGLISH);

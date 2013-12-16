@@ -157,6 +157,12 @@
     <string name="registration_success_dialog_title" >Registration pop-up</string >
     <string name="registration_success_dialog_text1" >Congratulate you pass the registration and we send link to </string >
     <string name="registration_success_dialog_text2" > please use it for you e-mail validation before you can start use Matrix app</string >
+    <!-- BOOK TASK SUCCESS DIALOG -->
+    <string name="book_task_success_dialog_title" >Book this task</string >
+    <string name="book_task_success_dialog_text1" >Congratulate you Book the task and now you must complete it by</string >
+    <string name="book_task_success_dialog_text2" >You can find this task in “My Task list” until you successfully complete it</string >
+    <string name="start_later" >Start later</string >
+    <string name="start_now" >Start now</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >

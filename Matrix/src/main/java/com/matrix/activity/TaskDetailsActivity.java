@@ -20,6 +20,7 @@ import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.BookTaskResponse;
 import com.matrix.db.entity.Survey;
 import com.matrix.db.entity.Task;
+import com.matrix.dialog.BookTaskSuccessDialog;
 import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
@@ -153,7 +154,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookButton:
-                apiFacade.bookTask(this, taskId);
+                //apiFacade.bookTask(this, taskId);
+                new BookTaskSuccessDialog(this, UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3));
                 break;
             case R.id.cancelButton:
                 finish();
