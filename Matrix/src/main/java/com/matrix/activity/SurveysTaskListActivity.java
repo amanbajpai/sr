@@ -35,7 +35,6 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
 
     private ListView taskList;
     private MyTaskAdapter adapter;
-    private TextView responseTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +51,6 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
 
         taskList = (ListView) findViewById(R.id.taskList);
         taskList.setOnItemClickListener(this);
-
-        responseTextView = (TextView) findViewById(R.id.responseTextView);
 
         adapter = new MyTaskAdapter(this);
         taskList.setAdapter(adapter);
@@ -106,8 +103,6 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
 
                         cursor.close();
                     }
-
-                    responseTextView.setText("From local DB. Count:" + tasks.size());
 
                     adapter.setData(tasks);
                     break;

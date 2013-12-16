@@ -79,7 +79,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskComposition = (TextView) findViewById(R.id.taskComposition);
 
         findViewById(R.id.bookButton).setOnClickListener(this);
-        findViewById(R.id.cancelButton).setOnClickListener(this);
+        findViewById(R.id.hideTaskButton).setOnClickListener(this);
+        findViewById(R.id.showTaskOnMapButton).setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
     }
@@ -157,8 +158,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 //apiFacade.bookTask(this, taskId);
                 new BookTaskSuccessDialog(this, UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3));
                 break;
-            case R.id.cancelButton:
-                finish();
+            case R.id.hideTaskButton:
+                TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
+                break;
+            case R.id.showTaskOnMapButton:
+                TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
                 break;
             default:
                 break;

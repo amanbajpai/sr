@@ -67,6 +67,7 @@
     <string name="task_expires_at" >Task expires at:</string >
     <!-- MY TASK FRAGMENT-->
     <string name="my_tasks_title" >My Tasks</string >
+    <string name="task_on_validation_status" >Task on validation</string >
     <!-- PROFILE FRAGMENT-->
     <string name="profile_title" >Profile</string >
     <string name="my_account_title" >My account</string >
@@ -125,6 +126,7 @@
     <string name="task_address" >Task address</string >
     <string name="task_composition" >Task Composition</string >
     <string name="book_this_task" >Book this task</string >
+    <string name="hide_task" >Hide task</string >
     <!-- CHECK LOCATION ACTIVITY -->
     <string name="since_jobs" >Since jobs for our agents are tied to specific locations? We have to check your
         location to determine the presence of tasks for your location.</string >

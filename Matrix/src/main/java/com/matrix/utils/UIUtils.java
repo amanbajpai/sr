@@ -282,6 +282,11 @@ public class UIUtils {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
 
+    /**
+     * Convert ISO time to long format
+     *
+     * @param dateString
+     */
     public static long isoTimeToLong(String dateString) {
         try {
             return isoDateFormat.parse(dateString).getTime();

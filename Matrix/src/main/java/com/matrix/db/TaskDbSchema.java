@@ -8,7 +8,7 @@ public interface TaskDbSchema {
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC";
-    String SORT_ORDER_DISTANCE_ASC = SurveyDbSchema.NEAR_TASK_DISTANCE + " ASC";
+    String SORT_ORDER_DISTANCE_ASC = Table.TASK.getName() + "." + Columns.DISTANCE.getName() + " ASC";
     //String SORT_ORDER = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC";
 
     public enum Columns {
@@ -31,6 +31,7 @@ public interface TaskDbSchema {
         START_DATE_TIME("StartDateTime", DBType.TEXT),
         END_DATE_TIME("EndDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
+        IS_HIDE("IsHide", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -68,7 +69,7 @@ public interface TaskDbSchema {
         public interface All {
             int TOKEN_QUERY = 1;
             int TOKEN_INSERT = 2;
-            //int TOKEN_UPDATE = 3;
+            int TOKEN_UPDATE = 3;
             //int TOKEN_DELETE = 4;
 
             String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
@@ -89,7 +90,8 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.STATUS.getName(),
                     Table.TASK.getName() + "." + Columns.START_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.IS_MY.getName()
+                    Table.TASK.getName() + "." + Columns.IS_MY.getName(),
+                    Table.TASK.getName() + "." + Columns.IS_HIDE.getName()
             };
 
             int _ID = 0;
@@ -111,6 +113,7 @@ public interface TaskDbSchema {
             int START_DATE_TIME = 16;
             int END_DATE_TIME = 17;
             int IS_MY = 18;
+            int IS_HIDE = 19;
         }
 
         public interface GetDistance {

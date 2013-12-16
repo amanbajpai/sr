@@ -95,13 +95,46 @@ public class AppContentProvider extends ContentProvider {
                 cursor = db.query(getTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case SURVEY_BY_DISTANCE:
-                table = Table.SURVEY.getName() + " JOIN " + Table.TASK.getName() + " ON (" + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName()
-                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + selection + ")";
+                table = Table.SURVEY.getName() + " JOIN " + Table.TASK.getName() + " ON (" +
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName()
+                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " AND (SELECT " +
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
+                        .getName() + " WHERE " + TaskDbSchema.Columns.SURVEY_ID.getName()
+                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " ORDER BY " +
+                        TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "." +
+                        TaskDbSchema.Columns.ID.getName() + selection + ")";
+
+                colums = new String[]{Table.SURVEY.getName() + "." + SurveyDbSchema.Columns._ID.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.NAME.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.DESCRIPTION.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.LONGITUDE.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.LATITUDE.getName(),
+
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.CLAIMABLE_BEFORE_LIVE.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.VIEWABLE_BEFORE_LIVE.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXTERNAL_ID.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.START_DATE_TIME.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.SUSPENSION_TARGET.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.TARGET_MAXIMUM.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.TARGET_MINIMUM.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
+
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.END_DATE_TIME.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPECTED_END_DATE_TIME.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPECTED_START_DATE_TIME.getName(),
+
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName(),
+                        "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
+                                + TaskDbSchema.Columns.SURVEY_ID.getName() + " = " + Table.SURVEY.getName() + "."
+                                + SurveyDbSchema.Columns.ID.getName() + selection + ")",
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName()
+                };
 
                 groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();
 
-                cursor = db.query(table, SurveyDbSchema.QuerySurveyByDistance.PROJECTION, null, null,
-                        groupBy, null, TaskDbSchema.SORT_ORDER_DISTANCE_ASC);
+                cursor = db.query(table, colums, null, null, groupBy, null, TaskDbSchema.SORT_ORDER_DISTANCE_ASC);
                 break;
             default:
                 break;

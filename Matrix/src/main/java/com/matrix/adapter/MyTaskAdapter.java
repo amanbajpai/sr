@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.matrix.R;
 import com.matrix.db.entity.Task;
@@ -30,6 +31,9 @@ public class MyTaskAdapter extends BaseAdapter {
         private TextView price;
         private TextView exp;
         private TextView distance;
+        private LinearLayout pendingStatusLayout;
+        private LinearLayout validationStatusLayout;
+        private LinearLayout reDuStatusLayout;
     }
 
     public MyTaskAdapter(Activity activity) {
@@ -74,6 +78,9 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.price = (TextView) convertView.findViewById(R.id.price);
             holder.exp = (TextView) convertView.findViewById(R.id.exp);
             holder.distance = (TextView) convertView.findViewById(R.id.distance);
+            holder.pendingStatusLayout = (LinearLayout) convertView.findViewById(R.id.pendingStatusLayout);
+            holder.validationStatusLayout = (LinearLayout) convertView.findViewById(R.id.validationStatusLayout);
+            holder.reDuStatusLayout = (LinearLayout) convertView.findViewById(R.id.reDuStatusLayout);
 
             convertView.setTag(holder);
         } else {
@@ -97,6 +104,29 @@ public class MyTaskAdapter extends BaseAdapter {
 
         holder.time.setText(UIUtils.longToString(timeInMillisecond, 0));
         holder.date.setText(UIUtils.longToString(timeInMillisecond, 1));
+
+        switch (task.getStatusId()) {
+            case 1:
+                holder.pendingStatusLayout.setVisibility(View.GONE);
+                holder.validationStatusLayout.setVisibility(View.VISIBLE);
+                holder.reDuStatusLayout.setVisibility(View.GONE);
+                break;
+            case 2:
+                holder.pendingStatusLayout.setVisibility(View.GONE);
+                holder.validationStatusLayout.setVisibility(View.GONE);
+                holder.reDuStatusLayout.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                holder.pendingStatusLayout.setVisibility(View.VISIBLE);
+                holder.validationStatusLayout.setVisibility(View.GONE);
+                holder.reDuStatusLayout.setVisibility(View.GONE);
+                break;
+            default:
+                holder.pendingStatusLayout.setVisibility(View.GONE);
+                holder.validationStatusLayout.setVisibility(View.GONE);
+                holder.reDuStatusLayout.setVisibility(View.GONE);
+                break;
+        }
 
         return convertView;
     }

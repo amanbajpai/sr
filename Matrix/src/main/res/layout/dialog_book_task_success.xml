@@ -51,31 +51,31 @@
         android:background="@color/black" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal" >
         <Button
             android:id="@+id/cancelButton"
+            style="@style/Button"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"/>
         <Button
             android:id="@+id/startLaterButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            style="@style/Button"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="10dp"
             android:text="@string/start_later" />
         <Button
             android:id="@+id/startNowButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            style="@style/Button"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="10dp"
             android:text="@string/start_now" />
     </LinearLayout >
 </LinearLayout >

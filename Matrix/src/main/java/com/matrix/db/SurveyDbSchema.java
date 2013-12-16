@@ -109,33 +109,7 @@ public interface SurveyDbSchema {
     public interface QuerySurveyByDistance {
         int TOKEN_QUERY = 10;
 
-        String[] PROJECTION = {Table.SURVEY.getName() + "." + Columns._ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.NAME.getName(),
-                Table.SURVEY.getName() + "." + Columns.DESCRIPTION.getName(),
-                Table.SURVEY.getName() + "." + Columns.LONGITUDE.getName(),
-                Table.SURVEY.getName() + "." + Columns.LATITUDE.getName(),
-
-                Table.SURVEY.getName() + "." + Columns.CLAIMABLE_BEFORE_LIVE.getName(),
-                Table.SURVEY.getName() + "." + Columns.VIEWABLE_BEFORE_LIVE.getName(),
-                Table.SURVEY.getName() + "." + Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXTERNAL_ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.START_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.SUSPENSION_TARGET.getName(),
-                Table.SURVEY.getName() + "." + Columns.TARGET_MAXIMUM.getName(),
-                Table.SURVEY.getName() + "." + Columns.TARGET_MINIMUM.getName(),
-                Table.SURVEY.getName() + "." + Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
-
-                Table.SURVEY.getName() + "." + Columns.END_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
-
-                "MIN(" + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + ") AS " + SurveyDbSchema.NEAR_TASK_DISTANCE,
-                "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
-                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName() + " = " + Table.SURVEY.getName() + "."
-                        + Columns.ID.getName() + ")",
-                Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName()
-        };
+        //Look projection in AppContentProvider
 
         int _ID = 0;
         int ID = 1;

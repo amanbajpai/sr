@@ -96,7 +96,7 @@
                 </LinearLayout >
             </LinearLayout >
             <LinearLayout
-                android:id="@+id/showMapLayout"
+                android:id="@+id/showTaskOnMapButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -203,12 +203,12 @@
                 android:gravity="center"
                 android:text="@string/book_this_task" />
             <Button
-                android:id="@+id/cancelButton"
+                android:id="@+id/hideTaskButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_weight="2"
-                android:text="@string/cancel" />
+                android:text="@string/hide_task" />
         </LinearLayout >
     </LinearLayout >
 </ScrollView >

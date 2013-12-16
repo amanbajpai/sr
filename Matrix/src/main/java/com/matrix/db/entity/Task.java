@@ -31,6 +31,7 @@ public class Task extends BaseEntity {
     private String EndDateTime;
 
     transient private Boolean IsMy = false;
+    transient private Boolean IsHide = false;
 
     public Task() {
     }
@@ -64,6 +65,7 @@ public class Task extends BaseEntity {
             result.setEndDateTime(c.getString(TaskDbSchema.Query.All.END_DATE_TIME));
 
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
+            result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 0 ? false : true);
         }
         L.d("Task", result.toString());
         return result;
@@ -207,6 +209,13 @@ public class Task extends BaseEntity {
         EndDateTime = endDateTime;
     }
 
+    public Boolean getIsHide() {
+        return IsHide;
+    }
+
+    public void setIsHide(Boolean isHide) {
+        IsHide = isHide;
+    }
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link com.matrix.db.entity.Task}
@@ -215,7 +224,7 @@ public class Task extends BaseEntity {
      * @return
      */
     public LatLng getLatLng() {
-        return new LatLng(getLatitude(), getLongitude());
+        return new LatLng(this.Latitude, this.Longitude);
     }
 
     @Override

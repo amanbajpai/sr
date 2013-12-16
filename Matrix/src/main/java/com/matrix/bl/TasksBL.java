@@ -1,9 +1,6 @@
 package com.matrix.bl;
 
-import android.content.ContentProviderOperation;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.OperationApplicationException;
+import android.content.*;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,7 +10,6 @@ import com.matrix.db.AppContentProvider;
 import com.matrix.db.TaskDbSchema;
 import com.matrix.db.entity.Task;
 import com.matrix.utils.L;
-
 
 import java.util.ArrayList;
 
@@ -59,10 +55,19 @@ public class TasksBL {
                 null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
+    public static void setHideTaskOnMapByID(AsyncQueryHandler handler, Integer taskId, Boolean isHide) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
+
+        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
+                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
+    }
+
     /**
      * @param myLocation - user current location
      * @param cursor     - Cursor with data set from DB
      */
+
     private void calculateTaskDistance(Location myLocation, Cursor cursor) {
         L.i(TAG, "calculateTaskDistance: start");
         ArrayList<Task> tasks = convertCursorToTasksList(cursor);
