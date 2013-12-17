@@ -111,7 +111,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
                 SurveysBL.getSurveysListFromDB(handler, TasksMapFragment.taskRadius);
             }
         } else {
-            L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            L.i(TAG, operation.getResponseError());
         }
     }
 

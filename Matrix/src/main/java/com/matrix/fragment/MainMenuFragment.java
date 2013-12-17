@@ -83,7 +83,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 setData(myAccount);
             }
         } else {
-            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
     }
 

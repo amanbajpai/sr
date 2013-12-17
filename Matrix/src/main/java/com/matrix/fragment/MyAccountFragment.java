@@ -124,7 +124,7 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
                 UIUtils.showSimpleToast(getActivity(), "Success");
             }
         } else {
-            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
     }
 

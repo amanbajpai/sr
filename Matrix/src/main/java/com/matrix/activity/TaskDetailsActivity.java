@@ -122,7 +122,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         } else {
-            UIUtils.showSimpleToast(TaskDetailsActivity.this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(this, operation.getResponseError());
         }
     }
 

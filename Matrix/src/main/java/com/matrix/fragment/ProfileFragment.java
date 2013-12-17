@@ -75,7 +75,7 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
         if (operation.getResponseStatusCode() == 200) {
             UIUtils.showSimpleToast(getActivity(), "Success");
         } else {
-            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
     }
 

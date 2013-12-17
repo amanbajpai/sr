@@ -48,23 +48,28 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/black" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <Button
             android:id="@+id/cancelButton"
             style="@style/Button"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="@string/cancel"/>
+            android:text="@string/cancel" />
         <Button
             android:id="@+id/startLaterButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             style="@style/Button"
             android:layout_weight="1"
             android:gravity="center"
@@ -74,6 +79,8 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             style="@style/Button"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/start_now" />

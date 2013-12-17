@@ -21,6 +21,7 @@ import com.matrix.helpers.APIFacade;
 import com.matrix.net.BaseOperation;
 import com.matrix.net.NetworkOperationListenerInterface;
 import com.matrix.utils.L;
+import com.matrix.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -119,7 +120,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
                 getTasks(surveyId);
             }
         } else {
-            L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(this, operation.getResponseError());
         }
     }
 

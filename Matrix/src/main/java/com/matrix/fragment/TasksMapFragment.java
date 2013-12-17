@@ -197,7 +197,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 TasksBL.getTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
             }
         } else {
-            L.i(TAG, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            L.i(TAG, operation.getResponseError());
         }
     }
 

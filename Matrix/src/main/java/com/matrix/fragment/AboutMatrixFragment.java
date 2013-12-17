@@ -58,7 +58,7 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
             //TODO Do something
             L.w(TAG, "TODO Do something");
         } else {
-            UIUtils.showSimpleToast(getActivity(), "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
     }
 

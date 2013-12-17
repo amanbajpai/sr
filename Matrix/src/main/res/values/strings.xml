@@ -139,7 +139,7 @@
     <!-- ERROR STRINGS -->
     <string name="error" >Error</string >
     <string name="success" >Success</string >
-    <string name="no_internet" >No Internet connection. Please, try later.</string >
+    <string name="no_internet" >Please turn On internet connection.</string >
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title" >GPS moce pop-up</string >
     <string name="turn_on_location_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location

@@ -54,7 +54,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
                 }
             }
         } else {
-            UIUtils.showSimpleToast(this, "Server Error. Response Code: " + operation.getResponseStatusCode());
+            UIUtils.showSimpleToast(this, operation.getResponseError());
         }
     }
 

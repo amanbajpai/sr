@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import com.matrix.App;
 import com.matrix.Config;
+import com.matrix.R;
 import com.matrix.db.entity.BaseEntity;
 import com.matrix.utils.L;
 import com.matrix.utils.PreferencesManager;
@@ -145,12 +146,15 @@ public abstract class BaseNetworkService extends IntentService {
                 }
             } else {
                 operation.setResponseStatusCode(NO_INTERNET);
+                operation.setResponseError(getString(R.string.no_internet));
             }
         } catch (ClientProtocolException e) {
             operation.setResponseStatusCode(NO_INTERNET);
+            operation.setResponseError(getString(R.string.no_internet));
             L.e(TAG, e.toString());
         } catch (IOException e) {
             operation.setResponseStatusCode(NO_INTERNET);
+            operation.setResponseError(getString(R.string.no_internet));
             L.e(TAG, e.toString());
         }
 
