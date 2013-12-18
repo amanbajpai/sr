@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.matrix"
+    package="com.ros.smartrocket"
     android:installLocation="auto"
     android:versionCode="1"
     android:versionName="1.0" >
@@ -17,10 +17,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Cloud to Device Messaging permissions -->
     <permission
-        android:name="com.matrix.permission.C2D_MESSAGE"
+        android:name="com.ros.smartrocket.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.matrix.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.ros.smartrocket.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- Map -->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -38,14 +38,14 @@
         android:required="true" />
 
     <application
-        android:name="com.matrix.App"
+        android:name="com.ros.smartrocket.App"
         android:allowBackup="true"
         android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.matrix.LaunchActivity"
+            android:name="com.ros.smartrocket.LaunchActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter >
@@ -54,42 +54,42 @@
             </intent-filter >
         </activity >
         <activity
-            android:name="com.matrix.activity.EnterGroupCodeActivity"
+            android:name="com.ros.smartrocket.activity.EnterGroupCodeActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.matrix.activity.RegistrationActivity"
+            android:name="com.ros.smartrocket.activity.RegistrationActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.matrix.activity.LoginActivity"
+            android:name="com.ros.smartrocket.activity.LoginActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.matrix.MainActivity" />
+        <activity android:name="com.ros.smartrocket.MainActivity" />
         <activity
-            android:name="com.matrix.activity.SurveysTaskListActivity"
+            android:name="com.ros.smartrocket.activity.SurveysTaskListActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.matrix.activity.TaskDetailsActivity"
+            android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.matrix.activity.CheckLocationActivity"
+            android:name="com.ros.smartrocket.activity.CheckLocationActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.matrix.activity.CheckLocationFailedActivity"
+            android:name="com.ros.smartrocket.activity.CheckLocationFailedActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.matrix.activity.TakePhotoActivity"
+            android:name="com.ros.smartrocket.activity.TakePhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/CameraTheme"
             android:screenOrientation="portrait" />
 
         <service
-            android:name="com.matrix.net.NetworkService"
+            android:name="com.ros.smartrocket.net.NetworkService"
             android:exported="false" />
         <provider
-            android:name="com.matrix.db.AppContentProvider"
-            android:authorities="com.matrix"
+            android:name="com.ros.smartrocket.db.AppContentProvider"
+            android:authorities="com.ros.smartrocket"
             android:exported="false" />
         <!-- Used for install referral measurement -->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
@@ -108,10 +108,10 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.matrix" />
+                <category android:name="com.ros.smartrocket" />
             </intent-filter >
         </receiver >
-        <service android:name=".GCMIntentService" />
+        <service android:name="com.ros.smartrocket.GCMIntentService" />
 
         <meta-data
             android:name="com.google.android.gms.version"
