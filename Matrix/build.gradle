@@ -7,7 +7,7 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/public/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.3'
+        classpath 'com.android.tools.build:gradle:0.7.0'
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
         // load plugin
         classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
