@@ -2,23 +2,26 @@
 buildscript {
     repositories {
         mavenCentral()
-        // repo for Roboelectric plugin
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://oss.sonatype.org/content/repositories/public/" }
+        // repo for Robolectric plugin
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url 'http://download.crashlytics.com/maven' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.7.0'
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
-        // load plugin
-        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
+        // load plugin for tests
+        classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
+
     }
 }
 apply plugin: 'android'
 apply plugin: 'android-cq'
-apply plugin: 'robolectric' // apply robo plugin
+apply plugin: 'android-test'
 
 repositories {
     mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'http://download.crashlytics.com/maven' }
 }
 
 dependencies {
@@ -35,10 +38,11 @@ dependencies {
 	compile fileTree(dir: '../libs', include: '*.jar')
     // Cluster map's pins
     compile project(':libs:clusterkraf')
-	
-    // test's dependencies
-    robolectricCompile 'org.robolectric:robolectric:2.1.1'
-    robolectricCompile 'junit:junit:4.11'
+
+    // test dependencies
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'com.squareup:fest-android:1.0.+'
 }
 
 android {
