@@ -67,10 +67,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private SeekBar sbRadius;
     private MarkerOptions myPinLocation;
 
-
     private boolean mLoading = false;
 
-    //private ArrayList<InputPoint> inputPoints;
     private Clusterkraf clusterkraf;
     private ClusterOptions options;
 
@@ -224,8 +222,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             } else {
                 clusterkraf.replace(inputPoints);
             }
-        } else if (getActivity() != null) {
-            UIUtils.showSimpleToast(getActivity(), R.string.no_tasks_found, Toast.LENGTH_LONG);
         }
     }
 
@@ -247,7 +243,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     DEFAULT_LANG);
         } else {
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
