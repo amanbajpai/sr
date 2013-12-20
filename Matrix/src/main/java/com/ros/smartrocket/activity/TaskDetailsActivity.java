@@ -1,12 +1,15 @@
 package com.ros.smartrocket.activity;
 
+import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -21,6 +24,7 @@ import com.ros.smartrocket.db.entity.BookTaskResponse;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
+import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -51,6 +55,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView taskAddress;
     private TextView taskDescription;
     private TextView taskComposition;
+    private Button bookTaskButton;
+    private Button hideTaskButton;
+    private Button withdrawTaskButton;
+    private Button continueTaskButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,8 +86,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskAddress = (TextView) findViewById(R.id.taskAddress);
         taskComposition = (TextView) findViewById(R.id.taskComposition);
 
-        findViewById(R.id.bookButton).setOnClickListener(this);
-        findViewById(R.id.hideTaskButton).setOnClickListener(this);
+        bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
+        bookTaskButton.setOnClickListener(this);
+        hideTaskButton = (Button) findViewById(R.id.hideTaskButton);
+        hideTaskButton.setOnClickListener(this);
+        withdrawTaskButton = (Button) findViewById(R.id.withdrawTaskButton);
+        withdrawTaskButton.setOnClickListener(this);
+        continueTaskButton = (Button) findViewById(R.id.continueTaskButton);
+        continueTaskButton.setOnClickListener(this);
+
         findViewById(R.id.showTaskOnMapButton).setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
@@ -120,6 +135,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     UIUtils.showSimpleToast(TaskDetailsActivity.this, R.string.error);
                 }
+                //TODO Set started for task
+                setButtonsSettings(task);
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
@@ -135,6 +152,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         taskDistance.setText(Html.fromHtml(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance)));
         taskAddress.setText(task.getAddress());
+
+        setButtonsSettings(task);
     }
 
     public void setSurveyData(Survey survey) {
@@ -151,18 +170,76 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 130))));
     }
 
+    public void setButtonsSettings(Task task) {
+        bookTaskButton.setVisibility(View.GONE);
+        hideTaskButton.setVisibility(View.GONE);
+        withdrawTaskButton.setVisibility(View.GONE);
+        continueTaskButton.setVisibility(View.GONE);
+
+        if (task.getIsHide()) {
+            withdrawTaskButton.setVisibility(View.VISIBLE);
+        } else {
+            hideTaskButton.setVisibility(View.VISIBLE);
+        }
+
+        if (TextUtils.isEmpty(task.getStarted())) {
+            bookTaskButton.setVisibility(View.VISIBLE);
+        } else {
+            continueTaskButton.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bookButton:
+            case R.id.bookTaskButton:
                 //apiFacade.bookTask(this, taskId);
-                new BookTaskSuccessDialog(this, UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3));
+                //TODO Need new field "Booked"
+                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
+                new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onCancelButtonPressed(Dialog dialog) {
+                    }
+
+                    @Override
+                    public void onStartLaterButtonPressed(Dialog dialog) {
+
+                    }
+
+                    @Override
+                    public void onStartNowButtonPressed(Dialog dialog) {
+                        //TODO Start task now
+                    }
+                });
                 break;
             case R.id.hideTaskButton:
                 TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
+                task.setIsHide(true);
+                setButtonsSettings(task);
                 break;
             case R.id.showTaskOnMapButton:
                 TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
+                task.setIsHide(false);
+                setButtonsSettings(task);
+                break;
+            case R.id.withdrawTaskButton:
+                //apiFacade.bookTask(this, taskId);
+                String endDateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
+                new WithdrawTaskDialog(this, endDateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onNoButtonPressed(Dialog dialog) {
+                    }
+
+                    @Override
+                    public void onYesButtonPressed(Dialog dialog) {
+                        //TODO Remove book for this task. Refresh buttons
+                        task.setStarted("");
+                        setButtonsSettings(task);
+                    }
+                });
+                break;
+            case R.id.continueTaskButton:
+                //TODO Start Questions activity
                 break;
             default:
                 break;

@@ -83,6 +83,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/CameraTheme"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ros.smartrocket.activity.QuestionsActivity"
+            android:configChanges="locale"
+            android:windowSoftInputMode="adjustPan" />
 
         <service
             android:name="com.ros.smartrocket.net.NetworkService"

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -56,8 +57,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
         taskList.setAdapter(adapter);
 
-        TasksBL.getMyTasksFromDB(handler);
-        apiFacade.getMyTasks(getActivity());
+        getMyTasks();
 
         return view;
     }
@@ -68,9 +68,15 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            TasksBL.getMyTasksFromDB(handler);
-            apiFacade.getMyTasks(getActivity());
+            getMyTasks();
         }
+    }
+
+    private void getMyTasks() {
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
+        TasksBL.getMyTasksFromDB(handler);
+        apiFacade.getMyTasks(getActivity());
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -100,6 +106,8 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         } else {
             L.i(TAG, operation.getResponseError());
         }
+
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -78,6 +79,8 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     private void getSurveys() {
         Location location = lm.getLocation();
         if (location != null) {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
             int radius = TasksMapFragment.taskRadius;
             L.i(TAG, "Radius: " + radius);
 
@@ -113,6 +116,8 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         } else {
             L.i(TAG, operation.getResponseError());
         }
+
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override

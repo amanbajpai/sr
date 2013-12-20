@@ -127,6 +127,8 @@
     <string name="task_composition" >Task Composition</string >
     <string name="book_this_task" >Book this task</string >
     <string name="hide_task" >Hide task</string >
+    <string name="withdraw_task" >Withdraw from task</string >
+    <string name="continue_task" >Continue</string >
     <!-- CHECK LOCATION ACTIVITY -->
     <string name="since_jobs" >Since jobs for our agents are tied to specific locations? We have to check your
         location to determine the presence of tasks for your location.</string >
@@ -210,4 +212,17 @@
     <string name="start_time" >Start time:</string >
     <string name="deadline_time" >Deadline time:</string >
     <string name="expiry_task_time" >Expiry task time:</string >
+
+    <!-- WITHDRAW DIALOG -->
+    <string name="withdraw_task_dialog_title" >Withdraw from task</string >
+    <string name="withdraw_task_dialog_text1" >Withdraw from your Task only if you cannot complete it by due date</string >
+    <string name="withdraw_task_dialog_text2" >Withdraw from your Task only if you cannot be undone and affects your Reputation.</string >
+    <string name="withdraw_task_dialog_text3" >Do you want to withdraw from the task?</string >
+    <string name="no_button" >NO</string >
+    <string name="yes_button" >YES</string >
+
+    <!-- QUESTION ACTIVITY-->
+    <string name="question_title" >Task</string >
+    <string name="previous" >Previous</string >
+    <string name="next_question" >Next question</string >
 </resources >

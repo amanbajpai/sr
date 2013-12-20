@@ -1,12 +1,16 @@
 package com.ros.smartrocket.db;
 
+import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 
 @SuppressWarnings("rawtypes")
 public enum Table {
     TASK("Task", TaskDbSchema.class, Task.class.getSimpleName()),
-    SURVEY("Survey", SurveyDbSchema.class, Survey.class.getSimpleName());
+    SURVEY("Survey", SurveyDbSchema.class, Survey.class.getSimpleName()),
+    QUESTION("Question", QuestionDbSchema.class, Question.class.getSimpleName()),
+    ANSWER("Answer", AnswerDbSchema.class, Answer.class.getSimpleName());
 
     private String name;
     private Class schema;
