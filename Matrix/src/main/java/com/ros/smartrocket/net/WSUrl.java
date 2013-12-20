@@ -17,6 +17,8 @@ public final class WSUrl {
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
+    public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Questionnaire?language=%s";
+    public static final String SEND_QUESTION = Config.WEB_SERVICE_URL + "api/Surveys"; //TODO EditUrl
 
     public static final int LOGIN_ID = 1;
     public static final int GET_SURVEYS_ID = 2;
@@ -29,6 +31,8 @@ public final class WSUrl {
     public static final int GCM_REGISTER_DEVICE_ID = 9;
     public static final int GCM_TEST_PUSH_ID = 10;
     public static final int GET_MY_ACCOUNT_ID = 11;
+    public static final int GET_QUESTIONS_ID = 12;
+    public static final int SEND_QUESTION_ID = 13;
 
     public static final HashMap<String, Integer> urls;
 
@@ -45,6 +49,8 @@ public final class WSUrl {
         urls.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
         urls.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
         urls.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
+        urls.put(GET_QUESTIONS, GET_QUESTIONS_ID);
+        urls.put(SEND_QUESTION, SEND_QUESTION_ID);
     }
 
     public static int matchUrl(String url) {

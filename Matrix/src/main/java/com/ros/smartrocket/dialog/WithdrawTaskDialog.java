@@ -9,12 +9,12 @@ import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 
-public class BookTaskSuccessDialog extends Dialog implements View.OnClickListener {
-    public static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
+public class WithdrawTaskDialog extends Dialog implements View.OnClickListener {
+    public static final String TAG = WithdrawTaskDialog.class.getSimpleName();
     private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
-    public BookTaskSuccessDialog(Activity activity, String dateTime, DialogButtonClickListener buttonClickListener) {
+    public WithdrawTaskDialog(Activity activity, String dateTime, DialogButtonClickListener buttonClickListener) {
         super(activity);
         this.activity = activity;
         this.buttonClickListener = buttonClickListener;
@@ -25,35 +25,29 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setContentView(R.layout.dialog_book_task_success);
+        setContentView(R.layout.dialog_withdraw_task);
         setCancelable(true);
 
         getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        ((TextView) findViewById(R.id.title)).setText(activity.getString(R.string.book_task_success_dialog_title));
         ((TextView) findViewById(R.id.dateTime)).setText(dateTime);
 
-        findViewById(R.id.cancelButton).setOnClickListener(this);
-        findViewById(R.id.startLaterButton).setOnClickListener(this);
-        findViewById(R.id.startNowButton).setOnClickListener(this);
+        findViewById(R.id.noButton).setOnClickListener(this);
+        findViewById(R.id.yesButton).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.cancelButton:
+            case R.id.noButton:
                 dismiss();
-                buttonClickListener.onCancelButtonPressed(this);
+                buttonClickListener.onNoButtonPressed(this);
                 break;
-            case R.id.startLaterButton:
+            case R.id.yesButton:
                 dismiss();
-                buttonClickListener.onStartLaterButtonPressed(this);
-                break;
-            case R.id.startNowButton:
-                dismiss();
-                buttonClickListener.onStartNowButtonPressed(this);
+                buttonClickListener.onYesButtonPressed(this);
                 break;
             default:
                 break;
@@ -61,10 +55,8 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
     }
 
     public interface DialogButtonClickListener {
-        public void onCancelButtonPressed(Dialog dialog);
+        public void onNoButtonPressed(Dialog dialog);
 
-        public void onStartLaterButtonPressed(Dialog dialog);
-
-        public void onStartNowButtonPressed(Dialog dialog);
+        public void onYesButtonPressed(Dialog dialog);
     }
 }

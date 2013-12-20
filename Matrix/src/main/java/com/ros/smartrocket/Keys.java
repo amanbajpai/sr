@@ -22,10 +22,10 @@ public interface Keys {
     String PROGRESS_STATUS_MESSAGE = "progress_status_message";
     String PROGRESS_STATUS_PERSENT = "progress_status_persent";
 
-    // Operation tags - What is this?
-    // TODO: Add more comments here what is this? Where we can use it and how.
+    // Operation tags - Using for cache response from NetworkService
     String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
     String GET_SURVEYS_TASKS_OPERATION_TAG = "get_surveys_tasks_operation_tag";
+    String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String REGISTRETION_OPERATION_TAG = "registration_operation_tag";

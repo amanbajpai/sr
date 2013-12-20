@@ -14,6 +14,8 @@ import com.ros.smartrocket.net.WSUrl;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.util.ArrayList;
+
 /**
  * Singleton class for work with server API
  */
@@ -141,6 +143,31 @@ public class APIFacade {
         operation.setUrl(WSUrl.BOOK_TASKS, String.valueOf(taskId));
         operation.setTag(Keys.BOOK_TASK_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
+     * @param surveyId
+     */
+    public void getQuestions(Activity activity, Integer surveyId) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(surveyId));
+        operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
+     * @param questions
+     */
+    public void sendQuestions(Activity activity, ArrayList<Question> questions) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SEND_QUESTION);
+        operation.setTag(Keys.REGISTRETION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().addAll(questions);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

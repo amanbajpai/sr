@@ -26,13 +26,13 @@ public class EnterGroupCodeActivity extends BaseActivity implements View.OnClick
 
         groupCodeEditText = (EditText) findViewById(R.id.groupCodeEditText);
 
-        findViewById(R.id.continueButton).setOnClickListener(this);
+        findViewById(R.id.continueTaskButton).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.continueButton:
+            case R.id.continueTaskButton:
                 String groupCode = groupCodeEditText.getText().toString().trim();
 
                 Intent intent = new Intent(this, CheckLocationActivity.class);
