@@ -16,7 +16,7 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.fragment.QuestionType1Fragment;
-import com.ros.smartrocket.fragment.QuestionType3Fragment;
+import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -89,7 +89,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment.setQuestion(question);
                     break;
                 case 2:
-                    currentFragment = new QuestionType3Fragment();
+                    currentFragment = new QuestionType4Fragment();
                     currentFragment.setQuestion(question);
                     break;
                 default:

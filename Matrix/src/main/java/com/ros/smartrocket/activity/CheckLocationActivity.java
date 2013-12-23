@@ -87,13 +87,13 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             public void onUpdate(Address address) {
                 if (address != null) {
                     currentAddress = address;
-                    /*apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
+                    apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
                             address.getCountryName(), address.getLocality(),
-                            address.getLatitude(), address.getLongitude());*/
+                            address.getLatitude(), address.getLongitude());
 
                     // TODO: FIX it to real data before production
-                    apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
-                            "China", "Hong Kong", 3.1, 4.1);
+                    /*apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
+                            "China", "Hong Kong", 3.1, 4.1);*/
                 } else {
                     UIUtils.showSimpleToast(CheckLocationActivity.this,
                             R.string.current_location_not_defined);

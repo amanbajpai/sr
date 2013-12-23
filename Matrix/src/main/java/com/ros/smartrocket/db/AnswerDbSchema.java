@@ -15,6 +15,7 @@ public interface AnswerDbSchema {
         ID("id", DBType.NUMERIC),
         QUESTION_ID("QuestionId", DBType.NUMERIC),
         TEXT("Text", DBType.TEXT),
+        IMAGE_BYTE_ARRAY("imageByteArray", DBType.BLOB),
 
         DELETED("deleted", DBType.INT);
 
@@ -57,7 +58,8 @@ public interface AnswerDbSchema {
         String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                 Table.TASK.getName() + "." + Columns.ID.getName(),
                 Table.TASK.getName() + "." + Columns.QUESTION_ID.getName(),
-                Table.TASK.getName() + "." + Columns.TEXT.getName()
+                Table.TASK.getName() + "." + Columns.TEXT.getName(),
+                Table.TASK.getName() + "." + Columns.IMAGE_BYTE_ARRAY.getName()
 
         };
 
@@ -65,5 +67,6 @@ public interface AnswerDbSchema {
         int ID = 1;
         int QUESTION_ID = 2;
         int TEXT = 3;
+        int IMAGE_BYTE_ARRAY = 4;
     }
 }

@@ -12,6 +12,7 @@ public class Answer extends BaseEntity implements Serializable {
     private Integer QuestionId;
     private String Text;
     private boolean Checked = false;
+    private byte[] imageByteArray;
 
     public Answer() {
     }
@@ -23,6 +24,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.setId(c.getInt(AnswerDbSchema.Query.ID));
             result.setQuestionId(c.getInt(AnswerDbSchema.Query.QUESTION_ID));
             result.setText(c.getString(AnswerDbSchema.Query.TEXT));
+            result.setImageByteArray(c.getBlob(AnswerDbSchema.Query.IMAGE_BYTE_ARRAY));
         }
 
         L.d("Answer", result.toString());
@@ -57,4 +59,14 @@ public class Answer extends BaseEntity implements Serializable {
     public void toggleChecked() {
         Checked = !Checked;
     }
+
+
+    public byte[] getImageByteArray() {
+        return imageByteArray;
+    }
+
+    public void setImageByteArray(byte[] imageByteArray) {
+        this.imageByteArray = imageByteArray;
+    }
+
 }

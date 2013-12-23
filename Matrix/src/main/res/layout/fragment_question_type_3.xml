@@ -8,13 +8,27 @@
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         android:paddingBottom="20dp" />
-    <TextView
-        android:id="@+id/conditionText"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:paddingBottom="20dp" />
-    <EditText
-        android:id="@+id/answerEditText"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_photo" />
+        <Button
+            android:id="@+id/rePhotoButton"
+            android:layout_gravity="top|left"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:layout_gravity="top|right"
+            android:layout_height="wrap_content" />
+    </FrameLayout >
 </LinearLayout >
