@@ -43,9 +43,9 @@ public class SelectImageManager {
     private Activity activity;
 
     // Configuration
-    private int MAX_SIZE_IN_PX = 600;
+    private static int MAX_SIZE_IN_PX = 600;
     private static long MAX_SIZE_IN_BYTE = 2 * 1000 * 1000;
-    private boolean CHECK_SCALE_BY_BYTE_SIZE = true;
+    private static boolean CHECK_SCALE_BY_BYTE_SIZE = true;
 
     private Dialog selectImageDialog;
 

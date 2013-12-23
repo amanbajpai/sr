@@ -74,7 +74,10 @@
         <module name="MemberName"/>
         <module name="MethodName"/>
         <module name="PackageName"/>
-        <module name="ParameterName"/>
+        <!--<module name="ParameterName"/>-->
+        <module name="ParameterName">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
 
