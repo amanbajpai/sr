@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class APIFacade {
     private static APIFacade instance = null;
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
 
     public static APIFacade getInstance() {
@@ -152,7 +153,7 @@ public class APIFacade {
      */
     public void getQuestions(Activity activity, Integer surveyId) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(surveyId));
+        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(surveyId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

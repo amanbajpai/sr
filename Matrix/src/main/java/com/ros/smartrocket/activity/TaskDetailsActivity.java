@@ -28,6 +28,7 @@ import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
@@ -193,6 +194,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
+                //TODO Remove
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));
                 //apiFacade.bookTask(this, taskId);
                 //TODO Need new field "Booked"
                 String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
@@ -239,7 +242,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
                 break;
             case R.id.continueTaskButton:
-                //TODO Start Questions activity
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));
                 break;
             default:
                 break;

@@ -140,6 +140,10 @@ public class NetworkService extends BaseNetworkService {
                         operation.responseEntities.add(myAccountResponse);
                         App.getInstance().setMyAccount(myAccountResponse);
                         break;
+                    case WSUrl.GET_QUESTIONS_ID:
+                        L.i(TAG, responseString);
+
+                        break;
                     default:
                         break;
                 }

@@ -112,9 +112,9 @@ public class DialogUtils {
                 dialog.dismiss();
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
                 if (UIUtils.isIntentAvailable(activity, intent)) {
-                    activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+                    activity.startActivity(intent);
                 } else {
-                    activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    activity.startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
                 }
             }
         });
