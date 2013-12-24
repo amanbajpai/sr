@@ -126,7 +126,9 @@
     <string name="task_address" >Task address</string >
     <string name="task_composition" >Task Composition</string >
     <string name="book_this_task" >Book this task</string >
+    <string name="start_this_task" >Start this task</string >
     <string name="hide_task" >Hide task</string >
+    <string name="show_task" >Show task</string >
     <string name="withdraw_task" >Withdraw from task</string >
     <string name="continue_task" >Continue</string >
     <!-- CHECK LOCATION ACTIVITY -->

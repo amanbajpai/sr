@@ -338,4 +338,12 @@ public class UIUtils {
         }
         return result;
     }
+
+    public static boolean isTrue(Boolean s) {
+        return s != null && s == Boolean.TRUE;
+    }
+
+    public static boolean isFalse(Boolean s) {
+        return s == null || s == Boolean.FALSE;
+    }
 }

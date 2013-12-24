@@ -33,11 +33,14 @@ public class Task extends BaseEntity {
     transient private Boolean IsMy = false;
     transient private Boolean IsHide = false;
 
+    private Boolean Booked;
+
     public Task() {
     }
 
     public Task(String name, String description) {
         this.Name = name;
+
         this.Description = description;
     }
 
@@ -66,6 +69,8 @@ public class Task extends BaseEntity {
 
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
             result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 0 ? false : true);
+
+            result.setBooked(c.getInt(TaskDbSchema.Query.All.BOOKED) == 0 ? false : true);
         }
         L.d("Task", result.toString());
         return result;
@@ -215,6 +220,14 @@ public class Task extends BaseEntity {
 
     public void setIsHide(Boolean isHide) {
         IsHide = isHide;
+    }
+
+    public Boolean getBooked() {
+        return Booked;
+    }
+
+    public void setBooked(Boolean booked) {
+        Booked = booked;
     }
 
     /**

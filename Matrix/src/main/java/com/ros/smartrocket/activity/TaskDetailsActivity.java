@@ -31,6 +31,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -57,7 +58,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView taskDescription;
     private TextView taskComposition;
     private Button bookTaskButton;
+    private Button startTaskButton;
     private Button hideTaskButton;
+    private Button showTaskButton;
     private Button withdrawTaskButton;
     private Button continueTaskButton;
 
@@ -89,8 +92,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
         bookTaskButton.setOnClickListener(this);
+        startTaskButton = (Button) findViewById(R.id.startTaskButton);
+        startTaskButton.setOnClickListener(this);
         hideTaskButton = (Button) findViewById(R.id.hideTaskButton);
         hideTaskButton.setOnClickListener(this);
+        showTaskButton = (Button) findViewById(R.id.showTaskButton);
+        showTaskButton.setOnClickListener(this);
         withdrawTaskButton = (Button) findViewById(R.id.withdrawTaskButton);
         withdrawTaskButton.setOnClickListener(this);
         continueTaskButton = (Button) findViewById(R.id.continueTaskButton);
@@ -173,52 +180,79 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     public void setButtonsSettings(Task task) {
         bookTaskButton.setVisibility(View.GONE);
+        startTaskButton.setVisibility(View.GONE);
         hideTaskButton.setVisibility(View.GONE);
+        showTaskButton.setVisibility(View.GONE);
         withdrawTaskButton.setVisibility(View.GONE);
         continueTaskButton.setVisibility(View.GONE);
 
-        if (task.getIsHide()) {
+        if (UIUtils.isTrue(task.getBooked())) {
             withdrawTaskButton.setVisibility(View.VISIBLE);
+
+            if (TextUtils.isEmpty(task.getStarted())) {
+                startTaskButton.setVisibility(View.VISIBLE);
+            } else {
+                continueTaskButton.setVisibility(View.VISIBLE);
+            }
+
         } else {
-            hideTaskButton.setVisibility(View.VISIBLE);
+            bookTaskButton.setVisibility(View.VISIBLE);
+
+            if (UIUtils.isTrue(task.getIsHide())) {
+                showTaskButton.setVisibility(View.VISIBLE);
+            } else {
+                hideTaskButton.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (TextUtils.isEmpty(task.getStarted())) {
-            bookTaskButton.setVisibility(View.VISIBLE);
-        } else {
-            continueTaskButton.setVisibility(View.VISIBLE);
-        }
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
-                //TODO Remove
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));
                 //apiFacade.bookTask(this, taskId);
-                //TODO Need new field "Booked"
+
                 String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
+                        //TODO Remove booked task
+                        task.setBooked(false);
+                        task.setStarted("");
+                        setButtonsSettings(task);
+                        TasksBL.setTask(handler, task);
                     }
 
                     @Override
                     public void onStartLaterButtonPressed(Dialog dialog) {
-
+                        task.setBooked(true);
+                        task.setStarted("");
+                        setButtonsSettings(task);
+                        TasksBL.setTask(handler, task);
                     }
 
                     @Override
                     public void onStartNowButtonPressed(Dialog dialog) {
                         //TODO Start task now
+                        task.setBooked(true);
+                        task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
+                        setButtonsSettings(task);
+                        TasksBL.setTask(handler, task);
+                        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId()));
                     }
                 });
                 break;
             case R.id.hideTaskButton:
-                TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
                 task.setIsHide(true);
                 setButtonsSettings(task);
+                TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
+                break;
+            case R.id.showTaskButton:
+                task.setIsHide(false);
+                setButtonsSettings(task);
+                TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
                 break;
             case R.id.showTaskOnMapButton:
                 TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
@@ -237,9 +271,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     public void onYesButtonPressed(Dialog dialog) {
                         //TODO Remove book for this task. Refresh buttons
                         task.setStarted("");
+                        task.setBooked(false);
                         setButtonsSettings(task);
+                        TasksBL.setTask(handler, task);
                     }
                 });
+                break;
+            case R.id.startTaskButton:
+                task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
+                setButtonsSettings(task);
+                TasksBL.setTask(handler, task);
                 break;
             case R.id.continueTaskButton:
                 startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));

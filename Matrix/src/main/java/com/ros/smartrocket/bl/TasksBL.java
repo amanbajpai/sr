@@ -63,6 +63,11 @@ public class TasksBL {
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
+    public static void setTask(AsyncQueryHandler handler, Task task) {
+        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, task.toContentValues(),
+                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});
+    }
+
     /**
      * @param myLocation - user current location
      * @param cursor     - Cursor with data set from DB

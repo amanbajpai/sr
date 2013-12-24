@@ -210,12 +210,26 @@
                 android:gravity="center"
                 android:text="@string/book_this_task" />
             <Button
+                android:id="@+id/startTaskButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/start_this_task" />
+            <Button
                 android:id="@+id/hideTaskButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:text="@string/hide_task" />
+            <Button
+                android:id="@+id/showTaskButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="@string/show_task" />
             <Button
                 android:id="@+id/continueTaskButton"
                 android:layout_height="wrap_content"
