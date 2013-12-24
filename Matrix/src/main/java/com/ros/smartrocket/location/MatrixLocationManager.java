@@ -195,7 +195,7 @@ public class MatrixLocationManager implements LocationListener,
          */
         @Override
         protected Address doInBackground(Location... params) {
-            Geocoder geocoder = new Geocoder(сontext, Locale.getDefault());
+            Geocoder geocoder = new Geocoder(сontext, Locale.ENGLISH);
             // Get the current location from the input parameter list
             Location loc = params[0];
             // Create a list to contain the result address
