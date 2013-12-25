@@ -10,13 +10,20 @@ public class Question extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
     private Integer SurveyId;
-    private String Description = "";
+    private String Question = "";
     private Integer Type;
-    private boolean Checked = false;
-    private Integer NextQuestionId;
-    private Integer PreviousQuestionId;
+    private Integer OrderId;
+    private Integer MaximumCharacters;
+    private Integer MaximumPhotos;
+    private Boolean ShowBackButton;
+    private Boolean AllowMultiplyPhotos;
+    private String AskIf = "";
 
+    @SkipFieldInContentValues
     private Answer[] Answers;
+
+    @SkipFieldInContentValues
+    transient private Integer PreviousQuestionOrderId;
 
     public Question() {
     }
@@ -27,30 +34,26 @@ public class Question extends BaseEntity implements Serializable {
             result.set_id(c.getInt(QuestionDbSchema.Query._ID));
             result.setId(c.getInt(QuestionDbSchema.Query.ID));
             result.setSurveyId(c.getInt(QuestionDbSchema.Query.SURVEY_ID));
-            result.setDescription(c.getString(QuestionDbSchema.Query.DESCRIPTION));
+            result.setQuestion(c.getString(QuestionDbSchema.Query.QUESTION));
             result.setType(c.getInt(QuestionDbSchema.Query.TYPE));
-            result.setPreviousQuestionId(c.getInt(QuestionDbSchema.Query.PREVIOUS_QUESTION_ID));
-            result.setNextQuestionId(c.getInt(QuestionDbSchema.Query.NEXT_QUESTION_ID));
+            result.setOrderId(c.getInt(QuestionDbSchema.Query.ORDER_ID));
+            result.setMaximumCharacters(c.getInt(QuestionDbSchema.Query.MAXIMUM_CHARACTERS));
+            result.setMaximumPhotos(c.getInt(QuestionDbSchema.Query.MAXIMUM_PHOTOS));
+            result.setShowBackButton(c.getInt(QuestionDbSchema.Query.SHOW_BACK_BUTTON) == 1 ? true : false);
+            result.setAllowMultiplyPhotos(c.getInt(QuestionDbSchema.Query.ALLOW_MULTIPLY_PHOTOS) == 1 ? true : false);
+            result.setAskIf(c.getString(QuestionDbSchema.Query.ASK_IF));
         }
 
         L.d("Question", result.toString());
         return result;
     }
 
-    public String getDescription() {
-        return Description;
+    public String getQuestion() {
+        return Question;
     }
 
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public boolean isChecked() {
-        return Checked;
-    }
-
-    public void setChecked(boolean checked) {
-        Checked = checked;
+    public void setQuestion(String question) {
+        Question = question;
     }
 
     public Integer getSurveyId() {
@@ -79,24 +82,61 @@ public class Question extends BaseEntity implements Serializable {
     }
 
 
-    public Integer getNextQuestionId() {
-        return NextQuestionId;
+    public Integer getOrderId() {
+        return OrderId;
     }
 
-    public void setNextQuestionId(Integer nextQuestionId) {
-        NextQuestionId = nextQuestionId;
+    public void setOrderId(Integer orderId) {
+        OrderId = orderId;
     }
 
-    public Integer getPreviousQuestionId() {
-        return PreviousQuestionId;
+    public Integer getMaximumCharacters() {
+        return MaximumCharacters;
     }
 
-    public void setPreviousQuestionId(Integer previousQuestionId) {
-        PreviousQuestionId = previousQuestionId;
+    public void setMaximumCharacters(Integer maximumCharacters) {
+        MaximumCharacters = maximumCharacters;
+    }
+
+    public Integer getMaximumPhotos() {
+        return MaximumPhotos;
+    }
+
+    public void setMaximumPhotos(Integer maximumPhotos) {
+        MaximumPhotos = maximumPhotos;
+    }
+
+    public Boolean getShowBackButton() {
+        return ShowBackButton;
+    }
+
+    public void setShowBackButton(Boolean showBackButton) {
+        ShowBackButton = showBackButton;
+    }
+
+    public Boolean getAllowMultiplyPhotos() {
+        return AllowMultiplyPhotos;
+    }
+
+    public void setAllowMultiplyPhotos(Boolean allowMultiplyPhotos) {
+        AllowMultiplyPhotos = allowMultiplyPhotos;
+    }
+
+    public String getAskIf() {
+        return AskIf;
+    }
+
+    public void setAskIf(String askIf) {
+        AskIf = askIf;
     }
 
 
-    public void toggleChecked() {
-        Checked = !Checked;
+    public Integer getPreviousQuestionOrderId() {
+        return PreviousQuestionOrderId;
     }
+
+    public void setPreviousQuestionOrderId(Integer previousQuestionOrderId) {
+        PreviousQuestionOrderId = previousQuestionOrderId;
+    }
+
 }

@@ -9,9 +9,12 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
+import com.ros.smartrocket.adapter.AnswerRadioBattonAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -20,11 +23,12 @@ import com.ros.smartrocket.db.entity.Question;
 /**
  * Fragment for display About information
  */
-public class QuestionType4Fragment extends BaseQuestionFragment {
-    private static final String TAG = QuestionType4Fragment.class.getSimpleName();
+public class QuestionType2Fragment extends BaseQuestionFragment implements AdapterView.OnItemClickListener {
+    private static final String TAG = QuestionType2Fragment.class.getSimpleName();
     private ViewGroup view;
+    private ListView list;
     private TextView questionText;
-    private EditText answerEditText;
+    private AnswerRadioBattonAdapter adapter;
     private Question question;
 
     private AsyncQueryHandler handler;
@@ -34,12 +38,17 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_4, null);
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_2, null);
 
         handler = new DbHandler(getActivity().getContentResolver());
 
+        list = (ListView) view.findViewById(R.id.answerList);
+        list.setOnItemClickListener(this);
+
         questionText = (TextView) view.findViewById(R.id.questionText);
-        answerEditText = (EditText) view.findViewById(R.id.answerEditText);
+
+        adapter = new AnswerRadioBattonAdapter(getActivity());
+        list.setAdapter(adapter);
 
         return view;
     }
@@ -54,12 +63,9 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case AnswerDbSchema.Query.TOKEN_QUERY:
-                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
-                    QuestionType4Fragment.this.question.setAnswers(answers);
+                    QuestionType2Fragment.this.question.setAnswers(AnswersBL.convertCursorToAnswersArray(cursor));
 
-                    if (answers.length > 0) {
-                        answerEditText.setText(answers[0].getAnswer());
-                    }
+                    adapter.setData(question.getAnswers());
                     break;
                 default:
                     break;
@@ -84,4 +90,13 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         return question;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
+        Answer answer = adapter.getItem(position);
+        answer.toggleChecked();
+        //adapter.notifyDataSetChanged();
+
+        AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
+        viewHolder.checkBox.setChecked(answer.isChecked());
+    }
 }

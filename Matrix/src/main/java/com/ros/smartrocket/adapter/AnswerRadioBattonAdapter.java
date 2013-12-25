@@ -61,7 +61,7 @@ public class AnswerRadioBattonAdapter extends BaseAdapter implements ListAdapter
         }
 
         Answer category = answers[position];
-        holder.name.setText(category.getText());
+        holder.name.setText(category.getAnswer());
         holder.radioButton.setChecked(category.isChecked());
 
         return convertView;

@@ -2,6 +2,7 @@ package com.ros.smartrocket.bl;
 
 import android.content.AsyncQueryHandler;
 import android.database.Cursor;
+import com.google.android.gms.internal.br;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 
@@ -40,9 +41,10 @@ public class QuestionsBL {
     }
 
     /**
-     * Conveert cursor to Question list
+     * Get Question by Id
      *
-     * @param questionId - all fields cursor
+     * @param questions
+     * @param questionId
      * @return
      */
     public static Question getQuestionById(ArrayList<Question> questions, int questionId) {
@@ -50,6 +52,25 @@ public class QuestionsBL {
         for (Question question : questions) {
             if (question.getId() == questionId) {
                 result = question;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get Question by orderId
+     *
+     * @param questions
+     * @param orderId
+     * @return
+     */
+    public static Question getQuestionByOrderId(ArrayList<Question> questions, int orderId) {
+        Question result = null;
+        for (Question question : questions) {
+            if (question.getOrderId() == orderId) {
+                result = question;
+                break;
             }
         }
         return result;

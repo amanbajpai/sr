@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -63,7 +62,8 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case AnswerDbSchema.Query.TOKEN_QUERY:
-                    QuestionType1Fragment.this.question.setAnswers(AnswersBL.convertCursorToAnswersArray(cursor));
+                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
+                    QuestionType1Fragment.this.question.setAnswers(answers);
 
                     adapter.setData(question.getAnswers());
                     break;
@@ -76,7 +76,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
     @Override
     public void setQuestion(Question question) {
         this.question = question;
-        questionText.setText(question.getDescription());
+        questionText.setText(question.getQuestion());
         AnswersBL.getAnswersListFromDB(handler, question.getId());
     }
 
@@ -94,7 +94,6 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
     public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
         Answer answer = adapter.getItem(position);
         answer.toggleChecked();
-        //adapter.notifyDataSetChanged();
 
         AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
         viewHolder.checkBox.setChecked(answer.isChecked());

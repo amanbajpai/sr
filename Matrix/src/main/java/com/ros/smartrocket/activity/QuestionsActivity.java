@@ -7,15 +7,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.fragment.QuestionType1Fragment;
+import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
@@ -29,6 +32,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private APIFacade apiFacade = APIFacade.getInstance();
 
     private Integer surveyId;
+    private Button previousButton;
+    private Button nextButton;
 
     private AsyncQueryHandler handler;
     private ArrayList<Question> questions;
@@ -47,8 +52,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
         handler = new DbHandler(getContentResolver());
 
-        findViewById(R.id.previousButton).setOnClickListener(this);
-        findViewById(R.id.nextButton).setOnClickListener(this);
+        previousButton = (Button) findViewById(R.id.previousButton);
+        previousButton.setOnClickListener(this);
+
+        nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(this);
 
         QuestionsBL.getQuestionsListFromDB(handler, surveyId);
         apiFacade.getQuestions(this, surveyId);
@@ -70,7 +78,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     if (questions.size() > 0) {
                         setSupportProgressBarIndeterminateVisibility(false);
-                        setQuestionFragment(0);
+                        setNextQuestionFragment(1, 1);
                     }
                     break;
                 default:
@@ -79,16 +87,28 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
     }
 
-    public void setQuestionFragment(int questionId) {
-        Question question = QuestionsBL.getQuestionById(questions, questionId);
+    public void setNextQuestionFragment(int currentQuestionOrderId, int nextQuestionOrderId) {
+        Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
         if (question != null) {
+            question.setPreviousQuestionOrderId(currentQuestionOrderId);
+
+            if(nextQuestionOrderId==1){
+                previousButton.setVisibility(View.INVISIBLE);
+            } else {
+                previousButton.setVisibility(View.VISIBLE);
+            }
+
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             switch (question.getType()) {
-                case 0:
+                case 1:
                     currentFragment = new QuestionType1Fragment();
                     currentFragment.setQuestion(question);
                     break;
                 case 2:
+                    currentFragment = new QuestionType3Fragment();
+                    currentFragment.setQuestion(question);
+                    break;
+                case 5:
                     currentFragment = new QuestionType4Fragment();
                     currentFragment.setQuestion(question);
                     break;
@@ -117,14 +137,20 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     @Override
     public void onClick(View v) {
+        Question currentQuestion;
         switch (v.getId()) {
             case R.id.previousButton:
                 currentFragment.saveQuestion();
-                setQuestionFragment(currentFragment.getQuestion().getPreviousQuestionId());
+                currentQuestion = currentFragment.getQuestion();
+
+                setNextQuestionFragment(currentQuestion.getOrderId(), currentQuestion.getPreviousQuestionOrderId());
                 break;
             case R.id.nextButton:
                 currentFragment.saveQuestion();
-                setQuestionFragment(currentFragment.getQuestion().getNextQuestionId());
+                currentQuestion = currentFragment.getQuestion();
+
+                int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
+                setNextQuestionFragment(currentQuestion.getOrderId(), nextQuestionOrderId);
                 break;
             default:
                 break;

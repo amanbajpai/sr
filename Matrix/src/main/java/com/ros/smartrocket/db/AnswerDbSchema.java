@@ -14,7 +14,11 @@ public interface AnswerDbSchema {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         QUESTION_ID("QuestionId", DBType.NUMERIC),
-        TEXT("Text", DBType.TEXT),
+        ANSWER("Answer", DBType.TEXT),
+        VALUE("Value", DBType.TEXT),
+        ROUTING("Routing", DBType.NUMERIC),
+        CHECKED("Checked", DBType.NUMERIC),
+
         IMAGE_BYTE_ARRAY("imageByteArray", DBType.BLOB),
 
         DELETED("deleted", DBType.INT);
@@ -58,15 +62,20 @@ public interface AnswerDbSchema {
         String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                 Table.TASK.getName() + "." + Columns.ID.getName(),
                 Table.TASK.getName() + "." + Columns.QUESTION_ID.getName(),
-                Table.TASK.getName() + "." + Columns.TEXT.getName(),
+                Table.TASK.getName() + "." + Columns.ANSWER.getName(),
+                Table.TASK.getName() + "." + Columns.VALUE.getName(),
+                Table.TASK.getName() + "." + Columns.ROUTING.getName(),
+                Table.TASK.getName() + "." + Columns.CHECKED.getName(),
                 Table.TASK.getName() + "." + Columns.IMAGE_BYTE_ARRAY.getName()
-
         };
 
         int _ID = 0;
         int ID = 1;
         int QUESTION_ID = 2;
-        int TEXT = 3;
-        int IMAGE_BYTE_ARRAY = 4;
+        int ANSWER = 3;
+        int VALUE = 4;
+        int ROUTING = 5;
+        int CHECKED = 6;
+        int IMAGE_BYTE_ARRAY = 7;
     }
 }

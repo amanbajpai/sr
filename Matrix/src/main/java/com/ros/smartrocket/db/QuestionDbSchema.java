@@ -13,10 +13,14 @@ public interface QuestionDbSchema {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         SURVEY_ID("SurveyId", DBType.NUMERIC),
-        DESCRIPTION("Description", DBType.TEXT),
+        QUESTION("Question", DBType.TEXT),
         TYPE("Type", DBType.NUMERIC),
-        NEXT_QUESTION_ID("NextQuestionId", DBType.NUMERIC),
-        PREVIOUS_WUESTION_ID("PreviousQuestionId", DBType.NUMERIC),
+        ORDER_ID("OrderId", DBType.NUMERIC),
+        MAXIMUM_CHARACTERS("MaximumCharacters", DBType.NUMERIC),
+        MAXIMUM_PHOTOS("MaximumPhotos", DBType.NUMERIC),
+        SHOW_BACK_BUTTON("ShowBackButton", DBType.NUMERIC),
+        ALLOW_MULTIPLY_PHOTOS("AllowMultiplyPhotos", DBType.NUMERIC),
+        ASK_IF("AskIf", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 
@@ -59,19 +63,28 @@ public interface QuestionDbSchema {
         String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                 Table.TASK.getName() + "." + Columns.ID.getName(),
                 Table.TASK.getName() + "." + Columns.SURVEY_ID.getName(),
-                Table.TASK.getName() + "." + Columns.DESCRIPTION.getName(),
+                Table.TASK.getName() + "." + Columns.QUESTION.getName(),
                 Table.TASK.getName() + "." + Columns.TYPE.getName(),
-                Table.TASK.getName() + "." + Columns.NEXT_QUESTION_ID.getName(),
-                Table.TASK.getName() + "." + Columns.PREVIOUS_WUESTION_ID.getName()
+                Table.TASK.getName() + "." + Columns.ORDER_ID.getName(),
+                Table.TASK.getName() + "." + Columns.MAXIMUM_CHARACTERS.getName(),
+                Table.TASK.getName() + "." + Columns.MAXIMUM_PHOTOS.getName(),
+                Table.TASK.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
+                Table.TASK.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
+                Table.TASK.getName() + "." + Columns.ASK_IF.getName()
+
 
         };
 
         int _ID = 0;
         int ID = 1;
         int SURVEY_ID = 2;
-        int DESCRIPTION = 3;
+        int QUESTION = 3;
         int TYPE = 4;
-        int NEXT_QUESTION_ID = 5;
-        int PREVIOUS_QUESTION_ID = 6;
+        int ORDER_ID = 5;
+        int MAXIMUM_CHARACTERS = 6;
+        int MAXIMUM_PHOTOS = 7;
+        int SHOW_BACK_BUTTON = 8;
+        int ALLOW_MULTIPLY_PHOTOS = 9;
+        int ASK_IF = 10;
     }
 }

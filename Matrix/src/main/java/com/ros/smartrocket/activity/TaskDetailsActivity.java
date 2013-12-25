@@ -235,12 +235,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onStartNowButtonPressed(Dialog dialog) {
-                        //TODO Start task now
+                        //TODO Start question screen
                         task.setBooked(true);
                         task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
                         setButtonsSettings(task);
                         TasksBL.setTask(handler, task);
-                        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId()));
+                        //startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId()));
                     }
                 });
                 break;
@@ -283,7 +283,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 TasksBL.setTask(handler, task);
                 break;
             case R.id.continueTaskButton:
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));
+                //TODO Start question screen
+                //startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));
                 break;
             default:
                 break;

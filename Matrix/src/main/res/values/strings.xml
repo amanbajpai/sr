@@ -227,4 +227,6 @@
     <string name="question_title" >Task</string >
     <string name="previous" >Previous</string >
     <string name="next_question" >Next question</string >
+    <string name="choose_one_or_more_answers" >Choose one or more answers from list</string >
+    <string name="choose_one_answer" >Choose one answer from list</string >
 </resources >

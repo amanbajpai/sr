@@ -25,7 +25,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/previous" />
+            android:text="@string/previous"
+            android:visibility="invisible"/>
         <Button
             android:id="@+id/nextButton"
             android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:layout_weight="1"
-            android:text="@string/next_question" />
+            android:text="@string/next_question"
+            android:visibility="invisible"/>
     </LinearLayout >
 </LinearLayout >

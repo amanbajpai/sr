@@ -4,6 +4,9 @@ import android.content.AsyncQueryHandler;
 import android.database.Cursor;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Question;
+
+import java.util.ArrayList;
 
 public class AnswersBL {
 
@@ -43,5 +46,23 @@ public class AnswersBL {
             cursor.close();
         }
         return result;
+    }
+
+
+    /**
+     * Get next question orderId by answer routing.
+     *
+     * @param question
+     * @return
+     */
+    public static int getNextQuestionOrderId(Question question) {
+        int orderId = 0;
+        for (Answer answer : question.getAnswers()) {
+            if (answer.isChecked()) {
+                orderId = answer.getRouting();
+                break;
+            }
+        }
+        return orderId;
     }
 }

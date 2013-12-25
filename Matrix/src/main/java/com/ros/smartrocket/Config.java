@@ -18,7 +18,7 @@ public class Config {
     public static final int REFRESH_LOCATION_DISTANCE = 100;
     public static final int REFRESH_LOCATION_TIME = 0;
 
-    public static final String ACRA_FORM_KEY = "";
+    public static final String ACRA_FORM_KEY = "dFZnWE93RnVfb2VhSHFFR2VicWoyamc6MA";
     public static final boolean ACRA_ENABLED;
 
     public static final String WEB_SERVICE_URL;

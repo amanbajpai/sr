@@ -81,7 +81,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     @Override
     public void setQuestion(Question question) {
         this.question = question;
-        questionText.setText(question.getDescription());
+        questionText.setText(question.getQuestion());
         AnswersBL.getAnswersListFromDB(handler, question.getId());
     }
 

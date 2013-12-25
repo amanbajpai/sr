@@ -10,9 +10,13 @@ public class Answer extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
     private Integer QuestionId;
-    private String Text;
-    private boolean Checked = false;
-    private byte[] imageByteArray;
+    private String Answer;
+
+    private String Value;
+    private Integer Routing;
+
+    transient private byte[] imageByteArray;
+    transient private boolean Checked = false;
 
     public Answer() {
     }
@@ -23,7 +27,10 @@ public class Answer extends BaseEntity implements Serializable {
             result.set_id(c.getInt(AnswerDbSchema.Query._ID));
             result.setId(c.getInt(AnswerDbSchema.Query.ID));
             result.setQuestionId(c.getInt(AnswerDbSchema.Query.QUESTION_ID));
-            result.setText(c.getString(AnswerDbSchema.Query.TEXT));
+            result.setAnswer(c.getString(AnswerDbSchema.Query.ANSWER));
+            result.setValue(c.getString(AnswerDbSchema.Query.VALUE));
+            result.setRouting(c.getInt(AnswerDbSchema.Query.ROUTING));
+            result.setChecked(c.getInt(AnswerDbSchema.Query.CHECKED) == 1 ? true : false);
             result.setImageByteArray(c.getBlob(AnswerDbSchema.Query.IMAGE_BYTE_ARRAY));
         }
 
@@ -31,12 +38,12 @@ public class Answer extends BaseEntity implements Serializable {
         return result;
     }
 
-    public String getText() {
-        return Text;
+    public String getAnswer() {
+        return Answer;
     }
 
-    public void setText(String text) {
-        Text = text;
+    public void setAnswer(String answer) {
+        Answer = answer;
     }
 
     public boolean isChecked() {
@@ -53,6 +60,22 @@ public class Answer extends BaseEntity implements Serializable {
 
     public void setQuestionId(Integer questionId) {
         QuestionId = questionId;
+    }
+
+    public String getValue() {
+        return Value;
+    }
+
+    public void setValue(String value) {
+        Value = value;
+    }
+
+    public Integer getRouting() {
+        return Routing;
+    }
+
+    public void setRouting(Integer routing) {
+        Routing = routing;
     }
 
 

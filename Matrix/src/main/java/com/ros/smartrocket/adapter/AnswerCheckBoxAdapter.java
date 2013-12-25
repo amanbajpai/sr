@@ -64,7 +64,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         }
 
         Answer category = answers[position];
-        holder.name.setText(category.getText());
+        holder.name.setText(category.getAnswer());
         holder.checkBox.setChecked(category.isChecked());
 
         return convertView;
