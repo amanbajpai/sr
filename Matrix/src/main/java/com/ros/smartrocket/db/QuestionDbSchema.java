@@ -55,22 +55,22 @@ public interface QuestionDbSchema {
     }
 
     public interface Query {
-        int TOKEN_QUERY = 1;
-        int TOKEN_INSERT = 2;
-        int TOKEN_UPDATE = 3;
-        //int TOKEN_DELETE = 4;
+        int TOKEN_QUERY = 21;
+        int TOKEN_INSERT = 22;
+        int TOKEN_UPDATE = 23;
+        //int TOKEN_DELETE = 24;
 
-        String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
-                Table.TASK.getName() + "." + Columns.ID.getName(),
-                Table.TASK.getName() + "." + Columns.SURVEY_ID.getName(),
-                Table.TASK.getName() + "." + Columns.QUESTION.getName(),
-                Table.TASK.getName() + "." + Columns.TYPE.getName(),
-                Table.TASK.getName() + "." + Columns.ORDER_ID.getName(),
-                Table.TASK.getName() + "." + Columns.MAXIMUM_CHARACTERS.getName(),
-                Table.TASK.getName() + "." + Columns.MAXIMUM_PHOTOS.getName(),
-                Table.TASK.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
-                Table.TASK.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
-                Table.TASK.getName() + "." + Columns.ASK_IF.getName()
+        String[] PROJECTION = {Table.QUESTION.getName() + "." + Columns._ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.SURVEY_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.QUESTION.getName(),
+                Table.QUESTION.getName() + "." + Columns.TYPE.getName(),
+                Table.QUESTION.getName() + "." + Columns.ORDER_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.MAXIMUM_CHARACTERS.getName(),
+                Table.QUESTION.getName() + "." + Columns.MAXIMUM_PHOTOS.getName(),
+                Table.QUESTION.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
+                Table.QUESTION.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
+                Table.QUESTION.getName() + "." + Columns.ASK_IF.getName()
 
 
         };

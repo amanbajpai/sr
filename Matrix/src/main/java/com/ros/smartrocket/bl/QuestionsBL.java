@@ -2,8 +2,7 @@ package com.ros.smartrocket.bl;
 
 import android.content.AsyncQueryHandler;
 import android.database.Cursor;
-import com.google.android.gms.internal.br;
-import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 
 import java.util.ArrayList;
@@ -17,10 +16,9 @@ public class QuestionsBL {
      * @param surveyId
      */
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=?",
-                new String[]{String.valueOf(surveyId)},
-                TaskDbSchema.SORT_ORDER_DESC);
+        handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=?",
+                new String[]{String.valueOf(surveyId)}, QuestionDbSchema.SORT_ORDER_DESC);
     }
 
     /**

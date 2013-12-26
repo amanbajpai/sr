@@ -12,7 +12,7 @@ public final class WSUrl {
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "Subscription";
     public static final String GET_SURVEYS = Config.WEB_SERVICE_URL + "api/Surveys?latitude=%s&longitude=%s&radius=%s&language=%s";
     public static final String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
-    public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser";
+    public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String BOOK_TASKS = Config.WEB_SERVICE_URL + "Tasks/%s/Book"; //TODO EditUrl
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";

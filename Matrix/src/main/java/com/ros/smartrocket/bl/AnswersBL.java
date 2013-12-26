@@ -6,8 +6,6 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 
-import java.util.ArrayList;
-
 public class AnswersBL {
 
     /**
@@ -60,6 +58,9 @@ public class AnswersBL {
         for (Answer answer : question.getAnswers()) {
             if (answer.isChecked()) {
                 orderId = answer.getRouting();
+                if (orderId == 0) {
+                    orderId = question.getOrderId() + 1;
+                }
                 break;
             }
         }

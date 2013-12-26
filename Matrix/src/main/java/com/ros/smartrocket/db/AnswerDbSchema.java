@@ -54,19 +54,19 @@ public interface AnswerDbSchema {
     }
 
     public interface Query {
-        int TOKEN_QUERY = 1;
-        int TOKEN_INSERT = 2;
-        int TOKEN_UPDATE = 3;
-        //int TOKEN_DELETE = 4;
+        int TOKEN_QUERY = 31;
+        int TOKEN_INSERT = 32;
+        int TOKEN_UPDATE = 33;
+        //int TOKEN_DELETE = 34;
 
-        String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
-                Table.TASK.getName() + "." + Columns.ID.getName(),
-                Table.TASK.getName() + "." + Columns.QUESTION_ID.getName(),
-                Table.TASK.getName() + "." + Columns.ANSWER.getName(),
-                Table.TASK.getName() + "." + Columns.VALUE.getName(),
-                Table.TASK.getName() + "." + Columns.ROUTING.getName(),
-                Table.TASK.getName() + "." + Columns.CHECKED.getName(),
-                Table.TASK.getName() + "." + Columns.IMAGE_BYTE_ARRAY.getName()
+        String[] PROJECTION = {Table.ANSWER.getName() + "." + Columns._ID.getName(),
+                Table.ANSWER.getName() + "." + Columns.ID.getName(),
+                Table.ANSWER.getName() + "." + Columns.QUESTION_ID.getName(),
+                Table.ANSWER.getName() + "." + Columns.ANSWER.getName(),
+                Table.ANSWER.getName() + "." + Columns.VALUE.getName(),
+                Table.ANSWER.getName() + "." + Columns.ROUTING.getName(),
+                Table.ANSWER.getName() + "." + Columns.CHECKED.getName(),
+                Table.ANSWER.getName() + "." + Columns.IMAGE_BYTE_ARRAY.getName()
         };
 
         int _ID = 0;

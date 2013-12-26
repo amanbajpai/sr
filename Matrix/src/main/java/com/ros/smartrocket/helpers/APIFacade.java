@@ -129,7 +129,7 @@ public class APIFacade {
      */
     public void getMyTasks(Activity activity) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_MY_TASKS);
+        operation.setUrl(WSUrl.GET_MY_TASKS, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_MY_TASKS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

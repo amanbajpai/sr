@@ -82,26 +82,27 @@ public class NetworkService extends BaseNetworkService {
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
-                        Tasks tasks = gson.fromJson(responseString, Tasks.class);
-
                         Location currentLocation = App.getInstance().getLocationManager().getLocation();
-                        ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
+                        Surveys myTasksSurveys = gson.fromJson(responseString, Surveys.class);
 
-                        for (Task task : tasks.getTasks()) {
-                            Location temp = new Location(LocationManager.NETWORK_PROVIDER);
-                            temp.setLatitude(task.getLatitude());
-                            temp.setLongitude(task.getLongitude());
-                            task.setIsMy(true);
+                        for (Survey survey : myTasksSurveys.getSurveys()) {
+                            contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
 
-                            if (currentLocation != null) {
-                                task.setDistance(currentLocation.distanceTo(temp));
+                            ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
+                            for (Task task : survey.getTasks()) {
+                                Location temp = new Location(LocationManager.NETWORK_PROVIDER);
+                                temp.setLatitude(task.getLatitude());
+                                temp.setLongitude(task.getLongitude());
+                                task.setIsMy(true);
+
+                                if (currentLocation != null) {
+                                    task.setDistance(currentLocation.distanceTo(temp));
+                                }
+                                vals.add(task.toContentValues());
                             }
-                            vals.add(task.toContentValues());
+                            ContentValues[] bulk = new ContentValues[vals.size()];
+                            contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
                         }
-
-                        ContentValues[] bulk = new ContentValues[vals.size()];
-                        contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
-                        //operation.responseEntities.addAll(new ArrayList<Task>(Arrays.asList(tasks)));
                         break;
 
                     case WSUrl.BOOK_TASKS_ID:

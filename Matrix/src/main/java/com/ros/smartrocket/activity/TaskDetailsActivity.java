@@ -204,8 +204,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 hideTaskButton.setVisibility(View.VISIBLE);
             }
         }
-
-
     }
 
     @Override
