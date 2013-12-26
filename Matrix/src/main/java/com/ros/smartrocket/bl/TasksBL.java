@@ -69,17 +69,16 @@ public class TasksBL {
     }
 
     /**
-     * @param myLocation - user current location
+     * @param currentLocation - user current location
      * @param cursor     - Cursor with data set from DB
      */
 
-    private void calculateTaskDistance(Location myLocation, Cursor cursor) {
+    private void calculateTaskDistance(Location currentLocation, Cursor cursor) {
         L.i(TAG, "calculateTaskDistance: start");
         ArrayList<Task> tasks = convertCursorToTasksList(cursor);
         L.i(TAG, "calculateTaskDistance: [tasks.size=" + tasks.size() + "]");
         App app = App.getInstance();
         ContentResolver resolver = app.getContentResolver();
-        Location currentLocation = app.getLocationManager().getLocation();
 
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         for (Task task : tasks) {

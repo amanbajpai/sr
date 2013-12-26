@@ -67,7 +67,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
                     if (answers.length > 0) {
                         Answer answer = answers[0];
-                        if(answer.getImageByteArray()!=null){
+                        if (answer.getImageByteArray() != null) {
                             photoImageView.setImageBitmap(BytesBitmap.getBitmap(answer.getImageByteArray()));
                         }
                     }
@@ -116,6 +116,11 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                         //question.getAnswers() = new Answer[]
                     }
                 });
+                break;
+            case R.id.confirmButton:
+
+                break;
+            default:
                 break;
         }
     }

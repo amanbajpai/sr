@@ -168,6 +168,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         Location location = lm.getLocation();
         if (location != null) {
+            //getSurveysFromServer(taskRadius);
             loadTasks(location);
             addMyLocationAndRadius(location, taskRadius);
             moveCameraToMyLocation();

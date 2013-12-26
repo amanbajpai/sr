@@ -6,9 +6,9 @@ public class MyAccount extends BaseEntity {
 
     private Double TotalEarnings;
     private Double Balance;
-    private Integer Lavel;
-    private Integer Expierence;
-    private Integer ToNextLavel;
+    private Integer Level;
+    private Integer Experience;
+    private Integer ToNextLevel;
 
     public Double getTotalEarnings() {
         return TotalEarnings;
@@ -26,28 +26,28 @@ public class MyAccount extends BaseEntity {
         Balance = balance;
     }
 
-    public Integer getLavel() {
-        return Lavel;
+    public Integer getLevel() {
+        return Level;
     }
 
-    public void setLavel(Integer lavel) {
-        Lavel = lavel;
+    public void setLevel(Integer level) {
+        Level = level;
     }
 
-    public Integer getExpierence() {
-        return Expierence;
+    public Integer getExperience() {
+        return Experience;
     }
 
-    public void setExpierence(Integer expierence) {
-        Expierence = expierence;
+    public void setExperience(Integer experience) {
+        Experience = experience;
     }
 
-    public Integer getToNextLavel() {
-        return ToNextLavel;
+    public Integer getToNextLevel() {
+        return ToNextLevel;
     }
 
-    public void setToNextLavel(Integer toNextLavel) {
-        ToNextLavel = toNextLavel;
+    public void setToNextLevel(Integer toNextLevel) {
+        ToNextLevel = toNextLevel;
     }
 
 

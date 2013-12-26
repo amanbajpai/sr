@@ -340,10 +340,10 @@ public class UIUtils {
     }
 
     public static boolean isTrue(Boolean s) {
-        return s != null && s == Boolean.TRUE;
+        return s != null && s;
     }
 
     public static boolean isFalse(Boolean s) {
-        return s == null || s == Boolean.FALSE;
+        return s == null || !s;
     }
 }

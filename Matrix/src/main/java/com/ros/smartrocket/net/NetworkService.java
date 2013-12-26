@@ -11,11 +11,12 @@ import com.google.gson.JsonSyntaxException;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 
@@ -147,14 +148,16 @@ public class NetworkService extends BaseNetworkService {
                         for (Question question : questions.getQuestions()) {
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
-                            ArrayList<ContentValues> answersCvList = new ArrayList<ContentValues>();
-                            for (Answer answer : question.getAnswers()) {
-                                answer.setQuestionId(questions.getId());
-                                answersCvList.add(answer.toContentValues());
-                            }
+                            if (question.getAnswers() != null) {
+                                ArrayList<ContentValues> answersCvList = new ArrayList<ContentValues>();
+                                for (Answer answer : question.getAnswers()) {
+                                    answer.setQuestionId(questions.getId());
+                                    answersCvList.add(answer.toContentValues());
+                                }
 
-                            ContentValues[] answersCvArray = new ContentValues[answersCvList.size()];
-                            contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, answersCvList.toArray(answersCvArray));
+                                ContentValues[] answersCvArray = new ContentValues[answersCvList.size()];
+                                contentResolver.bulkInsert(AnswerDbSchema.CONTENT_URI, answersCvList.toArray(answersCvArray));
+                            }
                         }
                         break;
                     default:

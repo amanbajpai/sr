@@ -109,10 +109,10 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
         totalEarnings.setText(myAccount.getTotalEarnings() + " $");
         balance.setText(myAccount.getBalance() + " $");
         //payPalEditText.setText(String.valueOf(10));
-        agentLevel.setText(String.valueOf(myAccount.getLavel()));
+        agentLevel.setText(String.valueOf(myAccount.getLevel()));
         agentExperience.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points),
-                myAccount.getExpierence())));
-        toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), myAccount.getToNextLavel())));
+                myAccount.getExperience())));
+        toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), myAccount.getToNextLevel())));
     }
 
     @Override

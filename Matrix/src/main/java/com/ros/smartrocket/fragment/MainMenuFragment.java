@@ -64,7 +64,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
     public void setData(MyAccount myAccount) {
         balanceTextView.setText(myAccount.getBalance() + " $");
-        levelTextView.setText(String.valueOf(myAccount.getLavel()));
+        levelTextView.setText(String.valueOf(myAccount.getLevel()));
     }
 
     public class ResponseReceiver extends BroadcastReceiver {
