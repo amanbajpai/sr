@@ -18,8 +18,7 @@ public class AnswersBL {
     public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer questionId) {
         handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=?",
-                new String[]{String.valueOf(questionId)},
-                AnswerDbSchema.SORT_ORDER_DESC);
+                new String[]{String.valueOf(questionId)}, AnswerDbSchema.SORT_ORDER_DESC);
     }
 
     public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
@@ -63,6 +62,9 @@ public class AnswersBL {
                 }
                 break;
             }
+        }
+        if (orderId == 0) {
+            orderId = question.getOrderId() + 1;
         }
         return orderId;
     }

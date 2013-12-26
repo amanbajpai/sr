@@ -5,10 +5,13 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -32,6 +35,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private APIFacade apiFacade = APIFacade.getInstance();
 
     private Integer surveyId;
+    private ProgressBar mainProgressBar;
     private Button previousButton;
     private Button nextButton;
 
@@ -42,6 +46,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
         setTitle(R.string.question_title);
@@ -51,6 +56,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
 
         handler = new DbHandler(getContentResolver());
+
+        mainProgressBar = (ProgressBar) findViewById(R.id.mainProgressBar);
 
         previousButton = (Button) findViewById(R.id.previousButton);
         previousButton.setOnClickListener(this);
@@ -77,7 +84,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
 
                     if (questions.size() > 0) {
-                        setSupportProgressBarIndeterminateVisibility(false);
                         setNextQuestionFragment(1, 1);
                     }
                     break;
@@ -98,25 +104,26 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 previousButton.setVisibility(View.VISIBLE);
             }
 
+            Bundle fragmentBundle = new Bundle();
+            fragmentBundle.putSerializable(Keys.QUESTION, question);
+
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             switch (question.getType()) {
                 case 1:
                     currentFragment = new QuestionType1Fragment();
-                    currentFragment.setQuestion(question);
                     break;
                 case 2:
                     currentFragment = new QuestionType3Fragment();
-                    currentFragment.setQuestion(question);
                     break;
                 case 5:
                     currentFragment = new QuestionType4Fragment();
-                    currentFragment.setQuestion(question);
                     break;
                 default:
                     break;
             }
 
             if (currentFragment != null) {
+                currentFragment.setArguments(fragmentBundle);
                 t.replace(R.id.contentLayout, currentFragment).commit();
             }
         } else {
@@ -133,6 +140,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override

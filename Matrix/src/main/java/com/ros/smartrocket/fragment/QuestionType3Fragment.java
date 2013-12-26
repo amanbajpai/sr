@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
@@ -42,12 +43,19 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_3, null);
 
+        if(getArguments()!=null){
+            question = (Question) getArguments().getSerializable(Keys.QUESTION);
+        }
+
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
         photoImageView = (ImageView) view.findViewById(R.id.photo);
 
         view.findViewById(R.id.rePhotoButton).setOnClickListener(this);
+
+        questionText.setText(question.getQuestion());
+        AnswersBL.getAnswersListFromDB(handler, question.getId());
 
         return view;
     }
@@ -76,13 +84,6 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     break;
             }
         }
-    }
-
-    @Override
-    public void setQuestion(Question question) {
-        this.question = question;
-        questionText.setText(question.getQuestion());
-        AnswersBL.getAnswersListFromDB(handler, question.getId());
     }
 
     @Override

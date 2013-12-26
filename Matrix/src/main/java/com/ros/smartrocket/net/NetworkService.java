@@ -152,7 +152,7 @@ public class NetworkService extends BaseNetworkService {
                             if (question.getAnswers() != null) {
                                 ArrayList<ContentValues> answersCvList = new ArrayList<ContentValues>();
                                 for (Answer answer : question.getAnswers()) {
-                                    answer.setQuestionId(questions.getId());
+                                    answer.setQuestionId(question.getId());
                                     answersCvList.add(answer.toContentValues());
                                 }
 

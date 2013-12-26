@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -39,6 +40,10 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_1, null);
 
+        if(getArguments()!=null){
+            question = (Question) getArguments().getSerializable(Keys.QUESTION);
+        }
+
         handler = new DbHandler(getActivity().getContentResolver());
 
         list = (ListView) view.findViewById(R.id.answerList);
@@ -48,6 +53,9 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
         adapter = new AnswerCheckBoxAdapter(getActivity());
         list.setAdapter(adapter);
+
+        questionText.setText(question.getQuestion());
+        AnswersBL.getAnswersListFromDB(handler, question.getId());
 
         return view;
     }
@@ -71,13 +79,6 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
                     break;
             }
         }
-    }
-
-    @Override
-    public void setQuestion(Question question) {
-        this.question = question;
-        questionText.setText(question.getQuestion());
-        AnswersBL.getAnswersListFromDB(handler, question.getId());
     }
 
     @Override

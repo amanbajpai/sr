@@ -229,4 +229,8 @@
     <string name="next_question" >Next question</string >
     <string name="choose_one_or_more_answers" >Choose one or more answers from list</string >
     <string name="choose_one_answer" >Choose one answer from list</string >
+    <string name="write_your_opinion_about_it" >Write your opinion about it.</string >
+    <string name="take_photo" >Take photo</string >
+    <string name="re_photo" >Re-photo</string >
+    <string name="confirm" >Confirm</string >
 </resources >

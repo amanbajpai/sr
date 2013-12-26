@@ -9,9 +9,6 @@ import com.ros.smartrocket.db.entity.Question;
 public class BaseQuestionFragment extends Fragment {
     private static final String TAG = BaseQuestionFragment.class.getSimpleName();
 
-    public void setQuestion(Question question) {
-    }
-
     public void saveQuestion() {
     }
 

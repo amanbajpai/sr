@@ -60,6 +60,9 @@ public interface Keys {
     //My account
     String MY_ACCOUNT = "my_account";
 
+    //Question
+    String QUESTION = "question";
+
 
     /* ------------ Location parameters -----------------------*/
     // Milliseconds per second
