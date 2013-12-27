@@ -23,6 +23,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
@@ -114,9 +115,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Task task = adapter.getItem(position);
 
-        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
-        intent.putExtra(Keys.TASK_ID, task.getId());
-        startActivity(intent);
+        startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
     }
 
     @Override

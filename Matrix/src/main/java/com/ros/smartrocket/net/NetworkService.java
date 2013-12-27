@@ -149,6 +149,10 @@ public class NetworkService extends BaseNetworkService {
                         for (Question question : questions.getQuestions()) {
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
+                            contentResolver.delete(AnswerDbSchema.CONTENT_URI,
+                                    AnswerDbSchema.Columns.QUESTION_ID + "=?", new String[]{String.valueOf(question
+                                    .getId())});
+
                             if (question.getAnswers() != null) {
                                 ArrayList<ContentValues> answersCvList = new ArrayList<ContentValues>();
                                 for (Answer answer : question.getAnswers()) {

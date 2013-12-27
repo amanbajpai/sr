@@ -54,13 +54,15 @@ public class AnswersBL {
      */
     public static int getNextQuestionOrderId(Question question) {
         int orderId = 0;
-        for (Answer answer : question.getAnswers()) {
-            if (answer.isChecked()) {
-                orderId = answer.getRouting();
-                if (orderId == 0) {
-                    orderId = question.getOrderId() + 1;
+        if (question.getAnswers() != null) {
+            for (Answer answer : question.getAnswers()) {
+                if (answer.isChecked()) {
+                    orderId = answer.getRouting();
+                    if (orderId == 0) {
+                        orderId = question.getOrderId() + 1;
+                    }
+                    break;
                 }
-                break;
             }
         }
         if (orderId == 0) {
@@ -68,4 +70,14 @@ public class AnswersBL {
         }
         return orderId;
     }
+
+    /*public static int getLastNotAnsweredQuestionOrderId(ArrayList<Question> questions) {
+        int lastQuestionOrderId = 1;
+
+        for(Question question: questions){
+
+        }
+
+        return lastQuestionOrderId;
+    }*/
 }

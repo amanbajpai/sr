@@ -193,6 +193,21 @@ public class PreferencesManager {
         setBoolean(Keys.USE_DEADLINE_REMINDER, use);
     }
 
+    public int getLastNotAnsweredQuestionOrderId(int taskId) {
+        return getInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId, 1);
+    }
+
+    public void setLastNotAnsweredQuestionOrderId(int taskId, int orderId) {
+        setInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId, orderId);
+    }
+
+    public int getPreviousQuestionOrderId(int taskId) {
+        return getInt(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + taskId, 1);
+    }
+
+    public void setPreviousQuestionOrderId(int taskId, int orderId) {
+        setInt(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + taskId, orderId);
+    }
 
 
     public int getInt(String key, int defaultValue) {

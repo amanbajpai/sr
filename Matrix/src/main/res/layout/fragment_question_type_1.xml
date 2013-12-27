@@ -6,11 +6,13 @@
     android:orientation="vertical" >
     <TextView
         android:id="@+id/questionText"
+        style="@style/QuestionText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="20dp" />
     <TextView
         android:id="@+id/conditionText"
+        style="@style/QuestionConditionText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="20dp"

@@ -19,11 +19,10 @@ public class Question extends BaseEntity implements Serializable {
     private Boolean AllowMultiplyPhotos;
     private String AskIf = "";
 
-    @SkipFieldInContentValues
-    private Answer[] Answers;
+    transient private Integer PreviousQuestionOrderId;
 
     @SkipFieldInContentValues
-    transient private Integer PreviousQuestionOrderId;
+    private Answer[] Answers;
 
     public Question() {
     }
@@ -42,6 +41,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setShowBackButton(c.getInt(QuestionDbSchema.Query.SHOW_BACK_BUTTON) == 1 ? true : false);
             result.setAllowMultiplyPhotos(c.getInt(QuestionDbSchema.Query.ALLOW_MULTIPLY_PHOTOS) == 1 ? true : false);
             result.setAskIf(c.getString(QuestionDbSchema.Query.ASK_IF));
+            result.setPreviousQuestionOrderId(c.getInt(QuestionDbSchema.Query.PREVIOUS_QUESTION_ORDER_ID));
         }
 
         L.d("Question", result.toString());

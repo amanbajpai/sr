@@ -11,10 +11,24 @@ import com.ros.smartrocket.utils.L;
 public class Task extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
+    public enum TaskStatusId {
+        none(0), claimed(1), started(2), validation(3), reDoTask(4), panding(5), compited(6);
+
+        private int statusId;
+
+        private TaskStatusId(int statusId) {
+            this.statusId = statusId;
+        }
+
+        public int getStatusId() {
+            return statusId;
+        }
+    }
+
     private Integer SurveyId;
 
     private Long UserId;
-    private String Name;
+    private String Name = "";
     private String Description;
     private Double Longitude;
     private Double Latitude;
@@ -32,8 +46,6 @@ public class Task extends BaseEntity {
 
     transient private Boolean IsMy = false;
     transient private Boolean IsHide = false;
-
-    private Boolean Booked;
 
     public Task() {
     }
@@ -69,8 +81,6 @@ public class Task extends BaseEntity {
 
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
             result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 0 ? false : true);
-
-            result.setBooked(c.getInt(TaskDbSchema.Query.All.BOOKED) == 0 ? false : true);
         }
         L.d("Task", result.toString());
         return result;
@@ -220,14 +230,6 @@ public class Task extends BaseEntity {
 
     public void setIsHide(Boolean isHide) {
         IsHide = isHide;
-    }
-
-    public Boolean getBooked() {
-        return Booked;
-    }
-
-    public void setBooked(Boolean booked) {
-        Booked = booked;
     }
 
     /**

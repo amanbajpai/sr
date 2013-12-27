@@ -29,6 +29,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
@@ -40,6 +41,7 @@ import java.util.Locale;
 public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     public final static String TAG = TaskDetailsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     private AsyncQueryHandler handler;
 
@@ -186,7 +188,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         withdrawTaskButton.setVisibility(View.GONE);
         continueTaskButton.setVisibility(View.GONE);
 
-        if (UIUtils.isTrue(task.getBooked())) {
+        int statusId = task.getStatusId();
+
+        if (statusId >= Task.TaskStatusId.claimed.getStatusId()) {
             withdrawTaskButton.setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(task.getStarted())) {
@@ -217,7 +221,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
                         //TODO Remove booked task
-                        task.setBooked(false);
+                        task.setStatusId(Task.TaskStatusId.none.getStatusId());
                         task.setStarted("");
                         setButtonsSettings(task);
                         TasksBL.setTask(handler, task);
@@ -225,7 +229,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onStartLaterButtonPressed(Dialog dialog) {
-                        task.setBooked(true);
+                        task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                         task.setStarted("");
                         setButtonsSettings(task);
                         TasksBL.setTask(handler, task);
@@ -234,11 +238,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onStartNowButtonPressed(Dialog dialog) {
                         //TODO Start question screen
-                        task.setBooked(true);
+                        task.setStatusId(Task.TaskStatusId.started.getStatusId());
                         task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
                         setButtonsSettings(task);
                         TasksBL.setTask(handler, task);
-                        //startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId()));
+                        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
+                                task.getId()));
                     }
                 });
                 break;
@@ -268,8 +273,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onYesButtonPressed(Dialog dialog) {
                         //TODO Remove book for this task. Refresh buttons
+                        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getId());
+                        //preferencesManager.remove(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + task.getId());
+
                         task.setStarted("");
-                        task.setBooked(false);
+                        task.setStatusId(Task.TaskStatusId.none.getStatusId());
                         setButtonsSettings(task);
                         TasksBL.setTask(handler, task);
                     }
@@ -282,7 +290,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.continueTaskButton:
                 //TODO Start question screen
-                //startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId()));
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
                 break;
             default:
                 break;

@@ -32,7 +32,6 @@ public interface TaskDbSchema {
         END_DATE_TIME("EndDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
         IS_HIDE("IsHide", DBType.INT),
-        BOOKED("Booked", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -92,8 +91,7 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.START_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.IS_MY.getName(),
-                    Table.TASK.getName() + "." + Columns.IS_HIDE.getName(),
-                    Table.TASK.getName() + "." + Columns.BOOKED.getName()
+                    Table.TASK.getName() + "." + Columns.IS_HIDE.getName()
             };
 
             int _ID = 0;
@@ -116,7 +114,6 @@ public interface TaskDbSchema {
             int END_DATE_TIME = 17;
             int IS_MY = 18;
             int IS_HIDE = 19;
-            int BOOKED = 20;
         }
 
         public interface GetDistance {

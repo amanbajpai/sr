@@ -62,6 +62,8 @@ public interface Keys {
 
     //Question
     String QUESTION = "question";
+    String LAST_NOT_ANSWERED_QUESTION_ORDER_ID = "last_not_answered_question_order_id";
+    String PREVIOUS_QUESTION_ORDER_ID = "previous_question_order_id";
 
 
     /* ------------ Location parameters -----------------------*/

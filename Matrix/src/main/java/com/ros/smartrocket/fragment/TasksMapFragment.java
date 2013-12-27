@@ -3,7 +3,6 @@ package com.ros.smartrocket.fragment;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.*;
@@ -29,7 +28,6 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
@@ -37,6 +35,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.*;
@@ -199,14 +198,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
-    private void showTaskDetails(Long taskId) {
-        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
-        intent.putExtra(Keys.TASK_ID, taskId);
-        startActivity(intent);
-    }
-
     /**
      * Callback when we finish loading task from Server
+     *
      * @param list
      */
     private void onLoadingComplete(ArrayList<Task> list) {
@@ -366,8 +360,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         @Override
         public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
             L.d(TAG, "onInfoWindowClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
-            Long taskId = Long.valueOf(marker.getSnippet());
-            showTaskDetails(taskId);
+            int taskId = Integer.valueOf(marker.getSnippet());
+
+            startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
             return false;
         }
     };
@@ -490,7 +485,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         private void render(Marker marker, View view, ClusterPoint clusterPoint) {
             L.d(TAG, "render() [marker=" + marker + ", clusterPoint=" + clusterPoint + "]");
             L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", " +
-                    "snipped=" + marker.getSnippet()+ ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
+                    "snipped=" + marker.getSnippet() + ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
 
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 

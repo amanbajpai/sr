@@ -17,24 +17,21 @@ import java.util.ArrayList;
  * Created by bopr on 12/10/13.
  */
 public class TasksBL {
-
-
     private static final String TAG = TasksBL.class.getSimpleName();
 
     /**
      * 1. Get data from DB
      * 2. Update distance
      */
-    public void recalculateTasksDistance(Location myLocation) {
+    public static void recalculateTasksDistance(Location myLocation) {
         Cursor cursor = getTasksFromDB();
         calculateTaskDistance(myLocation, cursor);
     }
 
     private static Cursor getTasksFromDB() {
         ContentResolver resolver = App.getInstance().getContentResolver();
-        Cursor cursor = resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
+        return resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
                 null, null, TaskDbSchema.SORT_ORDER_DESC);
-        return cursor;
     }
 
     public static void getTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius) {
@@ -69,18 +66,48 @@ public class TasksBL {
     }
 
     /**
+     * Update task statusId
+     *
+     * @param taskId
+     * @param statusId
+     */
+    public static void updateTaskStatusId(Integer taskId, Integer statusId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskDbSchema.Columns.STATUS_ID.getName(), statusId);
+
+        String where = TaskDbSchema.Columns.ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(taskId)};
+
+        App.getInstance().getContentResolver().update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
+    /**
      * @param currentLocation - user current location
-     * @param cursor     - Cursor with data set from DB
+     * @param cursor          - Cursor with data set from DB
      */
 
-    private void calculateTaskDistance(Location currentLocation, Cursor cursor) {
-        L.i(TAG, "calculateTaskDistance: start");
-        ArrayList<Task> tasks = convertCursorToTasksList(cursor);
-        L.i(TAG, "calculateTaskDistance: [tasks.size=" + tasks.size() + "]");
-        App app = App.getInstance();
-        ContentResolver resolver = app.getContentResolver();
+    private static void calculateTaskDistance(final Location currentLocation, Cursor cursor) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
+        ContentValues contentValues = new ContentValues();
 
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ArrayList<Task> tasks = convertCursorToTasksList(cursor);
+
+        if (currentLocation != null) {
+            for (Task task : tasks) {
+                taskLocation.setLatitude(task.getLatitude());
+                taskLocation.setLongitude(task.getLongitude());
+
+                contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), currentLocation.distanceTo(taskLocation));
+
+                String where = TaskDbSchema.Columns.ID + "=?";
+                String[] whereArgs = new String[]{String.valueOf(task.getId())};
+
+                resolver.update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+            }
+        }
+
+        /*ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         for (Task task : tasks) {
             Location temp = new Location(LocationManager.NETWORK_PROVIDER);
             temp.setLatitude(task.getLatitude());
@@ -100,7 +127,7 @@ public class TasksBL {
         } catch (OperationApplicationException e) {
             L.e(TAG, "OperationApplicationException:" + e);
         }
-        L.i(TAG, "calculateTaskDistance: stop");
+        L.i(TAG, "calculateTaskDistance: stop");*/
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.ros.smartrocket.bl;
 
 import android.content.AsyncQueryHandler;
+import android.content.ContentValues;
 import android.database.Cursor;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 
@@ -19,6 +21,22 @@ public class QuestionsBL {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=?",
                 new String[]{String.valueOf(surveyId)}, QuestionDbSchema.SORT_ORDER_DESC);
+    }
+
+    /**
+     * Update previous question orderId
+     *
+     * @param questionId
+     * @param previousQuestionOrderId
+     */
+    public static void updatePreviousQuestionOrderId(Integer questionId, Integer previousQuestionOrderId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionDbSchema.Columns.PREVIOUS_QUESTION_ORDER_ID.getName(), previousQuestionOrderId);
+
+        String where = QuestionDbSchema.Columns.ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(questionId)};
+
+        App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
     /**
