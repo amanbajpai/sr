@@ -236,4 +236,11 @@
     <string name="quite_task_dialog_title" >Quite task pop-up</string >
     <string name="quite_task_dialog_text1" >Warning!</string >
     <string name="quite_task_dialog_text2" >You will lose all data in this task. Do you really want to quit?</string >
+    <!-- MAP FRAGMENT -->
+    <string name="show_tasks_on_distance_from_my_location" >Show tasks on distance from my location</string >
+    <string name="apply" >Apply</string >
+    <string name="hidden_task_on_map" >Hidden task on map</string >
+    <string name="show" >Show</string >
+    <string name="min_distance" >0.1 km</string >
+    <string name="max_distance" >100 km</string >
 </resources >

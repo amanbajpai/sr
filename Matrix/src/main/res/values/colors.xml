@@ -11,7 +11,7 @@
     <color name="map_accuracy_stroke">#aa0099ff</color>
     <color name="map_accuracy_fill">#110099ff</color>
 
-    <color name="map_filter_bg">#55000000</color>
+    <color name="map_filter_bg">#a9ffffff</color>
 
     <color name="white_transparence">#a9949494</color>
 </resources >

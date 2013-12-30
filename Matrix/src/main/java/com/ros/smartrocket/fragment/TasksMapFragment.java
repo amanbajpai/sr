@@ -42,6 +42,7 @@ import com.twotoasters.clusterkraf.*;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface {
 
@@ -52,14 +53,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private View fragmentView;
     private ImageButton btnFilter;
     private ImageButton btnMyLocation;
-    private Button btnUpdate;
-    private RelativeLayout rlFilterPanel;
+    private Button applyButton;
+    private LinearLayout rlFilterPanel;
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
     public static int taskRadius = 5000;
-    private int sbRadiusProgress = 10;
-    private int sbRadiusDelta = 500; // 1% = 500m => Max = 50km
+    private int sbRadiusProgress = 5;
+    private int sbRadiusDelta = 1000; // 1% = 1000m => Max = 100km
     private TextView txtRadius;
     private float defaultZoomLevel = 11f;
     private float zoomLevel = defaultZoomLevel;
@@ -93,10 +94,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         btnFilter = (ImageButton) fragmentView.findViewById(R.id.btnFilter);
         btnMyLocation = (ImageButton) fragmentView.findViewById(R.id.btnMyLocation);
-        btnUpdate = (Button) fragmentView.findViewById(R.id.btnUpdate);
-        rlFilterPanel = (RelativeLayout) fragmentView.findViewById(R.id.hidden_panel);
+        applyButton = (Button) fragmentView.findViewById(R.id.applyButton);
+        rlFilterPanel = (LinearLayout) fragmentView.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
+        taskRadius = 5000;
         this.setRaiusText();
         sbRadius.setProgress(sbRadiusProgress);
         sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -123,7 +125,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         });
 
         setHasOptionsMenu(true);
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+        applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getSurveysFromServer(taskRadius);
@@ -627,7 +629,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     private void setRaiusText() {
-        txtRadius.setText("" + taskRadius + " m");
+        String distance = String.format(Locale.US, "%.1f", (float) taskRadius / 1000);
+        txtRadius.setText(distance + " km");
     }
 
     /**

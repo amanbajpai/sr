@@ -12,6 +12,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
@@ -32,6 +33,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private ViewGroup view;
     private TextView questionText;
+    private Button rePhotoButton;
     private ImageView photoImageView;
     private Bitmap photoBitmap;
     private Question question;
@@ -55,7 +57,9 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         questionText = (TextView) view.findViewById(R.id.questionText);
         photoImageView = (ImageView) view.findViewById(R.id.photo);
 
-        view.findViewById(R.id.rePhotoButton).setOnClickListener(this);
+        rePhotoButton = (Button) view.findViewById(R.id.rePhotoButton);
+        rePhotoButton.setOnClickListener(this);
+
         view.findViewById(R.id.confirmButton).setOnClickListener(this);
 
         questionText.setText(question.getQuestion());
@@ -79,7 +83,10 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
                     Answer answer = answers[0];
                     if (answer.isChecked()) {
+                        rePhotoButton.setText(R.string.re_photo);
                         photoImageView.setImageBitmap(BytesBitmap.getBitmap(answer.getImageByteArray()));
+                    } else {
+                        rePhotoButton.setText(R.string.take_photo);
                     }
 
                     refreshNextButton();
@@ -138,8 +145,10 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     public void onImageComplete(Bitmap bitmap) {
                         QuestionType3Fragment.this.photoBitmap = bitmap;
                         if (bitmap != null) {
+                            rePhotoButton.setText(R.string.re_photo);
                             photoImageView.setImageBitmap(bitmap);
                         } else {
+                            rePhotoButton.setText(R.string.take_photo);
                             photoImageView.setImageResource(R.drawable.no_photo);
                         }
                     }

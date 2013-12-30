@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnFilter"
-        android:src="@drawable/ic_drawer"
+        android:src="@drawable/circle"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true" />
     <ImageButton
@@ -24,37 +24,78 @@
         android:layout_marginBottom="30dp"
         android:layout_above="@+id/btnFilter"
         android:layout_alignParentRight="true" />
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/hidden_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/map_filter_bg"
-        android:paddingBottom="20dp"
-        android:visibility="invisible"
+        android:padding="10dp"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/txtRadius"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerHorizontal="true" />
-        <SeekBar
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/seekBarRadius"
-            android:layout_below="@+id/txtRadius"
-            android:layout_marginRight="20dp"
-            android:layout_alignLeft="@+id/txtRadius" />
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:text="@string/show_tasks_on_distance_from_my_location" />
+            <Button
+                android:id="@+id/applyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/apply" />
+        </LinearLayout >
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_update"
-            android:id="@+id/btnUpdate"
-            android:layout_alignBottom="@+id/txtRadius"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout >
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/min_distance"/>
+
+            <TextView
+                android:id="@+id/txtRadius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/max_distance"/>
+            <SeekBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBarRadius"
+                android:layout_below="@+id/txtRadius" />
+        </RelativeLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:text="@string/hidden_task_on_map" />
+            <Button
+                android:id="@+id/showButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show" />
+        </LinearLayout >
+    </LinearLayout >
 </RelativeLayout >

@@ -32,7 +32,7 @@
             android:id="@+id/rePhotoButton"
             android:layout_gravity="top|left"
             android:padding="10dp"
-            android:text="@string/re_photo"
+            android:text="@string/take_photo"
             android:layout_width="wrap_content"
             android:layout_margin="10dp"
             android:layout_height="wrap_content" />
