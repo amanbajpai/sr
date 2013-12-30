@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:padding="10dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="@string/submit_for_validation"
             android:visibility="gone"/>
     </LinearLayout >

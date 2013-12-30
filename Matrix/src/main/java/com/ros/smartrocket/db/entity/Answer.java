@@ -10,13 +10,14 @@ public class Answer extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
     private Integer QuestionId;
+    private Integer TaskId;
     private String Answer;
 
     private String Value;
     private Integer Routing;
 
     transient private byte[] imageByteArray;
-    transient private boolean Checked = false;
+    transient private Boolean Checked = false;
 
     public Answer() {
     }
@@ -27,6 +28,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.set_id(c.getInt(AnswerDbSchema.Query._ID));
             result.setId(c.getInt(AnswerDbSchema.Query.ID));
             result.setQuestionId(c.getInt(AnswerDbSchema.Query.QUESTION_ID));
+            result.setTaskId(c.getInt(AnswerDbSchema.Query.TASK_ID));
             result.setAnswer(c.getString(AnswerDbSchema.Query.ANSWER));
             result.setValue(c.getString(AnswerDbSchema.Query.VALUE));
             result.setRouting(c.getInt(AnswerDbSchema.Query.ROUTING));
@@ -76,6 +78,14 @@ public class Answer extends BaseEntity implements Serializable {
 
     public void setRouting(Integer routing) {
         Routing = routing;
+    }
+
+    public Integer getTaskId() {
+        return TaskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        TaskId = taskId;
     }
 
 

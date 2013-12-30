@@ -14,6 +14,7 @@ public interface AnswerDbSchema {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         QUESTION_ID("QuestionId", DBType.NUMERIC),
+        TASK_ID("TaskId", DBType.NUMERIC),
         ANSWER("Answer", DBType.TEXT),
         VALUE("Value", DBType.TEXT),
         ROUTING("Routing", DBType.NUMERIC),
@@ -62,6 +63,7 @@ public interface AnswerDbSchema {
         String[] PROJECTION = {Table.ANSWER.getName() + "." + Columns._ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.QUESTION_ID.getName(),
+                Table.ANSWER.getName() + "." + Columns.TASK_ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.ANSWER.getName(),
                 Table.ANSWER.getName() + "." + Columns.VALUE.getName(),
                 Table.ANSWER.getName() + "." + Columns.ROUTING.getName(),
@@ -72,10 +74,11 @@ public interface AnswerDbSchema {
         int _ID = 0;
         int ID = 1;
         int QUESTION_ID = 2;
-        int ANSWER = 3;
-        int VALUE = 4;
-        int ROUTING = 5;
-        int CHECKED = 6;
-        int IMAGE_BYTE_ARRAY = 7;
+        int TASK_ID = 3;
+        int ANSWER = 4;
+        int VALUE = 5;
+        int ROUTING = 6;
+        int CHECKED = 7;
+        int IMAGE_BYTE_ARRAY = 8;
     }
 }

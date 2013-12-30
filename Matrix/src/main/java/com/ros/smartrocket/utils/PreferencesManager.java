@@ -201,15 +201,6 @@ public class PreferencesManager {
         setInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId, orderId);
     }
 
-    public int getPreviousQuestionOrderId(int taskId) {
-        return getInt(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + taskId, 1);
-    }
-
-    public void setPreviousQuestionOrderId(int taskId, int orderId) {
-        setInt(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + taskId, orderId);
-    }
-
-
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

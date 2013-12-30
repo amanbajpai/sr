@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.SelectImageManager;
 
@@ -33,6 +35,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     private ImageView photoImageView;
     private Bitmap photoBitmap;
     private Question question;
+    private OnAnswerSelectedListener answerSelectedListener;
 
     private AsyncQueryHandler handler;
 
@@ -43,7 +46,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_3, null);
 
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
         }
 
@@ -53,6 +56,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         photoImageView = (ImageView) view.findViewById(R.id.photo);
 
         view.findViewById(R.id.rePhotoButton).setOnClickListener(this);
+        view.findViewById(R.id.confirmButton).setOnClickListener(this);
 
         questionText.setText(question.getQuestion());
         AnswersBL.getAnswersListFromDB(handler, question.getId());
@@ -73,12 +77,23 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
                     QuestionType3Fragment.this.question.setAnswers(answers);
 
-                    if (answers.length > 0) {
-                        Answer answer = answers[0];
-                        if (answer.getImageByteArray() != null) {
-                            photoImageView.setImageBitmap(BytesBitmap.getBitmap(answer.getImageByteArray()));
-                        }
+                    Answer answer = answers[0];
+                    if (answer.isChecked()) {
+                        photoImageView.setImageBitmap(BytesBitmap.getBitmap(answer.getImageByteArray()));
                     }
+
+                    refreshNextButton();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        protected void onUpdateComplete(int token, Object cookie, int result) {
+            switch (token) {
+                case AnswerDbSchema.Query.TOKEN_UPDATE:
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                     break;
                 default:
                     break;
@@ -87,8 +102,22 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
+    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
+        this.answerSelectedListener = answerSelectedListener;
+    }
+
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            Answer answer = question.getAnswers()[0];
+            boolean selected = answer.getImageByteArray() != null;
+
+            answerSelectedListener.onAnswerSelected(selected);
+        }
+    }
+
+    @Override
     public void saveQuestion() {
-        AnswersBL.setAnswersToDB(handler, question.getAnswers());
+
     }
 
     @Override
@@ -113,12 +142,24 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                         } else {
                             photoImageView.setImageResource(R.drawable.no_photo);
                         }
-                        //TODO set image byte array to answer
-                        //question.getAnswers() = new Answer[]
                     }
                 });
                 break;
             case R.id.confirmButton:
+                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
+                if (photoBitmap != null) {
+                    Answer answer = question.getAnswers()[0];
+                    answer.setChecked(true);
+                    answer.setImageByteArray(BytesBitmap.getBytes(photoBitmap));
+                } else {
+                    Answer answer = question.getAnswers()[0];
+                    answer.setChecked(false);
+                    answer.setImageByteArray(null);
+                }
+
+                AnswersBL.setAnswersToDB(handler, question.getAnswers());
+                refreshNextButton();
 
                 break;
             default:

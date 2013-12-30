@@ -91,4 +91,23 @@ public class QuestionsBL {
         }
         return result;
     }
+
+    /**
+     * Set Question by orderId
+     *
+     * @param questions
+     * @param questionToSet
+     * @return
+     */
+    public static void setQuestionByOrderId(ArrayList<Question> questions, Question questionToSet) {
+        int index = 0;
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+            if (question.getOrderId() == questionToSet.getOrderId()) {
+                index = i;
+                break;
+            }
+        }
+        questions.set(index, questionToSet);
+    }
 }

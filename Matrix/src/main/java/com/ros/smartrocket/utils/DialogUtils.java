@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.provider.Settings;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.dialog.QuiteTaskDialog;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
 
@@ -139,6 +142,32 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * Show quite task Dialog message
+     *
+     * @param activity
+     */
+    public static void showQuiteTaskDialog(final Activity activity, final int taskId) {
+        QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
+        dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
+            @Override
+            public void onCancelButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onQuiteTaskButtonPressed(Dialog dialog) {
+                PreferencesManager preferencesManager = PreferencesManager.getInstance();
+
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId);
+
+                AnswersBL.clearTaskUserAnswers(activity, taskId);
+                dialog.dismiss();
+                activity.finish();
             }
         });
     }

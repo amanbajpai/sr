@@ -25,15 +25,18 @@ import com.ros.smartrocket.fragment.QuestionType1Fragment;
 import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
-public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface, View.OnClickListener {
+public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface,
+        View.OnClickListener, OnAnswerSelectedListener {
     private static final String TAG = QuestionsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -104,7 +107,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         startFragment(question);
                     } else {
                         setSupportProgressBarIndeterminateVisibility(true);
-                        apiFacade.getQuestions(QuestionsActivity.this, surveyId);
+                        apiFacade.getQuestions(QuestionsActivity.this, surveyId, taskId);
                     }
 
                     break;
@@ -135,14 +138,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
-                int nextQuestionOrderId2 = AnswersBL.getNextQuestionOrderId(question);
-                Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId2);
-
-                if (nextQuestion.getType() == 3) {
-                    nextButton.setVisibility(View.GONE);
-                    validationButton.setVisibility(View.VISIBLE);
-                }
-
                 startFragment(question);
             }
         }
@@ -156,9 +151,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion.getPreviousQuestionOrderId() : 1;
             preferencesManager.setLastNotAnsweredQuestionOrderId(taskId, previousQuestionOrderId);
 
-            nextButton.setVisibility(View.VISIBLE);
-            validationButton.setVisibility(View.GONE);
-
             Question question = QuestionsBL.getQuestionByOrderId(questions, previousQuestionOrderId);
 
             startFragment(question);
@@ -170,6 +162,17 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (question != null) {
 
             refreshMainProgress(question.getOrderId());
+
+            int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
+            Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
+
+            if (nextQuestion.getType() == 3) {
+                nextButton.setVisibility(View.GONE);
+                validationButton.setVisibility(View.VISIBLE);
+            } else {
+                nextButton.setVisibility(View.VISIBLE);
+                validationButton.setVisibility(View.GONE);
+            }
 
             if (question.getShowBackButton()) {
                 previousButton.setVisibility(View.VISIBLE);
@@ -196,6 +199,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             }
 
             if (currentFragment != null) {
+                currentFragment.setAnswerSelectedListener(this);
                 currentFragment.setArguments(fragmentBundle);
                 t.replace(R.id.contentLayout, currentFragment).commit();
 
@@ -239,6 +243,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
+    public void onAnswerSelected(Boolean selected) {
+        nextButton.setEnabled(selected);
+        validationButton.setEnabled(selected);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (currentFragment != null) {
             currentFragment.onActivityResult(requestCode, resultCode, data);
@@ -252,14 +262,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 finish();
                 return true;
             case R.id.quiteTask:
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getId());
-                preferencesManager.remove(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + task.getId());
-                finish();
+                DialogUtils.showQuiteTaskDialog(this, task.getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override

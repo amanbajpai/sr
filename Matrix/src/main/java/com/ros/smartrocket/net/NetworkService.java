@@ -144,6 +144,8 @@ public class NetworkService extends BaseNetworkService {
                         App.getInstance().setMyAccount(myAccountResponse);
                         break;
                     case WSUrl.GET_QUESTIONS_ID:
+                        int taskId = operation.getTaskId();
+
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
                         for (Question question : questions.getQuestions()) {
@@ -157,11 +159,17 @@ public class NetworkService extends BaseNetworkService {
                                 ArrayList<ContentValues> answersCvList = new ArrayList<ContentValues>();
                                 for (Answer answer : question.getAnswers()) {
                                     answer.setQuestionId(question.getId());
+                                    answer.setTaskId(taskId);
                                     answersCvList.add(answer.toContentValues());
                                 }
 
                                 ContentValues[] answersCvArray = new ContentValues[answersCvList.size()];
                                 contentResolver.bulkInsert(AnswerDbSchema.CONTENT_URI, answersCvList.toArray(answersCvArray));
+                            } else {
+                                Answer answer = new Answer();
+                                answer.setQuestionId(question.getId());
+                                answer.setTaskId(taskId);
+                                contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                             }
                         }
                         break;

@@ -3,6 +3,7 @@ package com.ros.smartrocket.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
@@ -151,10 +152,14 @@ public class APIFacade {
      * @param activity
      * @param surveyId
      */
-    public void getQuestions(Activity activity, Integer surveyId) {
+    public void getQuestions(Activity activity, Integer surveyId, Integer taskId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Keys.TASK_ID, taskId);
+
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(surveyId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
+        operation.setTaskId(taskId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }

@@ -19,6 +19,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 /**
  * Fragment for display About information
@@ -30,6 +31,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
     private TextView questionText;
     private AnswerCheckBoxAdapter adapter;
     private Question question;
+    private OnAnswerSelectedListener answerSelectedListener;
 
     private AsyncQueryHandler handler;
 
@@ -40,7 +42,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_1, null);
 
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
         }
 
@@ -74,10 +76,30 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
                     QuestionType1Fragment.this.question.setAnswers(answers);
 
                     adapter.setData(question.getAnswers());
+
+                    refreshNextButton();
                     break;
                 default:
                     break;
             }
+        }
+    }
+
+    @Override
+    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
+        this.answerSelectedListener = answerSelectedListener;
+    }
+
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            boolean selected = false;
+            for (Answer answer : adapter.getData()) {
+                if (answer.isChecked()) {
+                    selected = true;
+                    break;
+                }
+            }
+            answerSelectedListener.onAnswerSelected(selected);
         }
     }
 
@@ -98,5 +120,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
         AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
         viewHolder.checkBox.setChecked(answer.isChecked());
+
+        refreshNextButton();
     }
 }

@@ -208,13 +208,11 @@
     <string name="not_employed_looking_for_work" >Not Employed - looking for work</string >
     <string name="not_employed_not_looking_for_work" >Not Employed - not looking for work</string >
     <string name="retired" >Retired</string >
-
     <!-- TASK DETAIL -->
     <string name="show_map" >Show map</string >
     <string name="start_time" >Start time:</string >
     <string name="deadline_time" >Deadline time:</string >
     <string name="expiry_task_time" >Expiry task time:</string >
-
     <!-- WITHDRAW DIALOG -->
     <string name="withdraw_task_dialog_title" >Withdraw from task</string >
     <string name="withdraw_task_dialog_text1" >Withdraw from your Task only if you cannot complete it by due date</string >
@@ -222,7 +220,6 @@
     <string name="withdraw_task_dialog_text3" >Do you want to withdraw from the task?</string >
     <string name="no_button" >NO</string >
     <string name="yes_button" >YES</string >
-
     <!-- QUESTION ACTIVITY-->
     <string name="question_title" >Task</string >
     <string name="previous" >Previous</string >
@@ -235,4 +232,8 @@
     <string name="re_photo" >Re-photo</string >
     <string name="confirm" >Confirm</string >
     <string name="quite_task" >Quite task</string >
+    <!-- QUITE TASK DIALOG -->
+    <string name="quite_task_dialog_title" >Quite task pop-up</string >
+    <string name="quite_task_dialog_text1" >Warning!</string >
+    <string name="quite_task_dialog_text2" >You will lose all data in this task. Do you really want to quit?</string >
 </resources >

@@ -1,11 +1,13 @@
 package com.ros.smartrocket.net;
 
+import android.os.Bundle;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import org.apache.http.params.HttpParams;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class BaseOperation implements Serializable {
@@ -14,6 +16,8 @@ public class BaseOperation implements Serializable {
     private String url;
     private String tag = "BaseOperation";
     private Method method;
+
+    private Integer taskId;
     private ArrayList<BaseEntity> requestEntities = new ArrayList<BaseEntity>();
     public ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
 
@@ -71,6 +75,14 @@ public class BaseOperation implements Serializable {
 
     public void setResponseString(String responseString) {
         this.responseString = responseString;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public void setUrl(String url, String... args) {

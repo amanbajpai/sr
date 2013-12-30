@@ -1,6 +1,8 @@
 package com.ros.smartrocket.bl;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
+import android.content.ContentValues;
 import android.database.Cursor;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -24,7 +26,7 @@ public class AnswersBL {
     public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
         for (Answer answer : answers) {
             handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI, answer.toContentValues(),
-                    AnswerDbSchema.Columns.ID + "=?", new String[]{String.valueOf(answer.getId())});
+                    AnswerDbSchema.Columns._ID + "=?", new String[]{String.valueOf(answer.get_id())});
         }
     }
 
@@ -80,4 +82,14 @@ public class AnswersBL {
 
         return lastQuestionOrderId;
     }*/
+
+    public static void clearTaskUserAnswers(Activity activity, int taskId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
+        contentValues.putNull(AnswerDbSchema.Columns.IMAGE_BYTE_ARRAY.getName());
+
+        activity.getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues,
+                AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
+
+    }
 }

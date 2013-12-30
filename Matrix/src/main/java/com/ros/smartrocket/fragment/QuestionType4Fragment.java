@@ -5,7 +5,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 /**
  * Fragment for display About information
@@ -28,6 +32,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
     private TextView questionText;
     private EditText answerEditText;
     private Question question;
+    private OnAnswerSelectedListener answerSelectedListener;
 
     private AsyncQueryHandler handler;
 
@@ -38,7 +43,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_4, null);
 
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
         }
 
@@ -46,6 +51,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
 
         questionText = (TextView) view.findViewById(R.id.questionText);
         answerEditText = (EditText) view.findViewById(R.id.answerEditText);
+        setEditTextWatcher(answerEditText);
 
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(question.getMaximumCharacters());
@@ -68,13 +74,13 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
             switch (token) {
                 case AnswerDbSchema.Query.TOKEN_QUERY:
                     Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
-                    if (answers.length > 0) {
-                        QuestionType4Fragment.this.question.setAnswers(answers);
+
+                    QuestionType4Fragment.this.question.setAnswers(answers);
+                    if (answers[0].isChecked()) {
                         answerEditText.setText(answers[0].getAnswer());
-                    } else {
-                        QuestionType4Fragment.this.question.setAnswers(new Answer[1]);
                     }
 
+                    refreshNextButton();
                     break;
                 default:
                     break;
@@ -83,10 +89,42 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
     }
 
     @Override
+    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
+        this.answerSelectedListener = answerSelectedListener;
+    }
+
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            boolean selected = !TextUtils.isEmpty(answerEditText.getText().toString().trim());
+
+            answerSelectedListener.onAnswerSelected(selected);
+        }
+    }
+
+    public void setEditTextWatcher(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                refreshNextButton();
+            }
+        });
+    }
+
+    @Override
     public void saveQuestion() {
-        Answer answer  = new Answer();
-        answer.setValue(answerEditText.getText().toString());
-        question.getAnswers()[0] = answer;
+        Answer answer = question.getAnswers()[0];
+        answer.setAnswer(answerEditText.getText().toString());
+        answer.setChecked(true);
+
         AnswersBL.setAnswersToDB(handler, question.getAnswers());
     }
 
