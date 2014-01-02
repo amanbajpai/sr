@@ -45,6 +45,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(false);
+
+        checkMockLocationByOnResume(false);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
                 } else if (UIUtils.isMockLocationEnabled(this)) {
-                    DialogUtils.showMockLocationDialog(this);
+                    DialogUtils.showMockLocationDialog(this, true);
                 } else {
                     setSupportProgressBarIndeterminateVisibility(true);
 

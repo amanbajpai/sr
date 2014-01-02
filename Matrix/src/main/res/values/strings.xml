@@ -243,4 +243,16 @@
     <string name="show" >Show</string >
     <string name="min_distance" >0.1 km</string >
     <string name="max_distance" >100 km</string >
+    <!-- TASK VALIDATION ACTIVITY -->
+    <string name="task_validation_title" >Validation</string >
+    <string name="task_validation_text1" >You have completed this Task. If you are satisfied with your answers, you may now Confirm &amp; Send it for validation or you can send it later.</string >
+    <string name="task_validation_text2" >If you find any issues with your answers on task questions or you not satisfied by them you can check it once more before validation</string >
+    <string name="recheck_my_answer" >Re-check my answers</string >
+    <string name="expiry_time" >Expiry time: </string >
+    <string name="expiry_time_at" >at</string >
+    <string name="task_data_size" >Task data size: </string >
+    <string name="task_data_size_mb" >MB</string >
+    <string name="confirmation_you_can_find_in_my_task" >Validation confirmation you can find in My Task list</string >
+    <string name="send_now" >Send now</string >
+    <string name="send_later" >Send later</string >
 </resources >

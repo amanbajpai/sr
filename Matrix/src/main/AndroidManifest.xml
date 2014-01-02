@@ -87,6 +87,9 @@
             android:name="com.ros.smartrocket.activity.QuestionsActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.ros.smartrocket.activity.TaskValidationActivity"
+            android:configChanges="locale" />
 
         <service
             android:name="com.ros.smartrocket.net.NetworkService"

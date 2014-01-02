@@ -42,6 +42,8 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         setCurrentAddressByLocation();
 
         findViewById(R.id.subscribeButton).setOnClickListener(this);
+
+        checkMockLocationByOnResume(false);
     }
 
     @Override

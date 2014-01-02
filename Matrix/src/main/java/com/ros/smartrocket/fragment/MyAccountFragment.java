@@ -20,6 +20,7 @@ import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -134,9 +135,7 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
             case R.id.logout:
                 preferencesManager.setToken("");
 
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                getActivity().startActivity(intent);
+                getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
                 getActivity().finish();
                 return true;
             default:

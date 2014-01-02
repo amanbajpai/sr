@@ -27,6 +27,8 @@ public class EnterGroupCodeActivity extends BaseActivity implements View.OnClick
         groupCodeEditText = (EditText) findViewById(R.id.groupCodeEditText);
 
         findViewById(R.id.continueTaskButton).setOnClickListener(this);
+
+        checkMockLocationByOnResume(false);
     }
 
     @Override

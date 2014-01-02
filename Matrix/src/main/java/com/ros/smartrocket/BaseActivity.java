@@ -12,7 +12,9 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class BaseActivity extends ActionBarActivity {
     private BroadcastReceiver receiver;
     private IntentFilter filter;
     private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
+    private boolean checkMockLocationByOnResume = true;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -49,6 +52,9 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (checkMockLocationByOnResume && UIUtils.isMockLocationEnabled(this)) {
+            DialogUtils.showMockLocationDialog(this, false);
+        }
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
     }
 
@@ -62,6 +68,10 @@ public class BaseActivity extends ActionBarActivity {
     protected void onStop() {
         EasyTracker.getInstance(this).activityStop(this);
         super.onStop();
+    }
+
+    public void checkMockLocationByOnResume(boolean check){
+        this.checkMockLocationByOnResume = check;
     }
 
     public void sendNetworkOperation(BaseOperation operation) {

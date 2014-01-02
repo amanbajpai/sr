@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.LoginActivity;
+import com.ros.smartrocket.utils.IntentUtils;
 
 public class RegistrationSuccessDialog extends Dialog implements View.OnClickListener {
     public static final String TAG = RegistrationSuccessDialog.class.getSimpleName();
@@ -41,9 +42,7 @@ public class RegistrationSuccessDialog extends Dialog implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.okButton:
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.startActivity(intent);
+                activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
                 dismiss();
                 break;
             default:

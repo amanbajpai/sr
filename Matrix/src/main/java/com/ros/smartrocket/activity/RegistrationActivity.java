@@ -127,6 +127,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         countryEditText.setText(countryName);
         cityEditText.setText(cityName);
+
+        checkMockLocationByOnResume(false);
     }
 
     @Override

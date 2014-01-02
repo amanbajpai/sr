@@ -99,15 +99,29 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showMockLocationDialog(final Activity activity) {
+    public static void showMockLocationDialog(final Activity activity, final boolean isCancelable) {
+        int cancelButtonResId = R.string.cancel;
+        if(!isCancelable){
+            cancelButtonResId = R.string.logout;
+        }
+
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_of_mock_location_dialog_title),
                 activity.getText(R.string.turn_of_mock_location_dialog_text),
-                R.string.cancel, R.string.settings);
+                cancelButtonResId, R.string.settings);
+        networkDialog.setCancelable(isCancelable);
         networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                dialog.dismiss();
+                if(isCancelable){
+                    dialog.dismiss();
+                } else {
+                    dialog.dismiss();
+                    PreferencesManager.getInstance().setToken("");
+
+                    activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
+                    activity.finish();
+                }
             }
 
             @Override

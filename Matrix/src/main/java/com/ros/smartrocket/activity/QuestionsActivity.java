@@ -20,18 +20,12 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.fragment.BaseQuestionFragment;
-import com.ros.smartrocket.fragment.QuestionType1Fragment;
-import com.ros.smartrocket.fragment.QuestionType3Fragment;
-import com.ros.smartrocket.fragment.QuestionType4Fragment;
+import com.ros.smartrocket.fragment.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 
 import java.util.ArrayList;
 
@@ -188,6 +182,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case 1:
                     currentFragment = new QuestionType1Fragment();
                     break;
+                /*case 3:
+                    currentFragment = new QuestionType2Fragment();
+                    break;*/
                 case 2:
                     currentFragment = new QuestionType3Fragment();
                     break;
@@ -235,7 +232,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             case R.id.validationButton:
                 //TODO Start validationActivity. Update task status
                 //TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
-                //startActivity();
+                startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
                 break;
             default:
                 break;

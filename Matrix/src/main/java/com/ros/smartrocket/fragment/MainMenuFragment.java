@@ -11,17 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.ros.smartrocket.R;
-import com.ros.smartrocket.MainActivity;
+import com.ros.smartrocket.*;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.BaseActivity;
-import com.ros.smartrocket.Keys;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = MainMenuFragment.class.getSimpleName();
@@ -32,6 +29,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private IntentFilter intentFilter;
     private TextView balanceTextView;
     private TextView levelTextView;
+    private ProgressBar levelProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +40,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
         levelTextView = (TextView) view.findViewById(R.id.levelTextView);
+        levelProgressBar = (ProgressBar) view.findViewById(R.id.levelProgressBar);
 
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
@@ -65,6 +64,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     public void setData(MyAccount myAccount) {
         balanceTextView.setText(myAccount.getBalance() + " $");
         levelTextView.setText(String.valueOf(myAccount.getLevel()));
+        levelProgressBar.setMax(myAccount.getExperience() + myAccount.getToNextLevel());
+        levelProgressBar.setProgress(myAccount.getExperience());
     }
 
     public class ResponseReceiver extends BroadcastReceiver {

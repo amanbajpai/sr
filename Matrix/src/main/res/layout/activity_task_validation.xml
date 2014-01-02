@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp" >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:text="@string/task_validation_title" />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/text_size_small"
+            android:gravity="left"
+            android:text="@string/task_validation_text1" />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/text_size_small"
+            android:gravity="left"
+            android:text="@string/task_validation_text2" />
+        <Button
+            android:id="@+id/recheckTaskButton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/recheck_my_answer" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:background="@drawable/list_item_background"
+            android:padding="10dp" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:gravity="left"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/expiry_time" />
+                <TextView
+                    android:id="@+id/expiryDateTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginRight="5dp"
+                    android:gravity="left" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:gravity="left"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/expiry_time_at" />
+                <TextView
+                    android:id="@+id/expiryTimeTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/red"
+                    android:gravity="left" />
+            </LinearLayout >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginRight="5dp"
+                    android:gravity="left"
+                    android:text="@string/task_data_size" />
+                <TextView
+                    android:id="@+id/taskDataSizeTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:gravity="left"
+                    android:text="22" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:gravity="left"
+                    android:text="@string/task_data_size_mb" />
+            </LinearLayout >
+        </LinearLayout >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:textSize="@dimen/text_size_small"
+            android:gravity="left"
+            android:text="@string/confirmation_you_can_find_in_my_task" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/sendNowButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/send_now" />
+            <Button
+                android:id="@+id/sendLaterButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:text="@string/send_later" />
+        </LinearLayout >
+    </LinearLayout >
+</ScrollView >

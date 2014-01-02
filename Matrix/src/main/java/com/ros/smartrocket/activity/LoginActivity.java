@@ -67,6 +67,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         findViewById(R.id.registerButton).setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(false);
+
+        checkMockLocationByOnResume(false);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
                 } else if (UIUtils.isMockLocationEnabled(this)) {
-                    DialogUtils.showMockLocationDialog(this);
+                    DialogUtils.showMockLocationDialog(this, true);
                 } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     DialogUtils.showRegistrationFailedDialog(this);
                 } else {
