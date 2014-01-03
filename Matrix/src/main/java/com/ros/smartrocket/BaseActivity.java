@@ -70,7 +70,7 @@ public class BaseActivity extends ActionBarActivity {
         super.onStop();
     }
 
-    public void checkMockLocationByOnResume(boolean check){
+    public void checkMockLocationByOnResume(boolean check) {
         this.checkMockLocationByOnResume = check;
     }
 

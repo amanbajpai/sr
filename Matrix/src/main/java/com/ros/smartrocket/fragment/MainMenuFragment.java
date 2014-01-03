@@ -64,8 +64,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     public void setData(MyAccount myAccount) {
         balanceTextView.setText(myAccount.getBalance() + " $");
         levelTextView.setText(String.valueOf(myAccount.getLevel()));
-        levelProgressBar.setMax(myAccount.getExperience() + myAccount.getToNextLevel());
-        levelProgressBar.setProgress(myAccount.getExperience());
+        if (myAccount.getExperience() != null && myAccount.getToNextLevel() != null) {
+            levelProgressBar.setMax(myAccount.getExperience() + myAccount.getToNextLevel());
+            levelProgressBar.setProgress(myAccount.getExperience());
+        }
     }
 
     public class ResponseReceiver extends BroadcastReceiver {

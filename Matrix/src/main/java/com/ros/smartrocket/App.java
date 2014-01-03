@@ -25,7 +25,7 @@ public class App extends Application {
     private int deviceApiNumber;
     private String deviceType;
     private MatrixLocationManager locationManager;
-    protected MyAccount myAccount;
+    private MyAccount myAccount;
 
     @Override
     public void onCreate() {
