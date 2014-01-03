@@ -49,9 +49,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myAccountButton).setOnClickListener(this);
-        view.findViewById(R.id.settingsButton).setOnClickListener(this);
-        view.findViewById(R.id.aboutMatrixButton).setOnClickListener(this);
         view.findViewById(R.id.shareButton).setOnClickListener(this);
+        view.findViewById(R.id.supportButton).setOnClickListener(this);
+        view.findViewById(R.id.settingsButton).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         intentFilter = new IntentFilter();
@@ -125,16 +125,16 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).startFragment(new MyAccountFragment());
                 ((MainActivity) getActivity()).togleMenu();
                 break;
-            case R.id.settingsButton:
-                ((MainActivity) getActivity()).startFragment(new SettingsFragment());
-                ((MainActivity) getActivity()).togleMenu();
-                break;
-            case R.id.aboutMatrixButton:
-                ((MainActivity) getActivity()).startFragment(new AboutMatrixFragment());
-                ((MainActivity) getActivity()).togleMenu();
-                break;
             case R.id.shareButton:
                 ((MainActivity) getActivity()).startFragment(new ShareAndReferFragment());
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.supportButton:
+                ((MainActivity) getActivity()).startFragment(new SupportFragment());
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.settingsButton:
+                ((MainActivity) getActivity()).startFragment(new SettingsFragment());
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             default:

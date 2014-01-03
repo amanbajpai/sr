@@ -65,7 +65,10 @@
             android:name="com.ros.smartrocket.activity.LoginActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.ros.smartrocket.MainActivity" />
+        <activity
+            android:name="com.ros.smartrocket.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.ros.smartrocket.activity.SurveysTaskListActivity"
             android:configChanges="locale" />

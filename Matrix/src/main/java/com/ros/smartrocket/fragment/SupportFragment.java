@@ -12,18 +12,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import com.ros.smartrocket.BaseActivity;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Fragment for display About information
  */
-public class AboutMatrixFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    private static final String TAG = AboutMatrixFragment.class.getSimpleName();
+public class SupportFragment extends Fragment implements OnClickListener {
+    private static final String TAG = SupportFragment.class.getSimpleName();
     private ViewGroup view;
 
     @Override
@@ -37,11 +35,11 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_about_matrix, null);
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_support, null);
 
         view.findViewById(R.id.termAndConditionsButton).setOnClickListener(this);
-        view.findViewById(R.id.faqButton).setOnClickListener(this);
-        view.findViewById(R.id.helpButton).setOnClickListener(this);
+        view.findViewById(R.id.knowledgeBaseButton).setOnClickListener(this);
+        view.findViewById(R.id.sendMessageButton).setOnClickListener(this);
 
         return view;
     }
@@ -58,26 +56,16 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
-            //TODO Do something
-            L.w(TAG, "TODO Do something");
-        } else {
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.termAndConditionsButton:
 
                 break;
-            case R.id.faqButton:
+            case R.id.knowledgeBaseButton:
 
                 break;
-            case R.id.helpButton:
-
+            case R.id.sendMessageButton:
+                getActivity().startActivity(IntentUtils.getEmailIntent(Config.DEV_EMAIL, null));
                 break;
             default:
                 break;
@@ -87,24 +75,12 @@ public class AboutMatrixFragment extends Fragment implements OnClickListener, Ne
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        getActivity().setTitle(R.string.about_matrix_title);
+        getActivity().setTitle(R.string.support_title);
 
         ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayShowCustomEnabled(false);
 
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
-        super.onStop();
     }
 }

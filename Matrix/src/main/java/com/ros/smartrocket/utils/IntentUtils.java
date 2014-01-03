@@ -2,6 +2,7 @@ package com.ros.smartrocket.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
@@ -43,6 +44,19 @@ public class IntentUtils {
     public static Intent getTaskValidationIntent(Context context, int taskId) {
         Intent intent = new Intent(context, TaskValidationActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
+        return intent;
+    }
+
+    public static Intent getEmailIntent(String email, String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+
+        if (!TextUtils.isEmpty(text)) {
+            intent.putExtra(Intent.EXTRA_TEXT, text);
+        }
         return intent;
     }
 }

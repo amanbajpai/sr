@@ -242,6 +242,7 @@ public class SelectImageManager {
             o2.inSampleSize = scale;
             return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

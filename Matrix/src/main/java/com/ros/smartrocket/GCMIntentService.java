@@ -35,6 +35,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         L.d(TAG, "Device unregistered");
         CommonUtilities.displayMessage(context, getString(R.string.gcm_unregistered));
         if (GCMRegistrar.isRegisteredOnServer(context)) {
+            L.i(TAG, "Register on Matrix server");
             //TODO: Register on Matrix server
 //            ServerUtilities serverUtilities = new ServerUtilities(this);
 //            serverUtilities.makeRequestUnregister();

@@ -13,29 +13,46 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingBottom="20dp"
-            android:text="@string/about_matrix_text" />
+            android:text="@string/support_text1" />
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingBottom="20dp"
+            android:text="@string/support_text2" />
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingBottom="20dp"
+            android:text="@string/support_text3" />
+        <Button
+            android:id="@+id/knowledgeBaseButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_weight="2"
+            android:text="@string/knowledge_base" />
+        <Button
+            android:id="@+id/sendMessageButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_weight="2"
+            android:text="@string/send_message" />
         <Button
             android:id="@+id/termAndConditionsButton"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/term_and_conditions" />
-        <Button
-            android:id="@+id/faqButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_weight="2"
-            android:text="@string/faq" />
-        <Button
-            android:id="@+id/helpButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_weight="2"
-            android:text="@string/help" />
     </LinearLayout >
 </ScrollView >
