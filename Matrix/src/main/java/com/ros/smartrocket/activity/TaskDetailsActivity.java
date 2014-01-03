@@ -39,7 +39,7 @@ import java.util.Locale;
  * Activity for view Task detail information
  */
 public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    public final static String TAG = TaskDetailsActivity.class.getSimpleName();
+    private static final String TAG = TaskDetailsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 

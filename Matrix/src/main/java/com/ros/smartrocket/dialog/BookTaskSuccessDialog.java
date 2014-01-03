@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 
 public class BookTaskSuccessDialog extends Dialog implements View.OnClickListener {
-    public static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
+    //private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
     private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
@@ -61,10 +61,10 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
     }
 
     public interface DialogButtonClickListener {
-        public void onCancelButtonPressed(Dialog dialog);
+        void onCancelButtonPressed(Dialog dialog);
 
-        public void onStartLaterButtonPressed(Dialog dialog);
+        void onStartLaterButtonPressed(Dialog dialog);
 
-        public void onStartNowButtonPressed(Dialog dialog);
+        void onStartNowButtonPressed(Dialog dialog);
     }
 }

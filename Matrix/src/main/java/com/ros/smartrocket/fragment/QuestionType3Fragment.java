@@ -29,7 +29,7 @@ import com.ros.smartrocket.utils.SelectImageManager;
  * Fragment for display About information
  */
 public class QuestionType3Fragment extends BaseQuestionFragment implements View.OnClickListener {
-    private static final String TAG = QuestionType3Fragment.class.getSimpleName();
+    //private static final String TAG = QuestionType3Fragment.class.getSimpleName();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private ViewGroup view;
     private TextView questionText;

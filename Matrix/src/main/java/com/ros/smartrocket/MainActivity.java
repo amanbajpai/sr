@@ -9,7 +9,7 @@ import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 
 public class MainActivity extends BaseSlidingMenuActivity {
-    private final static String TAG = MainActivity.class.getSimpleName();
+    //private static final String TAG = MainActivity.class.getSimpleName();
     private FragmentHelper fragmetHelper = new FragmentHelper();
 
     @Override

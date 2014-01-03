@@ -26,7 +26,7 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
  * Fragment for display About information
  */
 public class QuestionType2Fragment extends BaseQuestionFragment implements AdapterView.OnItemClickListener {
-    private static final String TAG = QuestionType2Fragment.class.getSimpleName();
+    //private static final String TAG = QuestionType2Fragment.class.getSimpleName();
     private ViewGroup view;
     private ListView list;
     private TextView questionText;

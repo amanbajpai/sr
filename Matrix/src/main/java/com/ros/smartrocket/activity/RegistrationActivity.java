@@ -31,11 +31,11 @@ import java.util.Calendar;
  */
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
-    private final static String TAG = RegistrationActivity.class.getSimpleName();
-    public static int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
-    public static String[] EDUCATION_LEVEL = new String[]{};
-    public static int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
-    public static String[] EMPLOYMENT_STATUS = new String[]{};
+    private static final String TAG = RegistrationActivity.class.getSimpleName();
+    private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
+    private String[] EDUCATION_LEVEL = new String[]{};
+    private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
+    private String[] EMPLOYMENT_STATUS = new String[]{};
 
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();

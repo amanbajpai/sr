@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 
 public class WithdrawTaskDialog extends Dialog implements View.OnClickListener {
-    public static final String TAG = WithdrawTaskDialog.class.getSimpleName();
+    //private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
     private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
@@ -55,8 +55,8 @@ public class WithdrawTaskDialog extends Dialog implements View.OnClickListener {
     }
 
     public interface DialogButtonClickListener {
-        public void onNoButtonPressed(Dialog dialog);
+        void onNoButtonPressed(Dialog dialog);
 
-        public void onYesButtonPressed(Dialog dialog);
+        void onYesButtonPressed(Dialog dialog);
     }
 }

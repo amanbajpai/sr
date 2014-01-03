@@ -13,7 +13,7 @@ import com.ros.smartrocket.db.entity.Answer;
 
 public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     //private static final String TAG = "AnswerCheckBoxAdapter";
-    private Answer answers[] = new Answer[]{};
+    private Answer answers[];
     private LayoutInflater inflater;
     private Activity activity;
 
@@ -29,7 +29,11 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     }
 
     public int getCount() {
-        return answers.length;
+        if (answers != null) {
+            return answers.length;
+        } else {
+            return 0;
+        }
     }
 
     public Answer getItem(int position) {

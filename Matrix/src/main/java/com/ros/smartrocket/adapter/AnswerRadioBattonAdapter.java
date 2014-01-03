@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 
 public class AnswerRadioBattonAdapter extends BaseAdapter implements ListAdapter {
     //private static final String TAG = "AnswerCheckBoxAdapter";
-    private Answer answers[] = new Answer[]{};
+    private Answer answers[];
     private LayoutInflater inflater;
     private Activity activity;
 
@@ -26,7 +29,11 @@ public class AnswerRadioBattonAdapter extends BaseAdapter implements ListAdapter
     }
 
     public int getCount() {
-        return answers.length;
+        if (answers != null) {
+            return answers.length;
+        } else {
+            return 0;
+        }
     }
 
     public Answer getItem(int position) {

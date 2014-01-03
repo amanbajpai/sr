@@ -1,6 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
-public class RegisterDevice extends BaseEntity{
+public class RegisterDevice extends BaseEntity {
 
     private String DeviceId;
     private String RegistrationId;

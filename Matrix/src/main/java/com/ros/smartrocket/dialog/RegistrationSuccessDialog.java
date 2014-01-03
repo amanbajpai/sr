@@ -13,7 +13,7 @@ import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.utils.IntentUtils;
 
 public class RegistrationSuccessDialog extends Dialog implements View.OnClickListener {
-    public static final String TAG = RegistrationSuccessDialog.class.getSimpleName();
+    //private static final String TAG = RegistrationSuccessDialog.class.getSimpleName();
     private Activity activity;
 
     public RegistrationSuccessDialog(Activity activity, String email) {

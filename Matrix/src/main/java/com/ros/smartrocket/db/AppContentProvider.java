@@ -95,14 +95,14 @@ public class AppContentProvider extends ContentProvider {
                 cursor = db.query(getTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case SURVEY_BY_DISTANCE:
-                table = Table.SURVEY.getName() + " JOIN " + Table.TASK.getName() + " ON (" +
-                        Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName()
-                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " AND (SELECT " +
-                        Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
+                table = Table.SURVEY.getName() + " JOIN " + Table.TASK.getName() + " ON ("
+                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName()
+                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " AND (SELECT "
+                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
                         .getName() + " WHERE " + TaskDbSchema.Columns.SURVEY_ID.getName()
-                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " ORDER BY " +
-                        TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "." +
-                        TaskDbSchema.Columns.ID.getName() + selection + ")";
+                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " ORDER BY "
+                        + TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "."
+                        + TaskDbSchema.Columns.ID.getName() + selection + ")";
 
                 colums = new String[]{Table.SURVEY.getName() + "." + SurveyDbSchema.Columns._ID.getName(),
                         Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName(),

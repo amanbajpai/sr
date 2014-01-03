@@ -11,7 +11,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.LoginActivity;
 
 public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
-    public static final String TAG = QuiteTaskDialog.class.getSimpleName();
+    //private static final String TAG = QuiteTaskDialog.class.getSimpleName();
     private Activity activity;
     private DialogButtonClickListener onDialogButtonClicklistener;
 
@@ -59,8 +59,8 @@ public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
     }
 
     public interface DialogButtonClickListener {
-        public void onCancelButtonPressed(Dialog dialog);
+        void onCancelButtonPressed(Dialog dialog);
 
-        public void onQuiteTaskButtonPressed(Dialog dialog);
+        void onQuiteTaskButtonPressed(Dialog dialog);
     }
 }

@@ -23,7 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class TakePhotoActivity extends Activity implements View.OnClickListener {
-    public final static String TAG = TakePhotoActivity.class.getSimpleName();
+    private static final String TAG = TakePhotoActivity.class.getSimpleName();
     private CameraPreview cameraPreview;
     private Camera camera;
     private Uri tempPhotoFileUri;
@@ -107,6 +107,8 @@ public class TakePhotoActivity extends Activity implements View.OnClickListener 
                 break;
             case Surface.ROTATION_270:
                 degrees = 270;
+                break;
+            default:
                 break;
         }
 

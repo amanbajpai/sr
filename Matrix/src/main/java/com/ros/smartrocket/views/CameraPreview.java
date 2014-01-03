@@ -8,7 +8,7 @@ import android.view.SurfaceView;
 import com.ros.smartrocket.utils.L;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    public final static String TAG = CameraPreview.class.getSimpleName();
+    private static final String TAG = CameraPreview.class.getSimpleName();
     private SurfaceHolder holder;
     private Camera camera;
 

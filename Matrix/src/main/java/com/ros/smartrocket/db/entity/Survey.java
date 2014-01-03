@@ -21,20 +21,20 @@ public class Survey extends BaseEntity {
     private Integer TargetMinimum;
     private Boolean ViewableBeforeLive;
 
-    transient private Float Longitude;
-    transient private Float Latitude;
+    private transient Float Longitude;
+    private transient Float Latitude;
 
     @SkipFieldInContentValues
     private Task[] Tasks;
 
     @SkipFieldInContentValues
-    transient private Float NearTaskDistance;
+    private transient Float NearTaskDistance;
 
     @SkipFieldInContentValues
-    transient private int TaskCount;
+    private transient int TaskCount;
 
     @SkipFieldInContentValues
-    transient private Double NearTaskPrice;
+    private transient Double NearTaskPrice;
 
     public Survey() {
     }

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class SurveysBL {
 
+    public SurveysBL() {
+
+    }
+
     public static void getSurveyFromDB(AsyncQueryHandler handler, Integer surveyId) {
         handler.startQuery(SurveyDbSchema.Query.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI,
                 SurveyDbSchema.Query.PROJECTION, SurveyDbSchema.Columns.ID + "=?", new String[]{String.valueOf(surveyId)},

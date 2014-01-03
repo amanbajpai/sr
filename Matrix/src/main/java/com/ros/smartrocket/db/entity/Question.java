@@ -19,7 +19,7 @@ public class Question extends BaseEntity implements Serializable {
     private Boolean AllowMultiplyPhotos;
     private String AskIf = "";
 
-    transient private Integer PreviousQuestionOrderId;
+    private transient Integer PreviousQuestionOrderId;
 
     @SkipFieldInContentValues
     private Answer[] Answers;

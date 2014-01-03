@@ -13,7 +13,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class EnterGroupCodeActivity extends BaseActivity implements View.OnClickListener {
-    public final static String TAG = EnterGroupCodeActivity.class.getSimpleName();
+    private static final String TAG = EnterGroupCodeActivity.class.getSimpleName();
     private EditText groupCodeEditText;
 
     @Override

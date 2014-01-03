@@ -24,7 +24,7 @@ import java.util.Locale;
  * Setting fragment with all application related settings
  */
 public class SettingsFragment extends Fragment implements OnClickListener {
-    private static final String TAG = SettingsFragment.class.getSimpleName();
+    //private static final String TAG = SettingsFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "ru"};

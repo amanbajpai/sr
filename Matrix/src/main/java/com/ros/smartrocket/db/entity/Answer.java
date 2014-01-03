@@ -16,8 +16,8 @@ public class Answer extends BaseEntity implements Serializable {
     private String Value;
     private Integer Routing;
 
-    transient private byte[] imageByteArray;
-    transient private Boolean Checked = false;
+    private transient byte[] imageByteArray;
+    private transient Boolean Checked = false;
 
     public Answer() {
     }

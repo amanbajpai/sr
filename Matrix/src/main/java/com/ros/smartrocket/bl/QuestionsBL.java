@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class QuestionsBL {
 
+    public QuestionsBL() {
+
+    }
+
     /**
      * Make request for getting Question list
      *

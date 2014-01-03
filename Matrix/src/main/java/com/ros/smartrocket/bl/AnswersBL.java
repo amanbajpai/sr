@@ -10,6 +10,10 @@ import com.ros.smartrocket.db.entity.Question;
 
 public class AnswersBL {
 
+    public AnswersBL() {
+
+    }
+
     /**
      * Make request for getting Answer list
      *

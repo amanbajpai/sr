@@ -2,7 +2,6 @@ package com.ros.smartrocket.activity;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MyTaskAdapter;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -25,8 +23,8 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.util.ArrayList;
 
 public class SurveysTaskListActivity extends BaseActivity implements OnItemClickListener, NetworkOperationListenerInterface {
-    private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
-    private APIFacade apiFacade = APIFacade.getInstance();
+    //private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
+    //private APIFacade apiFacade = APIFacade.getInstance();
 
     private Integer surveyId;
 

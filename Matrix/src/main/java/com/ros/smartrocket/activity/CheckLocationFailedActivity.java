@@ -20,7 +20,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    public final static String TAG = CheckLocationFailedActivity.class.getSimpleName();
+    private static final String TAG = CheckLocationFailedActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private EditText countryEditText;

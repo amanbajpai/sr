@@ -1,15 +1,14 @@
 package com.ros.smartrocket.bl;
 
-import android.content.*;
+import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.RemoteException;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.AppContentProvider;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,12 @@ import java.util.ArrayList;
  * Created by bopr on 12/10/13.
  */
 public class TasksBL {
-    private static final String TAG = TasksBL.class.getSimpleName();
+    //private static final String TAG = TasksBL.class.getSimpleName();
+
+
+    public TasksBL() {
+
+    }
 
     /**
      * 1. Get data from DB
@@ -131,7 +135,7 @@ public class TasksBL {
     }
 
     /**
-     * Conveert cursor to Task list
+     * Convert cursor to Task list
      *
      * @param cursor - all fields cursor
      * @return

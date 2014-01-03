@@ -4,10 +4,6 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,10 +16,8 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.Locale;
-
 public class TaskValidationActivity extends BaseActivity implements View.OnClickListener {
-    public final static String TAG = TaskValidationActivity.class.getSimpleName();
+    //private static final String TAG = TaskValidationActivity.class.getSimpleName();
     private TextView expiryDateTextView;
     private TextView expiryTimeTextView;
     private TextView taskDataSizeTextView;

@@ -14,7 +14,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.MainMenuFragment;
 
 public class BaseSlidingMenuActivity extends BaseActivity {
-    //public final static String TAG = BaseSlidingMenuActivity.class.getSimpleName();
+    //private static final String TAG = BaseSlidingMenuActivity.class.getSimpleName();
 
     private DrawerLayout mDrawerLayout;
     private FrameLayout leftDrawer;

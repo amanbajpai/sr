@@ -67,23 +67,23 @@ public interface Keys {
 
     /* ------------ Location parameters -----------------------*/
     // Milliseconds per second
-    public static final int MILLISECONDS_PER_SECOND = 1000;
+    int MILLISECONDS_PER_SECOND = 1000;
     // Update frequency in seconds
-    public static final int UPDATE_INTERVAL_IN_SECONDS = 600; // every 10 minutes
+    int UPDATE_INTERVAL_IN_SECONDS = 600; // every 10 minutes
     // Update frequency in milliseconds
-    public static final long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
+    long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
     // The fastest update frequency, in seconds
-    public static final int FASTEST_INTERVAL_IN_SECONDS = 1;
+    int FASTEST_INTERVAL_IN_SECONDS = 1;
     // A fast frequency ceiling in milliseconds
-    public static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
+    long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
 
 
     /* ------------ GCM parameters -----------------------*/
-    public static final String GCM_ID = "145199350695";
+    String GCM_ID = "145199350695";
 
-    public static final String GCM_PROPERTY_REG_ID = "gcm_registration_id";
-    public static final String GCM_PROPERTY_APP_VERSION = "gcm_appVersion";
-    public static final String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";
+    String GCM_PROPERTY_REG_ID = "gcm_registration_id";
+    String GCM_PROPERTY_APP_VERSION = "gcm_appVersion";
+    String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";
 
 
 }

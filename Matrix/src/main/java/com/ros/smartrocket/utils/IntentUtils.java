@@ -12,7 +12,7 @@ import com.ros.smartrocket.activity.TaskValidationActivity;
  * Utils class for easy work with UI Views
  */
 public class IntentUtils {
-    private static final String TAG = "IntentUtils";
+    //private static final String TAG = "IntentUtils";
 
     /**
      * Show simple Toast message

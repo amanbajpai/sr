@@ -1,6 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
-public class PushMessage extends BaseEntity{
+public class PushMessage extends BaseEntity {
 
     private String Message;
     private String TargetDeviceId;

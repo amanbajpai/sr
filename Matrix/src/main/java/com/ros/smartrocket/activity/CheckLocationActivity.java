@@ -23,7 +23,7 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class CheckLocationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    public final static String TAG = CheckLocationActivity.class.getSimpleName();
+    private static final String TAG = CheckLocationActivity.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Address currentAddress;

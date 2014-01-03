@@ -44,8 +44,8 @@ public class Task extends BaseEntity {
     private String StartDateTime;
     private String EndDateTime;
 
-    transient private Boolean IsMy = false;
-    transient private Boolean IsHide = false;
+    private transient Boolean IsMy = false;
+    private transient Boolean IsHide = false;
 
     public Task() {
     }

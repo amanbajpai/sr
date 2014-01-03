@@ -17,7 +17,7 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayS
  * Utils class for easy work with UI Views
  */
 public class DialogUtils {
-    private static final String TAG = "UIUtils";
+    //private static final String TAG = "UIUtils";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     /**

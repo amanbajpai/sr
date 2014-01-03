@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 
 public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
-    public static final String TAG = DefaultInfoDialog.class.getSimpleName();
+    //private static final String TAG = DefaultInfoDialog.class.getSimpleName();
     private DialogButtonClickListener onDialogButtonClicklistener;
     private Button leftButton;
     private Button rightButton;
@@ -81,8 +81,8 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     }
 
     public interface DialogButtonClickListener {
-        public void onLeftButtonPressed(Dialog dialog);
+        void onLeftButtonPressed(Dialog dialog);
 
-        public void onRightButtonPressed(Dialog dialog);
+        void onRightButtonPressed(Dialog dialog);
     }
 }
