@@ -35,7 +35,7 @@ public class Config {
                 break;
             case DEVELOPMENT:
             default:
-                ACRA_ENABLED = false;
+                ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
                 break;
