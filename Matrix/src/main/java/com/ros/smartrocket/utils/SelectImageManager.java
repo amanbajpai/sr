@@ -20,7 +20,13 @@ import android.view.Window;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.TakePhotoActivity;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class SelectImageManager {
     private static final String TAG = "SelectImageManager";

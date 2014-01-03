@@ -12,7 +12,11 @@ import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
-import com.ros.smartrocket.*;
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.BaseActivity;
+import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.MainActivity;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
@@ -23,7 +27,9 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
-import static com.google.android.gms.common.GooglePlayServicesUtil.*;
+import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
+import static com.google.android.gms.common.GooglePlayServicesUtil.isUserRecoverableError;
 
 /**
  * Activity for Agents login into system

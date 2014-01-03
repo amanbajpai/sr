@@ -102,13 +102,13 @@ public class UIUtils {
      * @return
      */
     public static String getAppVersion(Context context) {
-        String curent_version = "";
+        String current_version = "";
         try {
-            curent_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            current_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (Exception e) {
             L.e(TAG, "getAppVersion() Error get app version");
         }
-        return curent_version;
+        return current_version;
     }
 
 
@@ -119,13 +119,13 @@ public class UIUtils {
      * @return
      */
     public static int getAppVersionCode(Context context) {
-        int curentVersion = 0;
+        int current_version = 0;
         try {
-            curentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+            current_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             L.e(TAG, "getAppVersionCode() Error get app version");
         }
-        return curentVersion;
+        return current_version;
     }
 
     /**
@@ -240,9 +240,9 @@ public class UIUtils {
 
     public static String formatAmount(int num) {
         DecimalFormat decimalFormat = new DecimalFormat();
-        DecimalFormatSymbols decimalFormateSymbol = new DecimalFormatSymbols();
-        decimalFormateSymbol.setGroupingSeparator(',');
-        decimalFormat.setDecimalFormatSymbols(decimalFormateSymbol);
+        DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
+        decimalFormatSymbol.setGroupingSeparator(',');
+        decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
         return decimalFormat.format(num);
     }
 

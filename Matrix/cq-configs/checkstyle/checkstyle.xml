@@ -73,15 +73,15 @@
         <!-- See http://checkstyle.sf.net/config_naming.html -->
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
-        <module name="LocalVariableName"/>
+        <module name="LocalVariableName">
+            <property name="scope" value="package"/>
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="MemberName"/>
         <module name="MethodName"/>
         <module name="PackageName"/>
         <!--<module name="ParameterName"/>-->
-        <module name="ParameterName">
-            <property name="scope" value="package"/>
-            <property name="severity" value="ignore"/>
-        </module>
+        <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
 

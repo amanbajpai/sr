@@ -1,13 +1,11 @@
 package com.ros.smartrocket.net;
 
-import android.os.Bundle;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import org.apache.http.params.HttpParams;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 
 public class BaseOperation implements Serializable {
@@ -108,15 +106,15 @@ public class BaseOperation implements Serializable {
 
     @Override
     public String toString() {
-        return "BaseOperation{" +
-                "url='" + url + '\'' +
-                ", tag='" + tag + '\'' +
-                ", method=" + method +
-                ", responseStatusCode=" + responseStatusCode +
-                ", responseError='" + responseError + '\'' +
-                ", responseString='" + responseString + '\'' +
-                ", params=" + params +
-                ", args=" + Arrays.toString(args) +
-                '}';
+        return "BaseOperation{"
+                + "url='" + url + '\''
+                + ", tag='" + tag + '\''
+                + ", method=" + method
+                + ", responseStatusCode=" + responseStatusCode
+                + ", responseError='" + responseError + '\''
+                + ", responseString='" + responseString + '\''
+                + ", params=" + params
+                + ", args=" + Arrays.toString(args)
+                + '}';
     }
 }

@@ -2,14 +2,12 @@ package com.ros.smartrocket.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.utils.IntentUtils;
 
 public class RegistrationSuccessDialog extends Dialog implements View.OnClickListener {

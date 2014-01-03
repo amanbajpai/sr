@@ -21,8 +21,7 @@ import org.apache.http.params.HttpProtocolParams;
  */
 public class MatrixHttpClient {
     private static HttpClient httpClientInstance;
-
-    private static int CONNECTION_TIMEOUT = 120000;
+    private static final int CONNECTION_TIMEOUT = 120000;
 
     private MatrixHttpClient() {
         httpClientInstance = createHttpClient();

@@ -5,7 +5,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,11 +24,23 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
@@ -38,7 +55,14 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
-import com.twotoasters.clusterkraf.*;
+import com.twotoasters.clusterkraf.ClusterPoint;
+import com.twotoasters.clusterkraf.Clusterkraf;
+import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
+import com.twotoasters.clusterkraf.InputPoint;
+import com.twotoasters.clusterkraf.MarkerOptionsChooser;
+import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
+import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
+import com.twotoasters.clusterkraf.Options;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -348,8 +372,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private OnMarkerClickDownstreamListener onMarkerClickListener = new OnMarkerClickDownstreamListener() {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
-            L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + ", " +
-                    "snipped=" + marker.getSnippet() + "]");
+            L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + ", "
+                    + "snipped=" + marker.getSnippet() + "]");
             boolean result = false;
             return result;
         }
@@ -430,7 +454,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 options.inMutable = true;
             }
             Bitmap bitmap = BitmapFactory.decodeResource(res, resourceId, options);
-            if (bitmap.isMutable() == false) {
+            if (!bitmap.isMutable()) {
                 bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             }
 
@@ -486,8 +510,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         private void render(Marker marker, View view, ClusterPoint clusterPoint) {
             L.d(TAG, "render() [marker=" + marker + ", clusterPoint=" + clusterPoint + "]");
-            L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", " +
-                    "snipped=" + marker.getSnippet() + ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
+            L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", "
+                    + "snipped=" + marker.getSnippet() + ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
 
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
@@ -549,6 +573,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
                     onLoadingComplete(tasks);
+                    break;
+                default:
                     break;
             }
         }

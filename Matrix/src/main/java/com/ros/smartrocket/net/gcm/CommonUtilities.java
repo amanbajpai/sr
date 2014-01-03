@@ -27,8 +27,6 @@ import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.io.IOException;
 
-import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
-
 /**
  * Helper class providing methods and constants common to other classes in the
  * app.
@@ -51,6 +49,10 @@ public final class CommonUtilities {
     public static final String EXTRA_MESSAGE = "message";
 
     private static final String TAG = CommonUtilities.class.getSimpleName();
+
+    public CommonUtilities() {
+
+    }
 
     /**
      * Notifies UI to display a message.
@@ -95,7 +97,7 @@ public final class CommonUtilities {
 
                     return regId;
                 } catch (IOException ex) {
-                    L.e(TAG, "registerGCMInBackground() [Error :" + ex.getMessage() +"]");
+                    L.e(TAG, "registerGCMInBackground() [Error :" + ex.getMessage() + "]");
                     // If there is an error, don't just keep trying to register.
                     // Require the user to click a button again, or perform
                     // exponential back-off.

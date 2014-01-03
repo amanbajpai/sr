@@ -9,6 +9,10 @@ import java.io.ByteArrayOutputStream;
 
 public class BytesBitmap {
 
+    public BytesBitmap() {
+
+    }
+
     public static Bitmap getBitmap(byte[] data) {
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
@@ -19,7 +23,7 @@ public class BytesBitmap {
         return baops.toByteArray();
     }
 
-    public static String getBase64String(Bitmap bitmap){
+    public static String getBase64String(Bitmap bitmap) {
         byte[] ba = getBytes(bitmap);
         return Base64.encodeToString(ba, Base64.DEFAULT);
     }
