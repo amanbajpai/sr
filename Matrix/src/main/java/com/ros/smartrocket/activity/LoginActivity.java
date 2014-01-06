@@ -17,6 +17,8 @@ import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.MainActivity;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.LoginBL;
+import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
@@ -107,20 +109,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-                if (!UIUtils.isOnline(this)) {
-                    DialogUtils.showNetworkDialog(this);
-                } else if (!UIUtils.isGpsEnabled(this)) {
-                    DialogUtils.showLocationDialog(this);
-                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
-                    DialogUtils.showGoogleSdkDialog(this);
-                } else if (UIUtils.isMockLocationEnabled(this)) {
-                    DialogUtils.showMockLocationDialog(this, true);
-                } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    DialogUtils.showRegistrationFailedDialog(this);
-                } else {
+                LoginBL lBL = new LoginBL();
+                LoginBL.PreLoginErrors error = lBL.login(this, email, password);
+
+                if (error == LoginBL.PreLoginErrors.SUCCESS) {
                     loginButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.login(this, email, password);
+                } else if (error == LoginBL.PreLoginErrors.NOCONNECTION) {
+                    DialogUtils.showNetworkDialog(this);
+                } else if (error == LoginBL.PreLoginErrors.GPSOFF) {
+                    DialogUtils.showLocationDialog(this);
+                } else if (error == LoginBL.PreLoginErrors.GOOGLEPSNOTWALID) {
+                    DialogUtils.showGoogleSdkDialog(this);
+                } else if (error == LoginBL.PreLoginErrors.MOCKON) {
+                    DialogUtils.showMockLocationDialog(this, true);
+                } else if (error == LoginBL.PreLoginErrors.NOPASSWORDOREMAIL) {
+                    DialogUtils.showRegistrationFailedDialog(this);
                 }
 
                 break;

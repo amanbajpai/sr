@@ -201,6 +201,11 @@ public class UIUtils {
         return 0;
     }*/
 
+    /**
+     * Check if there is Ethernet connection
+     * @param c
+     * @return
+     */
     public static boolean isOnline(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
