@@ -1,7 +1,6 @@
 package com.ros.smartrocket;
 
 import android.content.Context;
-import com.ros.smartrocket.Config;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
