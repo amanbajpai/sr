@@ -34,6 +34,8 @@ public class LoginBL {
         NOPASSWORDOREMAIL;
     }
 
+    public static UIUtils utils;
+
     /**
      * Check all conditions before login
      * @param context
@@ -43,13 +45,14 @@ public class LoginBL {
      */
     public PreLoginErrors login(Context context, String email, String password) {
         PreLoginErrors errors = PreLoginErrors.SUCCESS;
-        if (!UIUtils.isOnline(context)) {
+
+        if (!utils.isOnline(context)) {
             errors = PreLoginErrors.NOCONNECTION;
-        } else if (!UIUtils.isGpsEnabled(context)) {
+        } else if (!utils.isGpsEnabled(context)) {
             errors = PreLoginErrors.GPSOFF;
-        } else if (!UIUtils.isGooglePlayServicesEnabled(context)) {
+        } else if (!utils.isGooglePlayServicesEnabled(context)) {
             errors = PreLoginErrors.GOOGLEPSNOTWALID;
-        } else if (UIUtils.isMockLocationEnabled(context)) {
+        } else if (utils.isMockLocationEnabled(context)) {
             errors = PreLoginErrors.MOCKON;
         } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             errors = PreLoginErrors.NOPASSWORDOREMAIL;
