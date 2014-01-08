@@ -39,7 +39,7 @@ public class SelectImageManager {
     private static final int VERTICAL = 2;
     private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
-            new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};
+            new int[]{90, HORIZONTAL}, new int[]{-90, NONE}};
     /*private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90, NONE}, new int[]{90, HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
@@ -156,8 +156,6 @@ public class SelectImageManager {
             }
         }
     }
-
-    ;
 
     public Bitmap getBitmapFromGalery(Intent intent) {
         try {
@@ -323,6 +321,6 @@ public class SelectImageManager {
      */
 
     public static interface OnImageCompleteListener {
-        public void onImageComplete(Bitmap bitmap);
+        void onImageComplete(Bitmap bitmap);
     }
 }
