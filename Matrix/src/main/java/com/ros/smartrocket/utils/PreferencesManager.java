@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class PreferencesManager {
     private static final String TAG = "PreferencesManager";
-    private SharedPreferences _preferences;
+    private SharedPreferences preferences;
     private static PreferencesManager preferencesManager = null;
 
     /**
@@ -34,11 +34,11 @@ public class PreferencesManager {
     }
 
     private PreferencesManager() {
-        _preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
     }
 
     private SharedPreferences getPreferences() {
-        return _preferences;
+        return preferences;
     }
 
     /**

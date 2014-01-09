@@ -18,10 +18,10 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayS
  */
 public class DialogUtils {
     //private static final String TAG = "UIUtils";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     /**
-     * Show simple Dialog message
+     * Show location Dialog message
      *
      * @param activity
      */
@@ -45,7 +45,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show network Dialog message
      *
      * @param activity
      */
@@ -69,7 +69,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show Google SDK Dialog message
      *
      * @param activity
      */
@@ -95,7 +95,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show mock location Dialog message
      *
      * @param activity
      */
@@ -138,7 +138,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show registration failed Dialog message
      *
      * @param activity
      */
@@ -161,7 +161,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show account not activated Dialog message
      *
      * @param activity
      */

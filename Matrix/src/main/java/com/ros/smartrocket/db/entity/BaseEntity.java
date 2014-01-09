@@ -20,7 +20,7 @@ public abstract class BaseEntity implements Serializable {
     /**
      * Database _id field. Required for AdapterViews
      */
-    transient private long _id;
+    private transient long _id;
 
     /**
      * Server UUID

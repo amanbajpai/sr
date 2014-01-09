@@ -1,20 +1,8 @@
 package com.ros.smartrocket.bl;
 
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.location.Location;
-import android.location.LocationManager;
 import android.text.TextUtils;
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.UIUtils;
-
-import java.util.ArrayList;
 
 /**
  *

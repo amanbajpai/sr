@@ -37,10 +37,10 @@ import java.util.Locale;
  */
 public class UIUtils {
     private static final String TAG = "UIUtils";
-    public static SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH); //'Z'
-    public static SimpleDateFormat hourMinute1Format = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
-    public static SimpleDateFormat dayMonthYear1Format = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
-    public static SimpleDateFormat hourMinuteDyMonthYear1Format = new SimpleDateFormat("HH:mm a dd MMM yy", Locale.ENGLISH);
+    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH); //'Z'
+    private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
+    private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("HH:mm a dd MMM yy", Locale.ENGLISH);
 
     /**
      * Show simple Toast message
@@ -295,7 +295,7 @@ public class UIUtils {
      */
     public static long isoTimeToLong(String dateString) {
         try {
-            return isoDateFormat.parse(dateString).getTime();
+            return ISO_DATE_FORMAT.parse(dateString).getTime();
         } catch (Exception e) {
             L.e("twitterTimeToLong", "Parse error" + e);
         }
@@ -309,13 +309,13 @@ public class UIUtils {
     public static String longToString(long dateLong, int formatId) {
         switch (formatId) {
             case 0:
-                return hourMinute1Format.format(new Date(dateLong));
+                return HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
             case 1:
-                return dayMonthYear1Format.format(new Date(dateLong));
+                return DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
             case 2:
-                return isoDateFormat.format(new Date(dateLong));
+                return ISO_DATE_FORMAT.format(new Date(dateLong));
             case 3:
-                return hourMinuteDyMonthYear1Format.format(new Date(dateLong));
+                return HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
             default:
                 break;
         }

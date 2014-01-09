@@ -76,8 +76,7 @@
         </module>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName">
-            <property name="scope" value="package"/>
-            <property name="severity" value="ignore"/>
+            <property name="format" value="^[a-zA-Z_][a-zA-Z0-9]*$"/>
         </module>
         <module name="MemberName"/>
         <module name="MethodName"/>
