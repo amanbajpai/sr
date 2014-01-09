@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -48,6 +49,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private ToggleButton useOnlyWifiToggleButton;
     private ToggleButton deadlineReminderToggleButton;
 
+    private EditText treeGUploadLimitEditText;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -71,6 +74,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
 
+        treeGUploadLimitEditText = (EditText) view.findViewById(R.id.treeGUploadLimitEditText);
+
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
         view.findViewById(R.id.cancelButton).setOnClickListener(this);
 
@@ -90,6 +95,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         saveImageToggleButton.setChecked(preferencesManager.getUseSaveImageToCameraRoll());
         pushMessagesToggleButton.setChecked(preferencesManager.getUsePushMessages());
         deadlineReminderToggleButton.setChecked(preferencesManager.getUseDeadlineReminder());
+
+        treeGUploadLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadPackageLimit()));
     }
 
     public void setLanguageSpinner() {
@@ -142,6 +149,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                 preferencesManager.setUseSaveImageToCameraRoll(saveImageToggleButton.isChecked());
                 preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
                 preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
+
+                int limitInt = 0;
+                String limitString = treeGUploadLimitEditText.getText().toString().trim();
+                if (!TextUtils.isEmpty(limitString)) {
+                    limitInt = Integer.valueOf(limitString);
+                }
+
+                preferencesManager.set3GUploadPackageLimit(limitInt);
 
                 preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner.getSelectedItemPosition
                         ()]);

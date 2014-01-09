@@ -13,7 +13,7 @@
     <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
     <string name="account_not_activated" >Account is not activated. Go to E-mail client for activation your
         account.</string >
-    <string name="login_test_account" >Agent7</string >
+    <string name="login_test_account" >Agent1</string >
     <string name="login_test_password" >123456</string >
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name" >First name</string >
@@ -99,6 +99,7 @@
     <string name="language" >Language</string >
     <string name="location_services" >Location services</string >
     <string name="push_messages" >Push messages</string >
+    <string name="tree_g_upload_package_limit" >3G upload package limit</string >
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >

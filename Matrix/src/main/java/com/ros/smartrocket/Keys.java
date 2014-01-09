@@ -14,6 +14,7 @@ public interface Keys {
     String USE_SAVE_IMAGE_TO_CAMERA_ROLL = "use_save_image_to_camera_roll";
     String USE_PUSH_MESSAGES = "use_push_messages";
     String USE_DEADLINE_REMINDER = "use_deadline_reminder";
+    String TREE_G_UPLOAD_PACKAGE_LIMIT = "tree_g_upload_package_limit";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";

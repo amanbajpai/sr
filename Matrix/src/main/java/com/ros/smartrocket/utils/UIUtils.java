@@ -203,6 +203,7 @@ public class UIUtils {
 
     /**
      * Check if there is Ethernet connection
+     *
      * @param c
      * @return
      */
@@ -350,5 +351,9 @@ public class UIUtils {
 
     public static boolean isFalse(Boolean s) {
         return s == null || !s;
+    }
+
+    public static String getNumbersOnly(CharSequence s) {
+        return s.toString().replaceAll("[^0-9]", ""); // Should of course be more robust
     }
 }

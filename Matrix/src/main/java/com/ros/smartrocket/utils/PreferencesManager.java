@@ -7,6 +7,7 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.MatrixLocation;
 
@@ -199,6 +200,14 @@ public class PreferencesManager {
 
     public void setLastNotAnsweredQuestionOrderId(int taskId, int orderId) {
         setInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId, orderId);
+    }
+
+    public int get3GUploadPackageLimit() {
+        return getInt(Keys.TREE_G_UPLOAD_PACKAGE_LIMIT, Config.TREE_G_UPLOAD_PACKAGE_LIMIT_MB);
+    }
+
+    public void set3GUploadPackageLimit(int limitMb) {
+        setInt(Keys.TREE_G_UPLOAD_PACKAGE_LIMIT, limitMb);
     }
 
     public int getInt(String key, int defaultValue) {

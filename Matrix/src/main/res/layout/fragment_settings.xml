@@ -114,6 +114,23 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/tree_g_upload_package_limit" />
+            <EditText
+                android:id="@+id/treeGUploadLimitEditText"
+                android:layout_width="96dp"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout >
         <TextView
             style="@style/profileSectionTextStyle"
             android:layout_height="wrap_content"
