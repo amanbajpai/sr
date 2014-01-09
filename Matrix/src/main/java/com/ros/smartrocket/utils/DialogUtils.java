@@ -101,7 +101,7 @@ public class DialogUtils {
      */
     public static void showMockLocationDialog(final Activity activity, final boolean isCancelable) {
         int cancelButtonResId = R.string.cancel;
-        if(!isCancelable){
+        if (!isCancelable) {
             cancelButtonResId = R.string.logout;
         }
 
@@ -113,7 +113,7 @@ public class DialogUtils {
         networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                if(isCancelable){
+                if (isCancelable) {
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();
@@ -156,6 +156,31 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * Show simple Dialog message
+     *
+     * @param activity
+     */
+    public static void showAccountNotActivatedDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.login_fail_dialog_title),
+                activity.getText(R.string.account_not_activated),
+                0, android.R.string.ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                //activity.startActivity(IntentUtils.getEmailIntent(null, null));
             }
         });
     }

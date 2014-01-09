@@ -25,7 +25,6 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.SubscriptionResponse;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Surveys;
 import com.ros.smartrocket.db.entity.Task;
@@ -137,11 +136,6 @@ public class NetworkService extends BaseNetworkService {
                                 RegistrationResponse.class);
                         operation.responseEntities.add(registrationResponse);
                         break;
-                    case WSUrl.SUBSCRIPTION_ID:
-                        SubscriptionResponse subscriptionResponse = gson.fromJson(responseString,
-                                SubscriptionResponse.class);
-                        operation.responseEntities.add(subscriptionResponse);
-                        break;
                     case WSUrl.GCM_REGISTER_DEVICE_ID:
                         preferencesManager.setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
                         break;
@@ -199,6 +193,7 @@ public class NetworkService extends BaseNetworkService {
                 ResponseError error = gson.fromJson(responseString, ResponseError.class);
                 if (error != null && error.getErrorMessage() != null) {
                     operation.setResponseError(error.getErrorMessage());
+                    operation.setResponseErrorCode(error.getErrorCode());
                 }
             } catch (JsonSyntaxException e) {
                 operation.setResponseError(getString(R.string.error));

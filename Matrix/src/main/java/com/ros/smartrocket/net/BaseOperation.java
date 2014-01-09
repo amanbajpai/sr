@@ -21,6 +21,7 @@ public class BaseOperation implements Serializable {
 
     private int responseStatusCode;
     private String responseError;
+    private Integer responseErrorCode;
     private String responseString;
 
     public enum Method {
@@ -57,6 +58,14 @@ public class BaseOperation implements Serializable {
 
     public void setResponseError(String responseError) {
         this.responseError = responseError;
+    }
+
+    public Integer getResponseErrorCode() {
+        return responseErrorCode;
+    }
+
+    public void setResponseErrorCode(Integer responseErrorCode) {
+        this.responseErrorCode = responseErrorCode;
     }
 
     public int getResponseStatusCode() {

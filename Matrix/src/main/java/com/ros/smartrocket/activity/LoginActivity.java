@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,7 +17,6 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.MainActivity;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
-import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
@@ -84,7 +82,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
 
                 // Check if we are registered on Server side our GCM Id
-                if(!PreferencesManager.getInstance().isGCMIdRegisteredOnServer()) {
+                if (!PreferencesManager.getInstance().isGCMIdRegisteredOnServer()) {
                     String regId = PreferencesManager.getInstance().getGCMRegistrationId();
                     if ("".equals(regId)) {
                         CommonUtilities.registerGCMInBackground();
@@ -97,8 +95,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, MainActivity.class));
             }
         } else {
-            loginButton.setEnabled(true);
-            DialogUtils.showRegistrationFailedDialog(this);
+            if (operation.getResponseErrorCode() == 10020) {
+                loginButton.setEnabled(true);
+                DialogUtils.showAccountNotActivatedDialog(this);
+
+            } else {
+                loginButton.setEnabled(true);
+                DialogUtils.showRegistrationFailedDialog(this);
+            }
         }
     }
 

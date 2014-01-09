@@ -95,7 +95,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
 
                     // TODO: FIX it to real data before production
                     /*apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
-                            "China", "Hong Kong", 3.1, 4.1);*/
+                            "Ukraine", "Kharkiv", 49.988010, 36.233044);*/
                 } else {
                     UIUtils.showSimpleToast(CheckLocationActivity.this,
                             R.string.current_location_not_defined);

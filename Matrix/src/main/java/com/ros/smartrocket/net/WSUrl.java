@@ -9,7 +9,7 @@ public final class WSUrl {
     public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
-    public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "Subscription";
+    public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
     public static final String GET_SURVEYS = Config.WEB_SERVICE_URL + "api/Surveys?latitude=%s&longitude=%s&radius=%s&language=%s";
     public static final String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";

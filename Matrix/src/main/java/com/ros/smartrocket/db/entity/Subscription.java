@@ -5,14 +5,14 @@ public class Subscription extends BaseEntity {
 
     private String Country;
     private String City;
-    private String Mail;
+    private String Email;
 
-    public String getMail() {
-        return Mail;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setMail(String mail) {
-        Mail = mail;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getCountry() {

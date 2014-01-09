@@ -52,7 +52,9 @@ public class IntentUtils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+        if (!TextUtils.isEmpty(email)) {
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+        }
 
         if (!TextUtils.isEmpty(text)) {
             intent.putExtra(Intent.EXTRA_TEXT, text);
