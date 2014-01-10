@@ -210,6 +210,14 @@ public class PreferencesManager {
         setInt(Keys.TREE_G_UPLOAD_PACKAGE_LIMIT, limitMb);
     }
 
+    public int getUsed3GUploadSize() {
+        return getInt(Keys.USED_TREE_G_UPLOAD_SIZE, 0);
+    }
+
+    public void setUsed3GUploadSize(int usedSize) {
+        setInt(Keys.USED_TREE_G_UPLOAD_SIZE, usedSize);
+    }
+
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

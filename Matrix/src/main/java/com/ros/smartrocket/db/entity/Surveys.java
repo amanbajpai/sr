@@ -11,7 +11,7 @@ public class Surveys extends BaseEntity {
         return Surveys;
     }
 
-    public void setSurveys(Survey[] Surveys) {
-        this.Surveys = Surveys;
+    public void setSurveys(Survey[] surveys) {
+        this.Surveys = surveys;
     }
 }

@@ -19,6 +19,7 @@ public final class WSUrl {
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL + "api/Surveys/Questionnaire?surveyId=%s&language=%s";
     public static final String SEND_QUESTION = Config.WEB_SERVICE_URL + "api/Surveys"; //TODO EditUrl
+    public static final String UPLOAD_QUESTION_FILE = Config.WEB_SERVICE_URL + "api/Authorize/UploadQuestionFile"; //TODO EditUrl
 
     public static final int LOGIN_ID = 1;
     public static final int GET_SURVEYS_ID = 2;
@@ -33,6 +34,7 @@ public final class WSUrl {
     public static final int GET_MY_ACCOUNT_ID = 11;
     public static final int GET_QUESTIONS_ID = 12;
     public static final int SEND_QUESTION_ID = 13;
+    public static final int UPLOAD_QUESTION_FILE_ID = 14;
 
     public static final HashMap<String, Integer> urls;
 
@@ -51,6 +53,7 @@ public final class WSUrl {
         urls.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
         urls.put(GET_QUESTIONS, GET_QUESTIONS_ID);
         urls.put(SEND_QUESTION, SEND_QUESTION_ID);
+        urls.put(UPLOAD_QUESTION_FILE, UPLOAD_QUESTION_FILE_ID);
     }
 
     public static int matchUrl(String url) {

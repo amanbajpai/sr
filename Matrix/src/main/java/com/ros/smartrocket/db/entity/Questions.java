@@ -11,7 +11,7 @@ public class Questions extends BaseEntity {
         return Questions;
     }
 
-    public void setQuestions(Question[] Questions) {
-        this.Questions = Questions;
+    public void setQuestions(Question[] questions) {
+        this.Questions = questions;
     }
 }

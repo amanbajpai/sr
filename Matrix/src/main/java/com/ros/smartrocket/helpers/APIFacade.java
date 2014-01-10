@@ -262,7 +262,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-
     private void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);

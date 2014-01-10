@@ -15,6 +15,7 @@ public interface Keys {
     String USE_PUSH_MESSAGES = "use_push_messages";
     String USE_DEADLINE_REMINDER = "use_deadline_reminder";
     String TREE_G_UPLOAD_PACKAGE_LIMIT = "tree_g_upload_package_limit";
+    String USED_TREE_G_UPLOAD_SIZE = "used_tree_g_upload_size";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
@@ -34,6 +35,7 @@ public interface Keys {
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String BOOK_TASK_OPERATION_TAG = "book_task_operation_tag";
     String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
+    String UPLOAD_QUESTION_FILE_OPERATION_TAG = "upload_question_fle_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
     String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
 
@@ -64,6 +66,9 @@ public interface Keys {
     //Question
     String QUESTION = "question";
     String LAST_NOT_ANSWERED_QUESTION_ORDER_ID = "last_not_answered_question_order_id";
+
+    //NotUploadFile Service
+    String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_file";
 
 
     /* ------------ Location parameters -----------------------*/
