@@ -11,6 +11,8 @@
     <string name="i_new_user" >I\'am a new user</string >
     <string name="login_fail_dialog_title" >Log in pop-up</string >
     <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
+    <string name="account_not_activated" >Account is not activated. Go to E-mail client for activation your
+        account.</string >
     <string name="login_test_account" >Agent1</string >
     <string name="login_test_password" >123456</string >
     <!-- REGISTRATION ACTIVITY -->
@@ -97,6 +99,7 @@
     <string name="language" >Language</string >
     <string name="location_services" >Location services</string >
     <string name="push_messages" >Push messages</string >
+    <string name="tree_g_upload_package_limit" >3G upload package limit</string >
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >
@@ -259,4 +262,13 @@
     <string name="confirmation_you_can_find_in_my_task" >Validation confirmation you can find in My Task list</string >
     <string name="send_now" >Send now</string >
     <string name="send_later" >Send later</string >
+    <!-- SUBSCRIBE CONFIRMATION DIALOG -->
+    <string name="registration_subscribe_dialog_title" >Confirmation pop-up</string >
+    <string name="registration_subscribe_dialog_text1" >Thanks we get your info and get in touch with you when we can
+        offer tasks in your location </string >
+    <string name="registration_subscribe_dialog_text2" >For more information you can visit</string >
+    <string name="registration_subscribe_dialog_text3" >www.matrix.com/about</string >
+
+
+
 </resources >

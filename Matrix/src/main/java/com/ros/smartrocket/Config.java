@@ -19,6 +19,9 @@ public class Config {
     public static final int REFRESH_LOCATION_DISTANCE = 100;
     public static final int REFRESH_LOCATION_TIME = 0;
 
+    public static final int TREE_G_UPLOAD_PACKAGE_LIMIT_MB = 5;
+    public static final int CHECK_NOT_UPLOADED_FILE_MILLISECONDS = 1000*60*10;
+
     public static final String ACRA_FORM_KEY = "dFZnWE93RnVfb2VhSHFFR2VicWoyamc6MA";
     public static final boolean ACRA_ENABLED;
 

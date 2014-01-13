@@ -18,10 +18,10 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayS
  */
 public class DialogUtils {
     //private static final String TAG = "UIUtils";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     /**
-     * Show simple Dialog message
+     * Show location Dialog message
      *
      * @param activity
      */
@@ -45,7 +45,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show network Dialog message
      *
      * @param activity
      */
@@ -69,7 +69,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show Google SDK Dialog message
      *
      * @param activity
      */
@@ -95,13 +95,13 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show mock location Dialog message
      *
      * @param activity
      */
     public static void showMockLocationDialog(final Activity activity, final boolean isCancelable) {
         int cancelButtonResId = R.string.cancel;
-        if(!isCancelable){
+        if (!isCancelable) {
             cancelButtonResId = R.string.logout;
         }
 
@@ -113,7 +113,7 @@ public class DialogUtils {
         networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                if(isCancelable){
+                if (isCancelable) {
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();
@@ -138,7 +138,7 @@ public class DialogUtils {
     }
 
     /**
-     * Show simple Dialog message
+     * Show registration failed Dialog message
      *
      * @param activity
      */
@@ -156,6 +156,31 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * Show account not activated Dialog message
+     *
+     * @param activity
+     */
+    public static void showAccountNotActivatedDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.login_fail_dialog_title),
+                activity.getText(R.string.account_not_activated),
+                0, android.R.string.ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                //activity.startActivity(IntentUtils.getEmailIntent(null, null));
             }
         });
     }

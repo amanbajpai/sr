@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db;
 
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
@@ -10,7 +11,8 @@ public enum Table {
     TASK("Task", TaskDbSchema.class, Task.class.getSimpleName()),
     SURVEY("Survey", SurveyDbSchema.class, Survey.class.getSimpleName()),
     QUESTION("Question", QuestionDbSchema.class, Question.class.getSimpleName()),
-    ANSWER("Answer", AnswerDbSchema.class, Answer.class.getSimpleName());
+    ANSWER("Answer", AnswerDbSchema.class, Answer.class.getSimpleName()),
+    NOT_UPLOADED_FILE("NotUploadedFile", NotUploadedFileDbSchema.class, NotUploadedFile.class.getSimpleName());
 
     private String name;
     private Class schema;

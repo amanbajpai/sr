@@ -18,7 +18,6 @@ public class LaunchActivity extends Activity {
         } else {
             intent = new Intent(this, LoginActivity.class);
         }
-
         startActivity(intent);
         finish();
     }

@@ -12,7 +12,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.SubscriptionResponse;
+import com.ros.smartrocket.dialog.RegistrationSubscribeSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
@@ -50,10 +50,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.SUBSCRIBE_OPERATION_TAG.equals(operation.getTag())) {
-                SubscriptionResponse subscriptionResponse = (SubscriptionResponse) operation.getResponseEntities().get(0);
-                if (subscriptionResponse.getState()) {
-                    UIUtils.showSimpleToast(this, R.string.success);
-                }
+                new RegistrationSubscribeSuccessDialog(this);
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());

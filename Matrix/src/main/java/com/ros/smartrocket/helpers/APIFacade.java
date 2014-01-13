@@ -187,9 +187,9 @@ public class APIFacade {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(countryName) && !TextUtils.isEmpty(cityName)) {
 
             Subscription subscriptionEntity = new Subscription();
-            subscriptionEntity.setMail(email);
+            subscriptionEntity.setEmail(email);
             subscriptionEntity.setCountry(countryName);
-            subscriptionEntity.setCountry(cityName);
+            subscriptionEntity.setCity(cityName);
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.SUBSCRIPTION);
@@ -261,7 +261,6 @@ public class APIFacade {
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
-
 
     private void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
