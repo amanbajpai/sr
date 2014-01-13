@@ -545,7 +545,6 @@ public class Clusterkraf {
 	}
 
 	private class UpdateClustersAndTransitionClusteringTaskHost extends BaseClusteringTaskHost {
-
 		@Override
 		protected void onCurrentClustersSet(ClusteringTask.Result result) {
 			startClusterTransitionsBuildingTask(result.projection);
@@ -591,7 +590,6 @@ public class Clusterkraf {
 				}
 			}
 		}
-
 	}
 
 	public interface ProcessingListener {

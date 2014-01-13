@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +20,10 @@ import com.ros.smartrocket.helpers.FragmentHelper;
  * Share app info fragment
  */
 public class AllTaskFragment extends Fragment implements OnClickListener {
-    //private static final String TAG = AllTaskFragment.class.getSimpleName();
+    private static final String TAG = AllTaskFragment.class.getSimpleName();
     private ViewGroup view;
     private FragmentHelper fragmetHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -39,8 +39,8 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
             contentType = getArguments().getString(Keys.CONTENT_TYPE);
         }
 
+        Log.i(TAG, "onCreateView() [contentType  =  " + contentType + "]");
         showMap();
-
         return view;
     }
 
@@ -48,9 +48,12 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
+        Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
+
         if (!hidden) {
             if (getArguments() != null) {
                 contentType = getArguments().getString(Keys.CONTENT_TYPE);
+                Log.i(TAG, "onHiddenChanged() [contentType  =  " + contentType + "]");
             }
             showMap();
         } else {
@@ -58,8 +61,24 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         }
     }
 
+    /**
+     * Show Map with proper mode
+     */
     public void showMap() {
-        fragmetHelper.startFragmentFromStack(getActivity(), new TasksMapFragment());
+        Keys.MapViewMode mode = Keys.MapViewMode.ALLTASKS;
+        if (Keys.FIND_TASK.equals(contentType)) {
+            mode = Keys.MapViewMode.ALLTASKS;
+        } else if (Keys.MY_TASK.equals(contentType)) {
+            mode = Keys.MapViewMode.MYTASKS;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.MAP_MODE_VIEWTYPE, mode.toString());
+
+        Log.i(TAG, "onClick() [findTasksButton]");
+
+        Fragment fragment = new TasksMapFragment();
+        fragment.setArguments(bundle);
+        fragmetHelper.startFragmentFromStack(getActivity(), fragment);
     }
 
     public void showSurveyList() {

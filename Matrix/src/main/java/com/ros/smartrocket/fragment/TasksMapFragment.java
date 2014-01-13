@@ -97,6 +97,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private ClusterOptions options;
 
     private AsyncQueryHandler handler;
+    private Keys.MapViewMode mode;
+
+//    public TasksMapFragment(Keys.MapViewMode mode) {
+//        this.mode = mode;
+//        Log.i(TAG, "TasksMapFragment() [mode  =  " + mode + "]");
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +114,46 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         handler = new DbHandler(getActivity().getContentResolver());
 
         lm = App.getInstance().getLocationManager();
+
+        setViewMode(getArguments());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
+        if (hidden) {
+            setViewMode(getArguments());
+
+            Location location = lm.getLocation();
+            if (location != null) {
+                loadTasks(location);
+                addMyLocationAndRadius(location, taskRadius);
+                moveCameraToMyLocation();
+            } else {
+                UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
+                lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                    @Override
+                    public void onUpdate(Location location) {
+                        L.i(TAG, "Location Updated!");
+                        loadTasks(location);
+                        addMyLocationAndRadius(location, taskRadius);
+                        moveCameraToMyLocation();
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * Get View mode type from Intent
+     * @param bundle
+     */
+    private void setViewMode(Bundle bundle) {
+        if (bundle != null) {
+            mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
+        }
     }
 
     @Override
@@ -239,8 +285,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
         if (inputPoints.size() > 0) {
             if (this.clusterkraf == null) {
+                Log.i(TAG, "initClusterkraf [tasks.size=" + inputPoints.size() + "]");
                 initClusterkraf(inputPoints);
             } else {
+                Log.i(TAG, "clusterkraf.replace [tasks.size=" + inputPoints.size() + "]");
                 clusterkraf.replace(inputPoints);
             }
         }
@@ -248,7 +296,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private void loadTasks(Location location) {
         if (location != null) {
-            TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
+            if (mode == Keys.MapViewMode.ALLTASKS) {
+                TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
+            } else if (mode == Keys.MapViewMode.MYTASKS) {
+                TasksBL.getMyTasksFromDB(handler);
+            } else {
+                //TODO: Implement loading for survey
+            }
+            Log.i(TAG, "loadTasks() [mode  =  " + mode + "]");
         }
     }
 
@@ -278,7 +333,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /* ==============================================
     * Methods for Clusters pins display on the map
     * ============================================== */
-
     /**
      * Initialize Google Map
      */
@@ -474,7 +528,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
 
             canvas.drawText(String.valueOf(clusterSize), bitmap.getWidth() * 0.5f, originY, paint);
-
             return bitmap;
         }
     }

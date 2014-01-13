@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = MainMenuFragment.class.getSimpleName();
+    private static final String TAG = MainMenuFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
 
@@ -107,12 +108,15 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
 
+                Log.i(TAG, "onClick() [findTasksButton]");
+
                 fragment = new AllTaskFragment();
                 fragment.setArguments(bundle);
                 ((MainActivity) getActivity()).startFragment(fragment);
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myTasksButton:
+                Log.i(TAG, "onClick() [myTasksButton]");
                 bundle.putString(Keys.CONTENT_TYPE, Keys.MY_TASK);
 
                 fragment = new AllTaskFragment();

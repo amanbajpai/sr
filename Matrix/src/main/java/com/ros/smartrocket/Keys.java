@@ -36,9 +36,21 @@ public interface Keys {
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
     String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
 
+    // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";
     String FIND_TASK = "find_task";
     String MY_TASK = "my_task";
+
+    String MAP_MODE_VIEWTYPE = "map_mode_viewtype";
+    /**
+     * All possible view modes on map
+     */
+    public enum MapViewMode {
+        ALLTASKS,
+        MYTASKS,
+        SURVEYTASKS;
+    }
+
     //Tasks
     String TASK_ID = "task_id";
     //Survey

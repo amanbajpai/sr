@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.fragment.AllTaskFragment;
+import com.ros.smartrocket.fragment.TasksMapFragment;
 
 import java.util.ArrayList;
 
@@ -12,6 +16,7 @@ import java.util.ArrayList;
  * Singleton class for work with server API
  */
 public class FragmentHelper {
+    private static final String TAG = FragmentHelper.class.getSimpleName();
     private ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
     private Fragment lastFragment;
 
@@ -23,6 +28,7 @@ public class FragmentHelper {
      * @param fragment
      */
     public void startFragmentFromStack(Activity activity, Fragment fragment) {
+        Log.i(TAG, "startFragmentFromStack() [" + fragment + "]");
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
 
         if (lastFragment != null) {
@@ -31,6 +37,7 @@ public class FragmentHelper {
 
         boolean containFragment = false;
         for (int i = 0; i < fragmentList.size(); i++) {
+
             if (fragmentList.get(i).getClass().equals(fragment.getClass())) {
                 containFragment = true;
                 break;
