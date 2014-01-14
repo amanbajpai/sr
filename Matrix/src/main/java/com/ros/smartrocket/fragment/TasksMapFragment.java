@@ -112,8 +112,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         handler = new DbHandler(getActivity().getContentResolver());
 
         lm = App.getInstance().getLocationManager();
-
-        setViewMode(getArguments());
     }
 
     @Override
@@ -155,6 +153,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (mode == Keys.MapViewMode.SURVEYTASKS) {
             surveyId = bundle.getInt(Keys.MAP_SURVEY_ID);
         }
+        updateUI();
     }
 
     @Override
@@ -216,7 +215,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
         });
 
+        // We request new data set from server because we start from FindTasks
         getSurveysFromServer(taskRadius);
+
+        setViewMode(getArguments());
 
         return fragmentView;
     }
@@ -650,6 +652,18 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_down);
             rlFilterPanel.startAnimation(bottomDown);
             rlFilterPanel.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * Update All UI elements when view mode change
+     */
+    private void updateUI() {
+        if (mode == Keys.MapViewMode.MYTASKS ||
+            mode == Keys.MapViewMode.SURVEYTASKS) {
+            btnFilter.setEnabled(false);
+        } else {
+            btnFilter.setEnabled(true);
         }
     }
 
