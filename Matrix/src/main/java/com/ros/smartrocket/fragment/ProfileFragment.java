@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import com.ros.smartrocket.BaseActivity;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;

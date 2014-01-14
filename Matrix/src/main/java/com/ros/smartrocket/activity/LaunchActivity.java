@@ -1,9 +1,8 @@
-package com.ros.smartrocket;
+package com.ros.smartrocket.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 public class LaunchActivity extends Activity {

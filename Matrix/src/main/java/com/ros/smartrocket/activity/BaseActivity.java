@@ -1,4 +1,4 @@
-package com.ros.smartrocket;
+package com.ros.smartrocket.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

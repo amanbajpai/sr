@@ -1,9 +1,10 @@
-package com.ros.smartrocket;
+package com.ros.smartrocket.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.BaseSlidingMenuActivity;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
