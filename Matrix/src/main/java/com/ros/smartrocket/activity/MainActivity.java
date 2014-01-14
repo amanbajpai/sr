@@ -25,7 +25,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
         Fragment fragment = new AllTaskFragment();
         fragment.setArguments(bundle);
         fragmetHelper.startFragmentFromStack(this, fragment);
-
     }
 
     public void startFragment(Fragment fragment) {

@@ -45,7 +45,9 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -98,11 +100,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
-
-//    public TasksMapFragment(Keys.MapViewMode mode) {
-//        this.mode = mode;
-//        Log.i(TAG, "TasksMapFragment() [mode  =  " + mode + "]");
-//    }
+    private int surveyId = 0; // Used for Survey map mode
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -153,6 +151,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void setViewMode(Bundle bundle) {
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
+        }
+        if (mode == Keys.MapViewMode.SURVEYTASKS) {
+            surveyId = bundle.getInt(Keys.MAP_SURVEY_ID);
         }
     }
 
@@ -300,8 +301,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
             } else if (mode == Keys.MapViewMode.MYTASKS) {
                 TasksBL.getMyTasksFromDB(handler);
-            } else {
-                //TODO: Implement loading for survey
+            } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
+                TasksBL.getTasksFromDBbySurveyId(handler, surveyId);
+                Log.d(TAG, "loadTasks() [surveyId  =  " + surveyId + "]");
             }
             Log.i(TAG, "loadTasks() [mode  =  " + mode + "]");
         }

@@ -80,6 +80,15 @@
             android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
             android:configChanges="locale" />
         <activity
+            android:name="com.ros.smartrocket.activity.MapActivity"
+            android:configChanges="locale"
+            android:parentActivityName="com.ros.smartrocket.activity.MainActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ros.smartrocket.activity..MainActivity" />
+        </activity>
+        <activity
             android:name="com.ros.smartrocket.activity.CheckLocationActivity"
             android:configChanges="locale" />
         <activity

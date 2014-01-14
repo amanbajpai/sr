@@ -44,10 +44,24 @@ public class TasksBL {
                 new String[]{String.valueOf(taskRadius)}, TaskDbSchema.SORT_ORDER_DESC);
     }
 
+
+
     public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
                 TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+    }
+
+    /**
+     * Get tasks for one Survey
+     * @param handler
+     * @param surveyId
+     */
+    public static void getTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=?",
+                new String[]{String.valueOf(surveyId)},
+                TaskDbSchema.SORT_ORDER_DESC);
     }
 
     public static void getMyTasksFromDB(AsyncQueryHandler handler) {

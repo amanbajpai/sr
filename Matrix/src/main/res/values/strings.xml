@@ -138,6 +138,8 @@
     <string name="show_task" >Show task</string >
     <string name="withdraw_task" >Withdraw from task</string >
     <string name="continue_task" >Continue</string >
+    <!-- MAP ACTIVITY-->
+    <string name="task_location_title" >Task Location</string >
     <!-- CHECK LOCATION ACTIVITY -->
     <string name="since_jobs" >Since jobs for our agents are tied to specific locations? We have to check your
         location to determine the presence of tasks for your location.</string >

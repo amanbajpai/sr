@@ -3,13 +3,16 @@ package com.ros.smartrocket.activity;
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -24,6 +27,7 @@ import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
+import com.ros.smartrocket.fragment.TasksMapFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -103,6 +107,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         withdrawTaskButton.setOnClickListener(this);
         continueTaskButton = (Button) findViewById(R.id.continueTaskButton);
         continueTaskButton.setOnClickListener(this);
+
+        findViewById(R.id.mapImageView).setOnClickListener(this);
 
         findViewById(R.id.showTaskOnMapButton).setOnClickListener(this);
 
@@ -290,6 +296,14 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case R.id.continueTaskButton:
                 //TODO Start question screen
                 startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                break;
+
+            case R.id.mapImageView:
+                Bundle bundle = new Bundle();
+                bundle.putInt(Keys.MAP_SURVEY_ID, task.getSurveyId());
+                Intent intent = new Intent(this, MapActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             default:
                 break;
