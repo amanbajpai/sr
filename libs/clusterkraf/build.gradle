@@ -25,6 +25,11 @@ android {
   compileSdkVersion 17
   buildToolsVersion '18.1.1'
 
+    lintOptions {
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+    }
+
   sourceSets {
     main {
       manifest.srcFile 'AndroidManifest.xml'
