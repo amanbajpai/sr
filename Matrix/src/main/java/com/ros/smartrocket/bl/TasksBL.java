@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 

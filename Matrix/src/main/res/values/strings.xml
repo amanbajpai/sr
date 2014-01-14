@@ -270,7 +270,8 @@
         offer tasks in your location </string >
     <string name="registration_subscribe_dialog_text2" >For more information you can visit</string >
     <string name="registration_subscribe_dialog_text3" >www.matrix.com/about</string >
-
-
-
+    <!-- SUBSCRIBE CONFIRMATION DIALOG -->
+    <string name="tree_g_limit_exceeded_dialog_title" >3G limit reached pop-up</string >
+    <string name="tree_g_limit_exceeded_dialog_text1" >Attention! Task files size more then 3G limit for task. Do
+        you want start upload files?</string >
 </resources >

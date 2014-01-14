@@ -14,11 +14,12 @@ public interface NotUploadedFileDbSchema {
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
-        SURVEY_ID("SurveyId", DBType.NUMERIC),
         TASK_ID("TaskId", DBType.NUMERIC),
         QUESTION_ID("QuestionId", DBType.NUMERIC),
         FILE_URI("FileUri", DBType.TEXT),
         END_DATE_TIME("EndDateTime", DBType.TEXT),
+        USE_3G("use3G", DBType.INT),
+        FILE_SIZE_B("fileSizeB", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -60,19 +61,21 @@ public interface NotUploadedFileDbSchema {
 
         String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                 Table.TASK.getName() + "." + Columns.ID.getName(),
-                Table.TASK.getName() + "." + Columns.SURVEY_ID.getName(),
                 Table.TASK.getName() + "." + Columns.TASK_ID.getName(),
                 Table.TASK.getName() + "." + Columns.QUESTION_ID.getName(),
                 Table.TASK.getName() + "." + Columns.FILE_URI.getName(),
-                Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName()
+                Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
+                Table.TASK.getName() + "." + Columns.USE_3G.getName(),
+                Table.TASK.getName() + "." + Columns.FILE_SIZE_B.getName()
         };
 
         int _ID = 0;
         int ID = 1;
-        int SURVEY_ID = 2;
-        int TASK_ID = 3;
-        int QUESTION_ID = 4;
-        int FILE_URI = 5;
-        int END_DATE_TIME = 6;
+        int TASK_ID = 2;
+        int QUESTION_ID = 3;
+        int FILE_URI = 4;
+        int END_DATE_TIME = 5;
+        int USE_3G = 6;
+        int FILE_SIZE_B = 7;
     }
 }

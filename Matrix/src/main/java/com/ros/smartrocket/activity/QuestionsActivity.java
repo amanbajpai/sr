@@ -240,9 +240,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 startNextQuestionFragment();
                 break;
             case R.id.validationButton:
-                //TODO Start validationActivity. Update task status
-                //TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
                 startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+                finish();
                 break;
             default:
                 break;

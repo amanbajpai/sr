@@ -202,12 +202,20 @@ public class PreferencesManager {
         setInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId, orderId);
     }
 
-    public int get3GUploadPackageLimit() {
-        return getInt(Keys.TREE_G_UPLOAD_PACKAGE_LIMIT, Config.TREE_G_UPLOAD_PACKAGE_LIMIT_MB);
+    public int get3GUploadTaskLimit() {
+        return getInt(Keys.TREE_G_UPLOAD_TASK_LIMIT, Config.TREE_G_UPLOAD_TASK_LIMIT_MB);
     }
 
-    public void set3GUploadPackageLimit(int limitMb) {
-        setInt(Keys.TREE_G_UPLOAD_PACKAGE_LIMIT, limitMb);
+    public void set3GUploadTaskLimit(int limitMb) {
+        setInt(Keys.TREE_G_UPLOAD_TASK_LIMIT, limitMb);
+    }
+
+    public int get3GUploadMonthLimit() {
+        return getInt(Keys.TREE_G_UPLOAD_MONTH_LIMIT, Config.TREE_G_UPLOAD_MONTH_LIMIT_MB);
+    }
+
+    public void set3GUploadMonthLimit(int limitMb) {
+        setInt(Keys.TREE_G_UPLOAD_MONTH_LIMIT, limitMb);
     }
 
     public int getUsed3GUploadSize() {

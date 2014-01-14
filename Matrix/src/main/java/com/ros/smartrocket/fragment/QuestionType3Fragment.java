@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
@@ -21,9 +22,11 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
-import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.SelectImageManager;
+
+import java.io.File;
 
 /**
  * Fragment for display About information
@@ -31,6 +34,7 @@ import com.ros.smartrocket.utils.SelectImageManager;
 public class QuestionType3Fragment extends BaseQuestionFragment implements View.OnClickListener {
     //private static final String TAG = QuestionType3Fragment.class.getSimpleName();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
+    private ImageLoader imageLoader = ImageLoader.getInstance();
     private ViewGroup view;
     private TextView questionText;
     private Button rePhotoButton;
@@ -82,9 +86,9 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     QuestionType3Fragment.this.question.setAnswers(answers);
 
                     Answer answer = answers[0];
-                    if (answer.isChecked()) {
+                    if (answer.isChecked() && answer.getFileUri()!=null) {
                         rePhotoButton.setText(R.string.re_photo);
-                        photoImageView.setImageBitmap(BytesBitmap.getBitmap(answer.getImageByteArray()));
+                        photoImageView.setImageURI(Uri.parse(answer.getFileUri()));
                     } else {
                         rePhotoButton.setText(R.string.take_photo);
                     }
@@ -116,7 +120,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             Answer answer = question.getAnswers()[0];
-            boolean selected = answer.getImageByteArray() != null;
+            boolean selected = answer.getFileUri() != null;
 
             answerSelectedListener.onAnswerSelected(selected);
         }
@@ -158,13 +162,16 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
                 if (photoBitmap != null) {
+                    File imageFile = imageLoader.getFileByBitmap(photoBitmap);
                     Answer answer = question.getAnswers()[0];
                     answer.setChecked(true);
-                    answer.setImageByteArray(BytesBitmap.getBytes(photoBitmap));
+                    answer.setFileUri(Uri.fromFile(imageFile).getPath());
+                    answer.setFileSizeB(imageFile.length());
                 } else {
                     Answer answer = question.getAnswers()[0];
                     answer.setChecked(false);
-                    answer.setImageByteArray(null);
+                    answer.setFileUri(null);
+                    answer.setFileSizeB(0L);
                 }
 
                 AnswersBL.setAnswersToDB(handler, question.getAnswers());

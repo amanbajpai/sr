@@ -5,4 +5,9 @@
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
+
+    <!-- Image size -->
+    <dimen name="big_image_size">400px</dimen>
+    <dimen name="normal_image_size">200px</dimen>
+    <dimen name="small_image_size">100px</dimen>
 </resources>

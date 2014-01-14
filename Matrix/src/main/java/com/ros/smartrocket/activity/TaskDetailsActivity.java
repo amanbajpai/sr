@@ -111,7 +111,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.mapImageView).setOnClickListener(this);
 
         findViewById(R.id.showTaskOnMapButton).setOnClickListener(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         TasksBL.getTaskFromDBbyID(handler, taskId);
     }
 
@@ -279,7 +283,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     public void onYesButtonPressed(Dialog dialog) {
                         //TODO Remove book for this task. Refresh buttons
                         preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getId());
-                        //preferencesManager.remove(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + task.getId());
 
                         task.setStarted("");
                         task.setStatusId(Task.TaskStatusId.none.getStatusId());
@@ -294,8 +297,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 TasksBL.setTask(handler, task);
                 break;
             case R.id.continueTaskButton:
-                //TODO Start question screen
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                if (Task.TaskStatusId.scheduled.getStatusId() == task.getStatusId()) {
+                    startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+                } else if (Task.TaskStatusId.started.getStatusId() == task.getStatusId()) {
+                    startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                }
                 break;
 
             case R.id.mapImageView:
