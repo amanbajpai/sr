@@ -75,6 +75,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     private static final String MYLOC = "MyLoc";
+    private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm;
     private View fragmentView;
     private ImageButton btnFilter;
@@ -119,9 +120,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         super.onHiddenChanged(hidden);
 
         Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
+        setViewMode(getArguments());
         if (hidden) {
-            setViewMode(getArguments());
-
             Location location = lm.getLocation();
             if (location != null) {
                 loadTasks(location);
@@ -150,9 +150,17 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
         }
+        Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.SURVEYTASKS) {
             surveyId = bundle.getInt(Keys.MAP_SURVEY_ID);
         }
+        //Remove old data
+        if (clusterkraf != null) {
+            clusterkraf.clear();
+        }
+        // Update data set from Server
+        updateDataFromServer();
+        // Update UI
         updateUI();
     }
 
@@ -215,10 +223,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
         });
 
-        // We request new data set from server because we start from FindTasks
-        getSurveysFromServer(taskRadius);
-
         setViewMode(getArguments());
+
+        // We request new data set from server because we start from FindTasks
+
+        updateDataFromServer();
+
 
         return fragmentView;
     }
@@ -265,8 +275,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag()) && mode != Keys.MapViewMode.MYTASKS) {
                 TasksBL.getTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
+            }
+            if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+                TasksBL.getMyTasksFromDB(handler);
             }
         } else {
             L.i(TAG, operation.getResponseError());
@@ -311,6 +324,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+
+    private void updateDataFromServer() {
+        if (mode == Keys.MapViewMode.MYTASKS) {
+            getMyTasks();
+        } else {
+            getSurveysFromServer(taskRadius);
+        }
+    }
+
     /**
      * Initiate call to server side and get Tasks
      *
@@ -332,6 +354,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 }
             });
         }
+    }
+
+    private void getMyTasks() {
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        APIFacade.getInstance().getMyTasks(getActivity());
     }
 
     /* ==============================================
