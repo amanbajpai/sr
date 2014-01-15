@@ -8,6 +8,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.dialog.QuiteTaskDialog;
 
@@ -229,8 +231,8 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showReCheckAnswerTaskDialog(final Activity activity, final int taskId) {
-        /*QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
+    public static void showReCheckAnswerTaskDialog(final Activity activity, final int surveyId, final int taskId) {
+        QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
             public void onCancelButtonPressed(Dialog dialog) {
@@ -246,8 +248,10 @@ public class DialogUtils {
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
                 dialog.dismiss();
+
+                activity.startActivity(IntentUtils.getQuestionsIntent(activity, surveyId, taskId));
                 activity.finish();
             }
-        });*/
+        });
     }
 }

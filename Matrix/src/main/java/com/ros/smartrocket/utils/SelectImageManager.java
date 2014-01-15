@@ -54,6 +54,7 @@ public class SelectImageManager {
     private static boolean CHECK_SCALE_BY_BYTE_SIZE = true;
 
     private Dialog selectImageDialog;
+    private File lastFile;
 
     public static SelectImageManager getInstance() {
         if (instance == null) {
@@ -162,9 +163,10 @@ public class SelectImageManager {
             Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(ImageColumns.DATA);
-            String imagePath = cursor.getString(idx);
+            String fileUri = cursor.getString(idx);
+            lastFile = new File(fileUri);
 
-            return prepareBitmap(new File(imagePath));
+            return prepareBitmap(lastFile);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -174,6 +176,7 @@ public class SelectImageManager {
     public Bitmap getBitmapFromCamera(Intent intent) {
         InputStream is = null;
         File file = getTempFile();
+        lastFile = file;
 
         try {
             is = new FileInputStream(file);
@@ -319,6 +322,11 @@ public class SelectImageManager {
      * protected int getBitmapSize(Bitmap data) { if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
      * return data.getRowBytes() * data.getHeight(); } else { return data.getByteCount(); } }
      */
+
+
+    public File getLastFile() {
+        return lastFile;
+    }
 
     public static interface OnImageCompleteListener {
         void onImageComplete(Bitmap bitmap);

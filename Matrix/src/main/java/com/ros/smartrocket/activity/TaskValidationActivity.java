@@ -94,7 +94,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         expiryDateTextView.setText(UIUtils.longToString(expiryTimeLong, 1));
         expiryTimeTextView.setText(UIUtils.longToString(expiryTimeLong, 0));
-        taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB/1024));
+        taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024));
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {
@@ -111,13 +111,12 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                //TODO Edit dialog
-                DialogUtils.showReCheckAnswerTaskDialog(this, task.getId());
+                DialogUtils.showReCheckAnswerTaskDialog(this, task.getSurveyId(), task.getId());
                 break;
             case R.id.sendNowButton:
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
 
-                if (filesSizeB > preferencesManager.get3GUploadTaskLimit()) {
+                if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
                     DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
                         @Override
                         public void onLeftButtonPressed(Dialog dialog) {

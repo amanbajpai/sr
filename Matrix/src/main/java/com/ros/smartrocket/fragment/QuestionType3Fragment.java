@@ -39,9 +39,10 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     private TextView questionText;
     private Button rePhotoButton;
     private ImageView photoImageView;
-    private Bitmap photoBitmap;
+    private boolean isBitmapAdded = false;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
+    private Button confirmButton;
 
     private AsyncQueryHandler handler;
 
@@ -64,7 +65,9 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         rePhotoButton = (Button) view.findViewById(R.id.rePhotoButton);
         rePhotoButton.setOnClickListener(this);
 
-        view.findViewById(R.id.confirmButton).setOnClickListener(this);
+        confirmButton = (Button) view.findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(this);
+        confirmButton.setEnabled(false);
 
         questionText.setText(question.getQuestion());
         AnswersBL.getAnswersListFromDB(handler, question.getId());
@@ -87,9 +90,11 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
                     Answer answer = answers[0];
                     if (answer.isChecked() && answer.getFileUri()!=null) {
+                        isBitmapAdded = true;
                         rePhotoButton.setText(R.string.re_photo);
                         photoImageView.setImageURI(Uri.parse(answer.getFileUri()));
                     } else {
+                        isBitmapAdded = false;
                         rePhotoButton.setText(R.string.take_photo);
                     }
 
@@ -147,8 +152,9 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 selectImageManager.showSelectImageDialog(getActivity(), true, new SelectImageManager.OnImageCompleteListener() {
                     @Override
                     public void onImageComplete(Bitmap bitmap) {
-                        QuestionType3Fragment.this.photoBitmap = bitmap;
+                        QuestionType3Fragment.this.isBitmapAdded = bitmap != null;
                         if (bitmap != null) {
+                            confirmButton.setEnabled(true);
                             rePhotoButton.setText(R.string.re_photo);
                             photoImageView.setImageBitmap(bitmap);
                         } else {
@@ -161,8 +167,8 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
             case R.id.confirmButton:
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-                if (photoBitmap != null) {
-                    File imageFile = imageLoader.getFileByBitmap(photoBitmap);
+                if (isBitmapAdded) {
+                    File imageFile = selectImageManager.getLastFile();
                     Answer answer = question.getAnswers()[0];
                     answer.setChecked(true);
                     answer.setFileUri(Uri.fromFile(imageFile).getPath());
