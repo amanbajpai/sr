@@ -196,7 +196,7 @@ public class DialogUtils {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_title),
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_text1),
-                android.R.string.cancel, android.R.string.ok);
+                R.string.tree_g_limit_exceeded_dialog_only_wifi, R.string.tree_g_limit_exceeded_dialog_yes);
         networkDialog.setOnDialogButtonClicklistener(dialogButtonClickListener);
     }
 

@@ -328,7 +328,7 @@ public class SelectImageManager {
         return lastFile;
     }
 
-    public static interface OnImageCompleteListener {
+    public interface OnImageCompleteListener {
         void onImageComplete(Bitmap bitmap);
     }
 }

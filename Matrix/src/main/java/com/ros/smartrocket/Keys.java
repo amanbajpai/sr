@@ -34,7 +34,9 @@ public interface Keys {
     String REGISTRETION_OPERATION_TAG = "registration_operation_tag";
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
-    String BOOK_TASK_OPERATION_TAG = "book_task_operation_tag";
+    String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";
+    String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
+    String START_TASK_OPERATION_TAG = "start_task_operation_tag";
     String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
     String UPLOAD_QUESTION_FILE_OPERATION_TAG = "upload_question_fle_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
@@ -60,7 +62,9 @@ public interface Keys {
     String TASK_ID = "task_id";
     //Survey
     String SURVEYS = "Surveys";
+    String SURVEY = "survey";
     String SURVEY_ID = "survey_id";
+    String NEAR_TASK_ID = "near_task_id";
 
     //Location
     String LATITUDE = "latitude";

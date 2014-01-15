@@ -109,7 +109,11 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Task task = adapter.getItem(position);
 
-        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId()));
+        if (task.getStatusId() >= Task.TaskStatusId.validation.getStatusId()) {
+            startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+        } else {
+            startActivity(IntentUtils.getTaskDetailIntent(this, task.getId()));
+        }
     }
 
     @Override

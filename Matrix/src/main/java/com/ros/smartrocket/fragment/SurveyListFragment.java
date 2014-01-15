@@ -2,7 +2,6 @@ package com.ros.smartrocket.fragment;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,10 +16,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.SurveysTaskListActivity;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.adapter.SurveyAdapter;
 import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.db.SurveyDbSchema;
@@ -29,6 +27,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
@@ -127,10 +126,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Survey survey = adapter.getItem(position);
-
-        Intent intent = new Intent(getActivity(), SurveysTaskListActivity.class);
-        intent.putExtra(Keys.SURVEY_ID, survey.getId());
-        startActivity(intent);
+        startActivity(IntentUtils.getSurveyDetailsIntent(getActivity(), survey));
     }
 
     @Override

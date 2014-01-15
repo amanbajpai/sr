@@ -38,28 +38,36 @@ public class ImageLoader {
     private FileCache fileCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     private ExecutorService executorService;
-    public int BIG_IMAGE = 0;
-    public int NORMAL_IMAGE = 1;
-    public int SMALL_IMAGE = 2;
+    public static final int BIG_IMAGE = 0;
+    public static final int NORMAL_IMAGE = 1;
+    public static final int SMALL_IMAGE = 2;
 
-    public int BIG_IMAGE_VAR = 3;
-    public int NORMAL_IMAGE_VAR = 4;
-    public int SMALL_IMAGE_VAR = 5;
+    public static final int BIG_IMAGE_VAR = 3;
+    public static final int NORMAL_IMAGE_VAR = 4;
+    public static final int SMALL_IMAGE_VAR = 5;
 
-    private int BIG_SIZE = 400;
-    private int NORMAL_SIZE = 200;
-    private int SMALL_SIZE = 100;
+    private static final int BIG_SIZE = 400;
+    private static final int NORMAL_SIZE = 200;
+    private static final int SMALL_SIZE = 100;
 
-    private int BIG_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.big_image_size);
-    private int NORMAL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.normal_image_size);
-    private int SMALL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.small_image_size);
+    private static final int BIG_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.big_image_size);
+    private static final int NORMAL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.normal_image_size);
+    private static final int SMALL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.small_image_size);
 
-    public static interface OnFetchCompleteListener {
-        public void onFetchComplete(Bitmap result);
+    private final int loadingBigImageResId = R.drawable.loading_big;
+    private final int loadingNormalImageResId = R.drawable.loading_normal;
+    private final int loadingSmallImageResId = R.drawable.loading_small;
+    private final int noImageResId = R.drawable.no_image;
+
+    public interface OnFetchCompleteListener {
+        void onFetchComplete(Bitmap result);
+
     }
 
     public static ImageLoader getInstance() {
-        if (instance == null) instance = new ImageLoader();
+        if (instance == null) {
+            instance = new ImageLoader();
+        }
         return instance;
     }
 
@@ -69,32 +77,27 @@ public class ImageLoader {
         executorService = Executors.newFixedThreadPool(5);
     }
 
-    final int loading_big = R.drawable.loading_big;
-    final int loading_normal = R.drawable.loading_normal;
-    final int loading_small = R.drawable.loading_small;
-    final int no_image_id = R.drawable.no_image;
-
-    public void DisplayImage(String url, ImageView imageView, int sizeType) {
-        DisplayImage(url, imageView, sizeType, false, false, 0, true);
+    public void displayImage(String url, ImageView imageView, int sizeType) {
+        displayImage(url, imageView, sizeType, false, false, 0, true);
     }
 
-    public void DisplayImageNoCache(String url, ImageView imageView, int sizeType) {
-        DisplayImage(url, imageView, sizeType, false, false, 0, false);
+    public void displayImageNoCache(String url, ImageView imageView, int sizeType) {
+        displayImage(url, imageView, sizeType, false, false, 0, false);
     }
 
-    public void DisplayImage(String url, ImageView imageView, int sizeType, int noImageRes) {
-        DisplayImage(url, imageView, sizeType, false, false, noImageRes, true);
+    public void displayImage(String url, ImageView imageView, int sizeType, int noImageRes) {
+        displayImage(url, imageView, sizeType, false, false, noImageRes, true);
     }
 
-    public void DisplayImage(String url, ImageView imageView, int sizeType, boolean needGone) {
-        DisplayImage(url, imageView, sizeType, false, needGone, 0, true);
+    public void displayImage(String url, ImageView imageView, int sizeType, boolean needGone) {
+        displayImage(url, imageView, sizeType, false, needGone, 0, true);
     }
 
-    public void DisplayImage(String url, ImageView imageView, int sizeType, boolean needGone, boolean needAnimation) {
-        DisplayImage(url, imageView, sizeType, needAnimation, needGone, 0, true);
+    public void displayImage(String url, ImageView imageView, int sizeType, boolean needGone, boolean needAnimation) {
+        displayImage(url, imageView, sizeType, needAnimation, needGone, 0, true);
     }
 
-    public void DisplayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,
+    public void displayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,
                              int noImageRes, boolean fromMemory) {
         if (url != null && !url.equals("")) {
             imageView.setVisibility(View.VISIBLE);
@@ -112,13 +115,13 @@ public class ImageLoader {
                 }
             } else {
                 if (sizeType == 0 || sizeType == 3) {
-                    imageView.setImageResource(loading_big);
+                    imageView.setImageResource(loadingBigImageResId);
                 } else if (sizeType == 1 || sizeType == 4) {
-                    imageView.setImageResource(loading_normal);
+                    imageView.setImageResource(loadingNormalImageResId);
                 } else if (sizeType == 2 || sizeType == 5) {
-                    imageView.setImageResource(loading_small);
+                    imageView.setImageResource(loadingSmallImageResId);
                 } else {
-                    imageView.setImageResource(loading_small);
+                    imageView.setImageResource(loadingSmallImageResId);
                 }
                 queuePhoto(url, imageView, sizeType, needAnimation, needGone);
             }
@@ -130,17 +133,17 @@ public class ImageLoader {
                 if (noImageRes != 0) {
                     imageView.setImageResource(noImageRes);
                 } else {
-                    imageView.setImageResource(no_image_id);
+                    imageView.setImageResource(noImageResId);
                 }
             }
         }
     }
 
-    public void LoadBitmap(String url, OnFetchCompleteListener onFetchCompleteListener) {
-        LoadBitmap(url, NORMAL_IMAGE, onFetchCompleteListener);
+    public void loadBitmap(String url, OnFetchCompleteListener onFetchCompleteListener) {
+        loadBitmap(url, NORMAL_IMAGE, onFetchCompleteListener);
     }
 
-    public void LoadBitmap(String url, int sizeType, OnFetchCompleteListener onFetchCompleteListener) {
+    public void loadBitmap(String url, int sizeType, OnFetchCompleteListener onFetchCompleteListener) {
         Bitmap bitmap = memoryCache.get(url);
         if (bitmap != null) {
             onFetchCompleteListener.onFetchComplete(bitmap);
@@ -178,7 +181,7 @@ public class ImageLoader {
                 conn.setInstanceFollowRedirects(true);
                 InputStream is = conn.getInputStream();
                 OutputStream os = new FileOutputStream(f);
-                Utils.CopyStream(is, os);
+                Utils.copyStream(is, os);
                 os.close();
                 return f;
             } catch (Exception e) {
@@ -221,6 +224,8 @@ public class ImageLoader {
                 break;
             case 5:
                 resultBitmap = Bitmap.createBitmap(SMALL_SIZE_VAR, SMALL_SIZE_VAR, Config.ARGB_8888);
+                break;
+            default:
                 break;
         }
 
@@ -283,6 +288,8 @@ public class ImageLoader {
             case 5:
                 bitmapSize = SMALL_SIZE_VAR;
                 break;
+            default:
+                break;
         }
 
         try {
@@ -292,22 +299,25 @@ public class ImageLoader {
             BitmapFactory.decodeFile(f.getAbsolutePath(), o);
 
             // Find the correct scale value. It should be the power of 2.
-            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int widthTmp = o.outWidth, heightTmp = o.outHeight;
 
             while (true) {
-                if (width_tmp / 2 < bitmapSize || height_tmp / 2 < bitmapSize) break;
-                width_tmp /= 2;
-                height_tmp /= 2;
+                if (widthTmp / 2 < bitmapSize || heightTmp / 2 < bitmapSize) {
+                    break;
+                }
+                widthTmp /= 2;
+                heightTmp /= 2;
                 scale *= 2;
             }
             // LogUtils.e(TAG,
             // "BIG_SIZE_VAR: "+BIG_SIZE_VAR+" NORMAL_SIZE_VAR: "+NORMAL_SIZE_VAR+" SMALL_SIZE_VAR: "+SMALL_SIZE_VAR);
-            // LogUtils.e(TAG, "width_tmp: "+width_tmp+" height_tmp: "+height_tmp+" scale: "+scale);
+            // LogUtils.e(TAG, "widthTmp: "+widthTmp+" heightTmp: "+heightTmp+" scale: "+scale);
             // decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -334,32 +344,36 @@ public class ImageLoader {
             case 5:
                 bitmapSize = SMALL_SIZE_VAR;
                 break;
+            default:
+                break;
         }
 
         try {
-
             // Find the correct scale value. It should be the power of 2.
-            int width_tmp = b.getWidth(), height_tmp = b.getHeight();
+            int widthTmp = b.getWidth(), heightTmp = b.getHeight();
             while (true) {
-                if (width_tmp < bitmapSize || height_tmp < bitmapSize) break;
-                width_tmp /= 2;
-                height_tmp /= 2;
+                if (widthTmp < bitmapSize || heightTmp < bitmapSize) {
+                    break;
+                }
+                widthTmp /= 2;
+                heightTmp /= 2;
                 scale *= 2;
             }
 
             return Bitmap.createScaledBitmap(b, b.getWidth() / scale, b.getHeight() / scale, true);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     // Task for the queue
     private class PhotoToLoad {
-        public String url;
-        public ImageView imageView;
-        public boolean anim;
-        public boolean gone;
-        public int sizeType;
+        private String url;
+        private ImageView imageView;
+        private boolean anim;
+        private boolean gone;
+        private int sizeType;
 
         public PhotoToLoad(String u, ImageView i, int s, boolean a, boolean g) {
             this.url = u;
@@ -371,7 +385,7 @@ public class ImageLoader {
     }
 
     class PhotosLoader implements Runnable {
-        PhotoToLoad photoToLoad;
+        private PhotoToLoad photoToLoad;
 
         PhotosLoader(PhotoToLoad photoToLoad) {
             this.photoToLoad = photoToLoad;
@@ -379,7 +393,9 @@ public class ImageLoader {
 
         @Override
         public void run() {
-            if (imageViewReused(photoToLoad)) return;
+            if (imageViewReused(photoToLoad)) {
+                return;
+            }
             Bitmap bmp = null;
             String[] urlList = photoToLoad.url.split(",,");
             if (urlList.length > 1) {
@@ -390,7 +406,9 @@ public class ImageLoader {
 
             memoryCache.put(photoToLoad.url, bmp);
 
-            if (imageViewReused(photoToLoad)) return;
+            if (imageViewReused(photoToLoad)) {
+                return;
+            }
             BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
             Activity a = (Activity) photoToLoad.imageView.getContext();
             a.runOnUiThread(bd);
@@ -423,14 +441,16 @@ public class ImageLoader {
 
     boolean imageViewReused(PhotoToLoad photoToLoad) {
         String tag = imageViews.get(photoToLoad.imageView);
-        if (tag == null || !tag.equals(photoToLoad.url)) return true;
+        if (tag == null || !tag.equals(photoToLoad.url)) {
+            return true;
+        }
         return false;
     }
 
     // Used to display bitmap in the UI thread
     class BitmapDisplayer implements Runnable {
-        Bitmap bitmap;
-        PhotoToLoad photoToLoad;
+        private Bitmap bitmap;
+        private PhotoToLoad photoToLoad;
 
         public BitmapDisplayer(Bitmap b, PhotoToLoad p) {
             bitmap = b;
@@ -438,7 +458,9 @@ public class ImageLoader {
         }
 
         public void run() {
-            if (imageViewReused(photoToLoad)) return;
+            if (imageViewReused(photoToLoad)) {
+                return;
+            }
             if (bitmap != null) {
                 photoToLoad.imageView.setImageBitmap(bitmap);
                 if (photoToLoad.anim) {
@@ -450,7 +472,7 @@ public class ImageLoader {
                 if (photoToLoad.gone) {
                     photoToLoad.imageView.setVisibility(View.GONE);
                 } else {
-                    photoToLoad.imageView.setImageResource(no_image_id);
+                    photoToLoad.imageView.setImageResource(noImageResId);
                 }
             }
         }
@@ -464,14 +486,16 @@ public class ImageLoader {
     public File getRawRsourceAsFile(Activity activity, int resId) {
         File f = fileCache.getFile(String.valueOf(resId));
 
-        if (f.exists()) return f;
+        if (f.exists()) {
+            return f;
+        }
 
         InputStream is;
         OutputStream os;
         try {
             is = activity.getResources().openRawResource(resId);
             os = new FileOutputStream(f);
-            Utils.CopyStream(is, os);
+            Utils.copyStream(is, os);
             os.close();
         } catch (Exception e) {
             L.e(TAG, "error copyRsourceToFile");

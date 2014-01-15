@@ -138,6 +138,13 @@
     <string name="show_task" >Show task</string >
     <string name="withdraw_task" >Withdraw from task</string >
     <string name="continue_task" >Continue</string >
+    <!-- PROJECT DETAIL ACTIVITY-->
+    <string name="survey_detail_title" >Project details</string >
+    <string name="survey_price_detail" >Price: HK &lt;b>%1$s $+&lt;/b></string >
+    <string name="survey_exp_detail" >EXP: &lt;b>%1$s +&lt;/b></string >
+    <string name="survey_locations" >Locations: &lt;b>%1$s&lt;/b></string >
+    <string name="hide_all_survey_tasks" >Hide all Project tasks</string >
+    <string name="show_all_survey_tasks" >Show all Project tasks</string >
     <!-- MAP ACTIVITY-->
     <string name="task_location_title" >Task Location</string >
     <!-- CHECK LOCATION ACTIVITY -->
@@ -273,5 +280,7 @@
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G limit reached pop-up</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >Attention! Task files size more then 3G limit for task. Do
-        you want start upload files?</string >
+        you want start upload files using 3G?</string >
+    <string name="tree_g_limit_exceeded_dialog_yes" >Yes</string >
+    <string name="tree_g_limit_exceeded_dialog_only_wifi" >Use Wi-Fi only</string >
 </resources >

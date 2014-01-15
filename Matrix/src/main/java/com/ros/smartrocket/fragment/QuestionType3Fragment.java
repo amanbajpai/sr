@@ -23,6 +23,7 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.SelectImageManager;
 
@@ -42,6 +43,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     private boolean isBitmapAdded = false;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
+    private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     private Button confirmButton;
 
     private AsyncQueryHandler handler;
@@ -89,7 +91,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     QuestionType3Fragment.this.question.setAnswers(answers);
 
                     Answer answer = answers[0];
-                    if (answer.isChecked() && answer.getFileUri()!=null) {
+                    if (answer.isChecked() && answer.getFileUri() != null) {
                         isBitmapAdded = true;
                         rePhotoButton.setText(R.string.re_photo);
                         photoImageView.setImageURI(Uri.parse(answer.getFileUri()));
@@ -117,17 +119,16 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         }
     }
 
-    @Override
-    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
-        this.answerSelectedListener = answerSelectedListener;
-    }
-
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             Answer answer = question.getAnswers()[0];
             boolean selected = answer.getFileUri() != null;
 
             answerSelectedListener.onAnswerSelected(selected);
+        }
+
+        if (answerPageLoadingFinishedListener != null) {
+            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
         }
     }
 
@@ -188,4 +189,15 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 break;
         }
     }
+
+    @Override
+    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
+        this.answerSelectedListener = answerSelectedListener;
+    }
+
+    @Override
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+        this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
+    }
+
 }

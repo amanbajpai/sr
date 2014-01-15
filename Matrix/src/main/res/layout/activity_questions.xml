@@ -17,11 +17,13 @@
         android:layout_weight="1"
         android:layout_height="match_parent" />
     <LinearLayout
+        android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="invisible">
         <Button
             android:id="@+id/previousButton"
             android:layout_height="wrap_content"

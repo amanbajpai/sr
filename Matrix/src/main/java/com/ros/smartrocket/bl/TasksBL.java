@@ -79,6 +79,14 @@ public class TasksBL {
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
+    public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer surveyId, Boolean isHide) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
+
+        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
+                TaskDbSchema.Columns.SURVEY_ID + "=?", new String[]{String.valueOf(surveyId)});
+    }
+
     public static void setTask(AsyncQueryHandler handler, Task task) {
         handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, task.toContentValues(),
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});

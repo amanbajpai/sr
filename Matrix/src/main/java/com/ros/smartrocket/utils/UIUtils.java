@@ -103,13 +103,13 @@ public class UIUtils {
      * @return
      */
     public static String getAppVersion(Context context) {
-        String current_version = "";
+        String currentVersion = "";
         try {
-            current_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (Exception e) {
             L.e(TAG, "getAppVersion() Error get app version");
         }
-        return current_version;
+        return currentVersion;
     }
 
 
@@ -120,13 +120,13 @@ public class UIUtils {
      * @return
      */
     public static int getAppVersionCode(Context context) {
-        int current_version = 0;
+        int currentVersion = 0;
         try {
-            current_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+            currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             L.e(TAG, "getAppVersionCode() Error get app version");
         }
-        return current_version;
+        return currentVersion;
     }
 
     /**

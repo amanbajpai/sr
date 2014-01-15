@@ -25,7 +25,6 @@ public class SurveysBL {
         handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE,
                 null, " AND " + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'",
                 null, null);
-
     }
 
     /**

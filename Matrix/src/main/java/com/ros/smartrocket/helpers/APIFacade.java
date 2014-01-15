@@ -140,11 +140,47 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void bookTask(Activity activity, Integer taskId) {
+    public void claimTask(Activity activity, Integer taskId) {
+        SendTaskId sendTaskId = new SendTaskId();
+        sendTaskId.setTaskId(taskId);
+
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.BOOK_TASKS, String.valueOf(taskId));
-        operation.setTag(Keys.BOOK_TASK_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
+        operation.setUrl(WSUrl.CLAIM_TASK, String.valueOf(taskId));
+        operation.setTag(Keys.CLAIM_TASK_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(sendTaskId);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+    * @param activity
+    * @param taskId
+    */
+    public void unclaimTask(Activity activity, Integer taskId) {
+        SendTaskId sendTaskId = new SendTaskId();
+        sendTaskId.setTaskId(taskId);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.UNCLAIM_TASK);
+        operation.setTag(Keys.UNCLAIM_TASK_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(sendTaskId);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
+     * @param taskId
+     */
+    public void startTask(Activity activity, Integer taskId) {
+        SendTaskId sendTaskId = new SendTaskId();
+        sendTaskId.setTaskId(taskId);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.START_TASK);
+        operation.setTag(Keys.START_TASK_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(sendTaskId);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

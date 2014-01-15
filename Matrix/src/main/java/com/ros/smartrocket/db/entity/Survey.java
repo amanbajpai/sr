@@ -28,13 +28,16 @@ public class Survey extends BaseEntity {
     private Task[] Tasks;
 
     @SkipFieldInContentValues
-    private transient Float NearTaskDistance;
+    private Float NearTaskDistance;
 
     @SkipFieldInContentValues
-    private transient int TaskCount;
+    private int TaskCount;
 
     @SkipFieldInContentValues
-    private transient Double NearTaskPrice;
+    private Double NearTaskPrice;
+
+    @SkipFieldInContentValues
+    private Integer NearTaskId;
 
     public Survey() {
     }
@@ -95,6 +98,7 @@ public class Survey extends BaseEntity {
             result.setExpectedEndDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_START_DATE_TIME));
 
+            result.setNearTaskId(c.getInt(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_ID));
             result.setNearTaskDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_DISTANCE));
             result.setTaskCount(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TASK_COUNT));
             result.setNearTaskPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_PRICE));
@@ -262,4 +266,14 @@ public class Survey extends BaseEntity {
     public void setNearTaskPrice(Double nearTaskPrice) {
         NearTaskPrice = nearTaskPrice;
     }
+
+
+    public Integer getNearTaskId() {
+        return NearTaskId;
+    }
+
+    public void setNearTaskId(Integer nearTaskId) {
+        NearTaskId = nearTaskId;
+    }
+
 }

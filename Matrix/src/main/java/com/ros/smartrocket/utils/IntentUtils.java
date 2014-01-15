@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
+import com.ros.smartrocket.activity.SurveyDetailsActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
+import com.ros.smartrocket.db.entity.Survey;
 
 /**
  * Utils class for easy work with UI Views
@@ -86,6 +88,18 @@ public class IntentUtils {
         if (!TextUtils.isEmpty(text)) {
             intent.putExtra(Intent.EXTRA_TEXT, text);
         }
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Survey detail screen
+     *
+     * @param context
+     * @return
+     */
+    public static Intent getSurveyDetailsIntent(Context context, Survey survey) {
+        Intent intent = new Intent(context, SurveyDetailsActivity.class);
+        intent.putExtra(Keys.SURVEY, survey);
         return intent;
     }
 }
