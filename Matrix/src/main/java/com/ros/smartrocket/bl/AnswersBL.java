@@ -14,7 +14,6 @@ import com.ros.smartrocket.db.entity.Question;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class AnswersBL {
 
@@ -68,16 +67,16 @@ public class AnswersBL {
 
     public static float getTaskFilesSizeMb(ArrayList<NotUploadedFile> filesToUpload) {
         long resultSizeInB = 0;
-        for (NotUploadedFile  fileToUpload: filesToUpload) {
+        for (NotUploadedFile fileToUpload : filesToUpload) {
             resultSizeInB = resultSizeInB + fileToUpload.getFileSizeB();
         }
 
-        return resultSizeInB/1024;
+        return resultSizeInB / (float) 1024;
     }
 
-    public String size(int size){
+    public String size(int size) {
         String hrSize = "";
-        double m = size/1024.0;
+        double m = size / 1024.0;
         DecimalFormat dec = new DecimalFormat("0.00");
 
         if (m > 1) {
@@ -95,8 +94,10 @@ public class AnswersBL {
      * @return
      */
     public static Answer[] convertCursorToAnswersArray(Cursor cursor) {
-        Answer[] result = new Answer[cursor.getCount()];
+        Answer[] result = new Answer[]{};
         if (cursor != null) {
+            result = new Answer[cursor.getCount()];
+
             while (cursor.moveToNext()) {
                 result[cursor.getPosition()] = Answer.fromCursor(cursor);
             }
@@ -130,16 +131,6 @@ public class AnswersBL {
         }
         return orderId;
     }
-
-    /*public static int getLastNotAnsweredQuestionOrderId(ArrayList<Question> questions) {
-        int lastQuestionOrderId = 1;
-
-        for(Question question: questions){
-
-        }
-
-        return lastQuestionOrderId;
-    }*/
 
     public static void clearTaskUserAnswers(Activity activity, int taskId) {
         ContentValues contentValues = new ContentValues();

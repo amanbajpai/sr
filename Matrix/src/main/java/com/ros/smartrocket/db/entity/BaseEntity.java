@@ -135,7 +135,7 @@ public abstract class BaseEntity implements Serializable {
     }
 
     public Boolean isDeleted() {
-        return deleted == null ? false : deleted;
+        return deleted == null ? (Boolean) false : deleted;
     }
 
     public void setDeleted(Boolean deleted) {

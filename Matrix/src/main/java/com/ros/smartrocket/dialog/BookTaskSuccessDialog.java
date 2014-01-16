@@ -11,12 +11,12 @@ import com.ros.smartrocket.R;
 
 public class BookTaskSuccessDialog extends Dialog implements View.OnClickListener {
     //private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
-    private Activity activity;
+    //private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
     public BookTaskSuccessDialog(Activity activity, String dateTime, DialogButtonClickListener buttonClickListener) {
         super(activity);
-        this.activity = activity;
+        //this.activity = activity;
         this.buttonClickListener = buttonClickListener;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

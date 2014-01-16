@@ -50,6 +50,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private ToggleButton deadlineReminderToggleButton;
 
     private EditText treeGUploadLimitEditText;
+    private EditText treeGUploadMonthLimitEditText;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
 
         treeGUploadLimitEditText = (EditText) view.findViewById(R.id.treeGUploadLimitEditText);
+        treeGUploadMonthLimitEditText = (EditText) view.findViewById(R.id.treeGUploadMonthLimitEditText);
 
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
         view.findViewById(R.id.cancelButton).setOnClickListener(this);
@@ -97,6 +99,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         deadlineReminderToggleButton.setChecked(preferencesManager.getUseDeadlineReminder());
 
         treeGUploadLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadTaskLimit()));
+        treeGUploadMonthLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadMonthLimit()));
     }
 
     public void setLanguageSpinner() {
@@ -150,16 +153,22 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                 preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
                 preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
 
-                int limitInt = 0;
-                String limitString = treeGUploadLimitEditText.getText().toString().trim();
-                if (!TextUtils.isEmpty(limitString)) {
-                    limitInt = Integer.valueOf(limitString);
+                int taskLimitInt = 0;
+                String taskLimitString = treeGUploadLimitEditText.getText().toString().trim();
+                if (!TextUtils.isEmpty(taskLimitString)) {
+                    taskLimitInt = Integer.valueOf(taskLimitString);
                 }
+                preferencesManager.set3GUploadTaskLimit(taskLimitInt);
 
-                preferencesManager.set3GUploadTaskLimit(limitInt);
+                int monthLimitInt = 0;
+                String monthLimitString = treeGUploadMonthLimitEditText.getText().toString().trim();
+                if (!TextUtils.isEmpty(monthLimitString)) {
+                    monthLimitInt = Integer.valueOf(monthLimitString);
+                }
+                preferencesManager.set3GUploadMonthLimit(monthLimitInt);
 
-                preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner.getSelectedItemPosition
-                        ()]);
+                preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner
+                        .getSelectedItemPosition()]);
 
                 UIUtils.showSimpleToast(getActivity(), R.string.success);
                 break;

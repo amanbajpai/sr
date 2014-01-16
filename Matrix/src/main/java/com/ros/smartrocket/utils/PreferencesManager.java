@@ -218,12 +218,12 @@ public class PreferencesManager {
         setInt(Keys.TREE_G_UPLOAD_MONTH_LIMIT, limitMb);
     }
 
-    public int getUsed3GUploadSize() {
-        return getInt(Keys.USED_TREE_G_UPLOAD_SIZE, 0);
+    public int getUsed3GUploadMonthlySize() {
+        return getInt(Keys.USED_TREE_G_UPLOAD_MONTHLY_SIZE, 0);
     }
 
-    public void setUsed3GUploadSize(int usedSize) {
-        setInt(Keys.USED_TREE_G_UPLOAD_SIZE, usedSize);
+    public void setUsed3GUploadMonthlySize(int usedSize) {
+        setInt(Keys.USED_TREE_G_UPLOAD_MONTHLY_SIZE, usedSize);
     }
 
     public int getInt(String key, int defaultValue) {

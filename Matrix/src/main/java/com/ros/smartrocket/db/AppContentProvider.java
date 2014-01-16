@@ -175,10 +175,8 @@ public class AppContentProvider extends ContentProvider {
                 for (int i = 0; i < values.length; i++) {
                     switch (sUriMatcher.match(uri)) {
                         case ENTITIES:
-                            if (tableName != null) {
-                                db = dbHelper.getWritableDatabase();
-                                long id = db.insert(tableName, null, values[i]);
-                            }
+                            db = dbHelper.getWritableDatabase();
+                            long id = db.insert(tableName, null, values[i]);
                             break;
                         default:
                             break;

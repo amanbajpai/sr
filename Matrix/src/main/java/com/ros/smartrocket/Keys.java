@@ -16,7 +16,7 @@ public interface Keys {
     String USE_DEADLINE_REMINDER = "use_deadline_reminder";
     String TREE_G_UPLOAD_TASK_LIMIT = "tree_g_upload_package_limit";
     String TREE_G_UPLOAD_MONTH_LIMIT = "tree_g_upload_month_limit";
-    String USED_TREE_G_UPLOAD_SIZE = "used_tree_g_upload_size";
+    String USED_TREE_G_UPLOAD_MONTHLY_SIZE = "used_tree_g_upload_monthly_size";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
