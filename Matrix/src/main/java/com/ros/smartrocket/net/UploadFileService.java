@@ -51,7 +51,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         dbHandler = new DbHandler(getContentResolver());
         receiver = new NetworkBroadcastReceiver();
-        filter = new IntentFilter(NetworkService.BROADCAST_ACTION);
+        filter = new IntentFilter(UploadFileNetworkService.BROADCAST_ACTION);
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
 
@@ -75,7 +75,10 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     public void startCheckNotUploadedFilesTimer() {
         if (refreshMessageTimer != null) {
+            L.i(TAG, "Restart timer");
             refreshMessageTimer.cancel();
+        } else {
+            L.i(TAG, "Start timer");
         }
 
         new Thread() {
@@ -84,8 +87,10 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     refreshMessageTimer = new Timer();
                     refreshMessageTimer.schedule(new TimerTask() {
                         public void run() {
+                            L.i(TAG, "In timer. Start");
                             if (canUploadNextFile(UploadFileService.this)) {
-                                FilesBL.getLastNotUploadedFileFromDB(dbHandler);
+                                L.i(TAG, "Can upload file");
+                                FilesBL.getFirstNotUploadedFileFromDB(dbHandler, 0, UIUtils.is3G(UploadFileService.this));
                             }
                         }
                     }, 5000, Config.CHECK_NOT_UPLOADED_FILE_MILLISECONDS);
@@ -97,6 +102,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     }
 
     public void stopCheckNotUploadedFilesTimer() {
+        L.i(TAG, "Stop timer");
         if (refreshMessageTimer != null) {
             refreshMessageTimer.cancel();
         }
@@ -117,14 +123,12 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                     if (notUploadedFile != null) {
                         FileToUpload fileToUpload = new FileToUpload();
-                        fileToUpload.setSurveyId(notUploadedFile.getSurveyId());
                         fileToUpload.setTaskId(notUploadedFile.getTaskId());
                         fileToUpload.setQuestionId(notUploadedFile.getQuestionId());
                         fileToUpload.setFileBase64(getFileAsString(Uri.parse(notUploadedFile.getFileUri())));
 
-                        sendFile(fileToUpload);
-
                         L.i(TAG, "onQueryComplete. Send file. Uri: " + notUploadedFile.getFileUri());
+                        sendFile(fileToUpload);
                     } else {
                         //Stop upload file timer
                         stopCheckNotUploadedFilesTimer();
@@ -138,12 +142,13 @@ public class UploadFileService extends Service implements NetworkOperationListen
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.UPLOAD_QUESTION_FILE_OPERATION_TAG.equals(operation.getTag())) {
-                L.i(TAG, "onNetworkOperation. File uploaded");
 
                 FileToUpload fileToUpload = (FileToUpload) operation.getEntities().get(0);
+                L.i(TAG, "onNetworkOperation. File uploaded: "+fileToUpload.get_id());
+
                 FilesBL.deleteNotUploadedFileFromDbById(fileToUpload.get_id()); //Forward to remove the uploaded file
                 if (canUploadNextFile(this)) {
-                    FilesBL.getLastNotUploadedFileFromDB(dbHandler);
+                    FilesBL.getFirstNotUploadedFileFromDB(dbHandler, fileToUpload.get_id(), UIUtils.is3G(UploadFileService.this));
                 }
             }
         } else {
@@ -165,8 +170,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     public static boolean canUploadNextFile(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        return preferencesManager.getUsed3GUploadSize() < preferencesManager.get3GUploadPackageLimit() || UIUtils
-                .isWiFi(context);
+        return preferencesManager.getUsed3GUploadSize() < preferencesManager.get3GUploadMonthLimit() && UIUtils
+                .isOnline(context);
     }
 
     public void sendFile(FileToUpload fileToUpload) {
@@ -180,8 +185,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     public void sendNetworkOperation(BaseOperation operation) {
         if (operation != null) {
-            Intent intent = new Intent(this, NetworkService.class);
-            intent.putExtra(NetworkService.KEY_OPERATION, operation);
+            Intent intent = new Intent(this, UploadFileNetworkService.class);
+            intent.putExtra(UploadFileNetworkService.KEY_OPERATION, operation);
             startService(intent);
         }
     }
@@ -190,7 +195,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            BaseOperation operation = (BaseOperation) intent.getSerializableExtra(NetworkService.KEY_OPERATION);
+            BaseOperation operation = (BaseOperation) intent.getSerializableExtra(UploadFileNetworkService.KEY_OPERATION);
             if (operation != null) {
                 for (NetworkOperationListenerInterface netListener : networkOperationListeners) {
                     if (netListener != null) {

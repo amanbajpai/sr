@@ -17,7 +17,6 @@ import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.BaseEntity;
-import com.ros.smartrocket.db.entity.BookTaskResponse;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.MyAccount;
@@ -117,9 +116,7 @@ public class NetworkService extends BaseNetworkService {
                         }
                         break;
 
-                    case WSUrl.BOOK_TASKS_ID:
-                        BookTaskResponse bookTaskResponse = gson.fromJson(responseString, BookTaskResponse.class);
-                        operation.responseEntities.add(bookTaskResponse);
+                    case WSUrl.CLAIM_TASKS_ID:
                         break;
                     case WSUrl.LOGIN_ID:
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);

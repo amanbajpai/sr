@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -25,9 +26,11 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.fragment.QuestionType1Fragment;
+import com.ros.smartrocket.fragment.QuestionType2Fragment;
 import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -40,7 +43,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.util.ArrayList;
 
 public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface,
-        View.OnClickListener, OnAnswerSelectedListener {
+        View.OnClickListener, OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
     private static final String TAG = QuestionsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -49,6 +52,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private Integer taskId;
     private Task task = new Task();
     private ProgressBar mainProgressBar;
+
+    private LinearLayout buttonsLayout;
     private Button previousButton;
     private Button nextButton;
     private Button validationButton;
@@ -72,6 +77,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         handler = new DbHandler(getContentResolver());
 
         mainProgressBar = (ProgressBar) findViewById(R.id.mainProgressBar);
+
+        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
 
         previousButton = (Button) findViewById(R.id.previousButton);
         previousButton.setOnClickListener(this);
@@ -164,7 +171,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void startFragment(Question question) {
         L.i(TAG, "startFragment. orderId:" + question.getOrderId());
         if (question != null) {
-
+            buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getOrderId());
 
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
@@ -192,9 +199,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case 1:
                     currentFragment = new QuestionType1Fragment();
                     break;
-                /*case 3:
+                case 3:
                     currentFragment = new QuestionType2Fragment();
-                    break;*/
+                    break;
                 case 2:
                     currentFragment = new QuestionType3Fragment();
                     break;
@@ -206,6 +213,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             }
 
             if (currentFragment != null) {
+                currentFragment.setAnswerPageLoadingFinishedListener(this);
                 currentFragment.setAnswerSelectedListener(this);
                 currentFragment.setArguments(fragmentBundle);
                 t.replace(R.id.contentLayout, currentFragment).commit();
@@ -240,9 +248,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 startNextQuestionFragment();
                 break;
             case R.id.validationButton:
-                //TODO Start validationActivity. Update task status
-                //TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
                 startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+                finish();
                 break;
             default:
                 break;
@@ -253,6 +261,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onAnswerSelected(Boolean selected) {
         nextButton.setEnabled(selected);
         validationButton.setEnabled(selected);
+    }
+
+    @Override
+    public void onAnswerPageLoadingFinished() {
+        buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

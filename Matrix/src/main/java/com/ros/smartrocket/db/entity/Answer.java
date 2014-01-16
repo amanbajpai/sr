@@ -16,7 +16,8 @@ public class Answer extends BaseEntity implements Serializable {
     private String Value;
     private Integer Routing;
 
-    private transient byte[] imageByteArray;
+    private transient String fileUri;
+    private transient Long fileSizeB;
     private transient Boolean Checked = false;
 
     public Answer() {
@@ -33,7 +34,8 @@ public class Answer extends BaseEntity implements Serializable {
             result.setValue(c.getString(AnswerDbSchema.Query.VALUE));
             result.setRouting(c.getInt(AnswerDbSchema.Query.ROUTING));
             result.setChecked(c.getInt(AnswerDbSchema.Query.CHECKED) == 1 ? true : false);
-            result.setImageByteArray(c.getBlob(AnswerDbSchema.Query.IMAGE_BYTE_ARRAY));
+            result.setFileUri(c.getString(AnswerDbSchema.Query.FILE_URI));
+            result.setFileSizeB(c.getLong(AnswerDbSchema.Query.FILE_SIZE_B));
         }
 
         L.d("Answer", result.toString());
@@ -93,13 +95,21 @@ public class Answer extends BaseEntity implements Serializable {
         Checked = !Checked;
     }
 
-
-    public byte[] getImageByteArray() {
-        return imageByteArray;
+    public String getFileUri() {
+        return fileUri;
     }
 
-    public void setImageByteArray(byte[] imageByteArray) {
-        this.imageByteArray = imageByteArray;
+    public void setFileUri(String fileUri) {
+        this.fileUri = fileUri;
+    }
+
+
+    public Long getFileSizeB() {
+        return fileSizeB;
+    }
+
+    public void setFileSizeB(Long fileSizeB) {
+        this.fileSizeB = fileSizeB;
     }
 
 }

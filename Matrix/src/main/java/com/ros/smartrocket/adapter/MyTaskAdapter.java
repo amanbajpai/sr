@@ -34,6 +34,7 @@ public class MyTaskAdapter extends BaseAdapter {
         private LinearLayout pendingStatusLayout;
         private LinearLayout validationStatusLayout;
         private LinearLayout reDuStatusLayout;
+        private LinearLayout scheduledStatusLayout;
     }
 
     public MyTaskAdapter(Activity activity) {
@@ -81,6 +82,7 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.pendingStatusLayout = (LinearLayout) convertView.findViewById(R.id.pendingStatusLayout);
             holder.validationStatusLayout = (LinearLayout) convertView.findViewById(R.id.validationStatusLayout);
             holder.reDuStatusLayout = (LinearLayout) convertView.findViewById(R.id.reDuStatusLayout);
+            holder.scheduledStatusLayout = (LinearLayout) convertView.findViewById(R.id.scheduledStatusLayout);
 
             convertView.setTag(holder);
         } else {
@@ -105,26 +107,25 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.time.setText(UIUtils.longToString(timeInMillisecond, 0));
         holder.date.setText(UIUtils.longToString(timeInMillisecond, 1));
 
+        holder.pendingStatusLayout.setVisibility(View.GONE);
+        holder.validationStatusLayout.setVisibility(View.GONE);
+        holder.reDuStatusLayout.setVisibility(View.GONE);
+        holder.scheduledStatusLayout.setVisibility(View.GONE);
+
         switch (task.getStatusId()) {
             case 1:
-                holder.pendingStatusLayout.setVisibility(View.GONE);
                 holder.validationStatusLayout.setVisibility(View.VISIBLE);
-                holder.reDuStatusLayout.setVisibility(View.GONE);
                 break;
             case 2:
-                holder.pendingStatusLayout.setVisibility(View.GONE);
-                holder.validationStatusLayout.setVisibility(View.GONE);
                 holder.reDuStatusLayout.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 holder.pendingStatusLayout.setVisibility(View.VISIBLE);
-                holder.validationStatusLayout.setVisibility(View.GONE);
-                holder.reDuStatusLayout.setVisibility(View.GONE);
+                break;
+            case 7:
+                holder.scheduledStatusLayout.setVisibility(View.VISIBLE);
                 break;
             default:
-                holder.pendingStatusLayout.setVisibility(View.GONE);
-                holder.validationStatusLayout.setVisibility(View.GONE);
-                holder.reDuStatusLayout.setVisibility(View.GONE);
                 break;
         }
 

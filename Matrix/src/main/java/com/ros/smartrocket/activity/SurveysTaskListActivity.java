@@ -50,10 +50,12 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
 
         adapter = new MyTaskAdapter(this);
         taskList.setAdapter(adapter);
+    }
 
-        //createTasks(2, surveyId);
+    @Override
+    protected void onResume() {
+        super.onResume();
         getTasks(surveyId);
-        //apiFacade.getSurveysTask(this, surveyId);
     }
 
     private void getTasks(long surveyId) {
@@ -62,22 +64,6 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
                 new String[]{String.valueOf(surveyId)},
                 TaskDbSchema.SORT_ORDER_DESC);
     }
-
-    /*private void createTasks(int count, long surveyId) {
-        for (int i = 0; i < count; i++) {
-            Task task = new Task();
-            task.setRandomId();
-            task.setSurveyId(surveyId);
-            task.setLatitude(50 + (new Random().nextDouble() / 10));
-            task.setLongitude(30 + (new Random().nextDouble() / 10));
-            task.setName("Survey: " + surveyId + " Task: " + i);
-            task.setDescription("Task description " + i + "; Task description " + i);
-
-            handler.startInsert(TaskDbSchema.Query.All.TOKEN_INSERT, null, TaskDbSchema.CONTENT_URI,
-                    task.toContentValues());
-        }
-        getTasks(surveyId);
-    }*/
 
     class DbHandler extends AsyncQueryHandler {
 
@@ -91,7 +77,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     ArrayList<Task> tasks = new ArrayList<Task>();
 
-                    if (cursor != null && cursor.getCount()>0) {
+                    if (cursor != null && cursor.getCount() > 0) {
                         cursor.moveToFirst();
                         do {
                             tasks.add(Task.fromCursor(cursor));
@@ -123,7 +109,11 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Task task = adapter.getItem(position);
 
-        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId()));
+        if (task.getStatusId() >= Task.TaskStatusId.validation.getStatusId()) {
+            startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+        } else {
+            startActivity(IntentUtils.getTaskDetailIntent(this, task.getId()));
+        }
     }
 
     @Override

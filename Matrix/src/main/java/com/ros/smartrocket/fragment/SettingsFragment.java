@@ -96,7 +96,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         pushMessagesToggleButton.setChecked(preferencesManager.getUsePushMessages());
         deadlineReminderToggleButton.setChecked(preferencesManager.getUseDeadlineReminder());
 
-        treeGUploadLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadPackageLimit()));
+        treeGUploadLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadTaskLimit()));
     }
 
     public void setLanguageSpinner() {
@@ -156,7 +156,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                     limitInt = Integer.valueOf(limitString);
                 }
 
-                preferencesManager.set3GUploadPackageLimit(limitInt);
+                preferencesManager.set3GUploadTaskLimit(limitInt);
 
                 preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner.getSelectedItemPosition
                         ()]);

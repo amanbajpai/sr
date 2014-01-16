@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 
@@ -76,6 +77,14 @@ public class TasksBL {
 
         handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
+    }
+
+    public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer surveyId, Boolean isHide) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
+
+        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
+                TaskDbSchema.Columns.SURVEY_ID + "=?", new String[]{String.valueOf(surveyId)});
     }
 
     public static void setTask(AsyncQueryHandler handler, Task task) {

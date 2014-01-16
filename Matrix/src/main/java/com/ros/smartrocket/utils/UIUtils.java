@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Utils class for easy work with UI Views
@@ -102,13 +103,13 @@ public class UIUtils {
      * @return
      */
     public static String getAppVersion(Context context) {
-        String current_version = "";
+        String currentVersion = "";
         try {
-            current_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (Exception e) {
             L.e(TAG, "getAppVersion() Error get app version");
         }
-        return current_version;
+        return currentVersion;
     }
 
 
@@ -119,13 +120,13 @@ public class UIUtils {
      * @return
      */
     public static int getAppVersionCode(Context context) {
-        int current_version = 0;
+        int currentVersion = 0;
         try {
-            current_version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+            currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             L.e(TAG, "getAppVersionCode() Error get app version");
         }
-        return current_version;
+        return currentVersion;
     }
 
     /**
@@ -210,15 +211,20 @@ public class UIUtils {
     public static boolean isOnline(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
+
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public static boolean isWiFi(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static boolean is3G(Context c) {
+        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
@@ -355,5 +361,13 @@ public class UIUtils {
 
     public static String getNumbersOnly(CharSequence s) {
         return s.toString().replaceAll("[^0-9]", ""); // Should of course be more robust
+    }
+
+    public static int getRandomInt(int max) {
+        return new Random().nextInt(max);
+    }
+
+    public static int getRandomInt(int min, int max) {
+        return new Random().nextInt(max - min + 1) + min;
     }
 }

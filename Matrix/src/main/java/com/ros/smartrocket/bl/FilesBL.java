@@ -26,15 +26,25 @@ public class FilesBL {
                 NotUploadedFileDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getLastNotUploadedFileFromDB(AsyncQueryHandler handler) {
+    public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long current_id, boolean useTreeGOnly) {
+        String where = NotUploadedFileDbSchema.Columns._ID + ">'" + current_id + "'";
+        if (useTreeGOnly) {
+            where = where + " and " + NotUploadedFileDbSchema.Columns.USE_3G + "==1";
+        }
+
         handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, null, NotUploadedFileDbSchema.CONTENT_URI,
-                NotUploadedFileDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+                NotUploadedFileDbSchema.Query.PROJECTION, where, null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1);
     }
 
     public static void deleteNotUploadedFileFromDbById(long _id) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         resolver.delete(NotUploadedFileDbSchema.CONTENT_URI,
                 NotUploadedFileDbSchema.Columns._ID + "=?", new String[]{String.valueOf(_id)});
+    }
+
+    public static void insertNotUploadedFile(NotUploadedFile notUploadedFile) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        resolver.insert(NotUploadedFileDbSchema.CONTENT_URI, notUploadedFile.toContentValues());
     }
 
     /**

@@ -129,7 +129,8 @@ public class AppContentProvider extends ContentProvider {
                         "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
                                 + TaskDbSchema.Columns.SURVEY_ID.getName() + " = " + Table.SURVEY.getName() + "."
                                 + SurveyDbSchema.Columns.ID.getName() + selection + ")",
-                        Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName()
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName(),
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName()
                 };
 
                 groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();

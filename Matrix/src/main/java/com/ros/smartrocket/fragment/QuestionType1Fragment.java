@@ -19,6 +19,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 /**
@@ -32,6 +33,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
     private AnswerCheckBoxAdapter adapter;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
+    private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
 
     private AsyncQueryHandler handler;
 
@@ -85,11 +87,6 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         }
     }
 
-    @Override
-    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
-        this.answerSelectedListener = answerSelectedListener;
-    }
-
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             boolean selected = false;
@@ -100,6 +97,10 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
                 }
             }
             answerSelectedListener.onAnswerSelected(selected);
+        }
+
+        if (answerPageLoadingFinishedListener != null) {
+            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
         }
     }
 
@@ -122,5 +123,15 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         viewHolder.checkBox.setChecked(answer.isChecked());
 
         refreshNextButton();
+    }
+
+    @Override
+    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
+        this.answerSelectedListener = answerSelectedListener;
+    }
+
+    @Override
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+        this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 }

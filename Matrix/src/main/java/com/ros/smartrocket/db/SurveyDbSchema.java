@@ -131,5 +131,6 @@ public interface SurveyDbSchema {
         int NEAR_TASK_DISTANCE = 18;
         int TASK_COUNT = 19;
         int NEAR_TASK_PRICE = 20;
+        int NEAR_TASK_ID = 21;
     }
 }

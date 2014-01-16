@@ -1,42 +1,14 @@
 package com.ros.smartrocket.activity;
 
-import android.app.Dialog;
 import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.SurveysBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.SurveyDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.BookTaskResponse;
-import com.ros.smartrocket.db.entity.Survey;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
-import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.fragment.TasksMapFragment;
 import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
-
-import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Activity for view Task detail information

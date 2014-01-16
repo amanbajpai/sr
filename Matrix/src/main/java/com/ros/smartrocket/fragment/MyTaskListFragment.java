@@ -15,9 +15,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.adapter.MyTaskAdapter;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -117,7 +117,11 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Task task = adapter.getItem(position);
 
-        startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+        if (task.getStatusId() >= Task.TaskStatusId.validation.getStatusId()) {
+            startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId()));
+        } else {
+            startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+        }
     }
 
     @Override

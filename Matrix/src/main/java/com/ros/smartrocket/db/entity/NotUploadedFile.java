@@ -10,11 +10,12 @@ import com.ros.smartrocket.utils.L;
 public class NotUploadedFile extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private Integer SurveyId;
     private Integer TaskId;
     private Integer QuestionId;
     private String FileUri;
     private String EndDateTime;
+    private Boolean use3G;
+    private Long fileSizeB;
 
     public NotUploadedFile() {
     }
@@ -24,23 +25,15 @@ public class NotUploadedFile extends BaseEntity {
         if (c.getCount() > 0) {
             result.set_id(c.getInt(NotUploadedFileDbSchema.Query._ID));
             result.setId(c.getInt(NotUploadedFileDbSchema.Query.ID));
-            result.setSurveyId(c.getInt(NotUploadedFileDbSchema.Query.SURVEY_ID));
             result.setTaskId(c.getInt(NotUploadedFileDbSchema.Query.TASK_ID));
             result.setQuestionId(c.getInt(NotUploadedFileDbSchema.Query.QUESTION_ID));
             result.setFileUri(c.getString(NotUploadedFileDbSchema.Query.FILE_URI));
             result.setEndDateTime(c.getString(NotUploadedFileDbSchema.Query.END_DATE_TIME));
+            result.setUse3G(c.getInt(NotUploadedFileDbSchema.Query.USE_3G) == 0 ? false : true);
+            result.setFileSizeB(c.getLong(NotUploadedFileDbSchema.Query.FILE_SIZE_B));
         }
         L.d("NotUploadedFile", result.toString());
         return result;
-    }
-
-
-    public Integer getSurveyId() {
-        return SurveyId;
-    }
-
-    public void setSurveyId(Integer surveyId) {
-        SurveyId = surveyId;
     }
 
     public Integer getTaskId() {
@@ -73,6 +66,24 @@ public class NotUploadedFile extends BaseEntity {
 
     public void setFileUri(String fileUri) {
         FileUri = fileUri;
+    }
+
+
+    public Boolean getUse3G() {
+        return use3G;
+    }
+
+    public void setUse3G(Boolean use3G) {
+        this.use3G = use3G;
+    }
+
+
+    public Long getFileSizeB() {
+        return fileSizeB;
+    }
+
+    public void setFileSizeB(Long fileSizeB) {
+        this.fileSizeB = fileSizeB;
     }
 
 }

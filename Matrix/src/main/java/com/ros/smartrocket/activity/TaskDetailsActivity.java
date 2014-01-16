@@ -6,13 +6,11 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -22,12 +20,10 @@ import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.BookTaskResponse;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
-import com.ros.smartrocket.fragment.TasksMapFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -111,8 +107,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.mapImageView).setOnClickListener(this);
 
         findViewById(R.id.showTaskOnMapButton).setOnClickListener(this);
+    }
 
-        TasksBL.getTaskFromDBbyID(handler, taskId);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (task.getId() != null && task.getStatusId() >= Task.TaskStatusId.validation.getStatusId()) {
+            finish();
+        } else {
+            TasksBL.getTaskFromDBbyID(handler, taskId);
+        }
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -143,19 +147,50 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.BOOK_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                BookTaskResponse bookTaskResponse = (BookTaskResponse) operation.getResponseEntities().get(0);
-                if (bookTaskResponse.getState()) {
-                    UIUtils.showSimpleToast(TaskDetailsActivity.this, R.string.success);
-                } else {
-                    UIUtils.showSimpleToast(TaskDetailsActivity.this, R.string.error);
-                }
-                //TODO Set started for task
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
+
+                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
+                new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onCancelButtonPressed(Dialog dialog) {
+                        setSupportProgressBarIndeterminateVisibility(true);
+                        apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
+                    }
+
+                    @Override
+                    public void onStartLaterButtonPressed(Dialog dialog) {
+                    }
+
+                    @Override
+                    public void onStartNowButtonPressed(Dialog dialog) {
+                        setSupportProgressBarIndeterminateVisibility(true);
+                        apiFacade.startTask(TaskDetailsActivity.this, task.getId());
+
+                    }
+                });
+
                 setButtonsSettings(task);
+            } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getId());
+
+                task.setStatusId(Task.TaskStatusId.none.getStatusId());
+                task.setStarted("");
+                setButtonsSettings(task);
+                TasksBL.setTask(handler, task);
+
+            } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                task.setStatusId(Task.TaskStatusId.started.getStatusId());
+                task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
+                setButtonsSettings(task);
+                TasksBL.setTask(handler, task);
+                startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
+                        task.getId()));
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     public void setTaskData(Task task) {
@@ -219,38 +254,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
-                //apiFacade.bookTask(this, taskId);
-
-                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
-                new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
-                    @Override
-                    public void onCancelButtonPressed(Dialog dialog) {
-                        //TODO Remove booked task
-                        task.setStatusId(Task.TaskStatusId.none.getStatusId());
-                        task.setStarted("");
-                        setButtonsSettings(task);
-                        TasksBL.setTask(handler, task);
-                    }
-
-                    @Override
-                    public void onStartLaterButtonPressed(Dialog dialog) {
-                        task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
-                        task.setStarted("");
-                        setButtonsSettings(task);
-                        TasksBL.setTask(handler, task);
-                    }
-
-                    @Override
-                    public void onStartNowButtonPressed(Dialog dialog) {
-                        //TODO Start question screen
-                        task.setStatusId(Task.TaskStatusId.started.getStatusId());
-                        task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
-                        setButtonsSettings(task);
-                        TasksBL.setTask(handler, task);
-                        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
-                                task.getId()));
-                    }
-                });
+                setSupportProgressBarIndeterminateVisibility(true);
+                apiFacade.claimTask(this, taskId);
                 break;
             case R.id.hideTaskButton:
                 task.setIsHide(true);
@@ -268,7 +273,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 setButtonsSettings(task);
                 break;
             case R.id.withdrawTaskButton:
-                //apiFacade.bookTask(this, taskId);
                 String endDateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
                 new WithdrawTaskDialog(this, endDateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
                     @Override
@@ -277,25 +281,21 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onYesButtonPressed(Dialog dialog) {
-                        //TODO Remove book for this task. Refresh buttons
-                        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getId());
-                        //preferencesManager.remove(Keys.PREVIOUS_QUESTION_ORDER_ID + "_" + task.getId());
-
-                        task.setStarted("");
-                        task.setStatusId(Task.TaskStatusId.none.getStatusId());
-                        setButtonsSettings(task);
-                        TasksBL.setTask(handler, task);
+                        setSupportProgressBarIndeterminateVisibility(true);
+                        apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
                     }
                 });
                 break;
             case R.id.startTaskButton:
-                task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
-                setButtonsSettings(task);
-                TasksBL.setTask(handler, task);
+                setSupportProgressBarIndeterminateVisibility(true);
+                apiFacade.startTask(TaskDetailsActivity.this, task.getId());
                 break;
             case R.id.continueTaskButton:
-                //TODO Start question screen
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                if (Task.TaskStatusId.scheduled.getStatusId() == task.getStatusId()) {
+                    startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+                } else if (Task.TaskStatusId.started.getStatusId() == task.getStatusId()) {
+                    startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                }
                 break;
 
             case R.id.mapImageView:

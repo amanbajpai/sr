@@ -80,6 +80,9 @@
             android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
             android:configChanges="locale" />
         <activity
+            android:name="com.ros.smartrocket.activity.SurveyDetailsActivity"
+            android:configChanges="locale" />
+        <activity
             android:name="com.ros.smartrocket.activity.MapActivity"
             android:configChanges="locale"
             android:parentActivityName="com.ros.smartrocket.activity.MainActivity" >
