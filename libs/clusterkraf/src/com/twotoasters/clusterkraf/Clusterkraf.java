@@ -94,6 +94,7 @@ public class Clusterkraf {
 	 */
 	public void addAll(ArrayList<InputPoint> inputPoints) {
 		if (inputPoints != null) {
+            Log.d(TAG, "addAll()");
 			points.addAll(inputPoints);
 			updateClustersAndTransition();
 		}
@@ -353,7 +354,7 @@ public class Clusterkraf {
 			boolean handled = false;
 			boolean exempt = false;
 			Clusterkraf clusterkraf = clusterkrafRef.get();
-			if (clusterkraf != null) {
+			if (clusterkraf != null && clusterkraf.currentClusterPointsByMarker != null) {
 				ClusterPoint clusterPoint = clusterkraf.currentClusterPointsByMarker.get(marker);
                 Log.d(TAG, "1. [clusterPoint=" + clusterPoint + "], size="
                         + clusterkraf.currentClusterPointsByMarker.size());
@@ -452,7 +453,7 @@ public class Clusterkraf {
         public View getInfoWindow(Marker marker) {
             View infoWindow = null;
             Clusterkraf clusterkraf = clusterkrafRef.get();
-            if (clusterkraf != null) {
+            if (clusterkraf != null && clusterkraf.currentClusterPointsByMarker != null) {
                 ClusterPoint clusterPoint = clusterkraf.currentClusterPointsByMarker.get(marker);
                 InfoWindowDownstreamAdapter infoWindowDownstreamAdapter = clusterkraf.options.getInfoWindowDownstreamAdapter();
                 if (infoWindowDownstreamAdapter != null) {
@@ -470,7 +471,7 @@ public class Clusterkraf {
         public View getInfoContents(Marker marker) {
             View infoWindow = null;
             Clusterkraf clusterkraf = clusterkrafRef.get();
-            if (clusterkraf != null) {
+            if (clusterkraf != null && clusterkraf.currentClusterPointsByMarker != null) {
                 ClusterPoint clusterPoint = clusterkraf.currentClusterPointsByMarker.get(marker);
                 InfoWindowDownstreamAdapter infoWindowDownstreamAdapter = clusterkraf.options.getInfoWindowDownstreamAdapter();
                 if (infoWindowDownstreamAdapter != null) {

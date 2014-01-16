@@ -75,7 +75,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     private static final String MYLOC = "MyLoc";
-    private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm;
     private View fragmentView;
     private ImageButton btnFilter;
@@ -102,6 +101,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
     private int surveyId = 0; // Used for Survey map mode
+    private int taskId = 0; // Used for Survey map mode
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,6 +139,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     }
                 });
             }
+        } else {
+            // Remove pins from map. Because when we resume it in another mode could be the crash
+            if (clusterkraf != null) {
+                clusterkraf.clear();
+            }
         }
     }
 
@@ -153,10 +158,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.SURVEYTASKS) {
             surveyId = bundle.getInt(Keys.MAP_SURVEY_ID);
-        }
-        //Remove old data
-        if (clusterkraf != null) {
-            clusterkraf.clear();
         }
         // Update data set from Server
         updateDataFromServer();

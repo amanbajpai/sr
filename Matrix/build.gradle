@@ -58,9 +58,8 @@ android {
         abortOnError false
     }
 
-    /*buildTypes {
+    buildTypes {
         debug {
-            println("======= \nDEBUG:\n=======")
             packageNameSuffix ""
             zipAlign false
             runProguard false
@@ -68,12 +67,11 @@ android {
         }
 
         release {
-            println("******* \nRelease:\n*******")
             zipAlign false
             runProguard false
             proguardFile 'configs/proguard-project-release.txt'
         }
-    }*/
+    }
 }
 
 

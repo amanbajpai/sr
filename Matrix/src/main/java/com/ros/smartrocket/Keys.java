@@ -55,7 +55,8 @@ public interface Keys {
     public enum MapViewMode {
         ALLTASKS,
         MYTASKS,
-        SURVEYTASKS;
+        SURVEYTASKS,
+        SINGLETASK;
     }
 
     //Tasks
