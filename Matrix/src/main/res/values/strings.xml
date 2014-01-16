@@ -99,7 +99,8 @@
     <string name="language" >Language</string >
     <string name="location_services" >Location services</string >
     <string name="push_messages" >Push messages</string >
-    <string name="tree_g_upload_package_limit" >3G upload package limit</string >
+    <string name="tree_g_upload_task_limit" >3G upload files task limit</string >
+    <string name="tree_g_upload_month_limit" >3G upload files monthly limit</string >
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >

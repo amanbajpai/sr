@@ -42,12 +42,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.SurveysBL;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -570,7 +568,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static class ClusterOptions {
         // clusterkraf library options
         private int transitionDuration = 500;
-        private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
+        //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
         private int dipDistanceToJoinCluster = 100;
         private int zoomToBoundsAnimationDuration = 500;
         private int showInfoWindowAnimationDuration = 500;

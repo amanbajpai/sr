@@ -57,10 +57,10 @@ public abstract class AppSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public static String preparePlaceHolders(int count) {
-        String result = "";
+        StringBuffer result = new StringBuffer();
         for (int i = 0; i < count; i++) {
-            result += i > 0 ? ",?" : "?";
+            result.append(i > 0 ? ",?" : "?");
         }
-        return result;
+        return result.toString();
     }
 }

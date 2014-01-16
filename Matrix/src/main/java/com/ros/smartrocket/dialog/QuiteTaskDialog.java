@@ -10,12 +10,12 @@ import com.ros.smartrocket.R;
 
 public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
     //private static final String TAG = QuiteTaskDialog.class.getSimpleName();
-    private Activity activity;
+    //private Activity activity;
     private DialogButtonClickListener onDialogButtonClicklistener;
 
     public QuiteTaskDialog(Activity activity) {
         super(activity);
-        this.activity = activity;
+        //this.activity = activity;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
             show();

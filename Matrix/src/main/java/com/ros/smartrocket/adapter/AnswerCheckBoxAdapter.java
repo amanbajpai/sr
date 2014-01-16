@@ -15,7 +15,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     //private static final String TAG = "AnswerCheckBoxAdapter";
     private Answer answers[];
     private LayoutInflater inflater;
-    private Activity activity;
+    //private Activity activity;
 
     public static class ViewHolder {
         public TextView name;
@@ -23,7 +23,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     }
 
     public AnswerCheckBoxAdapter(Activity activity) {
-        this.activity = activity;
+        //this.activity = activity;
 
         this.inflater = LayoutInflater.from(activity);
     }
@@ -45,7 +45,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     }
 
     public void setData(final Answer[] answers) {
-        AnswerCheckBoxAdapter.this.answers = answers;
+        this.answers = answers;
         notifyDataSetChanged();
     }
 
