@@ -96,7 +96,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
 
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
+                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         profilePhotoImageView = (ImageView) findViewById(R.id.profilePhotoImageView);
         profilePhotoImageView.setOnClickListener(this);
@@ -134,7 +135,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         countryEditText.setText(countryName);
         cityEditText.setText(cityName);
 
-        checkMockLocationByOnResume(false);
+        checkDeviceSettingsByOnResume(false);
     }
 
     @Override
@@ -176,7 +177,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                     break;
                 }
 
-                if(!UIUtils.isEmailValid(email)){
+                if (!UIUtils.isEmailValid(email)) {
                     UIUtils.showSimpleToast(this, R.string.fill_in_field);
                     break;
                 }

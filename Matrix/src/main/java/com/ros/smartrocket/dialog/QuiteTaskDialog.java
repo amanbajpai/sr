@@ -52,7 +52,6 @@ public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
     }
 
     public void setOnDialogButtonClicklistener(DialogButtonClickListener onDialogButtonClicklistener) {
-
         this.onDialogButtonClicklistener = onDialogButtonClicklistener;
     }
 

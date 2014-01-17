@@ -27,15 +27,29 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showLocationDialog(final Activity activity) {
+    public static void showLocationDialog(final Activity activity, final boolean isCancelable) {
+        int cancelButtonResId = R.string.cancel;
+        if (!isCancelable) {
+            cancelButtonResId = R.string.logout;
+        }
+
         DefaultInfoDialog locationDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_on_location_dialog_title),
                 activity.getText(R.string.turn_on_location_dialog_text),
-                R.string.cancel, R.string.settings);
+                cancelButtonResId, R.string.settings);
+        locationDialog.setCancelable(isCancelable);
         locationDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
-                dialog.dismiss();
+                if (isCancelable) {
+                    dialog.dismiss();
+                } else {
+                    dialog.dismiss();
+                    PreferencesManager.getInstance().setToken("");
+
+                    activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
+                    activity.finish();
+                }
             }
 
             @Override

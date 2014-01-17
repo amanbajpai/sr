@@ -17,14 +17,14 @@ public class SurveysBL {
 
     public static void getSurveyFromDB(AsyncQueryHandler handler, Integer surveyId) {
         handler.startQuery(SurveyDbSchema.Query.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI,
-                SurveyDbSchema.Query.PROJECTION, SurveyDbSchema.Columns.ID + "=?", new String[]{String.valueOf(surveyId)},
-                SurveyDbSchema.SORT_ORDER_DESC_LIMIT_1);
+                SurveyDbSchema.Query.PROJECTION, SurveyDbSchema.Columns.ID + "=?",
+                new String[]{String.valueOf(surveyId)}, SurveyDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
     public static void getSurveysListFromDB(AsyncQueryHandler handler, Integer radius) {
-        handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE,
-                null, " AND " + Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'",
-                null, null);
+        handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null,
+                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " AND " + Table.TASK.getName() + "." +
+                TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'", null, null);
     }
 
     /**

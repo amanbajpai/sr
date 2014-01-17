@@ -56,7 +56,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
+                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -68,7 +69,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         setSupportProgressBarIndeterminateVisibility(false);
 
-        checkMockLocationByOnResume(false);
+        checkDeviceSettingsByOnResume(false);
     }
 
     @Override
@@ -121,7 +122,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else if (error == LoginBL.PreLoginErrors.NOCONNECTION) {
                     DialogUtils.showNetworkDialog(this);
                 } else if (error == LoginBL.PreLoginErrors.GPSOFF) {
-                    DialogUtils.showLocationDialog(this);
+                    DialogUtils.showLocationDialog(this, true);
                 } else if (error == LoginBL.PreLoginErrors.GOOGLEPSNOTWALID) {
                     DialogUtils.showGoogleSdkDialog(this);
                 } else if (error == LoginBL.PreLoginErrors.MOCKON) {

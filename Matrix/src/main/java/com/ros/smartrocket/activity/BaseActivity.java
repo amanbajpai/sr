@@ -24,8 +24,9 @@ public class BaseActivity extends ActionBarActivity {
 
     private BroadcastReceiver receiver;
     private IntentFilter filter;
-    private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
-    private boolean checkMockLocationByOnResume = true;
+    private ArrayList<NetworkOperationListenerInterface> networkOperationListeners =
+            new ArrayList<NetworkOperationListenerInterface>();
+    private boolean checkDeviceSettingsByOnResume = true;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -52,8 +53,12 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkMockLocationByOnResume && UIUtils.isMockLocationEnabled(this)) {
-            DialogUtils.showMockLocationDialog(this, false);
+        if (checkDeviceSettingsByOnResume) {
+            if (UIUtils.isMockLocationEnabled(this)) {
+                DialogUtils.showMockLocationDialog(this, false);
+            } else if (!UIUtils.isGpsEnabled(this)) {
+                DialogUtils.showLocationDialog(this, false);
+            }
         }
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
     }
@@ -70,8 +75,8 @@ public class BaseActivity extends ActionBarActivity {
         super.onStop();
     }
 
-    public void checkMockLocationByOnResume(boolean check) {
-        this.checkMockLocationByOnResume = check;
+    public void checkDeviceSettingsByOnResume(boolean check) {
+        this.checkDeviceSettingsByOnResume = check;
     }
 
     public void sendNetworkOperation(BaseOperation operation) {

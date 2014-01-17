@@ -159,7 +159,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             Question currentQuestion = currentFragment.getQuestion();
             L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
-            int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion.getPreviousQuestionOrderId() : 1;
+            int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
+                    .getPreviousQuestionOrderId() : 1;
             preferencesManager.setLastNotAnsweredQuestionOrderId(taskId, previousQuestionOrderId);
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, previousQuestionOrderId);

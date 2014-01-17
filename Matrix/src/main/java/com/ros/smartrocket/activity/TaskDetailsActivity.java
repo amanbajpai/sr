@@ -37,7 +37,8 @@ import java.util.Locale;
 /**
  * Activity for view Task detail information
  */
-public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener,
+        NetworkOperationListenerInterface {
     private static final String TAG = TaskDetailsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -78,7 +79,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         handler = new DbHandler(getContentResolver());
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
+                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         taskName = (TextView) findViewById(R.id.taskName);
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);

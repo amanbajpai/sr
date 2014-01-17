@@ -18,8 +18,8 @@ public abstract class AppSQLiteOpenHelper extends SQLiteOpenHelper {
      * * WARNING! Reflection is used here!
      * Every Table must specify name and class of schema
      * <p/>
-     * Every schema must have: - CUSTOM_SQL constant for specific logic while creating tables - Columns enumeration with
-     * getName() and getType() methods getName() must return String getType() must return DBType
+     * Every schema must have: - CUSTOM_SQL constant for specific logic while creating tables - Columns enumeration
+     * with getName() and getType() methods getName() must return String getType() must return DBType
      *
      * @param sql
      * @param table

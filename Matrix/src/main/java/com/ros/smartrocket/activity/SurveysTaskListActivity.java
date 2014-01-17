@@ -21,7 +21,8 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
-public class SurveysTaskListActivity extends BaseActivity implements OnItemClickListener, NetworkOperationListenerInterface {
+public class SurveysTaskListActivity extends BaseActivity implements OnItemClickListener,
+        NetworkOperationListenerInterface {
     //private static final String TAG = SurveysTaskListActivity.class.getSimpleName();
     //private APIFacade apiFacade = APIFacade.getInstance();
 

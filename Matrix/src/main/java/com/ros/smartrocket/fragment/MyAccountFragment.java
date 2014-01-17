@@ -17,9 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
@@ -117,7 +117,8 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
         agentLevel.setText(String.valueOf(myAccount.getLevel()));
         agentExperience.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points),
                 myAccount.getExperience())));
-        toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points), myAccount.getToNextLevel())));
+        toNextLevel.setText(Html.fromHtml(String.format(getActivity().getString(R.string.x_points),
+                myAccount.getToNextLevel())));
     }
 
     @Override

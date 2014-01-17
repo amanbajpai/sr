@@ -21,7 +21,8 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
-public class CheckLocationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+public class CheckLocationActivity extends BaseActivity implements View.OnClickListener,
+        NetworkOperationListenerInterface {
     private static final String TAG = CheckLocationActivity.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -39,13 +40,14 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
         }
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId
+                (this), (long) 0).build());
 
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(false);
 
-        checkMockLocationByOnResume(false);
+        checkDeviceSettingsByOnResume(false);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                 if (!UIUtils.isOnline(this)) {
                     DialogUtils.showNetworkDialog(this);
                 } else if (!UIUtils.isGpsEnabled(this)) {
-                    DialogUtils.showLocationDialog(this);
+                    DialogUtils.showLocationDialog(this, true);
                 } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
                     DialogUtils.showGoogleSdkDialog(this);
                 } else if (UIUtils.isMockLocationEnabled(this)) {
@@ -92,7 +94,6 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                             address.getCountryName(), address.getLocality(),
                             address.getLatitude(), address.getLongitude());
 
-                    // TODO: FIX it to real data before production
                     /*apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
                             "Ukraine", "Kharkiv", 49.988010, 36.233044);*/
                 } else {
@@ -108,7 +109,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                CheckLocationResponse checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
+                CheckLocationResponse checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities
+                        ().get(0);
                 if (checkLocationResponse.getStatus()) {
                     UIUtils.showSimpleToast(this, R.string.success);
 
@@ -125,7 +127,6 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
-            //TODO Remove
             startActivity(new Intent(this, CheckLocationFailedActivity.class));
         }
     }

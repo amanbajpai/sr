@@ -18,7 +18,8 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
 
-public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener,
+        NetworkOperationListenerInterface {
     private static final String TAG = CheckLocationFailedActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
@@ -32,7 +33,8 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_checking_failed);
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId
+                (this), (long) 0).build());
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);
@@ -42,7 +44,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
 
         findViewById(R.id.subscribeButton).setOnClickListener(this);
 
-        checkMockLocationByOnResume(false);
+        checkDeviceSettingsByOnResume(false);
     }
 
     @Override

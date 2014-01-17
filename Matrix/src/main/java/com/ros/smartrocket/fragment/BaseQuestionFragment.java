@@ -17,7 +17,8 @@ public class BaseQuestionFragment extends Fragment {
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
     }
 
-    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
+                                                             answerPageLoadingFinishedListener) {
     }
 
     public Question getQuestion() {

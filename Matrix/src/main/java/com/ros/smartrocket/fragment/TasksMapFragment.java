@@ -147,6 +147,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     /**
      * Get View mode type from Intent
+     *
      * @param bundle
      */
     private void setViewMode(Bundle bundle) {
@@ -165,7 +166,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" + savedInstanceState + "]");
+        Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" + savedInstanceState
+                + "]");
 
         fragmentView = inflater.inflate(R.layout.fragment_map, null);
 
@@ -349,7 +351,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 public void onUpdate(Location location) {
                     L.i(TAG, "Location Updated!");
                     ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                    APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
+                    APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(),
+                            location.getLongitude(), radius, DEFAULT_LANG);
                 }
             });
         }
@@ -363,6 +366,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /* ==============================================
     * Methods for Clusters pins display on the map
     * ============================================== */
+
     /**
      * Initialize Google Map
      */
@@ -515,7 +519,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 String title;
                 if (isCluster) {
                     int clusterSize = clusterPoint.size();
-                    icon = BitmapDescriptorFactory.fromBitmap(getClusterBitmap(res, R.drawable.ic_map_cluster_pin, clusterSize));
+                    icon = BitmapDescriptorFactory.fromBitmap(getClusterBitmap(res, R.drawable.ic_map_cluster_pin,
+                            clusterSize));
                     title = "" + clusterSize;
                 } else {
                     Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
@@ -576,7 +581,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         private com.twotoasters.clusterkraf.Options.SinglePointClickBehavior singlePointClickBehavior = com
                 .twotoasters.clusterkraf.Options.SinglePointClickBehavior.SHOW_INFO_WINDOW;
         private Options.ClusterClickBehavior clusterClickBehavior = Options.ClusterClickBehavior.ZOOM_TO_BOUNDS;
-        private Options.ClusterInfoWindowClickBehavior clusterInfoWindowClickBehavior = Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
+        private Options.ClusterInfoWindowClickBehavior clusterInfoWindowClickBehavior = Options.
+                ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
     }
 
     /**
@@ -686,7 +692,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void updateUI() {
         if (mode == Keys.MapViewMode.MYTASKS ||
-            mode == Keys.MapViewMode.SURVEYTASKS) {
+                mode == Keys.MapViewMode.SURVEYTASKS) {
             btnFilter.setEnabled(false);
         } else {
             btnFilter.setEnabled(true);

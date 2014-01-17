@@ -17,7 +17,11 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.utils.L;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Queue;
 
 public class MatrixLocationManager implements LocationListener,
         GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
@@ -77,7 +81,7 @@ public class MatrixLocationManager implements LocationListener,
             this.lastLocation = locationClient.getLastLocation();
         }
         if (lastLocation != null) {
-            L.i(TAG, "getLocation[" + lastLocation + ", time=" + new Date(lastLocation.getTime())+"]");
+            L.i(TAG, "getLocation[" + lastLocation + ", time=" + new Date(lastLocation.getTime()) + "]");
         }
         return lastLocation;
     }
@@ -113,7 +117,8 @@ public class MatrixLocationManager implements LocationListener,
     public void onLocationChanged(Location location) {
         lastLocation = location;
         if (location != null) {
-            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", Provider: " + location.getProvider() + "]");
+            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", " +
+                    "Provider: " + location.getProvider() + "]");
             new TasksBL().recalculateTasksDistance(location);
             notifyAllRequestedLocation();
         }

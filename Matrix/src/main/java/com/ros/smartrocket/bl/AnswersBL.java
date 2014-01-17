@@ -36,8 +36,9 @@ public class AnswersBL {
 
     public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
         for (Answer answer : answers) {
-            handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI, answer.toContentValues(),
-                    AnswerDbSchema.Columns._ID + "=?", new String[]{String.valueOf(answer.get_id())});
+            handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI,
+                    answer.toContentValues(), AnswerDbSchema.Columns._ID + "=?",
+                    new String[]{String.valueOf(answer.get_id())});
         }
     }
 

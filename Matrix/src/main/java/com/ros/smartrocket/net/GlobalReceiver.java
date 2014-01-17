@@ -19,7 +19,8 @@ public class GlobalReceiver extends BroadcastReceiver {
                 if (firstConnect) {
                     firstConnect = false;
                     if (UploadFileService.canUploadNextFile(context)) {
-                        context.startService(new Intent(context, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
+                        context.startService(new Intent(context, UploadFileService.class).setAction(Keys.
+                                ACTION_CHECK_NOT_UPLOADED_FILES));
                     }
                 }
             } else {
@@ -27,7 +28,8 @@ public class GlobalReceiver extends BroadcastReceiver {
             }
 
         } else if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            context.startService(new Intent(context, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
+            context.startService(new Intent(context, UploadFileService.class).setAction(Keys.
+                    ACTION_CHECK_NOT_UPLOADED_FILES));
         }
     }
 }

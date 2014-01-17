@@ -21,13 +21,14 @@ public class EnterGroupCodeActivity extends BaseActivity implements View.OnClick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_enter_group_code);
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
+                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         groupCodeEditText = (EditText) findViewById(R.id.groupCodeEditText);
 
         findViewById(R.id.continueTaskButton).setOnClickListener(this);
 
-        checkMockLocationByOnResume(false);
+        checkDeviceSettingsByOnResume(false);
     }
 
     @Override

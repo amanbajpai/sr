@@ -25,8 +25,8 @@ import java.util.Locale;
  * Activity for view Task detail information
  */
 public class SurveyDetailsActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = SurveyDetailsActivity.class.getSimpleName();
-    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    //private static final String TAG = SurveyDetailsActivity.class.getSimpleName();
+    //private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     private AsyncQueryHandler handler;
 

@@ -93,7 +93,8 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
     }
 
     @Override
-    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
+                                                             answerPageLoadingFinishedListener) {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 

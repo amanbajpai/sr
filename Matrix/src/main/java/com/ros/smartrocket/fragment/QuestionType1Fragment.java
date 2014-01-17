@@ -127,11 +127,13 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
-        this.answerSelectedListener = answerSelectedListener;
+        this
+                .answerSelectedListener = answerSelectedListener;
     }
 
     @Override
-    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
+                                                             answerPageLoadingFinishedListener) {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 }

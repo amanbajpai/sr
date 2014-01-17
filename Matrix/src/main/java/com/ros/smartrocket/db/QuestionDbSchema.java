@@ -4,7 +4,8 @@ import android.net.Uri;
 
 public interface QuestionDbSchema {
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
-    Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.QUESTION.getName()).build();
+    Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.QUESTION
+            .getName()).build();
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC";

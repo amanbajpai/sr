@@ -93,7 +93,8 @@ public class SurveyAdapter extends BaseAdapter {
         holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.survey_exp),
                 String.format(Locale.US, "%,d", 130))));
 
-        holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(), R.string.survey_distance)));
+        holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),
+                R.string.survey_distance)));
 
         return convertView;
     }
