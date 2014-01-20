@@ -34,8 +34,8 @@ public class MapActivity extends BaseActivity {
             Intent intent = getIntent();
             if (intent != null && intent.getExtras() != null) {
                 Bundle bundle = new Bundle();
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SURVEYTASKS.toString());
-                bundle.putInt(Keys.MAP_SURVEY_ID, intent.getExtras().getInt(Keys.MAP_SURVEY_ID));
+                bundle.putString(Keys.MAP_MODE_VIEWTYPE, intent.getExtras().getString(Keys.MAP_MODE_VIEWTYPE));
+                bundle.putInt(Keys.MAP_VIEWITEM_ID, intent.getExtras().getInt(Keys.MAP_VIEWITEM_ID));
 
                 Fragment fragment = new TasksMapFragment();
                 fragment.setArguments(bundle);

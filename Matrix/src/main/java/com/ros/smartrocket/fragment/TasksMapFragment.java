@@ -98,8 +98,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
-    private int surveyId = 0; // Used for Survey map mode
-    private int taskId = 0; // Used for Survey map mode
+    private int viewItemId = 0; // Used for Survey and SingleTask map mode view
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,8 +154,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
         }
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
-        if (mode == Keys.MapViewMode.SURVEYTASKS) {
-            surveyId = bundle.getInt(Keys.MAP_SURVEY_ID);
+        if ( (mode == Keys.MapViewMode.SURVEYTASKS) ||
+             (mode == Keys.MapViewMode.SINGLETASK)) {
+            viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
         }
         // Update data set from Server
         updateDataFromServer();
@@ -318,9 +318,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             } else if (mode == Keys.MapViewMode.MYTASKS) {
                 TasksBL.getMyTasksFromDB(handler);
             } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
-                TasksBL.getTasksFromDBbySurveyId(handler, surveyId);
-                Log.d(TAG, "loadTasks() [surveyId  =  " + surveyId + "]");
+                TasksBL.getTasksFromDBbySurveyId(handler, viewItemId);
+                Log.d(TAG, "loadTasks() [surveyId  =  " + viewItemId + "]");
+            } else if (mode == Keys.MapViewMode.SINGLETASK) {
+                TasksBL.getTaskFromDBbyID(handler, viewItemId);
+                Log.d(TAG, "loadTasks() [taskId  =  " + viewItemId + "]");
             }
+
             Log.i(TAG, "loadTasks() [mode  =  " + mode + "]");
         }
     }
@@ -628,7 +632,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         @Override
         public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
-            if (!marker.getSnippet().equals(MYLOC)) {
+            // Don't show popup window in such cases
+            if (marker != null && !MYLOC.equals(marker.getSnippet())
+                    && mode != Keys.MapViewMode.SINGLETASK) {
                 render(marker, mContents, clusterPoint);
                 return mContents;
             } else {
@@ -638,7 +644,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         @Override
         public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
-            if (!marker.getSnippet().equals(MYLOC)) {
+            // Don't show popup window in such cases
+            if (marker != null && !MYLOC.equals(marker.getSnippet())
+                    && mode != Keys.MapViewMode.SINGLETASK) {
                 render(marker, mWindow, clusterPoint);
                 return mWindow;
             } else {

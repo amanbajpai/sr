@@ -48,7 +48,7 @@ public interface Keys {
     String MY_TASK = "my_task";
 
     String MAP_MODE_VIEWTYPE = "map_mode_viewtype";
-    String MAP_SURVEY_ID = "map_survey_id";
+    String MAP_VIEWITEM_ID = "map_viewitem_id";
     /**
      * All possible view modes on map
      */
