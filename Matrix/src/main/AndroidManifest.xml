@@ -15,10 +15,8 @@
     <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <!-- Global receiver -->
     <permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <!-- Cloud to Device Messaging permissions -->
     <permission
         android:name="com.ros.smartrocket.permission.C2D_MESSAGE"
@@ -90,7 +88,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ros.smartrocket.activity..MainActivity" />
-        </activity>
+        </activity >
         <activity
             android:name="com.ros.smartrocket.activity.CheckLocationActivity"
             android:configChanges="locale" />
@@ -143,8 +141,9 @@
             <intent-filter android:priority="1000" >
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
+            </intent-filter >
+        </receiver >
+
         <service android:name="com.ros.smartrocket.GCMIntentService" />
 
         <meta-data
@@ -153,5 +152,12 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDbenpp_65I1QGBbF8wJK8blokzFYKKhwI" />
+        <!-- Upload file services -->
+        <service
+            android:name="com.ros.smartrocket.net.UploadFileService"
+            android:exported="false" />
+        <service
+            android:name="com.ros.smartrocket.net.UploadFileNetworkService"
+            android:exported="false" />
     </application >
 </manifest >

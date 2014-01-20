@@ -53,7 +53,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
         receiver = new NetworkBroadcastReceiver();
         filter = new IntentFilter(UploadFileNetworkService.BROADCAST_ACTION);
 
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
+        addNetworkOperationListener(this);
+
+        registerReceiver(receiver, filter);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
     }
@@ -144,7 +146,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
             if (Keys.UPLOAD_QUESTION_FILE_OPERATION_TAG.equals(operation.getTag())) {
 
                 FileToUpload fileToUpload = (FileToUpload) operation.getEntities().get(0);
-                L.i(TAG, "onNetworkOperation. File uploaded: "+fileToUpload.get_id());
+                L.i(TAG, "onNetworkOperation. File uploaded: " + fileToUpload.get_id());
 
                 FilesBL.deleteNotUploadedFileFromDbById(fileToUpload.get_id()); //Forward to remove the uploaded file
                 if (canUploadNextFile(this)) {
@@ -223,8 +225,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
     @Override
     public void onDestroy() {
         L.i(TAG, "onDestroy");
+        removeNetworkOperationListener(this);
         stopCheckNotUploadedFilesTimer();
-        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(receiver);
+        unregisterReceiver(receiver);
 
         super.onDestroy();
     }

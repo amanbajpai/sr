@@ -70,6 +70,10 @@
     <!-- MY TASK FRAGMENT-->
     <string name="my_tasks_title" >My Tasks</string >
     <string name="task_on_validation_status" >Task on validation</string >
+    <string name="task_completed_status" >Task completed</string >
+    <string name="task_scheduled_status" >Task scheduled</string >
+    <string name="task_claimed_status" >Task claimed</string >
+    <string name="task_started_status" >Task started</string >
     <!-- PROFILE FRAGMENT-->
     <string name="profile_title" >Profile</string >
     <string name="my_account_title" >My account</string >

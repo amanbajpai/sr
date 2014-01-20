@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
+import com.ros.smartrocket.net.UploadFileService;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     //private static final String TAG = MainActivity.class.getSimpleName();
@@ -24,6 +25,8 @@ public class MainActivity extends BaseSlidingMenuActivity {
         Fragment fragment = new AllTaskFragment();
         fragment.setArguments(bundle);
         fragmetHelper.startFragmentFromStack(this, fragment);
+
+        startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
     public void startFragment(Fragment fragment) {

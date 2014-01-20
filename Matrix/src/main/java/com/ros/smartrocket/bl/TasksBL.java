@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 
@@ -46,7 +45,6 @@ public class TasksBL {
     }
 
 
-
     public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
@@ -55,6 +53,7 @@ public class TasksBL {
 
     /**
      * Get tasks for one Survey
+     *
      * @param handler
      * @param surveyId
      */
@@ -87,7 +86,7 @@ public class TasksBL {
                 TaskDbSchema.Columns.SURVEY_ID + "=?", new String[]{String.valueOf(surveyId)});
     }
 
-    public static void setTask(AsyncQueryHandler handler, Task task) {
+    public static void updateTask(AsyncQueryHandler handler, Task task) {
         handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, task.toContentValues(),
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});
     }
@@ -133,28 +132,6 @@ public class TasksBL {
                 resolver.update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
             }
         }
-
-        /*ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-        for (Task task : tasks) {
-            Location temp = new Location(LocationManager.NETWORK_PROVIDER);
-            temp.setLatitude(task.getLatitude());
-            temp.setLongitude(task.getLongitude());
-            if (currentLocation != null) {
-                task.setDistance(currentLocation.distanceTo(temp));
-            }
-            ops.add(ContentProviderOperation.newUpdate(TaskDbSchema.CONTENT_URI)
-                    .withValues(task.toContentValues())
-                    .withYieldAllowed(true)
-                    .build());
-        }
-        try {
-            resolver.applyBatch(AppContentProvider.CONTENT_AUTHORITY, ops);
-        } catch (RemoteException e) {
-            L.e(TAG, "RemoteException:" + e);
-        } catch (OperationApplicationException e) {
-            L.e(TAG, "OperationApplicationException:" + e);
-        }
-        L.i(TAG, "calculateTaskDistance: stop");*/
     }
 
     /**
@@ -189,6 +166,16 @@ public class TasksBL {
             cursor.close();
         }
 
+        return result;
+    }
+
+    public static Task.TaskStatusId getTaskStatusType(int statusId) {
+        Task.TaskStatusId result = Task.TaskStatusId.none;
+        for (Task.TaskStatusId status : Task.TaskStatusId.values()) {
+            if (status.getStatusId() == statusId) {
+                result = status;
+            }
+        }
         return result;
     }
 }

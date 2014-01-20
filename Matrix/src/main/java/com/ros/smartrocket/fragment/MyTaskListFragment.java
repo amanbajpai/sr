@@ -60,11 +60,15 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
         taskList.setAdapter(adapter);
 
-        getMyTasks();
-
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getMyTasks();
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -117,10 +121,30 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Task task = adapter.getItem(position);
 
-        if (task.getStatusId() >= Task.TaskStatusId.validation.getStatusId()) {
-            startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId()));
-        } else {
-            startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case claimed:
+            case started:
+                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+                break;
+            case scheduled:
+                startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId()));
+                break;
+            case validation:
+
+                break;
+            case reDoTask:
+                //TODO What need to open?
+
+                break;
+            case pending:
+
+                break;
+            case completed:
+
+                break;
+            default:
+                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+                break;
         }
     }
 

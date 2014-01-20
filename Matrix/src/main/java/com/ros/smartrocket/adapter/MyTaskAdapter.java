@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -35,6 +36,9 @@ public class MyTaskAdapter extends BaseAdapter {
         private LinearLayout validationStatusLayout;
         private LinearLayout reDuStatusLayout;
         private LinearLayout scheduledStatusLayout;
+        private LinearLayout completedStatusLayout;
+        private LinearLayout claimedStatusLayout;
+        private LinearLayout startedStatusLayout;
     }
 
     public MyTaskAdapter(Activity activity) {
@@ -83,6 +87,9 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.validationStatusLayout = (LinearLayout) convertView.findViewById(R.id.validationStatusLayout);
             holder.reDuStatusLayout = (LinearLayout) convertView.findViewById(R.id.reDuStatusLayout);
             holder.scheduledStatusLayout = (LinearLayout) convertView.findViewById(R.id.scheduledStatusLayout);
+            holder.completedStatusLayout = (LinearLayout) convertView.findViewById(R.id.completedStatusLayout);
+            holder.claimedStatusLayout = (LinearLayout) convertView.findViewById(R.id.claimedStatusLayout);
+            holder.startedStatusLayout = (LinearLayout) convertView.findViewById(R.id.startedStatusLayout);
 
             convertView.setTag(holder);
         } else {
@@ -112,19 +119,31 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.validationStatusLayout.setVisibility(View.GONE);
         holder.reDuStatusLayout.setVisibility(View.GONE);
         holder.scheduledStatusLayout.setVisibility(View.GONE);
+        holder.completedStatusLayout.setVisibility(View.GONE);
+        holder.claimedStatusLayout.setVisibility(View.GONE);
+        holder.startedStatusLayout.setVisibility(View.GONE);
 
-        switch (task.getStatusId()) {
-            case 1:
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case claimed:
+                holder.claimedStatusLayout.setVisibility(View.VISIBLE);
+                break;
+            case started:
+                holder.startedStatusLayout.setVisibility(View.VISIBLE);
+                break;
+            case scheduled:
+                holder.scheduledStatusLayout.setVisibility(View.VISIBLE);
+                break;
+            case validation:
                 holder.validationStatusLayout.setVisibility(View.VISIBLE);
                 break;
-            case 2:
+            case reDoTask:
                 holder.reDuStatusLayout.setVisibility(View.VISIBLE);
                 break;
-            case 3:
+            case pending:
                 holder.pendingStatusLayout.setVisibility(View.VISIBLE);
                 break;
-            case 7:
-                holder.scheduledStatusLayout.setVisibility(View.VISIBLE);
+            case completed:
+                holder.completedStatusLayout.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

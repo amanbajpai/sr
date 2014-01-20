@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -114,11 +113,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        if (task.getId() != null && task.getStatusId() >= Task.TaskStatusId.validation.getStatusId()) {
-            finish();
-        } else {
-            TasksBL.getTaskFromDBbyID(handler, taskId);
-        }
+        TasksBL.getTaskFromDBbyID(handler, taskId);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -131,6 +126,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     task = TasksBL.convertCursorToTask(cursor);
+
+                    if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.scheduled ||
+                            TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation) {
+                        finish();
+                        break;
+                    }
 
                     setTaskData(task);
                     SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
@@ -179,13 +180,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 task.setStatusId(Task.TaskStatusId.none.getStatusId());
                 task.setStarted("");
                 setButtonsSettings(task);
-                TasksBL.setTask(handler, task);
+                TasksBL.updateTask(handler, task);
 
             } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStatusId(Task.TaskStatusId.started.getStatusId());
                 task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
                 setButtonsSettings(task);
-                TasksBL.setTask(handler, task);
+                TasksBL.updateTask(handler, task);
                 startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
                         task.getId()));
             }
@@ -230,25 +231,25 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         withdrawTaskButton.setVisibility(View.GONE);
         continueTaskButton.setVisibility(View.GONE);
 
-        int statusId = task.getStatusId();
-
-        if (statusId >= Task.TaskStatusId.claimed.getStatusId()) {
-            withdrawTaskButton.setVisibility(View.VISIBLE);
-
-            if (TextUtils.isEmpty(task.getStarted())) {
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case none:
+                bookTaskButton.setVisibility(View.VISIBLE);
+                if (UIUtils.isTrue(task.getIsHide())) {
+                    showTaskButton.setVisibility(View.VISIBLE);
+                } else {
+                    hideTaskButton.setVisibility(View.VISIBLE);
+                }
+                break;
+            case claimed:
+                withdrawTaskButton.setVisibility(View.VISIBLE);
                 startTaskButton.setVisibility(View.VISIBLE);
-            } else {
+                break;
+            case started:
+                withdrawTaskButton.setVisibility(View.VISIBLE);
                 continueTaskButton.setVisibility(View.VISIBLE);
-            }
-
-        } else {
-            bookTaskButton.setVisibility(View.VISIBLE);
-
-            if (UIUtils.isTrue(task.getIsHide())) {
-                showTaskButton.setVisibility(View.VISIBLE);
-            } else {
-                hideTaskButton.setVisibility(View.VISIBLE);
-            }
+                break;
+            default:
+                break;
         }
     }
 
@@ -293,10 +294,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 apiFacade.startTask(TaskDetailsActivity.this, task.getId());
                 break;
             case R.id.continueTaskButton:
-                if (Task.TaskStatusId.scheduled.getStatusId() == task.getStatusId()) {
-                    startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
-                } else if (Task.TaskStatusId.started.getStatusId() == task.getStatusId()) {
-                    startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+                    case claimed:
+                    case started:
+                        startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                        break;
+                    case scheduled:
+                        startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+                        break;
+                    default:
+                        break;
                 }
                 break;
 

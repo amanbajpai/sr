@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class FilesBL {
 
     public static void getNotUploadedFilesFromDB(AsyncQueryHandler handler) {
         handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, null, NotUploadedFileDbSchema.CONTENT_URI,
-                NotUploadedFileDbSchema.Query.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
+                NotUploadedFileDbSchema.Query.PROJECTION, null, null, NotUploadedFileDbSchema.SORT_ORDER_DESC);
     }
 
     public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long current_id, boolean useTreeGOnly) {
@@ -33,7 +32,7 @@ public class FilesBL {
         }
 
         handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, null, NotUploadedFileDbSchema.CONTENT_URI,
-                NotUploadedFileDbSchema.Query.PROJECTION, where, null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1);
+                NotUploadedFileDbSchema.Query.PROJECTION, where, null, NotUploadedFileDbSchema.SORT_ORDER_ASC_LIMIT_1);
     }
 
     public static void deleteNotUploadedFileFromDbById(long _id) {

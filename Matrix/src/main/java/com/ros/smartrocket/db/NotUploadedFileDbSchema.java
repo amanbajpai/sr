@@ -7,6 +7,7 @@ public interface NotUploadedFileDbSchema {
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table
             .NOT_UPLOADED_FILE.getName()).build();
 
+    String SORT_ORDER_ASC_LIMIT_1 = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " ASC LIMIT 1";
     String SORT_ORDER_DESC_LIMIT_1 = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " DESC";
     //String SORT_ORDER = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " ASC";
@@ -59,14 +60,14 @@ public interface NotUploadedFileDbSchema {
         int TOKEN_UPDATE = 43;
         //int TOKEN_DELETE = 44;
 
-        String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
-                Table.TASK.getName() + "." + Columns.ID.getName(),
-                Table.TASK.getName() + "." + Columns.TASK_ID.getName(),
-                Table.TASK.getName() + "." + Columns.QUESTION_ID.getName(),
-                Table.TASK.getName() + "." + Columns.FILE_URI.getName(),
-                Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
-                Table.TASK.getName() + "." + Columns.USE_3G.getName(),
-                Table.TASK.getName() + "." + Columns.FILE_SIZE_B.getName()
+        String[] PROJECTION = {Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.ID.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_ID.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.QUESTION_ID.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_URI.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.END_DATE_TIME.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.USE_3G.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_SIZE_B.getName()
         };
 
         int _ID = 0;
