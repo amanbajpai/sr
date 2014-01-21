@@ -74,7 +74,7 @@
 
     <!-- Warnings level Bugs (can be ignored) -->
 
-   
+
     <issue id="SuspiciousImport" severity="warning" />
     <issue id="NamespaceTypo" severity="warning" />
     <issue id="Proguard" severity="warning" />
@@ -156,7 +156,9 @@
     <issue id="TypographyOther" severity="ignore" />
     <issue id="IconColors" severity="ignore" />
     <issue id="IconLauncherShape" severity="ignore" />
-    <issue id="IconMissingDensityFolder" severity="ignore" />
+    <issue id="IconMissingDensityFolder" severity="ignore" >
+        <ignore path="res/layout/list_item_my_task.xml" />
+    </issue>
     <issue id="SelectableText" severity="ignore" />
     <issue id="TextFields" severity="ignore" />
     <issue id="SmallSp" severity="ignore" />
