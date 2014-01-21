@@ -3,6 +3,7 @@ package com.ros.smartrocket.net;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.google.gson.Gson;
@@ -11,9 +12,11 @@ import com.google.gson.JsonSyntaxException;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.SurveyDbSchema;
+import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.BaseEntity;
@@ -30,6 +33,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * IntentService for API communication
@@ -76,9 +80,13 @@ public class NetworkService extends BaseNetworkService {
         if (responseCode == 200 && responseString != null) {
             try {
                 ContentResolver contentResolver = getContentResolver();
+                HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.GET_SURVEYS_ID:
                         Surveys surveys = gson.fromJson(responseString, Surveys.class);
+
+                        //Get tasks with 'scheduled' status id
+                        scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
 
                         for (Survey survey : surveys.getSurveys()) {
                             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
@@ -86,16 +94,24 @@ public class NetworkService extends BaseNetworkService {
                             ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
                                 vals.add(task.toContentValues());
+                                L.e(TAG, "All task Id: "+task.getId());
                             }
                             ContentValues[] bulk = new ContentValues[vals.size()];
                             contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
                         }
+
+                        //Update task status id
+                        TasksBL.updateScheduledTask(contentResolver, scheduledTaskContentValuesMap);
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
                         Location currentLocation = App.getInstance().getLocationManager().getLocation();
                         Surveys myTasksSurveys = gson.fromJson(responseString, Surveys.class);
 
+                        //Get tasks with 'scheduled' status id
+                        scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
+
+                        //Replace tasks
                         for (Survey survey : myTasksSurveys.getSurveys()) {
                             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
 
@@ -105,6 +121,7 @@ public class NetworkService extends BaseNetworkService {
                                 temp.setLatitude(task.getLatitude());
                                 temp.setLongitude(task.getLongitude());
                                 task.setIsMy(true);
+                                L.e(TAG, "My task Id: "+task.getId());
 
                                 if (currentLocation != null) {
                                     task.setDistance(currentLocation.distanceTo(temp));
@@ -114,6 +131,9 @@ public class NetworkService extends BaseNetworkService {
                             ContentValues[] bulk = new ContentValues[vals.size()];
                             contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
                         }
+
+                        //Update task status id
+                        TasksBL.updateScheduledTask(contentResolver, scheduledTaskContentValuesMap);
                         break;
 
                     case WSUrl.CLAIM_TASKS_ID:

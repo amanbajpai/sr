@@ -7,10 +7,13 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bopr on 12/10/13.
@@ -177,5 +180,38 @@ public class TasksBL {
             }
         }
         return result;
+    }
+
+    public static HashMap<Integer, ContentValues> getScheduledTaskHashMap(ContentResolver contentResolver) {
+        String[] projection = {Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName()};
+
+        Cursor scheduledTasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
+                TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.scheduled.getStatusId(),
+                null, null);
+
+        //Get tasks with 'scheduled' status id
+        HashMap<Integer, ContentValues> scheduledContentValuesMap = new HashMap<Integer, ContentValues>();
+        if (scheduledTasksCursor != null) {
+            while (scheduledTasksCursor.moveToNext()) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(TaskDbSchema.Columns.STATUS_ID.getName(),
+                        Task.TaskStatusId.scheduled.getStatusId());
+
+                scheduledContentValuesMap.put(scheduledTasksCursor.getInt(0), contentValues);
+            }
+            scheduledTasksCursor.close();
+        }
+
+        return scheduledContentValuesMap;
+    }
+
+    public static void updateScheduledTask(ContentResolver contentResolver, HashMap<Integer, ContentValues> scheduledContentValuesMap) {
+        for (Map.Entry<Integer, ContentValues> entry : scheduledContentValuesMap.entrySet()) {
+            Integer taskId = entry.getKey();
+            ContentValues contentValues = entry.getValue();
+
+            contentResolver.update(TaskDbSchema.CONTENT_URI, contentValues,
+                    TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
+        }
     }
 }
