@@ -68,6 +68,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
+        setTitle(R.string.question_title);
 
         if (getIntent() != null) {
             surveyId = getIntent().getIntExtra(Keys.SURVEY_ID, 0);

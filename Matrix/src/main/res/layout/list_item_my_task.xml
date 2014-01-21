@@ -29,6 +29,7 @@
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:layout_marginRight="20dp"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_launcher" />
                 <LinearLayout
                     android:layout_height="match_parent"
@@ -77,63 +78,37 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="horizontal" >
-                <LinearLayout
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/price"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-                    <ImageView
-                        android:layout_height="20dp"
-                        android:layout_width="20dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_launcher" />
-                    <TextView
-                        android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/task_price" />
-                </LinearLayout >
-                <LinearLayout
-                    android:layout_height="wrap_content"
+                    android:text="@string/task_price"
+                    android:drawableLeft="@drawable/ic_launcher" />
+                <TextView
+                    android:id="@+id/exp"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-                    <ImageView
-                        android:layout_height="20dp"
-                        android:layout_width="20dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_launcher" />
-                    <TextView
-                        android:id="@+id/exp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/task_exp" />
-                </LinearLayout >
-                <LinearLayout
-                    android:layout_height="wrap_content"
+                    android:text="@string/task_exp"
+                    android:drawableLeft="@drawable/ic_launcher" />
+                <TextView
+                    android:id="@+id/distance"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-                    <ImageView
-                        android:layout_height="20dp"
-                        android:layout_width="20dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_launcher" />
-                    <TextView
-                        android:id="@+id/distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/task_distance" />
-                </LinearLayout >
+                    android:text="@string/task_distance"
+                    android:drawableLeft="@drawable/ic_launcher" />
             </LinearLayout >
         </LinearLayout >
         <ImageView
             android:layout_height="20dp"
             android:layout_width="20dp"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_name"
             android:layout_marginRight="5dp"
             android:src="@drawable/list_item_arrow" />
     </LinearLayout >
@@ -147,6 +122,7 @@
         android:visibility="gone" >
         <ImageView
             android:layout_width="wrap_content"
+            android:contentDescription="@string/app_name"
             android:layout_height="wrap_content"
             android:src="@drawable/pending" />
     </LinearLayout >
@@ -179,9 +155,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/redo" />
     </LinearLayout >
-
     <LinearLayout
         android:id="@+id/scheduledStatusLayout"
         android:layout_width="match_parent"
@@ -193,6 +169,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/scheduled" />
     </LinearLayout >
     <LinearLayout

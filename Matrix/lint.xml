@@ -73,8 +73,6 @@
 
 
     <!-- Warnings level Bugs (can be ignored) -->
-
-
     <issue id="SuspiciousImport" severity="warning" />
     <issue id="NamespaceTypo" severity="warning" />
     <issue id="Proguard" severity="warning" />
@@ -119,11 +117,9 @@
     <issue id="FieldGetter" severity="warning" />
     <issue id="HandlerLeak" severity="warning" />
     <issue id="MergeRootFrame" severity="warning" />
-    <issue id="UseSparseArrays" severity="warning" />
     <issue id="DisableBaselineAlignment" severity="warning" />
     <issue id="FloatMath" severity="warning" />
     <issue id="InefficientWeight" severity="warning" />
-    <issue id="NestedWeights" severity="warning" />
     <issue id="UselessLeaf" severity="warning" />
     <issue id="TooDeepLayout" severity="warning" />
     <issue id="TooManyViews" severity="warning" />
@@ -136,6 +132,7 @@
     <issue id="ParcelCreator" severity="warning" />
 
     <!-- Low level can be ignored -->
+    <issue id="NestedWeights" severity="ignore" />
     <issue id="InconsistentArrays" severity="ignore" />
     <issue id="MissingPrefix" severity="ignore" />
     <issue id="UnlocalizedSms" severity="ignore" />
@@ -156,9 +153,7 @@
     <issue id="TypographyOther" severity="ignore" />
     <issue id="IconColors" severity="ignore" />
     <issue id="IconLauncherShape" severity="ignore" />
-    <issue id="IconMissingDensityFolder" severity="ignore" >
-        <ignore path="res/layout/list_item_my_task.xml" />
-    </issue>
+    <issue id="IconMissingDensityFolder" severity="ignore" />
     <issue id="SelectableText" severity="ignore" />
     <issue id="TextFields" severity="ignore" />
     <issue id="SmallSp" severity="ignore" />
@@ -169,4 +164,5 @@
     <issue id="RtlCompat" severity="ignore" />
     <issue id="RtlHardcoded" severity="ignore" />
     <issue id="RtlEnabled" severity="ignore" />
+    <issue id="UseSparseArrays" severity="ignore" />
 </lint>

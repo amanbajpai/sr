@@ -15,6 +15,7 @@
                 android:layout_height="76dp"
                 android:layout_width="76dp"
                 android:layout_marginRight="20dp"
+                android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:src="@drawable/no_photo" />
@@ -105,8 +106,6 @@
             android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_toRightOf="@+id/profilePhotoImageView"
-            android:layout_below="@+id/fullNameEditText"
             android:hint="@string/password" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,14 +157,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
             <Button
-                android:id="@+id/confirmButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/confirm_and_register" />
-            <Button
                 android:id="@+id/cancelButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -173,6 +164,14 @@
                 android:padding="10dp"
                 android:layout_weight="2"
                 android:text="@string/cancel" />
+            <Button
+                android:id="@+id/confirmButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/confirm_and_register" />
         </LinearLayout >
     </LinearLayout >
 </ScrollView >

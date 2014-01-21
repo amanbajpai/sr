@@ -1,11 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DialogTheme"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_bg"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp" >
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,104 +12,60 @@
         android:text="@string/take_picture"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_medium" />
-
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:layout_marginTop="10dp"
         android:background="@color/grey" />
-
-    <LinearLayout
+    <TextView
         android:id="@+id/camera"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:drawablePadding="15dp"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:gravity="center"
-            android:src="@drawable/dialog_take_a_photo" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="@string/take_from_camera"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
-
+        android:paddingTop="10dp"
+        android:text="@string/take_from_camera"
+        android:textColor="@color/black"
+        android:drawableLeft="@drawable/dialog_take_a_photo"
+        android:textSize="@dimen/text_size_medium" />
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:background="@color/grey" />
-
-    <LinearLayout
+    <TextView
         android:id="@+id/gallery"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:drawablePadding="15dp"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:gravity="center"
-            android:src="@drawable/dialog_choose_from_gallery" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="@string/choose_from_gallery"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
-
+        android:paddingTop="10dp"
+        android:text="@string/choose_from_gallery"
+        android:textColor="@color/black"
+        android:drawableLeft="@drawable/dialog_choose_from_gallery"
+        android:textSize="@dimen/text_size_medium" />
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:background="@color/grey" />
-
-    <LinearLayout
+    <TextView
         android:id="@+id/remove"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:drawablePadding="15dp"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:gravity="center"
-            android:src="@drawable/dialog_cancel" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="@string/remove_current_picture"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
-
+        android:paddingTop="10dp"
+        android:text="@string/remove_current_picture"
+        android:textColor="@color/black"
+        android:drawableLeft="@drawable/dialog_cancel"
+        android:textSize="@dimen/text_size_medium" />
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:layout_marginBottom="10dp"
         android:background="@color/grey" />
-
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="fill_parent"
@@ -119,5 +74,4 @@
         android:padding="10dp"
         android:text="@string/cancel_set_image"
         android:textColor="@color/white" />
-
-</LinearLayout>
+</LinearLayout >

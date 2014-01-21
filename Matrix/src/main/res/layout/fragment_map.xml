@@ -14,12 +14,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnFilter"
         android:src="@drawable/circle"
+        android:contentDescription="@string/app_name"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true" />
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnMyLocation"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/abc_ic_go"
         android:layout_marginBottom="30dp"
         android:layout_above="@+id/btnFilter"
@@ -37,7 +39,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"
@@ -59,21 +61,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/min_distance"/>
-
+                android:text="@string/min_distance" />
             <TextView
                 android:id="@+id/txtRadius"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="0"/>
-
+                android:layout_centerHorizontal="true" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/max_distance"/>
+                android:text="@string/max_distance" />
             <SeekBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
@@ -86,7 +85,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"

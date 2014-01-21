@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="https://schemas.android.com/tools"
+    style="@style/MapWindowTheme"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/map_info_bubble"
-    android:orientation="horizontal"
-    tools:ignore="Overdraw">
+    android:orientation="horizontal" >
     <ImageView
         android:id="@+id/img"
+        android:contentDescription="@string/app_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_launcher"
@@ -32,7 +31,6 @@
         style="@style/MapTaskLabel"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/title"
-
         android:layout_toRightOf="@+id/img" />
     <TextView
         android:layout_width="wrap_content"
@@ -50,7 +48,7 @@
         android:id="@+id/distance_label"
         android:layout_marginLeft="15dp"
         android:layout_alignTop="@+id/price_label"
-        android:layout_toRightOf="@+id/price_value"/>
+        android:layout_toRightOf="@+id/price_value" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,5 +56,5 @@
         android:id="@+id/distance_value"
         android:layout_marginLeft="5dp"
         android:layout_alignTop="@+id/distance_label"
-        android:layout_toRightOf="@+id/distance_label"/>
+        android:layout_toRightOf="@+id/distance_label" />
 </RelativeLayout >

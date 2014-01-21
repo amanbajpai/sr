@@ -10,6 +10,13 @@
         <item name="android:background" >@color/white</item >
     </style >
 
+    <style name="DialogTheme" >
+        <item name="android:background" >@drawable/dialog_bg</item >
+    </style >
+    <style name="MapWindowTheme" >
+        <item name="android:background" >@drawable/map_info_bubble</item >
+    </style >
+
     <style name="Toggle" parent="android:Widget.Button.Toggle" >
         <item name="android:background" >@drawable/btn_toggle</item >
         <item name="android:minHeight" >28dip</item >

@@ -95,8 +95,7 @@
                     android:layout_marginRight="5dp"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
-                    android:gravity="left"
-                    android:text="22" />
+                    android:gravity="left" />
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"

@@ -71,13 +71,11 @@
     <string name="my_tasks_title" >My Tasks</string >
     <string name="task_on_validation_status" >Task on validation</string >
     <string name="task_completed_status" >Task completed</string >
-    <string name="task_scheduled_status" >Task scheduled</string >
     <string name="task_claimed_status" >Task claimed</string >
     <string name="task_started_status" >Task started</string >
     <!-- PROFILE FRAGMENT-->
     <string name="profile_title" >Profile</string >
     <string name="my_account_title" >My account</string >
-    <string name="your_balance" >Your Balance</string >
     <string name="balance" >Balance</string >
     <string name="balance_0" >0$</string >
     <string name="number_0" >0</string >
@@ -108,7 +106,6 @@
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >
-    <string name="task_in_radius" >Tasks in radius</string >
     <string name="notification_settings" >Notification settings</string >
     <string name="appointment_interval" >Appointment Interval</string >
     <string name="deadline_reminder" >Deadline reminder</string >
@@ -198,13 +195,11 @@
     <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
     <string name="gcm_test_push_noData" >There is no data to send</string >
     <!-- Google Map Fragment -->
-    <string name="no_tasks_found" >No Tasks found!</string >
     <string name="map_popup_distance" >Distance:</string >
     <!-- Current Location -->
-    <string name="looking_for_location" >Looking for your current location...</string >
+    <string name="looking_for_location" >Looking for your current location&#8230;</string >
     <string name="current_location_not_defined" >There is no current location. Looking for your current location,
-        please wait...</string >
-    <string name="btn_update" >Update</string >
+        please wait&#8230;</string >
     <!-- Select image dialog -->
     <string name="take_picture" >Take picture</string >
     <string name="choose_from_gallery" >Choose from gallery</string >
@@ -249,6 +244,7 @@
     <string name="choose_one_or_more_answers" >Choose one or more answers from list</string >
     <string name="choose_one_answer" >Choose one answer from list</string >
     <string name="write_your_opinion_about_it" >Write your opinion about it.</string >
+    <string name="enter_here" >Enter here</string >
     <string name="take_photo" >Take photo</string >
     <string name="re_photo" >Re-photo</string >
     <string name="confirm" >Confirm</string >

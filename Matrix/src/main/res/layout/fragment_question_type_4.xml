@@ -19,6 +19,8 @@
         android:text="@string/write_your_opinion_about_it" />
     <EditText
         android:id="@+id/answerEditText"
+        android:inputType="text"
+        android:hint="@string/enter_here"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout >

@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by bopr on 12/10/13.
- */
 public class TasksBL {
     //private static final String TAG = TasksBL.class.getSimpleName();
 
@@ -57,8 +54,8 @@ public class TasksBL {
     /**
      * Get tasks for one Survey
      *
-     * @param handler
-     * @param surveyId
+     * @param handler  - handler for request to DB
+     * @param surveyId - survey Id
      */
     public static void getTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
@@ -97,8 +94,8 @@ public class TasksBL {
     /**
      * Update task statusId
      *
-     * @param taskId
-     * @param statusId
+     * @param taskId    - current task id
+     * @param statusId  - new task status id
      */
     public static void updateTaskStatusId(Integer taskId, Integer statusId) {
         ContentValues contentValues = new ContentValues();
@@ -141,7 +138,7 @@ public class TasksBL {
      * Convert cursor to Task list
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return ArrayList<Task>
      */
     public static ArrayList<Task> convertCursorToTasksList(Cursor cursor) {
         ArrayList<Task> result = new ArrayList<Task>();
@@ -158,7 +155,7 @@ public class TasksBL {
      * Convert cursor to Task
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return Task
      */
     public static Task convertCursorToTask(Cursor cursor) {
         Task result = new Task();
@@ -182,6 +179,7 @@ public class TasksBL {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static HashMap<Integer, ContentValues> getScheduledTaskHashMap(ContentResolver contentResolver) {
         String[] projection = {Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName()};
 
