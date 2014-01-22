@@ -5,10 +5,10 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class Config {
     public enum Environment {
-        DEVELOPMENT, PRODUCTION;
+        DEVELOPMENT, PRODUCTION, STAGING;
     }
 
-    public static final Environment ENV = Environment.DEVELOPMENT;
+    public static final Environment ENV = Environment.STAGING;
     public static final String DEV_EMAIL = "dmma@ciklum.com";
     public static final String CACHE_PREFIX_DIR = "/Android/data/com.ros.smartrocket/cache/";
 
@@ -34,9 +34,14 @@ public class Config {
         APP_VERSION = UIUtils.getAppVersion(App.getInstance());
         switch (ENV) {
             case PRODUCTION:
-                LOG_ENABLED = false;
                 ACRA_ENABLED = false;
+                LOG_ENABLED = false;
                 WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
+                break;
+            case STAGING:
+                ACRA_ENABLED = true;
+                LOG_ENABLED = true;
+                WEB_SERVICE_URL = "http://matrix.stage.api.uran.po.ciklum.net/";
                 break;
             case DEVELOPMENT:
             default:
