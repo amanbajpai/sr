@@ -154,8 +154,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
         }
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
-        if ( (mode == Keys.MapViewMode.SURVEYTASKS) ||
-             (mode == Keys.MapViewMode.SINGLETASK)) {
+        if ((mode == Keys.MapViewMode.SURVEYTASKS) ||
+                (mode == Keys.MapViewMode.SINGLETASK)) {
             viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
         }
         // Update data set from Server
@@ -346,8 +346,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void getSurveysFromServer(final int radius) {
         Location location = lm.getLocation();
         if (location != null) {
-            APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius,
-                    DEFAULT_LANG);
+            APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius);
         } else {
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
@@ -356,7 +355,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     L.i(TAG, "Location Updated!");
                     ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                     APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(),
-                            location.getLongitude(), radius, DEFAULT_LANG);
+                            location.getLongitude(), radius);
                 }
             });
         }

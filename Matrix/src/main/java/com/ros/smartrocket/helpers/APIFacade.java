@@ -5,10 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.db.entity.CheckLocation;
+import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.PushMessage;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.RegisterDevice;
+import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.SendTaskId;
+import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.WSUrl;
@@ -100,14 +107,13 @@ public class APIFacade {
 
     /**
      * @param activity
-     * @param language
      * @param latitude
      * @param longitude
      */
-    public void getSurveys(Activity activity, double latitude, double longitude, int radius, String language) {
+    public void getSurveys(Activity activity, double latitude, double longitude, int radius) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_SURVEYS, String.valueOf(latitude), String.valueOf(longitude),
-                String.valueOf(radius), language);
+                String.valueOf(radius), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_SURVEYS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
@@ -153,9 +159,9 @@ public class APIFacade {
     }
 
     /**
-    * @param activity
-    * @param taskId
-    */
+     * @param activity
+     * @param taskId
+     */
     public void unclaimTask(Activity activity, Integer taskId) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);

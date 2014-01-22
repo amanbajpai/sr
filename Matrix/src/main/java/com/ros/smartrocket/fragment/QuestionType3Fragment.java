@@ -94,7 +94,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     if (answer.isChecked() && answer.getFileUri() != null) {
                         isBitmapAdded = true;
                         rePhotoButton.setText(R.string.re_photo);
-                        photoImageView.setImageURI(Uri.parse(answer.getFileUri()));
+                        photoImageView.setImageBitmap(SelectImageManager.prepareBitmap(new File(answer.getFileUri())));
                     } else {
                         isBitmapAdded = false;
                         rePhotoButton.setText(R.string.take_photo);

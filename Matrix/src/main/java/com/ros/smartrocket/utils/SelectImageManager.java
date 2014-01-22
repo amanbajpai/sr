@@ -49,8 +49,8 @@ public class SelectImageManager {
     private Activity activity;
 
     // Configuration
-    private static int MAX_SIZE_IN_PX = 600;
-    private static long MAX_SIZE_IN_BYTE = 2 * 1000 * 1000;
+    private static int MAX_SIZE_IN_PX = 500;
+    private static long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
     private static boolean CHECK_SCALE_BY_BYTE_SIZE = true;
 
     private Dialog selectImageDialog;
@@ -206,7 +206,7 @@ public class SelectImageManager {
         }
     }
 
-    public Bitmap prepareBitmap(File f) {
+    public static Bitmap prepareBitmap(File f) {
         Bitmap resultBitmap = null;
 
         try {
@@ -224,7 +224,7 @@ public class SelectImageManager {
         return resultBitmap;
     }
 
-    private Bitmap getScaledBitmapByPxSize(File f) {
+    public static  Bitmap getScaledBitmapByPxSize(File f) {
         int scale = 1;
         try {
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -269,7 +269,7 @@ public class SelectImageManager {
         return sourceBitmap;
     }
 
-    public Bitmap rotateByExif(String imagePath, Bitmap bitmap) {
+    public static Bitmap rotateByExif(String imagePath, Bitmap bitmap) {
         try {
             ExifInterface oldExif = new ExifInterface(imagePath);
             int index = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));

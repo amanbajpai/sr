@@ -88,7 +88,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
             L.i(TAG, "Radius: " + radius);
 
             SurveysBL.getSurveysListFromDB(handler, radius);
-            apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius, DEFAULT_LANG);
+            apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius);
         }
     }
 
