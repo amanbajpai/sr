@@ -284,4 +284,6 @@
         you want start upload files using 3G?</string >
     <string name="tree_g_limit_exceeded_dialog_yes" >Yes</string >
     <string name="tree_g_limit_exceeded_dialog_only_wifi" >Use Wi-Fi only</string >
+    <!-- Not uploaded file notification-->
+    <string name="file_waiting_to_upload" >File is waiting to upload</string >
 </resources >

@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -326,6 +327,10 @@ public class UIUtils {
                 break;
         }
         return "longToStringFormatNotFound";
+    }
+
+    public static long getCurrentTimeInMilliseonds() {
+        return Calendar.getInstance().getTimeInMillis();
     }
 
     public static boolean isCameraAvailable(Context context) {

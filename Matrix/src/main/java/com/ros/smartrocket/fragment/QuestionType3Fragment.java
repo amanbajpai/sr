@@ -72,7 +72,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         confirmButton.setEnabled(false);
 
         questionText.setText(question.getQuestion());
-        AnswersBL.getAnswersListFromDB(handler, question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
 
         return view;
     }

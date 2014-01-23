@@ -60,7 +60,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         list.setAdapter(adapter);
 
         questionText.setText(question.getQuestion());
-        AnswersBL.getAnswersListFromDB(handler, question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
 
         return view;
     }

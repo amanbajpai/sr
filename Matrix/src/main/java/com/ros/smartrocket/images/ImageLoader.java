@@ -54,10 +54,10 @@ public class ImageLoader {
     private static final int NORMAL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.normal_image_size);
     private static final int SMALL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.small_image_size);
 
-    private final int loadingBigImageResId = R.drawable.loading_big;
-    private final int loadingNormalImageResId = R.drawable.loading_normal;
-    private final int loadingSmallImageResId = R.drawable.loading_small;
-    private final int noImageResId = R.drawable.no_image;
+    private static final int loadingBigImageResId = R.drawable.loading_big;
+    private static final int loadingNormalImageResId = R.drawable.loading_normal;
+    private static final int loadingSmallImageResId = R.drawable.loading_small;
+    private static final int noImageResId = R.drawable.no_image;
 
     public interface OnFetchCompleteListener {
         void onFetchComplete(Bitmap result);
@@ -368,7 +368,7 @@ public class ImageLoader {
     }
 
     // Task for the queue
-    private class PhotoToLoad {
+    private static class PhotoToLoad {
         private String url;
         private ImageView imageView;
         private boolean anim;
@@ -498,7 +498,7 @@ public class ImageLoader {
             Utils.copyStream(is, os);
             os.close();
         } catch (Exception e) {
-            L.e(TAG, "error copyRsourceToFile");
+            e.printStackTrace();
         }
 
         return f;

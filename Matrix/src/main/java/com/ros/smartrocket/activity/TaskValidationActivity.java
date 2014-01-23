@@ -64,8 +64,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
 
-        notUploadedFiles = AnswersBL.getTaskFilesListToUpload(taskId);
-        filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -78,6 +76,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     task = TasksBL.convertCursorToTask(cursor);
+
+                    long endDateTime = UIUtils.isoTimeToLong(task.getEndDateTime());
+
+                    notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), endDateTime);
+                    filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                     setTaskData(task);
                     SurveysBL.getSurveyFromDB(handler, task.getSurveyId());

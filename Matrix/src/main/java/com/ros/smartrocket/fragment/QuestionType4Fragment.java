@@ -60,7 +60,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         answerEditText.setFilters(filterArray);
 
         questionText.setText(question.getQuestion());
-        AnswersBL.getAnswersListFromDB(handler, question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
 
         return view;
     }

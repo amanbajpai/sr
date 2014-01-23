@@ -14,6 +14,7 @@ public interface QuestionDbSchema {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         SURVEY_ID("SurveyId", DBType.NUMERIC),
+        TASK_ID("TaskId", DBType.NUMERIC),
         QUESTION("Question", DBType.TEXT),
         TYPE("Type", DBType.NUMERIC),
         ORDER_ID("OrderId", DBType.NUMERIC),
@@ -65,6 +66,7 @@ public interface QuestionDbSchema {
         String[] PROJECTION = {Table.QUESTION.getName() + "." + Columns._ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.SURVEY_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.TASK_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.QUESTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.TYPE.getName(),
                 Table.QUESTION.getName() + "." + Columns.ORDER_ID.getName(),
@@ -81,14 +83,15 @@ public interface QuestionDbSchema {
         int _ID = 0;
         int ID = 1;
         int SURVEY_ID = 2;
-        int QUESTION = 3;
-        int TYPE = 4;
-        int ORDER_ID = 5;
-        int MAXIMUM_CHARACTERS = 6;
-        int MAXIMUM_PHOTOS = 7;
-        int SHOW_BACK_BUTTON = 8;
-        int ALLOW_MULTIPLY_PHOTOS = 9;
-        int ASK_IF = 10;
-        int PREVIOUS_QUESTION_ORDER_ID = 11;
+        int TASK_ID = 3;
+        int QUESTION = 4;
+        int TYPE = 5;
+        int ORDER_ID = 6;
+        int MAXIMUM_CHARACTERS = 7;
+        int MAXIMUM_PHOTOS = 8;
+        int SHOW_BACK_BUTTON = 9;
+        int ALLOW_MULTIPLY_PHOTOS = 10;
+        int ASK_IF = 11;
+        int PREVIOUS_QUESTION_ORDER_ID = 12;
     }
 }

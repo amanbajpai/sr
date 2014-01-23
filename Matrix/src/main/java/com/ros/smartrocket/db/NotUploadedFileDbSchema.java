@@ -18,9 +18,11 @@ public interface NotUploadedFileDbSchema {
         TASK_ID("TaskId", DBType.NUMERIC),
         QUESTION_ID("QuestionId", DBType.NUMERIC),
         FILE_URI("FileUri", DBType.TEXT),
-        END_DATE_TIME("EndDateTime", DBType.TEXT),
+        ADDED_TO_UPLOAD_DATE_TIME("AddedToUploadDateTime", DBType.NUMERIC),
+        END_DATE_TIME("EndDateTime", DBType.NUMERIC),
         USE_3G("use3G", DBType.INT),
         FILE_SIZE_B("fileSizeB", DBType.NUMERIC),
+        SHOW_NOTIFICATION_STEP_ID("showNotificationStepId", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -65,9 +67,11 @@ public interface NotUploadedFileDbSchema {
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.QUESTION_ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_URI.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.ADDED_TO_UPLOAD_DATE_TIME.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.END_DATE_TIME.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.USE_3G.getName(),
-                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_SIZE_B.getName()
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_SIZE_B.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.SHOW_NOTIFICATION_STEP_ID.getName()
         };
 
         int _ID = 0;
@@ -75,8 +79,10 @@ public interface NotUploadedFileDbSchema {
         int TASK_ID = 2;
         int QUESTION_ID = 3;
         int FILE_URI = 4;
-        int END_DATE_TIME = 5;
-        int USE_3G = 6;
-        int FILE_SIZE_B = 7;
+        int ADDED_TO_UPLOAD_DATE_TIME = 5;
+        int END_DATE_TIME = 6;
+        int USE_3G = 7;
+        int FILE_SIZE_B = 8;
+        int SHOW_NOTIFICATION_STEP_ID = 9;
     }
 }

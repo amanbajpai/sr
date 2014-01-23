@@ -10,6 +10,7 @@ public class Question extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
     private Integer SurveyId;
+    private Integer TaskId;
     private String Question = "";
     private Integer Type;
     private Integer OrderId;
@@ -33,6 +34,7 @@ public class Question extends BaseEntity implements Serializable {
             result.set_id(c.getInt(QuestionDbSchema.Query._ID));
             result.setId(c.getInt(QuestionDbSchema.Query.ID));
             result.setSurveyId(c.getInt(QuestionDbSchema.Query.SURVEY_ID));
+            result.setTaskId(c.getInt(QuestionDbSchema.Query.TASK_ID));
             result.setQuestion(c.getString(QuestionDbSchema.Query.QUESTION));
             result.setType(c.getInt(QuestionDbSchema.Query.TYPE));
             result.setOrderId(c.getInt(QuestionDbSchema.Query.ORDER_ID));
@@ -137,6 +139,14 @@ public class Question extends BaseEntity implements Serializable {
 
     public void setPreviousQuestionOrderId(Integer previousQuestionOrderId) {
         PreviousQuestionOrderId = previousQuestionOrderId;
+    }
+
+    public Integer getTaskId() {
+        return TaskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        TaskId = taskId;
     }
 
 }

@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -19,12 +18,14 @@ import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,7 +44,15 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private BroadcastReceiver receiver;
     private IntentFilter filter;
 
-    private Timer refreshMessageTimer;
+    private Timer uploadFilesTimer;
+    private Timer showNotificationTimer;
+
+    private static final String COOKIE_UPLOAD_FILE = "upload_file";
+    private static final String COOKIE_SHOW_NOTIFICATION = "show_notification";
+
+    private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 15;
+    private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
+    private static final int MINUTE_IN_MILLISECONDS_60 = 1000 * 60 * 60;
 
     @Override
     public void onCreate() {
@@ -76,26 +85,47 @@ public class UploadFileService extends Service implements NetworkOperationListen
     }
 
     public void startCheckNotUploadedFilesTimer() {
-        if (refreshMessageTimer != null) {
-            L.i(TAG, "Restart timer");
-            refreshMessageTimer.cancel();
+        if (uploadFilesTimer != null) {
+            L.i(TAG, "Restart uploadFilesTimer");
+            uploadFilesTimer.cancel();
         } else {
-            L.i(TAG, "Start timer");
+            L.i(TAG, "Start uploadFilesTimer");
+        }
+
+        if (showNotificationTimer != null) {
+            L.i(TAG, "Restart showNotificationTimer");
+            showNotificationTimer.cancel();
+        } else {
+            L.i(TAG, "Start showNotificationTimer");
         }
 
         new Thread() {
             public void run() {
                 try {
-                    refreshMessageTimer = new Timer();
-                    refreshMessageTimer.schedule(new TimerTask() {
+                    uploadFilesTimer = new Timer();
+                    uploadFilesTimer.schedule(new TimerTask() {
                         public void run() {
+
                             L.i(TAG, "In timer. Start");
                             if (canUploadNextFile(UploadFileService.this)) {
                                 L.i(TAG, "Can upload file");
-                                FilesBL.getFirstNotUploadedFileFromDB(dbHandler, 0, UIUtils.is3G(UploadFileService.this));
+                                FilesBL.getFirstNotUploadedFileFromDB(dbHandler, 0,
+                                        UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
+
                             }
+
                         }
                     }, 5000, Config.CHECK_NOT_UPLOADED_FILE_MILLISECONDS);
+
+                    showNotificationTimer = new Timer();
+                    showNotificationTimer.schedule(new TimerTask() {
+                        public void run() {
+
+                            L.i(TAG, "In timer. Start showNotificationTimer");
+                            FilesBL.getNotUploadedFilesFromDB(dbHandler, COOKIE_SHOW_NOTIFICATION);
+
+                        }
+                    }, 5000, Config.SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -103,10 +133,17 @@ public class UploadFileService extends Service implements NetworkOperationListen
         }.start();
     }
 
-    public void stopCheckNotUploadedFilesTimer() {
-        L.i(TAG, "Stop timer");
-        if (refreshMessageTimer != null) {
-            refreshMessageTimer.cancel();
+    public void stopUploadedFilesTimer() {
+        L.i(TAG, "Stop uploadFilesTimer");
+        if (uploadFilesTimer != null) {
+            uploadFilesTimer.cancel();
+        }
+    }
+
+    public void stopShowNotifiationTimer() {
+        L.i(TAG, "Stop showNotificationTimer");
+        if (showNotificationTimer != null) {
+            showNotificationTimer.cancel();
         }
     }
 
@@ -120,25 +157,50 @@ public class UploadFileService extends Service implements NetworkOperationListen
         protected void onQueryComplete(int token, Object cookie, final Cursor cursor) {
             switch (token) {
                 case NotUploadedFileDbSchema.Query.TOKEN_QUERY:
+                    if (cookie.equals(COOKIE_UPLOAD_FILE)) {
+                        NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
 
-                    NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
+                        if (notUploadedFile != null) {
+                            Calendar calendar = Calendar.getInstance();
+                            if (calendar.getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
+                                FileToUpload fileToUpload = new FileToUpload();
+                                fileToUpload.set_id(notUploadedFile.get_id());
+                                fileToUpload.setId(notUploadedFile.getId());
+                                fileToUpload.setTaskId(notUploadedFile.getTaskId());
+                                fileToUpload.setQuestionId(notUploadedFile.getQuestionId());
+                                fileToUpload.setFileBase64(getFileAsString(Uri.parse(notUploadedFile.getFileUri())));
 
-                    if (notUploadedFile != null) {
-                        FileToUpload fileToUpload = new FileToUpload();
-                        fileToUpload.setTaskId(notUploadedFile.getTaskId());
-                        fileToUpload.setQuestionId(notUploadedFile.getQuestionId());
-                        fileToUpload.setFileBase64(getFileAsString(Uri.parse(notUploadedFile.getFileUri())));
+                                L.i(TAG, "onQueryComplete. Send file. Uri: " + notUploadedFile.getFileUri());
+                                sendFile(fileToUpload);
+                            } else {
+                                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.get_id());
+                            }
+                        } else {
+                            //Stop upload file timer
+                            stopUploadedFilesTimer();
+                        }
+                    } else if (cookie.equals(COOKIE_SHOW_NOTIFICATION)) {
+                        ArrayList<NotUploadedFile> notUploadedFileList = FilesBL.convertCursorToNotUploadedFileList
+                                (cursor);
 
-                        L.i(TAG, "onQueryComplete. Send file. Uri: " + notUploadedFile.getFileUri());
-                        sendFile(fileToUpload);
-                    } else {
-                        //Stop upload file timer
-                        stopCheckNotUploadedFilesTimer();
+                        if (notUploadedFileList.size() > 0) {
+                            for (NotUploadedFile notUploadedFile : notUploadedFileList) {
+                                if (needSendNotification(notUploadedFile)) {
+                                    NotificationUtils.sendNotUploadedFileNotification(UploadFileService.this, notUploadedFile);
+
+                                    FilesBL.updateShowNotificationStep(notUploadedFile);
+                                }
+
+                            }
+                        } else {
+                            stopShowNotifiationTimer();
+                        }
                     }
                     break;
             }
         }
     }
+
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
@@ -148,14 +210,36 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 FileToUpload fileToUpload = (FileToUpload) operation.getEntities().get(0);
                 L.i(TAG, "onNetworkOperation. File uploaded: " + fileToUpload.get_id());
 
-                FilesBL.deleteNotUploadedFileFromDbById(fileToUpload.get_id()); //Forward to remove the uploaded file
+                FilesBL.deleteNotUploadedFileFromDbById(fileToUpload.getId()); //Forward to remove the uploaded file
                 if (canUploadNextFile(this)) {
-                    FilesBL.getFirstNotUploadedFileFromDB(dbHandler, fileToUpload.get_id(), UIUtils.is3G(UploadFileService.this));
+                    FilesBL.getFirstNotUploadedFileFromDB(dbHandler, fileToUpload.get_id(),
+                            UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
                 }
             }
         } else {
             L.e(TAG, "onNetworkOperation. File not uploaded");
         }
+    }
+
+    private boolean needSendNotification(NotUploadedFile notUploadedFile) {
+        boolean result = false;
+        long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
+
+        switch (NotUploadedFile.NotificationStepId.getStep(notUploadedFile.getShowNotificationStepId())) {
+            case none:
+                result = currentTimeInMillis > notUploadedFile.getAddedToUploadDateTime() + MINUTE_IN_MILLISECONDS_15;
+                break;
+            case min_15:
+                result = currentTimeInMillis >= notUploadedFile.getAddedToUploadDateTime() + MINUTE_IN_MILLISECONDS_30;
+                break;
+            case min_30:
+                result = currentTimeInMillis >= notUploadedFile.getAddedToUploadDateTime() + MINUTE_IN_MILLISECONDS_60;
+                break;
+            case min_60:
+                result = false;
+                break;
+        }
+        return result;
     }
 
     public String getFileAsString(Uri uri) {
@@ -172,8 +256,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     public static boolean canUploadNextFile(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        return preferencesManager.getUsed3GUploadMonthlySize() < preferencesManager.get3GUploadMonthLimit() && UIUtils
-                .isOnline(context);
+        return (preferencesManager.getUsed3GUploadMonthlySize() < preferencesManager.get3GUploadMonthLimit() &&
+                UIUtils.is3G(context)) || UIUtils.isWiFi(context);
     }
 
     public void sendFile(FileToUpload fileToUpload) {
@@ -226,7 +310,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     public void onDestroy() {
         L.i(TAG, "onDestroy");
         removeNetworkOperationListener(this);
-        stopCheckNotUploadedFilesTimer();
+        stopUploadedFilesTimer();
         unregisterReceiver(receiver);
 
         super.onDestroy();

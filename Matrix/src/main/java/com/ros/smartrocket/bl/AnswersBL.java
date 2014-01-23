@@ -11,9 +11,11 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AnswersBL {
 
@@ -28,10 +30,11 @@ public class AnswersBL {
      * @param questionId
      */
 
-    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer questionId) {
+    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer questionId) {
         handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=?",
-                new String[]{String.valueOf(questionId)}, AnswerDbSchema.SORT_ORDER_DESC);
+                AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema
+                .Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId)}, AnswerDbSchema.SORT_ORDER_DESC);
     }
 
     public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
@@ -42,7 +45,7 @@ public class AnswersBL {
         }
     }
 
-    public static ArrayList<NotUploadedFile> getTaskFilesListToUpload(Integer taskId) {
+    public static ArrayList<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=?",
@@ -54,10 +57,14 @@ public class AnswersBL {
         for (Answer answer : answers) {
             if (!TextUtils.isEmpty(answer.getFileUri())) {
                 NotUploadedFile fileToUpload = new NotUploadedFile();
+                fileToUpload.setRandomId();
                 fileToUpload.setTaskId(answer.getTaskId());
                 fileToUpload.setQuestionId(answer.getQuestionId());
                 fileToUpload.setFileUri(answer.getFileUri());
                 fileToUpload.setFileSizeB(answer.getFileSizeB());
+                fileToUpload.setShowNotificationStepId(0);
+                fileToUpload.setAddedToUploadDateTime(UIUtils.getCurrentTimeInMilliseonds());
+                fileToUpload.setEndDateTime(endDateTime);
 
                 notUploadedFiles.add(fileToUpload);
             }

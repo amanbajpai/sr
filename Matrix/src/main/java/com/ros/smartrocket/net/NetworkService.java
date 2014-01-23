@@ -173,6 +173,7 @@ public class NetworkService extends BaseNetworkService {
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
                         for (Question question : questions.getQuestions()) {
+                            question.setTaskId(taskId);
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
                             contentResolver.delete(AnswerDbSchema.CONTENT_URI,
