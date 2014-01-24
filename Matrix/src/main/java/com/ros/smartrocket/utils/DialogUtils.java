@@ -219,7 +219,7 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showQuiteTaskDialog(final Activity activity, final int taskId) {
+    public static void showQuiteTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
@@ -231,7 +231,7 @@ public class DialogUtils {
             public void onQuiteTaskButtonPressed(Dialog dialog) {
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId);
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + surveyId + "_" + taskId);
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
                 dialog.dismiss();
@@ -258,7 +258,7 @@ public class DialogUtils {
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
 
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + taskId);
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + surveyId + "_" + taskId);
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
                 dialog.dismiss();

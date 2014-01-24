@@ -3,7 +3,6 @@ package com.ros.smartrocket.net;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.google.gson.Gson;
@@ -16,7 +15,6 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.SurveyDbSchema;
-import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.BaseEntity;
@@ -88,13 +86,15 @@ public class NetworkService extends BaseNetworkService {
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
 
+                        TasksBL.removeNotMyTask(contentResolver);
+
                         for (Survey survey : surveys.getSurveys()) {
                             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
 
                             ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
                                 vals.add(task.toContentValues());
-                                L.e(TAG, "All task Id: "+task.getId());
+                                L.e(TAG, "All task Id: " + task.getId());
                             }
                             ContentValues[] bulk = new ContentValues[vals.size()];
                             contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
@@ -111,6 +111,8 @@ public class NetworkService extends BaseNetworkService {
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
 
+                        TasksBL.removeAllMyTask(contentResolver);
+
                         //Replace tasks
                         for (Survey survey : myTasksSurveys.getSurveys()) {
                             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
@@ -121,7 +123,7 @@ public class NetworkService extends BaseNetworkService {
                                 temp.setLatitude(task.getLatitude());
                                 temp.setLongitude(task.getLongitude());
                                 task.setIsMy(true);
-                                L.e(TAG, "My task Id: "+task.getId());
+                                L.e(TAG, "My task Id: " + task.getId());
 
                                 if (currentLocation != null) {
                                     task.setDistance(currentLocation.distanceTo(temp));
@@ -177,21 +179,19 @@ public class NetworkService extends BaseNetworkService {
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
                             contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                                    AnswerDbSchema.Columns.QUESTION_ID + "=?", new String[]{String.valueOf(question
-                                    .getId())});
+                                    AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
+                                    new String[]{String.valueOf(question.getId()), String.valueOf(taskId)});
 
                             if (question.getAnswers() != null) {
-                                ArrayList<ContentValues> answersCvList = new ArrayList<ContentValues>();
                                 for (Answer answer : question.getAnswers()) {
+                                    answer.setRandomId();
                                     answer.setQuestionId(question.getId());
                                     answer.setTaskId(taskId);
-                                    answersCvList.add(answer.toContentValues());
+                                    contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                                 }
-
-                                ContentValues[] answersCvArray = new ContentValues[answersCvList.size()];
-                                contentResolver.bulkInsert(AnswerDbSchema.CONTENT_URI, answersCvList.toArray(answersCvArray));
                             } else {
                                 Answer answer = new Answer();
+                                answer.setRandomId();
                                 answer.setQuestionId(question.getId());
                                 answer.setTaskId(taskId);
                                 contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());

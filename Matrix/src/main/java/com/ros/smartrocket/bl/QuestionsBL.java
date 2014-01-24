@@ -21,10 +21,11 @@ public class QuestionsBL {
      * @param handler
      * @param surveyId
      */
-    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId) {
+    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=?",
-                new String[]{String.valueOf(surveyId)}, QuestionDbSchema.SORT_ORDER_DESC);
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and "+QuestionDbSchema
+                .Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(surveyId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC);
     }
 
     /**

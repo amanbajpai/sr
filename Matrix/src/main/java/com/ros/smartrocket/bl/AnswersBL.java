@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
@@ -15,7 +16,6 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class AnswersBL {
 
@@ -147,6 +147,11 @@ public class AnswersBL {
 
         activity.getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues,
                 AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
-
     }
+
+    public static void removeAnswersByTaskId(Activity activity, int taskId) {
+        activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
+    }
+
 }

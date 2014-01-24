@@ -94,8 +94,8 @@ public class TasksBL {
     /**
      * Update task statusId
      *
-     * @param taskId    - current task id
-     * @param statusId  - new task status id
+     * @param taskId   - current task id
+     * @param statusId - new task status id
      */
     public static void updateTaskStatusId(Integer taskId, Integer statusId) {
         ContentValues contentValues = new ContentValues();
@@ -211,5 +211,15 @@ public class TasksBL {
             contentResolver.update(TaskDbSchema.CONTENT_URI, contentValues,
                     TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
         }
+    }
+
+    public static void removeAllMyTask(ContentResolver contentResolver) {
+        contentResolver.delete(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(1)});
+    }
+
+    public static void removeNotMyTask(ContentResolver contentResolver) {
+        contentResolver.delete(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(0)});
     }
 }

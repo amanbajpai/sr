@@ -91,7 +91,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         validationButton.setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
-        QuestionsBL.getQuestionsListFromDB(handler, surveyId);
+        QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
+
+        L.i(TAG, "Task id: " + taskId);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -113,7 +115,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     if (questions.size() > 0) {
                         //int previousQuestionOrderId = preferencesManager.getPreviousQuestionOrderId(taskId);
-                        int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(taskId);
+                        int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(surveyId, taskId);
 
                         Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
                         startFragment(question);
@@ -145,7 +147,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
             if (question != null) {
-                preferencesManager.setLastNotAnsweredQuestionOrderId(taskId, nextQuestionOrderId);
+                preferencesManager.setLastNotAnsweredQuestionOrderId(surveyId, taskId, nextQuestionOrderId);
                 question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
                 QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
@@ -162,7 +164,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
                     .getPreviousQuestionOrderId() : 1;
-            preferencesManager.setLastNotAnsweredQuestionOrderId(taskId, previousQuestionOrderId);
+            preferencesManager.setLastNotAnsweredQuestionOrderId(surveyId, taskId, previousQuestionOrderId);
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, previousQuestionOrderId);
 
@@ -230,7 +232,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
-                QuestionsBL.getQuestionsListFromDB(handler, surveyId);
+                QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
@@ -284,7 +286,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 finish();
                 return true;
             case R.id.quiteTask:
-                DialogUtils.showQuiteTaskDialog(this, task.getId());
+                DialogUtils.showQuiteTaskDialog(this, task.getSurveyId(), task.getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

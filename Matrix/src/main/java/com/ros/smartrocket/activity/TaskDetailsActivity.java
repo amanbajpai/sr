@@ -15,6 +15,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.SurveyDbSchema;
@@ -175,16 +176,19 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 setButtonsSettings(task);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getId());
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + task
+                        .getId());
 
                 task.setStatusId(Task.TaskStatusId.none.getStatusId());
                 task.setStarted("");
                 setButtonsSettings(task);
                 TasksBL.updateTask(handler, task);
 
+                AnswersBL.removeAnswersByTaskId(TaskDetailsActivity.this, taskId);
+
             } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStatusId(Task.TaskStatusId.started.getStatusId());
-                task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 3));
+                task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 2));
                 setButtonsSettings(task);
                 TasksBL.updateTask(handler, task);
                 startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
