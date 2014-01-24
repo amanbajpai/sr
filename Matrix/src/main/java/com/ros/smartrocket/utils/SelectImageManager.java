@@ -13,10 +13,12 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.TakePhotoActivity;
 
@@ -27,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 public class SelectImageManager {
     private static final String TAG = "SelectImageManager";
@@ -50,6 +53,7 @@ public class SelectImageManager {
 
     // Configuration
     private static int MAX_SIZE_IN_PX = 500;
+    public static int SIZE_IN_PX_2_MP = 1600;
     private static long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
     private static boolean CHECK_SCALE_BY_BYTE_SIZE = true;
 
@@ -83,15 +87,21 @@ public class SelectImageManager {
 
     public void startCamera(Activity activity) {
         this.activity = activity;
+
+        lastFile = getTempFile(activity);
+
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile()));
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
         activity.startActivityForResult(i, CAMERA);
     }
 
     public void startCustomCamera(Activity activity) {
         this.activity = activity;
+
+        lastFile = getTempFile(activity);
+
         Intent i = new Intent(activity, TakePhotoActivity.class);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile()));
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
         activity.startActivityForResult(i, CUSTOM_CAMERA);
     }
 
@@ -166,7 +176,7 @@ public class SelectImageManager {
             String fileUri = cursor.getString(idx);
             lastFile = new File(fileUri);
 
-            return prepareBitmap(lastFile);
+            return prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -175,11 +185,10 @@ public class SelectImageManager {
 
     public Bitmap getBitmapFromCamera(Intent intent) {
         InputStream is = null;
-        File file = getTempFile();
-        lastFile = file;
+        File file = lastFile;
 
         try {
-            is = new FileInputStream(file);
+            is = new FileInputStream(lastFile);
         } catch (FileNotFoundException e) {
 
             try {
@@ -199,7 +208,7 @@ public class SelectImageManager {
         }
 
         try {
-            return prepareBitmap(file);
+            return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -207,13 +216,18 @@ public class SelectImageManager {
     }
 
     public static Bitmap prepareBitmap(File f) {
+        return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+    }
+
+    public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte) {
         Bitmap resultBitmap = null;
 
         try {
-            resultBitmap = getScaledBitmapByPxSize(f);
 
-            if (CHECK_SCALE_BY_BYTE_SIZE) {
-                resultBitmap = getScaledBitmapByByteSize(resultBitmap);
+            resultBitmap = getScaledBitmapByPxSize(f, maxSizeInPx);
+
+            if (maxSizeInByte > 0) {
+                resultBitmap = getScaledBitmapByByteSize(resultBitmap, maxSizeInByte);
             }
 
             resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
@@ -224,17 +238,17 @@ public class SelectImageManager {
         return resultBitmap;
     }
 
-    public static  Bitmap getScaledBitmapByPxSize(File f) {
+    public static Bitmap getScaledBitmapByPxSize(File f, int maxSizeInPx) {
         int scale = 1;
         try {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(f.getAbsolutePath(), o);
 
-            if (o.outHeight > MAX_SIZE_IN_PX || o.outWidth > MAX_SIZE_IN_PX) {
+            if (o.outHeight > maxSizeInPx || o.outWidth > maxSizeInPx) {
                 double maxSourceSideSize = (double) Math.max(o.outHeight, o.outWidth);
                 scale = (int) Math.pow(2,
-                        (int) Math.round(Math.log(MAX_SIZE_IN_PX / maxSourceSideSize) / Math.log(0.5)));
+                        (int) Math.round(Math.log(maxSizeInPx / maxSourceSideSize) / Math.log(0.5)));
             }
 
             L.e(TAG, "getScaledBitmapBySideSize Scale: " + scale);
@@ -248,13 +262,13 @@ public class SelectImageManager {
         return null;
     }
 
-    public static Bitmap getScaledBitmapByByteSize(Bitmap sourceBitmap) {
+    public static Bitmap getScaledBitmapByByteSize(Bitmap sourceBitmap, long maxSizeInByte) {
         try {
             long sourceBitmapByte = BytesBitmap.getBytes(sourceBitmap).length;
 
-            if (sourceBitmapByte > MAX_SIZE_IN_BYTE) {
+            if (sourceBitmapByte > maxSizeInByte) {
                 int scale = (int) Math.pow(2,
-                        (int) Math.round(Math.log(MAX_SIZE_IN_BYTE / (double) sourceBitmapByte) / Math.log(0.5)));
+                        (int) Math.round(Math.log(maxSizeInByte / (double) sourceBitmapByte) / Math.log(0.5)));
 
                 L.e(TAG, "getScaledBitmapByByteSize Scale: " + scale);
 
@@ -291,15 +305,31 @@ public class SelectImageManager {
 
     }
 
-    public File getTempFile() {
+    public static String getFileAsString(Uri uri, int maxSizeInPx, long maxSizeInByte) {
+        String resultString = "";
+        File file = new File(uri.getPath());
+        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte);
+        try {
+            //byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
+            byte[] fileAsBytesArray = BytesBitmap.getBytes(bitmap);
+            resultString = Base64.encodeToString(fileAsBytesArray, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            bitmap.recycle();
+        }
+        return resultString;
+    }
+
+    public  static File getTempFile(Context context) {
         File ret = null;
         try {
             String state = Environment.getExternalStorageState();
             if (Environment.MEDIA_MOUNTED.equals(state)) {
-                ret = new File(Environment.getExternalStorageDirectory(), "PostTmp.jpg");
+                ret = new File(Config.CACHE_DIR, Calendar.getInstance().getTimeInMillis() + ".jpg");
             } else {
-                File mydir = activity.getDir("mydir", Context.MODE_PRIVATE);
-                ret = new File(mydir.getAbsolutePath() + "/", "PostTmp.jpg");
+                File caсheDir = context.getDir(Config.CACHE_PREFIX_DIR, Context.MODE_PRIVATE);
+                ret = new File(caсheDir.getAbsolutePath() + "/", Calendar.getInstance().getTimeInMillis() + ".jpg");
             }
         } catch (Exception e) {
             L.e(TAG, "Error get Temp File");
@@ -309,7 +339,7 @@ public class SelectImageManager {
 
     private void deleteTempFile() {
         try {
-            File file = getTempFile();
+            File file = getTempFile(activity);
             if (file != null && file.exists()) {
                 file.delete();
             }

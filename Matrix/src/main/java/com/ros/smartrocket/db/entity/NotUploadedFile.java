@@ -41,6 +41,9 @@ public class NotUploadedFile extends BaseEntity {
     private Boolean use3G;
     private Long fileSizeB;
     private Integer showNotificationStepId;
+    private Integer Portion;
+    private String FileCode;
+    private String FileName;
 
     public NotUploadedFile() {
     }
@@ -58,6 +61,10 @@ public class NotUploadedFile extends BaseEntity {
             result.setUse3G(c.getInt(NotUploadedFileDbSchema.Query.USE_3G) == 0 ? false : true);
             result.setFileSizeB(c.getLong(NotUploadedFileDbSchema.Query.FILE_SIZE_B));
             result.setShowNotificationStepId(c.getInt(NotUploadedFileDbSchema.Query.SHOW_NOTIFICATION_STEP_ID));
+
+            result.setPortion(c.getInt(NotUploadedFileDbSchema.Query.PORTION));
+            result.setFileCode(c.getString(NotUploadedFileDbSchema.Query.FILE_CODE));
+            result.setFileName(c.getString(NotUploadedFileDbSchema.Query.FILE_NAME));
         }
         L.d("NotUploadedFile", result.toString());
         return result;
@@ -131,4 +138,28 @@ public class NotUploadedFile extends BaseEntity {
         this.showNotificationStepId = showNotificationStepId;
     }
 
+
+    public Integer getPortion() {
+        return Portion;
+    }
+
+    public void setPortion(Integer portion) {
+        Portion = portion;
+    }
+
+    public String getFileCode() {
+        return FileCode;
+    }
+
+    public void setFileCode(String fileCode) {
+        FileCode = fileCode;
+    }
+
+    public String getFileName() {
+        return FileName;
+    }
+
+    public void setFileName(String fileName) {
+        FileName = fileName;
+    }
 }

@@ -24,6 +24,10 @@ public interface NotUploadedFileDbSchema {
         FILE_SIZE_B("fileSizeB", DBType.NUMERIC),
         SHOW_NOTIFICATION_STEP_ID("showNotificationStepId", DBType.INT),
 
+        PORTION("Portion", DBType.INT),
+        FILE_CODE("FileCode", DBType.TEXT),
+        FILE_NAME("FileName", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -71,7 +75,11 @@ public interface NotUploadedFileDbSchema {
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.END_DATE_TIME.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.USE_3G.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_SIZE_B.getName(),
-                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.SHOW_NOTIFICATION_STEP_ID.getName()
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.SHOW_NOTIFICATION_STEP_ID.getName(),
+
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.PORTION.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_CODE.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_NAME.getName()
         };
 
         int _ID = 0;
@@ -84,5 +92,9 @@ public interface NotUploadedFileDbSchema {
         int USE_3G = 7;
         int FILE_SIZE_B = 8;
         int SHOW_NOTIFICATION_STEP_ID = 9;
+
+        int PORTION = 10;
+        int FILE_CODE = 11;
+        int FILE_NAME = 12;
     }
 }

@@ -8,9 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.IBinder;
-import android.util.Base64;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
@@ -21,9 +19,7 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
@@ -50,7 +46,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private static final String COOKIE_UPLOAD_FILE = "upload_file";
     private static final String COOKIE_SHOW_NOTIFICATION = "show_notification";
 
-    private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 15;
+    private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 2;
     private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
     private static final int MINUTE_IN_MILLISECONDS_60 = 1000 * 60 * 60;
 
@@ -161,22 +157,12 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
 
                         if (notUploadedFile != null) {
-                            Calendar calendar = Calendar.getInstance();
-                            if (calendar.getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
-                                FileToUpload fileToUpload = new FileToUpload();
-                                fileToUpload.set_id(notUploadedFile.get_id());
-                                fileToUpload.setId(notUploadedFile.getId());
-                                fileToUpload.setTaskId(notUploadedFile.getTaskId());
-                                fileToUpload.setQuestionId(notUploadedFile.getQuestionId());
-                                fileToUpload.setFileBase64(getFileAsString(Uri.parse(notUploadedFile.getFileUri())));
-
-                                L.i(TAG, "onQueryComplete. Send file. Uri: " + notUploadedFile.getFileUri());
-                                sendFile(fileToUpload);
-                            } else {
-                                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.get_id());
-                            }
+                            //if (Calendar.getInstance().getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
+                                sendFile(notUploadedFile);
+                            /*} else {
+                                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
+                            }*/
                         } else {
-                            //Stop upload file timer
                             stopUploadedFilesTimer();
                         }
                     } else if (cookie.equals(COOKIE_SHOW_NOTIFICATION)) {
@@ -205,7 +191,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.UPLOAD_QUESTION_FILE_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
 
                 FileToUpload fileToUpload = (FileToUpload) operation.getEntities().get(0);
                 L.i(TAG, "onNetworkOperation. File uploaded: " + fileToUpload.get_id());
@@ -242,30 +228,20 @@ public class UploadFileService extends Service implements NetworkOperationListen
         return result;
     }
 
-    public String getFileAsString(Uri uri) {
-        String resultString = "";
-        File file = new File(uri.getPath());
-        try {
-            byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
-            resultString = Base64.encodeToString(fileAsBytesArray, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultString;
-    }
-
     public static boolean canUploadNextFile(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         return (preferencesManager.getUsed3GUploadMonthlySize() < preferencesManager.get3GUploadMonthLimit() &&
                 UIUtils.is3G(context)) || UIUtils.isWiFi(context);
     }
 
-    public void sendFile(FileToUpload fileToUpload) {
+    public void sendFile(NotUploadedFile notUploadedFile) {
+        L.i(TAG, "onQueryComplete. Send file. Uri: " + notUploadedFile.getFileUri());
+
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UPLOAD_QUESTION_FILE);
-        operation.setTag(Keys.UPLOAD_QUESTION_FILE_OPERATION_TAG);
+        operation.setUrl(WSUrl.UPLOAD_TASK_FILE);
+        operation.setTag(Keys.UPLOAD_TASK_FILE_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(fileToUpload);
+        operation.getEntities().add(notUploadedFile);
         sendNetworkOperation(operation);
     }
 

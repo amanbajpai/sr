@@ -94,7 +94,8 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     if (answer.isChecked() && answer.getFileUri() != null) {
                         isBitmapAdded = true;
                         rePhotoButton.setText(R.string.re_photo);
-                        photoImageView.setImageBitmap(SelectImageManager.prepareBitmap(new File(answer.getFileUri())));
+                        Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()));
+                        photoImageView.setImageBitmap(bitmap);
                     } else {
                         isBitmapAdded = false;
                         rePhotoButton.setText(R.string.take_photo);
@@ -174,6 +175,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     answer.setChecked(true);
                     answer.setFileUri(Uri.fromFile(imageFile).getPath());
                     answer.setFileSizeB(imageFile.length());
+                    answer.setFileName(imageFile.getName());
                 } else {
                     Answer answer = question.getAnswers()[0];
                     answer.setChecked(false);

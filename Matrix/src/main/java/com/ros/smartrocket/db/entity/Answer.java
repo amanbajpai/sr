@@ -16,8 +16,10 @@ public class Answer extends BaseEntity implements Serializable {
     private String Value;
     private Integer Routing;
 
-    private transient String fileUri;
-    private transient Long fileSizeB;
+    private transient String FileUri;
+    private transient Long FileSizeB;
+    private transient String FileName;
+
     private transient Boolean Checked = false;
 
     public Answer() {
@@ -36,6 +38,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.setChecked(c.getInt(AnswerDbSchema.Query.CHECKED) == 1 ? true : false);
             result.setFileUri(c.getString(AnswerDbSchema.Query.FILE_URI));
             result.setFileSizeB(c.getLong(AnswerDbSchema.Query.FILE_SIZE_B));
+            result.setFileName(c.getString(AnswerDbSchema.Query.FILE_NAME));
         }
 
         L.d("Answer", result.toString());
@@ -96,20 +99,29 @@ public class Answer extends BaseEntity implements Serializable {
     }
 
     public String getFileUri() {
-        return fileUri;
+        return FileUri;
     }
 
     public void setFileUri(String fileUri) {
-        this.fileUri = fileUri;
+        this.FileUri = fileUri;
     }
 
 
     public Long getFileSizeB() {
-        return fileSizeB;
+        return FileSizeB;
     }
 
     public void setFileSizeB(Long fileSizeB) {
-        this.fileSizeB = fileSizeB;
+        this.FileSizeB = fileSizeB;
+    }
+
+
+    public String getFileName() {
+        return FileName;
+    }
+
+    public void setFileName(String fileName) {
+        FileName = fileName;
     }
 
 }

@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
@@ -62,6 +61,7 @@ public class AnswersBL {
                 fileToUpload.setQuestionId(answer.getQuestionId());
                 fileToUpload.setFileUri(answer.getFileUri());
                 fileToUpload.setFileSizeB(answer.getFileSizeB());
+                fileToUpload.setFileName(answer.getFileName());
                 fileToUpload.setShowNotificationStepId(0);
                 fileToUpload.setAddedToUploadDateTime(UIUtils.getCurrentTimeInMilliseonds());
                 fileToUpload.setEndDateTime(endDateTime);

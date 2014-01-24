@@ -21,7 +21,7 @@ public final class WSUrl {
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL + "api/Surveys/Questionnaire?surveyId=%s&language=%s";
     public static final String SEND_QUESTION = Config.WEB_SERVICE_URL + "api/Surveys"; //TODO EditUrl
-    public static final String UPLOAD_QUESTION_FILE = Config.WEB_SERVICE_URL + "api/Authorize/UploadQuestionFile"; //TODO EditUrl
+    public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/TaskFile?taskId=%s&questionId=%s&portion=%s&isLastPortion=%s&filecode=%s&filename=%s";
 
     public static final int LOGIN_ID = 1;
     public static final int GET_SURVEYS_ID = 2;
@@ -36,7 +36,7 @@ public final class WSUrl {
     public static final int GET_MY_ACCOUNT_ID = 11;
     public static final int GET_QUESTIONS_ID = 12;
     public static final int SEND_QUESTION_ID = 13;
-    public static final int UPLOAD_QUESTION_FILE_ID = 14;
+    public static final int UPLOAD_TASK_FILE_ID = 14;
     public static final int UNCLAIM_TASKS_ID = 15;
     public static final int START_TASK_ID = 16;
 
@@ -57,7 +57,7 @@ public final class WSUrl {
         urls.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
         urls.put(GET_QUESTIONS, GET_QUESTIONS_ID);
         urls.put(SEND_QUESTION, SEND_QUESTION_ID);
-        urls.put(UPLOAD_QUESTION_FILE, UPLOAD_QUESTION_FILE_ID);
+        urls.put(UPLOAD_TASK_FILE, UPLOAD_TASK_FILE_ID);
         urls.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
         urls.put(START_TASK, START_TASK_ID);
     }

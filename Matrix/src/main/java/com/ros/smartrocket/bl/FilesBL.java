@@ -58,6 +58,17 @@ public class FilesBL {
         resolver.insert(NotUploadedFileDbSchema.CONTENT_URI, notUploadedFile.toContentValues());
     }
 
+    public static void updatePortionAndFileCode(int id, int portion, String fileCode) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NotUploadedFileDbSchema.Columns.PORTION.getName(), portion);
+        contentValues.put(NotUploadedFileDbSchema.Columns.FILE_CODE.getName(), fileCode);
+
+        resolver.update(NotUploadedFileDbSchema.CONTENT_URI, contentValues,
+                NotUploadedFileDbSchema.Columns.ID + "=?", new String[]{String.valueOf(id)});
+    }
+
     /**
      * Convert cursor to NotUploadedFile list
      *

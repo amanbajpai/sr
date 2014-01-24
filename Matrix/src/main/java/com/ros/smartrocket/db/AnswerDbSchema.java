@@ -20,8 +20,9 @@ public interface AnswerDbSchema {
         ROUTING("Routing", DBType.NUMERIC),
         CHECKED("Checked", DBType.NUMERIC),
 
-        FILE_URI("fileUri", DBType.TEXT),
-        FILE_SIZE_B("fileSizeB", DBType.NUMERIC),
+        FILE_URI("FileUri", DBType.TEXT),
+        FILE_SIZE_B("FileSizeB", DBType.NUMERIC),
+        FILE_NAME("FileName", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 
@@ -70,7 +71,8 @@ public interface AnswerDbSchema {
                 Table.ANSWER.getName() + "." + Columns.ROUTING.getName(),
                 Table.ANSWER.getName() + "." + Columns.CHECKED.getName(),
                 Table.ANSWER.getName() + "." + Columns.FILE_URI.getName(),
-                Table.ANSWER.getName() + "." + Columns.FILE_SIZE_B.getName()
+                Table.ANSWER.getName() + "." + Columns.FILE_SIZE_B.getName(),
+                Table.ANSWER.getName() + "." + Columns.FILE_NAME.getName()
         };
 
         int _ID = 0;
@@ -83,5 +85,6 @@ public interface AnswerDbSchema {
         int CHECKED = 7;
         int FILE_URI = 8;
         int FILE_SIZE_B = 9;
+        int FILE_NAME = 10;
     }
 }

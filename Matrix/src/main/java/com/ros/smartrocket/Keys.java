@@ -38,7 +38,8 @@ public interface Keys {
     String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
     String START_TASK_OPERATION_TAG = "start_task_operation_tag";
     String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
-    String UPLOAD_QUESTION_FILE_OPERATION_TAG = "upload_question_fle_operation_tag";
+    String UPLOAD_TASK_FILE_OPERATION_TAG = "upload_task_file_operation_tag";
+    String UPLOAD_TASK_TEMP_FILE_OPERATION_TAG = "upload_task_temp_file_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
     String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
 
@@ -87,7 +88,7 @@ public interface Keys {
     String LAST_NOT_ANSWERED_QUESTION_ORDER_ID = "last_not_answered_question_order_id";
 
     //NotUploadFile Service
-    String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_file";
+    String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_files";
 
 
     /* ------------ Location parameters -----------------------*/
