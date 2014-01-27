@@ -1,5 +1,6 @@
 package com.ros.smartrocket.bl;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -23,7 +24,7 @@ public class QuestionsBL {
      */
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and "+QuestionDbSchema
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema
                 .Columns.TASK_ID + "=?",
                 new String[]{String.valueOf(surveyId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC);
     }
@@ -42,6 +43,12 @@ public class QuestionsBL {
         String[] whereArgs = new String[]{String.valueOf(questionId)};
 
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
+    public static void removeQuestionsFromDB(Activity activity, Integer surveyId, int taskId) {
+        activity.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(surveyId), String.valueOf(taskId)});
     }
 
     /**
