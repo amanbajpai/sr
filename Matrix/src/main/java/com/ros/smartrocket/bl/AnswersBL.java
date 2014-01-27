@@ -63,6 +63,7 @@ public class AnswersBL {
                 fileToUpload.setFileSizeB(answer.getFileSizeB());
                 fileToUpload.setFileName(answer.getFileName());
                 fileToUpload.setShowNotificationStepId(0);
+                fileToUpload.setPortion(0);
                 fileToUpload.setAddedToUploadDateTime(UIUtils.getCurrentTimeInMilliseonds());
                 fileToUpload.setEndDateTime(endDateTime);
 

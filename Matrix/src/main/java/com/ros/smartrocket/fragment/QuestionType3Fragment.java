@@ -170,12 +170,15 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
                 if (isBitmapAdded) {
-                    File imageFile = selectImageManager.getLastFile();
+                    File sourceImageFile = selectImageManager.getLastFile();
+                    File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
+                            SelectImageManager.SIZE_IN_PX_2_MP, 0);
+
                     Answer answer = question.getAnswers()[0];
                     answer.setChecked(true);
-                    answer.setFileUri(Uri.fromFile(imageFile).getPath());
-                    answer.setFileSizeB(imageFile.length());
-                    answer.setFileName(imageFile.getName());
+                    answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
+                    answer.setFileSizeB(resultImageFile.length());
+                    answer.setFileName(resultImageFile.getName());
                 } else {
                     Answer answer = question.getAnswers()[0];
                     answer.setChecked(false);

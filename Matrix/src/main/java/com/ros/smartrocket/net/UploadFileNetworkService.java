@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.entity.BaseEntity;
+import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectImageManager;
@@ -35,29 +36,31 @@ public class UploadFileNetworkService extends BaseNetworkService {
         if (operation != null) {
             NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
+            File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
+            long mainFileLength = sourceFile.length();
+
             //Separate main file
             File[] files = separateFile(notUploadedFile);
             if (files != null) {
                 try {
                     for (int i = 0; i < files.length; i++) {
 
-                        BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
-                                i == files.length - 1);
+                        BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
                         executeRequest(tempOperation);
 
-                        int responseCode = operation.getResponseStatusCode();
-                        String responseString = operation.getResponseString();
+                        int responseCode = tempOperation.getResponseStatusCode();
+                        String responseString = tempOperation.getResponseString();
                         if (responseCode == 200 && responseString != null) {
-
                             L.i(TAG, "Upload temp file success: " + files[i].getName());
 
                             notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
-                            notUploadedFile.setFileCode(new JSONObject(responseString).getString("filecode"));
+                            notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
 
                             FilesBL.updatePortionAndFileCode(notUploadedFile.getId(), notUploadedFile.getPortion(),
                                     notUploadedFile.getFileCode());
 
                             files[i].delete();
+                            operation.setResponseStatusCode(responseCode);
                         } else {
                             operation.setResponseStatusCode(NO_INTERNET);
                             break;
@@ -72,22 +75,21 @@ public class UploadFileNetworkService extends BaseNetworkService {
         }
     }
 
-    public BaseOperation getSendTempFileOperation(File file, NotUploadedFile notUploadedFile, boolean isLastPortion) {
-        AttachmentRequestEntity attachmentEntity = new AttachmentRequestEntity();
-        attachmentEntity.setAttachmentPath(file.getPath());
-
-        String taskId = String.valueOf(notUploadedFile.getTaskId());
-        String questionId = String.valueOf(notUploadedFile.getQuestionId());
-        String portion = String.valueOf(notUploadedFile.getPortion());
-        String isLastPortionString = String.valueOf(isLastPortion);
-        String fileCode = notUploadedFile.getFileCode();
-        String fileName = notUploadedFile.getFileName();
+    public BaseOperation getSendTempFileOperation(File file, NotUploadedFile notUploadedFile, long mainFileLength) {
+        FileToUpload uploadFileEntity = new FileToUpload();
+        uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
+        uploadFileEntity.setQuestionId(notUploadedFile.getQuestionId());
+        uploadFileEntity.setFileOffset((long) MAX_BYTE_SIZE * notUploadedFile.getPortion());
+        uploadFileEntity.setFileCode(notUploadedFile.getFileCode());
+        uploadFileEntity.setFilename(notUploadedFile.getFileName());
+        uploadFileEntity.setFileLength(mainFileLength);
+        uploadFileEntity.setFileBase64String(SelectImageManager.getFileAsString(file));
 
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UPLOAD_TASK_FILE, taskId, questionId, portion, isLastPortionString, fileCode, fileName);
+        operation.setUrl(WSUrl.UPLOAD_TASK_FILE);
         operation.setTag(Keys.UPLOAD_TASK_TEMP_FILE_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(attachmentEntity);
+        operation.getEntities().add(uploadFileEntity);
         return operation;
     }
 
@@ -96,9 +98,13 @@ public class UploadFileNetworkService extends BaseNetworkService {
             File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
             byte[] soureByteArray = FileUtils.readFileToByteArray(sourceFile);
 
-            int portainCount = (int) Math.ceil(soureByteArray.length / MAX_BYTE_SIZE);
+            int portainCount = (int) Math.ceil((double) soureByteArray.length / MAX_BYTE_SIZE);
 
-            File[] files = new File[portainCount];
+            if (notUploadedFile.getPortion() == portainCount) {
+                notUploadedFile.setPortion(0);
+            }
+
+            File[] files = new File[portainCount - notUploadedFile.getPortion()];
 
             for (int i = notUploadedFile.getPortion(); i < portainCount; i++) {
 
@@ -123,7 +129,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
                     e.printStackTrace();
                 }
 
-                files[i] = tempFile;
+                files[i - notUploadedFile.getPortion()] = tempFile;
             }
 
             return files;

@@ -21,6 +21,7 @@ import android.view.Window;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.TakePhotoActivity;
+import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -174,7 +175,7 @@ public class SelectImageManager {
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(ImageColumns.DATA);
             String fileUri = cursor.getString(idx);
-            lastFile = new File(fileUri);
+            lastFile = copyFileToTempFolder(activity, new File(fileUri));
 
             return prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
         } catch (Exception e) {
@@ -305,6 +306,43 @@ public class SelectImageManager {
 
     }
 
+    public static File getScaledFile(/*Context context,*/ File file, int maxSizeInPx, long maxSizeInByte) {
+        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file, false);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+            fos.flush();
+            fos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return file;
+    }
+
+    public static File copyFileToTempFolder(Context context, File file) {
+        File resultFile = getTempFile(context);
+        try {
+            InputStream in = new FileInputStream(file);
+            OutputStream out = new FileOutputStream(resultFile);
+
+            // Transfer bytes from in to out
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultFile;
+    }
+
     public static String getFileAsString(Uri uri, int maxSizeInPx, long maxSizeInByte) {
         String resultString = "";
         File file = new File(uri.getPath());
@@ -321,7 +359,18 @@ public class SelectImageManager {
         return resultString;
     }
 
-    public  static File getTempFile(Context context) {
+    public static String getFileAsString(File file) {
+        String resultString = "";
+        try {
+            byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
+            resultString = Base64.encodeToString(fileAsBytesArray, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultString;
+    }
+
+    public static File getTempFile(Context context) {
         File ret = null;
         try {
             String state = Environment.getExternalStorageState();

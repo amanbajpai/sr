@@ -9,11 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
-import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
@@ -46,7 +46,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private static final String COOKIE_UPLOAD_FILE = "upload_file";
     private static final String COOKIE_SHOW_NOTIFICATION = "show_notification";
 
-    private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 2;
+    private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 15;
     private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
     private static final int MINUTE_IN_MILLISECONDS_60 = 1000 * 60 * 60;
 
@@ -56,11 +56,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         dbHandler = new DbHandler(getContentResolver());
         receiver = new NetworkBroadcastReceiver();
-        filter = new IntentFilter(UploadFileNetworkService.BROADCAST_ACTION);
+        filter = new IntentFilter(NetworkService.BROADCAST_ACTION);
 
         addNetworkOperationListener(this);
 
-        registerReceiver(receiver, filter);
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
     }
@@ -158,7 +158,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                         if (notUploadedFile != null) {
                             //if (Calendar.getInstance().getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
-                                sendFile(notUploadedFile);
+                            sendFile(notUploadedFile);
                             /*} else {
                                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
                             }*/
@@ -176,7 +176,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                                     FilesBL.updateShowNotificationStep(notUploadedFile);
                                 }
-
                             }
                         } else {
                             stopShowNotifiationTimer();
@@ -190,20 +189,23 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
-            if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
+        if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
+            NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
-                FileToUpload fileToUpload = (FileToUpload) operation.getEntities().get(0);
-                L.i(TAG, "onNetworkOperation. File uploaded: " + fileToUpload.get_id());
+            if (operation.getResponseStatusCode() == 200) {
+                L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: " +
+                        notUploadedFile.getFileName());
 
-                FilesBL.deleteNotUploadedFileFromDbById(fileToUpload.getId()); //Forward to remove the uploaded file
+                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
                 if (canUploadNextFile(this)) {
-                    FilesBL.getFirstNotUploadedFileFromDB(dbHandler, fileToUpload.get_id(),
+                    FilesBL.getFirstNotUploadedFileFromDB(dbHandler, notUploadedFile.get_id(),
                             UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
                 }
+
+            } else {
+                L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: " +
+                        notUploadedFile.getFileName());
             }
-        } else {
-            L.e(TAG, "onNetworkOperation. File not uploaded");
         }
     }
 
@@ -287,7 +289,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
         L.i(TAG, "onDestroy");
         removeNetworkOperationListener(this);
         stopUploadedFilesTimer();
-        unregisterReceiver(receiver);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(receiver);
 
         super.onDestroy();
     }

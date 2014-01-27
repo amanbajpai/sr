@@ -21,7 +21,7 @@ public final class WSUrl {
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL + "api/Surveys/Questionnaire?surveyId=%s&language=%s";
     public static final String SEND_QUESTION = Config.WEB_SERVICE_URL + "api/Surveys"; //TODO EditUrl
-    public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/TaskFile?taskId=%s&questionId=%s&portion=%s&isLastPortion=%s&filecode=%s&filename=%s";
+    public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
 
     public static final int LOGIN_ID = 1;
     public static final int GET_SURVEYS_ID = 2;
