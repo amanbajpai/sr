@@ -108,13 +108,14 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
             for (int i = notUploadedFile.getPortion(); i < portainCount; i++) {
 
-                byte[] tempByteArray = new byte[MAX_BYTE_SIZE];
                 int startPosition = MAX_BYTE_SIZE * i;
                 int length = MAX_BYTE_SIZE;
 
                 if (startPosition + length > soureByteArray.length) {
                     length = soureByteArray.length - startPosition;
                 }
+
+                byte[] tempByteArray = new byte[length];
 
                 System.arraycopy(soureByteArray, startPosition, tempByteArray, 0, length);
 
