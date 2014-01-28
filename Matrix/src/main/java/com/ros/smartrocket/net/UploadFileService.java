@@ -8,13 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.location.Location;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -35,6 +39,8 @@ import java.util.TimerTask;
 public class UploadFileService extends Service implements NetworkOperationListenerInterface {
     final String TAG = "UploadFileService";
     //private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
     private AsyncQueryHandler dbHandler;
     private BroadcastReceiver receiver;
@@ -158,7 +164,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                         if (notUploadedFile != null) {
                             //if (Calendar.getInstance().getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
-                            sendFile(notUploadedFile);
+                            apiFacade.sendFile(UploadFileService.this, notUploadedFile);
                             /*} else {
                                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
                             }*/
@@ -190,13 +196,20 @@ public class UploadFileService extends Service implements NetworkOperationListen
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
-            NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
+            final NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
             if (operation.getResponseStatusCode() == 200) {
                 L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: " +
                         notUploadedFile.getFileName());
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
+
+                //TODO Check not uploaded file for this task
+                int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
+                if (notUploadedFileCount == 0) {
+                    validateTask(notUploadedFile.getTaskId());
+                }
+
                 if (canUploadNextFile(this)) {
                     FilesBL.getFirstNotUploadedFileFromDB(dbHandler, notUploadedFile.get_id(),
                             UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
@@ -206,7 +219,24 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: " +
                         notUploadedFile.getFileName());
             }
+        } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            sendNetworkOperation(apiFacade.getMyTasksOperation());
         }
+    }
+
+    private void validateTask(final int taskId) {
+        Location location = lm.getLocation();
+        if (location != null) {
+            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+        } else {
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+                }
+            });
+        }
+
     }
 
     private boolean needSendNotification(NotUploadedFile notUploadedFile) {

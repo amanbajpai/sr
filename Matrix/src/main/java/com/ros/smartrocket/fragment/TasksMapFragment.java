@@ -363,7 +363,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private void getMyTasks() {
         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-        APIFacade.getInstance().getMyTasks(getActivity());
+        ((BaseActivity) getActivity()).sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
     }
 
     /* ==============================================

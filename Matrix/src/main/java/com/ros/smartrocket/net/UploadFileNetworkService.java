@@ -1,14 +1,38 @@
 package com.ros.smartrocket.net;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.SurveyDbSchema;
+import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.BaseEntity;
+import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.FileToUpload;
+import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Questions;
+import com.ros.smartrocket.db.entity.RegistrationResponse;
+import com.ros.smartrocket.db.entity.ResponseError;
+import com.ros.smartrocket.db.entity.SendTaskId;
+import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.db.entity.Surveys;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectImageManager;
 import org.apache.commons.io.FileUtils;
@@ -17,6 +41,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * IntentService for API communication
@@ -34,43 +59,46 @@ public class UploadFileNetworkService extends BaseNetworkService {
     protected void onHandleIntent(Intent intent) {
         BaseOperation operation = (BaseOperation) intent.getSerializableExtra(KEY_OPERATION);
         if (operation != null) {
-            NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
+            if (WSUrl.matchUrl(operation.getUrl()) == WSUrl.UPLOAD_TASK_FILE_ID) {
+                NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
-            File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-            long mainFileLength = sourceFile.length();
+                File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
+                long mainFileLength = sourceFile.length();
 
-            //Separate main file
-            File[] files = separateFile(notUploadedFile);
-            if (files != null) {
-                try {
-                    for (int i = 0; i < files.length; i++) {
+                //Separate main file
+                File[] files = separateFile(notUploadedFile);
+                if (files != null) {
+                    try {
+                        for (int i = 0; i < files.length; i++) {
 
-                        BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
-                        executeRequest(tempOperation);
+                            BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
+                            executeRequest(tempOperation);
 
-                        int responseCode = tempOperation.getResponseStatusCode();
-                        String responseString = tempOperation.getResponseString();
-                        if (responseCode == 200 && responseString != null) {
-                            L.i(TAG, "Upload temp file success: " + files[i].getName());
+                            int responseCode = tempOperation.getResponseStatusCode();
+                            String responseString = tempOperation.getResponseString();
+                            if (responseCode == 200 && responseString != null) {
+                                L.i(TAG, "Upload temp file success: " + files[i].getName());
 
-                            notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
-                            notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
+                                notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
+                                notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
 
-                            FilesBL.updatePortionAndFileCode(notUploadedFile.getId(), notUploadedFile.getPortion(),
-                                    notUploadedFile.getFileCode());
+                                FilesBL.updatePortionAndFileCode(notUploadedFile.getId(), notUploadedFile.getPortion(),
+                                        notUploadedFile.getFileCode());
 
-                            files[i].delete();
-                            operation.setResponseStatusCode(responseCode);
-                        } else {
-                            operation.setResponseStatusCode(NO_INTERNET);
-                            break;
+                                files[i].delete();
+                                operation.setResponseStatusCode(responseCode);
+                            } else {
+                                operation.setResponseStatusCode(NO_INTERNET);
+                                break;
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            } else {
+                executeRequest(operation);
             }
-
             notifyOperationFinished(operation);
         }
     }
@@ -158,6 +186,37 @@ public class UploadFileNetworkService extends BaseNetworkService {
     }
 
     protected void processResponse(BaseOperation operation) {
+        Gson gson = new Gson();
 
+        int responseCode = operation.getResponseStatusCode();
+        String responseString = operation.getResponseString();
+        if (responseCode == 200 && responseString != null) {
+            try {
+                ContentResolver contentResolver = getContentResolver();
+                HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
+                switch (WSUrl.matchUrl(operation.getUrl())) {
+                    case WSUrl.VALIDATE_TASK_ID:
+                        SendTaskId sendedTaskId = (SendTaskId) operation.getEntities().get(0);
+
+                        break;
+                    default:
+                        break;
+                }
+            } catch (JsonSyntaxException e) {
+                L.e(TAG, e.toString());
+            }
+        } else if (responseCode == NO_INTERNET) {
+            operation.setResponseError(getString(R.string.no_internet));
+        } else {
+            try {
+                ResponseError error = gson.fromJson(responseString, ResponseError.class);
+                if (error != null && error.getErrorMessage() != null) {
+                    operation.setResponseError(error.getErrorMessage());
+                    operation.setResponseErrorCode(error.getErrorCode());
+                }
+            } catch (JsonSyntaxException e) {
+                operation.setResponseError(getString(R.string.error));
+            }
+        }
     }
 }

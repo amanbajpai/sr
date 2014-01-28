@@ -35,7 +35,9 @@ public interface Keys {
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";
+    String SEND_ANSWERS_OPERATION_TAG = "send_answers_operation_tag";
     String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
+    String VALIDATE_TASK_OPERATION_TAG = "validate_task_operation_tag";
     String START_TASK_OPERATION_TAG = "start_task_operation_tag";
     String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
     String UPLOAD_TASK_FILE_OPERATION_TAG = "upload_task_file_operation_tag";

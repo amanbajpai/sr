@@ -174,6 +174,7 @@ public class TasksBL {
         for (Task.TaskStatusId status : Task.TaskStatusId.values()) {
             if (status.getStatusId() == statusId) {
                 result = status;
+                break;
             }
         }
         return result;

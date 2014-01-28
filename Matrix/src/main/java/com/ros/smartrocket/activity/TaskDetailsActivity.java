@@ -5,6 +5,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -26,6 +28,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -43,7 +46,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private static final String TAG = TaskDetailsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private AsyncQueryHandler handler;
 
     private Integer taskId;
@@ -264,7 +267,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.bookTaskButton:
                 setSupportProgressBarIndeterminateVisibility(true);
-                apiFacade.claimTask(this, taskId);
+
+                Location location = lm.getLocation();
+
+                apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
                 break;
             case R.id.hideTaskButton:
                 task.setIsHide(true);

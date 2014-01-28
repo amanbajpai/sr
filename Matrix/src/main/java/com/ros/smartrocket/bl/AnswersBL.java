@@ -96,6 +96,16 @@ public class AnswersBL {
         return hrSize;
     }
 
+    public static ArrayList<Answer> getAnswersListToSend(Integer taskId) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " + AnswerDbSchema
+                        .Columns.FILE_URI + " IS NULL",
+                new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
+
+        return convertCursorToAnswerList(cursor);
+    }
+
     /**
      * Convert cursor to Answer array
      *
@@ -109,6 +119,23 @@ public class AnswersBL {
 
             while (cursor.moveToNext()) {
                 result[cursor.getPosition()] = Answer.fromCursor(cursor);
+            }
+            cursor.close();
+        }
+        return result;
+    }
+
+    /**
+     * Convert cursor to Answer list
+     *
+     * @param cursor - all fields cursor
+     * @return ArrayList<Answer>
+     */
+    public static ArrayList<Answer> convertCursorToAnswerList(Cursor cursor) {
+        ArrayList<Answer> result = new ArrayList<Answer>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                result.add(Answer.fromCursor(cursor));
             }
             cursor.close();
         }

@@ -140,6 +140,10 @@ public class NetworkService extends BaseNetworkService {
 
                     case WSUrl.CLAIM_TASKS_ID:
                         break;
+                    case WSUrl.SEND_ANSWERS_ID:
+                        break;
+                    case WSUrl.VALIDATE_TASK_ID:
+                        break;
                     case WSUrl.LOGIN_ID:
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);

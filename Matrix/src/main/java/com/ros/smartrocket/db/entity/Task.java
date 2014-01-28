@@ -12,7 +12,8 @@ public class Task extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum TaskStatusId {
-        none(0), claimed(1), started(2), validation(3), reDoTask(4), pending(5), completed(6), scheduled(7);
+        none(0), claimed(1), started(2), validation(3), reDoTask(4), pending(5), validated(6), completed(7),
+        scheduled(8);
 
         private int statusId;
 

@@ -69,6 +69,21 @@ public class FilesBL {
                 NotUploadedFileDbSchema.Columns.ID + "=?", new String[]{String.valueOf(id)});
     }
 
+    public static int getNotUploadedFileCount(int taskId) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        Cursor cursor = resolver.query(NotUploadedFileDbSchema.CONTENT_URI, new String[]{"count(*)"},
+                NotUploadedFileDbSchema.Columns.TASK_ID + " = ?", new String[]{String.valueOf(taskId)}, null);
+
+        int result = 0;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result = cursor.getInt(0);
+            cursor.close();
+        }
+        return result;
+    }
+
+
     /**
      * Convert cursor to NotUploadedFile list
      *

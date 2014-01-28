@@ -14,7 +14,9 @@ public final class WSUrl {
     public static final String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
+    public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers";
     public static final String UNCLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Unclaimed";
+    public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String START_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Start";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
@@ -39,6 +41,8 @@ public final class WSUrl {
     public static final int UPLOAD_TASK_FILE_ID = 14;
     public static final int UNCLAIM_TASKS_ID = 15;
     public static final int START_TASK_ID = 16;
+    public static final int VALIDATE_TASK_ID = 17;
+    public static final int SEND_ANSWERS_ID = 18;
 
     public static final HashMap<String, Integer> urls;
 
@@ -60,6 +64,7 @@ public final class WSUrl {
         urls.put(UPLOAD_TASK_FILE, UPLOAD_TASK_FILE_ID);
         urls.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
         urls.put(START_TASK, START_TASK_ID);
+        urls.put(VALIDATE_TASK, VALIDATE_TASK_ID);
     }
 
     public static int matchUrl(String url) {

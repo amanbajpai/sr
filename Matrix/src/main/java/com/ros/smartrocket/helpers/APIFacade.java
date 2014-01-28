@@ -8,8 +8,10 @@ import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.CheckLocation;
 import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.PushMessage;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.RegisterDevice;
@@ -18,7 +20,9 @@ import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
+import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.WSUrl;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -28,6 +32,7 @@ import java.util.ArrayList;
  * Singleton class for work with server API
  */
 public class APIFacade {
+    private static final String TAG = "UploadFileNetworkService";
     private static APIFacade instance = null;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
@@ -132,26 +137,28 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
+     * Get operation for getting my tasks
      */
-    public void getMyTasks(Activity activity) {
+    public BaseOperation getMyTasksOperation() {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_MY_TASKS, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_MY_TASKS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
+        return operation;
     }
 
     /**
      * @param activity
      * @param taskId
      */
-    public void claimTask(Activity activity, Integer taskId) {
+    public void claimTask(Activity activity, Integer taskId, double latitude, double longitude) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
+        sendTaskId.setLatitude(latitude);
+        sendTaskId.setLongitude(longitude);
 
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.CLAIM_TASK, String.valueOf(taskId));
+        operation.setUrl(WSUrl.CLAIM_TASK);
         operation.setTag(Keys.CLAIM_TASK_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(sendTaskId);
@@ -171,6 +178,60 @@ public class APIFacade {
         operation.setTag(Keys.UNCLAIM_TASK_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(sendTaskId);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * Send this request when all task files were uploaded
+     *
+     * @param taskId
+     * @param latitude
+     * @param longitude
+     */
+    public BaseOperation getValidateTaskOperation(Integer taskId, double latitude, double longitude) {
+        SendTaskId sendTaskId = new SendTaskId();
+        sendTaskId.setTaskId(taskId);
+        sendTaskId.setLatitude(latitude);
+        sendTaskId.setLongitude(longitude);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.VALIDATE_TASK);
+        operation.setTag(Keys.VALIDATE_TASK_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(sendTaskId);
+        return operation;
+    }
+
+    /**
+     * Send main file to upload
+     *
+     * @param context
+     * @param notUploadedFile
+     */
+    public void sendFile(Context context, NotUploadedFile notUploadedFile) {
+        if (context instanceof UploadFileService) {
+            BaseOperation operation = new BaseOperation();
+            operation.setUrl(WSUrl.UPLOAD_TASK_FILE);
+            operation.setTag(Keys.UPLOAD_TASK_FILE_OPERATION_TAG);
+            operation.setMethod(BaseOperation.Method.POST);
+            operation.getEntities().add(notUploadedFile);
+            ((UploadFileService) context).sendNetworkOperation(operation);
+        } else {
+            L.e(TAG, "Call sendFile with wrong context");
+        }
+    }
+
+
+    /**
+     * @param activity
+     * @param answers
+     */
+    public void sendAnswers(Activity activity, ArrayList<Answer> answers) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SEND_ANSWERS);
+        operation.setTag(Keys.SEND_ANSWERS_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().addAll(answers);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

@@ -83,7 +83,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
         TasksBL.getMyTasksFromDB(handler);
-        apiFacade.getMyTasks(getActivity());
+        ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
     }
 
     class DbHandler extends AsyncQueryHandler {

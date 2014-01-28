@@ -5,10 +5,13 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -16,9 +19,14 @@ import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -27,9 +35,11 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TaskValidationActivity extends BaseActivity implements View.OnClickListener {
+public class TaskValidationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = TaskValidationActivity.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
+    private APIFacade apiFacade = APIFacade.getInstance();
     private TextView expiryDateTextView;
     private TextView expiryTimeTextView;
     private TextView taskDataSizeTextView;
@@ -39,11 +49,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     private AsyncQueryHandler handler;
     private ArrayList<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
+    private ArrayList<Answer> answerListToSend = new ArrayList<Answer>();
     private float filesSizeB = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_validation);
         setTitle(R.string.task_validation_title);
@@ -79,6 +91,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                     long endDateTime = UIUtils.isoTimeToLong(task.getEndDateTime());
 
+                    answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
                     notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), endDateTime);
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
@@ -90,6 +103,48 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     break;
             }
         }
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == 200) {
+            if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.completed.getStatusId());
+
+                if (filesSizeB > 0) {
+                    if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
+                        DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
+                            @Override
+                            public void onLeftButtonPressed(Dialog dialog) {
+                                dialog.dismiss();
+                                setFilesToUploadDbAndStartUpload(false);
+                                finish();
+                            }
+
+                            @Override
+                            public void onRightButtonPressed(Dialog dialog) {
+                                dialog.dismiss();
+                                setFilesToUploadDbAndStartUpload(true);
+                                finish();
+                            }
+                        });
+                    } else {
+                        setFilesToUploadDbAndStartUpload(true);
+                        finish();
+                    }
+                } else {
+                    validateTask(task.getId());
+                }
+
+            } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
+
+                finish();
+            }
+        } else {
+            UIUtils.showSimpleToast(this, operation.getResponseError());
+        }
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     public void setTaskData(Task task) {
@@ -110,6 +165,23 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 .ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
+    private void validateTask(final int taskId) {
+        setSupportProgressBarIndeterminateVisibility(true);
+
+        Location location = lm.getLocation();
+        if (location != null) {
+            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+        } else {
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+                }
+            });
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -117,28 +189,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 DialogUtils.showReCheckAnswerTaskDialog(this, task.getSurveyId(), task.getId());
                 break;
             case R.id.sendNowButton:
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
+                setSupportProgressBarIndeterminateVisibility(true);
 
-                if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
-                    DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
-                        @Override
-                        public void onLeftButtonPressed(Dialog dialog) {
-                            dialog.dismiss();
-                            setFilesToUploadDbAndStartUpload(false);
-                            finish();
-                        }
-
-                        @Override
-                        public void onRightButtonPressed(Dialog dialog) {
-                            dialog.dismiss();
-                            setFilesToUploadDbAndStartUpload(true);
-                            finish();
-                        }
-                    });
-                } else {
-                    setFilesToUploadDbAndStartUpload(true);
-                    finish();
-                }
+                apiFacade.sendAnswers(this, answerListToSend);
                 break;
             case R.id.sendLaterButton:
                 finish();
@@ -160,4 +213,17 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
+    }
+
 }
