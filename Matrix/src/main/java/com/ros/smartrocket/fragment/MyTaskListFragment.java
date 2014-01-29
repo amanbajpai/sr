@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -33,13 +32,9 @@ import java.util.ArrayList;
 public class MyTaskListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = MyTaskListFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ViewGroup view;
 
     private AsyncQueryHandler handler;
-
-    private ListView taskList;
     private MyTaskAdapter adapter;
-    private TextView responseTextView;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,11 +44,11 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_my_task_list, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_my_task_list, null);
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        taskList = (ListView) view.findViewById(R.id.taskList);
+        ListView taskList = (ListView) view.findViewById(R.id.taskList);
         taskList.setOnItemClickListener(this);
 
         adapter = new MyTaskAdapter(getActivity());
@@ -133,8 +128,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
                 break;
             case reDoTask:
-                //TODO What need to open?
-
+                startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getSurveyId(), task.getId()));
                 break;
             case pending:
 

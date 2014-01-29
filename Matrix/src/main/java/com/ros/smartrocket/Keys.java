@@ -29,6 +29,7 @@ public interface Keys {
     String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
     String GET_SURVEYS_TASKS_OPERATION_TAG = "get_surveys_tasks_operation_tag";
     String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
+    String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String REGISTRETION_OPERATION_TAG = "registration_operation_tag";

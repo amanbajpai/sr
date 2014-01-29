@@ -64,7 +64,7 @@ public abstract class BaseNetworkService extends IntentService {
 
     protected HttpUriRequest prepareRequest(BaseOperation operation) throws UnsupportedEncodingException {
         HttpUriRequest result;
-        String json = null;
+        String json;
         HttpEntity entity = null;
         BasicHeader contentTypeHeader = null;
         if (operation.getEntities().size() > 0) {
@@ -201,9 +201,8 @@ public abstract class BaseNetworkService extends IntentService {
     /**
      * Called when request finished
      *
-     * @param operation
+     * @param operation - base operation
      * @throws IllegalStateException
-     * @throws java.io.IOException
      */
     protected abstract void processResponse(BaseOperation operation);
 

@@ -25,8 +25,8 @@ public class AnswersBL {
     /**
      * Make request for getting Answer list
      *
-     * @param handler
-     * @param questionId
+     * @param handler - Handler for getting response from DB
+     * @param questionId - question id
      */
 
     public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer questionId) {
@@ -84,7 +84,7 @@ public class AnswersBL {
     }
 
     public String size(int size) {
-        String hrSize = "";
+        String hrSize;
         double m = size / 1024.0;
         DecimalFormat dec = new DecimalFormat("0.00");
 
@@ -110,7 +110,7 @@ public class AnswersBL {
      * Convert cursor to Answer array
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return Answer[]
      */
     public static Answer[] convertCursorToAnswersArray(Cursor cursor) {
         Answer[] result = new Answer[]{};
@@ -146,8 +146,8 @@ public class AnswersBL {
     /**
      * Get next question orderId by answer routing.
      *
-     * @param question
-     * @return
+     * @param question - question id
+     * @return int
      */
     public static int getNextQuestionOrderId(Question question) {
         int orderId = 0;

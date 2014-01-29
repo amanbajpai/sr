@@ -91,7 +91,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         validationButton.setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
-        QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
 
         L.i(TAG, "Task id: " + taskId);
     }
@@ -109,6 +108,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     task = TasksBL.convertCursorToTask(cursor);
 
                     setTitle(task.getName());
+
+                    if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.reDoTask) {
+                        apiFacade.getReDoQuestions(QuestionsActivity.this, taskId);
+                    } else {
+                        QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
+                    }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
@@ -231,7 +236,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag()) ||
+                    Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
+
                 QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
             }
         } else {

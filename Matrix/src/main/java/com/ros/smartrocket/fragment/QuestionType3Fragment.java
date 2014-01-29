@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,12 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
+        if (!TextUtils.isEmpty(question.getValidationComment())) {
+            TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
+            validationComment.setText(question.getValidationComment());
+            validationComment.setVisibility(View.VISIBLE);
+        }
+
         photoImageView = (ImageView) view.findViewById(R.id.photo);
 
         rePhotoButton = (Button) view.findViewById(R.id.rePhotoButton);

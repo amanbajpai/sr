@@ -16,11 +16,12 @@ public class Answer extends BaseEntity implements Serializable {
     private String Value;
     private Integer Routing;
 
+    private Boolean Checked = false;
+
     private transient String FileUri;
     private transient Long FileSizeB;
-    private transient String FileName;
 
-    private transient Boolean Checked = false;
+    private transient String FileName;
 
     public Answer() {
     }

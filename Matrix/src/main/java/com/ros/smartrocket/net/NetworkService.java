@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -174,7 +175,11 @@ public class NetworkService extends BaseNetworkService {
                         App.getInstance().setMyAccount(myAccountResponse);
                         break;
                     case WSUrl.GET_QUESTIONS_ID:
+                    case WSUrl.GET_REDO_QUESTION_ID:
+                        int surveyId = operation.getSurveyId();
                         int taskId = operation.getTaskId();
+
+                        QuestionsBL.removeQuestionsFromDB(this, surveyId, taskId);
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 

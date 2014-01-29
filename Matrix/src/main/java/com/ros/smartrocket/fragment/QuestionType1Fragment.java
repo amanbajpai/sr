@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,11 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         list.setOnItemClickListener(this);
 
         questionText = (TextView) view.findViewById(R.id.questionText);
+        if(!TextUtils.isEmpty(question.getValidationComment())){
+            TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
+            validationComment.setText(question.getValidationComment());
+            validationComment.setVisibility(View.VISIBLE);
+        }
 
         adapter = new AnswerCheckBoxAdapter(getActivity());
         list.setAdapter(adapter);

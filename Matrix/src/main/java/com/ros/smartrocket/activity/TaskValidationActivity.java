@@ -16,6 +16,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -110,6 +111,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.completed.getStatusId());
+                //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());
 
                 if (filesSizeB > 0) {
                     if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {

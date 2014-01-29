@@ -25,6 +25,7 @@ public interface QuestionDbSchema {
         ALLOW_MULTIPLY_PHOTOS("AllowMultiplyPhotos", DBType.NUMERIC),
         ASK_IF("AskIf", DBType.TEXT),
         PREVIOUS_QUESTION_ORDER_ID("PreviousQuestionOrderId", DBType.NUMERIC),
+        VALIDATION_COMMENT("ValidationComment", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -76,7 +77,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
                 Table.QUESTION.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
                 Table.QUESTION.getName() + "." + Columns.ASK_IF.getName(),
-                Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName()
+                Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName()
 
 
         };
@@ -94,5 +96,6 @@ public interface QuestionDbSchema {
         int ALLOW_MULTIPLY_PHOTOS = 10;
         int ASK_IF = 11;
         int PREVIOUS_QUESTION_ORDER_ID = 12;
+        int VALIDATION_COMMENT = 13;
     }
 }

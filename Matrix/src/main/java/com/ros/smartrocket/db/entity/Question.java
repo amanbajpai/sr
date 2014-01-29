@@ -20,6 +20,8 @@ public class Question extends BaseEntity implements Serializable {
     private Boolean AllowMultiplyPhotos;
     private String AskIf = "";
 
+    private String ValidationComment;
+
     private transient Integer PreviousQuestionOrderId;
 
     @SkipFieldInContentValues
@@ -44,6 +46,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setAllowMultiplyPhotos(c.getInt(QuestionDbSchema.Query.ALLOW_MULTIPLY_PHOTOS) == 1 ? true : false);
             result.setAskIf(c.getString(QuestionDbSchema.Query.ASK_IF));
             result.setPreviousQuestionOrderId(c.getInt(QuestionDbSchema.Query.PREVIOUS_QUESTION_ORDER_ID));
+            result.setValidationComment(c.getString(QuestionDbSchema.Query.VALIDATION_COMMENT));
         }
 
         L.d("Question", result.toString());
@@ -147,6 +150,14 @@ public class Question extends BaseEntity implements Serializable {
 
     public void setTaskId(Integer taskId) {
         TaskId = taskId;
+    }
+
+    public String getValidationComment() {
+        return ValidationComment;
+    }
+
+    public void setValidationComment(String validationComment) {
+        ValidationComment = validationComment;
     }
 
 }

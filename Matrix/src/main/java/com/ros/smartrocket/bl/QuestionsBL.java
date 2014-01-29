@@ -3,6 +3,7 @@ package com.ros.smartrocket.bl;
 import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -45,8 +46,8 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    public static void removeQuestionsFromDB(Activity activity, Integer surveyId, int taskId) {
-        activity.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
+    public static void removeQuestionsFromDB(Context context, Integer surveyId, int taskId) {
+        context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
                 new String[]{String.valueOf(surveyId), String.valueOf(taskId)});
     }

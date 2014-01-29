@@ -44,7 +44,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
     private AsyncQueryHandler dbHandler;
     private BroadcastReceiver receiver;
-    private IntentFilter filter;
 
     private Timer uploadFilesTimer;
     private Timer showNotificationTimer;
@@ -62,7 +61,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         dbHandler = new DbHandler(getContentResolver());
         receiver = new NetworkBroadcastReceiver();
-        filter = new IntentFilter(NetworkService.BROADCAST_ACTION);
+        IntentFilter filter = new IntentFilter(NetworkService.BROADCAST_ACTION);
 
         addNetworkOperationListener(this);
 

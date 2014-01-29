@@ -256,12 +256,10 @@ public class APIFacade {
      * @param surveyId
      */
     public void getQuestions(Activity activity, Integer surveyId, Integer taskId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(Keys.TASK_ID, taskId);
-
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(surveyId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
+        operation.setSurveyId(surveyId);
         operation.setTaskId(taskId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
@@ -269,14 +267,13 @@ public class APIFacade {
 
     /**
      * @param activity
-     * @param questions
+     * @param taskId
      */
-    public void sendQuestions(Activity activity, ArrayList<Question> questions) {
+    public void getReDoQuestions(Activity activity, Integer taskId) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SEND_QUESTION);
-        operation.setTag(Keys.REGISTRETION_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().addAll(questions);
+        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), preferencesManager.getLanguageCode());
+        operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

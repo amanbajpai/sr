@@ -1,38 +1,17 @@
 package com.ros.smartrocket.net;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.AnswerDbSchema;
-import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.SurveyDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.BaseEntity;
-import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.FileToUpload;
-import com.ros.smartrocket.db.entity.LoginResponse;
-import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Questions;
-import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.Survey;
-import com.ros.smartrocket.db.entity.Surveys;
-import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectImageManager;
 import org.apache.commons.io.FileUtils;
@@ -41,7 +20,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * IntentService for API communication
@@ -170,7 +148,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
     }
 
     protected String getRequestJson(BaseOperation operation) {
-        Gson gson = null;
+        Gson gson;
         if (TAG_RECRUITING.equals(operation.getTag())) {
             gson = new GsonBuilder().disableHtmlEscaping().create();
         } else {
@@ -192,11 +170,11 @@ public class UploadFileNetworkService extends BaseNetworkService {
         String responseString = operation.getResponseString();
         if (responseCode == 200 && responseString != null) {
             try {
-                ContentResolver contentResolver = getContentResolver();
-                HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
+                /*ContentResolver contentResolver = getContentResolver();
+                HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;*/
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.VALIDATE_TASK_ID:
-                        SendTaskId sendedTaskId = (SendTaskId) operation.getEntities().get(0);
+                        //SendTaskId sendedTaskId = (SendTaskId) operation.getEntities().get(0);
 
                         break;
                     default:

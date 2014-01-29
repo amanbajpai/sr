@@ -52,6 +52,12 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
+        if(!TextUtils.isEmpty(question.getValidationComment())){
+            TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
+            validationComment.setText(question.getValidationComment());
+            validationComment.setVisibility(View.VISIBLE);
+        }
+
         answerEditText = (EditText) view.findViewById(R.id.answerEditText);
         setEditTextWatcher(answerEditText);
 
@@ -79,7 +85,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
 
                     QuestionType4Fragment.this.question.setAnswers(answers);
                     if (answers[0].isChecked()) {
-                        answerEditText.setText(answers[0].getAnswer());
+                        answerEditText.setText(answers[0].getValue());
                     }
 
                     refreshNextButton();
@@ -123,7 +129,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
     @Override
     public void saveQuestion() {
         Answer answer = question.getAnswers()[0];
-        answer.setAnswer(answerEditText.getText().toString());
+        answer.setValue(answerEditText.getText().toString());
         answer.setChecked(true);
 
         AnswersBL.setAnswersToDB(handler, question.getAnswers());

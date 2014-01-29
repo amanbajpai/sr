@@ -211,6 +211,7 @@ public class DialogUtils {
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_title),
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_text1),
                 R.string.tree_g_limit_exceeded_dialog_only_wifi, R.string.tree_g_limit_exceeded_dialog_yes);
+        networkDialog.setCancelable(false);
         networkDialog.setOnDialogButtonClicklistener(dialogButtonClickListener);
     }
 
