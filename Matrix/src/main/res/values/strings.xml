@@ -291,4 +291,8 @@
     <string name="re_do_task_status_message" >Task \"%1$s\" changed status to Re-Do!</string >
     <string name="validated_task_status_message" >Task \"%1$s\" changed status to Validated!</string >
     <string name="unknown_status_id_message" >Unknown statusId \"%1$s\" !</string >
+
+    <!-- Photo can not be added -->
+    <string name="add_photo_error_title" >Add photo error</string >
+    <string name="add_photo_error_text" >Photo can not be added from this places.</string >
 </resources >

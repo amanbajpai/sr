@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.provider.Settings;
+
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -197,6 +198,29 @@ public class DialogUtils {
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
                 //activity.startActivity(IntentUtils.getEmailIntent(null, null));
+            }
+        });
+    }
+
+    /**
+     * Show dialog. Photo can not be add.
+     *
+     * @param activity
+     */
+    public static void showPhotoCanNotBeAddDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.add_photo_error_title),
+                activity.getText(R.string.add_photo_error_text),
+                0, android.R.string.ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
             }
         });
     }

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.App;
@@ -27,6 +28,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -151,6 +153,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         } else {
                             profilePhotoImageView.setImageResource(R.drawable.no_photo);
                         }
+                    }
+
+                    @Override
+                    public void onSelectImageError(int imageFrom) {
+                        DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
                     }
                 });
                 break;

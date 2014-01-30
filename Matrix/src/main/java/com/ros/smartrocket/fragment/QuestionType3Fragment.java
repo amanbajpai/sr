@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -26,6 +27,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
 
 import java.io.File;
@@ -170,6 +172,11 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                             rePhotoButton.setText(R.string.take_photo);
                             photoImageView.setImageResource(R.drawable.no_photo);
                         }
+                    }
+
+                    @Override
+                    public void onSelectImageError(int imageFrom) {
+                        DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
                     }
                 });
                 break;

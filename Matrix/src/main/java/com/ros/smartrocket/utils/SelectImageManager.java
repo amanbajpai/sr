@@ -18,9 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.TakePhotoActivity;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedOutputStream;
@@ -164,7 +166,11 @@ public class SelectImageManager {
             }
 
             if (imageCompliteListener != null) {
-                imageCompliteListener.onImageComplete(bitmap);
+                if (bitmap != null) {
+                    imageCompliteListener.onImageComplete(bitmap);
+                } else {
+                    imageCompliteListener.onSelectImageError(requestCode);
+                }
             }
         }
     }
@@ -174,10 +180,15 @@ public class SelectImageManager {
             Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(ImageColumns.DATA);
-            String fileUri = cursor.getString(idx);
-            lastFile = copyFileToTempFolder(activity, new File(fileUri));
+            if (idx == -1) {
 
-            return prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+                return null;
+            } else {
+                String fileUri = cursor.getString(idx);
+                lastFile = copyFileToTempFolder(activity, new File(fileUri));
+
+                return prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -409,5 +420,7 @@ public class SelectImageManager {
 
     public interface OnImageCompleteListener {
         void onImageComplete(Bitmap bitmap);
+
+        void onSelectImageError(int imageFrom);
     }
 }
