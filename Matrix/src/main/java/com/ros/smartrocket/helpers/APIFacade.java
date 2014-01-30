@@ -3,8 +3,8 @@ package com.ros.smartrocket.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -13,11 +13,11 @@ import com.ros.smartrocket.db.entity.CheckLocation;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.PushMessage;
-import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.Registration;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Subscription;
+import com.ros.smartrocket.db.entity.TestPushMessage;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
@@ -329,26 +329,21 @@ public class APIFacade {
      * API call for push notification test
      *
      * @param context
-     * @param regId   - GCM user ID (should be registered in cloud)
-     * @param data    - String data
+     * @param statusType   - Notification type
+     * @param taskId    - task id
      */
-    public void testGCMPushNotification(Context context, String regId, String data) {
-        if (!TextUtils.isEmpty(regId) && !TextUtils.isEmpty(data)) {
+    public void testGCMPushNotification(Context context, Integer statusType, Integer taskId) {
+        TestPushMessage pushMessageEntity = new TestPushMessage();
+        pushMessageEntity.setStatusType(statusType);
+        pushMessageEntity.setTaskId(taskId);
 
-            PushMessage pushMessageEntity = new PushMessage();
-            pushMessageEntity.setMessage(data);
-            pushMessageEntity.setTargetDeviceId(regId);
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GCM_TEST_PUSH);
+        operation.setTag(Keys.GCM_TEST_PUSH_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(pushMessageEntity);
 
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.GCM_TEST_PUSH);
-            operation.setTag(Keys.GCM_TEST_PUSH_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(pushMessageEntity);
-
-            this.sendRequest(context, operation);
-        } else {
-            UIUtils.showSimpleToast(context, R.string.gcm_test_push_noData);
-        }
+        this.sendRequest(context, operation);
     }
 
     /**
@@ -362,7 +357,7 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    private void sendRequest(Context context, BaseOperation operation) {
+    public void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);
         context.startService(intent);

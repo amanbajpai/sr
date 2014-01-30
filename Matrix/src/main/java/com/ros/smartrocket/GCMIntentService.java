@@ -4,14 +4,21 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.NotificationUtils;
+
+import org.json.JSONObject;
 
 /**
  * GCM Services
@@ -20,6 +27,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     //@SuppressWarnings("hiding")
     private static final String TAG = GCMIntentService.class.getSimpleName();
+    private APIFacade apiFacade = APIFacade.getInstance();
 
     public GCMIntentService() {
         super(CommonUtilities.SENDER_ID);
@@ -51,9 +59,11 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onMessage(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
         String message = extras.getString("message");
-        L.d(TAG, "Received message [message=" + extras.get("message") + "]");
-        CommonUtilities.displayMessage(context, message);
-        generateNotification(context, message);
+        L.d(TAG, "Received message [message=" + message + "]");
+
+        NotificationUtils.showTaskStatusChangedNotification(context, message);
+        apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
+
     }
 
     @Override
@@ -68,13 +78,6 @@ public class GCMIntentService extends GCMBaseIntentService {
     public void onError(Context context, String errorId) {
         L.i(TAG, "Received error: " + errorId);
         CommonUtilities.displayMessage(context, getString(R.string.gcm_error, errorId));
-    }
-
-    @Override
-    protected boolean onRecoverableError(Context context, String errorId) {
-        L.i(TAG, "Received recoverable error: " + errorId);
-        CommonUtilities.displayMessage(context, getString(R.string.gcm_recoverable_error, errorId));
-        return super.onRecoverableError(context, errorId);
     }
 
     /**
@@ -99,12 +102,23 @@ public class GCMIntentService extends GCMBaseIntentService {
         stackBuilder.addParentStack(MainActivity.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(notificationIntent);
+
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
+
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSound(sound);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         notificationManager.notify(0, mBuilder.build());
+    }
+
+    @Override
+    protected boolean onRecoverableError(Context context, String errorId) {
+        L.i(TAG, "Received recoverable error: " + errorId);
+        CommonUtilities.displayMessage(context, getString(R.string.gcm_recoverable_error, errorId));
+        return super.onRecoverableError(context, errorId);
     }
 }

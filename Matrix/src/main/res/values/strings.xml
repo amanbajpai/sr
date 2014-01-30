@@ -286,4 +286,9 @@
     <string name="tree_g_limit_exceeded_dialog_only_wifi" >Use Wi-Fi only</string >
     <!-- Not uploaded file notification-->
     <string name="file_waiting_to_upload" >File is waiting to upload</string >
+    <!-- Task status changed -->
+    <string name="status_of_task_changed" >Status of task changed</string >
+    <string name="re_do_task_status_message" >Task \"%1$s\" changed status to Re-Do!</string >
+    <string name="validated_task_status_message" >Task \"%1$s\" changed status to Validated!</string >
+    <string name="unknown_status_id_message" >Unknown statusId \"%1$s\" !</string >
 </resources >

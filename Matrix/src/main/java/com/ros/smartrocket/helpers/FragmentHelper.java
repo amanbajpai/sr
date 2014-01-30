@@ -5,10 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import com.ros.smartrocket.Keys;
+
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.fragment.AllTaskFragment;
-import com.ros.smartrocket.fragment.TasksMapFragment;
 
 import java.util.ArrayList;
 

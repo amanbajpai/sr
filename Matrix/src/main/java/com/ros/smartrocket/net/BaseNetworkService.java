@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
@@ -12,10 +13,12 @@ import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -28,6 +31,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -73,7 +77,7 @@ public abstract class BaseNetworkService extends IntentService {
                 json = getRequestJson(operation);
                 if (json != null) {
                     L.i(TAG, "Request body: " + json);
-                    entity = new StringEntity(json);
+                    entity = new StringEntity(json, "UTF-8");
                     contentTypeHeader = new BasicHeader("Content-type", "application/json");
                 }
             } else {
@@ -120,7 +124,7 @@ public abstract class BaseNetworkService extends IntentService {
         method.addHeader("device-type", App.getInstance().getDeviceType());
         method.addHeader("device-os-version", App.getInstance().getDeviceApiNumber());
         //method.addHeader("Accept-Encoding", "gzip");
-        method.addHeader("Authorization", "Bearer "+preferencesManager.getToken());
+        method.addHeader("Authorization", "Bearer " + preferencesManager.getToken());
         method.addHeader("App-version", Config.APP_VERSION);
     }
 

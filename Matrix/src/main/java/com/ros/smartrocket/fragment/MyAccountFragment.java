@@ -87,7 +87,7 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
                         e.printStackTrace();
                     }
                     String test = obj.toString();
-                    APIFacade.getInstance().testGCMPushNotification(getActivity(), regId, test);
+                    APIFacade.getInstance().testGCMPushNotification(getActivity(), 6, 22);
                 } else {
                     L.i(TAG, "NOT registerted GCM at server");
                 }
