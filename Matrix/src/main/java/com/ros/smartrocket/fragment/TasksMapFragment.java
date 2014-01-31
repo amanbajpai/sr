@@ -311,6 +311,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    /**
+     * Get Tasks from local db
+     * @param location
+     */
     private void loadTasks(Location location) {
         if (location != null) {
             if (mode == Keys.MapViewMode.ALLTASKS) {
@@ -330,10 +334,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
 
+    /**
+     * Send request to server for data update
+     */
     private void updateDataFromServer() {
         if (mode == Keys.MapViewMode.MYTASKS) {
             getMyTasks();
-        } else {
+        } else if (mode == Keys.MapViewMode.ALLTASKS) {
             getSurveysFromServer(taskRadius);
         }
     }
@@ -361,6 +368,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    /**
+     * Initiate call to server side and get my Tasks
+     */
     private void getMyTasks() {
         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
         ((BaseActivity) getActivity()).sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
