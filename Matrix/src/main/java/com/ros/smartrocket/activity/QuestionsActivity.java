@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -110,7 +111,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     setTitle(task.getName());
 
                     if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.reDoTask) {
-                        apiFacade.getReDoQuestions(QuestionsActivity.this, taskId);
+                        apiFacade.getReDoQuestions(QuestionsActivity.this, surveyId, taskId);
                     } else {
                         QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
                     }

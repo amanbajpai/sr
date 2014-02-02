@@ -269,10 +269,12 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void getReDoQuestions(Activity activity, Integer taskId) {
+    public void getReDoQuestions(Activity activity, Integer surveyId, Integer taskId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
+        operation.setSurveyId(surveyId);
+        operation.setTaskId(taskId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
