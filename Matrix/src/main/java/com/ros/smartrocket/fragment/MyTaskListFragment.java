@@ -146,7 +146,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         getActivity().setTitle(R.string.my_tasks_title);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 

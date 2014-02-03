@@ -15,14 +15,15 @@ public class Config {
     public static final String APP_VERSION;
 
     public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory(CACHE_PREFIX_DIR).getPath();
+    public static String MARKET_LINK_PAID = "https://play.google.com/store/apps/details?id=com.ua.makeev.lovewidgetpaid";
 
     public static final int REFRESH_LOCATION_DISTANCE = 100;
     public static final int REFRESH_LOCATION_TIME = 0;
 
     public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 5;
     public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 50;
-    public static final int CHECK_NOT_UPLOADED_FILE_MILLISECONDS = 1000*60*10;
-    public static final int SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS = 1000*60*5;
+    public static final int CHECK_NOT_UPLOADED_FILE_MILLISECONDS = 1000 * 60 * 10;
+    public static final int SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS = 1000 * 60 * 5;
 
     public static final String ACRA_FORM_KEY = "dFZnWE93RnVfb2VhSHFFR2VicWoyamc6MA";
     public static final boolean ACRA_ENABLED;

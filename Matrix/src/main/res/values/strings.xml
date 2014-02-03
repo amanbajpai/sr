@@ -193,7 +193,6 @@
     <string name="gcm_error" >From GCM: error (%1$s).</string >
     <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
     <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
-    <string name="gcm_test_push_noData" >There is no data to send</string >
     <!-- Google Map Fragment -->
     <string name="map_popup_distance" >Distance:</string >
     <!-- Current Location -->
@@ -287,7 +286,7 @@
     <!-- Not uploaded file notification-->
     <string name="file_waiting_to_upload" >File is waiting to upload</string >
     <!-- Task status changed -->
-    <string name="status_of_task_changed" >Status of task changed</string >
+    <!--<string name="status_of_task_changed" >Status of task changed</string >-->
     <string name="re_do_task_status_message" >Task \"%1$s\" changed status to Re-Do!</string >
     <string name="validated_task_status_message" >Task \"%1$s\" changed status to Validated!</string >
     <string name="unknown_status_id_message" >Unknown statusId \"%1$s\" !</string >
@@ -295,4 +294,6 @@
     <!-- Photo can not be added -->
     <string name="add_photo_error_title" >Add photo error</string >
     <string name="add_photo_error_text" >Photo can not be added from this places.</string >
+
+    <string name="toast_application_not_found">Application not found</string>
 </resources >

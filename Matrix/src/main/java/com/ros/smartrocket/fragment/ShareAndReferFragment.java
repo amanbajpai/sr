@@ -1,6 +1,7 @@
 package com.ros.smartrocket.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Share app info fragment
@@ -58,21 +60,31 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.emailButton:
-                getActivity().startActivity(IntentUtils.getEmailIntent(Config.DEV_EMAIL, null));
+                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, null);
                 break;
             case R.id.messageButton:
-
-                break;
-            case R.id.twitterButton:
-
+                intent = IntentUtils.getSmsIntent(getActivity(), "", "");
                 break;
             case R.id.facebookButton:
-
+                intent = IntentUtils.getShareFacebookIntent(getString(R.string.app_name), Config.MARKET_LINK_PAID);
+                break;
+            case R.id.twitterButton:
+                intent = IntentUtils.getShareTwitterIntent(getString(R.string.app_name), Config.MARKET_LINK_PAID);
                 break;
             default:
                 break;
+        }
+
+        if (intent != null) {
+            if (IntentUtils.isIntentAvailable(getActivity(), intent)) {
+                getActivity().startActivity(intent);
+            } else {
+                getActivity().startActivity(IntentUtils.getGooglePlayIntent(intent.getPackage()));
+                UIUtils.showSimpleToast(getActivity(), R.string.toast_application_not_found);
+            }
         }
     }
 
