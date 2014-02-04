@@ -29,7 +29,7 @@ public class BaseOperation implements Serializable {
         GET, POST, PUT, PATCH, DELETE, POST_MULTIPART
     }
 
-    protected HttpParams params;
+    private HttpParams params;
 
     private String[] args;
 

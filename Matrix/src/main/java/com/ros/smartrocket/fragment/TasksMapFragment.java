@@ -154,8 +154,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
         }
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
-        if ((mode == Keys.MapViewMode.SURVEYTASKS) ||
-                (mode == Keys.MapViewMode.SINGLETASK)) {
+        if ((mode == Keys.MapViewMode.SURVEYTASKS)
+                || (mode == Keys.MapViewMode.SINGLETASK)) {
             viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
         }
         // Update data set from Server
@@ -178,14 +178,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
         taskRadius = 5000;
-        this.setRaiusText();
+        this.setRadiusText();
         sbRadius.setProgress(sbRadiusProgress);
         sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 sbRadiusProgress = progress;
                 taskRadius = sbRadiusDelta * sbRadiusProgress;
-                setRaiusText();
+                setRadiusText();
                 updateMapPins(lm.getLocation());
             }
 
@@ -313,6 +313,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     /**
      * Get Tasks from local db
+     *
      * @param location
      */
     private void loadTasks(Location location) {
@@ -708,8 +709,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Update All UI elements when view mode change
      */
     private void updateUI() {
-        if (mode == Keys.MapViewMode.MYTASKS ||
-                mode == Keys.MapViewMode.SURVEYTASKS) {
+        if (mode == Keys.MapViewMode.MYTASKS
+                || mode == Keys.MapViewMode.SURVEYTASKS) {
             btnFilter.setEnabled(false);
         } else {
             btnFilter.setEnabled(true);
@@ -772,7 +773,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         addMyLocationAndRadius(location, taskRadius);
     }
 
-    private void setRaiusText() {
+    private void setRadiusText() {
         String distance = String.format(Locale.US, "%.1f", (float) taskRadius / 1000);
         txtRadius.setText(distance + " km");
     }

@@ -10,9 +10,6 @@ import com.ros.smartrocket.db.entity.NotUploadedFile;
 
 import java.util.ArrayList;
 
-/**
- * Created by bopr on 12/10/13.
- */
 public class FilesBL {
     //private static final String TAG = TasksBL.class.getSimpleName();
 
@@ -26,8 +23,8 @@ public class FilesBL {
                 NotUploadedFileDbSchema.Query.PROJECTION, null, null, NotUploadedFileDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long current_id, boolean useTreeGOnly, String cookie) {
-        String where = NotUploadedFileDbSchema.Columns._ID + ">'" + current_id + "'";
+    public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long currentId, boolean useTreeGOnly, String cookie) {
+        String where = NotUploadedFileDbSchema.Columns._ID + ">'" + currentId + "'";
         if (useTreeGOnly) {
             where = where + " and " + NotUploadedFileDbSchema.Columns.USE_3G + "==1";
         }

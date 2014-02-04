@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -12,7 +11,6 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.CheckLocation;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.PushMessage;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.Registration;
 import com.ros.smartrocket.db.entity.SendTaskId;
@@ -32,7 +30,7 @@ import java.util.ArrayList;
  * Singleton class for work with server API
  */
 public class APIFacade {
-    private static final String TAG = "UploadFileNetworkService";
+    private static final String TAG = "APIFacade";
     private static APIFacade instance = null;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 

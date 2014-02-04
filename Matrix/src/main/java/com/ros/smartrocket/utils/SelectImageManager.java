@@ -18,17 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.TakePhotoActivity;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -51,14 +47,13 @@ public class SelectImageManager {
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
 
     private static SelectImageManager instance = null;
-    private OnImageCompleteListener imageCompliteListener;
+    private OnImageCompleteListener imageCompleteListener;
     private Activity activity;
 
     // Configuration
-    private static int MAX_SIZE_IN_PX = 500;
-    public static int SIZE_IN_PX_2_MP = 1600;
-    private static long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
-    private static boolean CHECK_SCALE_BY_BYTE_SIZE = true;
+    private static final int MAX_SIZE_IN_PX = 500;
+    public static final int SIZE_IN_PX_2_MP = 1600;
+    private static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
 
     private Dialog selectImageDialog;
     private File lastFile;
@@ -71,14 +66,6 @@ public class SelectImageManager {
     }
 
     public SelectImageManager() {
-    }
-
-    public void seMaxSize(int maxSixeInPx) {
-        MAX_SIZE_IN_PX = maxSixeInPx;
-    }
-
-    public void seMaxSizeInByte(long maxSizeInByte) {
-        MAX_SIZE_IN_BYTE = maxSizeInByte;
     }
 
     public void startGallery(Activity activity) {
@@ -98,7 +85,7 @@ public class SelectImageManager {
         activity.startActivityForResult(i, CAMERA);
     }
 
-    public void startCustomCamera(Activity activity) {
+    /*public void startCustomCamera(Activity activity) {
         this.activity = activity;
 
         lastFile = getTempFile(activity);
@@ -106,12 +93,12 @@ public class SelectImageManager {
         Intent i = new Intent(activity, TakePhotoActivity.class);
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
         activity.startActivityForResult(i, CUSTOM_CAMERA);
-    }
+    }*/
 
     public void showSelectImageDialog(final Activity activity, final boolean showRemoveButton,
-                                      final OnImageCompleteListener imageCompliteListener) {
+                                      final OnImageCompleteListener imageCompleteListener) {
         this.activity = activity;
-        this.imageCompliteListener = imageCompliteListener;
+        this.imageCompleteListener = imageCompleteListener;
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
@@ -136,7 +123,7 @@ public class SelectImageManager {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                imageCompliteListener.onImageComplete(null);
+                imageCompleteListener.onImageComplete(null);
             }
         });
 
@@ -165,51 +152,50 @@ public class SelectImageManager {
                 bitmap = getBitmapFromCamera(intent);
             }
 
-            if (imageCompliteListener != null) {
+            if (imageCompleteListener != null) {
                 if (bitmap != null) {
-                    imageCompliteListener.onImageComplete(bitmap);
+                    imageCompleteListener.onImageComplete(bitmap);
                 } else {
-                    imageCompliteListener.onSelectImageError(requestCode);
+                    imageCompleteListener.onSelectImageError(requestCode);
                 }
             }
         }
     }
 
     public Bitmap getBitmapFromGalery(Intent intent) {
+        Bitmap resultBitmap = null;
         try {
-            Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(ImageColumns.DATA);
-            if (idx == -1) {
+            if (intent != null && intent.getData() != null) {
+                Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
 
-                return null;
-            } else {
-                String fileUri = cursor.getString(idx);
-                lastFile = copyFileToTempFolder(activity, new File(fileUri));
+                if (cursor!=null && cursor.moveToFirst()) {
+                    int idx = cursor.getColumnIndex(ImageColumns.DATA);
+                    if (idx != -1) {
+                        String fileUri = cursor.getString(idx);
+                        lastFile = copyFileToTempFolder(activity, new File(fileUri));
 
-                return prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return resultBitmap;
     }
 
     public Bitmap getBitmapFromCamera(Intent intent) {
-        InputStream is = null;
+        InputStream is;
         File file = lastFile;
 
-        try {
-            is = new FileInputStream(lastFile);
-        } catch (FileNotFoundException e) {
-
+        if (!file.exists()) {
             try {
                 Uri u = intent.getData();
                 is = activity.getContentResolver().openInputStream(u);
                 FileOutputStream fos = new FileOutputStream(file, false);
                 OutputStream os = new BufferedOutputStream(fos);
                 byte[] buffer = new byte[1024];
-                int byteRead = 0;
+                int byteRead;
                 while ((byteRead = is.read(buffer)) != -1) {
                     os.write(buffer, 0, byteRead);
                 }
@@ -284,8 +270,8 @@ public class SelectImageManager {
 
                 L.e(TAG, "getScaledBitmapByByteSize Scale: " + scale);
 
-                int resultWidth = (int) (sourceBitmap.getWidth() / scale);
-                int resultHeight = (int) (sourceBitmap.getHeight() / scale);
+                int resultWidth = sourceBitmap.getWidth() / scale;
+                int resultHeight = sourceBitmap.getHeight() / scale;
 
                 return Bitmap.createScaledBitmap(sourceBitmap, resultWidth, resultHeight, false);
             }
@@ -354,7 +340,7 @@ public class SelectImageManager {
         return resultFile;
     }
 
-    public static String getFileAsString(Uri uri, int maxSizeInPx, long maxSizeInByte) {
+/*    public static String getFileAsString(Uri uri, int maxSizeInPx, long maxSizeInByte) {
         String resultString = "";
         File file = new File(uri.getPath());
         Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte);
@@ -368,7 +354,7 @@ public class SelectImageManager {
             bitmap.recycle();
         }
         return resultString;
-    }
+    }*/
 
     public static String getFileAsString(File file) {
         String resultString = "";
@@ -397,7 +383,7 @@ public class SelectImageManager {
         return ret;
     }
 
-    private void deleteTempFile() {
+    /*private void deleteTempFile() {
         try {
             File file = getTempFile(activity);
             if (file != null && file.exists()) {
@@ -406,13 +392,7 @@ public class SelectImageManager {
         } catch (Exception e) {
             L.w(TAG, e.toString());
         }
-    }
-
-    /*
-     * protected int getBitmapSize(Bitmap data) { if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
-     * return data.getRowBytes() * data.getHeight(); } else { return data.getByteCount(); } }
-     */
-
+    }*/
 
     public File getLastFile() {
         return lastFile;

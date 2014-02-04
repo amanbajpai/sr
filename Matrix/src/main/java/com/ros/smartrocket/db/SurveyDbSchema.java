@@ -3,7 +3,7 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface SurveyDbSchema {
-    public static final int SURVEY_BY_DISTANCE = 102;
+    static final int SURVEY_BY_DISTANCE = 102;
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.SURVEY
             .getName()).build();
@@ -11,10 +11,10 @@ public interface SurveyDbSchema {
             .appendPath(Table.SURVEY.getName() + SURVEY_BY_DISTANCE).build();
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
-    String SORT_ORDER_DESC = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC";
+    //String SORT_ORDER_DESC = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC";
     //String SORT_ORDER = Table.SURVEY.getName() + "." + Columns._ID.getName() + " ASC";
 
-    final String NEAR_TASK_DISTANCE = "near_task_distance";
+    //final String NEAR_TASK_DISTANCE = "near_task_distance";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),

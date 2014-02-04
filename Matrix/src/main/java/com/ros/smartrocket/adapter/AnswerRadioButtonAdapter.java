@@ -11,18 +11,18 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 
-public class AnswerRadioBattonAdapter extends BaseAdapter implements ListAdapter {
+public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter {
     //private static final String TAG = "AnswerCheckBoxAdapter";
     private Answer answers[];
     private LayoutInflater inflater;
     //private Activity activity;
 
     public static class ViewHolder {
-        public TextView name;
-        public RadioButton radioButton;
+        private TextView name;
+        private RadioButton radioButton;
     }
 
-    public AnswerRadioBattonAdapter(Activity activity) {
+    public AnswerRadioButtonAdapter(Activity activity) {
         //this.activity = activity;
 
         this.inflater = LayoutInflater.from(activity);

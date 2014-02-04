@@ -3,12 +3,12 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface QuestionDbSchema {
-    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ", " + Columns.SURVEY_ID.getName() + ", " +
-            "" + Columns.TASK_ID.getName() + ") ON CONFLICT REPLACE";
+    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ", " + Columns.SURVEY_ID.getName() + ", "
+            + "" + Columns.TASK_ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.QUESTION
             .getName()).build();
 
-    String SORT_ORDER_DESC_LIMIT_1 = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
+    //String SORT_ORDER_DESC_LIMIT_1 = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC";
 
     public enum Columns {
@@ -38,21 +38,21 @@ public interface QuestionDbSchema {
         }
 
         /**
-         * @return
+         * @return String
          */
         public String getName() {
             return columnName;
         }
 
         /**
-         * @return
+         * @return DBType
          */
         public DBType getType() {
             return type;
         }
 
         /**
-         * @return
+         * @return String
          */
         public String toString() {
             return this.getName();
@@ -61,8 +61,8 @@ public interface QuestionDbSchema {
 
     public interface Query {
         int TOKEN_QUERY = 21;
-        int TOKEN_INSERT = 22;
-        int TOKEN_UPDATE = 23;
+        //int TOKEN_INSERT = 22;
+        //int TOKEN_UPDATE = 23;
         //int TOKEN_DELETE = 24;
 
         String[] PROJECTION = {Table.QUESTION.getName() + "." + Columns._ID.getName(),

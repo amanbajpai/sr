@@ -22,7 +22,7 @@ public class LoginBL {
         NOPASSWORDOREMAIL;
     }
 
-    public static UIUtils utils;
+    private static UIUtils utils;
 
     /**
      * Check all conditions before login

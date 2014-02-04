@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
-import com.ros.smartrocket.adapter.AnswerRadioBattonAdapter;
+import com.ros.smartrocket.adapter.AnswerRadioButtonAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -29,10 +29,7 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
  */
 public class QuestionType2Fragment extends BaseQuestionFragment implements AdapterView.OnItemClickListener {
     //private static final String TAG = QuestionType2Fragment.class.getSimpleName();
-    private ViewGroup view;
-    private ListView list;
-    private TextView questionText;
-    private AnswerRadioBattonAdapter adapter;
+    private AnswerRadioButtonAdapter adapter;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
@@ -44,7 +41,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_2, null);
+        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_2, null);
 
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
@@ -52,17 +49,17 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        list = (ListView) view.findViewById(R.id.answerList);
+        ListView list = (ListView) view.findViewById(R.id.answerList);
         list.setOnItemClickListener(this);
 
-        questionText = (TextView) view.findViewById(R.id.questionText);
+        TextView questionText = (TextView) view.findViewById(R.id.questionText);
         if(!TextUtils.isEmpty(question.getValidationComment())){
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
 
-        adapter = new AnswerRadioBattonAdapter(getActivity());
+        adapter = new AnswerRadioButtonAdapter(getActivity());
         list.setAdapter(adapter);
 
         questionText.setText(question.getQuestion());
@@ -138,7 +135,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         //adapter.notifyDataSetChanged();
 
         AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
-        viewHolder.checkBox.setChecked(answer.isChecked());
+        viewHolder.getCheckBox().setChecked(answer.isChecked());
 
         refreshNextButton();
     }

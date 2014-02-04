@@ -159,7 +159,7 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showRegistrationFailedDialog(final Activity activity) {
+    public static void showLoginFailedDialog(final Activity activity) {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.login_fail_dialog_title),
                 activity.getText(R.string.credentials_wrong),

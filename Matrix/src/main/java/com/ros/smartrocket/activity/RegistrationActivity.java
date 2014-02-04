@@ -15,16 +15,13 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
@@ -41,11 +38,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
     private static final String TAG = RegistrationActivity.class.getSimpleName();
     private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
-    private String[] EDUCATION_LEVEL = new String[]{};
     private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
-    private String[] EMPLOYMENT_STATUS = new String[]{};
 
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ImageView profilePhotoImageView;
@@ -88,11 +82,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
         }
 
-        EDUCATION_LEVEL = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
+        String[] education_level = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
                 getString(R.string.primary_school), getString(R.string.junior_secondary_school),
                 getString(R.string.senior_secondary_school), getString(R.string.vocational_collage),
                 getString(R.string.bachelors_degree), getString(R.string.master_degree_or_higher)};
-        EMPLOYMENT_STATUS = new String[]{getString(R.string.employment_status), getString(R.string.student),
+        String[] employment_status = new String[]{getString(R.string.employment_status), getString(R.string.student),
                 getString(R.string.employed_part_time), getString(R.string.employed_full_time),
                 getString(R.string.not_employed_looking_for_work),
                 getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
@@ -121,12 +115,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         educationLevelSpinner = (Spinner) findViewById(R.id.educationLevelSpinner);
         ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
-                EDUCATION_LEVEL);
+                education_level);
         educationLevelSpinner.setAdapter(educationLevelAdapter);
 
         employmentStatusSpinner = (Spinner) findViewById(R.id.employmentStatusSpinner);
         ArrayAdapter employmentStatusAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
-                EMPLOYMENT_STATUS);
+                employment_status);
         employmentStatusSpinner.setAdapter(employmentStatusAdapter);
 
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);

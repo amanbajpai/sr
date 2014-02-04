@@ -10,12 +10,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 
-public class SchemeInterpretator {
+public class SchemeInterpreter {
 
-    private static final String TAG = SchemeInterpretator.class.getSimpleName();
+    private static final String TAG = SchemeInterpreter.class.getSimpleName();
     private Uri uri;
-    private LinkedHashMap<String, String> columnsMap;
-    private String[] columnsArray;
+    //private String[] columnsArray;
     private String customSql;
     private Class<?> schemaClass;
     private Class<?> columnsClass;
@@ -26,11 +25,11 @@ public class SchemeInterpretator {
      * Every schema must have: - CUSTOM_SQL constant for specific logic while creating tables - Columns enumeration with
      * getName() and getType() methods getName() must return String getType() must return DBType
      *
-     * @param chemaClass
+     * @param schemeClass
      */
-    public SchemeInterpretator(Class<?> chemaClass) {
-        this.schemaClass = chemaClass;
-        Class<?>[] classes = chemaClass.getDeclaredClasses();
+    public SchemeInterpreter(Class<?> schemeClass) {
+        this.schemaClass = schemeClass;
+        Class<?>[] classes = schemeClass.getDeclaredClasses();
         for (Class<?> innerClass : classes) {
             if (innerClass.getSimpleName().equals("Columns")) {
                 columnsClass = innerClass;
@@ -68,7 +67,7 @@ public class SchemeInterpretator {
     }
 
     public HashMap<String, String> getColumnsMap() {
-        columnsMap = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> columnsMap = new LinkedHashMap<String, String>();
         try {
             Method valuesMethod;
             valuesMethod = columnsClass.getDeclaredMethod("values");

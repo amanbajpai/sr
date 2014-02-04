@@ -132,8 +132,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     task = TasksBL.convertCursorToTask(cursor);
 
-                    if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.scheduled ||
-                            TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation) {
+                    if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.scheduled
+                            || TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation) {
                         finish();
                         break;
                     }
@@ -180,8 +180,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 setButtonsSettings(task);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" +
-                        task.getId());
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
+                        + task.getId());
 
                 task.setStatusId(Task.TaskStatusId.none.getStatusId());
                 task.setStarted("");

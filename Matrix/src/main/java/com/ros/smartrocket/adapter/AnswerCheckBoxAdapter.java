@@ -18,8 +18,16 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     //private Activity activity;
 
     public static class ViewHolder {
-        public TextView name;
-        public CheckBox checkBox;
+        private TextView name;
+        private CheckBox checkBox;
+
+        public CheckBox getCheckBox() {
+            return checkBox;
+        }
+
+        public TextView getName() {
+            return name;
+        }
     }
 
     public AnswerCheckBoxAdapter(Activity activity) {

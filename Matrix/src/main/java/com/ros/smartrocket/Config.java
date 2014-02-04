@@ -15,8 +15,8 @@ public class Config {
     public static final String APP_VERSION;
 
     public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory(CACHE_PREFIX_DIR).getPath();
-    public static final String MARKET_LINK_PAID = "https://play.google.com/store/apps/details?id=com.ua.makeev" +
-            ".lovewidgetpaid";
+    public static final String MARKET_LINK_PAID = "https://play.google.com/store/apps/details?id=com.ua.makeev"
+            + ".lovewidgetpaid";
 
     public static final int REFRESH_LOCATION_DISTANCE = 100;
     public static final int REFRESH_LOCATION_TIME = 0;

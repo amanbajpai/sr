@@ -15,7 +15,7 @@ import java.util.List;
 public class AppContentProvider extends ContentProvider {
     public static final String CONTENT_AUTHORITY = "com.ros.smartrocket";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final UriMatcher sUriMatcher = buildUriMatcher();
+    public static final UriMatcher URI_MATCHER = buildUriMatcher();
 
     public static final int ENTITY = 100;
     public static final int ENTITIES = 101;
@@ -58,7 +58,7 @@ public class AppContentProvider extends ContentProvider {
 
         String tableName = getTable(uri);
 
-        switch (sUriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case ENTITY:
                 type = "vnd.android.cursor.item/vnd.com.matrix.entity." + tableName;
                 break;
@@ -84,7 +84,7 @@ public class AppContentProvider extends ContentProvider {
 
         SQLiteQueryBuilder builder = null;
         db = dbHelper.getReadableDatabase();
-        switch (sUriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case ENTITY:
                 builder = buildExpandedSelection(uri);
                 cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
@@ -149,7 +149,7 @@ public class AppContentProvider extends ContentProvider {
         Uri resultUri = null;
         String tableName = getTable(uri);
 
-        switch (sUriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case ENTITIES:
                 if (tableName != null) {
                     db = dbHelper.getWritableDatabase();
@@ -173,7 +173,7 @@ public class AppContentProvider extends ContentProvider {
             db.beginTransaction();
             try {
                 for (int i = 0; i < values.length; i++) {
-                    switch (sUriMatcher.match(uri)) {
+                    switch (URI_MATCHER.match(uri)) {
                         case ENTITIES:
                             db = dbHelper.getWritableDatabase();
                             long id = db.insert(tableName, null, values[i]);
@@ -194,7 +194,7 @@ public class AppContentProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int count = 0;
         String tableName = getTable(uri);
-        switch (sUriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case ENTITY:
                 if (tableName != null) {
                     db = dbHelper.getWritableDatabase();
@@ -218,7 +218,7 @@ public class AppContentProvider extends ContentProvider {
         int count = 0;
         String tableName = getTable(uri);
 
-        switch (sUriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case ENTITY:
                 if (tableName != null) {
                     db = dbHelper.getWritableDatabase();
@@ -242,7 +242,7 @@ public class AppContentProvider extends ContentProvider {
         String tableName = null;
         String entityName = null;
 
-        switch (sUriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case ENTITY:
                 List<String> segments = uri.getPathSegments();
                 entityName = segments.get(segments.size() - 2);

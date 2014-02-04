@@ -126,7 +126,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         answer.toggleChecked();
 
         AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
-        viewHolder.checkBox.setChecked(answer.isChecked());
+        viewHolder.getCheckBox().setChecked(answer.isChecked());
 
         refreshNextButton();
     }

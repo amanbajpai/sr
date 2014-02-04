@@ -8,15 +8,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-
-import com.google.android.gms.internal.de;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.LaunchActivity;
 import com.ros.smartrocket.activity.MainActivity;
-import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
-
 import org.json.JSONObject;
 
 import java.io.File;
@@ -31,12 +26,13 @@ public class NotificationUtils {
     /**
      * Show notification about not uploaded file
      *
-     * @param context
+     * @param context         - current context
+     * @param notUploadedFile - info about file to upload
      */
     public static void sendNotUploadedFileNotification(final Context context, NotUploadedFile notUploadedFile) {
         File file = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-        String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is " +
-                "waiting to upload";
+        String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is "
+                + "waiting to upload";
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -94,7 +90,8 @@ public class NotificationUtils {
     /**
      * Show notification about not uploaded file
      *
-     * @param context
+     * @param context    - current context
+     * @param jsonObject - message Json object
      */
     public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
         String message = "";
@@ -102,10 +99,10 @@ public class NotificationUtils {
         try {
             JSONObject messageObject = new JSONObject(jsonObject);
             int statusType = messageObject.optInt("StatusType");
-            int surveyId = messageObject.optInt("SurveyId");
-            int taskId = messageObject.optInt("TaskId");
+            //int surveyId = messageObject.optInt("SurveyId");
+            //int taskId = messageObject.optInt("TaskId");
             String taskName = messageObject.optString("TaskName");
-            String endDateTime = messageObject.optString("endDateTime");
+            //String endDateTime = messageObject.optString("endDateTime");
 
             switch (statusType) {
                 case 4: //Re-do

@@ -40,8 +40,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
         }
 
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId=" + UIUtils.getDeviceId
-                (this), (long) 0).build());
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId="
+                + UIUtils.getDeviceId(this), (long) 0).build());
 
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
 
@@ -109,8 +109,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == 200) {
             if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                CheckLocationResponse checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities
-                        ().get(0);
+                CheckLocationResponse checkLocationResponse =
+                        (CheckLocationResponse) operation.getResponseEntities().get(0);
+
                 if (checkLocationResponse.getStatus()) {
                     UIUtils.showSimpleToast(this, R.string.success);
 

@@ -26,7 +26,7 @@ public abstract class AppSQLiteOpenHelper extends SQLiteOpenHelper {
      * @return
      */
     protected boolean appendCreateTableSQL(StringBuilder sql, Table table) {
-        SchemeInterpretator schemeInterpretator = new SchemeInterpretator(table.getSchema());
+        SchemeInterpreter schemeInterpretator = new SchemeInterpreter(table.getSchema());
         sql.append("CREATE TABLE ").append(table.getName()).append(" (");
         StringBuilder columnsSql = new StringBuilder(1024);
 

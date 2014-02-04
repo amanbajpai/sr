@@ -23,15 +23,15 @@ public class SurveysBL {
 
     public static void getSurveysListFromDB(AsyncQueryHandler handler, Integer radius) {
         handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null,
-                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " AND " + Table.TASK.getName() + "." +
-                TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'", null, null);
+                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " AND " + Table.TASK.getName() + "."
+                + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'", null, null);
     }
 
     /**
-     * Conveert cursor to Task list
+     * Convert cursor to Task list
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return ArrayList<Survey>
      */
     public static ArrayList<Survey> convertCursorToSurveyListByDistance(Cursor cursor) {
         ArrayList<Survey> result = new ArrayList<Survey>();
@@ -48,7 +48,7 @@ public class SurveysBL {
      * Convert cursor to Survey
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return Survey
      */
     public static Survey convertCursorToSurvey(Cursor cursor) {
         Survey result = new Survey();

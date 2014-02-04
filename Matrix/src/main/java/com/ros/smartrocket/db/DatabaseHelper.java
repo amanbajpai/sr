@@ -60,7 +60,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
             try {
                 ArrayList<ContentValues> tableContent = new ArrayList<ContentValues>();
 
-                SchemeInterpretator schemeInterpretator = new SchemeInterpretator(table.getSchema());
+                SchemeInterpreter schemeInterpretator = new SchemeInterpreter(table.getSchema());
                 HashMap<String, String> columns = schemeInterpretator.getColumnsMap();
 
                 Cursor c = null;

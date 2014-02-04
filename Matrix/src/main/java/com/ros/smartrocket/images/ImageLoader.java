@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
 public class ImageLoader {
     private static final String TAG = "ImageLoader";
     private static final int STAGE_STEP = 20;
-    private static int PADDING = 80;
+    //private static int PADDING = 80;
     private static ImageLoader instance = null;
     private MemoryCache memoryCache = new MemoryCache();
     private FileCache fileCache;
@@ -54,10 +54,10 @@ public class ImageLoader {
     private static final int NORMAL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.normal_image_size);
     private static final int SMALL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.small_image_size);
 
-    private static final int loadingBigImageResId = R.drawable.loading_big;
-    private static final int loadingNormalImageResId = R.drawable.loading_normal;
-    private static final int loadingSmallImageResId = R.drawable.loading_small;
-    private static final int noImageResId = R.drawable.no_image;
+    private static final int LOADING_BIG_IMAGE_RES_ID = R.drawable.loading_big;
+    private static final int LOADING_NORMAL_IMAGE_RES_ID = R.drawable.loading_normal;
+    private static final int LOADING_SMALL_IMAGE_RES_ID = R.drawable.loading_small;
+    private static final int NO_IMAGE_RES_ID = R.drawable.no_image;
 
     public interface OnFetchCompleteListener {
         void onFetchComplete(Bitmap result);
@@ -115,13 +115,13 @@ public class ImageLoader {
                 }
             } else {
                 if (sizeType == 0 || sizeType == 3) {
-                    imageView.setImageResource(loadingBigImageResId);
+                    imageView.setImageResource(LOADING_BIG_IMAGE_RES_ID);
                 } else if (sizeType == 1 || sizeType == 4) {
-                    imageView.setImageResource(loadingNormalImageResId);
+                    imageView.setImageResource(LOADING_NORMAL_IMAGE_RES_ID);
                 } else if (sizeType == 2 || sizeType == 5) {
-                    imageView.setImageResource(loadingSmallImageResId);
+                    imageView.setImageResource(LOADING_SMALL_IMAGE_RES_ID);
                 } else {
-                    imageView.setImageResource(loadingSmallImageResId);
+                    imageView.setImageResource(LOADING_SMALL_IMAGE_RES_ID);
                 }
                 queuePhoto(url, imageView, sizeType, needAnimation, needGone);
             }
@@ -133,7 +133,7 @@ public class ImageLoader {
                 if (noImageRes != 0) {
                     imageView.setImageResource(noImageRes);
                 } else {
-                    imageView.setImageResource(noImageResId);
+                    imageView.setImageResource(NO_IMAGE_RES_ID);
                 }
             }
         }
@@ -472,7 +472,7 @@ public class ImageLoader {
                 if (photoToLoad.gone) {
                     photoToLoad.imageView.setVisibility(View.GONE);
                 } else {
-                    photoToLoad.imageView.setImageResource(noImageResId);
+                    photoToLoad.imageView.setImageResource(NO_IMAGE_RES_ID);
                 }
             }
         }

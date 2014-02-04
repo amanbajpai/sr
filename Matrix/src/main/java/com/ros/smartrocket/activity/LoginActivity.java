@@ -33,8 +33,8 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isUserRecover
  * Activity for Agents login into system
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    private final static String TAG = LoginActivity.class.getSimpleName();
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -93,16 +93,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
             }
-        } else {
-            if (operation.getResponseErrorCode() == 10020) {
-                loginButton.setEnabled(true);
-                DialogUtils.showAccountNotActivatedDialog(this);
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == 10020) {
+            loginButton.setEnabled(true);
+            DialogUtils.showAccountNotActivatedDialog(this);
 
-            } else {
-                loginButton.setEnabled(true);
-                DialogUtils.showRegistrationFailedDialog(this);
-            }
+        } else {
+            loginButton.setEnabled(true);
+            DialogUtils.showLoginFailedDialog(this);
         }
+
     }
 
     @Override
@@ -128,7 +127,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else if (error == LoginBL.PreLoginErrors.MOCKON) {
                     DialogUtils.showMockLocationDialog(this, true);
                 } else if (error == LoginBL.PreLoginErrors.NOPASSWORDOREMAIL) {
-                    DialogUtils.showRegistrationFailedDialog(this);
+                    DialogUtils.showLoginFailedDialog(this);
                 }
 
                 break;

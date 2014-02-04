@@ -148,7 +148,7 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.LOGIN_ID:
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);
-                        preferencesManager.setToken(loginResponse.getToken());
+                        getPreferencesManager().setToken(loginResponse.getToken());
                         break;
                     case WSUrl.CHECK_LOCATION_ID:
                         CheckLocationResponse checkLocationResponse = gson.fromJson(responseString,
@@ -161,7 +161,7 @@ public class NetworkService extends BaseNetworkService {
                         operation.responseEntities.add(registrationResponse);
                         break;
                     case WSUrl.GCM_REGISTER_DEVICE_ID:
-                        preferencesManager.setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
+                        getPreferencesManager().setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
                         break;
                     case WSUrl.GCM_TEST_PUSH_ID:
                         L.i(TAG, "GCM [test push send]");
@@ -215,10 +215,11 @@ public class NetworkService extends BaseNetworkService {
             }
         } else if (responseCode == NO_INTERNET) {
             operation.setResponseError(getString(R.string.no_internet));
+            operation.setResponseErrorCode(responseCode);
         } else {
             try {
                 ResponseError error = gson.fromJson(responseString, ResponseError.class);
-                if (error != null && error.getErrorMessage() != null) {
+                if (error != null) {
                     operation.setResponseError(error.getErrorMessage());
                     operation.setResponseErrorCode(error.getErrorCode());
                 }

@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.activity.MainActivity;
@@ -17,8 +16,6 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
-
-import org.json.JSONObject;
 
 /**
  * GCM Services
@@ -45,7 +42,6 @@ public class GCMIntentService extends GCMBaseIntentService {
         CommonUtilities.displayMessage(context, getString(R.string.gcm_unregistered));
         if (GCMRegistrar.isRegisteredOnServer(context)) {
             L.i(TAG, "Register on Matrix server");
-            //TODO: Register on Matrix server
 //            ServerUtilities serverUtilities = new ServerUtilities(this);
 //            serverUtilities.makeRequestUnregister();
         } else {

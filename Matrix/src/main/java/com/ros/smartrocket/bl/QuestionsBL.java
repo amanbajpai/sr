@@ -1,6 +1,5 @@
 package com.ros.smartrocket.bl;
 
-import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,8 +19,8 @@ public class QuestionsBL {
     /**
      * Make request for getting Question list
      *
-     * @param handler
-     * @param surveyId
+     * @param handler - Handler for getting response from DB
+     * @param surveyId - current surveyId
      */
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
@@ -33,8 +32,8 @@ public class QuestionsBL {
     /**
      * Update previous question orderId
      *
-     * @param questionId
-     * @param previousQuestionOrderId
+     * @param questionId - current questionId
+     * @param previousQuestionOrderId - orderId of previous question
      */
     public static void updatePreviousQuestionOrderId(Integer questionId, Integer previousQuestionOrderId) {
         ContentValues contentValues = new ContentValues();
@@ -53,10 +52,10 @@ public class QuestionsBL {
     }
 
     /**
-     * Conveert cursor to Question list
+     * Convert cursor to Question list
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return ArrayList<Question>
      */
     public static ArrayList<Question> convertCursorToQuestionList(Cursor cursor) {
         ArrayList<Question> result = new ArrayList<Question>();
@@ -76,7 +75,7 @@ public class QuestionsBL {
      * @param questionId
      * @return
      */
-    public static Question getQuestionById(ArrayList<Question> questions, int questionId) {
+    /*public static Question getQuestionById(ArrayList<Question> questions, int questionId) {
         Question result = null;
         for (Question question : questions) {
             if (question.getId() == questionId) {
@@ -85,14 +84,14 @@ public class QuestionsBL {
             }
         }
         return result;
-    }
+    }*/
 
     /**
      * Get Question by orderId
      *
-     * @param questions
-     * @param orderId
-     * @return
+     * @param questions - question list
+     * @param orderId - orderId to select
+     * @return Question
      */
     public static Question getQuestionByOrderId(ArrayList<Question> questions, int orderId) {
         Question result = null;
@@ -110,9 +109,8 @@ public class QuestionsBL {
      *
      * @param questions
      * @param questionToSet
-     * @return
      */
-    public static void setQuestionByOrderId(ArrayList<Question> questions, Question questionToSet) {
+    /*public static void setQuestionByOrderId(ArrayList<Question> questions, Question questionToSet) {
         int index = 0;
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
@@ -122,5 +120,5 @@ public class QuestionsBL {
             }
         }
         questions.set(index, questionToSet);
-    }
+    }*/
 }

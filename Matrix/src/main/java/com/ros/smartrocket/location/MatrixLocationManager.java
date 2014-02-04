@@ -36,7 +36,7 @@ public class MatrixLocationManager implements LocationListener,
 
 
     /**
-     * @param context
+     * @param context - current context
      */
     public MatrixLocationManager(Context context) {
         L.d(TAG, "MatrixLocationManager init!");
@@ -117,8 +117,8 @@ public class MatrixLocationManager implements LocationListener,
     public void onLocationChanged(Location location) {
         lastLocation = location;
         if (location != null) {
-            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", " +
-                    "Provider: " + location.getProvider() + "]");
+            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
+                    + "Provider: " + location.getProvider() + "]");
             new TasksBL().recalculateTasksDistance(location);
             notifyAllRequestedLocation();
         }
@@ -213,8 +213,8 @@ public class MatrixLocationManager implements LocationListener,
                 return null;
             } catch (IllegalArgumentException e2) {
                 // Error message to post in the log
-                String errorString = "Illegal arguments " + Double.toString(loc.getLatitude()) +
-                        " , " + Double.toString(loc.getLongitude()) + " passed to address service";
+                String errorString = "Illegal arguments " + Double.toString(loc.getLatitude())
+                        + " , " + Double.toString(loc.getLongitude()) + " passed to address service";
                 L.e(TAG, errorString);
                 e2.printStackTrace();
                 return null;
@@ -235,10 +235,10 @@ public class MatrixLocationManager implements LocationListener,
     }
 
     public interface ILocationUpdate {
-        public void onUpdate(Location location);
+        void onUpdate(Location location);
     }
 
     public interface IAddress {
-        public void onUpdate(Address address);
+        void onUpdate(Address address);
     }
 }

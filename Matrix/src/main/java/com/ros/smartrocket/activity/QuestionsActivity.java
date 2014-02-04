@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -237,8 +236,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == 200) {
-            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag()) ||
-                    Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
+                    || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
                 QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
             }
