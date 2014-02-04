@@ -63,10 +63,10 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.emailButton:
-                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, null);
+                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, Config.MARKET_LINK_PAID);
                 break;
             case R.id.messageButton:
-                intent = IntentUtils.getSmsIntent(getActivity(), "", "");
+                intent = IntentUtils.getSmsIntent(getActivity(), "", Config.MARKET_LINK_PAID);
                 break;
             case R.id.facebookButton:
                 intent = IntentUtils.getShareFacebookIntent(getString(R.string.app_name), Config.MARKET_LINK_PAID);
