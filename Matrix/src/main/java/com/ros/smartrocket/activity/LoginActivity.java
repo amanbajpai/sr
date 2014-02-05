@@ -94,12 +94,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, MainActivity.class));
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == 10020) {
-            loginButton.setEnabled(true);
-            DialogUtils.showAccountNotActivatedDialog(this);
-
+            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+                loginButton.setEnabled(true);
+                DialogUtils.showAccountNotActivatedDialog(this);
+            }
         } else {
-            loginButton.setEnabled(true);
-            DialogUtils.showLoginFailedDialog(this);
+            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+                loginButton.setEnabled(true);
+                DialogUtils.showLoginFailedDialog(this);
+            }
         }
 
     }
