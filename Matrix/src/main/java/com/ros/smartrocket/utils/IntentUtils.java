@@ -109,25 +109,33 @@ public class IntentUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(context);
 
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/plain");
-            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+            intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, text);
 
             if (defaultSmsPackageName != null) {
-                sendIntent.setPackage(defaultSmsPackageName);
+                intent.setPackage(defaultSmsPackageName);
             }
-            intent = sendIntent;
 
+            if (!TextUtils.isEmpty(phoneNumber)) {
+                try {
+                    intent.setData(Uri.parse("sms:" + URLEncoder.encode(phoneNumber, "UTF-8")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         } else {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.putExtra("sms_body", text);
-        }
 
-        if (!TextUtils.isEmpty(phoneNumber)) {
-            try {
-                intent.setData(Uri.parse("sms:" + URLEncoder.encode(phoneNumber, "UTF-8")));
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!TextUtils.isEmpty(phoneNumber)) {
+                try {
+                    intent.setData(Uri.parse("sms:" + URLEncoder.encode(phoneNumber, "UTF-8")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                intent.setData(Uri.parse("sms:"));
             }
         }
 
