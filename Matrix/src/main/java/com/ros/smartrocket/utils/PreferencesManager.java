@@ -226,6 +226,14 @@ public class PreferencesManager {
         setInt(Keys.USED_TREE_G_UPLOAD_MONTHLY_SIZE, usedSize);
     }
 
+    public String getShortUrlToShare() {
+        return getString(Keys.SHORT_URL_TO_SHARE, "");
+    }
+
+    public void setShortUrlToShare(String url) {
+        setString(Keys.SHORT_URL_TO_SHARE, url);
+    }
+
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

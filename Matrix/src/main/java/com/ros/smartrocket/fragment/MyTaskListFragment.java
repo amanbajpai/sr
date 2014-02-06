@@ -136,6 +136,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
             case completed:
                 startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
                 break;
+            case validated:
+                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+                break;
             default:
                 startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
                 break;

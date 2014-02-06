@@ -12,6 +12,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
@@ -21,6 +22,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.GoogleUrlShortenManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -35,6 +37,8 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isUserRecover
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -80,9 +84,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
                 UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
 
+
+                //Generate Short url to share
+                String longUrl = Config.LONG_URL_TO_SHARE; //TODO Add user key from server
+                googleUrlShortenManager.getShortUrl(this, longUrl, new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
+                    @Override
+                    public void onShortUrlReady(String shortUrl) {
+                        preferencesManager.setShortUrlToShare(shortUrl);
+                    }
+
+                    @Override
+                    public void onGetShortUrlError(String errorString) {
+
+                    }
+                });
+
                 // Check if we are registered on Server side our GCM Id
-                if (!PreferencesManager.getInstance().isGCMIdRegisteredOnServer()) {
-                    String regId = PreferencesManager.getInstance().getGCMRegistrationId();
+                if (!preferencesManager.isGCMIdRegisteredOnServer()) {
+                    String regId = preferencesManager.getGCMRegistrationId();
                     if ("".equals(regId)) {
                         CommonUtilities.registerGCMInBackground();
                     } else {

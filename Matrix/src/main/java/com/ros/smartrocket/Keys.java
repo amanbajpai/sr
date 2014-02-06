@@ -4,6 +4,7 @@ public interface Keys {
     // Application
     String APP_VERSION = "app_version";
     String TOKEN = "token";
+    String SHORT_URL_TO_SHARE = "short_url_to_share";
 
     //Settings
     String LANGUAGE_CODE = "language_code";

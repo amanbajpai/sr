@@ -39,6 +39,7 @@ public class MyTaskAdapter extends BaseAdapter {
         private LinearLayout completedStatusLayout;
         private LinearLayout claimedStatusLayout;
         private LinearLayout startedStatusLayout;
+        private LinearLayout validatedStatusLayout;
     }
 
     public MyTaskAdapter(Activity activity) {
@@ -90,6 +91,7 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.completedStatusLayout = (LinearLayout) convertView.findViewById(R.id.completedStatusLayout);
             holder.claimedStatusLayout = (LinearLayout) convertView.findViewById(R.id.claimedStatusLayout);
             holder.startedStatusLayout = (LinearLayout) convertView.findViewById(R.id.startedStatusLayout);
+            holder.validatedStatusLayout = (LinearLayout) convertView.findViewById(R.id.validatedStatusLayout);
 
             convertView.setTag(holder);
         } else {
@@ -122,6 +124,7 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.completedStatusLayout.setVisibility(View.GONE);
         holder.claimedStatusLayout.setVisibility(View.GONE);
         holder.startedStatusLayout.setVisibility(View.GONE);
+        holder.validatedStatusLayout.setVisibility(View.GONE);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case claimed:
@@ -144,6 +147,9 @@ public class MyTaskAdapter extends BaseAdapter {
                 break;
             case completed:
                 holder.completedStatusLayout.setVisibility(View.VISIBLE);
+                break;
+            case validated:
+                holder.validatedStatusLayout.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

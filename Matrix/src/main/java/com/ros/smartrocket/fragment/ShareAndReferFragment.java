@@ -17,14 +17,17 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Share app info fragment
  */
 public class ShareAndReferFragment extends Fragment implements OnClickListener {
-    private static final String TAG = ShareAndReferFragment.class.getSimpleName();
+    //private static final String TAG = ShareAndReferFragment.class.getSimpleName();
     private ViewGroup view;
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private String shortUrl;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
 
+        shortUrl = preferencesManager.getShortUrlToShare();
+
         view.findViewById(R.id.emailButton).setOnClickListener(this);
         view.findViewById(R.id.messageButton).setOnClickListener(this);
         view.findViewById(R.id.twitterButton).setOnClickListener(this);
@@ -47,32 +52,21 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         return view;
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
-        }
-    }
-
     @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.emailButton:
-                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, Config.MARKET_LINK_PAID);
+                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, shortUrl);
                 break;
             case R.id.messageButton:
-                intent = IntentUtils.getSmsIntent(getActivity(), "", Config.MARKET_LINK_PAID);
+                intent = IntentUtils.getSmsIntent(getActivity(), "", shortUrl);
                 break;
             case R.id.facebookButton:
-                intent = IntentUtils.getShareFacebookIntent(getString(R.string.app_name), Config.MARKET_LINK_PAID);
+                intent = IntentUtils.getShareFacebookIntent(getString(R.string.app_name), shortUrl);
                 break;
             case R.id.twitterButton:
-                intent = IntentUtils.getShareTwitterIntent(getString(R.string.app_name), Config.MARKET_LINK_PAID);
+                intent = IntentUtils.getShareTwitterIntent(getString(R.string.app_name), shortUrl);
                 break;
             default:
                 break;

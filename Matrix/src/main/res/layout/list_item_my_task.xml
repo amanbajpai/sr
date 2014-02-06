@@ -226,4 +226,22 @@
             android:textSize="@dimen/text_size_large"
             android:text="@string/task_started_status" />
     </LinearLayout >
+    <LinearLayout
+        android:id="@+id/validatedStatusLayout"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:gravity="top|right"
+        android:orientation="horizontal"
+        android:background="@color/white_transparence"
+        android:visibility="gone" >
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/text_size_large"
+            android:text="@string/task_validated_status" />
+    </LinearLayout >
 </FrameLayout >
