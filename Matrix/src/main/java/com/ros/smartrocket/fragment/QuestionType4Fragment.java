@@ -52,7 +52,7 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
-        if(!TextUtils.isEmpty(question.getValidationComment())){
+        if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
@@ -147,7 +147,8 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
     }
 
     @Override
-    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
+                                                             answerPageLoadingFinishedListener) {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 }

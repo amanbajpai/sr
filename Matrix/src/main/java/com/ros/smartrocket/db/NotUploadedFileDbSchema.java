@@ -8,7 +8,6 @@ public interface NotUploadedFileDbSchema {
             .NOT_UPLOADED_FILE.getName()).build();
 
     String SORT_ORDER_ASC_LIMIT_1 = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " ASC LIMIT 1";
-    //String SORT_ORDER_DESC_LIMIT_1 = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_DESC = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " DESC";
     //String SORT_ORDER = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " ASC";
 

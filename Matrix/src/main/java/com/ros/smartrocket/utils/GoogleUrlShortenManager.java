@@ -24,7 +24,8 @@ import java.io.UnsupportedEncodingException;
 
 public class GoogleUrlShortenManager {
     private static final String TAG = "GoogleUrlShortenManager";
-    private final static String GET_SHORT_LINK_URL = "https://www.googleapis.com/urlshortener/v1/url?key=" + Config.GOOGLE_API_KEY;
+    private final static String GET_SHORT_LINK_URL = "https://www.googleapis.com/urlshortener/v1/url?key="
+            + Config.GOOGLE_API_KEY;
 
     private Context context;
     private static GoogleUrlShortenManager instance = null;

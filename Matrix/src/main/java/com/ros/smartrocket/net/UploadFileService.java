@@ -177,7 +177,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         if (notUploadedFileList.size() > 0) {
                             for (NotUploadedFile notUploadedFile : notUploadedFileList) {
                                 if (needSendNotification(notUploadedFile)) {
-                                    NotificationUtils.sendNotUploadedFileNotification(UploadFileService.this, notUploadedFile);
+                                    NotificationUtils.sendNotUploadedFileNotification(UploadFileService.this,
+                                            notUploadedFile);
 
                                     FilesBL.updateShowNotificationStep(notUploadedFile);
                                 }
@@ -226,12 +227,14 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private void validateTask(final int taskId) {
         Location location = lm.getLocation();
         if (location != null) {
-            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
+                    location.getLongitude()));
         } else {
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
-                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
+                            location.getLongitude()));
                 }
             });
         }
@@ -288,7 +291,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            BaseOperation operation = (BaseOperation) intent.getSerializableExtra(UploadFileNetworkService.KEY_OPERATION);
+            BaseOperation operation = (BaseOperation) intent.getSerializableExtra(UploadFileNetworkService
+                    .KEY_OPERATION);
             if (operation != null) {
                 for (NetworkOperationListenerInterface netListener : networkOperationListeners) {
                     if (netListener != null) {

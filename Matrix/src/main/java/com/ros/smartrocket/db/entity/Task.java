@@ -245,6 +245,9 @@ public class Task extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Task{ SurveyId=" + SurveyId + ", UserId='" + UserId + '\'' + ", Name='" + Name + '\'' + ", Description='" + Description + '\'' + ", Language=" + Language + ", Latitude='" + Latitude + '\'' + ", Longitude='" + Longitude + '\'' + ", Price='" + Price + '\'' + ", Address=" + Address + '}';
+        return "Task{ SurveyId=" + SurveyId + ", UserId='" + UserId + '\'' + ", Name='" + Name + '\''
+                + ", Description='" + Description + '\'' + ", Language=" + Language
+                + ", Latitude='" + Latitude + '\'' + ", Longitude='" + Longitude + '\''
+                + ", Price='" + Price + '\'' + ", Address=" + Address + '}';
     }
 }

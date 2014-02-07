@@ -121,11 +121,13 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         //TODO Set expiry time
         expiryTimeTextView.setText("-");
 
-        projectPrice.setText(Html.fromHtml(String.format(getString(R.string.survey_price_detail), String.format(Locale.US, "%.1f",
-                survey.getNearTaskPrice()))));
+        projectPrice.setText(Html.fromHtml(String.format(getString(R.string.survey_price_detail),
+                String.format(Locale.US, "%.1f", survey.getNearTaskPrice()))));
         //TODO Set EXP
-        projectExp.setText(Html.fromHtml(String.format(getString(R.string.survey_exp_detail), String.format(Locale.US, "%,d", 130))));
-        projectLocations.setText(Html.fromHtml(String.format(getString(R.string.survey_locations), survey.getTaskCount())));
+        projectExp.setText(Html.fromHtml(String.format(getString(R.string.survey_exp_detail),
+                String.format(Locale.US, "%,d", 130))));
+        projectLocations.setText(Html.fromHtml(String.format(getString(R.string.survey_locations),
+                survey.getTaskCount())));
     }
 
     public void setButtonsSettings(Task task) {

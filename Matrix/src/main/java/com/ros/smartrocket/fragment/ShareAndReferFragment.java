@@ -48,6 +48,10 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.messageButton).setOnClickListener(this);
         view.findViewById(R.id.twitterButton).setOnClickListener(this);
         view.findViewById(R.id.facebookButton).setOnClickListener(this);
+        view.findViewById(R.id.linkedindButton).setOnClickListener(this);
+        view.findViewById(R.id.whatsappButton).setOnClickListener(this);
+        view.findViewById(R.id.wechatButton).setOnClickListener(this);
+        view.findViewById(R.id.weiboButton).setOnClickListener(this);
 
         return view;
     }
@@ -67,6 +71,18 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.twitterButton:
                 intent = IntentUtils.getShareTwitterIntent(getString(R.string.app_name), shortUrl);
+                break;
+            case R.id.linkedindButton:
+                intent = IntentUtils.getShareLinkedInIntent(getString(R.string.app_name), shortUrl);
+                break;
+            case R.id.whatsappButton:
+                intent = IntentUtils.getShareWhatsAppIntent(getString(R.string.app_name), shortUrl);
+                break;
+            case R.id.wechatButton:
+                intent = IntentUtils.getShareWeChatIntent(getString(R.string.app_name), shortUrl);
+                break;
+            case R.id.weiboButton:
+                intent = IntentUtils.getShareWeiboIntent(getString(R.string.app_name), shortUrl);
                 break;
             default:
                 break;

@@ -86,7 +86,8 @@ public class Survey extends BaseEntity {
 
             result.setClaimableBeforeLive(c.getInt(SurveyDbSchema.QuerySurveyByDistance.CLAIMABLE_BEFORE_LIVE) == 1);
             result.setViewableBeforeLive(c.getInt(SurveyDbSchema.QuerySurveyByDistance.VIEWABLE_BEFORE_LIVE) == 1);
-            result.setConcurrentClaimsPerAgent(c.getInt(SurveyDbSchema.QuerySurveyByDistance.CONCURRENT_CLAIMS_PER_AGENT));
+            result.setConcurrentClaimsPerAgent(c.getInt(SurveyDbSchema.QuerySurveyByDistance
+                    .CONCURRENT_CLAIMS_PER_AGENT));
             result.setExternalId(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXTERNAL_ID));
             result.setStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.START_DATE_TIME));
             result.setSuspensionTarget(c.getInt(SurveyDbSchema.QuerySurveyByDistance.SUSPENSION_TARGET));

@@ -12,10 +12,11 @@ import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
 
-//TODO Change formKey
-@ReportsCrashes(formKey = Config.ACRA_FORM_KEY, customReportContent = {ReportField.REPORT_ID, ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME,
-        ReportField.PACKAGE_NAME, ReportField.PHONE_MODEL, ReportField.ANDROID_VERSION, ReportField.TOTAL_MEM_SIZE, ReportField.AVAILABLE_MEM_SIZE, ReportField.IS_SILENT,
-        ReportField.STACK_TRACE, ReportField.CRASH_CONFIGURATION, ReportField.DISPLAY, ReportField.USER_EMAIL, ReportField.USER_CRASH_DATE,
+@ReportsCrashes(formKey = Config.ACRA_FORM_KEY, customReportContent = {ReportField.REPORT_ID,
+        ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME, ReportField.PACKAGE_NAME,
+        ReportField.PHONE_MODEL, ReportField.ANDROID_VERSION, ReportField.TOTAL_MEM_SIZE,
+        ReportField.AVAILABLE_MEM_SIZE, ReportField.IS_SILENT, ReportField.STACK_TRACE,
+        ReportField.CRASH_CONFIGURATION, ReportField.DISPLAY, ReportField.USER_EMAIL, ReportField.USER_CRASH_DATE,
         ReportField.SHARED_PREFERENCES})
 
 public class App extends Application {

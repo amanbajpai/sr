@@ -42,7 +42,7 @@ public class SelectImageManager {
     private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE}};
-    /*private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90, NONE}, new int[]{90, HORIZONTAL},
+    /*private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90,NONE}, new int[]{90,HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
 
@@ -168,7 +168,7 @@ public class SelectImageManager {
             if (intent != null && intent.getData() != null) {
                 Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
 
-                if (cursor!=null && cursor.moveToFirst()) {
+                if (cursor != null && cursor.moveToFirst()) {
                     int idx = cursor.getColumnIndex(ImageColumns.DATA);
                     if (idx != -1) {
                         String fileUri = cursor.getString(idx);

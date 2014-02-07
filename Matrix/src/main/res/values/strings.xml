@@ -127,6 +127,10 @@
     <string name="share_and_refer_via_message" >Share &amp; Refer via Message</string >
     <string name="share_and_refer_via_twitter" >Share &amp; Refer via Twitter</string >
     <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
+    <string name="share_and_refer_via_linkedin" >Share &amp; Refer via LinkedIn</string >
+    <string name="share_and_refer_via_whatsapp" >Share &amp; Refer via WhatsApp</string >
+    <string name="share_and_refer_via_wechat" >Share &amp; Refer via WeChat</string >
+    <string name="share_and_refer_via_weibo" >Share &amp; Refer via Weibo</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >Task details</string >
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >

@@ -2,13 +2,13 @@ package com.ros.smartrocket.utils;
 
 
 public enum FieldType {
-    INTEGER(Integer.class), 
-    STRING(String.class), 
-    BOOLEAN(Boolean.class), 
-    LONG(Long.class), 
-    BYTE(Byte.class), 
-    SHORT(Short.class), 
-    FLOAT(Float.class), 
+    INTEGER(Integer.class),
+    STRING(String.class),
+    BOOLEAN(Boolean.class),
+    LONG(Long.class),
+    BYTE(Byte.class),
+    SHORT(Short.class),
+    FLOAT(Float.class),
     DOUBLE(Double.class),
     BLOB(byte[].class);
 

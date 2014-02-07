@@ -88,17 +88,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 //Generate Short url to share
                 String longUrl = Config.LONG_URL_TO_SHARE; //TODO Add user key from server
-                googleUrlShortenManager.getShortUrl(this, longUrl, new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
-                    @Override
-                    public void onShortUrlReady(String shortUrl) {
-                        preferencesManager.setShortUrlToShare(shortUrl);
-                    }
+                googleUrlShortenManager.getShortUrl(this, longUrl,
+                        new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
+                            @Override
+                            public void onShortUrlReady(String shortUrl) {
+                                preferencesManager.setShortUrlToShare(shortUrl);
+                            }
 
-                    @Override
-                    public void onGetShortUrlError(String errorString) {
+                            @Override
+                            public void onGetShortUrlError(String errorString) {
 
-                    }
-                });
+                            }
+                        });
 
                 // Check if we are registered on Server side our GCM Id
                 if (!preferencesManager.isGCMIdRegisteredOnServer()) {

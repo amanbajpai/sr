@@ -49,7 +49,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
                     try {
                         for (int i = 0; i < files.length; i++) {
 
-                            BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
+                            BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
+                                    mainFileLength);
                             executeRequest(tempOperation);
 
                             int responseCode = tempOperation.getResponseStatusCode();

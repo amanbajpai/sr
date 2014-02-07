@@ -50,9 +50,12 @@ public class ImageLoader {
     private static final int NORMAL_SIZE = 200;
     private static final int SMALL_SIZE = 100;
 
-    private static final int BIG_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.big_image_size);
-    private static final int NORMAL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.normal_image_size);
-    private static final int SMALL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen.small_image_size);
+    private static final int BIG_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen
+            .big_image_size);
+    private static final int NORMAL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen
+            .normal_image_size);
+    private static final int SMALL_SIZE_VAR = (int) App.getInstance().getResources().getDimension(R.dimen
+            .small_image_size);
 
     private static final int LOADING_BIG_IMAGE_RES_ID = R.drawable.loading_big;
     private static final int LOADING_NORMAL_IMAGE_RES_ID = R.drawable.loading_normal;
@@ -61,7 +64,6 @@ public class ImageLoader {
 
     public interface OnFetchCompleteListener {
         void onFetchComplete(Bitmap result);
-
     }
 
     public static ImageLoader getInstance() {
@@ -75,26 +77,6 @@ public class ImageLoader {
         // LogUtils.e(TAG, "new ImageLoader");
         fileCache = new FileCache();
         executorService = Executors.newFixedThreadPool(5);
-    }
-
-    public void displayImage(String url, ImageView imageView, int sizeType) {
-        displayImage(url, imageView, sizeType, false, false, 0, true);
-    }
-
-    public void displayImageNoCache(String url, ImageView imageView, int sizeType) {
-        displayImage(url, imageView, sizeType, false, false, 0, false);
-    }
-
-    public void displayImage(String url, ImageView imageView, int sizeType, int noImageRes) {
-        displayImage(url, imageView, sizeType, false, false, noImageRes, true);
-    }
-
-    public void displayImage(String url, ImageView imageView, int sizeType, boolean needGone) {
-        displayImage(url, imageView, sizeType, false, needGone, 0, true);
-    }
-
-    public void displayImage(String url, ImageView imageView, int sizeType, boolean needGone, boolean needAnimation) {
-        displayImage(url, imageView, sizeType, needAnimation, needGone, 0, true);
     }
 
     public void displayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,

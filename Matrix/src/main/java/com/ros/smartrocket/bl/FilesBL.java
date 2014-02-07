@@ -23,7 +23,8 @@ public class FilesBL {
                 NotUploadedFileDbSchema.Query.PROJECTION, null, null, NotUploadedFileDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long currentId, boolean useTreeGOnly, String cookie) {
+    public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long currentId,
+                                                     boolean useTreeGOnly, String cookie) {
         String where = NotUploadedFileDbSchema.Columns._ID + ">'" + currentId + "'";
         if (useTreeGOnly) {
             where = where + " and " + NotUploadedFileDbSchema.Columns.USE_3G + "==1";

@@ -47,8 +47,8 @@ public class TasksBL {
 
     public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
-                TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?",
+                new String[]{String.valueOf(taskId)}, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
     /**
@@ -87,8 +87,8 @@ public class TasksBL {
     }
 
     public static void updateTask(AsyncQueryHandler handler, Task task) {
-        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, task.toContentValues(),
-                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});
+        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
+                task.toContentValues(), TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});
     }
 
     /**
@@ -204,7 +204,8 @@ public class TasksBL {
         return scheduledContentValuesMap;
     }
 
-    public static void updateScheduledTask(ContentResolver contentResolver, HashMap<Integer, ContentValues> scheduledContentValuesMap) {
+    public static void updateScheduledTask(ContentResolver contentResolver, HashMap<Integer,
+            ContentValues> scheduledContentValuesMap) {
         for (Map.Entry<Integer, ContentValues> entry : scheduledContentValuesMap.entrySet()) {
             Integer taskId = entry.getKey();
             ContentValues contentValues = entry.getValue();

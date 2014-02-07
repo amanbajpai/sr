@@ -36,7 +36,8 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TaskValidationActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
+public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
+        NetworkOperationListenerInterface {
     //private static final String TAG = TaskValidationActivity.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
@@ -172,12 +173,14 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         Location location = lm.getLocation();
         if (location != null) {
-            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
+                    location.getLongitude()));
         } else {
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
-                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(), location.getLongitude()));
+                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
+                            location.getLongitude()));
                 }
             });
         }

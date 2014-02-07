@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -160,25 +159,26 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rePhotoButton:
-                selectImageManager.showSelectImageDialog(getActivity(), true, new SelectImageManager.OnImageCompleteListener() {
-                    @Override
-                    public void onImageComplete(Bitmap bitmap) {
-                        QuestionType3Fragment.this.isBitmapAdded = bitmap != null;
-                        if (bitmap != null) {
-                            confirmButton.setEnabled(true);
-                            rePhotoButton.setText(R.string.re_photo);
-                            photoImageView.setImageBitmap(bitmap);
-                        } else {
-                            rePhotoButton.setText(R.string.take_photo);
-                            photoImageView.setImageResource(R.drawable.no_photo);
-                        }
-                    }
+                selectImageManager.showSelectImageDialog(getActivity(), true,
+                        new SelectImageManager.OnImageCompleteListener() {
+                            @Override
+                            public void onImageComplete(Bitmap bitmap) {
+                                QuestionType3Fragment.this.isBitmapAdded = bitmap != null;
+                                if (bitmap != null) {
+                                    confirmButton.setEnabled(true);
+                                    rePhotoButton.setText(R.string.re_photo);
+                                    photoImageView.setImageBitmap(bitmap);
+                                } else {
+                                    rePhotoButton.setText(R.string.take_photo);
+                                    photoImageView.setImageResource(R.drawable.no_photo);
+                                }
+                            }
 
-                    @Override
-                    public void onSelectImageError(int imageFrom) {
-                        DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-                    }
-                });
+                            @Override
+                            public void onSelectImageError(int imageFrom) {
+                                DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+                            }
+                        });
                 break;
             case R.id.confirmButton:
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
@@ -215,7 +215,8 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener) {
+    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
+                                                             answerPageLoadingFinishedListener) {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 

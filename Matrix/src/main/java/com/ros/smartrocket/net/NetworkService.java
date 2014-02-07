@@ -188,7 +188,8 @@ public class NetworkService extends BaseNetworkService {
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
                             contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                                    AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
+                                    AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID
+                                            + "=?",
                                     new String[]{String.valueOf(question.getId()), String.valueOf(taskId)});
 
                             if (question.getAnswers() != null) {

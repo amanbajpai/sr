@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.provider.Settings;
-
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -230,7 +229,9 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void show3GLimitExceededDialog(final Activity activity, DefaultInfoDialog.DialogButtonClickListener dialogButtonClickListener) {
+    public static void show3GLimitExceededDialog(final Activity activity,
+                                                 DefaultInfoDialog.DialogButtonClickListener
+                                                         dialogButtonClickListener) {
         DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_title),
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_text1),

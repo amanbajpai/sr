@@ -31,5 +31,29 @@
             android:layout_width="match_parent"
             android:padding="10dp"
             android:text="@string/share_and_refer_via_facebook" />
+        <Button
+            android:id="@+id/linkedindButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_linkedin" />
+        <Button
+            android:id="@+id/whatsappButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_whatsapp" />
+        <Button
+            android:id="@+id/wechatButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_wechat" />
+        <Button
+            android:id="@+id/weiboButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_weibo" />
     </LinearLayout >
 </ScrollView >

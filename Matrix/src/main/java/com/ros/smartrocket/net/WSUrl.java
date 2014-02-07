@@ -10,7 +10,8 @@ public final class WSUrl {
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
-    public static final String GET_SURVEYS = Config.WEB_SERVICE_URL + "api/Surveys?latitude=%s&longitude=%s&radius=%s&language=%s";
+    public static final String GET_SURVEYS = Config.WEB_SERVICE_URL
+            + "api/Surveys?latitude=%s&longitude=%s&radius=%s&language=%s";
     public static final String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
@@ -21,8 +22,10 @@ public final class WSUrl {
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
-    public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL + "api/Surveys/Questionnaire?surveyId=%s&language=%s";
-    public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL + "api/Tasks/Re-Do-Questions?taskId=%s&language=%s";
+    public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
+            + "api/Surveys/Questionnaire?surveyId=%s&language=%s";
+    public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
+            + "api/Tasks/Re-Do-Questions?taskId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
 
     public static final int LOGIN_ID = 1;

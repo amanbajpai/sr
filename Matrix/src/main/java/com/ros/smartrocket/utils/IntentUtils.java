@@ -154,6 +154,29 @@ public class IntentUtils {
         return intent;
     }
 
+    public static Intent getShareLinkedInIntent(String subject, String text) {
+        Intent intent = getShareIntent(subject, text);
+        intent.setPackage("com.linkedin.android");
+        return intent;
+    }
+
+    public static Intent getShareWeChatIntent(String subject, String text) {
+        Intent intent = getShareIntent(subject, text);
+        intent.setPackage("com.tencent.mm");
+        return intent;
+    }
+
+    public static Intent getShareWhatsAppIntent(String subject, String text) {
+        Intent intent = getShareIntent(subject, text);
+        intent.setPackage("com.whatsapp");
+        return intent;
+    }
+    public static Intent getShareWeiboIntent(String subject, String text) {
+        Intent intent = getShareIntent(subject, text);
+        intent.setPackage("com.tencent.WBlog");
+        return intent;
+    }
+
     public static Intent getShareIntent(String subject, String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
 

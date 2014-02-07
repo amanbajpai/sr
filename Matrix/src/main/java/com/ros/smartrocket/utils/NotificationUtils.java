@@ -34,10 +34,11 @@ public class NotificationUtils {
         String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is "
                 + "waiting to upload";
 
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context
+                .NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
-                .setAutoCancel(true);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable
+                .ic_launcher).setAutoCancel(true);
         mBuilder.setContentTitle(context.getResources().getString(R.string.file_waiting_to_upload));
         mBuilder.setContentText(message);
 
@@ -62,16 +63,18 @@ public class NotificationUtils {
      *
      * @param context
      */
-    /*public static void sendNotUploadedFileNotification(final Context context, FileToUpload fileToUpload, int progress) {
+    /*public static void  sendNotUploadedFileNotification(final Context context, FileToUpload fileToUpload,
+    int progress) {
 
         File file = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
         String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is " +
                 "waiting to upload";
 
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager =  (NotificationManager) context.getSystemService(Context
+        .NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
-                .setAutoCancel(true);
+        NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(context).setSmallIcon(R.drawable
+        .ic_launcher).setAutoCancel(true);
         mBuilder.setContentTitle(context.getResources().getString(R.string.file_waiting_to_upload));
         mBuilder.setContentText(message);
 
@@ -120,10 +123,11 @@ public class NotificationUtils {
         }
 
 
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context
+                .NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_launcher)
-                .setAutoCancel(true);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable
+                .ic_launcher).setAutoCancel(true);
         mBuilder.setContentTitle(context.getResources().getString(R.string.app_name));
         mBuilder.setContentText(message);
 
