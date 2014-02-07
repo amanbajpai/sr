@@ -19,7 +19,7 @@ public class BytesBitmap {
 
     public static byte[] getBytes(Bitmap bitmap) {
         ByteArrayOutputStream baops = new ByteArrayOutputStream();
-        bitmap.compress(CompressFormat.JPEG, 0, baops);
+        bitmap.compress(CompressFormat.JPEG, 100, baops);
         return baops.toByteArray();
     }
 

@@ -25,6 +25,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.UploadFileService;
@@ -107,7 +108,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.completed.getStatusId());
                 //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());

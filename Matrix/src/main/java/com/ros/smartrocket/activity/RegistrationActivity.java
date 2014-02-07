@@ -22,6 +22,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
@@ -231,7 +232,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
                 UIUtils.showSimpleToast(this, R.string.success);
 

@@ -197,7 +197,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
         if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
             final NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
-            if (operation.getResponseStatusCode() == 200) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: " +
                         notUploadedFile.getFileName());
 

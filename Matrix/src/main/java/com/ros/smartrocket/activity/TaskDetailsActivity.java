@@ -29,6 +29,7 @@ import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -154,7 +155,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
 

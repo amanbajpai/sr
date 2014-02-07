@@ -54,7 +54,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                             int responseCode = tempOperation.getResponseStatusCode();
                             String responseString = tempOperation.getResponseString();
-                            if (responseCode == 200 && responseString != null) {
+                            if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
                                 L.i(TAG, "Upload temp file success: " + files[i].getName());
 
                                 notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
@@ -168,7 +168,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
         int responseCode = operation.getResponseStatusCode();
         String responseString = operation.getResponseString();
-        if (responseCode == 200 && responseString != null) {
+        if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
                 /*ContentResolver contentResolver = getContentResolver();
                 HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;*/

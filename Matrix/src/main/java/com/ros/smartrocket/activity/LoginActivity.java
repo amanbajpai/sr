@@ -18,6 +18,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
@@ -79,7 +80,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         setSupportProgressBarIndeterminateVisibility(false);
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
                 UIUtils.showSimpleToast(LoginActivity.this, R.string.success);

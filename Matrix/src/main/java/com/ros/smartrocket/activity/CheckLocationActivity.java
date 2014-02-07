@@ -15,6 +15,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -107,7 +108,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         setSupportProgressBarIndeterminateVisibility(false);
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 CheckLocationResponse checkLocationResponse =
                         (CheckLocationResponse) operation.getResponseEntities().get(0);

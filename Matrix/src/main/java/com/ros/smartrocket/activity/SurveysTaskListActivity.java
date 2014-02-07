@@ -14,6 +14,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MyTaskAdapter;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -97,7 +98,7 @@ public class SurveysTaskListActivity extends BaseActivity implements OnItemClick
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_TASKS_OPERATION_TAG.equals(operation.getTag())) {
                 getTasks(surveyId);
             }

@@ -50,6 +50,7 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -275,7 +276,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag()) && mode != Keys.MapViewMode.MYTASKS) {
                 TasksBL.getTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
             }

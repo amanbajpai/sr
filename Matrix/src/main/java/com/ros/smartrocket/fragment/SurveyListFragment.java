@@ -25,6 +25,7 @@ import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -112,7 +113,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
                 SurveysBL.getSurveysListFromDB(handler, TasksMapFragment.taskRadius);
             }

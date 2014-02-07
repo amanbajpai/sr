@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.L;
@@ -76,7 +77,7 @@ public class ProfileFragment extends Fragment implements OnClickListener, Networ
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             UIUtils.showSimpleToast(getActivity(), "Success");
         } else {
             UIUtils.showSimpleToast(getActivity(), operation.getResponseError());

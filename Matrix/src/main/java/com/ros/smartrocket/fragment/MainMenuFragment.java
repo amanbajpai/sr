@@ -21,6 +21,7 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
@@ -89,7 +90,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
                 MyAccount myAccount = (MyAccount) operation.getResponseEntities().get(0);
                 setData(myAccount);

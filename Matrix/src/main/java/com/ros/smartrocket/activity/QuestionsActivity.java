@@ -32,6 +32,7 @@ import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -235,7 +236,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == 200) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 

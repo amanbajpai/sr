@@ -76,7 +76,7 @@ public class NetworkService extends BaseNetworkService {
 
         int responseCode = operation.getResponseStatusCode();
         String responseString = operation.getResponseString();
-        if (responseCode == 200 && responseString != null) {
+        if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
                 ContentResolver contentResolver = getContentResolver();
                 HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
