@@ -119,7 +119,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
         setViewMode(getArguments());
-        if (hidden) {
+        if (!hidden) {
             Location location = lm.getLocation();
             if (location != null) {
                 loadTasks(location);
@@ -142,6 +142,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             if (clusterkraf != null) {
                 clusterkraf.clear();
             }
+            //Remove my location and Circle from the map!
+            map.clear();
         }
     }
 
