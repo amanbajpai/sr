@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -65,7 +64,7 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.emailButton:
-                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, text + " " + shortUrl);
+                intent = IntentUtils.getEmailIntent(subject, "", text + " " + shortUrl);
                 break;
             case R.id.messageButton:
                 intent = IntentUtils.getSmsIntent(getActivity(), "", text + " " + shortUrl);

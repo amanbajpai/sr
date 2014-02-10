@@ -65,7 +65,7 @@ public class SupportFragment extends Fragment implements OnClickListener {
 
                 break;
             case R.id.sendMessageButton:
-                getActivity().startActivity(IntentUtils.getEmailIntent(Config.DEV_EMAIL, null));
+                getActivity().startActivity(IntentUtils.getEmailIntent("", Config.DEV_EMAIL, null));
                 break;
             default:
                 break;

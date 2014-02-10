@@ -84,11 +84,15 @@ public class IntentUtils {
      * @param text
      * @return
      */
-    public static Intent getEmailIntent(String email, String text) {
+    public static Intent getEmailIntent(String subject, String email, String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.setType("message/rfc822");
+        if (!TextUtils.isEmpty(subject)) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        }
+
         if (!TextUtils.isEmpty(email)) {
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
         }
