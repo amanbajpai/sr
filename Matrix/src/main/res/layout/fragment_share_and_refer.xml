@@ -7,6 +7,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp" >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/share_and_refer_via" />
         <Button
             android:id="@+id/emailButton"
             android:layout_height="wrap_content"
@@ -50,10 +58,16 @@
             android:padding="10dp"
             android:text="@string/share_and_refer_via_wechat" />
         <Button
-            android:id="@+id/weiboButton"
+            android:id="@+id/tencentWeiboButton"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:padding="10dp"
-            android:text="@string/share_and_refer_via_weibo" />
+            android:text="@string/share_and_refer_via_tencent_weibo" />
+        <Button
+            android:id="@+id/sinaWeiboButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_sina_weibo" />
     </LinearLayout >
 </ScrollView >

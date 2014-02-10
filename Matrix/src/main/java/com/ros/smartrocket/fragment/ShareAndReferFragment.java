@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -28,6 +27,8 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
     private ViewGroup view;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private String shortUrl;
+    private String subject;
+    private String text;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
 
         shortUrl = preferencesManager.getShortUrlToShare();
+        subject = getString(R.string.app_name);
+        text = getString(R.string.app_name);
 
         view.findViewById(R.id.emailButton).setOnClickListener(this);
         view.findViewById(R.id.messageButton).setOnClickListener(this);
@@ -51,7 +54,8 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.linkedindButton).setOnClickListener(this);
         view.findViewById(R.id.whatsappButton).setOnClickListener(this);
         view.findViewById(R.id.wechatButton).setOnClickListener(this);
-        view.findViewById(R.id.weiboButton).setOnClickListener(this);
+        view.findViewById(R.id.tencentWeiboButton).setOnClickListener(this);
+        view.findViewById(R.id.sinaWeiboButton).setOnClickListener(this);
 
         return view;
     }
@@ -61,28 +65,31 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.emailButton:
-                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, shortUrl);
+                intent = IntentUtils.getEmailIntent(Config.DEV_EMAIL, text + " " + shortUrl);
                 break;
             case R.id.messageButton:
-                intent = IntentUtils.getSmsIntent(getActivity(), "", shortUrl);
+                intent = IntentUtils.getSmsIntent(getActivity(), "", text + " " + shortUrl);
                 break;
             case R.id.facebookButton:
-                intent = IntentUtils.getShareFacebookIntent(getString(R.string.app_name), shortUrl);
+                intent = IntentUtils.getShareFacebookIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.twitterButton:
-                intent = IntentUtils.getShareTwitterIntent(getString(R.string.app_name), shortUrl);
+                intent = IntentUtils.getShareTwitterIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.linkedindButton:
-                intent = IntentUtils.getShareLinkedInIntent(getString(R.string.app_name), shortUrl);
+                intent = IntentUtils.getShareLinkedInIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.whatsappButton:
-                intent = IntentUtils.getShareWhatsAppIntent(getString(R.string.app_name), shortUrl);
+                intent = IntentUtils.getShareWhatsAppIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.wechatButton:
-                intent = IntentUtils.getShareWeChatIntent(getString(R.string.app_name), shortUrl);
+                intent = IntentUtils.getShareWeChatIntent(subject, text + " " + shortUrl);
                 break;
-            case R.id.weiboButton:
-                intent = IntentUtils.getShareWeiboIntent(getString(R.string.app_name), shortUrl);
+            case R.id.tencentWeiboButton:
+                intent = IntentUtils.getShareTencentWeiboIntent(subject, text + " " + shortUrl);
+                break;
+            case R.id.sinaWeiboButton:
+                intent = IntentUtils.getShareSinaWeiboIntent(subject, text + " " + shortUrl);
                 break;
             default:
                 break;

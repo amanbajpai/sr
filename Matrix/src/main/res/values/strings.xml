@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
-    <string name="app_name" >Matrix</string >
+    <string name="app_name" >SmartRocket</string >
     <!-- LOGIN ACTIVITY -->
     <string name="welcome_to" >Welcome to</string >
     <string name="your_email_hint" >Your e-mail</string >
@@ -123,14 +123,16 @@
     <string name="send_message" >Send message</string >
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_and_refer_title" >Share &amp; Refer</string >
-    <string name="share_and_refer_via_email" >Share &amp; Refer via E-email</string >
-    <string name="share_and_refer_via_message" >Share &amp; Refer via Message</string >
-    <string name="share_and_refer_via_twitter" >Share &amp; Refer via Twitter</string >
-    <string name="share_and_refer_via_facebook" >Share &amp; Refer via Facebook</string >
-    <string name="share_and_refer_via_linkedin" >Share &amp; Refer via LinkedIn</string >
-    <string name="share_and_refer_via_whatsapp" >Share &amp; Refer via WhatsApp</string >
-    <string name="share_and_refer_via_wechat" >Share &amp; Refer via WeChat</string >
-    <string name="share_and_refer_via_weibo" >Share &amp; Refer via Weibo</string >
+    <string name="share_and_refer_via" >Share &amp; Refer via</string >
+    <string name="share_and_refer_via_email" >E-email</string >
+    <string name="share_and_refer_via_message" >Message</string >
+    <string name="share_and_refer_via_twitter" >Twitter</string >
+    <string name="share_and_refer_via_facebook" >Facebook</string >
+    <string name="share_and_refer_via_linkedin" >LinkedIn</string >
+    <string name="share_and_refer_via_whatsapp" >WhatsApp</string >
+    <string name="share_and_refer_via_wechat" >WeChat</string >
+    <string name="share_and_refer_via_tencent_weibo" >Tencent Weibo</string >
+    <string name="share_and_refer_via_sina_weibo" >Sina Weibo</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >Task details</string >
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >
@@ -295,10 +297,8 @@
     <string name="re_do_task_status_message" >Task \"%1$s\" changed status to Re-Do!</string >
     <string name="validated_task_status_message" >Task \"%1$s\" changed status to Validated!</string >
     <string name="unknown_status_id_message" >Unknown statusId \"%1$s\" !</string >
-
     <!-- Photo can not be added -->
     <string name="add_photo_error_title" >Add photo error</string >
     <string name="add_photo_error_text" >Photo can not be added from this places.</string >
-
-    <string name="toast_application_not_found">Application not found</string>
+    <string name="toast_application_not_found" >Application not found</string >
 </resources >

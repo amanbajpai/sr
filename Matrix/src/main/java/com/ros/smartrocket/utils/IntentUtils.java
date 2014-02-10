@@ -171,9 +171,14 @@ public class IntentUtils {
         intent.setPackage("com.whatsapp");
         return intent;
     }
-    public static Intent getShareWeiboIntent(String subject, String text) {
+    public static Intent getShareTencentWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.tencent.WBlog");
+        return intent;
+    }
+    public static Intent getShareSinaWeiboIntent(String subject, String text) {
+        Intent intent = getShareIntent(subject, text);
+        intent.setPackage("com.sina.weibo");
         return intent;
     }
 
