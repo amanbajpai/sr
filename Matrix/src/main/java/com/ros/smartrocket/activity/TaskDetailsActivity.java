@@ -158,6 +158,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
+                task.setIsMy(true);
 
                 String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
@@ -180,12 +181,14 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
 
                 setButtonsSettings(task);
+                TasksBL.updateTask(handler, task);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
                         + task.getId());
 
                 task.setStatusId(Task.TaskStatusId.none.getStatusId());
                 task.setStarted("");
+                task.setIsMy(false);
                 setButtonsSettings(task);
                 TasksBL.updateTask(handler, task);
 

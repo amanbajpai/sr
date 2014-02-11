@@ -55,6 +55,7 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.wechatButton).setOnClickListener(this);
         view.findViewById(R.id.tencentWeiboButton).setOnClickListener(this);
         view.findViewById(R.id.sinaWeiboButton).setOnClickListener(this);
+        view.findViewById(R.id.qzoneButton).setOnClickListener(this);
 
         return view;
     }
@@ -89,6 +90,9 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.sinaWeiboButton:
                 intent = IntentUtils.getShareSinaWeiboIntent(subject, text + " " + shortUrl);
+                break;
+            case R.id.qzoneButton:
+                intent = IntentUtils.getShareQZoneIntent(subject, text + " " + shortUrl);
                 break;
             default:
                 break;

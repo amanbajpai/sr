@@ -71,15 +71,6 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         return view;
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        if (!hidden) {
-            getSurveys();
-        }
-    }
-
     private void getSurveys() {
         Location location = lm.getLocation();
         if (location != null) {
@@ -88,7 +79,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
             int radius = TasksMapFragment.taskRadius;
             L.i(TAG, "Radius: " + radius);
 
-            SurveysBL.getSurveysListFromDB(handler, radius);
+            SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius);
             apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius);
         }
     }
@@ -115,7 +106,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
-                SurveysBL.getSurveysListFromDB(handler, TasksMapFragment.taskRadius);
+                SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius);
             }
         } else {
             L.i(TAG, operation.getResponseError());

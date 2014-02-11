@@ -119,6 +119,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
         setViewMode(getArguments());
+
+        if (clusterkraf != null) {
+            clusterkraf.clear();
+        }
+        //Remove my location and Circle from the map!
+        map.clear();
+
         if (!hidden) {
             Location location = lm.getLocation();
             if (location != null) {
@@ -137,13 +144,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     }
                 });
             }
-        } else {
-            // Remove pins from map. Because when we resume it in another mode could be the crash
-            if (clusterkraf != null) {
-                clusterkraf.clear();
-            }
-            //Remove my location and Circle from the map!
-            map.clear();
         }
     }
 
@@ -198,7 +198,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
+                TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius);
                 Location location = lm.getLocation();
                 if (location == null) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
@@ -254,6 +254,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         super.onResume();
         initMap();
 
+        if (clusterkraf != null) {
+            clusterkraf.clear();
+        }
+        //Remove my location and Circle from the map!
+        map.clear();
+
         Location location = lm.getLocation();
         if (location != null) {
             //getSurveysFromServer(taskRadius);
@@ -280,9 +286,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag()) && mode != Keys.MapViewMode.MYTASKS) {
-                TasksBL.getTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
+                TasksBL.getNotMyTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
             }
-            if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag()) && mode == Keys.MapViewMode.MYTASKS) {
                 TasksBL.getMyTasksFromDB(handler);
             }
         } else {
@@ -322,7 +328,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void loadTasks(Location location) {
         if (location != null) {
             if (mode == Keys.MapViewMode.ALLTASKS) {
-                TasksBL.getTasksFromDBbyRadius(handler, taskRadius);
+                TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius);
             } else if (mode == Keys.MapViewMode.MYTASKS) {
                 TasksBL.getMyTasksFromDB(handler);
             } else if (mode == Keys.MapViewMode.SURVEYTASKS) {

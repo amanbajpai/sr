@@ -185,6 +185,11 @@ public class IntentUtils {
         intent.setPackage("com.sina.weibo");
         return intent;
     }
+    public static Intent getShareQZoneIntent(String subject, String text) {
+        Intent intent = getShareIntent(subject, text);
+        intent.setPackage("com.qzone");
+        return intent;
+    }
 
     public static Intent getShareIntent(String subject, String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);

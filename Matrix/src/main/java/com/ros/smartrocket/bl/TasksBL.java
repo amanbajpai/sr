@@ -38,10 +38,11 @@ public class TasksBL {
                 null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius) {
+    public static void getNotMyTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=?",
-                new String[]{String.valueOf(taskRadius)}, TaskDbSchema.SORT_ORDER_DESC);
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=? and " + Table.TASK.getName()
+                + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?",
+                new String[]{String.valueOf(taskRadius), String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC);
     }
 
 

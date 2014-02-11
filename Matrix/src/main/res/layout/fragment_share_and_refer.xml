@@ -69,5 +69,11 @@
             android:layout_width="match_parent"
             android:padding="10dp"
             android:text="@string/share_and_refer_via_sina_weibo" />
+        <Button
+            android:id="@+id/qzoneButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:text="@string/share_and_refer_via_qzone" />
     </LinearLayout >
 </ScrollView >

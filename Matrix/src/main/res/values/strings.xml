@@ -133,6 +133,7 @@
     <string name="share_and_refer_via_wechat" >WeChat</string >
     <string name="share_and_refer_via_tencent_weibo" >Tencent Weibo</string >
     <string name="share_and_refer_via_sina_weibo" >Sina Weibo</string >
+    <string name="share_and_refer_via_qzone" >QZone</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >Task details</string >
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >

@@ -21,10 +21,11 @@ public class SurveysBL {
                 new String[]{String.valueOf(surveyId)}, SurveyDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
-    public static void getSurveysListFromDB(AsyncQueryHandler handler, Integer radius) {
+    public static void getNotMyTasksSurveysListFromDB(AsyncQueryHandler handler, Integer radius) {
         handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null,
-                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " AND " + Table.TASK.getName() + "."
-                + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "'", null, null);
+                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " and " + Table.TASK.getName() + "."
+                + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "' and  " + Table.TASK.getName()
+                + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0", null, null);
     }
 
     /**
