@@ -620,57 +620,65 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             mContents = getActivity().getLayoutInflater().inflate(R.layout.map_info_contents, null);
         }
 
-        private void render(Marker marker, View view, ClusterPoint clusterPoint) {
+        private boolean render(Marker marker, View view, ClusterPoint clusterPoint) {
+            boolean result = false;
             L.d(TAG, "render() [marker=" + marker + ", clusterPoint=" + clusterPoint + "]");
             L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", "
                     + "snipped=" + marker.getSnippet() + ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
 
-            Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
+            if (clusterPoint.getPointAtOffset(0) != null) {
+                Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-            // Set Price prefix
-            String title = task.getName();
-            TextView titleUi = ((TextView) view.findViewById(R.id.title));
-            titleUi.setText(title);
+                // Set Price prefix
+                String title = task.getName();
+                TextView titleUi = ((TextView) view.findViewById(R.id.title));
+                titleUi.setText(title);
 
-            // Set Price prefix
-            String prefix = "HK$";
-            TextView prefixTitleUi = ((TextView) view.findViewById(R.id.price_label));
-            prefixTitleUi.setText(prefix);
+                // Set Price prefix
+                String prefix = "HK$";
+                TextView prefixTitleUi = ((TextView) view.findViewById(R.id.price_label));
+                prefixTitleUi.setText(prefix);
 
-            // Set Price
-            String price = "" + task.getPrice();
-            TextView rateText = ((TextView) view.findViewById(R.id.price_value));
-            rateText.setText(price);
+                // Set Price
+                String price = "" + task.getPrice();
+                TextView rateText = ((TextView) view.findViewById(R.id.price_value));
+                rateText.setText(price);
 
-            // Set Distance
-            String distance = "" + task.getDistance();
-            TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
-            distanceText.setText(distance);
+                // Set Distance
+                String distance = "" + task.getDistance();
+                TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
+                distanceText.setText(distance);
 
+                result = true;
+            }
+
+            return result;
         }
 
         @Override
         public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
+            View view = null;
             // Don't show popup window in such cases
             if (marker != null && !MYLOC.equals(marker.getSnippet())
                     && mode != Keys.MapViewMode.SINGLETASK) {
-                render(marker, mContents, clusterPoint);
-                return mContents;
-            } else {
-                return null;
+                if (render(marker, mContents, clusterPoint)) {
+                    view = mContents;
+                }
             }
+            return view;
         }
 
         @Override
         public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
+            View view = null;
             // Don't show popup window in such cases
             if (marker != null && !MYLOC.equals(marker.getSnippet())
                     && mode != Keys.MapViewMode.SINGLETASK) {
-                render(marker, mWindow, clusterPoint);
-                return mWindow;
-            } else {
-                return null;
+                if (render(marker, mWindow, clusterPoint)) {
+                    view = mWindow;
+                }
             }
+            return view;
         }
     }
 
