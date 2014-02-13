@@ -2,6 +2,7 @@ package com.ros.smartrocket.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +13,11 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
+import com.ros.smartrocket.db.entity.CheckLocationResponse;
+import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -40,10 +42,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private Location currentLocation;
+    private Address currentAddress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,13 +87,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
                 UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
 
 
                 //Generate Short url to share
-                String longUrl = Config.LONG_URL_TO_SHARE; //TODO Add user key from server
-                googleUrlShortenManager.getShortUrl(this, longUrl,
+                googleUrlShortenManager.getShortUrl(this, loginResponse.getSharedLink(),
                         new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
                             @Override
                             public void onShortUrlReady(String shortUrl) {
@@ -113,6 +117,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 // Start MainActivity
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
+            } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
+                CheckLocationResponse checkLocationResponse =
+                        (CheckLocationResponse) operation.getResponseEntities().get(0);
+
+                if (checkLocationResponse.getStatus()) {
+                    UIUtils.showSimpleToast(this, R.string.success);
+
+                    Intent intent = new Intent(this, ReferralCasesActivity.class);
+                    intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
+                    intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
+                    intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
+                    intent.putExtra(Keys.CITY_NAME, currentAddress.getLocality());
+                    intent.putExtra(Keys.LATITUDE, currentLocation.getLatitude());
+                    intent.putExtra(Keys.LONGITUDE, currentLocation.getLongitude());
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(this, EnterGroupCodeActivity.class));
+                }
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == 10020) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
@@ -123,6 +145,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 loginButton.setEnabled(true);
                 DialogUtils.showLoginFailedDialog(this);
+            } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
+                startActivity(new Intent(this, EnterGroupCodeActivity.class));
             }
         }
 
@@ -156,11 +180,54 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.registerButton:
-                startActivity(new Intent(this, EnterGroupCodeActivity.class));
+                if (!UIUtils.isOnline(this)) {
+                    DialogUtils.showNetworkDialog(this);
+                } else if (!UIUtils.isGpsEnabled(this)) {
+                    DialogUtils.showLocationDialog(this, true);
+                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
+                    DialogUtils.showGoogleSdkDialog(this);
+                } else if (UIUtils.isMockLocationEnabled(this)) {
+                    DialogUtils.showMockLocationDialog(this, true);
+                } else {
+                    setSupportProgressBarIndeterminateVisibility(true);
+
+                    Location location = lm.getLocation();
+                    if (location != null) {
+                        getAddressByLocation(location);
+                    } else {
+                        lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                            @Override
+                            public void onUpdate(Location location) {
+                                L.i(TAG, "Location Updated!");
+                                getAddressByLocation(location);
+                            }
+                        });
+                    }
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    public void getAddressByLocation(Location location) {
+        this.currentLocation = location;
+        lm.getAddress(location, new MatrixLocationManager.IAddress() {
+            @Override
+            public void onUpdate(Address address) {
+                if (address != null) {
+                    currentAddress = address;
+                    apiFacade.checkLocationForRegistration(LoginActivity.this,
+                            address.getCountryName(), address.getLocality(),
+                            address.getLatitude(), address.getLongitude());
+
+                    /*apiFacade.checkLocationForRegistration(LoginActivity.this,
+                            "Ukraine", "Kharkiv", 49.988010, 36.233044);*/
+                } else {
+                    startActivity(new Intent(LoginActivity.this, EnterGroupCodeActivity.class));
+                }
+            }
+        });
     }
 
     @Override

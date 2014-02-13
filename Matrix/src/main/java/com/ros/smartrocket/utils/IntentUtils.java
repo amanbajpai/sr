@@ -9,6 +9,7 @@ import android.os.Build;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.activity.EnterGroupCodeActivity;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.SurveyDetailsActivity;
@@ -76,6 +77,31 @@ public class IntentUtils {
         intent.putExtra(Keys.TASK_ID, taskId);
         return intent;
     }
+
+    /**
+     * Return intent for opening EnterGroupCodeActivity screen
+     *
+     * @param context - context
+     * @param countryId - current countryId
+     * @param cityId - current cityId
+     * @param countryName - current countryName
+     * @param cityName - current cityName
+     * @param latitude - current latitude
+     * @param longitude - current longitude
+     * @return Intent
+     *//*
+    public static Intent getEnterGroupCodeIntent(Context context, int countryId, int cityId, String countryName,
+                                                 String cityName, Double latitude, Double longitude) {
+        Intent intent = new Intent(context, EnterGroupCodeActivity.class);
+        intent.putExtra(Keys.COUNTRY_ID, countryId);
+        intent.putExtra(Keys.COUNTRY_NAME, countryName);
+        intent.putExtra(Keys.CITY_ID, cityId);
+        intent.putExtra(Keys.CITY_NAME, cityName);
+        intent.putExtra(Keys.LATITUDE, latitude);
+        intent.putExtra(Keys.LONGITUDE, longitude);
+
+        return intent;
+    }*/
 
     /**
      * Return intent for sending email
@@ -175,16 +201,19 @@ public class IntentUtils {
         intent.setPackage("com.whatsapp");
         return intent;
     }
+
     public static Intent getShareTencentWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.tencent.WBlog");
         return intent;
     }
+
     public static Intent getShareSinaWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.sina.weibo");
         return intent;
     }
+
     public static Intent getShareQZoneIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.qzone");

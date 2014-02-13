@@ -56,6 +56,10 @@
             </intent-filter >
         </activity >
         <activity
+            android:name="com.ros.smartrocket.activity.ReferralCasesActivity"
+            android:configChanges="locale"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name="com.ros.smartrocket.activity.EnterGroupCodeActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />

@@ -38,6 +38,7 @@ public class EnterGroupCodeActivity extends BaseActivity implements View.OnClick
                 String groupCode = groupCodeEditText.getText().toString().trim();
 
                 Intent intent = new Intent(this, CheckLocationActivity.class);
+                intent.putExtras(getIntent().getExtras());
                 intent.putExtra(Keys.GROUP_CODE, groupCode);
                 startActivity(intent);
                 break;

@@ -28,6 +28,8 @@ public interface Keys {
 
     // Operation tags - Using for cache response from NetworkService
     String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
+    String GET_REFERRAL_CASES_OPERATION_TAG = "get_referral_cases_operation_tag";
+    String SAVE_REFERRAL_CASES_OPERATION_TAG = "save_referral_cases_operation_tag";
     String GET_SURVEYS_TASKS_OPERATION_TAG = "get_surveys_tasks_operation_tag";
     String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
     String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";

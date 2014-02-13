@@ -27,6 +27,9 @@ public final class WSUrl {
     public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
             + "api/Tasks/Re-Do-Questions?taskId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
+    public static final String GET_REFERRAL_CASES = Config.WEB_SERVICE_URL
+            + "api/Authorize/ReferralCases?countryId=%s&language=%s";
+    public static final String SAVE_REFERRAL_CASE = Config.WEB_SERVICE_URL + "api/Authorize/ReferralCase";
 
     public static final int LOGIN_ID = 1;
     public static final int GET_SURVEYS_ID = 2;
@@ -46,6 +49,8 @@ public final class WSUrl {
     public static final int START_TASK_ID = 16;
     public static final int VALIDATE_TASK_ID = 17;
     public static final int SEND_ANSWERS_ID = 18;
+    public static final int GET_REFERRAL_CASES_ID = 19;
+    public static final int SAVE_REFERRAL_CASE_ID = 20;
 
     public static final HashMap<String, Integer> urls;
 
@@ -68,6 +73,8 @@ public final class WSUrl {
         urls.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
         urls.put(START_TASK, START_TASK_ID);
         urls.put(VALIDATE_TASK, VALIDATE_TASK_ID);
+        urls.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);
+        urls.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
     }
 
     public static int matchUrl(String url) {

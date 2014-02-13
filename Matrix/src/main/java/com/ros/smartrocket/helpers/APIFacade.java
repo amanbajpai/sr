@@ -13,6 +13,7 @@ import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.db.entity.TestPushMessage;
@@ -106,6 +107,36 @@ public class APIFacade {
         } else {
             UIUtils.showSimpleToast(activity, R.string.current_location_not_defined);
         }
+    }
+
+    /**
+     * @param context
+     * @param countryId
+     */
+    public void getReferralCases(Context context, int countryId) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_REFERRAL_CASES, String.valueOf(countryId), preferencesManager.getLanguageCode());
+        operation.setTag(Keys.GET_REFERRAL_CASES_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) context).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param context
+     * @param countryId
+     * @param referralId
+     */
+    public void saveReferralCases(Context context, int countryId, int referralId) {
+        SaveReferralCase caseEntity = new SaveReferralCase();
+        caseEntity.setCountryId(countryId);
+        caseEntity.setReferralId(referralId);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SAVE_REFERRAL_CASE);
+        operation.setTag(Keys.SAVE_REFERRAL_CASES_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(caseEntity);
+        ((BaseActivity) context).sendNetworkOperation(operation);
     }
 
     /**
@@ -329,8 +360,8 @@ public class APIFacade {
      * API call for push notification test
      *
      * @param context
-     * @param statusType   - Notification type
-     * @param taskId    - task id
+     * @param statusType - Notification type
+     * @param taskId     - task id
      */
     public void testGCMPushNotification(Context context, Integer statusType, Integer taskId) {
         TestPushMessage pushMessageEntity = new TestPushMessage();

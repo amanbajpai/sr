@@ -15,6 +15,14 @@
         account.</string >
     <string name="login_test_account" >Agent1</string >
     <string name="login_test_password" >123456</string >
+    <!-- WHERE YOU KNOW ABOUT US -->
+    <string name="continue_register" >Continue</string >
+    <string name="from_where_you_heard_about_us" >From where you heard about us</string >
+    <string name="it_is_very_important_information" >It is very important information for us to know from
+    where you heard about us, please help us to improve
+    our application, Thanks</string >
+    <string name="choose_where_you_know_about_us" >Choose where you know about us</string >
+
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name" >First name</string >
     <string name="last_name" >Last name</string >
