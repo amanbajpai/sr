@@ -19,7 +19,7 @@ public class QuestionsBL {
     /**
      * Make request for getting Question list
      *
-     * @param handler - Handler for getting response from DB
+     * @param handler  - Handler for getting response from DB
      * @param surveyId - current surveyId
      */
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
@@ -30,9 +30,24 @@ public class QuestionsBL {
     }
 
     /**
+     * Make request for getting Closing Statement Question
+     *
+     * @param handler  - Handler for getting response from DB
+     * @param surveyId - current surveyId
+     * @param taskId - current taskId
+     */
+    public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
+        handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema
+                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=?",
+                new String[]{String.valueOf(surveyId), String.valueOf(taskId), String.valueOf(3)},
+                QuestionDbSchema.SORT_ORDER_DESC);
+    }
+
+    /**
      * Update previous question orderId
      *
-     * @param questionId - current questionId
+     * @param questionId              - current questionId
      * @param previousQuestionOrderId - orderId of previous question
      */
     public static void updatePreviousQuestionOrderId(Integer questionId, Integer previousQuestionOrderId) {
@@ -90,7 +105,7 @@ public class QuestionsBL {
      * Get Question by orderId
      *
      * @param questions - question list
-     * @param orderId - orderId to select
+     * @param orderId   - orderId to select
      * @return Question
      */
     public static Question getQuestionByOrderId(ArrayList<Question> questions, int orderId) {

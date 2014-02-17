@@ -15,19 +15,12 @@
             android:textStyle="bold"
             android:text="@string/task_validation_title" />
         <TextView
+            android:id="@+id/closingQuestionText"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:textSize="@dimen/text_size_small"
-            android:gravity="left"
-            android:text="@string/task_validation_text1" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:textSize="@dimen/text_size_small"
-            android:gravity="left"
-            android:text="@string/task_validation_text2" />
+            android:gravity="left"/>
         <Button
             android:id="@+id/recheckTaskButton"
             android:layout_height="wrap_content"

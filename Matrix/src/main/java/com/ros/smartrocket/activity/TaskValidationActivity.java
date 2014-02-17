@@ -16,11 +16,13 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.FilesBL;
-import com.ros.smartrocket.bl.SurveysBL;
+import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -45,8 +47,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private TextView expiryDateTextView;
     private TextView expiryTimeTextView;
     private TextView taskDataSizeTextView;
+    private TextView closingQuestionText;
 
-    private Integer taskId;
+    private int taskId;
     private Task task = new Task();
 
     private AsyncQueryHandler handler;
@@ -71,13 +74,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         expiryDateTextView = (TextView) findViewById(R.id.expiryDateTextView);
         expiryTimeTextView = (TextView) findViewById(R.id.expiryTimeTextView);
         taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
+        closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
 
         findViewById(R.id.recheckTaskButton).setOnClickListener(this);
         findViewById(R.id.sendNowButton).setOnClickListener(this);
         findViewById(R.id.sendLaterButton).setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
-
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -98,9 +101,16 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                     setTaskData(task);
-                    SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
+                    //SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
+                    QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
                     break;
-
+                case QuestionDbSchema.Query.TOKEN_QUERY:
+                    ArrayList<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+                    if (questions.size() > 0) {
+                        Question question = questions.get(0);
+                        closingQuestionText.setText(question.getQuestion());
+                    }
+                    break;
                 default:
                     break;
             }
@@ -111,7 +121,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.completed.getStatusId());
+                TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
                 //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());
 
                 if (filesSizeB > 0) {
@@ -140,7 +150,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 }
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.validation.getStatusId());
+                TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.validation.getStatusId());
 
                 finish();
             }

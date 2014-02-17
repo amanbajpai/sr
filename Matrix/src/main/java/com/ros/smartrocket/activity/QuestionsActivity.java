@@ -188,9 +188,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
-            if (nextQuestion != null && nextQuestion.getType() == 3) {
-                nextButton.setVisibility(View.GONE);
-                validationButton.setVisibility(View.VISIBLE);
+            if (question == null || (question != null && question.getType() == 3)) {
+                startValidationActivity();
+                return;
+
             } else if (question.getType() == 4) {
                 if (UIUtils.isOnline(this)) {
                     setSupportProgressBarIndeterminateVisibility(true);
@@ -199,6 +200,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     UIUtils.showSimpleToast(this, getString(R.string.no_internet));
                 }
                 return;
+            } else if (nextQuestion == null || (nextQuestion != null && nextQuestion.getType() == 3)) {
+                nextButton.setVisibility(View.GONE);
+                validationButton.setVisibility(View.VISIBLE);
             } else {
                 nextButton.setVisibility(View.VISIBLE);
                 validationButton.setVisibility(View.GONE);
@@ -276,13 +280,18 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 startNextQuestionFragment();
                 break;
             case R.id.validationButton:
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
-                startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
-                finish();
+                startValidationActivity();
                 break;
             default:
                 break;
         }
+    }
+
+    public void startValidationActivity() {
+        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
+
+        startActivity(IntentUtils.getTaskValidationIntent(this, taskId));
+        finish();
     }
 
     @Override
