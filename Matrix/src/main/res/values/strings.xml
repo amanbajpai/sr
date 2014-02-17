@@ -287,6 +287,9 @@
     <string name="confirmation_you_can_find_in_my_task" >Validation confirmation you can find in My Task list</string >
     <string name="send_now" >Send now</string >
     <string name="send_later" >Send later</string >
+    <!-- QUIT QUESTION ACTIVITY -->
+    <string name="quit_question_title" >Quit</string >
+
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
     <string name="registration_subscribe_dialog_title" >Confirmation pop-up</string >
     <string name="registration_subscribe_dialog_text1" >Thanks we get your info and get in touch with you when we can

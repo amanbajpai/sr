@@ -108,6 +108,12 @@
         <activity
             android:name="com.ros.smartrocket.activity.TaskValidationActivity"
             android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.TermsAndConditionActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.QuitQuestionActivity"
+            android:configChanges="locale" />
 
         <service
             android:name="com.ros.smartrocket.net.NetworkService"

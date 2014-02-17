@@ -388,6 +388,22 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     * @param activity
+     * @param taskId
+     */
+    public void rejectTask(Activity activity, Integer taskId) {
+        SendTaskId sendTaskId = new SendTaskId();
+        sendTaskId.setTaskId(taskId);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.REJECT_TASK);
+        operation.setTag(Keys.REJECT_TASK_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(sendTaskId);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
     public void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);

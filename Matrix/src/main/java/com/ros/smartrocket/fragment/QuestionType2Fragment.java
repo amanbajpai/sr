@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
 import com.ros.smartrocket.adapter.AnswerRadioButtonAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
@@ -53,7 +52,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         list.setOnItemClickListener(this);
 
         TextView questionText = (TextView) view.findViewById(R.id.questionText);
-        if(!TextUtils.isEmpty(question.getValidationComment())){
+        if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
@@ -130,12 +129,16 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
+        for(Answer answer: adapter.getData()){
+            answer.setChecked(false);
+        }
+
         Answer answer = adapter.getItem(position);
         answer.toggleChecked();
-        //adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
 
-        AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
-        viewHolder.getCheckBox().setChecked(answer.isChecked());
+       /* AnswerRadioButtonAdapter.ViewHolder viewHolder = (AnswerRadioButtonAdapter.ViewHolder) item.getTag();
+        viewHolder.getRadioButton().setChecked(answer.isChecked());*/
 
         refreshNextButton();
     }

@@ -59,7 +59,7 @@ public class SupportFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.termAndConditionsButton:
-
+                getActivity().startActivity(IntentUtils.getTermsAndConditionIntent(getActivity()));
                 break;
             case R.id.knowledgeBaseButton:
 

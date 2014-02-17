@@ -188,9 +188,17 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
-            if (nextQuestion.getType() == 3) {
+            if (nextQuestion != null && nextQuestion.getType() == 3) {
                 nextButton.setVisibility(View.GONE);
                 validationButton.setVisibility(View.VISIBLE);
+            } else if (question.getType() == 4) {
+                if (UIUtils.isOnline(this)) {
+                    setSupportProgressBarIndeterminateVisibility(true);
+                    apiFacade.rejectTask(this, question.getTaskId());
+                } else {
+                    UIUtils.showSimpleToast(this, getString(R.string.no_internet));
+                }
+                return;
             } else {
                 nextButton.setVisibility(View.VISIBLE);
                 validationButton.setVisibility(View.GONE);
@@ -210,7 +218,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case 1:
                     currentFragment = new QuestionType1Fragment();
                     break;
-                case 3:
+                case 6:
                     currentFragment = new QuestionType2Fragment();
                     break;
                 case 2:
@@ -242,6 +250,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
                 QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
+            } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(surveyId,
+                        taskId);
+                Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
+
+                startActivity(IntentUtils.getQuitQuestionIntent(this, question));
+                finish();
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());

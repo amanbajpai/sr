@@ -19,6 +19,7 @@ public final class WSUrl {
     public static final String UNCLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Unclaimed";
     public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String START_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Start";
+    public static final String REJECT_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Reject";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
@@ -51,6 +52,7 @@ public final class WSUrl {
     public static final int SEND_ANSWERS_ID = 18;
     public static final int GET_REFERRAL_CASES_ID = 19;
     public static final int SAVE_REFERRAL_CASE_ID = 20;
+    public static final int REJECT_TASK_ID = 20;
 
     public static final HashMap<String, Integer> urls;
 
@@ -75,6 +77,7 @@ public final class WSUrl {
         urls.put(VALIDATE_TASK, VALIDATE_TASK_ID);
         urls.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);
         urls.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
+        urls.put(REJECT_TASK, REJECT_TASK_ID);
     }
 
     public static int matchUrl(String url) {

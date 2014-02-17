@@ -131,16 +131,20 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    task = TasksBL.convertCursorToTask(cursor);
+                    if (cursor != null && cursor.getCount() > 0) {
+                        task = TasksBL.convertCursorToTask(cursor);
 
-                    if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.scheduled
-                            || TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation) {
+                        if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.scheduled
+                                || TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation) {
+                            finish();
+                            break;
+                        }
+
+                        setTaskData(task);
+                        SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
+                    } else {
                         finish();
-                        break;
                     }
-
-                    setTaskData(task);
-                    SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
                     break;
                 case SurveyDbSchema.Query.TOKEN_QUERY:
                     survey = SurveysBL.convertCursorToSurvey(cursor);

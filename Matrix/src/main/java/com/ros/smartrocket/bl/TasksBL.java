@@ -225,4 +225,9 @@ public class TasksBL {
         contentResolver.delete(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(0)});
     }
+
+    public static void removeTask(ContentResolver contentResolver, int taskId) {
+        contentResolver.delete(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
+    }
 }
