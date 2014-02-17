@@ -124,7 +124,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     UIUtils.showSimpleToast(this, R.string.success);
 
                     Intent intent = new Intent(this, RegistrationActivity.class);
-                    intent.putExtras(getIntent().getExtras());
+                    if (getIntent().getExtras() != null) {
+                        intent.putExtras(getIntent().getExtras());
+                    }
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());

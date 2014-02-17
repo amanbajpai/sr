@@ -85,7 +85,9 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
     public void startEnterGroupCodeActivity() {
         Intent intent = new Intent(this, EnterGroupCodeActivity.class);
-        intent.putExtras(getIntent().getExtras());
+        if (getIntent().getExtras() != null) {
+            intent.putExtras(getIntent().getExtras());
+        }
         startActivity(intent);
 
         finish();
