@@ -210,11 +210,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             case R.id.sendNowButton:
                 setSupportProgressBarIndeterminateVisibility(true);
 
-                if (answerListToSend.size() > 0) {
-                    apiFacade.sendAnswers(this, answerListToSend);
-                } else {
-                    sendAnswerTextsSuccess();
-                }
+                apiFacade.sendAnswers(this, answerListToSend);
                 break;
             case R.id.sendLaterButton:
                 finish();
