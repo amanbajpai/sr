@@ -121,33 +121,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
-                TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
-                //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());
-
-                if (filesSizeB > 0) {
-                    if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
-                        DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
-                            @Override
-                            public void onLeftButtonPressed(Dialog dialog) {
-                                dialog.dismiss();
-                                setFilesToUploadDbAndStartUpload(false);
-                                finish();
-                            }
-
-                            @Override
-                            public void onRightButtonPressed(Dialog dialog) {
-                                dialog.dismiss();
-                                setFilesToUploadDbAndStartUpload(true);
-                                finish();
-                            }
-                        });
-                    } else {
-                        setFilesToUploadDbAndStartUpload(true);
-                        finish();
-                    }
-                } else {
-                    validateTask(task.getId());
-                }
+                sendAnswerTextsSuccess();
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.validation.getStatusId());
@@ -197,6 +171,36 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     }
 
+    private void sendAnswerTextsSuccess() {
+        TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
+        //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());
+
+        if (filesSizeB > 0) {
+            if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
+                DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onLeftButtonPressed(Dialog dialog) {
+                        dialog.dismiss();
+                        setFilesToUploadDbAndStartUpload(false);
+                        finish();
+                    }
+
+                    @Override
+                    public void onRightButtonPressed(Dialog dialog) {
+                        dialog.dismiss();
+                        setFilesToUploadDbAndStartUpload(true);
+                        finish();
+                    }
+                });
+            } else {
+                setFilesToUploadDbAndStartUpload(true);
+                finish();
+            }
+        } else {
+            validateTask(task.getId());
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -206,7 +210,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             case R.id.sendNowButton:
                 setSupportProgressBarIndeterminateVisibility(true);
 
-                apiFacade.sendAnswers(this, answerListToSend);
+                if (answerListToSend.size() > 0) {
+                    apiFacade.sendAnswers(this, answerListToSend);
+                } else {
+                    sendAnswerTextsSuccess();
+                }
                 break;
             case R.id.sendLaterButton:
                 finish();

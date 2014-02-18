@@ -180,15 +180,15 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startFragment(Question question) {
-        L.i(TAG, "startFragment. orderId:" + question.getOrderId());
         if (question != null) {
+            L.i(TAG, "startFragment. orderId:" + question.getOrderId());
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getOrderId());
 
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
-            if (question == null || (question != null && question.getType() == 3)) {
+            if (question.getType() == 3) {
                 startValidationActivity();
                 return;
 
@@ -208,7 +208,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 validationButton.setVisibility(View.GONE);
             }
 
-            if (question.getShowBackButton()) {
+            if (question.getShowBackButton() && question.getPreviousQuestionOrderId() != 0) {
                 previousButton.setVisibility(View.VISIBLE);
             } else {
                 previousButton.setVisibility(View.INVISIBLE);
@@ -242,6 +242,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 t.replace(R.id.contentLayout, currentFragment).commit();
 
             }
+        } else if (question == null || (question != null && question.getType() == 3)) {
+            startValidationActivity();
         } else {
             ((FrameLayout) findViewById(R.id.contentLayout)).removeAllViews();
         }
@@ -289,6 +291,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void startValidationActivity() {
         TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
+        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
+                + task.getId());
 
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId));
         finish();

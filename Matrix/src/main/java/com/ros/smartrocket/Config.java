@@ -43,20 +43,20 @@ public class Config {
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
                 WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
-                TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions";
+                TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://matrix.stage.api.uran.po.ciklum.net/";
-                TERMS_AND_CONDITION_URL = "http://matrix.stage.web.uran.po.ciklum.net/TermsAndConditions";
+                TERMS_AND_CONDITION_URL = "http://matrix.stage.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
                 break;
             case DEVELOPMENT:
             default:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
-                TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions";
+                TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
                 break;
         }
     }

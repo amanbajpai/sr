@@ -81,7 +81,8 @@ public class NetworkService extends BaseNetworkService {
             try {
                 ContentResolver contentResolver = getContentResolver();
                 HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
-                switch (WSUrl.matchUrl(operation.getUrl())) {
+                int url = WSUrl.matchUrl(operation.getUrl());
+                switch (url) {
                     case WSUrl.GET_SURVEYS_ID:
                         Surveys surveys = gson.fromJson(responseString, Surveys.class);
 
@@ -188,8 +189,12 @@ public class NetworkService extends BaseNetworkService {
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
+                        int i = 1;
                         for (Question question : questions.getQuestions()) {
                             question.setTaskId(taskId);
+                            if (WSUrl.GET_REDO_QUESTION_ID == url) {
+                                question.setOrderId(i);
+                            }
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
                             contentResolver.delete(AnswerDbSchema.CONTENT_URI,
@@ -211,6 +216,7 @@ public class NetworkService extends BaseNetworkService {
                                 answer.setTaskId(taskId);
                                 contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                             }
+                            i++;
                         }
                         break;
                     default:
