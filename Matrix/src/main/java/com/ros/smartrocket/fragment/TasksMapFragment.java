@@ -332,7 +332,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             } else if (mode == Keys.MapViewMode.MYTASKS) {
                 TasksBL.getMyTasksFromDB(handler);
             } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
-                TasksBL.getTasksFromDBbySurveyId(handler, viewItemId);
+                TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId);
                 Log.d(TAG, "loadTasks() [surveyId  =  " + viewItemId + "]");
             } else if (mode == Keys.MapViewMode.SINGLETASK) {
                 TasksBL.getTaskFromDBbyID(handler, viewItemId);

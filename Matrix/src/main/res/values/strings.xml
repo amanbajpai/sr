@@ -73,7 +73,6 @@
     <string name="distance_m" >m</string >
     <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
-    <string name="surveys_task_list_title" >Survey\'s task list</string >
     <string name="task_expires_at" >Task expires at:</string >
     <!-- MY TASK FRAGMENT-->
     <string name="my_tasks_title" >My Tasks</string >
@@ -277,8 +276,8 @@
     <string name="max_distance" >100 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="task_validation_title" >Validation</string >
-    <string name="task_validation_text1" >You have completed this Task. If you are satisfied with your answers, you may now Confirm &amp; Send it for validation or you can send it later.</string >
-    <string name="task_validation_text2" >If you find any issues with your answers on task questions or you not satisfied by them you can check it once more before validation</string >
+    <!--<string name="task_validation_text1" >You have completed this Task. If you are satisfied with your answers, you may now Confirm &amp; Send it for validation or you can send it later.</string >
+    <string name="task_validation_text2" >If you find any issues with your answers on task questions or you not satisfied by them you can check it once more before validation</string >-->
     <string name="recheck_my_answer" >Re-check my answers</string >
     <string name="expiry_time" >Expiry time: </string >
     <string name="expiry_time_at" >at</string >
