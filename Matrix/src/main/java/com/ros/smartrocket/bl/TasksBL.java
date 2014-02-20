@@ -65,6 +65,13 @@ public class TasksBL {
                 TaskDbSchema.SORT_ORDER_DESC);
     }
 
+    public static void getNotMyTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=? and "
+                + TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(surveyId), String.valueOf(0)},
+                TaskDbSchema.SORT_ORDER_DESC);
+    }
+
     public static void getMyTasksFromDB(AsyncQueryHandler handler) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1",
@@ -224,5 +231,10 @@ public class TasksBL {
     public static void removeNotMyTask(ContentResolver contentResolver) {
         contentResolver.delete(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(0)});
+    }
+
+    public static void removeTask(ContentResolver contentResolver, int taskId) {
+        contentResolver.delete(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
     }
 }

@@ -56,6 +56,10 @@
             </intent-filter >
         </activity >
         <activity
+            android:name="com.ros.smartrocket.activity.ReferralCasesActivity"
+            android:configChanges="locale"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name="com.ros.smartrocket.activity.EnterGroupCodeActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
@@ -72,9 +76,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="true" />
-        <activity
-            android:name="com.ros.smartrocket.activity.SurveysTaskListActivity"
-            android:configChanges="locale" />
+
         <activity
             android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
             android:configChanges="locale" />
@@ -103,6 +105,12 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.ros.smartrocket.activity.TaskValidationActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.TermsAndConditionActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.QuitQuestionActivity"
             android:configChanges="locale" />
 
         <service

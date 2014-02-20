@@ -28,7 +28,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Address currentAddress;
-    private String groupCode = "";
+    private int countryId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_check_location);
 
         if (getIntent() != null) {
-            groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
+            countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
         }
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId="
@@ -55,28 +55,35 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.checkMyLocationButton:
-                if (!UIUtils.isOnline(this)) {
-                    DialogUtils.showNetworkDialog(this);
-                } else if (!UIUtils.isGpsEnabled(this)) {
-                    DialogUtils.showLocationDialog(this, true);
-                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
-                    DialogUtils.showGoogleSdkDialog(this);
-                } else if (UIUtils.isMockLocationEnabled(this)) {
-                    DialogUtils.showMockLocationDialog(this, true);
+                if (countryId != 0) {
+                    Intent intent = new Intent(this, RegistrationActivity.class);
+                    intent.putExtras(getIntent().getExtras());
+                    startActivity(intent);
                 } else {
-                    setSupportProgressBarIndeterminateVisibility(true);
 
-                    Location location = lm.getLocation();
-                    if (location != null) {
-                        getAddressByLocation(location);
+                    if (!UIUtils.isOnline(this)) {
+                        DialogUtils.showNetworkDialog(this);
+                    } else if (!UIUtils.isGpsEnabled(this)) {
+                        DialogUtils.showLocationDialog(this, true);
+                    } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
+                        DialogUtils.showGoogleSdkDialog(this);
+                    } else if (UIUtils.isMockLocationEnabled(this)) {
+                        DialogUtils.showMockLocationDialog(this, true);
                     } else {
-                        lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                            @Override
-                            public void onUpdate(Location location) {
-                                L.i(TAG, "Location Updated!");
-                                getAddressByLocation(location);
-                            }
-                        });
+                        setSupportProgressBarIndeterminateVisibility(true);
+
+                        Location location = lm.getLocation();
+                        if (location != null) {
+                            getAddressByLocation(location);
+                        } else {
+                            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                                @Override
+                                public void onUpdate(Location location) {
+                                    L.i(TAG, "Location Updated!");
+                                    getAddressByLocation(location);
+                                }
+                            });
+                        }
                     }
                 }
                 break;
@@ -117,11 +124,13 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     UIUtils.showSimpleToast(this, R.string.success);
 
                     Intent intent = new Intent(this, RegistrationActivity.class);
+                    if (getIntent().getExtras() != null) {
+                        intent.putExtras(getIntent().getExtras());
+                    }
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
                     intent.putExtra(Keys.CITY_NAME, currentAddress.getLocality());
-                    intent.putExtra(Keys.GROUP_CODE, groupCode);
                     startActivity(intent);
                 } else {
                     startActivity(new Intent(this, CheckLocationFailedActivity.class));

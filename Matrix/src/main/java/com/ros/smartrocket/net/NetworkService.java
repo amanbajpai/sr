@@ -24,6 +24,7 @@ import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
+import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.db.entity.Survey;
@@ -80,7 +81,8 @@ public class NetworkService extends BaseNetworkService {
             try {
                 ContentResolver contentResolver = getContentResolver();
                 HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
-                switch (WSUrl.matchUrl(operation.getUrl())) {
+                int url = WSUrl.matchUrl(operation.getUrl());
+                switch (url) {
                     case WSUrl.GET_SURVEYS_ID:
                         Surveys surveys = gson.fromJson(responseString, Surveys.class);
 
@@ -150,6 +152,10 @@ public class NetworkService extends BaseNetworkService {
                         operation.responseEntities.add(loginResponse);
                         getPreferencesManager().setToken(loginResponse.getToken());
                         break;
+                    case WSUrl.GET_REFERRAL_CASES_ID:
+                        ReferralCases referralCases = gson.fromJson(responseString, ReferralCases.class);
+                        operation.responseEntities.add(referralCases);
+                        break;
                     case WSUrl.CHECK_LOCATION_ID:
                         CheckLocationResponse checkLocationResponse = gson.fromJson(responseString,
                                 CheckLocationResponse.class);
@@ -183,8 +189,12 @@ public class NetworkService extends BaseNetworkService {
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
+                        int i = 1;
                         for (Question question : questions.getQuestions()) {
                             question.setTaskId(taskId);
+                            if (WSUrl.GET_REDO_QUESTION_ID == url) {
+                                question.setOrderId(i);
+                            }
                             contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
                             contentResolver.delete(AnswerDbSchema.CONTENT_URI,
@@ -206,6 +216,7 @@ public class NetworkService extends BaseNetworkService {
                                 answer.setTaskId(taskId);
                                 contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                             }
+                            i++;
                         }
                         break;
                     default:

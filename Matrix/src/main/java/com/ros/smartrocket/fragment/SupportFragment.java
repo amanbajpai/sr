@@ -41,25 +41,16 @@ public class SupportFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.knowledgeBaseButton).setOnClickListener(this);
         view.findViewById(R.id.sendMessageButton).setOnClickListener(this);
 
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+
         return view;
-    }
-
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        if (!hidden) {
-            //TODO Move to fragment second time
-            L.i(TAG, "TODO Move to fragment second time");
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.termAndConditionsButton:
-
+                getActivity().startActivity(IntentUtils.getTermsAndConditionIntent(getActivity()));
                 break;
             case R.id.knowledgeBaseButton:
 

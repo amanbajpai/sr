@@ -180,15 +180,27 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startFragment(Question question) {
-        L.i(TAG, "startFragment. orderId:" + question.getOrderId());
         if (question != null) {
+            L.i(TAG, "startFragment. orderId:" + question.getOrderId());
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getOrderId());
 
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
-            if (nextQuestion.getType() == 3) {
+            if (question.getType() == 3) {
+                startValidationActivity();
+                return;
+
+            } else if (question.getType() == 4) {
+                if (UIUtils.isOnline(this)) {
+                    setSupportProgressBarIndeterminateVisibility(true);
+                    apiFacade.rejectTask(this, question.getTaskId());
+                } else {
+                    UIUtils.showSimpleToast(this, getString(R.string.no_internet));
+                }
+                return;
+            } else if (nextQuestion == null || (nextQuestion != null && nextQuestion.getType() == 3)) {
                 nextButton.setVisibility(View.GONE);
                 validationButton.setVisibility(View.VISIBLE);
             } else {
@@ -196,7 +208,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 validationButton.setVisibility(View.GONE);
             }
 
-            if (question.getShowBackButton()) {
+            if (question.getShowBackButton() && question.getPreviousQuestionOrderId() != 0) {
                 previousButton.setVisibility(View.VISIBLE);
             } else {
                 previousButton.setVisibility(View.INVISIBLE);
@@ -210,7 +222,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case 1:
                     currentFragment = new QuestionType1Fragment();
                     break;
-                case 3:
+                case 6:
                     currentFragment = new QuestionType2Fragment();
                     break;
                 case 2:
@@ -230,6 +242,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 t.replace(R.id.contentLayout, currentFragment).commit();
 
             }
+        } else if (question == null || (question != null && question.getType() == 3)) {
+            startValidationActivity();
         } else {
             ((FrameLayout) findViewById(R.id.contentLayout)).removeAllViews();
         }
@@ -242,6 +256,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
                 QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
+            } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(surveyId,
+                        taskId);
+                Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
+
+                startActivity(IntentUtils.getQuitQuestionIntent(this, question));
+                finish();
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
@@ -261,13 +282,20 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 startNextQuestionFragment();
                 break;
             case R.id.validationButton:
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
-                startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
-                finish();
+                startValidationActivity();
                 break;
             default:
                 break;
         }
+    }
+
+    public void startValidationActivity() {
+        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
+        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
+                + task.getId());
+
+        startActivity(IntentUtils.getTaskValidationIntent(this, taskId));
+        finish();
     }
 
     @Override

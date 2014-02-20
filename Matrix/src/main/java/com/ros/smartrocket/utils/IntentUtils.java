@@ -11,9 +11,12 @@ import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
+import com.ros.smartrocket.activity.QuitQuestionActivity;
 import com.ros.smartrocket.activity.SurveyDetailsActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
+import com.ros.smartrocket.activity.TermsAndConditionActivity;
+import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Survey;
 
 import java.net.URLEncoder;
@@ -28,10 +31,10 @@ public class IntentUtils {
     /**
      * Return intent for opening Questions screen
      *
-     * @param context
-     * @param surveyId
-     * @param taskId
-     * @return
+     * @param context - context
+     * @param surveyId - current surveyId
+     * @param taskId - current taskId
+     * @return Intent
      */
     public static Intent getQuestionsIntent(Context context, int surveyId, int taskId) {
         Intent intent = new Intent(context, QuestionsActivity.class);
@@ -43,9 +46,9 @@ public class IntentUtils {
     /**
      * Return intent for opening Task detail screen
      *
-     * @param context
-     * @param taskId
-     * @return
+     * @param context - context
+     * @param taskId - current taskId
+     * @return Intent
      */
     public static Intent getTaskDetailIntent(Context context, int taskId) {
         Intent intent = new Intent(context, TaskDetailsActivity.class);
@@ -56,8 +59,8 @@ public class IntentUtils {
     /**
      * Return intent for opening Login screen
      *
-     * @param context
-     * @return
+     * @param context - context
+     * @return Intent
      */
     public static Intent getLoginIntentForLogout(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -68,14 +71,62 @@ public class IntentUtils {
     /**
      * Return intent for opening Task Validation screen
      *
-     * @param context
-     * @return
+     * @param context - context
+     * @return Intent
      */
     public static Intent getTaskValidationIntent(Context context, int taskId) {
         Intent intent = new Intent(context, TaskValidationActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
         return intent;
     }
+
+    /**
+     * Return intent for opening Terms And Condition screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getTermsAndConditionIntent(Context context) {
+        Intent intent = new Intent(context, TermsAndConditionActivity.class);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Quit Question screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getQuitQuestionIntent(Context context, Question question) {
+        Intent intent = new Intent(context, QuitQuestionActivity.class);
+        intent.putExtra(Keys.QUESTION, question);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening EnterGroupCodeActivity screen
+     *
+     * @param context - context
+     * @param countryId - current countryId
+     * @param cityId - current cityId
+     * @param countryName - current countryName
+     * @param cityName - current cityName
+     * @param latitude - current latitude
+     * @param longitude - current longitude
+     * @return Intent
+     *//*
+    public static Intent getEnterGroupCodeIntent(Context context, int countryId, int cityId, String countryName,
+                                                 String cityName, Double latitude, Double longitude) {
+        Intent intent = new Intent(context, EnterGroupCodeActivity.class);
+        intent.putExtra(Keys.COUNTRY_ID, countryId);
+        intent.putExtra(Keys.COUNTRY_NAME, countryName);
+        intent.putExtra(Keys.CITY_ID, cityId);
+        intent.putExtra(Keys.CITY_NAME, cityName);
+        intent.putExtra(Keys.LATITUDE, latitude);
+        intent.putExtra(Keys.LONGITUDE, longitude);
+
+        return intent;
+    }*/
 
     /**
      * Return intent for sending email
@@ -175,16 +226,19 @@ public class IntentUtils {
         intent.setPackage("com.whatsapp");
         return intent;
     }
+
     public static Intent getShareTencentWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.tencent.WBlog");
         return intent;
     }
+
     public static Intent getShareSinaWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.sina.weibo");
         return intent;
     }
+
     public static Intent getShareQZoneIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.qzone");
