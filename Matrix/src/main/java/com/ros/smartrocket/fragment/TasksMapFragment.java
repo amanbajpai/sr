@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.location.Address;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -361,18 +362,37 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @param radius
      */
     private void getSurveysFromServer(final int radius) {
-        Location location = lm.getLocation();
+        final Location location = lm.getLocation();
         if (location != null) {
-            APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+            lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                @Override
+                public void onUpdate(Address address) {
+                    if (address != null) {
+                        APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
+                                address.getCountryName(), address.getLocality(), radius);
+                    } else {
+                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                    }
+                }
+            });
         } else {
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
-                public void onUpdate(Location location) {
+                public void onUpdate(final Location location) {
                     L.i(TAG, "Location Updated!");
-                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                    APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(),
-                            location.getLongitude(), radius);
+                    lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                        @Override
+                        public void onUpdate(Address address) {
+                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            if (address != null) {
+                                APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
+                                        address.getCountryName(), address.getLocality(), radius);
+                            } else {
+                                UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                            }
+                        }
+                    });
                 }
             });
         }

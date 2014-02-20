@@ -3,6 +3,7 @@ package com.ros.smartrocket.fragment;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -72,15 +74,27 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     }
 
     private void getSurveys() {
-        Location location = lm.getLocation();
+        final Location location = lm.getLocation();
         if (location != null) {
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-            int radius = TasksMapFragment.taskRadius;
+            final int radius = TasksMapFragment.taskRadius;
             L.i(TAG, "Radius: " + radius);
 
             SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius);
-            apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+
+            lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                @Override
+                public void onUpdate(Address address) {
+                    if (address != null) {
+                        apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
+                                address.getCountryName(), address.getLocality(), radius);
+                    } else {
+                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                    }
+                }
+            });
+
         }
     }
 

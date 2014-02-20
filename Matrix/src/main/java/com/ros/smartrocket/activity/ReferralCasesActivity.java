@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -22,6 +23,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     private APIFacade apiFacade = APIFacade.getInstance();
     private int countryId;
     private Spinner referralCasesSpinner;
+    private Button continueButton;
     private ReferralCase[] referralCaseArray;
 
     @Override
@@ -37,7 +39,8 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
         referralCasesSpinner = (Spinner) findViewById(R.id.referralCasesSpinner);
 
-        findViewById(R.id.continueButton).setOnClickListener(this);
+        continueButton = (Button) findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(true);
 
@@ -50,6 +53,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.continueButton:
+                continueButton.setEnabled(false);
                 apiFacade.saveReferralCases(this, countryId, referralCaseArray[referralCasesSpinner
                         .getSelectedItemPosition()].getId());
                 break;
@@ -74,6 +78,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                 ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
                         referralCasesStringArray);
                 referralCasesSpinner.setAdapter(educationLevelAdapter);
+                continueButton.setEnabled(true);
             } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
                 startEnterGroupCodeActivity();
             }

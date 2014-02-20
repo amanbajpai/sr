@@ -144,10 +144,11 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public void getSurveys(Activity activity, double latitude, double longitude, int radius) {
+    public void getSurveys(Activity activity, double latitude, double longitude, String countryName, String cityName,
+                           int radius) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_SURVEYS, String.valueOf(latitude), String.valueOf(longitude),
-                String.valueOf(radius), preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.GET_SURVEYS, String.valueOf(latitude), String.valueOf(longitude), countryName,
+                cityName, String.valueOf(radius), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_SURVEYS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
