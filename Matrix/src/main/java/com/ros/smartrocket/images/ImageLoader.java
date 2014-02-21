@@ -32,6 +32,11 @@ import java.util.concurrent.Executors;
 public class ImageLoader {
     private static final String TAG = "ImageLoader";
     private static final int STAGE_STEP = 20;
+    private static final int THREAD_COUNT = 5;
+    private static final int ANIMATION_DURATION = 1000;
+    private static final int TIMEOUT = 30000;
+    private static final int MAX_RANDOM_ID = 1000000;
+    private static final int COMPRESS_IMAGE = 100;
     //private static int PADDING = 80;
     private static ImageLoader instance = null;
     private MemoryCache memoryCache = new MemoryCache();
@@ -76,7 +81,7 @@ public class ImageLoader {
     public ImageLoader() {
         // LogUtils.e(TAG, "new ImageLoader");
         fileCache = new FileCache();
-        executorService = Executors.newFixedThreadPool(5);
+        executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     }
 
     public void displayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,
@@ -92,15 +97,15 @@ public class ImageLoader {
                 imageView.setImageBitmap(bitmap);
                 if (needAnimation) {
                     Animation a = new AlphaAnimation(0.00f, 1.00f);
-                    a.setDuration(1000);
+                    a.setDuration(ANIMATION_DURATION);
                     imageView.startAnimation(a);
                 }
             } else {
-                if (sizeType == 0 || sizeType == 3) {
+                if (sizeType == BIG_IMAGE || sizeType == BIG_IMAGE_VAR) {
                     imageView.setImageResource(LOADING_BIG_IMAGE_RES_ID);
-                } else if (sizeType == 1 || sizeType == 4) {
+                } else if (sizeType == NORMAL_IMAGE || sizeType == NORMAL_IMAGE_VAR) {
                     imageView.setImageResource(LOADING_NORMAL_IMAGE_RES_ID);
-                } else if (sizeType == 2 || sizeType == 5) {
+                } else if (sizeType == SMALL_IMAGE || sizeType == SMALL_IMAGE_VAR) {
                     imageView.setImageResource(LOADING_SMALL_IMAGE_RES_ID);
                 } else {
                     imageView.setImageResource(LOADING_SMALL_IMAGE_RES_ID);
@@ -158,8 +163,8 @@ public class ImageLoader {
             try {
                 URL imageUrl = new URL(url);
                 HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-                conn.setConnectTimeout(30000);
-                conn.setReadTimeout(30000);
+                conn.setConnectTimeout(TIMEOUT);
+                conn.setReadTimeout(TIMEOUT);
                 conn.setInstanceFollowRedirects(true);
                 InputStream is = conn.getInputStream();
                 OutputStream os = new FileOutputStream(f);
@@ -189,22 +194,22 @@ public class ImageLoader {
         Bitmap resultBitmap = null;
 
         switch (sizeType) {
-            case 0:
+            case BIG_IMAGE:
                 resultBitmap = Bitmap.createBitmap(BIG_SIZE, BIG_SIZE, Config.ARGB_8888);
                 break;
-            case 1:
+            case NORMAL_IMAGE:
                 resultBitmap = Bitmap.createBitmap(NORMAL_SIZE, NORMAL_SIZE, Config.ARGB_8888);
                 break;
-            case 2:
+            case SMALL_IMAGE:
                 resultBitmap = Bitmap.createBitmap(SMALL_SIZE, SMALL_SIZE, Config.ARGB_8888);
                 break;
-            case 3:
+            case BIG_IMAGE_VAR:
                 resultBitmap = Bitmap.createBitmap(BIG_SIZE_VAR, BIG_SIZE_VAR, Config.ARGB_8888);
                 break;
-            case 4:
+            case NORMAL_IMAGE_VAR:
                 resultBitmap = Bitmap.createBitmap(NORMAL_SIZE_VAR, NORMAL_SIZE_VAR, Config.ARGB_8888);
                 break;
-            case 5:
+            case SMALL_IMAGE_VAR:
                 resultBitmap = Bitmap.createBitmap(SMALL_SIZE_VAR, SMALL_SIZE_VAR, Config.ARGB_8888);
                 break;
             default:
@@ -252,22 +257,22 @@ public class ImageLoader {
         int bitmapSize = NORMAL_SIZE;
         int scale = 1;
         switch (sizeType) {
-            case 0:
+            case BIG_IMAGE:
                 bitmapSize = BIG_SIZE;
                 break;
-            case 1:
+            case NORMAL_IMAGE:
                 bitmapSize = NORMAL_SIZE;
                 break;
-            case 2:
+            case SMALL_IMAGE:
                 bitmapSize = SMALL_SIZE;
                 break;
-            case 3:
+            case BIG_IMAGE_VAR:
                 bitmapSize = BIG_SIZE_VAR;
                 break;
-            case 4:
+            case NORMAL_IMAGE_VAR:
                 bitmapSize = NORMAL_SIZE_VAR;
                 break;
-            case 5:
+            case SMALL_IMAGE_VAR:
                 bitmapSize = SMALL_SIZE_VAR;
                 break;
             default:
@@ -308,22 +313,22 @@ public class ImageLoader {
         int bitmapSize = NORMAL_SIZE;
         int scale = 1;
         switch (sizeType) {
-            case 0:
+            case BIG_IMAGE:
                 bitmapSize = BIG_SIZE;
                 break;
-            case 1:
+            case NORMAL_IMAGE:
                 bitmapSize = NORMAL_SIZE;
                 break;
-            case 2:
+            case SMALL_IMAGE:
                 bitmapSize = SMALL_SIZE;
                 break;
-            case 3:
+            case BIG_IMAGE_VAR:
                 bitmapSize = BIG_SIZE_VAR;
                 break;
-            case 4:
+            case NORMAL_IMAGE_VAR:
                 bitmapSize = NORMAL_SIZE_VAR;
                 break;
-            case 5:
+            case SMALL_IMAGE_VAR:
                 bitmapSize = SMALL_SIZE_VAR;
                 break;
             default:
@@ -447,7 +452,7 @@ public class ImageLoader {
                 photoToLoad.imageView.setImageBitmap(bitmap);
                 if (photoToLoad.anim) {
                     Animation a = new AlphaAnimation(0.00f, 1.00f);
-                    a.setDuration(500);
+                    a.setDuration(ANIMATION_DURATION);
                     photoToLoad.imageView.startAnimation(a);
                 }
             } else {
@@ -495,11 +500,11 @@ public class ImageLoader {
     }
 
     public File getFileByBitmap(Bitmap bitmap) {
-        File f = new File(fileCache.getCacheDir(), "photo_to_upload_" + UIUtils.getRandomInt(1000000) + ".png");
+        File f = new File(fileCache.getCacheDir(), "photo_to_upload_" + UIUtils.getRandomInt(MAX_RANDOM_ID) + ".png");
 
         try {
             FileOutputStream out = new FileOutputStream(f);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.PNG, COMPRESS_IMAGE, out);
             out.close();
         } catch (Exception e) {
             e.printStackTrace();

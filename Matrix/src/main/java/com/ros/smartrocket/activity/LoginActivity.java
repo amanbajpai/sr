@@ -136,7 +136,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     startActivity(new Intent(this, EnterGroupCodeActivity.class));
                 }
             }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == 10020) {
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
+                .ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 loginButton.setEnabled(true);
                 DialogUtils.showAccountNotActivatedDialog(this);

@@ -66,7 +66,7 @@ public class NetworkService extends BaseNetworkService {
         String json = null;
         ArrayList<BaseEntity> entityList = operation.getEntities();
         if (entityList.size() > 0) {
-            json = gson.toJson(entityList.size() > 1 ? entityList : entityList.get(0));
+            json = gson.toJson(entityList.size() > 1 || operation.getIsArray() ? entityList : entityList.get(0));
         }
         L.i(TAG, "json: " + json);
         return json;

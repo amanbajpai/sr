@@ -12,20 +12,23 @@ import java.util.Map.Entry;
 public class MemoryCache {
 
     private static final String TAG = "MemoryCache";
-    private Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f, true));
-    // Last argument true for LRU ordering
+    private static final int CAPACITY = 10;
+    private static final float LOAD_FACTOR = 1.5f;
+    private static final int PART_OF_HEAP_SIZE = 5;
+    private static final int BYTE_IN_KBYTE = 1024;
+    private Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(CAPACITY, LOAD_FACTOR, true));
 
+    // Last argument true for LRU ordering
     private long size = 0; //current allocated size
     private long limit = 1000000; //max memory in bytes
 
     public MemoryCache() {
-        // use 25% of available heap size
-        setLimit(Runtime.getRuntime().maxMemory() / 5);
+        setLimit(Runtime.getRuntime().maxMemory() / PART_OF_HEAP_SIZE);
     }
 
     public void setLimit(long newLimit) {
         limit = newLimit;
-        L.i(TAG, "MemoryCache will use up to " + limit / 1024. / 1024. + "MB");
+        L.i(TAG, "MemoryCache will use up to " + limit / BYTE_IN_KBYTE / BYTE_IN_KBYTE + "MB");
     }
 
     public Bitmap get(String id) {
@@ -57,7 +60,7 @@ public class MemoryCache {
         L.i(TAG, "cache size=" + size + " length=" + cache.size());
         if (size > limit) {
             Iterator<Entry<String, Bitmap>> iter = cache.entrySet().iterator(); //least recently accessed item will be
-                                                                                //the first one iterated
+            //the first one iterated
             while (iter.hasNext()) {
                 Entry<String, Bitmap> entry = iter.next();
                 size -= getSizeInBytes(entry.getValue());

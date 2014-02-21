@@ -30,8 +30,8 @@ public class BaseOperation implements Serializable {
     }
 
     private HttpParams params;
-
     private String[] args;
+    private boolean isArray = false;
 
     public String getTag() {
         return tag;
@@ -105,6 +105,15 @@ public class BaseOperation implements Serializable {
         this.url = url;
         this.args = args;
     }
+
+    public Boolean getIsArray() {
+        return isArray;
+    }
+
+    public void setIsArray(Boolean isArray) {
+        this.isArray = isArray;
+    }
+
 
     public String getRequestUrl() {
         if (args != null) {

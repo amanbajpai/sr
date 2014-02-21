@@ -124,6 +124,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 sendAnswerTextsSuccess();
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
                 TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.validation.getStatusId());
 
                 finish();

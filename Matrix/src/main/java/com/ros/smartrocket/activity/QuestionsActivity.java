@@ -49,6 +49,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
+    public static final int MULTIPLE_CHOSE = 0;
+    public static final int OPEN_COMMENT_QUESTION_TYPE = 0;
+
     private Integer surveyId;
     private Integer taskId;
     private Task task = new Task();
@@ -282,6 +285,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 startNextQuestionFragment();
                 break;
             case R.id.validationButton:
+                currentFragment.saveQuestion();
                 startValidationActivity();
                 break;
             default:

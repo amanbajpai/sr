@@ -15,6 +15,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -220,6 +221,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         notUploadedFile.getFileName());
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            //QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
             sendNetworkOperation(apiFacade.getMyTasksOperation());
         }
     }
