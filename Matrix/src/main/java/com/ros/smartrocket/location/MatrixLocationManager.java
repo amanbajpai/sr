@@ -2,7 +2,6 @@ package com.ros.smartrocket.location;
 
 import android.content.Context;
 import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -218,6 +217,8 @@ public class MatrixLocationManager implements LocationListener,
                 L.e(TAG, errorString);
                 e2.printStackTrace();
                 return null;
+            } catch (Geocoder.LimitExceededException e) {
+                e.printStackTrace();
             }
             Address address = null;
             // If the reverse geocode returned an address
