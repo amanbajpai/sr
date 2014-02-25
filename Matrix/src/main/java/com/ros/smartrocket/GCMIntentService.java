@@ -66,8 +66,12 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onDeletedMessages(Context context, int total) {
         L.i(TAG, "Received deleted messages notification");
         String message = getString(R.string.gcm_deleted, total);
+        String title = context.getString(R.string.app_name);
+
         CommonUtilities.displayMessage(context, message);
-        generateNotification(context, message);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        NotificationUtils.generateNotification(context, title, message, intent);
     }
 
     @Override
@@ -76,40 +80,6 @@ public class GCMIntentService extends GCMBaseIntentService {
         CommonUtilities.displayMessage(context, getString(R.string.gcm_error, errorId));
     }
 
-    /**
-     * Issues a notification to inform the user that server has sent a message.
-     */
-    private static void generateNotification(Context context, String message) {
-        int icon = R.drawable.ic_launcher;
-        String title = context.getString(R.string.app_name);
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(App.getInstance())
-                        .setSmallIcon(icon)
-                        .setAutoCancel(true)
-                        .setContentTitle(title)
-                        .setContentText(message);
-
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        /* The stack builder object will contain an artificial back stack for the started Activity.
-         This ensures that navigating backward from the Activity leads out of
-         your application to the Home screen.*/
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(App.getInstance());
-        // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
-        // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(notificationIntent);
-
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        mBuilder.setSound(sound);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
-                .NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        notificationManager.notify(0, mBuilder.build());
-    }
 
     @Override
     protected boolean onRecoverableError(Context context, String errorId) {

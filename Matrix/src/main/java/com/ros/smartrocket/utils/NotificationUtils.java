@@ -33,62 +33,14 @@ public class NotificationUtils {
         File file = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
         String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is "
                 + "waiting to upload";
+        String title = context.getString(R.string.file_waiting_to_upload);
 
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context
-                .NOTIFICATION_SERVICE);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable
-                .ic_launcher).setAutoCancel(true);
-        mBuilder.setContentTitle(context.getResources().getString(R.string.file_waiting_to_upload));
-        mBuilder.setContentText(message);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        mBuilder.setSound(sound);
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(App.getInstance());
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(intent);
-
-        PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(contentIntent);
-
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        generateNotification(context, title, message, intent);
     }
-
-    /**
-     * Show upload file progress notification
-     *
-     * @param context
-     */
-    /*public static void  sendNotUploadedFileNotification(final Context context, FileToUpload fileToUpload,
-    int progress) {
-
-        File file = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-        String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is " +
-                "waiting to upload";
-
-        NotificationManager mNotificationManager =  (NotificationManager) context.getSystemService(Context
-        .NOTIFICATION_SERVICE);
-
-        NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(context).setSmallIcon(R.drawable
-        .ic_launcher).setAutoCancel(true);
-        mBuilder.setContentTitle(context.getResources().getString(R.string.file_waiting_to_upload));
-        mBuilder.setContentText(message);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        mBuilder.setSound(sound);
-
-        Intent intent = new Intent(context, LaunchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(contentIntent);
-
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-    }*/
 
     /**
      * Show notification about not uploaded file
@@ -97,6 +49,7 @@ public class NotificationUtils {
      * @param jsonObject - message Json object
      */
     public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
+        String title = context.getString(R.string.app_name);
         String message = "";
 
         try {
@@ -115,35 +68,42 @@ public class NotificationUtils {
                     message = String.format(context.getString(R.string.validated_task_status_message), taskName);
                     break;
                 default:
-                    message = String.format(context.getString(R.string.unknown_status_id_message), String.valueOf(statusType));
+                    message = String.format(context.getString(R.string.unknown_status_id_message),
+                            String.valueOf(statusType));
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context
-                .NOTIFICATION_SERVICE);
+        generateNotification(context, title, message, intent);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable
-                .ic_launcher).setAutoCancel(true);
-        mBuilder.setContentTitle(context.getResources().getString(R.string.app_name));
+    }
+
+    public static void generateNotification(Context context, String title, String message, Intent intent) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        mBuilder.setSmallIcon(R.drawable.ic_launcher);
+        mBuilder.setAutoCancel(true);
+        mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);
 
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(sound);
 
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(App.getInstance());
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(intent);
 
-        PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(contentIntent);
 
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
+                .NOTIFICATION_SERVICE);
+
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 }

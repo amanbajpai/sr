@@ -84,12 +84,19 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
-    public static int taskRadius = 5000;
+    private static final int CLUSTER_PAINT_ALPHA = 255;
+    private static final int DEFAULT_TASK_RADIUS = 5000;
+    private static final int CLUSTER_SIZE_100 = 100;
+    private static final int CLUSTER_SIZE_1000 = 1000;
+    private static final int METERS_IN_KM = 1000;
+    public static int taskRadius = DEFAULT_TASK_RADIUS;
     private int sbRadiusProgress = 5;
-    private int sbRadiusDelta = 1000; // 1% = 1000m => Max = 100km
+    private static final int RADIUS_DELTA = 1000; // 1% = 1000m => Max = 100km
     private TextView txtRadius;
-    private float defaultZoomLevel = 11f;
-    private float zoomLevel = defaultZoomLevel;
+    private static final float DEFAULT_ZOOM_LEVEL = 11f;
+    private float zoomLevel = DEFAULT_ZOOM_LEVEL;
+    private static final float ANCHOR_MARKER_U = 0.5f;
+    private static final float ANCHOR_MARKER_V = 1.0f;
     private SeekBar sbRadius;
     private MarkerOptions myPinLocation;
 
@@ -181,14 +188,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         rlFilterPanel = (LinearLayout) fragmentView.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
-        taskRadius = 5000;
+        taskRadius = DEFAULT_TASK_RADIUS;
         this.setRadiusText();
         sbRadius.setProgress(sbRadiusProgress);
         sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 sbRadiusProgress = progress;
-                taskRadius = sbRadiusDelta * sbRadiusProgress;
+                taskRadius = RADIUS_DELTA * sbRadiusProgress;
                 setRadiusText();
                 updateMapPins(lm.getLocation());
             }
@@ -455,15 +462,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @param options
      */
     private void applyemoApplicationOptionsToClusterkrafOptions(com.twotoasters.clusterkraf.Options options) {
-        options.setTransitionDuration(this.options.transitionDuration);
+        options.setTransitionDuration(this.options.TRANSITION_DURATION);
 
         /* Hardcoded Transaction type to avoid */
         options.setTransitionInterpolator(new LinearInterpolator());
 
         options.setPixelDistanceToJoinCluster(getPixelDistanceToJoinCluster());
-        options.setZoomToBoundsAnimationDuration(this.options.zoomToBoundsAnimationDuration);
-        options.setShowInfoWindowAnimationDuration(this.options.showInfoWindowAnimationDuration);
-        options.setExpandBoundsFactor(this.options.expandBoundsFactor);
+        options.setZoomToBoundsAnimationDuration(this.options.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
+        options.setShowInfoWindowAnimationDuration(this.options.SHOW_INFO_WINDOW_ANIMATION_DURATION);
+        options.setExpandBoundsFactor(this.options.EXPAND_BOUNDS_FACTOR);
         options.setSinglePointClickBehavior(this.options.singlePointClickBehavior);
         options.setClusterClickBehavior(this.options.clusterClickBehavior);
         options.setClusterInfoWindowClickBehavior(this.options.clusterInfoWindowClickBehavior);
@@ -484,7 +491,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @return
      */
     private int getPixelDistanceToJoinCluster() {
-        return convertDeviceIndependentPixelsToPixels(this.options.dipDistanceToJoinCluster);
+        return convertDeviceIndependentPixelsToPixels(this.options.DIP_DISTANCE_TO_JOIN_CLUSTER);
     }
 
     /**
@@ -540,7 +547,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             clusterPaintMedium = new Paint();
             clusterPaintMedium.setColor(Color.WHITE);
-            clusterPaintMedium.setAlpha(255);
+            clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
             clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
             clusterPaintMedium.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC));
             clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_medium));
@@ -573,7 +580,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 }
                 markerOptions.icon(icon);
                 markerOptions.title(title);
-                markerOptions.anchor(0.5f, 1.0f);
+                markerOptions.anchor(ANCHOR_MARKER_U, ANCHOR_MARKER_V);
                 L.d(TAG, "choose() [size=" + clusterPoint.size() + ", isCluster="
                         + isCluster + ", " + "title=" + title + "]");
             }
@@ -594,10 +601,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             Paint paint = null;
             float originY;
-            if (clusterSize < 100) {
+            if (clusterSize < CLUSTER_SIZE_100) {
                 paint = clusterPaintLarge;
                 originY = bitmap.getHeight() * 0.64f;
-            } else if (clusterSize < 1000) {
+            } else if (clusterSize < CLUSTER_SIZE_1000) {
                 paint = clusterPaintMedium;
                 originY = bitmap.getHeight() * 0.6f;
             } else {
@@ -615,12 +622,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private static class ClusterOptions {
         // clusterkraf library options
-        private int transitionDuration = 500;
+        private static final int TRANSITION_DURATION = 500;
         //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
-        private int dipDistanceToJoinCluster = 100;
-        private int zoomToBoundsAnimationDuration = 500;
-        private int showInfoWindowAnimationDuration = 500;
-        private double expandBoundsFactor = 0.5d;
+        private static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 100;
+        private static final int ZOOM_TO_BOUNDS_ANIMATION_DURATION = 500;
+        private static final int SHOW_INFO_WINDOW_ANIMATION_DURATION = 500;
+        private static final double EXPAND_BOUNDS_FACTOR = 0.5d;
         private com.twotoasters.clusterkraf.Options.SinglePointClickBehavior singlePointClickBehavior = com
                 .twotoasters.clusterkraf.Options.SinglePointClickBehavior.SHOW_INFO_WINDOW;
         private Options.ClusterClickBehavior clusterClickBehavior = Options.ClusterClickBehavior.ZOOM_TO_BOUNDS;
@@ -811,7 +818,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     private void setRadiusText() {
-        String distance = String.format(Locale.US, "%.1f", (float) taskRadius / 1000);
+        String distance = String.format(Locale.US, "%.1f", (float) taskRadius / METERS_IN_KM);
         txtRadius.setText(distance + " km");
     }
 
