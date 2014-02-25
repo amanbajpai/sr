@@ -311,8 +311,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void onLoadingComplete(ArrayList<Task> list) {
         ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
-        for (Task item : list) {
+        Location location = lm.getLocation();
+        for (int i = 0; i < list.size(); i++) {
+            Task item = list.get(i);
             if (item.getLatitude() != null && item.getLongitude() != null) {
+                inputPoints.add(new InputPoint(item.getLatLng(), item));
+            } else {
+                item.setLatitude(location.getLatitude() + i);
+                item.setLongitude(location.getLongitude() + i + 0.000040f);
+
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             }
         }

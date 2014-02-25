@@ -129,10 +129,14 @@ public class TasksBL {
 
         if (currentLocation != null) {
             for (Task task : tasks) {
-                taskLocation.setLatitude(task.getLatitude());
-                taskLocation.setLongitude(task.getLongitude());
+                if (task.getLatitude() != null && task.getLongitude() != null) {
+                    taskLocation.setLatitude(task.getLatitude());
+                    taskLocation.setLongitude(task.getLongitude());
 
-                contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), currentLocation.distanceTo(taskLocation));
+                    contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), currentLocation.distanceTo(taskLocation));
+                } else {
+                    contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), 0f);
+                }
 
                 String where = TaskDbSchema.Columns.ID + "=?";
                 String[] whereArgs = new String[]{String.valueOf(task.getId())};

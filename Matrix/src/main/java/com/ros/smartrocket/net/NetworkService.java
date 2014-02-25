@@ -74,7 +74,8 @@ public class NetworkService extends BaseNetworkService {
 
     protected void processResponse(BaseOperation operation) {
         Gson gson = new Gson();
-
+        Location currentLocation;
+        Location tampLocation;
         int responseCode = operation.getResponseStatusCode();
         String responseString = operation.getResponseString();
         if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
@@ -84,6 +85,8 @@ public class NetworkService extends BaseNetworkService {
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
                     case WSUrl.GET_SURVEYS_ID:
+                        currentLocation = App.getInstance().getLocationManager().getLocation();
+                        tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
                         Surveys surveys = gson.fromJson(responseString, Surveys.class);
 
                         //Get tasks with 'scheduled' status id
@@ -96,6 +99,17 @@ public class NetworkService extends BaseNetworkService {
 
                             ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
+                                if (task.getLatitude() != null && task.getLongitude() != null) {
+                                    tampLocation.setLatitude(task.getLatitude());
+                                    tampLocation.setLongitude(task.getLongitude());
+
+                                    if (currentLocation != null) {
+                                        task.setDistance(currentLocation.distanceTo(tampLocation));
+                                    }
+                                } else {
+                                    task.setDistance(0f);
+                                }
+
                                 vals.add(task.toContentValues());
                                 L.e(TAG, "All task Id: " + task.getId());
                             }
@@ -108,7 +122,8 @@ public class NetworkService extends BaseNetworkService {
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
-                        Location currentLocation = App.getInstance().getLocationManager().getLocation();
+                        currentLocation = App.getInstance().getLocationManager().getLocation();
+                        tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
                         Surveys myTasksSurveys = gson.fromJson(responseString, Surveys.class);
 
                         //Get tasks with 'scheduled' status id
@@ -122,14 +137,17 @@ public class NetworkService extends BaseNetworkService {
 
                             ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
-                                Location temp = new Location(LocationManager.NETWORK_PROVIDER);
-                                temp.setLatitude(task.getLatitude());
-                                temp.setLongitude(task.getLongitude());
-                                task.setIsMy(true);
-                                L.e(TAG, "My task Id: " + task.getId());
+                                if (task.getLatitude() != null && task.getLongitude() != null) {
+                                    tampLocation.setLatitude(task.getLatitude());
+                                    tampLocation.setLongitude(task.getLongitude());
+                                    task.setIsMy(true);
+                                    L.e(TAG, "My task Id: " + task.getId());
 
-                                if (currentLocation != null) {
-                                    task.setDistance(currentLocation.distanceTo(temp));
+                                    if (currentLocation != null) {
+                                        task.setDistance(currentLocation.distanceTo(tampLocation));
+                                    }
+                                } else {
+                                    task.setDistance(0f);
                                 }
                                 vals.add(task.toContentValues());
                             }

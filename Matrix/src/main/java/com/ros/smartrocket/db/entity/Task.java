@@ -66,8 +66,17 @@ public class Task extends BaseEntity {
             result.setUserId(c.getLong(TaskDbSchema.Query.All.USER_ID));
             result.setName(c.getString(TaskDbSchema.Query.All.NAME));
             result.setDescription(c.getString(TaskDbSchema.Query.All.DESCRIPTION));
-            result.setLongitude(c.getDouble(TaskDbSchema.Query.All.LONGITUDE));
-            result.setLatitude(c.getDouble(TaskDbSchema.Query.All.LATITUDE));
+
+            boolean longitudeIsNull = c.isNull(TaskDbSchema.Query.All.LONGITUDE);
+            if (!longitudeIsNull) {
+                result.setLongitude(c.getDouble(TaskDbSchema.Query.All.LONGITUDE));
+            }
+
+            boolean latitudeIsNull = c.isNull(TaskDbSchema.Query.All.LATITUDE);
+            if (!latitudeIsNull) {
+                result.setLatitude(c.getDouble(TaskDbSchema.Query.All.LATITUDE));
+            }
+
             result.setLanguage(c.getString(TaskDbSchema.Query.All.LANGUAGE));
             result.setPrice(c.getDouble(TaskDbSchema.Query.All.PRICE));
             result.setAddress(c.getString(TaskDbSchema.Query.All.ADDRESS));
