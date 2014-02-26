@@ -6,14 +6,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.SparseArray;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TasksBL {
     //private static final String TAG = TasksBL.class.getSimpleName();
@@ -193,7 +192,7 @@ public class TasksBL {
     }
 
     @SuppressWarnings("unchecked")
-    public static HashMap<Integer, ContentValues> getScheduledTaskHashMap(ContentResolver contentResolver) {
+    public static SparseArray<ContentValues> getScheduledTaskHashMap(ContentResolver contentResolver) {
         String[] projection = {Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName()};
 
         Cursor scheduledTasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
@@ -201,7 +200,7 @@ public class TasksBL {
                 null, null);
 
         //Get tasks with 'scheduled' status id
-        HashMap<Integer, ContentValues> scheduledContentValuesMap = new HashMap<Integer, ContentValues>();
+        SparseArray<ContentValues> scheduledContentValuesMap = new SparseArray<ContentValues>();
         if (scheduledTasksCursor != null) {
             while (scheduledTasksCursor.moveToNext()) {
                 ContentValues contentValues = new ContentValues();
@@ -216,11 +215,10 @@ public class TasksBL {
         return scheduledContentValuesMap;
     }
 
-    public static void updateScheduledTask(ContentResolver contentResolver, HashMap<Integer,
-            ContentValues> scheduledContentValuesMap) {
-        for (Map.Entry<Integer, ContentValues> entry : scheduledContentValuesMap.entrySet()) {
-            Integer taskId = entry.getKey();
-            ContentValues contentValues = entry.getValue();
+    public static void updateScheduledTask(ContentResolver contentResolver, SparseArray<ContentValues> scheduledContentValuesMap) {
+        for (int i = 0; i < scheduledContentValuesMap.size(); i++) {
+            Integer taskId = scheduledContentValuesMap.keyAt(i);
+            ContentValues contentValues = scheduledContentValuesMap.get(taskId);
 
             contentResolver.update(TaskDbSchema.CONTENT_URI, contentValues,
                     TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});

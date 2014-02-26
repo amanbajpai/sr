@@ -2,22 +2,13 @@ package com.ros.smartrocket.fragment;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +25,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -46,11 +36,13 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.adapter.CustomInfoMapWindowAdapter;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.map.TaskOptionsChooser;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -59,21 +51,17 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.Clusterkraf;
-import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
 import com.twotoasters.clusterkraf.InputPoint;
-import com.twotoasters.clusterkraf.MarkerOptionsChooser;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
-    private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     private static final String MYLOC = "MyLoc";
     private MatrixLocationManager lm;
     private View fragmentView;
@@ -270,7 +258,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         Location location = lm.getLocation();
         if (location != null) {
-            //getSurveysFromServer(taskRadius);
             loadTasks(location);
             addMyLocationAndRadius(location, taskRadius);
             moveCameraToMyLocation();
@@ -317,8 +304,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             if (item.getLatitude() != null && item.getLongitude() != null) {
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             } else {
-                item.setLatitude(location.getLatitude() - (i == 0 ? 0.000040f : 0.000040f * (i+1)));
-                item.setLongitude(location.getLongitude() + (i == 0 ? 0.000040f : 0.000040f * (i+1)));
+                item.setLatitude(location.getLatitude() - (i == 0 ? 0.000040f : 0.000040f * (i + 1)));
+                item.setLongitude(location.getLongitude() + (i == 0 ? 0.000040f : 0.000040f * (i + 1)));
 
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             }
@@ -486,9 +473,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         options.setZoomToBoundsPadding(getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
 
         options.setMarkerOptionsChooser(new TaskOptionsChooser(getActivity()));
+
         options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
+
+
         options.setOnInfoWindowClickDownstreamListener(onInfoWindowClickListener);
-        options.setInfoWindowDownstreamAdapter(new CustomInfoWindowAdapter());
+        options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(getActivity(), mode));
         //options.setProcessingListener(this);
     }
 
@@ -498,137 +488,29 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @return
      */
     private int getPixelDistanceToJoinCluster() {
-        return convertDeviceIndependentPixelsToPixels(this.options.DIP_DISTANCE_TO_JOIN_CLUSTER);
+        return UIUtils.getPxFromDp(getActivity(), this.options.DIP_DISTANCE_TO_JOIN_CLUSTER);
     }
 
-    /**
-     * @param dip
-     * @return
-     */
-    private int convertDeviceIndependentPixelsToPixels(int dip) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        return Math.round(displayMetrics.density * dip);
-    }
-
-    /**
-     *
-     */
     private OnMarkerClickDownstreamListener onMarkerClickListener = new OnMarkerClickDownstreamListener() {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
-            L.d(TAG, "onMarkerClick() " + marker.getTitle() + ", ID=" + marker.getId() + ", "
-                    + "snipped=" + marker.getSnippet() + "]");
-            boolean result = false;
-            return result;
+            return mode == Keys.MapViewMode.SURVEYTASKS || mode == Keys.MapViewMode.SINGLETASK;
         }
     };
 
-    /**
-     *
-     */
     private OnInfoWindowClickDownstreamListener onInfoWindowClickListener = new OnInfoWindowClickDownstreamListener() {
         @Override
         public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
-            L.d(TAG, "onInfoWindowClick() " + marker.getTitle() + ", ID=" + marker.getId() + "]");
             int taskId = Integer.valueOf(marker.getSnippet());
-
             startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
             return false;
         }
     };
 
     /**
-     * Chooser image for cluster and pin
-     */
-    private class TaskOptionsChooser extends MarkerOptionsChooser {
-        private final WeakReference<Context> contextRef;
-        private final Paint clusterPaintLarge;
-        private final Paint clusterPaintMedium;
-        private final Paint clusterPaintSmall;
-
-        public TaskOptionsChooser(Context context) {
-            this.contextRef = new WeakReference<Context>(context);
-
-            Resources res = context.getResources();
-
-            clusterPaintMedium = new Paint();
-            clusterPaintMedium.setColor(Color.WHITE);
-            clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
-            clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
-            clusterPaintMedium.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC));
-            clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_medium));
-
-            clusterPaintSmall = new Paint(clusterPaintMedium);
-            clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_small));
-
-            clusterPaintLarge = new Paint(clusterPaintMedium);
-            clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_large));
-        }
-
-        @Override
-        public void choose(MarkerOptions markerOptions, ClusterPoint clusterPoint) {
-            Context context = contextRef.get();
-            if (context != null) {
-                Resources res = context.getResources();
-                boolean isCluster = clusterPoint.size() > 1;
-                BitmapDescriptor icon;
-                String title;
-                if (isCluster) {
-                    int clusterSize = clusterPoint.size();
-                    icon = BitmapDescriptorFactory.fromBitmap(getClusterBitmap(res, R.drawable.ic_map_cluster_pin,
-                            clusterSize));
-                    title = "" + clusterSize;
-                } else {
-                    Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
-                    icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
-                    title = data.getName();
-                    markerOptions.snippet("" + data.getId());
-                }
-                markerOptions.icon(icon);
-                markerOptions.title(title);
-                markerOptions.anchor(ANCHOR_MARKER_U, ANCHOR_MARKER_V);
-                L.d(TAG, "choose() [size=" + clusterPoint.size() + ", isCluster="
-                        + isCluster + ", " + "title=" + title + "]");
-            }
-        }
-
-        private Bitmap getClusterBitmap(Resources res, int resourceId, int clusterSize) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                options.inMutable = true;
-            }
-            Bitmap bitmap = BitmapFactory.decodeResource(res, resourceId, options);
-            if (!bitmap.isMutable()) {
-                bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            }
-
-            Canvas canvas = new Canvas(bitmap);
-
-            Paint paint = null;
-            float originY;
-            if (clusterSize < CLUSTER_SIZE_100) {
-                paint = clusterPaintLarge;
-                originY = bitmap.getHeight() * 0.64f;
-            } else if (clusterSize < CLUSTER_SIZE_1000) {
-                paint = clusterPaintMedium;
-                originY = bitmap.getHeight() * 0.6f;
-            } else {
-                paint = clusterPaintSmall;
-                originY = bitmap.getHeight() * 0.56f;
-            }
-
-            canvas.drawText(String.valueOf(clusterSize), bitmap.getWidth() * 0.5f, originY, paint);
-            return bitmap;
-        }
-    }
-
-    /**
      * Settings for Cluster library
      */
     private static class ClusterOptions {
-        // clusterkraf library options
         private static final int TRANSITION_DURATION = 500;
         //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
         private static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 100;
@@ -640,80 +522,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         private Options.ClusterClickBehavior clusterClickBehavior = Options.ClusterClickBehavior.ZOOM_TO_BOUNDS;
         private Options.ClusterInfoWindowClickBehavior clusterInfoWindowClickBehavior = Options.
                 ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
-    }
-
-    /**
-     * Demonstrates customizing the info window and/or its contents.
-     */
-    private class CustomInfoWindowAdapter implements InfoWindowDownstreamAdapter {
-        private final View mWindow;
-        private final View mContents;
-
-        CustomInfoWindowAdapter() {
-            mWindow = getActivity().getLayoutInflater().inflate(R.layout.map_info_window, null);
-            mContents = getActivity().getLayoutInflater().inflate(R.layout.map_info_contents, null);
-        }
-
-        private boolean render(Marker marker, View view, ClusterPoint clusterPoint) {
-            boolean result = false;
-            L.d(TAG, "render() [marker=" + marker + ", clusterPoint=" + clusterPoint + "]");
-            L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", "
-                    + "snipped=" + marker.getSnippet() + ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
-
-            if (clusterPoint.getPointAtOffset(0) != null) {
-                Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
-
-                // Set Price prefix
-                String title = task.getName();
-                TextView titleUi = ((TextView) view.findViewById(R.id.title));
-                titleUi.setText(title);
-
-                // Set Price prefix
-                String prefix = "HK$";
-                TextView prefixTitleUi = ((TextView) view.findViewById(R.id.price_label));
-                prefixTitleUi.setText(prefix);
-
-                // Set Price
-                String price = "" + task.getPrice();
-                TextView rateText = ((TextView) view.findViewById(R.id.price_value));
-                rateText.setText(price);
-
-                // Set Distance
-                String distance = "" + task.getDistance();
-                TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
-                distanceText.setText(distance);
-
-                result = true;
-            }
-
-            return result;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
-            View view = null;
-            // Don't show popup window in such cases
-            if (marker != null && !MYLOC.equals(marker.getSnippet())
-                    && mode != Keys.MapViewMode.SINGLETASK) {
-                if (render(marker, mContents, clusterPoint)) {
-                    view = mContents;
-                }
-            }
-            return view;
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
-            View view = null;
-            // Don't show popup window in such cases
-            if (marker != null && !MYLOC.equals(marker.getSnippet())
-                    && mode != Keys.MapViewMode.SINGLETASK) {
-                if (render(marker, mWindow, clusterPoint)) {
-                    view = mWindow;
-                }
-            }
-            return view;
-        }
     }
 
     /**
@@ -775,7 +583,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @param radius
      */
     private void addCircle(LatLng coordinates, int radius, int strokeColor, int fillColor) {
-        // Add a circle in Sydney
         Circle circle = map.addCircle(new CircleOptions()
                 .center(coordinates)
                 .radius(radius)
@@ -807,7 +614,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void addMyLocationAndRadius(Location location, int radius) {
         if (location != null) {
             LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
+
             addMyLocation(coord);
+
             Resources r = getResources();
             addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
                     r.getColor(R.color.map_radius_fill));
@@ -833,7 +642,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Move camera to current location or show Toast message if location not defined.
      */
     private void moveCameraToMyLocation() {
-        L.d(TAG, "moveCameraToMyLocation()");
         if (restoreCameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
         } else {

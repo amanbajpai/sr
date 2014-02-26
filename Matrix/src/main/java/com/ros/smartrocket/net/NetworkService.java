@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.SparseArray;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -81,7 +82,7 @@ public class NetworkService extends BaseNetworkService {
         if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
                 ContentResolver contentResolver = getContentResolver();
-                HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;
+                SparseArray<ContentValues> scheduledTaskContentValuesMap;
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
                     case WSUrl.GET_SURVEYS_ID:
