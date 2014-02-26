@@ -317,8 +317,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             if (item.getLatitude() != null && item.getLongitude() != null) {
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             } else {
-                item.setLatitude(location.getLatitude() + i);
-                item.setLongitude(location.getLongitude() + i + 0.000040f);
+                item.setLatitude(location.getLatitude() - (i == 0 ? 0.000040f : 0.000040f * (i+1)));
+                item.setLongitude(location.getLongitude() + (i == 0 ? 0.000040f : 0.000040f * (i+1)));
 
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             }

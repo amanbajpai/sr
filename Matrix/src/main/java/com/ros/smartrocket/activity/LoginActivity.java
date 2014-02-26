@@ -106,14 +106,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         });
 
                 // Check if we are registered on Server side our GCM Id
-                if (!preferencesManager.isGCMIdRegisteredOnServer()) {
+                /*if (!preferencesManager.isGCMIdRegisteredOnServer()) {
                     String regId = preferencesManager.getGCMRegistrationId();
-                    if ("".equals(regId)) {
+                    if ("".equals(regId)) {*/
                         CommonUtilities.registerGCMInBackground();
-                    } else {
+                    /*} else {
                         APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
                     }
-                }
+                }*/
                 // Start MainActivity
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
