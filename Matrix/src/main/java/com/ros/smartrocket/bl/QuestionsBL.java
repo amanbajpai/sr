@@ -34,7 +34,7 @@ public class QuestionsBL {
      *
      * @param handler  - Handler for getting response from DB
      * @param surveyId - current surveyId
-     * @param taskId - current taskId
+     * @param taskId   - current taskId
      */
     public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
@@ -64,6 +64,12 @@ public class QuestionsBL {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
                 new String[]{String.valueOf(surveyId), String.valueOf(taskId)});
+    }
+
+    public static void removeQuestionsBySurveyId(Context context, Integer surveyId) {
+        context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Columns.SURVEY_ID + "=?",
+                new String[]{String.valueOf(surveyId)});
     }
 
     /**

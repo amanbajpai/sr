@@ -27,8 +27,8 @@ public class QuitQuestionActivity extends BaseActivity implements
         ((TextView) findViewById(R.id.quitQuestionText)).setText(question.getQuestion());
         findViewById(R.id.okButton).setOnClickListener(this);
 
-        TasksBL.removeTask(getContentResolver(), question.getTaskId());
-        QuestionsBL.removeQuestionsFromDB(this, question.getSurveyId(), question.getTaskId());
+        TasksBL.removeTasksBySurveyId(getContentResolver(), question.getSurveyId());
+        QuestionsBL.removeQuestionsBySurveyId(this, question.getSurveyId());
     }
 
 

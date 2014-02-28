@@ -72,10 +72,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
-    private static final int CLUSTER_PAINT_ALPHA = 255;
     private static final int DEFAULT_TASK_RADIUS = 5000;
-    private static final int CLUSTER_SIZE_100 = 100;
-    private static final int CLUSTER_SIZE_1000 = 1000;
     private static final int METERS_IN_KM = 1000;
     public static int taskRadius = DEFAULT_TASK_RADIUS;
     private int sbRadiusProgress = 5;
@@ -83,12 +80,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private TextView txtRadius;
     private static final float DEFAULT_ZOOM_LEVEL = 11f;
     private float zoomLevel = DEFAULT_ZOOM_LEVEL;
-    private static final float ANCHOR_MARKER_U = 0.5f;
-    private static final float ANCHOR_MARKER_V = 1.0f;
     private SeekBar sbRadius;
     private MarkerOptions myPinLocation;
-
-    private boolean mLoading = false;
 
     private Clusterkraf clusterkraf;
     private ClusterOptions options;
