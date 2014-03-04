@@ -95,8 +95,8 @@ public class SelectImageManager {
         activity.startActivityForResult(i, CUSTOM_CAMERA);
     }*/
 
-    public void showSelectImageDialog(final Activity activity, final boolean showRemoveButton,
-                                      final OnImageCompleteListener imageCompleteListener) {
+    public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton,
+                                        final OnImageCompleteListener imageCompleteListener) {
         this.activity = activity;
         this.imageCompleteListener = imageCompleteListener;
 
@@ -140,6 +140,8 @@ public class SelectImageManager {
         dialog.setContentView(v);
         selectImageDialog = dialog;
         dialog.show();
+
+        return dialog;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

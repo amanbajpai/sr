@@ -83,7 +83,7 @@ public class NotificationUtils {
 
     }
 
-    public static void generateNotification(Context context, String title, String message, Intent intent) {
+    public static Boolean generateNotification(Context context, String title, String message, Intent intent) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.ic_launcher);
         mBuilder.setAutoCancel(true);
@@ -105,5 +105,7 @@ public class NotificationUtils {
                 .NOTIFICATION_SERVICE);
 
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+        return true;
     }
 }

@@ -2,6 +2,7 @@ package com.ros.smartrocket.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -27,7 +28,7 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showLocationDialog(final Activity activity, final boolean isCancelable) {
+    public static Dialog showLocationDialog(final Activity activity, final boolean isCancelable) {
         int cancelButtonResId = R.string.cancel;
         if (!isCancelable) {
             cancelButtonResId = R.string.logout;
@@ -58,6 +59,8 @@ public class DialogUtils {
                 activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
             }
         });
+
+        return locationDialog;
     }
 
     /**
@@ -65,12 +68,12 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showNetworkDialog(final Activity activity) {
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
+    public static Dialog showNetworkDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_on_network_dialog_title),
                 activity.getText(R.string.turn_on_network_dialog_text),
                 R.string.cancel, R.string.settings);
-        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -82,6 +85,7 @@ public class DialogUtils {
                 activity.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
             }
         });
+        return dialog;
     }
 
     /**
@@ -89,12 +93,12 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showGoogleSdkDialog(final Activity activity) {
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
+    public static Dialog showGoogleSdkDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_on_google_sdk_dialog_title),
                 activity.getText(R.string.turn_on_google_sdk_dialog_text),
                 R.string.cancel, R.string.settings);
-        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -108,6 +112,8 @@ public class DialogUtils {
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             }
         });
+
+        return dialog;
     }
 
     /**
@@ -115,18 +121,18 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showMockLocationDialog(final Activity activity, final boolean isCancelable) {
+    public static Dialog showMockLocationDialog(final Activity activity, final boolean isCancelable) {
         int cancelButtonResId = R.string.cancel;
         if (!isCancelable) {
             cancelButtonResId = R.string.logout;
         }
 
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.turn_of_mock_location_dialog_title),
                 activity.getText(R.string.turn_of_mock_location_dialog_text),
                 cancelButtonResId, R.string.settings);
-        networkDialog.setCancelable(isCancelable);
-        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setCancelable(isCancelable);
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 if (isCancelable) {
@@ -151,20 +157,21 @@ public class DialogUtils {
                 }
             }
         });
+        return dialog;
     }
 
     /**
      * Show registration failed Dialog message
      *
-     * @param activity
+     * @param context
      */
-    public static void showLoginFailedDialog(final Activity activity) {
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
-                activity.getText(R.string.login_fail_dialog_title),
-                activity.getText(R.string.credentials_wrong),
+    public static Dialog showLoginFailedDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context,
+                context.getText(R.string.login_fail_dialog_title),
+                context.getText(R.string.credentials_wrong),
                 0, android.R.string.ok);
-        networkDialog.hideLeftButton();
-        networkDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
             }
@@ -174,6 +181,7 @@ public class DialogUtils {
                 dialog.dismiss();
             }
         });
+        return dialog;
     }
 
     /**
@@ -181,7 +189,7 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showAccountNotActivatedDialog(final Activity activity) {
+    public static Dialog showAccountNotActivatedDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.login_fail_dialog_title),
                 activity.getText(R.string.account_not_activated),
@@ -199,17 +207,18 @@ public class DialogUtils {
                 //activity.startActivity(IntentUtils.getEmailIntent(null, null));
             }
         });
+        return dialog;
     }
 
     /**
      * Show dialog. Photo can not be add.
      *
-     * @param activity
+     * @param context
      */
-    public static void showPhotoCanNotBeAddDialog(final Activity activity) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
-                activity.getText(R.string.add_photo_error_title),
-                activity.getText(R.string.add_photo_error_text),
+    public static Dialog showPhotoCanNotBeAddDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context,
+                context.getText(R.string.add_photo_error_title),
+                context.getText(R.string.add_photo_error_text),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
         dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
@@ -222,6 +231,7 @@ public class DialogUtils {
                 dialog.dismiss();
             }
         });
+        return dialog;
     }
 
     /**
@@ -229,15 +239,17 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void show3GLimitExceededDialog(final Activity activity,
+    public static Dialog show3GLimitExceededDialog(final Context activity,
                                                  DefaultInfoDialog.DialogButtonClickListener
                                                          dialogButtonClickListener) {
-        DefaultInfoDialog networkDialog = new DefaultInfoDialog(activity,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_title),
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_text1),
                 R.string.tree_g_limit_exceeded_dialog_only_wifi, R.string.tree_g_limit_exceeded_dialog_yes);
-        networkDialog.setCancelable(false);
-        networkDialog.setOnDialogButtonClicklistener(dialogButtonClickListener);
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClicklistener(dialogButtonClickListener);
+
+        return dialog;
     }
 
     /**
@@ -245,7 +257,7 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showQuiteTaskDialog(final Activity activity, final int surveyId, final int taskId) {
+    public static Dialog showQuiteTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
@@ -264,6 +276,7 @@ public class DialogUtils {
                 activity.finish();
             }
         });
+        return dialog;
     }
 
     /**
@@ -271,7 +284,7 @@ public class DialogUtils {
      *
      * @param activity
      */
-    public static void showReCheckAnswerTaskDialog(final Activity activity, final int surveyId, final int taskId) {
+    public static Dialog showReCheckAnswerTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
@@ -293,5 +306,6 @@ public class DialogUtils {
                 activity.finish();
             }
         });
+        return dialog;
     }
 }

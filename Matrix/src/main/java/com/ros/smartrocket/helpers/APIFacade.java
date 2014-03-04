@@ -259,7 +259,7 @@ public class APIFacade {
     public void sendAnswers(Activity activity, ArrayList<Answer> answers) {
         BaseOperation operation = new BaseOperation();
         operation.setIsArray(true);
-        operation.setUrl(WSUrl.SEND_ANSWERS);
+        operation.setUrl(WSUrl.SEND_ANSWERS, preferencesManager.getLanguageCode());
         operation.setTag(Keys.SEND_ANSWERS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().addAll(answers);

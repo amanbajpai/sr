@@ -15,7 +15,7 @@ public final class WSUrl {
     public static final String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
-    public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers";
+    public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers?language=%s";
     public static final String UNCLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Unclaimed";
     public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String START_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Start";

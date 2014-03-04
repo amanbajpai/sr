@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 /*if (!preferencesManager.isGCMIdRegisteredOnServer()) {
                     String regId = preferencesManager.getGCMRegistrationId();
                     if ("".equals(regId)) {*/
-                        CommonUtilities.registerGCMInBackground();
+                CommonUtilities.registerGCMInBackground();
                     /*} else {
                         APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
                     }

@@ -145,7 +145,11 @@ public class MatrixLocationManager implements LocationListener,
         L.i(TAG, "onDisconnected()");
         if (isConnected) {
             isConnected = false;
-            locationClient.removeLocationUpdates(this);
+            try {
+                locationClient.removeLocationUpdates(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

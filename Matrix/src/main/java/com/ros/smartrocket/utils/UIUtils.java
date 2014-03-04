@@ -306,7 +306,7 @@ public class UIUtils {
         try {
             return ISO_DATE_FORMAT.parse(dateString).getTime();
         } catch (Exception e) {
-            L.e("twitterTimeToLong", "Parse error" + e);
+            L.e("isoTimeToLong", "Parse error" + e);
         }
         return 0;
     }
@@ -331,7 +331,7 @@ public class UIUtils {
         return "longToStringFormatNotFound";
     }
 
-    public static long getCurrentTimeInMilliseonds() {
+    public static long getCurrentTimeInMilliseconds() {
         return Calendar.getInstance().getTimeInMillis();
     }
 
