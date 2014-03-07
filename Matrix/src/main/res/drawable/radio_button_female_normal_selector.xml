@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><!--<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/man" android:state_enabled="true" android:state_window_focused="false" android:state_checked="false" />
+    <item android:drawable="@drawable/man_dis" android:state_enabled="false" android:state_window_focused="false" android:state_checked="false" />
+    <item android:drawable="@drawable/man_press" android:state_pressed="true" android:state_checked="false" />
+    <item android:drawable="@drawable/man_focus" android:state_enabled="true" android:state_focused="true" android:state_checked="false" />
+    <item android:drawable="@drawable/man_select" android:state_enabled="true" android:state_window_focused="false" />
+    <item android:drawable="@drawable/man_select_dis" android:state_enabled="false" android:state_window_focused="false" />
+    <item android:drawable="@drawable/man_select_focus" android:state_enabled="true" android:state_focused="true" />
+</selector >-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_checked="true" android:state_window_focused="false" android:state_enabled="true" android:drawable="@drawable/woman_select" />
+    <item android:state_checked="false" android:state_window_focused="false" android:state_enabled="true" android:drawable="@drawable/woman" />
+    <item android:state_checked="true" android:state_pressed="true" android:state_enabled="true" android:drawable="@drawable/woman_select_focus" />
+    <item android:state_checked="false" android:state_pressed="true" android:state_enabled="true" android:drawable="@drawable/woman_press" />
+    <item android:state_checked="true" android:state_focused="true" android:state_enabled="true" android:drawable="@drawable/woman_select_focus" />
+    <item android:state_checked="false" android:state_focused="true" android:state_enabled="true" android:drawable="@drawable/woman_focus" />
+    <item android:state_checked="false" android:state_enabled="true" android:drawable="@drawable/woman" />
+    <item android:state_checked="true" android:state_enabled="true" android:drawable="@drawable/woman_select" />
+    <!-- Disabled states -->
+    <item android:state_checked="true" android:state_window_focused="false" android:drawable="@drawable/woman_select_dis" />
+    <item android:state_checked="false" android:state_window_focused="false" android:drawable="@drawable/woman_dis" />
+    <item android:state_checked="true" android:state_focused="true" android:drawable="@drawable/woman_select_dis" />
+    <item android:state_checked="false" android:state_focused="true" android:drawable="@drawable/woman_dis" />
+    <item android:state_checked="false" android:drawable="@drawable/woman_dis" />
+    <item android:state_checked="true" android:drawable="@drawable/woman_select_dis" />
+</selector >

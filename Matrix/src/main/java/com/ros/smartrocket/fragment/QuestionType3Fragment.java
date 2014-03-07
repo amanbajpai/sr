@@ -170,7 +170,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                                     photoImageView.setImageBitmap(bitmap);
                                 } else {
                                     rePhotoButton.setText(R.string.take_photo);
-                                    photoImageView.setImageResource(R.drawable.no_photo);
+                                    photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                                 }
                             }
 

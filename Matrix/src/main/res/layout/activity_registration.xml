@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp" >
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/white" >
         <RelativeLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent" >
             <ImageView
                 android:id="@+id/profilePhotoImageView"
-                android:layout_height="76dp"
-                android:layout_width="76dp"
-                android:layout_marginRight="20dp"
+                android:layout_height="105dp"
+                android:layout_width="105dp"
+                android:layout_marginRight="10dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:src="@drawable/no_photo" />
-            <EditText
+                android:src="@drawable/btn_camera_normal_selector" />
+            <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/firstNameEditText"
-                android:layout_height="wrap_content"
+                style="@style/EditText"
+                android:layout_height="48dp"
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@+id/profilePhotoImageView"
-                android:hint="@string/first_name" />
-            <EditText
+                android:hint="@string/first_name"
+                custom:fontAsset="fonts/roboto_regular.ttf" />
+            <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/lastNameEditText"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content"
+                style="@style/EditText"
+                android:layout_marginTop="9dp"
+                android:layout_height="48dp"
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@+id/profilePhotoImageView"
                 android:layout_below="@+id/firstNameEditText"
@@ -39,72 +47,71 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal" >
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_marginRight="5dp"
-                android:text="@string/gender" />
             <RadioGroup
                 android:id="@+id/genderRadioGroup"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_marginRight="10dp"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal" >
                 <RadioButton
                     android:id="@+id/maleRadioButton"
+                    style="@style/MaleRadioButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/male"
+                    android:layout_height="wrap_content"
                     android:checked="true" />
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/female"
                     android:id="@+id/femaleRadioButton"
+                    style="@style/FemaleRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
                     android:checked="false" />
             </RadioGroup >
-        </LinearLayout >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="@string/birthday" />
-            <EditText
+            <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/dayEditText"
-                android:layout_height="wrap_content"
+                style="@style/EditText"
+                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:inputType="number"
+                android:layout_weight="1"
                 android:hint="@string/day" />
-            <EditText
+            <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/monthEditText"
-                android:layout_height="wrap_content"
+                style="@style/EditText"
+                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:inputType="number"
                 android:hint="@string/month" />
-            <EditText
+            <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/yearEditText"
-                android:layout_height="wrap_content"
+                style="@style/EditText"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:inputType="number"
                 android:hint="@string/year" />
         </LinearLayout >
-        <EditText
+        <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/emailEditText"
-            android:layout_height="wrap_content"
+            style="@style/EditText"
+            android:layout_height="48dp"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/mail_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
             android:inputType="textEmailAddress"
             android:hint="@string/your_email_hint" />
-        <EditText
+        <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/passwordEditText"
+            style="@style/EditText"
             android:layout_marginTop="10dp"
             android:inputType="textPassword"
-            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/pass_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
+            android:layout_height="48dp"
             android:layout_width="match_parent"
             android:hint="@string/password" />
         <LinearLayout
@@ -115,63 +122,67 @@
             <ToggleButton
                 android:id="@+id/showPasswordToggleButton"
                 android:layout_width="wrap_content"
+                android:background="@drawable/btn_toggle"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/show_password" />
         </LinearLayout >
-        <EditText
+        <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/countryEditText"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            style="@style/EditText"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/country_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
             android:enabled="false"
             android:layout_width="match_parent"
             android:hint="@string/your_country_hint" />
-        <EditText
+        <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/cityEditText"
-            android:layout_height="wrap_content"
+            style="@style/EditText"
+            android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:enabled="false"
+            android:drawableLeft="@drawable/city_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:hint="@string/your_city_hint" />
-        <CheckBox
-            android:id="@+id/agreeCheckBox"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:text="@string/i_agree_with_matrix_term" />
         <Spinner
             android:id="@+id/educationLevelSpinner"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Spinner
             android:id="@+id/employmentStatusSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/agreeCheckBox"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/i_agree_with_matrix_term" />
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_green_selector"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:text="@string/confirm_and_register" />
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_red_selector"
             android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-            <Button
-                android:id="@+id/cancelButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="2"
-                android:text="@string/cancel" />
-            <Button
-                android:id="@+id/confirmButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/confirm_and_register" />
-        </LinearLayout >
+            android:text="@string/cancel" />
     </LinearLayout >
 </ScrollView >

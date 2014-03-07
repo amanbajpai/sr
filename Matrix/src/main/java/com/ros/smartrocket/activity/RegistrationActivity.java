@@ -146,7 +146,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         if (bitmap != null) {
                             profilePhotoImageView.setImageBitmap(bitmap);
                         } else {
-                            profilePhotoImageView.setImageResource(R.drawable.no_photo);
+                            profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                         }
                     }
 

@@ -495,7 +495,7 @@ public class ImageLoader {
         if (!TextUtils.isEmpty(path)) {
             return decodeFile(new File(path), sizeType);
         } else {
-            return BitmapFactory.decodeResource(App.getInstance().getResources(), R.drawable.no_photo);
+            return BitmapFactory.decodeResource(App.getInstance().getResources(), R.drawable.no_image);
         }
     }
 

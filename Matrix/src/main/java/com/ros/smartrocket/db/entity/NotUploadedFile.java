@@ -44,6 +44,7 @@ public class NotUploadedFile extends BaseEntity {
     private Integer Portion;
     private String FileCode;
     private String FileName;
+    private String LanguageCode;
 
     public NotUploadedFile() {
     }
@@ -65,6 +66,7 @@ public class NotUploadedFile extends BaseEntity {
             result.setPortion(c.getInt(NotUploadedFileDbSchema.Query.PORTION));
             result.setFileCode(c.getString(NotUploadedFileDbSchema.Query.FILE_CODE));
             result.setFileName(c.getString(NotUploadedFileDbSchema.Query.FILE_NAME));
+            result.setLanguageCode(c.getString(NotUploadedFileDbSchema.Query.LANGUAGE_CODE));
         }
         L.d("NotUploadedFile", result.toString());
         return result;
@@ -162,4 +164,14 @@ public class NotUploadedFile extends BaseEntity {
     public void setFileName(String fileName) {
         FileName = fileName;
     }
+
+
+    public String getLanguageCode() {
+        return LanguageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        LanguageCode = languageCode;
+    }
+
 }

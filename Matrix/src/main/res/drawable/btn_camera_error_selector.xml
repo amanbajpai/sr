@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/cam_error_focus" android:state_enabled="true" android:state_focused="true" />
+    <item android:drawable="@drawable/cam_error" android:state_enabled="true" />
+    <item android:drawable="@drawable/cam_error" />
+</selector >

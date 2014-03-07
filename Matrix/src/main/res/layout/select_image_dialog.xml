@@ -70,7 +70,7 @@
         android:id="@+id/cancelButton"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:background="@drawable/button_blue_selector"
+        android:background="@drawable/button_red_selector"
         android:padding="10dp"
         android:text="@string/cancel_set_image"
         android:textColor="@color/white" />
