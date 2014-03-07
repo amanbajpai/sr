@@ -51,7 +51,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private AsyncQueryHandler handler;
 
     private Integer taskId;
-    private Task task = new Task();
+    private Task task;
     private Survey survey = new Survey();
 
     private TextView taskName;
@@ -132,13 +132,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
-                        task = TasksBL.convertCursorToTask(cursor);
-
-                        if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.scheduled
-                                || TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation) {
+                        if (task != null && (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId
+                                .scheduled
+                                || TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation)) {
                             finish();
                             break;
                         }
+                        task = TasksBL.convertCursorToTask(cursor);
 
                         setTaskData(task);
                         SurveysBL.getSurveyFromDB(handler, task.getSurveyId());

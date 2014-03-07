@@ -4,26 +4,26 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.FontUtils;
 
 
-public class CustomEditTextView extends EditText {
+public class CustomCheckBox extends CheckBox {
 
-    public CustomEditTextView(Context context) {
+    public CustomCheckBox(Context context) {
         this(context, null);
     }
 
-    public CustomEditTextView(Context context, AttributeSet attrs) {
+    public CustomCheckBox(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomEditTextView(Context context, AttributeSet attrs, int defStyle) {
+    public CustomCheckBox(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
-        int textStyle = a.getInt(R.styleable.CustomEditText_textStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomCheckBox);
+        int textStyle = a.getInt(R.styleable.CustomCheckBox_textStyle, 0);
 
         String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
 

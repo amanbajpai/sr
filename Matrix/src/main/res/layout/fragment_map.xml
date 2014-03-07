@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnMyLocation"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/abc_ic_go"
+        android:src="@drawable/list_item_arrow"
         android:layout_marginBottom="30dp"
         android:layout_above="@+id/btnFilter"
         android:layout_alignParentRight="true" />

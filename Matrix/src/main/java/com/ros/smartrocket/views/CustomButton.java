@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.Button;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.AssetFontsCache;
+import com.ros.smartrocket.utils.FontUtils;
 
 public class CustomButton extends Button {
 
@@ -22,17 +22,15 @@ public class CustomButton extends Button {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomButton);
-        String fontAssetPath = a.getString(R.styleable.CustomButton_fontAsset);
-        setTypefaceFromFontAsset(fontAssetPath);
+        int textStyle = a.getInt(R.styleable.CustomButton_textStyle, 0);
+
+        String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
+
+        Typeface t = FontUtils.loadFontFromAsset(getContext().getAssets(), fontAssetPath);
+        if (t != null) {
+            setTypeface(t);
+        }
+
         a.recycle();
     }
-
-    public boolean setTypefaceFromFontAsset(String fontAsset) {
-        Typeface t = AssetFontsCache.loadFontFromAsset(getContext().getAssets(), fontAsset);
-        if (t == null) return false;
-
-        setTypeface(t);
-        return true;
-    }
-
 }

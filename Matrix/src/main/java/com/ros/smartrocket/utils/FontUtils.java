@@ -1,0 +1,75 @@
+package com.ros.smartrocket.utils;
+
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class FontUtils {
+    private final static String TAG = "FontUtils";
+    private final static Map<String, Typeface> loadedTypefacesMap = new HashMap<String, Typeface>();
+    private final static PreferencesManager preferencesManager = PreferencesManager.getInstance();
+
+    public static String getFontAssetPath(int textStyle) {
+        String fontAssetPath;
+        String languageCode = preferencesManager.getLanguageCode();
+
+        switch (textStyle) {
+            case 0:
+                if (languageCode.equals("ru")) {
+                    fontAssetPath = "fonts/LatinoMagallanesRegular.otf";
+                } else {
+                    fontAssetPath = "fonts/LatinoMagallanesRegular.otf";
+                }
+                break;
+            case 1:
+                if (languageCode.equals("ru")) {
+                    fontAssetPath = "fonts/LatinoMagallanesLight.otf";
+                } else {
+                    fontAssetPath = "fonts/LatinoMagallanesLight.otf";
+                }
+                break;
+            case 2:
+                if (languageCode.equals("ru")) {
+                    fontAssetPath = "fonts/LatinoMagallanesMedium.otf";
+                } else {
+                    fontAssetPath = "fonts/LatinoMagallanesMedium.otf";
+                }
+                break;
+            case 3:
+                if (languageCode.equals("ru")) {
+                    fontAssetPath = "fonts/LatinoMagallanesBold.otf";
+                } else {
+                    fontAssetPath = "fonts/LatinoMagallanesBold.otf";
+                }
+                break;
+            default:
+                if (languageCode.equals("ru")) {
+                    fontAssetPath = "fonts/LatinoMagallanesMedium.otf";
+                } else {
+                    fontAssetPath = "fonts/LatinoMagallanesMedium.otf";
+                }
+                break;
+        }
+
+        return fontAssetPath;
+    }
+
+    public static Typeface loadFontFromAsset(AssetManager assetManager, String assetPath) {
+        Typeface t = loadedTypefacesMap.get(assetPath);
+        if (t == null) {
+            try {
+                t = Typeface.createFromAsset(assetManager, assetPath);
+            } catch (Exception e) {
+                L.e(TAG, "Failed to load typeface from font asset '" + assetPath + "'");
+                e.printStackTrace();
+                return null;
+            }
+
+            loadedTypefacesMap.put(assetPath, t);
+        }
+        return t;
+    }
+}

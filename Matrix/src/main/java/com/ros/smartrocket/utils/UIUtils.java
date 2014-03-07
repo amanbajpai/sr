@@ -303,6 +303,8 @@ public class UIUtils {
      * @param dateString
      */
     public static long isoTimeToLong(String dateString) {
+
+        // TODO dateString = "2015-03-25T13:27:00.000+02:00";
         try {
             return ISO_DATE_FORMAT.parse(dateString).getTime();
         } catch (Exception e) {

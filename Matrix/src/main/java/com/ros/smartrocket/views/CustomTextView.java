@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.AssetFontsCache;
+import com.ros.smartrocket.utils.FontUtils;
 
 
 public class CustomTextView extends TextView {
@@ -23,21 +23,15 @@ public class CustomTextView extends TextView {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomTextView);
-        String fontAssetPath = a.getString(R.styleable.CustomTextView_fontAsset);
-        setTypefaceFromFontAsset(fontAssetPath);
+        int textStyle = a.getInt(R.styleable.CustomTextView_textStyle, 0);
+
+        String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
+
+        Typeface t = FontUtils.loadFontFromAsset(getContext().getAssets(), fontAssetPath);
+        if (t != null) {
+            setTypeface(t);
+        }
+
         a.recycle();
     }
-
-    public boolean setTypefaceFromFontAsset(String fontAsset) {
-        Typeface t = AssetFontsCache.loadFontFromAsset(getContext().getAssets(), fontAsset);
-        if (t == null) return false;
-
-        setTypeface(t);
-        return true;
-    }
-
-    /*
-     * @Override protected void onDraw(Canvas canvas) { int yOffset = getHeight() - getBaseline(); canvas.translate(0,
-     * yOffset); super.onDraw(canvas); }
-     */
 }

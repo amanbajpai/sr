@@ -17,8 +17,8 @@
             android:layout_width="match_parent" >
             <ImageView
                 android:id="@+id/profilePhotoImageView"
-                android:layout_height="105dp"
-                android:layout_width="105dp"
+                android:layout_height="106dp"
+                android:layout_width="106dp"
                 android:layout_marginRight="10dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
@@ -30,8 +30,7 @@
                 android:layout_height="48dp"
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@+id/profilePhotoImageView"
-                android:hint="@string/first_name"
-                custom:fontAsset="fonts/roboto_regular.ttf" />
+                android:hint="@string/first_name" />
             <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/lastNameEditText"
                 style="@style/EditText"
@@ -50,7 +49,7 @@
             <RadioGroup
                 android:id="@+id/genderRadioGroup"
                 android:layout_marginRight="10dp"
-                android:layout_width="105dp"
+                android:layout_width="106dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
                 <RadioButton
@@ -124,10 +123,13 @@
                 android:layout_width="wrap_content"
                 android:background="@drawable/btn_toggle"
                 android:layout_height="wrap_content" />
-            <TextView
-                android:layout_height="wrap_content"
+            <com.ros.smartrocket.views.CustomTextView
+                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/grey"
+                android:gravity="center_vertical"
                 android:text="@string/show_password" />
         </LinearLayout >
         <com.ros.smartrocket.views.CustomEditTextView
@@ -154,15 +156,20 @@
             android:hint="@string/your_city_hint" />
         <Spinner
             android:id="@+id/educationLevelSpinner"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
+            android:padding="0dp"
             android:layout_height="wrap_content" />
         <Spinner
             android:id="@+id/employmentStatusSpinner"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:padding="0dp"
             android:layout_height="wrap_content" />
-        <CheckBox
+        <com.ros.smartrocket.views.CustomCheckBox
             android:id="@+id/agreeCheckBox"
+            style="@style/CheckBox"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginLeft="10dp"
@@ -175,10 +182,9 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
-            android:layout_marginTop="20dp"
-            android:enabled="false"
+            android:layout_marginTop="30dp"
             android:text="@string/confirm_and_register"
-            custom:fontAsset="fonts/test.otf" />
+            custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/cancelButton"
             style="@style/Button"
@@ -187,6 +193,6 @@
             android:background="@drawable/button_red_selector"
             android:layout_marginTop="10dp"
             android:text="@string/cancel"
-            custom:fontAsset="fonts/test.otf"/>
+            custom:textStyle="bold" />
     </LinearLayout >
 </ScrollView >

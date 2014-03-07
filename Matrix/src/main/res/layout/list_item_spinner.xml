@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ros.smartrocket.views.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/name"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="5dp"
-    android:textColor="@color/black"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
+    android:padding="10dp"
+    android:gravity="center_vertical"
+    android:textColor="@color/grey"
     android:textSize="@dimen/text_size_medium" />
