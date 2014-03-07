@@ -47,7 +47,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.RegistrationActivity"
+            android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter >
@@ -63,10 +63,10 @@
             android:name="com.ros.smartrocket.activity.EnterGroupCodeActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
-        <!--<activity
+        <activity
             android:name="com.ros.smartrocket.activity.RegistrationActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan" />-->
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.ros.smartrocket.activity.LoginActivity"
             android:configChanges="locale"
