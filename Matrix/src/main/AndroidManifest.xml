@@ -42,7 +42,7 @@
     <application
         android:name="com.ros.smartrocket.App"
         android:allowBackup="true"
-        android:debuggable="false"
+        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >

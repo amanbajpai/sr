@@ -28,8 +28,6 @@
     <string name="last_name" >Last name</string >
     <string name="password" >Password</string >
     <string name="gender" >Gender</string >
-    <string name="male" >Male</string >
-    <string name="female" >Female</string >
     <string name="birthday" >Birthday</string >
     <string name="day" >Day</string >
     <string name="month" >Month</string >
@@ -37,8 +35,8 @@
     <string name="your_country_hint" >Your Country</string >
     <string name="your_city_hint" >Your City</string >
     <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
-    <string name="confirm_and_register" >Confirm &amp; Register</string >
-    <string name="cancel" >Cancel</string >
+    <string name="confirm_and_register" >CONFIRM &amp; REGISTER</string >
+    <string name="cancel" >CANCEL</string >
     <string name="show_password" >Show password</string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="do_you_agree_with_term" >Do you agree with Matrix Term&amp;Conditions?</string >
@@ -220,7 +218,6 @@
     <string name="take_from_camera" >Take from camera</string >
     <string name="remove_current_picture" >Remove current picture</string >
     <string name="cancel_set_image" >Cancel</string >
-    <string name="capture" >Capture</string >
     <!-- EDUCATION_LEVEL -->
     <string name="education_level" >Education level</string >
     <string name="no_schooling" >No schooling</string >

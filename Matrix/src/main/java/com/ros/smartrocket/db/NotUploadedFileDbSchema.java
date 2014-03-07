@@ -26,7 +26,6 @@ public interface NotUploadedFileDbSchema {
         PORTION("Portion", DBType.INT),
         FILE_CODE("FileCode", DBType.TEXT),
         FILE_NAME("FileName", DBType.TEXT),
-        LANGUAGE_CODE("LanguageCode", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 
@@ -80,7 +79,6 @@ public interface NotUploadedFileDbSchema {
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.PORTION.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_CODE.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_NAME.getName(),
-                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LANGUAGE_CODE.getName()
         };
 
         int _ID = 0;
@@ -97,6 +95,5 @@ public interface NotUploadedFileDbSchema {
         int PORTION = 10;
         int FILE_CODE = 11;
         int FILE_NAME = 12;
-        int LANGUAGE_CODE = 13;
     }
 }

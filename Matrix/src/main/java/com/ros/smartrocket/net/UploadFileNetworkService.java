@@ -13,6 +13,7 @@ import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectImageManager;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
     private static final String TAG = "UploadFileNetworkService";
     public static final String TAG_RECRUITING = "recruiting";
     public static final int MAX_BYTE_SIZE = 1000 * 500;
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     public UploadFileNetworkService() {
         super("NetworkService");
@@ -91,6 +93,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
         uploadFileEntity.setFilename(notUploadedFile.getFileName());
         uploadFileEntity.setFileLength(mainFileLength);
         uploadFileEntity.setFileBase64String(SelectImageManager.getFileAsString(file));
+        uploadFileEntity.setLanguageCode(preferencesManager.getLanguageCode());
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.UPLOAD_TASK_FILE);

@@ -13,6 +13,7 @@ public class FileToUpload extends BaseEntity {
     private Long FileLength;
     private Long FileOffset;
     private String FileBase64String;
+    private String LanguageCode;
 
     public FileToUpload() {
     }
@@ -65,13 +66,20 @@ public class FileToUpload extends BaseEntity {
         FileBase64String = fileBase64String;
     }
 
-
     public Long getFileOffset() {
         return FileOffset;
     }
 
     public void setFileOffset(Long fileOffset) {
         FileOffset = fileOffset;
+    }
+
+    public String getLanguageCode() {
+        return LanguageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        LanguageCode = languageCode;
     }
 
 }

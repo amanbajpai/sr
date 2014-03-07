@@ -240,9 +240,6 @@ public class APIFacade {
      */
     public void sendFile(Context context, NotUploadedFile notUploadedFile) {
         if (context instanceof UploadFileService) {
-
-            notUploadedFile.setLanguageCode(preferencesManager.getLanguageCode());
-
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.UPLOAD_TASK_FILE);
             operation.setTag(Keys.UPLOAD_TASK_FILE_OPERATION_TAG);
