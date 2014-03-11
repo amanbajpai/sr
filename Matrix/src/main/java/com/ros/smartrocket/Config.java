@@ -49,7 +49,7 @@ public class Config {
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
-                TERMS_AND_CONDITION_URL = "http://matrix.stage.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
+                TERMS_AND_CONDITION_URL = "http://web.staging.redoceansolutions.com/TermsAndConditions?withoutMenu=true";
                 break;
             case DEVELOPMENT:
             default:
