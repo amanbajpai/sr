@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/CustomDialog"
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:text="@string/date_picker_dialog_title_birthday"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/calendar_icon"
+        style="@style/DialogTitle"
+        android:background="@color/red"
+        custom:textStyle="bold" />
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="fill_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/okButton"
+                style="@style/DialogButton"
+                android:layout_height="64dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/green"
+                android:text="@string/ok"
+                custom:textStyle="bold" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/grey" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/cancelButton"
+                style="@style/DialogButton"
+                android:layout_height="64dp"
+                android:layout_width="match_parent"
+                android:textColor="@color/red"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                custom:textStyle="bold" />
+        </LinearLayout >
+    </LinearLayout >
+</LinearLayout >

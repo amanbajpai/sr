@@ -76,7 +76,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:exported="true" />
-
         <activity
             android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
             android:configChanges="locale" />

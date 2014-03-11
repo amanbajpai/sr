@@ -20,6 +20,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -27,10 +28,9 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
-
-import java.util.Calendar;
 
 /**
  * Activity for first Agents registration into system
@@ -47,13 +47,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText passwordEditText;
-    private EditText dayEditText;
-    private EditText monthEditText;
-    private EditText yearEditText;
+    private EditText birthdayEditText;
     private EditText emailEditText;
     private EditText countryEditText;
     private EditText cityEditText;
     private CheckBox agreeCheckBox;
+    private long selectedBirthDay = 0;
     private int countryId;
     private int cityId;
     private String countryName;
@@ -102,14 +101,14 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         firstNameEditText = (EditText) findViewById(R.id.firstNameEditText);
         lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        dayEditText = (EditText) findViewById(R.id.dayEditText);
-        monthEditText = (EditText) findViewById(R.id.monthEditText);
-        yearEditText = (EditText) findViewById(R.id.yearEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
+
+        birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);
+        birthdayEditText.setOnClickListener(this);
 
         showPasswordToggleButton = (ToggleButton) findViewById(R.id.showPasswordToggleButton);
         showPasswordToggleButton.setOnCheckedChangeListener(this);
@@ -138,6 +137,20 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.birthdayEditText:
+                new DatePickerDialog(this, selectedBirthDay, new DatePickerDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onOkButtonPressed(long selectedDate, String selectedDateForPreview) {
+                        birthdayEditText.setText(selectedDateForPreview);
+                        selectedBirthDay = selectedDate;
+                    }
+
+                    @Override
+                    public void onCancelButtonPressed() {
+
+                    }
+                });
+                break;
             case R.id.profilePhotoImageView:
                 selectImageManager.showSelectImageDialog(this, true, new SelectImageManager.OnImageCompleteListener() {
                     @Override
@@ -157,37 +170,38 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 });
                 break;
             case R.id.confirmButton:
+                String firstName = firstNameEditText.getText().toString().trim();
+                String lastName = lastNameEditText.getText().toString().trim();
+
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-                String firstName = firstNameEditText.getText().toString().trim();
-                String lastName = lastNameEditText.getText().toString().trim();
-                String day = dayEditText.getText().toString().trim();
-                String month = monthEditText.getText().toString().trim();
-                String year = yearEditText.getText().toString().trim();
+                UIUtils.setEditTextColorByState(this, firstNameEditText, !TextUtils.isEmpty(firstName));
+                UIUtils.setEditTextColorByState(this, lastNameEditText, !TextUtils.isEmpty(lastName));
+                UIUtils.setEditTextColorByState(this, birthdayEditText, selectedBirthDay > 0);
 
-                String birthDay;
+                UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
+                UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));
 
-                if (!TextUtils.isEmpty(day) && TextUtils.isDigitsOnly(day) && !TextUtils.isEmpty(month) && TextUtils
-                        .isDigitsOnly(month) && !TextUtils.isEmpty(year) && TextUtils.isDigitsOnly(year)) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));
+                UIUtils.setEditTextColorByState(this, passwordEditText, UIUtils.isPasswordValid(password));
+                UIUtils.setPasswordEditTextImageByState(passwordEditText, UIUtils.isPasswordValid(password));
 
-                    birthDay = UIUtils.longToString(calendar.getTimeInMillis(), 2);
-                } else {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
-                    break;
-                }
+                UIUtils.setProfilePhotoImageViewmageByState(profilePhotoImageView, photoBitmap != null);
 
-                if (!UIUtils.isEmailValid(email)) {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
+
+                if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || !UIUtils.isEmailValid(email) ||
+                        selectedBirthDay <= 0 || !UIUtils.isPasswordValid(password) || photoBitmap == null) {
                     break;
                 }
 
                 int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
                 int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
-                if (educationLevel == 0 || employmentStatus == 0) {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
+                if (educationLevel == 0) {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_education_level);
+                    break;
+                }
+                if (employmentStatus == 0) {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_employment_status);
                     break;
                 }
 
@@ -196,7 +210,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setPassword(password);
                 registrationEntity.setFirstName(firstName);
                 registrationEntity.setLastName(lastName);
-                registrationEntity.setBirthday(birthDay);
+                registrationEntity.setBirthday(UIUtils.longToString(selectedBirthDay, 2));
                 registrationEntity.setCountryId(countryId);
                 registrationEntity.setCityId(cityId);
                 registrationEntity.setLatitude(latitude);
@@ -254,6 +268,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                     passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
                 passwordEditText.setSelection(text.length());
+                passwordEditText.setTypeface(FontUtils.loadFontFromAsset(getAssets(), FontUtils.getFontAssetPath(2)));
                 break;
             default:
                 break;

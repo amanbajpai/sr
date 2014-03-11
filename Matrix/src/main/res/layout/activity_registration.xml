@@ -67,29 +67,14 @@
                     android:checked="false" />
             </RadioGroup >
             <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/dayEditText"
+                android:id="@+id/birthdayEditText"
                 style="@style/EditText"
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:inputType="number"
+                android:focusable="false"
                 android:layout_weight="1"
-                android:hint="@string/day" />
-            <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/monthEditText"
-                style="@style/EditText"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:inputType="number"
-                android:hint="@string/month" />
-            <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/yearEditText"
-                style="@style/EditText"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:inputType="number"
-                android:hint="@string/year" />
+                android:hint="@string/your_birthday" />
         </LinearLayout >
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/emailEditText"
@@ -137,7 +122,7 @@
             style="@style/EditText"
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/country_icon"
+            android:drawableLeft="@drawable/country_icon_select"
             android:drawablePadding="10dp"
             android:paddingLeft="10dp"
             android:enabled="false"
@@ -149,7 +134,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:enabled="false"
-            android:drawableLeft="@drawable/city_icon"
+            android:drawableLeft="@drawable/city_icon_select"
             android:drawablePadding="10dp"
             android:paddingLeft="10dp"
             android:layout_width="match_parent"

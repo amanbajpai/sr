@@ -2,8 +2,9 @@
 <resources >
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
-    <color name="grey">#949494</color>
-    <color name="red">#FF0000</color>
+    <color name="grey">#999999</color>
+    <color name="green">#637f11</color>
+    <color name="red">#cb333a</color>
 
     <color name="map_radius_stroke">#aaff0033</color>
     <color name="map_radius_fill">#07ff0033</color>

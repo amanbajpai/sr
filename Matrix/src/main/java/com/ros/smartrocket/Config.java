@@ -48,7 +48,7 @@ public class Config {
             case STAGING:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
-                WEB_SERVICE_URL = "http://matrix.stage.api.uran.po.ciklum.net/";
+                WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
                 TERMS_AND_CONDITION_URL = "http://matrix.stage.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
                 break;
             case DEVELOPMENT:

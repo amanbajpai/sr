@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/white"
         android:padding="20dp" >
         <RelativeLayout
             android:layout_height="wrap_content"
@@ -31,16 +32,18 @@
                 android:text="@string/welcome_to"
                 android:textSize="@dimen/text_size_large" />
         </RelativeLayout >
-        <EditText
+        <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/emailEditText"
+            style="@style/EditText"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:inputType="textEmailAddress"
             android:text="@string/login_test_account"
             android:hint="@string/your_email_hint" />
-        <EditText
+        <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/passwordEditText"
+            style="@style/EditText"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:inputType="textPassword"

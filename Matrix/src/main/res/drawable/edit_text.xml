@@ -5,10 +5,10 @@
     <item android:drawable="@drawable/field_dis" android:state_enabled="false" android:state_window_focused="false"/>
     <item android:drawable="@drawable/field_focus" android:state_enabled="true" android:state_focused="true"/>
 
-    <iten android:drawable="@drawable/field_focus" android:state_activated="true" android:state_enabled="true" />
+    <item android:drawable="@drawable/field_focus" android:state_activated="true" android:state_enabled="true" />
 
     <item android:drawable="@drawable/field" android:state_enabled="true"/>
-    <item android:drawable="@drawable/field_focus" android:state_focused="true"/>
-    <item android:drawable="@drawable/field_focus_dis"/>
+    <item android:drawable="@drawable/field_focus_dis" android:state_focused="true"/>
+    <item android:drawable="@drawable/field_dis"/>
 
 </selector>

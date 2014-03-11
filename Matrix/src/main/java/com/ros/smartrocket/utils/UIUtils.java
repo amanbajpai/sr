@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -43,6 +44,7 @@ public class UIUtils {
             Locale.ENGLISH); //'Z'
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
+    private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("HH:mm a dd MMM" +
             " yy", Locale.ENGLISH);
 
@@ -327,6 +329,8 @@ public class UIUtils {
                 return ISO_DATE_FORMAT.format(new Date(dateLong));
             case 3:
                 return HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+            case 4:
+                return DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
             default:
                 break;
         }
@@ -343,6 +347,10 @@ public class UIUtils {
 
     public static boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public static boolean isPasswordValid(String password) {
+        return password.length() >= 6 && password.length() < 16;
     }
 
     public static String convertMToKm(Activity activity, float distance, int textResId) {
@@ -378,5 +386,37 @@ public class UIUtils {
 
     public static int getRandomInt(int min, int max) {
         return new Random().nextInt(max - min + 1) + min;
+    }
+
+    public static void setEditTextColorByState(Context context, EditText editText, boolean isValidState) {
+        if (isValidState) {
+            editText.setTextColor(context.getResources().getColor(R.color.grey));
+            editText.setHintTextColor(context.getResources().getColor(R.color.grey));
+        } else {
+            editText.setTextColor(context.getResources().getColor(R.color.red));
+            editText.setHintTextColor(context.getResources().getColor(R.color.red));
+        }
+    }
+
+    public static void setEmailEditTextImageByState(EditText editText, boolean isValidState) {
+        if (isValidState) {
+            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mail_icon_select, 0, 0, 0);
+        } else {
+            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mail_icon_error, 0, 0, 0);
+        }
+    }
+
+    public static void setPasswordEditTextImageByState(EditText editText, boolean isValidState) {
+        if (isValidState) {
+            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_select, 0, 0, 0);
+        } else {
+            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_error, 0, 0, 0);
+        }
+    }
+
+    public static void setProfilePhotoImageViewmageByState(ImageView imageView, boolean isValidState) {
+        if (!isValidState) {
+            imageView.setImageResource(R.drawable.cam_error);
+        }
     }
 }

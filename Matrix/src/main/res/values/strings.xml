@@ -29,6 +29,7 @@
     <string name="password" >Password</string >
     <string name="gender" >Gender</string >
     <string name="birthday" >Birthday</string >
+    <string name="your_birthday" >Your birthday</string >
     <string name="day" >Day</string >
     <string name="month" >Month</string >
     <string name="year" >Year</string >
@@ -37,8 +38,11 @@
     <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
     <string name="confirm_and_register" >CONFIRM &amp; REGISTER</string >
     <string name="cancel" >CANCEL</string >
+    <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
     <string name="fill_in_field" >Please, fill in field</string >
+    <string name="fill_in_education_level" >Please, fill in Education Level field</string >
+    <string name="fill_in_employment_status" >Please, fill in Employment Status field</string >
     <string name="do_you_agree_with_term" >Do you agree with Matrix Term&amp;Conditions?</string >
     <!-- MAIN MENU ACTIVITY -->
     <string name="drawer_open" >Open navigation drawer</string >
@@ -309,4 +313,7 @@
     <string name="add_photo_error_title" >Add photo error</string >
     <string name="add_photo_error_text" >Photo can not be added from this places.</string >
     <string name="toast_application_not_found" >Application not found</string >
+
+    <!-- Date picker dialog -->
+    <string name="date_picker_dialog_title_birthday" >Birthday</string >
 </resources >
