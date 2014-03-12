@@ -13,8 +13,8 @@ import com.ros.smartrocket.R;
 public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     //private static final String TAG = DefaultInfoDialog.class.getSimpleName();
     private DialogButtonClickListener onDialogButtonClicklistener;
-    private Button leftButton;
-    private Button rightButton;
+    private TextView leftButton;
+    private TextView rightButton;
 
     public DefaultInfoDialog(Context context, CharSequence title, CharSequence text, int leftButtonResId,
                              int rightButtonResId) {
@@ -35,8 +35,8 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         ((TextView) findViewById(R.id.title)).setText(title);
         ((TextView) findViewById(R.id.text)).setText(text);
 
-        leftButton = (Button) findViewById(R.id.leftButton);
-        rightButton = (Button) findViewById(R.id.rightButton);
+        leftButton = (TextView) findViewById(R.id.leftButton);
+        rightButton = (TextView) findViewById(R.id.rightButton);
 
         if (leftButtonResId != 0) {
             leftButton.setText(leftButtonResId);

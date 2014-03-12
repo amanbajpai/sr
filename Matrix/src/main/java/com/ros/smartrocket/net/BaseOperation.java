@@ -117,7 +117,7 @@ public class BaseOperation implements Serializable {
 
     public String getRequestUrl() {
         if (args != null) {
-            return String.format(url, args);
+            return replaceIllegalCharacter(String.format(url, args));
         } else {
             return url;
         }
@@ -129,6 +129,10 @@ public class BaseOperation implements Serializable {
 
     public ArrayList<? extends BaseEntity> getResponseEntities() {
         return responseEntities;
+    }
+
+    public String replaceIllegalCharacter(String url) {
+        return url.replace(" ", "%20");
     }
 
     @Override

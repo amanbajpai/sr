@@ -195,9 +195,11 @@
     <string name="turn_of_mock_location_dialog_title" >GPS mock OFF pop-up</string >
     <string name="turn_of_mock_location_dialog_text" >For use Matrix you need <b >TURN OFF</b > GPS mock location on your smartphone</string >
     <!-- REGISTRATION SUCCESS DIALOG -->
-    <string name="registration_success_dialog_title" >Registration pop-up</string >
-    <string name="registration_success_dialog_text1" >Congratulate you pass the registration and we send link to </string >
-    <string name="registration_success_dialog_text2" > please use it for you e-mail validation before you can start use Matrix app</string >
+    <string name="registration_success_dialog_title" >Registration</string >
+    <string name="registration_success_dialog_text0" >Congratulations!</string >
+    <string name="registration_success_dialog_text1" >You\'ve passed the registration and we send link to </string >
+    <string name="registration_success_dialog_text2" >Please use it for you e-mail validation before you can start
+        using Smart Rocket application</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >Book this task</string >
     <string name="book_task_success_dialog_text1" >Congratulate you Book the task and now you must complete it by</string >

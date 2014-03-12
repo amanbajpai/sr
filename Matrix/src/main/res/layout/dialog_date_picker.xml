@@ -31,13 +31,13 @@
             android:background="@color/grey" />
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal" >
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/okButton"
                 style="@style/DialogButton"
-                android:layout_height="64dp"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
@@ -51,7 +51,7 @@
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/cancelButton"
                 style="@style/DialogButton"
-                android:layout_height="64dp"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:textColor="@color/red"
                 android:layout_weight="1"

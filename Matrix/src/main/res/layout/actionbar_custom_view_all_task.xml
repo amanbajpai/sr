@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
-    <TextView
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        style="@style/ActionBarText"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center" />
+        custom:textStyle="bold" />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal" >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-            <Button
-                android:id="@+id/mapButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/map" />
-            <Button
-                android:id="@+id/listButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/list" />
-        </LinearLayout >
-        <ImageView
-            android:id="@+id/refreshButton"
-            android:contentDescription="@string/app_name"
+        <Button
+            android:id="@+id/mapButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:text="@string/map" />
+        <Button
+            android:id="@+id/listButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list" />
     </LinearLayout >
-</RelativeLayout >
+    <ImageView
+        android:id="@+id/refreshButton"
+        android:contentDescription="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" />
+</LinearLayout >
