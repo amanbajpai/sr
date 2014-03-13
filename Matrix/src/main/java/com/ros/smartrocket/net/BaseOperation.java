@@ -132,7 +132,7 @@ public class BaseOperation implements Serializable {
     }
 
     public String replaceIllegalCharacter(String url) {
-        return url.replace(" ", "%20");
+        return url.replaceAll(" ", "%20");
     }
 
     @Override
