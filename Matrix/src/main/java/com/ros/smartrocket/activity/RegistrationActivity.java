@@ -225,10 +225,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                 switch (genderRadioGroup.getCheckedRadioButtonId()) {
                     case R.id.maleRadioButton:
-                        registrationEntity.setGender(0);
+                        registrationEntity.setGender(1);
                         break;
                     case R.id.femaleRadioButton:
-                        registrationEntity.setGender(1);
+                        registrationEntity.setGender(2);
                         break;
                     default:
                         break;
