@@ -104,10 +104,10 @@
     <string name="logout" >Log out</string >
     <string name="change_password" ><u >Change password</u ></string >
     <string name="update_my_location" >Update my location</string >
-    <string name="confirm_and_save" >Confirm &amp; save</string >
+    <string name="confirm_and_save" >Confirm &amp; Save</string >
     <!-- SETTINGS FRAGMENT-->
     <string name="app_settings_title" >App settings</string >
-    <string name="application_settings" >Application settings</string >
+    <string name="application_settings" >APPLICATION SETTINGS</string >
     <string name="language" >Language</string >
     <string name="location_services" >Location services</string >
     <string name="push_messages" >Push messages</string >
@@ -116,10 +116,12 @@
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >
-    <string name="notification_settings" >Notification settings</string >
+    <string name="notification_settings" >NOTIFICATION SETTINGS</string >
     <string name="appointment_interval" >Appointment Interval</string >
     <string name="deadline_reminder" >Deadline reminder</string >
-    <string name="app_version" >App version</string >
+    <string name="app_version" >Application version</string >
+    <string name="confirm_and_save_big" >CONFIRM &amp; SAVE</string >
+    <string name="cancel_big" >CANCEL</string >
     <!-- SUPPORT FRAGMENT-->
     <string name="support_title" >Support</string >
     <string name="support_text1" >Survey description Lorem ipsum dolor sit amet, consectetur adipiscing elit.

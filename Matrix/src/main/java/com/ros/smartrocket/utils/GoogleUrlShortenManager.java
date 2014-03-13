@@ -84,13 +84,17 @@ public class GoogleUrlShortenManager {
         }
 
         protected void onPostExecute(JSONObject responseJson) {
-            String shortUrl = responseJson.optString(SHORT_URL);
-            L.i(TAG, "shortUrl: " + shortUrl);
-            if (!TextUtils.isEmpty(shortUrl)) {
-                onShotrUrlReadyListener.onShortUrlReady(shortUrl);
+            if (responseJson != null) {
+                String shortUrl = responseJson.optString(SHORT_URL);
+                L.i(TAG, "shortUrl: " + shortUrl);
+                if (!TextUtils.isEmpty(shortUrl)) {
+                    onShotrUrlReadyListener.onShortUrlReady(shortUrl);
+                } else {
+                    String errorObject = responseJson.optString(ERROR);
+                    onShotrUrlReadyListener.onGetShortUrlError(errorObject);
+                }
             } else {
-                String errorObject = responseJson.optString(ERROR);
-                onShotrUrlReadyListener.onGetShortUrlError(errorObject);
+                onShotrUrlReadyListener.onGetShortUrlError("Error: responseJson is null");
             }
         }
     }

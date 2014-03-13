@@ -60,10 +60,10 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
-        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        /*final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);*/
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_settings, null);
+        view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
         appointmentIntervalSpinner = (Spinner) view.findViewById(R.id.appointmentIntervalSpinner);

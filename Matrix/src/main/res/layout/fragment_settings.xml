@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp" >
-        <TextView
+        android:padding="20dp"
+        android:background="@color/white" >
+        <com.ros.smartrocket.views.CustomTextView
             style="@style/profileSectionTextStyle"
+            android:paddingTop="0dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            custom:textStyle="bold"
             android:text="@string/application_settings" />
         <View
             style="@style/profileSectionDividerStyle"
@@ -21,10 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
+                style="@style/settingsTextStyle"
+                custom:textStyle="bold"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/language" />
             <Spinner
@@ -32,16 +37,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:popupBackground="@android:color/transparent"
+                android:padding="0dp"
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/location_services" />
             <ToggleButton
@@ -54,10 +62,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/social_sharing" />
             <ToggleButton
@@ -70,10 +79,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/send_only_by_wifi" />
             <ToggleButton
@@ -86,10 +96,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/save_images_to_camera_roll" />
             <ToggleButton
@@ -102,10 +113,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/push_messages" />
             <ToggleButton
@@ -118,15 +130,18 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/tree_g_upload_task_limit" />
             <EditText
                 android:id="@+id/treeGUploadLimitEditText"
                 android:layout_width="96dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:inputType="number"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
@@ -135,21 +150,25 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/tree_g_upload_month_limit" />
             <EditText
                 android:id="@+id/treeGUploadMonthLimitEditText"
                 android:layout_width="96dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:inputType="number"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
-        <TextView
+        <com.ros.smartrocket.views.CustomTextView
             style="@style/profileSectionTextStyle"
+            custom:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/notification_settings" />
@@ -162,10 +181,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/deadline_reminder" />
             <ToggleButton
@@ -177,70 +197,70 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/appointment_interval" />
             <Spinner
                 android:id="@+id/appointmentIntervalSpinner"
+                style="@style/Spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="0dp"
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
         <View
             style="@style/profileSectionDividerStyle"
             android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="10dp" />
+            android:layout_width="match_parent" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                custom:textStyle="bold"
+                style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
                 android:text="@string/app_version" />
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/currentVersion"
+                style="@style/settingsTextStyle"
                 android:layout_height="match_parent"
+                android:textSize="@dimen/text_size_16sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:textStyle="italic" />
+                android:gravity="center_vertical|right" />
         </LinearLayout >
         <View
             style="@style/profileSectionDividerStyle"
             android:layout_height="1dp"
             android:layout_width="match_parent"
             android:layout_marginBottom="10dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/confirmAndSaveButton"
+            style="@style/Button"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_green_selector"
+            android:layout_marginTop="30dp"
+            android:text="@string/confirm_and_save_big"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/cancelButton"
+            style="@style/Button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_red_selector"
             android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-            <Button
-                android:id="@+id/cancelButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="2"
-                android:text="@string/cancel" />
-            <Button
-                android:id="@+id/confirmAndSaveButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/confirm_and_save" />
-        </LinearLayout >
+            android:text="@string/cancel_big"
+            custom:textStyle="bold" />
     </LinearLayout >
 </ScrollView >

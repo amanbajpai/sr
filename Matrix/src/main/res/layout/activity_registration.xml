@@ -177,7 +177,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/button_red_selector"
             android:layout_marginTop="10dp"
-            android:text="@string/cancel"
+            android:text="@string/cancel_big"
             custom:textStyle="bold" />
     </LinearLayout >
 </ScrollView >

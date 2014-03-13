@@ -2,6 +2,7 @@ package com.ros.smartrocket.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -39,21 +40,49 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
     }
 
     private void initViews() {
+        final Calendar maxDateCalendar = getMaxDateCalendar();
         datePicker = (DatePicker) findViewById(R.id.datePicker);
 
-        findViewById(R.id.okButton).setOnClickListener(this);
-        findViewById(R.id.cancelButton).setOnClickListener(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            datePicker.setMaxDate(maxDateCalendar.getTimeInMillis());
+        } else {
+            final int maxYear = maxDateCalendar.get(Calendar.YEAR);
+            final int maxMonth = maxDateCalendar.get(Calendar.MONTH);
+            final int maxDay = maxDateCalendar.get(Calendar.DAY_OF_MONTH);
+
+            datePicker.init(maxYear, maxMonth, maxDay,
+                    new DatePicker.OnDateChangedListener() {
+
+                        public void onDateChanged(DatePicker view, int year,
+                                                  int month, int day) {
+                            Calendar newDate = Calendar.getInstance();
+                            newDate.set(year, month, day);
+
+                            if (newDate.after(maxDateCalendar)) {
+                                view.init(maxYear, maxMonth, maxDay, this);
+                            }
+                        }
+                    });
+        }
 
         if (currentDate > 0) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(currentDate);
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
+            Calendar calendar = getMaxDateCalendar();
+            calendar.setTimeInMillis(currentDate);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
             datePicker.updateDate(year, month, day);
         }
 
+        findViewById(R.id.okButton).setOnClickListener(this);
+        findViewById(R.id.cancelButton).setOnClickListener(this);
+    }
+
+    public Calendar getMaxDateCalendar() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 18);
+        return cal;
     }
 
     @Override
