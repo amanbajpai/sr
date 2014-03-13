@@ -222,9 +222,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     apiFacade.checkLocationForRegistration(LoginActivity.this,
                             address.getCountryName(), address.getLocality(),
                             address.getLatitude(), address.getLongitude());
-
-                    /*apiFacade.checkLocationForRegistration(LoginActivity.this,
-                            "Ukraine", "Kharkiv", 49.988010, 36.233044);*/
                 } else {
                     startActivity(new Intent(LoginActivity.this, EnterGroupCodeActivity.class));
                 }

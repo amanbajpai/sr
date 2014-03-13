@@ -60,11 +60,11 @@ public class AppContentProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case ENTITY:
-                type = "vnd.android.cursor.item/vnd.com.matrix.entity." + tableName;
+                type = "vnd.android.cursor.item/vnd.com.ros.smartrocket.entity." + tableName;
                 break;
             case SURVEY_BY_DISTANCE:
             case ENTITIES:
-                type = "vnd.android.cursor.dir/vnd.com.matrix.entity." + tableName;
+                type = "vnd.android.cursor.dir/vnd.com.ros.smartrocket.entity." + tableName;
                 break;
             default:
                 break;

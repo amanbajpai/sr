@@ -373,11 +373,22 @@ public class SelectImageManager {
         File ret = null;
         try {
             String state = Environment.getExternalStorageState();
+
+            File cacheDir;
             if (Environment.MEDIA_MOUNTED.equals(state)) {
-                ret = new File(Config.CACHE_DIR, Calendar.getInstance().getTimeInMillis() + ".jpg");
+                cacheDir = new File(Config.CACHE_DIR, "images");
             } else {
-                File caсheDir = context.getDir(Config.CACHE_PREFIX_DIR, Context.MODE_PRIVATE);
-                ret = new File(caсheDir.getAbsolutePath() + "/", Calendar.getInstance().getTimeInMillis() + ".jpg");
+                cacheDir = context.getFilesDir();
+            }
+
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                ret = new File(cacheDir, Calendar.getInstance().getTimeInMillis() + ".jpg");
+            } else {
+                ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + ".jpg");
             }
         } catch (Exception e) {
             L.e(TAG, "Error get Temp File");

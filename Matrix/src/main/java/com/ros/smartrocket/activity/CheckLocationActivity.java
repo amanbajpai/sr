@@ -102,8 +102,6 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                             address.getCountryName(), address.getLocality(),
                             address.getLatitude(), address.getLongitude());
 
-                    /*apiFacade.checkLocationForRegistration(CheckLocationActivity.this,
-                            "Ukraine", "Kharkiv", 49.988010, 36.233044);*/
                 } else {
                     UIUtils.showSimpleToast(CheckLocationActivity.this,
                             R.string.current_location_not_defined);

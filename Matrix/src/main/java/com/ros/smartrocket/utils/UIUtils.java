@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 
 import java.math.BigDecimal;
@@ -245,8 +246,12 @@ public class UIUtils {
     }
 
     public static boolean isMockLocationEnabled(Context context) {
-        return !Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ALLOW_MOCK_LOCATION).equals("0");
+        if (Config.CAN_USE_FAKE_LOCATION) {
+            return false;
+        } else {
+            return !Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ALLOW_MOCK_LOCATION).equals("0");
+        }
     }
 
     public static boolean isIntentAvailable(Context context, Intent intent) {

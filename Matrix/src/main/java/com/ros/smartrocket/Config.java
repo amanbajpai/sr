@@ -35,6 +35,7 @@ public class Config {
     public static String TERMS_AND_CONDITION_URL;
 
     public static boolean LOG_ENABLED;
+    public static boolean CAN_USE_FAKE_LOCATION = false; //TODO Remove in production
 
     static {
         APP_VERSION = UIUtils.getAppVersion(App.getInstance());
