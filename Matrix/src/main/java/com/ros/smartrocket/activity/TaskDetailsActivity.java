@@ -164,7 +164,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                 task.setIsMy(true);
 
-                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
+                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 5);
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {

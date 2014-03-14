@@ -1,86 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DialogTheme"
-    android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp" >
-    <TextView
-        android:id="@+id/title"
+    style="@style/CustomDialog"
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:text="@string/book_task_success_dialog_title"
+        android:drawableLeft="@drawable/sandclock"
+        android:drawablePadding="20dp"
         style="@style/DialogTitle"
+        android:background="@color/green"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        style="@style/DialogText"
+        android:id="@+id/text0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="15dp"
-        android:text="@string/book_task_success_dialog_title" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
-    <TextView
+        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/book_task_success_dialog_text0" />
+    <com.ros.smartrocket.views.CustomTextView
         style="@style/DialogText"
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:layout_marginTop="15dp"
-        android:text="@string/book_task_success_dialog_text1" />
-    <TextView
+        android:layout_margin="20dp"
+        android:text="@string/registration_success_dialog_text1" />
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/dateTime"
         style="@style/DialogText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textStyle="bold"
-        android:layout_marginTop="15dp"
-        android:textSize="@dimen/text_size_medium" />
-    <TextView
+        custom:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="@dimen/text_size_18sp" />
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/text2"
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
         style="@style/DialogText"
-        android:layout_marginTop="15dp"
         android:text="@string/book_task_success_dialog_text2" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/black" />
+        android:background="@color/grey" />
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="54dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal" >
-        <Button
+        <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/cancelButton"
-            style="@style/Button"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
+            style="@style/DialogButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/red"
+            custom:textStyle="bold"
             android:text="@string/cancel" />
-        <Button
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey" />
+        <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/startLaterButton"
+            style="@style/DialogButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            style="@style/Button"
+            android:textColor="@color/green"
             android:layout_weight="1"
-            android:gravity="center"
+            custom:textStyle="bold"
             android:text="@string/start_later" />
-        <Button
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey" />
+        <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/startNowButton"
+            style="@style/DialogButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            style="@style/Button"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
+            android:textColor="@color/green"
             android:layout_weight="1"
-            android:gravity="center"
+            custom:textStyle="bold"
             android:text="@string/start_now" />
     </LinearLayout >
 </LinearLayout >

@@ -6,7 +6,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 
@@ -17,6 +16,12 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     private TextView rightButton;
 
     public DefaultInfoDialog(Context context, CharSequence title, CharSequence text, int leftButtonResId,
+                             int rightButtonResId) {
+        this(context, 0, title, text, leftButtonResId, rightButtonResId);
+    }
+
+    public DefaultInfoDialog(Context context, int titleIconResId, CharSequence title, CharSequence text,
+                             int leftButtonResId,
                              int rightButtonResId) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -32,7 +37,13 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        ((TextView) findViewById(R.id.title)).setText(title);
+        TextView titleTextView = (TextView) findViewById(R.id.title);
+        titleTextView.setText(title);
+
+        if (titleIconResId != 0) {
+            titleTextView.setCompoundDrawablesWithIntrinsicBounds(titleIconResId, 0, 0, 0);
+        }
+
         ((TextView) findViewById(R.id.text)).setText(text);
 
         leftButton = (TextView) findViewById(R.id.leftButton);

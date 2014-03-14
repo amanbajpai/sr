@@ -34,7 +34,7 @@ public class DialogUtils {
             cancelButtonResId = R.string.logout;
         }
 
-        DefaultInfoDialog locationDialog = new DefaultInfoDialog(activity,
+        DefaultInfoDialog locationDialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_location_dialog_title),
                 activity.getText(R.string.turn_on_location_dialog_text),
                 cancelButtonResId, R.string.settings);
@@ -69,7 +69,7 @@ public class DialogUtils {
      * @param activity
      */
     public static Dialog showNetworkDialog(final Activity activity) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_network_dialog_title),
                 activity.getText(R.string.turn_on_network_dialog_text),
                 R.string.cancel, R.string.settings);
@@ -94,7 +94,7 @@ public class DialogUtils {
      * @param activity
      */
     public static Dialog showGoogleSdkDialog(final Activity activity) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_google_sdk_dialog_title),
                 activity.getText(R.string.turn_on_google_sdk_dialog_text),
                 R.string.cancel, R.string.settings);
@@ -127,7 +127,7 @@ public class DialogUtils {
             cancelButtonResId = R.string.logout;
         }
 
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
                 activity.getText(R.string.turn_of_mock_location_dialog_title),
                 activity.getText(R.string.turn_of_mock_location_dialog_text),
                 cancelButtonResId, R.string.settings);
