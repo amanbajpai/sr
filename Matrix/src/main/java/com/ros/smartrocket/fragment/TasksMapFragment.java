@@ -8,7 +8,6 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -59,15 +57,12 @@ import com.twotoasters.clusterkraf.Options;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface {
+public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
-    private MatrixLocationManager lm;
-    private View fragmentView;
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ImageButton btnFilter;
-    private ImageButton btnMyLocation;
-    private Button applyButton;
     private LinearLayout rlFilterPanel;
     private boolean isFilterShow = false;
     private GoogleMap map;
@@ -89,88 +84,36 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
     private int viewItemId = 0; // Used for Survey and SingleTask map mode view
+    private boolean isFirstStart = true;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (this.options == null) {
-            this.options = new ClusterOptions();
-        }
-        handler = new DbHandler(getActivity().getContentResolver());
-
-        lm = App.getInstance().getLocationManager();
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
-        setViewMode(getArguments());
-
-        if (clusterkraf != null) {
-            clusterkraf.clear();
-        }
-        //Remove my location and Circle from the map!
-        map.clear();
-
-        if (!hidden) {
-            Location location = lm.getLocation();
-            if (location != null) {
-                loadTasks(location);
-                addMyLocationAndRadius(location, taskRadius);
-                moveCameraToMyLocation();
-            } else {
-                UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
-                lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                    @Override
-                    public void onUpdate(Location location) {
-                        L.i(TAG, "Location Updated!");
-                        loadTasks(location);
-                        addMyLocationAndRadius(location, taskRadius);
-                        moveCameraToMyLocation();
-                    }
-                });
-            }
-        }
-    }
-
-    /**
-     * Get View mode type from Intent
-     *
-     * @param bundle
-     */
-    private void setViewMode(Bundle bundle) {
-        if (bundle != null) {
-            mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
-        }
-        Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
-        if ((mode == Keys.MapViewMode.SURVEYTASKS)
-                || (mode == Keys.MapViewMode.SINGLETASK)) {
-            viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
-        }
-        // Update data set from Server
-        updateDataFromServer();
-        // Update UI
-        updateUI();
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView() [fragmentView  =  " + fragmentView + ", savedInstanceState=" + savedInstanceState
-                + "]");
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
 
-        fragmentView = inflater.inflate(R.layout.fragment_map, null);
+        if (this.options == null) {
+            this.options = new ClusterOptions();
+        }
 
-        btnFilter = (ImageButton) fragmentView.findViewById(R.id.btnFilter);
-        btnMyLocation = (ImageButton) fragmentView.findViewById(R.id.btnMyLocation);
-        applyButton = (Button) fragmentView.findViewById(R.id.applyButton);
-        rlFilterPanel = (LinearLayout) fragmentView.findViewById(R.id.hidden_panel);
+        handler = new DbHandler(getActivity().getContentResolver());
+
+        btnFilter = (ImageButton) view.findViewById(R.id.btnFilter);
+        btnFilter.setOnClickListener(this);
+        view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
+        view.findViewById(R.id.applyButton).setOnClickListener(this);
+
+        rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
         taskRadius = DEFAULT_TASK_RADIUS;
-        this.setRadiusText();
+
+        setRadiusText();
+
         sbRadius.setProgress(sbRadiusProgress);
         sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -195,47 +138,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
         });
 
-        setHasOptionsMenu(true);
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSurveysFromServer(taskRadius);
-                togleFilterPannel();
-            }
-        });
-        btnMyLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveCameraToMyLocation();
-            }
-        });
-        btnFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                togleFilterPannel();
-            }
-        });
-
-        setViewMode(getArguments());
-
-        // We request new data set from server because we start from FindTasks
-
-        updateDataFromServer();
-
-
-        return fragmentView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
-        super.onStop();
+        return view;
     }
 
     @Override
@@ -249,35 +152,163 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         //Remove my location and Circle from the map!
         map.clear();
 
+        setViewMode(getArguments());
+        updateUI();
+        loadData();
+
+        showFilterPanel(false);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (!hidden) {
+            if (clusterkraf != null) {
+                clusterkraf.clear();
+            }
+            //Remove my location and Circle from the map!
+            map.clear();
+
+
+            setViewMode(getArguments());
+            updateUI();
+            loadData();
+        }
+    }
+
+    /**
+     * Get View mode type from Intent
+     *
+     * @param bundle - fragment arguments
+     */
+    private void setViewMode(Bundle bundle) {
+        if (bundle != null) {
+            mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
+        }
+        Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
+        if ((mode == Keys.MapViewMode.SURVEYTASKS) || (mode == Keys.MapViewMode.SINGLETASK)) {
+            viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
+        }
+    }
+
+
+    /**
+     * Get Tasks from local db
+     */
+    private void loadTasksFromLocalDb() {
+        if (mode == Keys.MapViewMode.ALLTASKS) {
+            TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius);
+        } else if (mode == Keys.MapViewMode.MYTASKS) {
+            TasksBL.getMyTasksFromDB(handler);
+        } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
+            TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId);
+            Log.d(TAG, "loadTasksFromLocalDb() [surveyId  =  " + viewItemId + "]");
+        } else if (mode == Keys.MapViewMode.SINGLETASK) {
+            TasksBL.getTaskFromDBbyID(handler, viewItemId);
+            Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
+        }
+
+        Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
+
+    }
+
+
+    /**
+     * Send request to server for data update
+     */
+    private void updateDataFromServer(Location location) {
+        if (mode == Keys.MapViewMode.MYTASKS) {
+            getMyTasksFromServer();
+        } else if (mode == Keys.MapViewMode.ALLTASKS) {
+            getSurveysFromServer(location, taskRadius);
+        }
+    }
+
+    /**
+     * Initiate call to server side and get my Tasks
+     */
+    private void getMyTasksFromServer() {
+        ((BaseActivity) getActivity()).sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
+    }
+
+    /**
+     * Initiate call to server side and get Tasks
+     *
+     * @param radius - selected radius
+     */
+    private void getSurveysFromServer(final Location location, final int radius) {
+        if (location != null) {
+            lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                @Override
+                public void onUpdate(Address address) {
+                    if (address != null) {
+                        APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(),
+                                location.getLongitude(), address.getCountryName(), address.getLocality(), radius);
+                    } else {
+                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                    }
+                }
+            });
+        }
+    }
+
+    private void loadData() {
         Location location = lm.getLocation();
         if (location != null) {
-            loadTasks(location);
+            loadTasksFromLocalDb();
+            updateDataFromServer(location);
             addMyLocationAndRadius(location, taskRadius);
-            moveCameraToMyLocation();
+            if(isFirstStart){
+                moveCameraToMyLocation();
+                isFirstStart = false;
+            }
         } else {
             UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
                     L.i(TAG, "Location Updated!");
-                    loadTasks(location);
+                    loadTasksFromLocalDb();
+                    updateDataFromServer(location);
                     addMyLocationAndRadius(location, taskRadius);
-                    moveCameraToMyLocation();
+                    if (isFirstStart) {
+                        moveCameraToMyLocation();
+                        isFirstStart = false;
+                    }
                 }
             });
         }
+    }
 
-        showFilterPannel(false);
+    /**
+     * Database Helper for Data fetching
+     */
+    private class DbHandler extends AsyncQueryHandler {
+
+        public DbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
+                    ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
+                    onLoadingComplete(tasks);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag()) && mode != Keys.MapViewMode.MYTASKS) {
-                TasksBL.getNotMyTasksFromDBbyRadius(handler, TasksMapFragment.taskRadius);
-            }
-            if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag()) && mode == Keys.MapViewMode.MYTASKS) {
-                TasksBL.getMyTasksFromDB(handler);
+            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag()) ||
+                    Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+                loadTasksFromLocalDb();
             }
         } else {
             L.i(TAG, operation.getResponseError());
@@ -287,7 +318,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /**
      * Callback when we finish loading task from Server
      *
-     * @param list
+     * @param list - result list with data
      */
     private void onLoadingComplete(ArrayList<Task> list) {
         ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
@@ -303,102 +334,40 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             }
         }
+
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
+        Log.i(TAG, "initClusterkraf [tasks.size=" + inputPoints.size() + "]");
+
         if (inputPoints.size() > 0) {
-            if (this.clusterkraf == null) {
-                Log.i(TAG, "initClusterkraf [tasks.size=" + inputPoints.size() + "]");
+            if (clusterkraf == null) {
                 initClusterkraf(inputPoints);
             } else {
-                Log.i(TAG, "clusterkraf.replace [tasks.size=" + inputPoints.size() + "]");
                 clusterkraf.replace(inputPoints);
             }
         }
     }
 
-    /**
-     * Get Tasks from local db
-     *
-     * @param location
-     */
-    private void loadTasks(Location location) {
-        if (location != null) {
-            if (mode == Keys.MapViewMode.ALLTASKS) {
-                TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius);
-            } else if (mode == Keys.MapViewMode.MYTASKS) {
-                TasksBL.getMyTasksFromDB(handler);
-            } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
-                TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId);
-                Log.d(TAG, "loadTasks() [surveyId  =  " + viewItemId + "]");
-            } else if (mode == Keys.MapViewMode.SINGLETASK) {
-                TasksBL.getTaskFromDBbyID(handler, viewItemId);
-                Log.d(TAG, "loadTasks() [taskId  =  " + viewItemId + "]");
-            }
-
-            Log.i(TAG, "loadTasks() [mode  =  " + mode + "]");
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnMyLocation:
+                moveCameraToMyLocation();
+                break;
+            case R.id.applyButton:
+                loadData();
+                toggleFilterPanel();
+                break;
+            case R.id.btnFilter:
+                toggleFilterPanel();
+                break;
+            default:
+                break;
         }
     }
 
 
-    /**
-     * Send request to server for data update
-     */
-    private void updateDataFromServer() {
-        if (mode == Keys.MapViewMode.MYTASKS) {
-            getMyTasks();
-        } else if (mode == Keys.MapViewMode.ALLTASKS) {
-            getSurveysFromServer(taskRadius);
-        }
-    }
 
-    /**
-     * Initiate call to server side and get Tasks
-     *
-     * @param radius
-     */
-    private void getSurveysFromServer(final int radius) {
-        final Location location = lm.getLocation();
-        if (location != null) {
-            lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                @Override
-                public void onUpdate(Address address) {
-                    if (address != null) {
-                        APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
-                                address.getCountryName(), address.getLocality(), radius);
-                    } else {
-                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
-                    }
-                }
-            });
-        } else {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                @Override
-                public void onUpdate(final Location location) {
-                    L.i(TAG, "Location Updated!");
-                    lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                        @Override
-                        public void onUpdate(Address address) {
-                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                            if (address != null) {
-                                APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
-                                        address.getCountryName(), address.getLocality(), radius);
-                            } else {
-                                UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    }
 
-    /**
-     * Initiate call to server side and get my Tasks
-     */
-    private void getMyTasks() {
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-        ((BaseActivity) getActivity()).sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
-    }
 
     /* ==============================================
     * Methods for Clusters pins display on the map
@@ -421,7 +390,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                         @Override
                         public void onCameraChange(CameraPosition pos) {
                             zoomLevel = pos.zoom;
-                            L.d(TAG, "ZoomLevel = " + zoomLevel);
                         }
                     });
                 }
@@ -517,33 +485,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
     }
 
-    /**
-     * Database Helper for Data fetching
-     */
-    private class DbHandler extends AsyncQueryHandler {
-
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
-                    onLoadingComplete(tasks);
-                    break;
-                default:
-                    break;
-            }
-        }
+    private void toggleFilterPanel() {
+        showFilterPanel(!isFilterShow);
     }
 
-    private void togleFilterPannel() {
-        showFilterPannel(!isFilterShow);
-    }
-
-    private void showFilterPannel(boolean show) {
+    private void showFilterPanel(boolean show) {
         this.isFilterShow = show;
 
         if (isFilterShow) {
@@ -640,5 +586,17 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else {
             UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        super.onStop();
     }
 }

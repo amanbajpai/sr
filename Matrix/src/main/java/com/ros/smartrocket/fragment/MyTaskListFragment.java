@@ -30,6 +30,9 @@ import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment - display my tasks in {@link android.widget.ListView}
+ */
 public class MyTaskListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = MyTaskListFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -49,11 +52,10 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        ListView taskList = (ListView) view.findViewById(R.id.taskList);
-        taskList.setOnItemClickListener(this);
-
         adapter = new MyTaskAdapter(getActivity());
 
+        ListView taskList = (ListView) view.findViewById(R.id.taskList);
+        taskList.setOnItemClickListener(this);
         taskList.setAdapter(adapter);
 
         return view;
@@ -76,8 +78,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     private void getMyTasks() {
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-
         TasksBL.getMyTasksFromDB(handler);
         ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
     }
@@ -109,8 +109,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         } else {
             L.i(TAG, operation.getResponseError());
         }
-
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override

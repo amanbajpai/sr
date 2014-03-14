@@ -112,7 +112,7 @@ public class NetworkService extends BaseNetworkService {
                                 }
 
                                 vals.add(task.toContentValues());
-                                L.e(TAG, "All task Id: " + task.getId());
+                                //L.e(TAG, "All task Id: " + task.getId());
                             }
                             ContentValues[] bulk = new ContentValues[vals.size()];
                             contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
@@ -142,7 +142,7 @@ public class NetworkService extends BaseNetworkService {
                                     tampLocation.setLatitude(task.getLatitude());
                                     tampLocation.setLongitude(task.getLongitude());
                                     task.setIsMy(true);
-                                    L.e(TAG, "My task Id: " + task.getId());
+                                    //L.e(TAG, "My task Id: " + task.getId());
 
                                     if (currentLocation != null) {
                                         task.setDistance(currentLocation.distanceTo(tampLocation));

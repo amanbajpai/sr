@@ -73,6 +73,8 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
             datePicker.updateDate(year, month, day);
+        } else {
+            datePicker.updateDate(1990, 0, 1);
         }
 
         findViewById(R.id.okButton).setOnClickListener(this);

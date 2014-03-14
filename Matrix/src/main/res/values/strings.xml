@@ -129,9 +129,9 @@
     <string name="support_text2" >Survey description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string >
     <string name="support_text3" >Phasellus eget feugiat justo. Integer eget ligula porta, commodo magna at, porta
         purus. Sed non placerat nisi. Aenean tempor nibh in purus egestas porta.</string >
-    <string name="term_and_conditions" >Term &amp; Conditions agreement</string >
-    <string name="knowledge_base" >Knowledge Base</string >
-    <string name="send_message" >Send message</string >
+    <string name="term_and_conditions" >TERMS &amp; CONDITIONS</string >
+    <string name="knowledge_base" >KNOWLEDGE BASE</string >
+    <string name="send_message" >SEND MESSAGE</string >
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_and_refer_title" >Share &amp; Refer</string >
     <string name="share_and_refer_via" >Share &amp; Refer via</string >

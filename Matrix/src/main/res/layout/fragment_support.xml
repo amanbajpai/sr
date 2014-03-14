@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent" >
     <LinearLayout
@@ -7,52 +8,47 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp" >
-        <TextView
-            android:layout_height="match_parent"
+        <com.ros.smartrocket.views.CustomTextView
+            style="@style/supportTextStyle"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingBottom="20dp"
             android:text="@string/support_text1" />
-        <TextView
-            android:layout_height="match_parent"
+        <com.ros.smartrocket.views.CustomTextView
+            style="@style/supportTextStyle"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingBottom="20dp"
             android:text="@string/support_text2" />
-        <TextView
-            android:layout_height="match_parent"
+        <com.ros.smartrocket.views.CustomTextView
+            style="@style/supportTextStyle"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingBottom="20dp"
             android:text="@string/support_text3" />
-        <Button
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/knowledgeBaseButton"
+            style="@style/Button"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_weight="2"
-            android:text="@string/knowledge_base" />
-        <Button
+            android:background="@drawable/button_green_selector"
+            android:layout_marginTop="30dp"
+            android:text="@string/knowledge_base"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/sendMessageButton"
+            style="@style/Button"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:gravity="center"
+            android:background="@drawable/button_green_selector"
             android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:layout_weight="2"
-            android:text="@string/send_message" />
-        <Button
+            android:text="@string/send_message"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/termAndConditionsButton"
+            style="@style/Button"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:background="@drawable/button_green_selector"
             android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/term_and_conditions" />
+            android:text="@string/term_and_conditions"
+            custom:textStyle="bold" />
     </LinearLayout >
 </ScrollView >

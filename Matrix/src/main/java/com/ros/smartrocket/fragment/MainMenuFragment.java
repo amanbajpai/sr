@@ -109,15 +109,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
 
-                Log.i(TAG, "onClick() [findTasksButton]");
-
                 fragment = new AllTaskFragment();
                 fragment.setArguments(bundle);
                 ((MainActivity) getActivity()).startFragment(fragment);
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myTasksButton:
-                Log.i(TAG, "onClick() [myTasksButton]");
                 bundle.putString(Keys.CONTENT_TYPE, Keys.MY_TASK);
 
                 fragment = new AllTaskFragment();
@@ -161,9 +158,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (getActivity() != null) {
             getActivity().unregisterReceiver(localReceiver);
         }
+        super.onDestroy();
     }
 }

@@ -22,7 +22,7 @@ import com.ros.smartrocket.helpers.FragmentHelper;
 public class AllTaskFragment extends Fragment implements OnClickListener {
     private static final String TAG = AllTaskFragment.class.getSimpleName();
     private ViewGroup view;
-    private FragmentHelper fragmetHelper = new FragmentHelper();
+    private FragmentHelper fragmentHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
 
     @Override
@@ -57,7 +57,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
             }
             showMap();
         } else {
-            fragmetHelper.hideLastFragment(getActivity());
+            fragmentHelper.hideLastFragment(getActivity());
         }
     }
 
@@ -74,19 +74,20 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         Bundle bundle = new Bundle();
         bundle.putString(Keys.MAP_MODE_VIEWTYPE, mode.toString());
 
-        Log.i(TAG, "onClick() [findTasksButton]");
-
         Fragment fragment = new TasksMapFragment();
         fragment.setArguments(bundle);
-        fragmetHelper.startFragmentFromStack(getActivity(), fragment);
+        fragmentHelper.startFragmentFromStack(getActivity(), fragment);
     }
 
-    public void showSurveyList() {
-        fragmetHelper.startFragmentFromStack(getActivity(), new SurveyListFragment());
-    }
-
-    public void showMyTask() {
-        fragmetHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment());
+    /**
+     * Show List with proper contentType
+     */
+    public void showList() {
+        if (Keys.FIND_TASK.equals(contentType)) {
+            fragmentHelper.startFragmentFromStack(getActivity(), new SurveyListFragment());
+        } else if (Keys.MY_TASK.equals(contentType)) {
+            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment());
+        }
     }
 
     @Override
@@ -96,11 +97,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
                 showMap();
                 break;
             case R.id.listButton:
-                if (Keys.FIND_TASK.equals(contentType)) {
-                    showSurveyList();
-                } else if (Keys.MY_TASK.equals(contentType)) {
-                    showMyTask();
-                }
+                showList();
                 break;
             case R.id.refreshButton:
 

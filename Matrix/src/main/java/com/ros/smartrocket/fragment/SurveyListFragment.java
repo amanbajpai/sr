@@ -7,7 +7,6 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,14 +39,10 @@ import java.util.ArrayList;
  */
 public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
     private static final String TAG = SurveyListFragment.class.getSimpleName();
-    private static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ViewGroup view;
 
     private AsyncQueryHandler handler;
-
-    private ListView surveyList;
     private SurveyAdapter adapter;
 
     @Override
@@ -58,26 +53,37 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_survey_list, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_survey_list, null);
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        surveyList = (ListView) view.findViewById(R.id.surveyList);
-        surveyList.setOnItemClickListener(this);
-
         adapter = new SurveyAdapter(getActivity());
 
+        ListView surveyList = (ListView) view.findViewById(R.id.surveyList);
+        surveyList.setOnItemClickListener(this);
         surveyList.setAdapter(adapter);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         getSurveys();
-        return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (!hidden) {
+            getSurveys();
+        }
     }
 
     private void getSurveys() {
         final Location location = lm.getLocation();
         if (location != null) {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-
             final int radius = TasksMapFragment.taskRadius;
             L.i(TAG, "Radius: " + radius);
 
@@ -94,7 +100,6 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
                     }
                 }
             });
-
         }
     }
 
@@ -123,10 +128,8 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
                 SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius);
             }
         } else {
-            L.i(TAG, operation.getResponseError());
+            L.e(TAG, operation.getResponseError());
         }
-
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override
