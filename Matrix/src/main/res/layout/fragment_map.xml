@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/llroot"
     android:layout_width="match_parent"
@@ -34,44 +35,37 @@
         android:padding="10dp"
         android:orientation="vertical"
         android:layout_alignParentBottom="true" >
-        <LinearLayout
+        <com.ros.smartrocket.views.CustomTextView
             android:layout_width="match_parent"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"
-                android:text="@string/show_tasks_on_distance_from_my_location" />
-            <Button
-                android:id="@+id/applyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/apply" />
-        </LinearLayout >
+            android:text="@string/show_tasks_on_distance_from_my_location" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:orientation="vertical" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
+                custom:textStyle="bold"
                 android:text="@string/min_distance" />
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/txtRadius"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                custom:textStyle="bold"
+                android:textColor="@color/red"
                 android:layout_centerHorizontal="true" />
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
+                custom:textStyle="bold"
                 android:text="@string/max_distance" />
             <SeekBar
                 style="?android:attr/progressBarStyleHorizontal"
@@ -83,18 +77,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
-            <TextView
+            <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"
-                android:text="@string/hidden_task_on_map" />
-            <Button
-                android:id="@+id/showButton"
+                android:text="@string/show_hidden_tasks_on_map" />
+            <ToggleButton
+                android:id="@+id/showHiddenTasksToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/show" />
+                android:layout_gravity="center_vertical" />
         </LinearLayout >
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/applyButton"
+            style="@style/Button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_green_selector"
+            android:layout_marginTop="30dp"
+            android:text="@string/apply_big"
+            custom:textStyle="bold" />
     </LinearLayout >
 </RelativeLayout >

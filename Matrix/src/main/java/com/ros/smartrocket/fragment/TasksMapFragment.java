@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
@@ -57,7 +59,7 @@ import com.twotoasters.clusterkraf.Options;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener {
+public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
@@ -106,6 +108,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         btnFilter.setOnClickListener(this);
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
+        ((ToggleButton) view.findViewById(R.id.showHiddenTasksToggleButton)).setOnCheckedChangeListener(this);
 
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
@@ -259,7 +262,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             loadTasksFromLocalDb();
             updateDataFromServer(location);
             addMyLocationAndRadius(location, taskRadius);
-            if(isFirstStart){
+            if (isFirstStart) {
                 moveCameraToMyLocation();
                 isFirstStart = false;
             }
@@ -365,6 +368,21 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.showHiddenTasksToggleButton:
+                //TODO Refresh data
+                if (isChecked) {
+
+                } else {
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
 
 

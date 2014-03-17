@@ -8,10 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -34,7 +35,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private IntentFilter intentFilter;
     private TextView balanceTextView;
     private TextView levelTextView;
-    private ProgressBar levelProgressBar;
+    private SeekBar levelProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +46,13 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
         levelTextView = (TextView) view.findViewById(R.id.levelTextView);
-        levelProgressBar = (ProgressBar) view.findViewById(R.id.levelProgressBar);
+        levelProgressBar = (SeekBar) view.findViewById(R.id.levelProgressBar);
+        levelProgressBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
