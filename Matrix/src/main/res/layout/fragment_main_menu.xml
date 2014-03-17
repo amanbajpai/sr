@@ -1,133 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp"
-    android:orientation="vertical" >
-    <Button
-        android:id="@+id/findTasksButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/find_tasks" />
-    <Button
-        android:id="@+id/myTasksButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/my_tasks" />
-    <View
-        style="@style/mainMenuDividerStyle"
-        android:layout_height="1dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent" >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:background="@color/grey_light"
             android:orientation="horizontal" >
             <ImageView
                 android:id="@+id/photoImageView"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_height="40dp"
+                android:layout_width="40dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_launcher" />
-            <TextView
+                android:adjustViewBounds="true"
+                android:src="@drawable/cam" />
+            <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/nameTextView"
+                android:layout_marginLeft="20dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16sp"
+                android:text="@string/app_name"
+                android:background="@android:color/transparent"
+                custom:textStyle="bold" />
+        </LinearLayout >
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/findTasksButton"
+            style="@style/MainMenuButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/find_tasks"
+            android:drawableLeft="@drawable/city_icon_error"
+            custom:textStyle="bold" />
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1px"
+            android:layout_width="match_parent" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/myTasksButton"
+            style="@style/MainMenuButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_tasks"
+            android:drawableLeft="@drawable/city_icon_error"
+            custom:textStyle="bold" />
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1px"
+            android:layout_width="match_parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <com.ros.smartrocket.views.CustomTextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_15sp"
+                    custom:textStyle="bold"
+                    android:text="@string/balance" />
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/balanceTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    custom:textStyle="bold"
+                    android:gravity="right"
+                    android:background="@color/grey_light"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_15sp"
+                    android:text="@string/balance_0" />
+            </LinearLayout >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal" >
+                <com.ros.smartrocket.views.CustomTextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    custom:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_15sp"
+                    android:text="@string/level" />
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/levelTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    custom:textStyle="bold"
+                    android:gravity="right"
+                    android:background="@color/grey_light"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_15sp"
+                    android:text="@string/level_0" />
+            </LinearLayout >
+            <SeekBar
+                android:id="@+id/levelProgressBar"
+                android:progressDrawable="@drawable/seekbar"
+                android:indeterminateDrawable="@drawable/seekbar"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_height="70dp"
+                android:thumbOffset="10dp"
                 android:layout_gravity="bottom"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/app_name" />
+                android:thumb="@drawable/country_icon_press"
+                android:layout_marginBottom="-30dp"
+                android:progress="10" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal" >
+                <com.ros.smartrocket.views.CustomTextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:text="@string/navigator" />
+                <com.ros.smartrocket.views.CustomTextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:text="@string/sprinter" />
+            </LinearLayout >
         </LinearLayout >
-        <LinearLayout
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1px"
+            android:layout_width="match_parent" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/myAccountButton"
+            style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/balance" />
-            <TextView
-                android:id="@+id/balanceTextView"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/balance_0" />
-        </LinearLayout >
-        <LinearLayout
+            android:text="@string/my_account"
+            android:drawableLeft="@drawable/city_icon"
+            custom:textStyle="bold" />
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1px"
+            android:layout_width="match_parent" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/shareButton"
+            style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/level" />
-            <TextView
-                android:id="@+id/levelTextView"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/level_0" />
-        </LinearLayout >
-        <ProgressBar
-            android:id="@+id/levelProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
+            android:text="@string/share_and_refer"
+            android:drawableLeft="@drawable/city_icon"
+            android:drawablePadding="10dp"
+            custom:textStyle="bold" />
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1px"
+            android:layout_width="match_parent" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/supportButton"
+            style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp" />
+            android:text="@string/support"
+            android:drawableLeft="@drawable/city_icon"
+            custom:textStyle="bold" />
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1px"
+            android:layout_width="match_parent" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/settingsButton"
+            style="@style/MainMenuButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:drawableLeft="@drawable/city_icon"
+            custom:textStyle="bold" />
     </LinearLayout >
-    <View
-        style="@style/mainMenuDividerStyle"
-        android:layout_height="1dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
-    <Button
-        android:id="@+id/myAccountButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/my_account" />
-    <Button
-        android:id="@+id/shareButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/share_and_refer" />
-    <Button
-        android:id="@+id/supportButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/support" />
-    <Button
-        android:id="@+id/settingsButton"
-        style="@style/Button"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/settings" />
-</LinearLayout >
+</ScrollView >

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.L;
 
 /**
  * Fragment for display About information

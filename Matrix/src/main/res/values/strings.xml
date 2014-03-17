@@ -54,6 +54,8 @@
     <string name="share_and_refer" >Share &amp; Refer</string >
     <string name="level" >Level</string >
     <string name="level_0" >0</string >
+    <string name="navigator" >Navigator</string >
+    <string name="sprinter" >Sprinter</string >
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry</string >
     <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,

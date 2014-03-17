@@ -34,7 +34,6 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * IntentService for API communication

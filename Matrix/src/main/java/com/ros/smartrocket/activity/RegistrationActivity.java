@@ -82,11 +82,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
         }
 
-        String[] education_level = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
+        String[] educationLevel = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
                 getString(R.string.primary_school), getString(R.string.junior_secondary_school),
                 getString(R.string.senior_secondary_school), getString(R.string.vocational_collage),
                 getString(R.string.bachelors_degree), getString(R.string.master_degree_or_higher)};
-        String[] employment_status = new String[]{getString(R.string.employment_status), getString(R.string.student),
+        String[] employmentStatus = new String[]{getString(R.string.employment_status), getString(R.string.student),
                 getString(R.string.employed_part_time), getString(R.string.employed_full_time),
                 getString(R.string.not_employed_looking_for_work),
                 getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
@@ -115,12 +115,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         educationLevelSpinner = (Spinner) findViewById(R.id.educationLevelSpinner);
         ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
-                education_level);
+                educationLevel);
         educationLevelSpinner.setAdapter(educationLevelAdapter);
 
         employmentStatusSpinner = (Spinner) findViewById(R.id.employmentStatusSpinner);
         ArrayAdapter employmentStatusAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
-                employment_status);
+                employmentStatus);
         employmentStatusSpinner.setAdapter(employmentStatusAdapter);
 
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);

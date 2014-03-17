@@ -13,7 +13,7 @@ import com.ros.smartrocket.db.entity.Answer;
 
 public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     //private static final String TAG = "AnswerCheckBoxAdapter";
-    private Answer answers[];
+    private Answer[] answers;
     private LayoutInflater inflater;
     //private Activity activity;
 

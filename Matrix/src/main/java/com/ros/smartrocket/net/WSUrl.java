@@ -54,34 +54,34 @@ public final class WSUrl {
     public static final int SAVE_REFERRAL_CASE_ID = 20;
     public static final int REJECT_TASK_ID = 20;
 
-    public static final HashMap<String, Integer> urls;
+    public static final HashMap<String, Integer> URLS;
 
     static {
-        urls = new HashMap<String, Integer>();
-        urls.put(LOGIN, LOGIN_ID);
-        urls.put(GET_SURVEYS, GET_SURVEYS_ID);
-        urls.put(GET_SURVEYS_TASKS, GET_SURVEYS_TASKS_ID);
-        urls.put(GET_MY_TASKS, GET_MY_TASKS_ID);
-        urls.put(REGISTRATION, REGISTRATION_ID);
-        urls.put(SUBSCRIPTION, SUBSCRIPTION_ID);
-        urls.put(CLAIM_TASK, CLAIM_TASKS_ID);
-        urls.put(CHECK_LOCATION, CHECK_LOCATION_ID);
-        urls.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
-        urls.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
-        urls.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
-        urls.put(GET_QUESTIONS, GET_QUESTIONS_ID);
-        urls.put(GET_REDO_QUESTION, GET_REDO_QUESTION_ID);
-        urls.put(UPLOAD_TASK_FILE, UPLOAD_TASK_FILE_ID);
-        urls.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
-        urls.put(START_TASK, START_TASK_ID);
-        urls.put(VALIDATE_TASK, VALIDATE_TASK_ID);
-        urls.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);
-        urls.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
-        urls.put(REJECT_TASK, REJECT_TASK_ID);
+        URLS = new HashMap<String, Integer>();
+        URLS.put(LOGIN, LOGIN_ID);
+        URLS.put(GET_SURVEYS, GET_SURVEYS_ID);
+        URLS.put(GET_SURVEYS_TASKS, GET_SURVEYS_TASKS_ID);
+        URLS.put(GET_MY_TASKS, GET_MY_TASKS_ID);
+        URLS.put(REGISTRATION, REGISTRATION_ID);
+        URLS.put(SUBSCRIPTION, SUBSCRIPTION_ID);
+        URLS.put(CLAIM_TASK, CLAIM_TASKS_ID);
+        URLS.put(CHECK_LOCATION, CHECK_LOCATION_ID);
+        URLS.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
+        URLS.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
+        URLS.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
+        URLS.put(GET_QUESTIONS, GET_QUESTIONS_ID);
+        URLS.put(GET_REDO_QUESTION, GET_REDO_QUESTION_ID);
+        URLS.put(UPLOAD_TASK_FILE, UPLOAD_TASK_FILE_ID);
+        URLS.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
+        URLS.put(START_TASK, START_TASK_ID);
+        URLS.put(VALIDATE_TASK, VALIDATE_TASK_ID);
+        URLS.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);
+        URLS.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
+        URLS.put(REJECT_TASK, REJECT_TASK_ID);
     }
 
     public static int matchUrl(String url) {
-        Integer matchedId = urls.get(url);
+        Integer matchedId = URLS.get(url);
         if (matchedId == null) {
             matchedId = -1;
         }

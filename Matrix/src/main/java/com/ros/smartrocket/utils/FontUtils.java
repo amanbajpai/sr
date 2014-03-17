@@ -9,12 +9,12 @@ import java.util.Map;
 
 public class FontUtils {
     private final static String TAG = "FontUtils";
-    private final static Map<String, Typeface> loadedTypefacesMap = new HashMap<String, Typeface>();
-    private final static PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private final static Map<String, Typeface> LOADED_TYPEFACES_MAP = new HashMap<String, Typeface>();
+    private final static PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
 
     public static String getFontAssetPath(int textStyle) {
         String fontAssetPath;
-        String languageCode = preferencesManager.getLanguageCode();
+        String languageCode = PREFERENCES_MANAGER.getLanguageCode();
 
         switch (textStyle) {
             case 0:
@@ -58,7 +58,7 @@ public class FontUtils {
     }
 
     public static Typeface loadFontFromAsset(AssetManager assetManager, String assetPath) {
-        Typeface t = loadedTypefacesMap.get(assetPath);
+        Typeface t = LOADED_TYPEFACES_MAP.get(assetPath);
         if (t == null) {
             try {
                 t = Typeface.createFromAsset(assetManager, assetPath);
@@ -68,7 +68,7 @@ public class FontUtils {
                 return null;
             }
 
-            loadedTypefacesMap.put(assetPath, t);
+            LOADED_TYPEFACES_MAP.put(assetPath, t);
         }
         return t;
     }

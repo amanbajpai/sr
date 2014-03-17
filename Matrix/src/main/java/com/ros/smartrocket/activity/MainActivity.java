@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
-import com.ros.smartrocket.utils.UIUtils;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     //private static final String TAG = MainActivity.class.getSimpleName();

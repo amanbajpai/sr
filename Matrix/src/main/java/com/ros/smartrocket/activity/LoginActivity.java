@@ -18,7 +18,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
-import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
