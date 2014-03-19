@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
@@ -25,15 +26,16 @@ public class AnswersBL {
     /**
      * Make request for getting Answer list
      *
-     * @param handler - Handler for getting response from DB
+     * @param handler    - Handler for getting response from DB
      * @param questionId - question id
      */
 
     public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer questionId) {
         handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema
-                .Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId)}, AnswerDbSchema.SORT_ORDER_DESC);
+                        .Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId)}, AnswerDbSchema.SORT_ORDER_DESC
+        );
     }
 
     public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
@@ -111,7 +113,8 @@ public class AnswersBL {
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " + AnswerDbSchema
                         .Columns.FILE_URI + " NOT NULL",
-                new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
+                new String[]{String.valueOf(taskId), String.valueOf(1)}, null
+        );
 
         return convertCursorToAnswerList(cursor);
     }
@@ -192,4 +195,7 @@ public class AnswersBL {
                 AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
+    public static void removeAllAnswers(Context context) {
+        context.getContentResolver().delete(AnswerDbSchema.CONTENT_URI, null, null);
+    }
 }

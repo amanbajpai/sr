@@ -9,10 +9,13 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.dialog.QuiteTaskDialog;
+import com.ros.smartrocket.helpers.WriteDataHelper;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
 
@@ -46,7 +49,7 @@ public class DialogUtils {
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();
-                    PreferencesManager.getInstance().setToken("");
+                    WriteDataHelper.prepareLogout(activity);
 
                     activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
                     activity.finish();
@@ -139,7 +142,7 @@ public class DialogUtils {
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();
-                    PreferencesManager.getInstance().setToken("");
+                    WriteDataHelper.prepareLogout(activity);
 
                     activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
                     activity.finish();
@@ -240,8 +243,8 @@ public class DialogUtils {
      * @param activity
      */
     public static Dialog show3GLimitExceededDialog(final Context activity,
-                                                 DefaultInfoDialog.DialogButtonClickListener
-                                                         dialogButtonClickListener) {
+                                                   DefaultInfoDialog.DialogButtonClickListener
+                                                           dialogButtonClickListener) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_title),
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_text1),

@@ -3,6 +3,7 @@ package com.ros.smartrocket.bl;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
@@ -37,11 +38,14 @@ public class TasksBL {
                 null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getNotMyTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius) {
+    public static void getNotMyTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius, boolean withHiddenTasks) {
+        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=? and " + Table.TASK.getName()
-                + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?",
-                new String[]{String.valueOf(taskRadius), String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC);
+                        + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?" + withHiddenTaskWhere,
+                new String[]{String.valueOf(taskRadius), String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC
+        );
     }
 
 
@@ -64,11 +68,15 @@ public class TasksBL {
                 TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getNotMyTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId) {
+    public static void getNotMyTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId, boolean withHiddenTasks) {
+        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=? and "
-                + TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(surveyId), String.valueOf(0)},
-                TaskDbSchema.SORT_ORDER_DESC);
+                        + TaskDbSchema.Columns.IS_MY + "=?" + withHiddenTaskWhere,
+                new String[]{String.valueOf(surveyId), String.valueOf(0)},
+                TaskDbSchema.SORT_ORDER_DESC
+        );
     }
 
     public static void getMyTasksFromDB(AsyncQueryHandler handler) {
@@ -243,5 +251,9 @@ public class TasksBL {
     public static void removeTasksBySurveyId(ContentResolver contentResolver, int surveyId) {
         contentResolver.delete(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Columns.SURVEY_ID + "=?", new String[]{String.valueOf(surveyId)});
+    }
+
+    public static void removeAllTasksFromDB(Context context) {
+        context.getContentResolver().delete(TaskDbSchema.CONTENT_URI, null, null);
     }
 }

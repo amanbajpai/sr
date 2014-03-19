@@ -65,10 +65,9 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         View view = null;
         // Don't show popup window in such cases
         if (marker != null && !MYLOC.equals(marker.getSnippet())
-                && mode != Keys.MapViewMode.SINGLETASK) {
-            if (render(marker, mContents, clusterPoint)) {
-                view = mContents;
-            }
+                && mode != Keys.MapViewMode.SINGLETASK && render(marker, mContents, clusterPoint)) {
+            view = mContents;
+
         }
         return view;
     }
@@ -78,10 +77,8 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         View view = null;
         // Don't show popup window in such cases
         if (marker != null && !MYLOC.equals(marker.getSnippet())
-                && mode != Keys.MapViewMode.SINGLETASK) {
-            if (render(marker, mWindow, clusterPoint)) {
-                view = mWindow;
-            }
+                && mode != Keys.MapViewMode.SINGLETASK && render(marker, mWindow, clusterPoint)) {
+            view = mWindow;
         }
         return view;
     }

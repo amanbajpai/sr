@@ -1,84 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:layout_width="match_parent" >
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:layout_marginRight="20dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_launcher" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:padding="20dp" >
-        <RelativeLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" >
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_launcher" />
-            <TextView
-                android:id="@+id/welcome"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/logo"
-                android:text="@string/welcome_to" />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/logo"
-                android:layout_below="@+id/welcome"
-                android:text="@string/welcome_to"
-                android:textSize="@dimen/text_size_large" />
-        </RelativeLayout >
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:adjustViewBounds="true"
+            android:background="@color/grey_light"
+            android:padding="14dp"
+            android:src="@drawable/mail_icon" />
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/emailEditText"
             style="@style/EditText"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:inputType="textEmailAddress"
             android:text="@string/login_test_account"
+            android:background="@color/white"
             android:hint="@string/your_email_hint" />
+    </LinearLayout >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:adjustViewBounds="true"
+            android:background="@color/grey_light"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:src="@drawable/pass_icon" />
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/passwordEditText"
             style="@style/EditText"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
             android:inputType="textPassword"
-            android:layout_width="match_parent"
             android:text="@string/login_test_password"
+            android:background="@color/white"
             android:hint="@string/your_password_hint" />
-        <TextView
-            android:id="@+id/forgotPasswordButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:text="@string/forgot_password" />
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/text_size_medium"
-            android:text="@string/login" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:autoLink="web"
-            android:layout_marginTop="30dp"
-            android:text="@string/you_can_register" />
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="@dimen/text_size_medium"
-            android:text="@string/i_new_user" />
     </LinearLayout >
-</ScrollView >
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/loginButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@drawable/button_green_selector"
+        android:layout_marginTop="30dp"
+        android:text="@string/login_big"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/forgotPasswordButton"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:textColor="@color/orange"
+        android:text="@string/forgot_your_password"
+        custom:textStyle="bold" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/registerButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/text_size_medium"
+        android:text="@string/i_new_user" />
+</LinearLayout >

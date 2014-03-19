@@ -6,6 +6,7 @@
     <color name="grey_light">#f2f2f2</color>
     <color name="green">#637f11</color>
     <color name="red">#cb333a</color>
+    <color name="orange">#fbae42</color>
 
     <color name="map_radius_stroke">#aaff0033</color>
     <color name="map_radius_fill">#07ff0033</color>

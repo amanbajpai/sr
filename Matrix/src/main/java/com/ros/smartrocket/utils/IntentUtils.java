@@ -1,5 +1,6 @@
 package com.ros.smartrocket.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -159,8 +160,10 @@ public class IntentUtils {
      *
      * @return
      */
+
     public static Intent getSmsIntent(Context context, String phoneNumber, String text) {
         Intent intent;
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(context);
 

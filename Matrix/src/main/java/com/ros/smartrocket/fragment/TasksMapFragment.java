@@ -66,6 +66,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ImageButton btnFilter;
     private LinearLayout rlFilterPanel;
+    private ToggleButton showHiddenTasksToggleButton;
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
@@ -108,7 +109,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         btnFilter.setOnClickListener(this);
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
-        ((ToggleButton) view.findViewById(R.id.showHiddenTasksToggleButton)).setOnCheckedChangeListener(this);
+        showHiddenTasksToggleButton = (ToggleButton) view.findViewById(R.id.showHiddenTasksToggleButton);
+        showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
 
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
@@ -133,7 +135,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius);
+                TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
                 Location location = lm.getLocation();
                 if (location == null) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
@@ -201,11 +203,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void loadTasksFromLocalDb() {
         if (mode == Keys.MapViewMode.ALLTASKS) {
-            TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius);
+            TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
         } else if (mode == Keys.MapViewMode.MYTASKS) {
             TasksBL.getMyTasksFromDB(handler);
         } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
-            TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId);
+            TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
             Log.d(TAG, "loadTasksFromLocalDb() [surveyId  =  " + viewItemId + "]");
         } else if (mode == Keys.MapViewMode.SINGLETASK) {
             TasksBL.getTaskFromDBbyID(handler, viewItemId);
@@ -372,12 +374,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.showHiddenTasksToggleButton:
-                //TODO Refresh data
-                if (isChecked) {
-
-                } else {
-
-                }
+                loadData();
                 break;
             default:
                 break;

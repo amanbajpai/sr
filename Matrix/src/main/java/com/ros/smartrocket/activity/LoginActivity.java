@@ -55,6 +55,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
+
+        UIUtils.setActivityBackgroundColor(this, R.color.red);
 
         final MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
         Location loc = lm.getLocation();
@@ -103,7 +106,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             public void onGetShortUrlError(String errorString) {
 
                             }
-                        });
+                        }
+                );
 
                 // Check if we are registered on Server side our GCM Id
                 /*if (!preferencesManager.isGCMIdRegisteredOnServer()) {

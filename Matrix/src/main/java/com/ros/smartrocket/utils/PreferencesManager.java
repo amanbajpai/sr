@@ -60,14 +60,7 @@ public class PreferencesManager {
      * registration ID.
      */
     public String getGCMRegistrationId() {
-        Context context = App.getInstance().getApplicationContext();
-        final SharedPreferences prefs = getPreferences();
-        String registrationId = prefs.getString(Keys.GCM_PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            L.i(TAG, "Registration not found.");
-            return "";
-        }
-        return registrationId;
+        return getString(Keys.GCM_PROPERTY_REG_ID, "");
     }
 
     /**
@@ -77,11 +70,8 @@ public class PreferencesManager {
      * @return
      */
     public void setGCMRegistrationId(String regId) {
-        Editor editor = getPreferences().edit();
-        editor.putString(Keys.GCM_PROPERTY_REG_ID, regId);
-        editor.commit();
+        setString(Keys.GCM_PROPERTY_REG_ID, regId);
     }
-
 
     /**
      * Check is GCM is registered on the server

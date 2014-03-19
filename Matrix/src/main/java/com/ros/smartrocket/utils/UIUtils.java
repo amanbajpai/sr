@@ -428,4 +428,9 @@ public class UIUtils {
             imageView.setImageResource(R.drawable.cam_error);
         }
     }
+
+    public static void setActivityBackgroundColor(Activity activity, int colorRes) {
+        View view = activity.getWindow().getDecorView();
+        view.setBackgroundColor(activity.getResources().getColor(colorRes));
+    }
 }

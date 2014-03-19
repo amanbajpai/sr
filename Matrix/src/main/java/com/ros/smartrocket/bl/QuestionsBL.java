@@ -25,8 +25,9 @@ public class QuestionsBL {
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema
-                .Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(surveyId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC);
+                        .Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(surveyId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC
+        );
     }
 
     /**
@@ -39,9 +40,10 @@ public class QuestionsBL {
     public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema
-                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=?",
+                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=?",
                 new String[]{String.valueOf(surveyId), String.valueOf(taskId), String.valueOf(3)},
-                QuestionDbSchema.SORT_ORDER_DESC);
+                QuestionDbSchema.SORT_ORDER_DESC
+        );
     }
 
     /**
@@ -70,6 +72,10 @@ public class QuestionsBL {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Columns.SURVEY_ID + "=?",
                 new String[]{String.valueOf(surveyId)});
+    }
+
+    public static void removeAllQuestionsFromDB(Context context) {
+        context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI, null, null);
     }
 
     /**

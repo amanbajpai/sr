@@ -20,8 +20,13 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.bl.SurveysBL;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -139,7 +144,7 @@ public class MyAccountFragment extends Fragment implements NetworkOperationListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                preferencesManager.setToken("");
+                WriteDataHelper.prepareLogout(getActivity());
 
                 getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
                 getActivity().finish();

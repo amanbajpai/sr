@@ -16,6 +16,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.UIUtils;
 
 public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
@@ -32,6 +33,9 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_referral_cases);
+        getSupportActionBar().hide();
+
+        UIUtils.setActivityBackgroundColor(this, R.color.white);
 
         if (getIntent() != null) {
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
