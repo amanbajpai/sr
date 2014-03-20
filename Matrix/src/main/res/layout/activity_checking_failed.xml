@@ -1,76 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent" >
+    android:orientation="vertical"
+    android:padding="10dp" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:gravity="center" >
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_launcher" />
+    </LinearLayout >
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/text_size_16sp"
+        android:textColor="@color/black"
+        android:text="@string/sorry"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/text_size_14sp"
+        android:textColor="@color/black"
+        android:text="@string/we_dont_have_available_tasks" />
+    <com.ros.smartrocket.views.CustomEditTextView
+        android:id="@+id/emailEditText"
+        style="@style/EditText"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:inputType="textEmailAddress"
+        android:drawableLeft="@drawable/mail_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/your_email_hint" />
+    <com.ros.smartrocket.views.CustomEditTextView
+        android:id="@+id/countryEditText"
+        style="@style/EditText"
+        android:enabled="false"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:drawableLeft="@drawable/country_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/your_country_hint" />
+    <com.ros.smartrocket.views.CustomEditTextView
+        android:id="@+id/cityEditText"
+        style="@style/EditText"
+        android:enabled="false"
+        android:drawableLeft="@drawable/city_icon"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="@string/your_city_hint" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp" >
-        <RelativeLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" >
-            <ImageView
-                android:id="@+id/logo"
-                android:contentDescription="@string/app_name"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_launcher" />
-            <TextView
-                android:id="@+id/welcome"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/logo"
-                android:text="@string/welcome_to" />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/logo"
-                android:layout_below="@+id/welcome"
-                android:text="@string/welcome_to"
-                android:textSize="@dimen/text_size_large" />
-        </RelativeLayout >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/text_size_large"
-            android:gravity="center_horizontal"
-            android:text="@string/sorry" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:textSize="@dimen/text_size_medium"
-            android:gravity="left"
-            android:text="@string/we_dont_have_available_tasks" />
-        <EditText
-            android:id="@+id/countryEditText"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:hint="@string/your_country_hint" />
-        <EditText
-            android:id="@+id/cityEditText"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:hint="@string/your_city_hint" />
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/your_email_hint" />
-        <Button
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp" >
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/subscribeButton"
+            style="@style/Button"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/subscribe_for_notification" />
+            android:background="@drawable/button_green_selector"
+            android:text="@string/subscribe"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/cancelButton"
+            style="@style/Button"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_red_selector"
+            android:text="@string/cancel_big"
+            custom:textStyle="bold" />
     </LinearLayout >
-</ScrollView >
+</LinearLayout >

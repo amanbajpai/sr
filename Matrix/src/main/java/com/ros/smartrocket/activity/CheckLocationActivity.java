@@ -33,9 +33,10 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_check_location);
+
+        UIUtils.setActivityBackgroundColor(this, R.color.white);
 
         if (getIntent() != null) {
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);

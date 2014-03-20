@@ -7,7 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -76,7 +80,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_details);
-        setTitle(R.string.task_detail_title);
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
@@ -351,6 +354,21 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        View view = actionBar.getCustomView();
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.task_detail_title);
+
+        return true;
     }
 
     @Override

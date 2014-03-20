@@ -3,6 +3,7 @@ package com.ros.smartrocket.activity;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener,
@@ -31,8 +33,10 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_checking_failed);
+
+        UIUtils.setActivityBackgroundColor(this, R.color.white);
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId="
                 + UIUtils.getDeviceId(this), (long) 0).build());
@@ -44,6 +48,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         setCurrentAddressByLocation();
 
         findViewById(R.id.subscribeButton).setOnClickListener(this);
+        findViewById(R.id.cancelButton).setOnClickListener(this);
 
         checkDeviceSettingsByOnResume(false);
     }
@@ -63,11 +68,22 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.subscribeButton:
+                String email = emailEditText.getText().toString().trim();
                 String countryName = countryEditText.getText().toString().trim();
                 String cityName = cityEditText.getText().toString().trim();
-                String email = emailEditText.getText().toString().trim();
+
+                UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
+                UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));
+
+                if (TextUtils.isEmpty(countryName) || TextUtils.isEmpty(cityName) || !UIUtils.isEmailValid(email)) {
+                    break;
+                }
 
                 apiFacade.subscribe(this, email, countryName, cityName);
+                break;
+            case R.id.cancelButton:
+                startActivity(IntentUtils.getLoginIntentForLogout(this));
+                finish();
                 break;
             default:
                 break;

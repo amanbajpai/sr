@@ -104,7 +104,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
-        cityEditText = (EditText) findViewById(R.id.cityEditText);
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
 
         birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);

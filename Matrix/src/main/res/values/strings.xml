@@ -58,11 +58,11 @@
     <string name="navigator" >Navigator</string >
     <string name="sprinter" >Sprinter</string >
     <!-- CHECKING FAIL ACTIVITY -->
-    <string name="sorry" >Sorry</string >
+    <string name="sorry" >Sorry!</string >
     <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,
         but you can leave your details to us and we will inform you as soon as the objectives for your region will be
         available</string >
-    <string name="subscribe_for_notification" >Subscribe for notification</string >
+    <string name="subscribe" >SUBSCRIBE</string >
     <!-- FIND TASK FRAGMENT-->
     <string name="find_task_title" >Find task</string >
     <string name="map" >MAP</string >
@@ -113,8 +113,8 @@
     <string name="language" >Language</string >
     <string name="location_services" >Location services</string >
     <string name="push_messages" >Push messages</string >
-    <string name="tree_g_upload_task_limit" >3G upload files task limit</string >
-    <string name="tree_g_upload_month_limit" >3G upload files monthly limit</string >
+    <string name="tree_g_upload_task_limit" >3G Upload Limit per Task (MB)</string >
+    <string name="tree_g_upload_month_limit" >3G Monthly Upload Limit (MB)</string >
     <string name="social_sharing" >Social sharing</string >
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >
@@ -177,7 +177,7 @@
         code if you have it then</string >
     <string name="fill_you_code" >Fill your MATRIX Group code here</string >
     <string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >
-    <string name="check_my_location" >Check my location</string >
+    <string name="check_my_location" >CHECK MY LOCATION</string >
     <string name="continue_button" >Continue</string >
     <!-- ERROR STRINGS -->
     <string name="error" >Error</string >
@@ -252,10 +252,12 @@
     <string name="deadline_time" >Deadline time:</string >
     <string name="expiry_task_time" >Expiry task time:</string >
     <!-- WITHDRAW DIALOG -->
-    <string name="withdraw_task_dialog_title" >Withdraw from task</string >
-    <string name="withdraw_task_dialog_text1" >Withdraw from your Task only if you cannot complete it by due date</string >
-    <string name="withdraw_task_dialog_text2" >Withdraw from your Task only if you cannot be undone and affects your Reputation.</string >
-    <string name="withdraw_task_dialog_text3" >Do you want to withdraw from the task?</string >
+    <string name="withdraw_task_dialog_title" >Withdraw from mission</string >
+    <string name="withdraw_task_dialog_text1" >Withdraw from this mission only if you\'re can\'t complete it by the due
+        </string >
+    <string name="withdraw_task_dialog_text2" >Withdrawing from the mission cannot be undone and affects your
+        reputation.</string >
+    <string name="withdraw_task_dialog_text3" >Do you want withdraw from mission?</string >
     <string name="no_button" >NO</string >
     <string name="yes_button" >YES</string >
     <!-- QUESTION ACTIVITY-->
@@ -298,9 +300,9 @@
     <!-- QUIT QUESTION ACTIVITY -->
     <string name="quit_question_title" >Quit</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
-    <string name="registration_subscribe_dialog_title" >Confirmation pop-up</string >
-    <string name="registration_subscribe_dialog_text1" >Thanks we get your info and get in touch with you when we can
-        offer tasks in your location </string >
+    <string name="registration_subscribe_dialog_title" >Confirmation</string >
+    <string name="registration_subscribe_dialog_text1" >Thanks! We get your info and get in touch with you when we can
+        offer missions in your location </string >
     <string name="registration_subscribe_dialog_text2" >For more information you can visit</string >
     <string name="registration_subscribe_dialog_text3" >www.matrix.com/about</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->

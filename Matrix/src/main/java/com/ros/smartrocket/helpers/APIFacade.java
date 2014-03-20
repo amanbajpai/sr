@@ -321,22 +321,17 @@ public class APIFacade {
      * @param cityName
      */
     public void subscribe(Activity activity, String email, String countryName, String cityName) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(countryName) && !TextUtils.isEmpty(cityName)) {
+        Subscription subscriptionEntity = new Subscription();
+        subscriptionEntity.setEmail(email);
+        subscriptionEntity.setCountry(countryName);
+        subscriptionEntity.setCity(cityName);
 
-            Subscription subscriptionEntity = new Subscription();
-            subscriptionEntity.setEmail(email);
-            subscriptionEntity.setCountry(countryName);
-            subscriptionEntity.setCity(cityName);
-
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.SUBSCRIPTION);
-            operation.setTag(Keys.SUBSCRIBE_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(subscriptionEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
-        }
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SUBSCRIPTION);
+        operation.setTag(Keys.SUBSCRIBE_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(subscriptionEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     /**

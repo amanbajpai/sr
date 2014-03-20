@@ -1,58 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp" >
-        <RelativeLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" >
-            <ImageView
-                android:id="@+id/logo"
-                android:contentDescription="@string/app_name"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_launcher" />
-            <TextView
-                android:id="@+id/welcome"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/logo"
-                android:text="@string/welcome_to" />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/logo"
-                android:layout_below="@+id/welcome"
-                android:text="@string/welcome_to"
-                android:textSize="@dimen/text_size_large" />
-        </RelativeLayout >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/text_size_medium"
-            android:gravity="left"
-            android:text="@string/since_jobs" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/text_size_small"
-            android:gravity="left"
-            android:textColor="@color/grey"
-            android:text="@string/before_start_using" />
-        <Button
-            android:id="@+id/checkMyLocationButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/check_my_location" />
-    </LinearLayout >
-</ScrollView >
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_launcher" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/text_size_14sp"
+        android:textColor="@color/black"
+        android:text="@string/since_jobs" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/text_size_14sp"
+        android:textColor="@color/grey"
+        android:text="@string/before_start_using" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/checkMyLocationButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@drawable/button_green_selector"
+        android:text="@string/check_my_location"
+        android:layout_marginBottom="10dp"
+        custom:textStyle="bold" />
+</LinearLayout >

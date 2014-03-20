@@ -78,6 +78,7 @@
             android:exported="true" />
         <activity
             android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
+            android:theme="@style/AppThemeGreen"
             android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.SurveyDetailsActivity"
@@ -100,6 +101,7 @@
             android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.QuestionsActivity"
+            android:theme="@style/AppThemeGreen"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity

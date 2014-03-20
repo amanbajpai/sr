@@ -1,8 +1,8 @@
 <resources >
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
-        <item name="android:actionBarStyle" >@style/ActionBar</item >
-        <item name="actionBarStyle" >@style/ActionBar</item >
+        <item name="android:actionBarStyle" >@style/ActionBarRed</item >
+        <item name="actionBarStyle" >@style/ActionBarRed</item >
         <item name="android:buttonStyle" >@style/Button</item >
         <item name="android:buttonStyleToggle" >@style/Toggle</item >
         <item name="android:editTextStyle" >@style/EditText</item >
@@ -13,9 +13,19 @@
         <!--<item name="android:background">@color/white</item>-->
     </style >
 
-    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse" >
-        <item name="android:background" >@drawable/action_bar</item >
-        <item name="background" >@drawable/action_bar</item >
+    <style name="AppThemeGreen" parent="AppTheme" >
+        <item name="android:actionBarStyle" >@style/ActionBarGreen</item >
+        <item name="actionBarStyle" >@style/ActionBarGreen</item >
+    </style >
+
+    <style name="ActionBarRed" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse" >
+        <item name="android:background" >@drawable/action_bar_red</item >
+        <item name="background" >@drawable/action_bar_red</item >
+    </style >
+
+    <style name="ActionBarGreen" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse" >
+        <item name="android:background" >@drawable/action_bar_green</item >
+        <item name="background" >@drawable/action_bar_green</item >
     </style >
 
     <style name="FragmentTheme" >

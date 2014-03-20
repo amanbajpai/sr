@@ -6,7 +6,6 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -53,9 +52,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+        setContentView(R.layout.activity_login);
 
         UIUtils.setActivityBackgroundColor(this, R.color.red);
 

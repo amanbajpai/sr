@@ -30,10 +30,8 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_referral_cases);
         getSupportActionBar().hide();
+        setContentView(R.layout.activity_referral_cases);
 
         UIUtils.setActivityBackgroundColor(this, R.color.white);
 
