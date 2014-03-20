@@ -161,6 +161,7 @@ public class IntentUtils {
      * @return
      */
 
+    @TargetApi(19)
     public static Intent getSmsIntent(Context context, String phoneNumber, String text) {
         Intent intent;
 

@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
 
-        UIUtils.setActivityBackgroundColor(this, R.color.red);
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
 
         final MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
         Location loc = lm.getLocation();

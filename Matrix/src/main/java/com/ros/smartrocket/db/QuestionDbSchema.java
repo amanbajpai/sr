@@ -55,7 +55,7 @@ public interface QuestionDbSchema {
          * @return String
          */
         public String toString() {
-            return this.getName();
+            return columnName;
         }
     }
 

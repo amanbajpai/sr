@@ -52,7 +52,7 @@ public interface AnswerDbSchema {
          * @return String
          */
         public String toString() {
-            return this.getName();
+            return columnName;
         }
     }
 

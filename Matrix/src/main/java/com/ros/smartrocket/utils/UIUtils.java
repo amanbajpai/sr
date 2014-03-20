@@ -429,8 +429,8 @@ public class UIUtils {
         }
     }
 
-    public static void setActivityBackgroundColor(Activity activity, int colorRes) {
+    public static void setActivityBackgroundColor(Activity activity, int color) {
         View view = activity.getWindow().getDecorView();
-        view.setBackgroundColor(activity.getResources().getColor(colorRes));
+        view.setBackgroundColor(color);
     }
 }

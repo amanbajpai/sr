@@ -36,7 +36,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         getSupportActionBar().hide();
         setContentView(R.layout.activity_checking_failed);
 
-        UIUtils.setActivityBackgroundColor(this, R.color.white);
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId="
                 + UIUtils.getDeviceId(this), (long) 0).build());

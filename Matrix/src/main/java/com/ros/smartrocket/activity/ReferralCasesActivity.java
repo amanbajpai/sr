@@ -33,7 +33,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         getSupportActionBar().hide();
         setContentView(R.layout.activity_referral_cases);
 
-        UIUtils.setActivityBackgroundColor(this, R.color.white);
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);

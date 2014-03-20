@@ -63,7 +63,7 @@ public interface TaskDbSchema {
          * @return
          */
         public String toString() {
-            return this.getName();
+            return columnName;
         }
     }
 

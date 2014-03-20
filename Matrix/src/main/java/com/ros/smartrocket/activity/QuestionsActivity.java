@@ -75,6 +75,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
 
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+
         if (getIntent() != null) {
             surveyId = getIntent().getIntExtra(Keys.SURVEY_ID, 0);
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
