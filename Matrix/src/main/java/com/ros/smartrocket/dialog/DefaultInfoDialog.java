@@ -17,12 +17,11 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
 
     public DefaultInfoDialog(Context context, CharSequence title, CharSequence text, int leftButtonResId,
                              int rightButtonResId) {
-        this(context, 0, title, text, leftButtonResId, rightButtonResId);
+        this(context, 0, 0, title, text, leftButtonResId, rightButtonResId);
     }
 
-    public DefaultInfoDialog(Context context, int titleIconResId, CharSequence title, CharSequence text,
-                             int leftButtonResId,
-                             int rightButtonResId) {
+    public DefaultInfoDialog(Context context, int titleBackgroundColorResId, int titleIconResId, CharSequence title,
+                             CharSequence text, int leftButtonResId, int rightButtonResId) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
@@ -39,6 +38,10 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
 
         TextView titleTextView = (TextView) findViewById(R.id.title);
         titleTextView.setText(title);
+
+        if (titleBackgroundColorResId != 0) {
+            titleTextView.setBackgroundColor(context.getResources().getColor(titleBackgroundColorResId));
+        }
 
         if (titleIconResId != 0) {
             titleTextView.setCompoundDrawablesWithIntrinsicBounds(titleIconResId, 0, 0, 0);

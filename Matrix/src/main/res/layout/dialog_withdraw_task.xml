@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="64dp"
         android:text="@string/withdraw_task_dialog_title"
-        android:drawableLeft="@drawable/sandclock"
+        android:drawableLeft="@drawable/quit_icon"
         android:drawablePadding="20dp"
         style="@style/DialogTitle"
         android:background="@color/green"

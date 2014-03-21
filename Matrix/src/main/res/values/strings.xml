@@ -321,4 +321,9 @@
     <string name="toast_application_not_found" >Application not found</string >
     <!-- Date picker dialog -->
     <string name="date_picker_dialog_title_birthday" >Birthday</string >
+    <!-- LOGIN ACTIVITY -->
+    <string name="maximum_mission_dialog_title" >Maximum mission</string >
+    <string name="maximum_mission_dialog_text" >You\'ve claimed the maximum number of missions for this
+        Project.\n\nTo claim more missions on this Project,
+    you must first complete your existing missions.</string >
 </resources >

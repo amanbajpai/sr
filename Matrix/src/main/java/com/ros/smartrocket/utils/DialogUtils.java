@@ -9,8 +9,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
@@ -37,7 +35,7 @@ public class DialogUtils {
             cancelButtonResId = R.string.logout;
         }
 
-        DefaultInfoDialog locationDialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
+        DefaultInfoDialog locationDialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_location_dialog_title),
                 activity.getText(R.string.turn_on_location_dialog_text),
                 cancelButtonResId, R.string.settings);
@@ -72,7 +70,7 @@ public class DialogUtils {
      * @param activity
      */
     public static Dialog showNetworkDialog(final Activity activity) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_network_dialog_title),
                 activity.getText(R.string.turn_on_network_dialog_text),
                 R.string.cancel, R.string.settings);
@@ -97,7 +95,7 @@ public class DialogUtils {
      * @param activity
      */
     public static Dialog showGoogleSdkDialog(final Activity activity) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_google_sdk_dialog_title),
                 activity.getText(R.string.turn_on_google_sdk_dialog_text),
                 R.string.cancel, R.string.settings);
@@ -130,7 +128,7 @@ public class DialogUtils {
             cancelButtonResId = R.string.logout;
         }
 
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.drawable.info_icon,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
                 activity.getText(R.string.turn_of_mock_location_dialog_title),
                 activity.getText(R.string.turn_of_mock_location_dialog_text),
                 cancelButtonResId, R.string.settings);
@@ -307,6 +305,31 @@ public class DialogUtils {
 
                 activity.startActivity(IntentUtils.getQuestionsIntent(activity, surveyId, taskId));
                 activity.finish();
+            }
+        });
+        return dialog;
+    }
+
+    /**
+     * Show account not activated Dialog message
+     *
+     * @param activity
+     */
+    public static Dialog showMaximumMissionDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.color.green, R.drawable.info_icon,
+                activity.getText(R.string.maximum_mission_dialog_title),
+                activity.getText(R.string.maximum_mission_dialog_text),
+                0, android.R.string.ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
             }
         });
         return dialog;

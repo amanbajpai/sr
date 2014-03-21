@@ -85,6 +85,7 @@
             android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.MapActivity"
+            android:theme="@style/AppThemeGreen"
             android:configChanges="locale"
             android:launchMode="singleTop"
             android:parentActivityName="com.ros.smartrocket.activity.MainActivity" >

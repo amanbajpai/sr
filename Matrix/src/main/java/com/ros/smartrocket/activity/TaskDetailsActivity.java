@@ -8,10 +8,8 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +34,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -211,7 +210,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         task.getId()));
             }
         } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError());
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() ==
+                    BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
+                DialogUtils.showMaximumMissionDialog(this);
+            } else {
+                UIUtils.showSimpleToast(this, operation.getResponseError());
+            }
         }
         setSupportProgressBarIndeterminateVisibility(false);
     }

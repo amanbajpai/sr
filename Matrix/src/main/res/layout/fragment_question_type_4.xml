@@ -16,13 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="20dp" />
-    <TextView
-        android:id="@+id/conditionText"
-        style="@style/QuestionConditionText"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:paddingBottom="10dp"
-        android:text="@string/write_your_opinion_about_it" />
     <EditText
         android:id="@+id/answerEditText"
         android:inputType="text"
