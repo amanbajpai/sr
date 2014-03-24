@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/black"
             android:layout_height="wrap_content"
-            android:text="@string/show_tasks_on_distance_from_my_location" />
+            android:text="@string/zoom_to_this_radius" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -82,16 +81,16 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                 referralCasesSpinner.setAdapter(educationLevelAdapter);
                 continueButton.setEnabled(true);
             } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-                startEnterGroupCodeActivity();
+                startCheckLocationActivity();
             }
         } else {
-            startEnterGroupCodeActivity();
+            startCheckLocationActivity();
         }
         setSupportProgressBarIndeterminateVisibility(false);
     }
 
-    public void startEnterGroupCodeActivity() {
-        Intent intent = new Intent(this, EnterGroupCodeActivity.class);
+    public void startCheckLocationActivity() {
+        Intent intent = new Intent(this, CheckLocationActivity.class);
         if (getIntent().getExtras() != null) {
             intent.putExtras(getIntent().getExtras());
         }

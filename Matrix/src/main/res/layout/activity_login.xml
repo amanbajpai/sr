@@ -9,14 +9,15 @@
         android:id="@+id/logo"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="45dp"
         android:layout_width="wrap_content"
         android:contentDescription="@string/app_name"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/logo_white" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal" >
         <ImageView
             android:layout_gravity="center_horizontal"
@@ -40,7 +41,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal" >
         <ImageView
             android:layout_gravity="center_horizontal"
@@ -68,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:background="@drawable/button_green_selector"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/login_big"
         custom:textStyle="bold" />
     <com.ros.smartrocket.views.CustomTextView
@@ -79,6 +80,7 @@
         android:padding="20dp"
         android:textColor="@color/orange"
         android:text="@string/forgot_your_password"
+        android:textSize="@dimen/text_size_14sp"
         custom:textStyle="bold" />
     <View
         android:layout_width="match_parent"
@@ -89,7 +91,8 @@
         style="@style/Button"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:background="@drawable/button_orange_selector"
         android:layout_marginTop="10dp"
-        android:textSize="@dimen/text_size_medium"
-        android:text="@string/i_new_user" />
+        android:text="@string/i_new_user"
+        custom:textStyle="bold" />
 </LinearLayout >

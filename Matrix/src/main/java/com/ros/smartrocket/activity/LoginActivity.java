@@ -89,8 +89,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
-                UIUtils.showSimpleToast(LoginActivity.this, R.string.success);
-
 
                 //Generate Short url to share
                 googleUrlShortenManager.getShortUrl(this, loginResponse.getSharedLink(),
@@ -124,8 +122,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         (CheckLocationResponse) operation.getResponseEntities().get(0);
 
                 if (checkLocationResponse.getStatus()) {
-                    UIUtils.showSimpleToast(this, R.string.success);
-
                     Intent intent = new Intent(this, ReferralCasesActivity.class);
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
@@ -135,7 +131,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     intent.putExtra(Keys.LONGITUDE, currentLocation.getLongitude());
                     startActivity(intent);
                 } else {
-                    startActivity(new Intent(this, EnterGroupCodeActivity.class));
+                    startActivity(new Intent(this, CheckLocationActivity.class));
                 }
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
@@ -149,7 +145,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginButton.setEnabled(true);
                 DialogUtils.showLoginFailedDialog(this);
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                startActivity(new Intent(this, EnterGroupCodeActivity.class));
+                startActivity(new Intent(this, CheckLocationActivity.class));
             }
         }
 
@@ -224,7 +220,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             address.getCountryName(), address.getLocality(),
                             address.getLatitude(), address.getLongitude());
                 } else {
-                    startActivity(new Intent(LoginActivity.this, EnterGroupCodeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, CheckLocationActivity.class));
                 }
             }
         });
