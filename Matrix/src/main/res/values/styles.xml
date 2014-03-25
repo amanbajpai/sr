@@ -80,6 +80,14 @@
         <item name="android:textOn" ></item >
     </style >
 
+    <style name="SeekBarRed" parent="android:Widget.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar</item>
+        <item name="android:indeterminateDrawable">@drawable/seekbar</item>
+        <item name="android:thumb">@drawable/seekbar_control_selector</item>
+        <item name="android:thumbOffset">10dip</item>
+    </style>
+
+
     <style name="CustomDialog" >
         <item name="android:background" >@color/white</item >
         <!--<item name="android:spinnerMode" >dropdown</item >-->

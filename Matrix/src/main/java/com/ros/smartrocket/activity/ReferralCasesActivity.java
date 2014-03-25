@@ -42,8 +42,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
         continueButton = (Button) findViewById(R.id.continueButton);
         continueButton.setOnClickListener(this);
-
-        setSupportProgressBarIndeterminateVisibility(true);
+        continueButton.setEnabled(false);
 
         checkDeviceSettingsByOnResume(false);
 
@@ -86,7 +85,6 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         } else {
             startCheckLocationActivity();
         }
-        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     public void startCheckLocationActivity() {

@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
-    private ImageButton btnFilter;
+    private ImageView btnFilter;
     private LinearLayout rlFilterPanel;
     private ToggleButton showHiddenTasksToggleButton;
     private boolean isFilterShow = false;
@@ -105,7 +106,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        btnFilter = (ImageButton) view.findViewById(R.id.btnFilter);
+        btnFilter = (ImageView) view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(this);
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
@@ -571,11 +572,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             addMyLocation(coord);
 
-            Resources r = getResources();
-            addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
-                    r.getColor(R.color.map_radius_fill));
-            addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
-                    r.getColor(R.color.map_accuracy_fill));
+            if(getActivity()!=null){
+                Resources r = getActivity().getResources();
+                addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
+                        r.getColor(R.color.map_radius_fill));
+                addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
+                        r.getColor(R.color.map_accuracy_fill));
+            }
         }
     }
 

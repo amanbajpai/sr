@@ -7,6 +7,7 @@
     <dimen name="text_size_large">22sp</dimen>
 
     <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="text_size_13p6sp">13.6sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
     <dimen name="text_size_15sp">15sp</dimen>
     <dimen name="text_size_16sp">16sp</dimen>

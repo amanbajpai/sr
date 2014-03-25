@@ -10,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.ros.smartrocket.fragment.TransparentSupportMapFragment" />
-    <ImageButton
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnFilter"
-        android:src="@drawable/circle"
+        android:src="@drawable/map_menu_icon_press"
         android:contentDescription="@string/app_name"
         android:layout_centerVertical="true"
+        android:layout_margin="10dp"
         android:layout_alignParentRight="true" />
     <ImageButton
         android:layout_width="wrap_content"
@@ -24,22 +25,23 @@
         android:id="@+id/btnMyLocation"
         android:contentDescription="@string/app_name"
         android:src="@drawable/list_item_arrow"
-        android:layout_marginBottom="30dp"
         android:layout_above="@+id/btnFilter"
         android:layout_alignParentRight="true" />
     <LinearLayout
         android:id="@+id/hidden_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/map_filter_bg"
+        android:background="@drawable/map_filter_bg"
         android:padding="10dp"
         android:orientation="vertical"
         android:layout_alignParentBottom="true" >
         <com.ros.smartrocket.views.CustomTextView
             android:layout_width="match_parent"
             android:textColor="@color/black"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="@string/zoom_to_this_radius" />
+            android:text="@string/zoom_to_this_radius"
+            android:textSize="@dimen/text_size_13p6sp" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,16 +55,15 @@
                 android:textColor="@color/red"
                 android:layout_centerHorizontal="true" />
             <SeekBar
-                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/seekBarRadius"
+                style="@style/SeekBarRed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/seekBarRadius"
                 android:layout_below="@+id/txtRadius" />
         </RelativeLayout >
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:orientation="vertical" >
             <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="wrap_content"
@@ -86,6 +87,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
             <com.ros.smartrocket.views.CustomTextView
@@ -93,6 +95,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_13p6sp"
                 android:text="@string/show_hidden_tasks_on_map" />
             <ToggleButton
                 android:id="@+id/showHiddenTasksToggleButton"
@@ -103,10 +106,10 @@
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/applyButton"
             style="@style/Button"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="@string/apply_big"
             custom:textStyle="bold" />
     </LinearLayout >

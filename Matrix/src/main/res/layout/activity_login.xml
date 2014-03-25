@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:inputType="textEmailAddress"
-            android:text="@string/login_test_account"
             android:background="@color/white"
             android:hint="@string/your_email_hint" />
     </LinearLayout >
@@ -59,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:inputType="textPassword"
-            android:text="@string/login_test_password"
             android:background="@color/white"
             android:hint="@string/your_password_hint" />
     </LinearLayout >
