@@ -43,16 +43,17 @@
     <!-- MAIN MENU ACTIVITY -->
     <string name="drawer_open" >Open navigation drawer</string >
     <string name="drawer_close" >Close navigation drawer</string >
-    <string name="find_tasks" >Find Tasks</string >
-    <string name="my_tasks" >My Tasks</string >
-    <string name="my_account" >My account</string >
+    <string name="find_mission" >Find missions</string >
+    <string name="my_missions" >My missions</string >
+    <string name="my_portal" >My portal</string >
     <string name="settings" >Settings</string >
     <string name="support" >Support</string >
-    <string name="share_and_refer" >Share &amp; Refer</string >
-    <string name="level" >Level</string >
+    <string name="share" >Share</string >
+    <string name="rocket_points" >Rocket points</string >
+    <string name="level_name" >Level name</string >
     <string name="level_0" >0</string >
-    <string name="navigator" >Navigator</string >
-    <string name="sprinter" >Sprinter</string >
+    <!--<string name="navigator" >Navigator</string >
+    <string name="sprinter" >Sprinter</string >-->
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry!</string >
     <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,
@@ -60,7 +61,6 @@
         available</string >
     <string name="subscribe" >SUBSCRIBE</string >
     <!-- FIND TASK FRAGMENT-->
-    <string name="find_task_title" >Find task</string >
     <string name="map" >MAP</string >
     <string name="list" >LIST</string >
     <!-- SURVEY LIST FRAGMENT-->
@@ -75,7 +75,6 @@
     <!-- SURVEYS TASK LIST ACTIVITY -->
     <string name="task_expires_at" >Task expires at:</string >
     <!-- MY TASK FRAGMENT-->
-    <string name="my_tasks_title" >My Tasks</string >
     <string name="task_on_validation_status" >Task on validation</string >
     <string name="task_completed_status" >Task completed</string >
     <string name="task_claimed_status" >Task claimed</string >
@@ -84,7 +83,7 @@
     <!-- PROFILE FRAGMENT-->
     <string name="profile_title" >Profile</string >
     <string name="my_account_title" >My account</string >
-    <string name="balance" >Balance</string >
+    <string name="earnings" >Earnings</string >
     <string name="balance_0" >0$</string >
     <string name="number_0" >0</string >
     <string name="transfer_funds" >Transfer Funds</string >

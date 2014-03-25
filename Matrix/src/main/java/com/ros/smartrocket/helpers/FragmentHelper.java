@@ -25,7 +25,12 @@ public class FragmentHelper {
      * @param activity
      * @param fragment
      */
+
     public void startFragmentFromStack(Activity activity, Fragment fragment) {
+        startFragmentFromStack(activity, fragment, R.id.content_frame);
+    }
+
+    public void startFragmentFromStack(Activity activity, Fragment fragment, int layoutId) {
         Log.i(TAG, "startFragmentFromStack() [" + fragment + "]");
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
 
@@ -57,7 +62,7 @@ public class FragmentHelper {
         } else {
             lastFragment = fragment;
             fragmentList.add(lastFragment);
-            ft.add(R.id.content_frame, lastFragment, fragment.getClass().toString());
+            ft.add(layoutId, lastFragment, fragment.getClass().toString());
         }
         ft.commitAllowingStateLoss();
     }

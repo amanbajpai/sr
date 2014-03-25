@@ -31,7 +31,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/balance" />
+                    android:text="@string/earnings" />
                 <TextView
                     android:id="@+id/balance"
                     android:layout_height="match_parent"

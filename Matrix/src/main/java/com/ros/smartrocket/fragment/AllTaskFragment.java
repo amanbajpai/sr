@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -24,6 +25,8 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     private ViewGroup view;
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
+    private LinearLayout mapButton;
+    private LinearLayout listButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -38,6 +41,12 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         if (getArguments() != null) {
             contentType = getArguments().getString(Keys.CONTENT_TYPE);
         }
+
+        mapButton = (LinearLayout) view.findViewById(R.id.mapButton);
+        mapButton.setOnClickListener(this);
+
+        listButton = (LinearLayout) view.findViewById(R.id.listButton);
+        listButton.setOnClickListener(this);
 
         Log.i(TAG, "onCreateView() [contentType  =  " + contentType + "]");
         showMap();
@@ -65,6 +74,9 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
      * Show Map with proper mode
      */
     public void showMap() {
+        mapButton.setSelected(true);
+        listButton.setSelected(false);
+
         Keys.MapViewMode mode = Keys.MapViewMode.ALLTASKS;
         if (Keys.FIND_TASK.equals(contentType)) {
             mode = Keys.MapViewMode.ALLTASKS;
@@ -76,17 +88,20 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
 
         Fragment fragment = new TasksMapFragment();
         fragment.setArguments(bundle);
-        fragmentHelper.startFragmentFromStack(getActivity(), fragment);
+        fragmentHelper.startFragmentFromStack(getActivity(), fragment, R.id.map_list_content_frame);
     }
 
     /**
      * Show List with proper contentType
      */
     public void showList() {
+        mapButton.setSelected(false);
+        listButton.setSelected(true);
+
         if (Keys.FIND_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new SurveyListFragment());
+            fragmentHelper.startFragmentFromStack(getActivity(), new SurveyListFragment(), R.id.map_list_content_frame);
         } else if (Keys.MY_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment());
+            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment(), R.id.map_list_content_frame);
         }
     }
 
@@ -98,9 +113,6 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.listButton:
                 showList();
-                break;
-            case R.id.refreshButton:
-
                 break;
             default:
                 break;
@@ -117,14 +129,11 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         actionBar.setDisplayShowCustomEnabled(true);
 
         View view = actionBar.getCustomView();
-        view.findViewById(R.id.mapButton).setOnClickListener(this);
-        view.findViewById(R.id.listButton).setOnClickListener(this);
-        view.findViewById(R.id.refreshButton).setOnClickListener(this);
 
         if (Keys.FIND_TASK.equals(contentType)) {
-            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.find_task_title);
+            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.find_mission);
         } else if (Keys.MY_TASK.equals(contentType)) {
-            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.my_tasks_title);
+            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.my_missions);
         }
 
         super.onCreateOptionsMenu(menu, inflater);

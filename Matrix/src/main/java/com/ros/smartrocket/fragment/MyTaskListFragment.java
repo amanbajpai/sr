@@ -5,13 +5,17 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -32,10 +36,11 @@ import java.util.ArrayList;
 /**
  * Fragment - display my tasks in {@link android.widget.ListView}
  */
-public class MyTaskListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface {
+public class MyTaskListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface,
+        View.OnClickListener {
     private static final String TAG = MyTaskListFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
-
+    private ImageView refreshButton;
     private AsyncQueryHandler handler;
     private MyTaskAdapter adapter;
 
@@ -77,6 +82,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     private void getMyTasks() {
+        refreshIconState(true);
         TasksBL.getMyTasksFromDB(handler);
         ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
     }
@@ -108,6 +114,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         } else {
             L.i(TAG, operation.getResponseError());
         }
+        refreshIconState(false);
     }
 
     @Override
@@ -144,10 +151,35 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.refreshButton:
+                getMyTasks();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        getActivity().setTitle(R.string.my_tasks_title);
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+
+        View view = actionBar.getCustomView();
+        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(this);
+
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void refreshIconState(boolean isLoading) {
+        if (refreshButton != null && getActivity() != null) {
+            if (isLoading) {
+                refreshButton.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
+            } else {
+                refreshButton.clearAnimation();
+            }
+        }
     }
 
     @Override

@@ -8,15 +8,18 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -60,7 +63,8 @@ import com.twotoasters.clusterkraf.Options;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener,
+        CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
@@ -80,6 +84,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static final float DEFAULT_ZOOM_LEVEL = 11f;
     private float zoomLevel = DEFAULT_ZOOM_LEVEL;
     private SeekBar sbRadius;
+    private ImageView refreshButton;
     private MarkerOptions myPinLocation;
 
     private Clusterkraf clusterkraf;
@@ -260,6 +265,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     private void loadData() {
+        refreshIconState(true);
         Location location = lm.getLocation();
         if (location != null) {
             loadTasksFromLocalDb();
@@ -319,6 +325,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else {
             L.i(TAG, operation.getResponseError());
         }
+        refreshIconState(false);
     }
 
     /**
@@ -366,6 +373,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             case R.id.btnFilter:
                 toggleFilterPanel();
                 break;
+            case R.id.refreshButton:
+                loadData();
+                break;
             default:
                 break;
         }
@@ -382,7 +392,26 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 
+        View view = actionBar.getCustomView();
+        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(this);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void refreshIconState(boolean isLoading) {
+        if (refreshButton != null && getActivity() != null) {
+            if (isLoading) {
+                refreshButton.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
+            } else {
+                refreshButton.clearAnimation();
+            }
+        }
+    }
 
 
     /* ==============================================
@@ -572,7 +601,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             addMyLocation(coord);
 
-            if(getActivity()!=null){
+            if (getActivity() != null) {
                 Resources r = getActivity().getResources();
                 addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
                         r.getColor(R.color.map_radius_fill));

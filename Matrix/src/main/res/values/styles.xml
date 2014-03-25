@@ -177,7 +177,7 @@
     </style >
 
     <style name="MainMenuButton" >
-        <item name="android:minHeight" >48dp</item >
+        <item name="android:minHeight" >44dp</item >
         <item name="android:minWidth" >64dp</item >
         <item name="android:paddingLeft" >10dp</item >
         <item name="android:paddingRight" >2dp</item >
@@ -239,7 +239,7 @@
     </style >
 
     <style name="mainMenuDividerStyle" >
-        <item name="android:background" >@color/grey</item >
+        <item name="android:background" >@color/grey_light</item >
     </style >
 
     <style name="DialogTitle" parent="@android:style/Widget.TextView" >
