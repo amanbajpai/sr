@@ -257,7 +257,7 @@
     <string name="take_photo" >Take photo</string >
     <string name="re_photo" >Re-photo</string >
     <string name="confirm" >Confirm</string >
-    <string name="quite_task" >Quite task</string >
+    <string name="quite_mission" >Quite mission</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quite task pop-up</string >
     <string name="quite_task_dialog_text1" >Warning!</string >

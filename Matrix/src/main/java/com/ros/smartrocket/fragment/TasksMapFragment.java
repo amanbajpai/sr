@@ -397,8 +397,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 
         View view = actionBar.getCustomView();
-        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
-        refreshButton.setOnClickListener(this);
+        if (view != null) {
+            refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+            refreshButton.setOnClickListener(this);
+        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }

@@ -2,7 +2,7 @@
     xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/quiteTask"
-        android:icon="@drawable/ic_launcher"
-        yourapp:showAsAction="always|withText"
-        android:title="@string/quite_task" />
+        android:icon="@drawable/quit_icon"
+        yourapp:showAsAction="always"
+        android:title="@string/quite_mission" />
 </menu >

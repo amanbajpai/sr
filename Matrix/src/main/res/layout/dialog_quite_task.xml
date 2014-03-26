@@ -54,6 +54,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:layout_weight="1"
-            android:text="@string/quite_task" />
+            android:text="@string/quite_mission" />
     </LinearLayout >
 </LinearLayout >
