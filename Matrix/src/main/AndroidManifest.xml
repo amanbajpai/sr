@@ -61,8 +61,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.ros.smartrocket.activity.RegistrationActivity"
-            android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan" />
+            android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.LoginActivity"
             android:configChanges="locale"

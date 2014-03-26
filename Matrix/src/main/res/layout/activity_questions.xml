@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
@@ -20,34 +21,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="@color/black"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="invisible" >
-        <Button
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/previousButton"
+            style="@style/Button"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"
+            android:background="@drawable/button_green_selector"
             android:text="@string/previous"
-            android:visibility="invisible" />
-        <Button
+            android:drawableLeft="@drawable/up_icon"
+            android:visibility="invisible"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/nextButton"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
+            style="@style/Button"
             android:layout_weight="1"
-            android:text="@string/next_question" />
-        <Button
-            android:id="@+id/validationButton"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_weight="0.5"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/next_question"
+            android:drawableRight="@drawable/up_icon"
+            android:visibility="invisible"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/validationButton"
+            style="@style/Button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_green_selector"
             android:text="@string/submit_for_validation"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_weight="0.5"
+            custom:textStyle="bold" />
     </LinearLayout >
 </LinearLayout >
