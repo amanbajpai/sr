@@ -30,6 +30,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -84,7 +85,12 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     private void getMyTasks() {
         refreshIconState(true);
         TasksBL.getMyTasksFromDB(handler);
-        ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
+        if (UIUtils.isOnline(getActivity())) {
+            ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
+        } else {
+            refreshIconState(false);
+            UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+        }
     }
 
     class DbHandler extends AsyncQueryHandler {

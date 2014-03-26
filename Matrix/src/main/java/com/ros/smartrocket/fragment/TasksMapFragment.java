@@ -143,7 +143,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             public void onStopTrackingTouch(SeekBar seekBar) {
                 TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
                 Location location = lm.getLocation();
-                if (location == null) {
+                if (location == null && UIUtils.isOnline(getActivity())) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                 }
             }
@@ -229,10 +229,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Send request to server for data update
      */
     private void updateDataFromServer(Location location) {
-        if (mode == Keys.MapViewMode.MYTASKS) {
-            getMyTasksFromServer();
-        } else if (mode == Keys.MapViewMode.ALLTASKS) {
-            getSurveysFromServer(location, taskRadius);
+        if(UIUtils.isOnline(getActivity())){
+            if (mode == Keys.MapViewMode.MYTASKS) {
+                getMyTasksFromServer();
+            } else if (mode == Keys.MapViewMode.ALLTASKS) {
+                getSurveysFromServer(location, taskRadius);
+            }
+        } else {
+            refreshIconState(false);
+            UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
         }
     }
 
@@ -256,7 +261,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     if (address != null) {
                         APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(),
                                 location.getLongitude(), address.getCountryName(), address.getLocality(), radius);
-                    } else {
+                    } else if (UIUtils.isOnline(getActivity())) {
                         UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                     }
                 }
@@ -632,7 +637,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void moveCameraToMyLocation() {
         if (restoreCameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
-        } else {
+        } else if (UIUtils.isOnline(getActivity())) {
             UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
         }
     }

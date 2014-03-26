@@ -250,9 +250,9 @@
     <string name="yes_button" >YES</string >
     <!-- QUESTION ACTIVITY-->
     <string name="question_title" >Task</string >
-    <string name="previous" >Previous</string >
-    <string name="next_question" >Next question</string >
-    <string name="submit_for_validation" >Submit for validation</string >
+    <string name="previous" >PREVIOUS</string >
+    <string name="next" >NEXT</string >
+    <string name="validate" >VALIDATE</string >
     <string name="enter_here" >Enter here</string >
     <string name="take_photo" >Take photo</string >
     <string name="re_photo" >Re-photo</string >

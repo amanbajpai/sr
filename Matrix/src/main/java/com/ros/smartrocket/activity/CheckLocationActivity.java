@@ -6,7 +6,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.App;
@@ -103,7 +102,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                             address.getCountryName(), address.getLocality(),
                             address.getLatitude(), address.getLongitude());
 
-                } else {
+                } else if (UIUtils.isOnline(CheckLocationActivity.this)) {
                     UIUtils.showSimpleToast(CheckLocationActivity.this,
                             R.string.current_location_not_defined);
                 }

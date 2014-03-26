@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -95,17 +94,22 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
             SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius);
 
-            lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                @Override
-                public void onUpdate(Address address) {
-                    if (address != null) {
-                        apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
-                                address.getCountryName(), address.getLocality(), radius);
-                    } else {
-                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+            if (UIUtils.isOnline(getActivity())) {
+                lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                    @Override
+                    public void onUpdate(Address address) {
+                        if (address != null) {
+                            apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
+                                    address.getCountryName(), address.getLocality(), radius);
+                        } else if (UIUtils.isOnline(getActivity())) {
+                            UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                refreshIconState(false);
+                UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+            }
         }
     }
 
