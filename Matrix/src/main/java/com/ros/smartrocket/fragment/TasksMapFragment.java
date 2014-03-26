@@ -75,10 +75,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
-    private static final int DEFAULT_TASK_RADIUS = 5000;
+    private static final int DEFAULT_TASK_RADIUS = 20000;
     private static final int METERS_IN_KM = 1000;
     public static int taskRadius = DEFAULT_TASK_RADIUS;
-    private int sbRadiusProgress = 5;
+    private int sbRadiusProgress = 20;
     private static final int RADIUS_DELTA = 1000; // 1% = 1000m => Max = 100km
     private TextView txtRadius;
     private static final float DEFAULT_ZOOM_LEVEL = 11f;

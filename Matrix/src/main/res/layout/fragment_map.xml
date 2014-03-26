@@ -11,22 +11,25 @@
         android:layout_height="match_parent"
         android:name="com.ros.smartrocket.fragment.TransparentSupportMapFragment" />
     <ImageView
+        android:id="@+id/btnMyLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:layout_above="@+id/btnFilter"
+        android:src="@drawable/map_menu_icon_place_press"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true" />
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnFilter"
         android:src="@drawable/map_menu_icon_press"
         android:contentDescription="@string/app_name"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:layout_alignParentRight="true" />
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnMyLocation"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/list_item_arrow"
-        android:layout_above="@+id/btnFilter"
-        android:layout_alignParentRight="true" />
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="260dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
     <LinearLayout
         android:id="@+id/hidden_panel"
         android:layout_width="match_parent"

@@ -49,7 +49,8 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         listButton.setOnClickListener(this);
 
         Log.i(TAG, "onCreateView() [contentType  =  " + contentType + "]");
-        showMap();
+
+        showDefaultFragment();
         return view;
     }
 
@@ -64,9 +65,17 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
                 contentType = getArguments().getString(Keys.CONTENT_TYPE);
                 Log.i(TAG, "onHiddenChanged() [contentType  =  " + contentType + "]");
             }
-            showMap();
+            showDefaultFragment();
         } else {
             fragmentHelper.hideLastFragment(getActivity());
+        }
+    }
+
+    public void showDefaultFragment(){
+        if (Keys.FIND_TASK.equals(contentType)) {
+            showMap();
+        } else if (Keys.MY_TASK.equals(contentType)) {
+            showList();
         }
     }
 

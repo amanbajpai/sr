@@ -41,7 +41,7 @@ public class SelectImageManager {
     private static final int VERTICAL = 2;
     private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
-            new int[]{90, HORIZONTAL}, new int[]{-90, NONE}};
+            new int[]{90, HORIZONTAL}, new int[]{0, NONE}, new int[]{90, NONE}};
     /*private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90,NONE}, new int[]{90,HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
@@ -287,16 +287,30 @@ public class SelectImageManager {
         try {
             ExifInterface oldExif = new ExifInterface(imagePath);
             int index = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
+            int imageWidth = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_IMAGE_WIDTH));
             int degrees = OPERATIONS[index][0];
 
             Matrix matrix = new Matrix();
-            matrix.postRotate(degrees);
 
-            if (degrees == 0) {
-                return bitmap;
+            if (imageWidth <= 1600 || index == 8) {
+                float[] mirrorY = {-1, 0, 0, 0, 1, 0, 0, 0, 1};
+                matrix = new Matrix();
+
+                Matrix matrixMirrorY = new Matrix();
+                matrixMirrorY.setValues(mirrorY);
+
+                matrix.postConcat(matrixMirrorY);
+
+                matrix.postRotate(degrees);
             } else {
-                return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                matrix.postRotate(degrees);
             }
+
+            /*if (degrees == 0) {
+                return bitmap;
+            } else {*/
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }

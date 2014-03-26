@@ -1,5 +1,6 @@
 package com.ros.smartrocket.dialog;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
@@ -39,6 +40,7 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
         }
     }
 
+    @TargetApi(11)
     private void initViews() {
         final Calendar maxDateCalendar = getMaxDateCalendar();
         datePicker = (DatePicker) findViewById(R.id.datePicker);

@@ -12,6 +12,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
@@ -73,8 +74,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
-        emailEditText.setText(getString(R.string.login_test_account));
-        passwordEditText.setText(getString(R.string.login_test_password));
+        if (Config.ENV == Config.Environment.DEVELOPMENT) {
+            emailEditText.setText(getString(R.string.login_test_account));
+            passwordEditText.setText(getString(R.string.login_test_password));
+        }
 
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);

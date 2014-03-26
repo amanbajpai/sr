@@ -61,10 +61,7 @@
         available</string >
     <string name="subscribe" >SUBSCRIBE</string >
     <!-- FIND TASK FRAGMENT-->
-    <string name="map" >MAP</string >
-    <string name="list" >LIST</string >
     <!-- SURVEY LIST FRAGMENT-->
-    <string name="survey_list_title" >Survey list</string >
     <string name="distance_for_nearest_location" >Distance for nearest location</string >
     <string name="locations" >&lt;b>%1$s &lt;/b> Locations</string >
     <string name="survey_distance" >&lt;b>%1$s&lt;/b> %2$s</string >
