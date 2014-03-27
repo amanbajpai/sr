@@ -15,5 +15,5 @@
     <color name="map_accuracy_fill">#110099ff</color>
 
     <color name="white_transparence">#a9949494</color>
-    <color name="black_transparence">#60000000</color>
+    <color name="black_transparence">#aa000000</color>
 </resources >

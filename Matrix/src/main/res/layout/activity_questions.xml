@@ -6,17 +6,36 @@
     android:orientation="vertical" >
     <ProgressBar
         android:id="@+id/mainProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+        style="@style/ProgressBarGreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp" />
+    <LinearLayout
+        android:id="@+id/questionOfLayout"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" >
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/questionOf"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_size_12sp"
+            android:textColor="@color/grey"
+            android:text="@string/question_of"
+            custom:textStyle="bold" />
+        <View
+            android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="@color/black" />
+    </LinearLayout >
     <FrameLayout
         android:id="@+id/contentLayout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="15dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp" />
@@ -34,11 +53,11 @@
             android:id="@+id/previousButton"
             style="@style/Button"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
             android:text="@string/previous"
-            android:drawableLeft="@drawable/up_icon"
+            android:drawableLeft="@drawable/arrow_icon_left"
             android:visibility="invisible"
             android:layout_marginRight="5dp"
             custom:textStyle="bold" />
@@ -46,18 +65,18 @@
             android:id="@+id/nextButton"
             style="@style/Button"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
             android:text="@string/next"
-            android:drawableRight="@drawable/up_icon"
+            android:drawableRight="@drawable/arrow_icon_right"
             android:layout_marginLeft="5dp"
             android:visibility="invisible"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/validationButton"
             style="@style/Button"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
             android:text="@string/validate"

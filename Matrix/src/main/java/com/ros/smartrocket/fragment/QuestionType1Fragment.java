@@ -133,8 +133,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
-        this
-                .answerSelectedListener = answerSelectedListener;
+        this.answerSelectedListener = answerSelectedListener;
     }
 
     @Override

@@ -132,6 +132,22 @@ public class QuestionsBL {
     }
 
     /**
+     * Get Questions to answer count
+     *
+     * @param questions - question list
+     * @return Integer
+     */
+    public static int getQuestionsToAnswerCount(ArrayList<Question> questions) {
+        int result = 0;
+        for (Question question : questions) {
+            if (question.getType() != 3 && question.getType() != 4) {
+                result++;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Set Question by orderId
      *
      * @param questions

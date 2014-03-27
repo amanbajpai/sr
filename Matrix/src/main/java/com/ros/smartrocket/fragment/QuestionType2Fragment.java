@@ -137,9 +137,6 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         answer.toggleChecked();
         adapter.notifyDataSetChanged();
 
-       /* AnswerRadioButtonAdapter.ViewHolder viewHolder = (AnswerRadioButtonAdapter.ViewHolder) item.getTag();
-        viewHolder.getRadioButton().setChecked(answer.isChecked());*/
-
         refreshNextButton();
     }
 }

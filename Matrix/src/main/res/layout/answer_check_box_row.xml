@@ -21,4 +21,15 @@
         android:paddingTop="10dp"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_medium" />
+    <EditText
+        android:id="@+id/otherAnswerEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="gone" />
 </LinearLayout >

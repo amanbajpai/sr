@@ -10,6 +10,7 @@
         <item name="android:spinnerStyle" >@style/Spinner</item >
         <item name="android:homeAsUpIndicator" >@drawable/button_action_bar_back</item >
         <item name="homeAsUpIndicator" >@drawable/button_action_bar_back</item >
+        <item name="android:radioButtonStyle">@style/RadioButton</item>
         <!--<item name="android:background">@color/white</item>-->
     </style >
 
@@ -48,6 +49,10 @@
         <item name="android:textColor" >@color/grey</item >
     </style >
 
+    <style name="RadioButton" parent="android:Widget.CompoundButton.RadioButton" >
+        <item name="android:button" >@drawable/radio_button_selector</item >
+    </style >
+
     <style name="MaleRadioButton" parent="android:Widget.CompoundButton.RadioButton" >
         <item name="android:minWidth" >48dp</item >
         <item name="android:button" >@drawable/radio_button_male_normal_selector</item >
@@ -80,13 +85,17 @@
         <item name="android:textOn" ></item >
     </style >
 
-    <style name="SeekBarRed" parent="android:Widget.SeekBar">
-        <item name="android:progressDrawable">@drawable/seekbar</item>
-        <item name="android:indeterminateDrawable">@drawable/seekbar</item>
-        <item name="android:thumb">@drawable/seekbar_control_selector</item>
-        <item name="android:thumbOffset">10dip</item>
-    </style>
+    <style name="SeekBarRed" parent="android:Widget.SeekBar" >
+        <item name="android:progressDrawable" >@drawable/seekbar</item >
+        <item name="android:indeterminateDrawable" >@drawable/seekbar</item >
+        <item name="android:thumb" >@drawable/seekbar_control_selector</item >
+        <item name="android:thumbOffset" >10dip</item >
+    </style >
 
+    <style name="ProgressBarGreen" parent="android:Widget.ProgressBar.Horizontal" >
+        <item name="android:progressDrawable" >@drawable/progressbar_green</item >
+        <item name="android:indeterminateDrawable" >@drawable/progressbar_green</item >
+    </style >
 
     <style name="CustomDialog" >
         <item name="android:background" >@color/white</item >
@@ -258,6 +267,10 @@
         <item name="android:gravity" >left|center_vertical</item >
         <item name="android:paddingLeft" >5dp</item >
         <item name="android:paddingRight" >5dp</item >
+        <item name="android:shadowColor" >@color/grey</item >
+        <item name="android:shadowDx" >0</item >
+        <item name="android:shadowDy" >1</item >
+        <item name="android:shadowRadius" >1</item >
     </style >
 
     <style name="DialogText" parent="@android:style/Widget.TextView" >
@@ -266,18 +279,17 @@
     </style >
 
     <style name="QuestionText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_medium</item >
+        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
         <item name="android:textColor" >@color/black</item >
     </style >
 
     <style name="QuestionConditionText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_medium</item >
+        <item name="android:textSize" >@dimen/text_size_12sp</item >
         <item name="android:textColor" >@color/grey</item >
-        <item name="android:textStyle" >italic</item >
     </style >
 
     <style name="QuestionValidationComment" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_medium</item >
+        <item name="android:textSize" >@dimen/text_size_12sp</item >
         <item name="android:textColor" >@color/red</item >
         <item name="android:textStyle" >normal</item >
         <item name="android:visibility" >gone</item >

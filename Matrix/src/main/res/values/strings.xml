@@ -249,7 +249,7 @@
     <string name="no_button" >NO</string >
     <string name="yes_button" >YES</string >
     <!-- QUESTION ACTIVITY-->
-    <string name="question_title" >Task</string >
+    <string name="question_title" >Mission</string >
     <string name="previous" >PREVIOUS</string >
     <string name="next" >NEXT</string >
     <string name="validate" >VALIDATE</string >
@@ -258,6 +258,8 @@
     <string name="re_photo" >Re-photo</string >
     <string name="confirm" >Confirm</string >
     <string name="quite_mission" >Quite mission</string >
+    <string name="question_of" >QUESTION %1$s OF %2$s</string >
+    <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quite task pop-up</string >
     <string name="quite_task_dialog_text1" >Warning!</string >

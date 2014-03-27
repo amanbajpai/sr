@@ -57,7 +57,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private Integer surveyId;
     private Integer taskId;
     private Task task = new Task();
+
     private ProgressBar mainProgressBar;
+    private TextView questionOf;
+    private LinearLayout questionOfLayout;
 
     private LinearLayout buttonsLayout;
     private Button previousButton;
@@ -67,6 +70,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private AsyncQueryHandler handler;
     private ArrayList<Question> questions;
     private BaseQuestionFragment currentFragment;
+
+    private int questionsToAnswerCount = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         handler = new DbHandler(getContentResolver());
 
         mainProgressBar = (ProgressBar) findViewById(R.id.mainProgressBar);
+        questionOfLayout = (LinearLayout) findViewById(R.id.questionOfLayout);
+        questionOf = (TextView) findViewById(R.id.questionOf);
 
         buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
 
@@ -126,6 +133,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
 
                     if (questions.size() > 0) {
+                        questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
                         //int previousQuestionOrderId = preferencesManager.getPreviousQuestionOrderId(taskId);
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(surveyId,
                                 taskId);
@@ -144,10 +152,14 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
     }
 
-    public void refreshMainProgress(int currentQuestionOrderId) {
-        int questionCount = questions.size() - 2; //-2 because question list contain two system questions
-
-        mainProgressBar.setProgress((int) (((float) currentQuestionOrderId / questionCount * 100)));
+    public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
+        mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId-1) / questionsToAnswerCount * 100)));
+        if (questionType != 2) {
+            questionOfLayout.setVisibility(View.VISIBLE);
+            questionOf.setText(getString(R.string.question_of, currentQuestionOrderId, questionsToAnswerCount));
+        } else {
+            questionOfLayout.setVisibility(View.GONE);
+        }
 
     }
 
@@ -189,7 +201,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (question != null) {
             L.i(TAG, "startFragment. orderId:" + question.getOrderId());
             buttonsLayout.setVisibility(View.INVISIBLE);
-            refreshMainProgress(question.getOrderId());
+            refreshMainProgress(question.getType(), question.getOrderId());
 
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
