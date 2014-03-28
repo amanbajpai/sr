@@ -2,6 +2,7 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         holder.checkBox.setChecked(answer.isChecked());
 
         if (Integer.valueOf(answer.getValue()) >= 1000) {
+            final CheckBox checkBox = holder.checkBox;
             holder.otherAnswerEditText.setText(answer.getAnswer());
             holder.name.setVisibility(View.GONE);
             holder.otherAnswerEditText.setVisibility(View.VISIBLE);
@@ -99,6 +101,8 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
                 @Override
                 public void afterTextChanged(Editable s) {
                     answer.setAnswer(s.toString());
+                    answer.setChecked(!TextUtils.isEmpty(s.toString()));
+                    checkBox.setChecked(!TextUtils.isEmpty(s.toString()));
                 }
             });
         } else {

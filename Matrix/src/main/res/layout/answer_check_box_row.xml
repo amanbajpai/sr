@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal" >
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:clickable="false"
         android:focusable="false" />
-    <TextView
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -20,16 +22,19 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_medium" />
-    <EditText
+        android:textSize="@dimen/text_size_15sp"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomEditTextView
         android:id="@+id/otherAnswerEditText"
+        style="@style/EditText"
+        android:minHeight="40dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_medium"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="@dimen/text_size_15sp"
+        custom:textStyle="bold"
         android:visibility="gone" />
 </LinearLayout >

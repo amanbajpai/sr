@@ -80,6 +80,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_details);
 
+        //getSupportActionBar().setIcon(R.drawable.ic_launcher);
+
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
         }

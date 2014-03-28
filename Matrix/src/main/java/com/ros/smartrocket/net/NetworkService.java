@@ -147,6 +147,7 @@ public class NetworkService extends BaseNetworkService {
                                         task.setDistance(currentLocation.distanceTo(tampLocation));
                                     }
                                 } else {
+                                    task.setIsMy(true);
                                     task.setDistance(0f);
                                 }
                                 vals.add(task.toContentValues());

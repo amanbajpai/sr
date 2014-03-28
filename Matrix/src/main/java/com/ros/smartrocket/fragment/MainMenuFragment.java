@@ -134,7 +134,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.shareButton:
-                ((MainActivity) getActivity()).startFragment(new ShareAndReferFragment());
+                ((MainActivity) getActivity()).startFragment(new ShareFragment());
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:

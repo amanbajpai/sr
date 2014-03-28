@@ -22,8 +22,8 @@ import com.ros.smartrocket.utils.UIUtils;
 /**
  * Share app info fragment
  */
-public class ShareAndReferFragment extends Fragment implements OnClickListener {
-    //private static final String TAG = ShareAndReferFragment.class.getSimpleName();
+public class ShareFragment extends Fragment implements OnClickListener {
+    //private static final String TAG = ShareFragment.class.getSimpleName();
     private ViewGroup view;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private String shortUrl;
@@ -119,7 +119,7 @@ public class ShareAndReferFragment extends Fragment implements OnClickListener {
         actionBar.setDisplayShowCustomEnabled(true);
 
         View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.share_and_refer_title);
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.share_title);
 
         super.onCreateOptionsMenu(menu, inflater);
     }

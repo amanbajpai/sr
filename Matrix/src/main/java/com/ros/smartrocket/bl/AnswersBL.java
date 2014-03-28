@@ -34,7 +34,7 @@ public class AnswersBL {
         handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema
                         .Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId)}, AnswerDbSchema.SORT_ORDER_DESC
+                new String[]{String.valueOf(questionId), String.valueOf(taskId)}, AnswerDbSchema.SORT_ORDER_ASC
         );
     }
 

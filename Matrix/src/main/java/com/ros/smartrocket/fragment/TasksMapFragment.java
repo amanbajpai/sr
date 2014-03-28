@@ -157,12 +157,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         super.onResume();
         initMap();
 
-        if (clusterkraf != null) {
-            clusterkraf.clear();
-        }
-        //Remove my location and Circle from the map!
-        map.clear();
-
         setViewMode(getArguments());
         updateUI();
         loadData();
@@ -170,18 +164,19 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         showFilterPanel(false);
     }
 
+    public void clearMap() {
+        if (clusterkraf != null) {
+            clusterkraf.clear();
+        }
+        //Remove my location and Circle from the map!
+        map.clear();
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            if (clusterkraf != null) {
-                clusterkraf.clear();
-            }
-            //Remove my location and Circle from the map!
-            map.clear();
-
-
             setViewMode(getArguments());
             updateUI();
             loadData();
@@ -229,7 +224,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Send request to server for data update
      */
     private void updateDataFromServer(Location location) {
-        if(UIUtils.isOnline(getActivity())){
+        if (UIUtils.isOnline(getActivity())) {
             if (mode == Keys.MapViewMode.MYTASKS) {
                 getMyTasksFromServer();
             } else if (mode == Keys.MapViewMode.ALLTASKS) {
@@ -271,6 +266,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private void loadData() {
         refreshIconState(true);
+        clearMap();
         Location location = lm.getLocation();
         if (location != null) {
             loadTasksFromLocalDb();
@@ -592,7 +588,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         map.addMarker(new MarkerOptions()
                 .snippet(MYLOC)
                 .position(coordinates)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
         restoreCameraPosition = new CameraPosition(coordinates, zoomLevel, 0, 0);
     }
 

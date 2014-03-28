@@ -8,7 +8,7 @@ public interface AnswerDbSchema {
             .getName()).build();
 
     // String SORT_ORDER_DESC_LIMIT_1 = Table.ANSWER.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
-    String SORT_ORDER_DESC = Table.ANSWER.getName() + "." + Columns._ID.getName() + " DESC";
+    String SORT_ORDER_ASC = Table.ANSWER.getName() + "." + Columns._ID.getName() + " ASC";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),

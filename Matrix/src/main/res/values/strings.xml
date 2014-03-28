@@ -127,18 +127,18 @@
     <string name="knowledge_base" >KNOWLEDGE BASE</string >
     <string name="send_message" >SEND MESSAGE</string >
     <!-- SHARE AND REFER FRAGMENT-->
-    <string name="share_and_refer_title" >Share &amp; Refer</string >
-    <string name="share_and_refer_via" >Share &amp; Refer via</string >
-    <string name="share_and_refer_via_email" >E-email</string >
-    <string name="share_and_refer_via_message" >Message</string >
-    <string name="share_and_refer_via_twitter" >Twitter</string >
-    <string name="share_and_refer_via_facebook" >Facebook</string >
-    <string name="share_and_refer_via_linkedin" >LinkedIn</string >
-    <string name="share_and_refer_via_whatsapp" >WhatsApp</string >
-    <string name="share_and_refer_via_wechat" >WeChat</string >
-    <string name="share_and_refer_via_tencent_weibo" >Tencent Weibo</string >
-    <string name="share_and_refer_via_sina_weibo" >Sina Weibo</string >
-    <string name="share_and_refer_via_qzone" >QZone</string >
+    <string name="share_title" >Share</string >
+    <string name="tell_your_friends_about" >Tell your friends about \n SmartRocket!</string >
+    <string name="share_via_email" >E-MAIL</string >
+    <string name="share_via_message" >MESSAGE</string >
+    <string name="share_via_twitter" >TWITTER</string >
+    <string name="share_via_facebook" >FACEBOOK</string >
+    <string name="share_via_linkedin" >LinkedIn</string >
+    <string name="share_via_whatsapp" >WhatsApp</string >
+    <string name="share_via_wechat" >We Chat</string >
+    <string name="share_via_tencent_weibo" >Tencent Weibo</string >
+    <string name="share_via_sina_weibo" >Sina Weibo</string >
+    <string name="share_via_qzone" >QZone</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >Task details</string >
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >
@@ -260,6 +260,8 @@
     <string name="quite_mission" >Quite mission</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
+    <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
+    <string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quite task pop-up</string >
     <string name="quite_task_dialog_text1" >Warning!</string >
