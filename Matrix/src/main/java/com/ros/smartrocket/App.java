@@ -2,6 +2,7 @@ package com.ros.smartrocket;
 
 import android.app.Application;
 import android.content.res.Configuration;
+import android.text.format.DateUtils;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
@@ -11,6 +12,8 @@ import com.ros.smartrocket.utils.UIUtils;
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
+
+import java.util.Calendar;
 
 @ReportsCrashes(formKey = Config.ACRA_FORM_KEY, customReportContent = {ReportField.REPORT_ID,
         ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME, ReportField.PACKAGE_NAME,
@@ -40,6 +43,7 @@ public class App extends Application {
         locationManager = new MatrixLocationManager(getApplicationContext());
 
         SettingsFragment.setCurrentLanguage();
+        clearMonthLimitIfNeed();
     }
 
     protected void initACRA() {
@@ -64,6 +68,15 @@ public class App extends Application {
         this.myAccount = profile;
         String profileJson = new Gson().toJson(profile);
         PreferencesManager.getInstance().setString(Keys.MY_ACCOUNT, profileJson);
+    }
+
+    public static void clearMonthLimitIfNeed() {
+        Calendar calendar = Calendar.getInstance();
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        if (calendar.getTimeInMillis() >= preferencesManager.getLastRefreshMonthLimitDate() + DateUtils.YEAR_IN_MILLIS / 12) {
+            preferencesManager.setUsed3GUploadMonthlySize(0);
+            preferencesManager.setLastRefreshMonthLimitDate(calendar.getTimeInMillis());
+        }
     }
 
     @Override

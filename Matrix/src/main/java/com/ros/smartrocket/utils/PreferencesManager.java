@@ -216,6 +216,14 @@ public class PreferencesManager {
         setInt(Keys.USED_TREE_G_UPLOAD_MONTHLY_SIZE, usedSize);
     }
 
+    public long getLastRefreshMonthLimitDate() {
+        return getLong(Keys.LAST_REFRESH_MONTH_LIMIT_DATE, 0);
+    }
+
+    public void setLastRefreshMonthLimitDate(long date) {
+        setLong(Keys.LAST_REFRESH_MONTH_LIMIT_DATE, date);
+    }
+
     public String getShortUrlToShare() {
         return getString(Keys.SHORT_URL_TO_SHARE, "");
     }

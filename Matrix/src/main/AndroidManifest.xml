@@ -102,6 +102,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.ros.smartrocket.activity.TaskValidationActivity"
+            android:theme="@style/AppThemeGreen"
             android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.TermsAndConditionActivity"

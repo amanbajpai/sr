@@ -262,6 +262,7 @@
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
     <string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >
+    <string name="take_photo_big" >TAKE PHOTO</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quite task pop-up</string >
     <string name="quite_task_dialog_text1" >Warning!</string >
@@ -275,17 +276,18 @@
     <string name="min_distance" >0.1 km</string >
     <string name="max_distance" >100 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
-    <string name="task_validation_title" >Validation</string >
+    <string name="validation_title" >Validation</string >
+    <string name="validation_big" >VALIDATION</string >
     <!--<string name="task_validation_text1" >You have completed this Task. If you are satisfied with your answers, you may now Confirm &amp; Send it for validation or you can send it later.</string >
     <string name="task_validation_text2" >If you find any issues with your answers on task questions or you not satisfied by them you can check it once more before validation</string >-->
-    <string name="recheck_my_answer" >Re-check my answers</string >
-    <string name="expiry_time" >Expiry time: </string >
+    <string name="recheck_my_answer" >RECHECK MY ANSWERS</string >
+    <string name="expiry_time" >EXPIRY TIME: </string >
     <string name="expiry_time_at" >at</string >
-    <string name="task_data_size" >Task data size: </string >
+    <string name="task_data_size" >TASK DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
-    <string name="confirmation_you_can_find_in_my_task" >Validation confirmation you can find in My Task list</string >
-    <string name="send_now" >Send now</string >
-    <string name="send_later" >Send later</string >
+    <string name="confirm_you_can_find_in_my_mission" >Validation confirm you can find in \"My missions\"</string >
+    <string name="confirm_and_send" >CONFIRM &amp; SEND</string >
+    <string name="send_later" >SEND LATER</string >
     <!-- QUIT QUESTION ACTIVITY -->
     <string name="quit_question_title" >Quit</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->

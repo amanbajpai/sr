@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -45,9 +46,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private TextView expiryDateTextView;
-    private TextView expiryTimeTextView;
     private TextView taskDataSizeTextView;
     private TextView closingQuestionText;
+    private LinearLayout closingQuestionTextLayout;
 
     private int taskId;
     private Task task = new Task();
@@ -63,7 +64,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_validation);
-        setTitle(R.string.task_validation_title);
+        setTitle(R.string.validation_title);
+
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
@@ -72,8 +75,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         handler = new DbHandler(getContentResolver());
 
         expiryDateTextView = (TextView) findViewById(R.id.expiryDateTextView);
-        expiryTimeTextView = (TextView) findViewById(R.id.expiryTimeTextView);
         taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
+        closingQuestionTextLayout = (LinearLayout) findViewById(R.id.closingQuestionTextLayout);
         closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
 
         findViewById(R.id.recheckTaskButton).setOnClickListener(this);
@@ -109,6 +112,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     if (questions.size() > 0) {
                         Question question = questions.get(0);
                         closingQuestionText.setText(question.getQuestion());
+                        closingQuestionTextLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        closingQuestionTextLayout.setVisibility(View.GONE);
                     }
                     break;
                 default:
@@ -138,9 +144,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void setTaskData(Task task) {
         long expiryTimeLong = UIUtils.isoTimeToLong(task.getEndDateTime());
 
-        expiryDateTextView.setText(UIUtils.longToString(expiryTimeLong, 1));
-        expiryTimeTextView.setText(UIUtils.longToString(expiryTimeLong, 0));
-        taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024));
+        expiryDateTextView.setText(UIUtils.longToString(expiryTimeLong, 6));
+        taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
+                .task_data_size_mb));
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {

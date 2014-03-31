@@ -1,131 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="25dp" >
+    <LinearLayout
+        android:id="@+id/closingQuestionTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical" >
+        <com.ros.smartrocket.views.CustomTextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_size_12sp"
+            android:textColor="@color/grey"
+            android:text="@string/validation_big"
+            custom:textStyle="bold" />
+        <View
+            android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="@color/black" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/closingQuestionText"
+            style="@style/QuestionText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp" />
+    </LinearLayout >
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/recheckTaskButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/button_green_selector"
+        android:text="@string/recheck_my_answer"
+        custom:textStyle="bold" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:padding="20dp" >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/text_size_medium"
-            android:gravity="left"
-            android:textStyle="bold"
-            android:text="@string/task_validation_title" />
-        <TextView
-            android:id="@+id/closingQuestionText"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:textSize="@dimen/text_size_small"
-            android:gravity="left"/>
-        <Button
-            android:id="@+id/recheckTaskButton"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/recheck_my_answer" />
+        android:background="@color/grey_light"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical"
-            android:background="@drawable/list_item_background"
-            android:padding="10dp" >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:gravity="left"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/expiry_time" />
-                <TextView
-                    android:id="@+id/expiryDateTextView"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:layout_marginRight="5dp"
-                    android:gravity="left" />
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:gravity="left"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/expiry_time_at" />
-                <TextView
-                    android:id="@+id/expiryTimeTextView"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/red"
-                    android:gravity="left" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:layout_marginRight="5dp"
-                    android:gravity="left"
-                    android:text="@string/task_data_size" />
-                <TextView
-                    android:id="@+id/taskDataSizeTextView"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:gravity="left" />
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:gravity="left"
-                    android:text="@string/task_data_size_mb" />
-            </LinearLayout >
-        </LinearLayout >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="30dp"
-            android:textSize="@dimen/text_size_small"
-            android:gravity="left"
-            android:text="@string/confirmation_you_can_find_in_my_task" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
             android:orientation="horizontal" >
-            <Button
-                android:id="@+id/sendNowButton"
+            <com.ros.smartrocket.views.CustomTextView
+                android:layout_height="wrap_content"
+                android:layout_width="130dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:textColor="@color/grey"
+                android:text="@string/expiry_time"
+                android:layout_marginRight="5dp"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/expiryDateTextView"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/send_now" />
-            <Button
-                android:id="@+id/sendLaterButton"
+                android:textSize="@dimen/text_size_14sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                custom:textStyle="bold" />
+        </LinearLayout >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <com.ros.smartrocket.views.CustomTextView
+                android:layout_height="wrap_content"
+                android:layout_width="130dp"
+                android:textSize="@dimen/text_size_14sp"
+                android:textColor="@color/grey"
+                android:text="@string/task_data_size"
+                android:layout_marginRight="5dp"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/taskDataSizeTextView"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
                 android:layout_weight="1"
-                android:text="@string/send_later" />
+                android:textSize="@dimen/text_size_14sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                custom:textStyle="bold" />
         </LinearLayout >
     </LinearLayout >
-</ScrollView >
+    <com.ros.smartrocket.views.CustomTextView
+        style="@style/QuestionText"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="15dp"
+        android:text="@string/confirm_you_can_find_in_my_mission" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@color/black_transparence"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/sendNowButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/confirm_and_send"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/sendLaterButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/send_later"
+            android:layout_marginLeft="5dp"
+            custom:textStyle="bold" />
+    </LinearLayout >
+</LinearLayout >

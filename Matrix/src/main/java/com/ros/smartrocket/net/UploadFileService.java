@@ -38,7 +38,7 @@ import java.util.TimerTask;
 
 public class UploadFileService extends Service implements NetworkOperationListenerInterface {
     final String TAG = "UploadFileService";
-    //private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
@@ -201,6 +201,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: " +
                         notUploadedFile.getFileName());
+
+                preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
+                        + (int) (notUploadedFile.getFileSizeB() / 1000));
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 

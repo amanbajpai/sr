@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -36,10 +35,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Русский"};
     public static final int[] APPOINTMENT_INTERVAL_CODE = new int[]{0, 1, 2};
     public static final String[] APPOINTMENT_INTERVAL = new String[]{"Never", "Always"};
+    public static final int[] LIMIT_MB_CODE = new int[]{10000, 5, 10, 20, 50, 100, 200};
+    public static final String[] LIMIT_MB = new String[]{"Unlimited", "5", "10", "20", "50", "100", "200"};
     private ViewGroup view;
 
     private Spinner languageSpinner;
     private Spinner appointmentIntervalSpinner;
+    private Spinner taskLimitSpinner;
+    private Spinner monthLimitSpinner;
 
     private ToggleButton locationServicesToggleButton;
     private ToggleButton pushMessagesToggleButton;
@@ -47,9 +50,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private ToggleButton saveImageToggleButton;
     private ToggleButton useOnlyWifiToggleButton;
     private ToggleButton deadlineReminderToggleButton;
-
-    private EditText treeGUploadLimitEditText;
-    private EditText treeGUploadMonthLimitEditText;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -66,6 +66,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
         appointmentIntervalSpinner = (Spinner) view.findViewById(R.id.appointmentIntervalSpinner);
+        taskLimitSpinner = (Spinner) view.findViewById(R.id.taskLimitSpinner);
+        monthLimitSpinner = (Spinner) view.findViewById(R.id.monthLimitSpinner);
 
         locationServicesToggleButton = (ToggleButton) view.findViewById(R.id.locationServicesToggleButton);
         pushMessagesToggleButton = (ToggleButton) view.findViewById(R.id.pushMessagesToggleButton);
@@ -73,9 +75,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         saveImageToggleButton = (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
         useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
-
-        treeGUploadLimitEditText = (EditText) view.findViewById(R.id.treeGUploadLimitEditText);
-        treeGUploadMonthLimitEditText = (EditText) view.findViewById(R.id.treeGUploadMonthLimitEditText);
 
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
         view.findViewById(R.id.cancelButton).setOnClickListener(this);
@@ -89,6 +88,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     public void setData() {
         setLanguageSpinner();
         setApppointmentIntervalSpinner();
+        setTaskLimitSpinner();
+        setMonthLimitSpinner();
 
         locationServicesToggleButton.setChecked(preferencesManager.getUseLocationServices());
         socialSharingToggleButton.setChecked(preferencesManager.getUseSocialSharing());
@@ -96,9 +97,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         saveImageToggleButton.setChecked(preferencesManager.getUseSaveImageToCameraRoll());
         pushMessagesToggleButton.setChecked(preferencesManager.getUsePushMessages());
         deadlineReminderToggleButton.setChecked(preferencesManager.getUseDeadlineReminder());
-
-        treeGUploadLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadTaskLimit()));
-        treeGUploadMonthLimitEditText.setText(String.valueOf(preferencesManager.get3GUploadMonthLimit()));
     }
 
     public void setLanguageSpinner() {
@@ -138,6 +136,40 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         appointmentIntervalSpinner.setSelection(selectedItemPosition);
     }
 
+    public void setTaskLimitSpinner() {
+        int limit = preferencesManager.get3GUploadTaskLimit();
+
+        ArrayAdapter taskLimitAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
+                LIMIT_MB);
+        taskLimitSpinner.setAdapter(taskLimitAdapter);
+
+        int selectedItemPosition = 0;
+        for (int i = 0; i < LIMIT_MB_CODE.length; i++) {
+            if (LIMIT_MB_CODE[i] == limit) {
+                selectedItemPosition = i;
+                break;
+            }
+        }
+        taskLimitSpinner.setSelection(selectedItemPosition);
+    }
+
+    public void setMonthLimitSpinner() {
+        int limit = preferencesManager.get3GUploadMonthLimit();
+
+        ArrayAdapter monthLimitAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
+                LIMIT_MB);
+        monthLimitSpinner.setAdapter(monthLimitAdapter);
+
+        int selectedItemPosition = 0;
+        for (int i = 0; i < LIMIT_MB_CODE.length; i++) {
+            if (LIMIT_MB_CODE[i] == limit) {
+                selectedItemPosition = i;
+                break;
+            }
+        }
+        monthLimitSpinner.setSelection(selectedItemPosition);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -152,19 +184,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                 preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
                 preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
 
-                int taskLimitInt = 0;
-                String taskLimitString = treeGUploadLimitEditText.getText().toString().trim();
-                if (!TextUtils.isEmpty(taskLimitString)) {
-                    taskLimitInt = Integer.valueOf(taskLimitString);
-                }
-                preferencesManager.set3GUploadTaskLimit(taskLimitInt);
-
-                int monthLimitInt = 0;
-                String monthLimitString = treeGUploadMonthLimitEditText.getText().toString().trim();
-                if (!TextUtils.isEmpty(monthLimitString)) {
-                    monthLimitInt = Integer.valueOf(monthLimitString);
-                }
-                preferencesManager.set3GUploadMonthLimit(monthLimitInt);
+                preferencesManager.set3GUploadTaskLimit(LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
+                preferencesManager.set3GUploadMonthLimit(LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
 
                 preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner
                         .getSelectedItemPosition()]);

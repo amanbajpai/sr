@@ -48,6 +48,8 @@ public class UIUtils {
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("HH:mm a dd MMM" +
             " yy", Locale.ENGLISH);
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("HH:mm a dd MMM" +
+            " yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM" +
             ".yyyy / HH:mm", Locale.ENGLISH);
 
@@ -340,6 +342,8 @@ public class UIUtils {
                 return DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
             case 5:
                 return DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+            case 6:
+                return HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
             default:
                 break;
         }

@@ -14,7 +14,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
@@ -40,13 +40,15 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private ViewGroup view;
     private TextView questionText;
-    private Button rePhotoButton;
+    private TextView conditionText;
+    private ImageButton rePhotoButton;
+    private ImageButton confirmButton;
     private ImageView photoImageView;
     private boolean isBitmapAdded = false;
+    private boolean isBitmapConfirmed = false;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
-    private Button confirmButton;
 
     private AsyncQueryHandler handler;
 
@@ -64,20 +66,24 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
+        conditionText = (TextView) view.findViewById(R.id.conditionText);
+
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
+
+            questionText.setVisibility(View.GONE);
+            conditionText.setVisibility(View.GONE);
         }
 
         photoImageView = (ImageView) view.findViewById(R.id.photo);
 
-        rePhotoButton = (Button) view.findViewById(R.id.rePhotoButton);
+        rePhotoButton = (ImageButton) view.findViewById(R.id.rePhotoButton);
         rePhotoButton.setOnClickListener(this);
 
-        confirmButton = (Button) view.findViewById(R.id.confirmButton);
+        confirmButton = (ImageButton) view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
-        confirmButton.setEnabled(false);
 
         questionText.setText(question.getQuestion());
         AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
@@ -101,14 +107,16 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     Answer answer = answers[0];
                     if (answer.isChecked() && answer.getFileUri() != null) {
                         isBitmapAdded = true;
-                        rePhotoButton.setText(R.string.re_photo);
+                        isBitmapConfirmed = true;
+
                         Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()));
                         photoImageView.setImageBitmap(bitmap);
                     } else {
                         isBitmapAdded = false;
-                        rePhotoButton.setText(R.string.take_photo);
+                        isBitmapConfirmed = false;
                     }
 
+                    refreshConfirmButton();
                     refreshNextButton();
                     break;
                 default:
@@ -141,6 +149,22 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         }
     }
 
+    public void refreshConfirmButton() {
+        if (isBitmapAdded) {
+            confirmButton.setVisibility(View.VISIBLE);
+            if (isBitmapConfirmed) {
+                confirmButton.setBackgroundResource(R.drawable.btn_square_green);
+                confirmButton.setImageResource(R.drawable.check_square_white);
+            } else {
+                confirmButton.setBackgroundResource(R.drawable.btn_square_active);
+                confirmButton.setImageResource(R.drawable.check_square_green);
+            }
+        } else {
+            confirmButton.setVisibility(View.GONE);
+        }
+
+    }
+
     @Override
     public void saveQuestion() {
 
@@ -163,46 +187,44 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                         new SelectImageManager.OnImageCompleteListener() {
                             @Override
                             public void onImageComplete(Bitmap bitmap) {
-                                QuestionType3Fragment.this.isBitmapAdded = bitmap != null;
+                                isBitmapAdded = bitmap != null;
+                                isBitmapConfirmed = false;
+
                                 if (bitmap != null) {
-                                    confirmButton.setEnabled(true);
-                                    rePhotoButton.setText(R.string.re_photo);
                                     photoImageView.setImageBitmap(bitmap);
                                 } else {
-                                    rePhotoButton.setText(R.string.take_photo);
                                     photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                                 }
+
+                                refreshConfirmButton();
                             }
 
                             @Override
                             public void onSelectImageError(int imageFrom) {
                                 DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
                             }
-                        });
+                        }
+                );
                 break;
             case R.id.confirmButton:
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-                if (isBitmapAdded) {
-                    File sourceImageFile = selectImageManager.getLastFile();
-                    File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
-                            SelectImageManager.SIZE_IN_PX_2_MP, 0);
+                File sourceImageFile = selectImageManager.getLastFile();
+                File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
+                        SelectImageManager.SIZE_IN_PX_2_MP, 0);
 
-                    Answer answer = question.getAnswers()[0];
-                    answer.setChecked(true);
-                    answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
-                    answer.setFileSizeB(resultImageFile.length());
-                    answer.setFileName(resultImageFile.getName());
-                } else {
-                    Answer answer = question.getAnswers()[0];
-                    answer.setChecked(false);
-                    answer.setFileUri(null);
-                    answer.setFileSizeB(0L);
-                }
+                Answer answer = question.getAnswers()[0];
+                answer.setChecked(true);
+                answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
+                answer.setFileSizeB(resultImageFile.length());
+                answer.setFileName(resultImageFile.getName());
 
                 AnswersBL.setAnswersToDB(handler, question.getAnswers());
-                refreshNextButton();
 
+                isBitmapConfirmed = true;
+
+                refreshConfirmButton();
+                refreshNextButton();
                 break;
             default:
                 break;
