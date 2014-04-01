@@ -78,6 +78,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         }
 
         photoImageView = (ImageView) view.findViewById(R.id.photo);
+        photoImageView.setOnClickListener(this);
 
         rePhotoButton = (ImageButton) view.findViewById(R.id.rePhotoButton);
         rePhotoButton.setOnClickListener(this);
@@ -116,6 +117,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                         isBitmapConfirmed = false;
                     }
 
+                    refreshRePhotoButton();
                     refreshConfirmButton();
                     refreshNextButton();
                     break;
@@ -165,6 +167,15 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
     }
 
+    public void refreshRePhotoButton() {
+        if (isBitmapAdded) {
+            rePhotoButton.setVisibility(View.VISIBLE);
+        } else {
+            rePhotoButton.setVisibility(View.GONE);
+        }
+
+    }
+
     @Override
     public void saveQuestion() {
 
@@ -182,6 +193,10 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.photo:
+                if (isBitmapAdded) {
+                    break;
+                }
             case R.id.rePhotoButton:
                 selectImageManager.showSelectImageDialog(getActivity(), true,
                         new SelectImageManager.OnImageCompleteListener() {
@@ -196,6 +211,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                                     photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                                 }
 
+                                refreshRePhotoButton();
                                 refreshConfirmButton();
                             }
 
@@ -223,6 +239,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
                 isBitmapConfirmed = true;
 
+                refreshRePhotoButton();
                 refreshConfirmButton();
                 refreshNextButton();
                 break;

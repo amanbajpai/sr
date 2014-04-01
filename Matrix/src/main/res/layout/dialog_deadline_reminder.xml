@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/CustomDialog"
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:text="@string/deadline_reminder_dialog_title"
+        android:drawableLeft="@drawable/sandclock"
+        android:drawablePadding="20dp"
+        style="@style/DialogTitle"
+        android:background="@color/red"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        style="@style/DialogText"
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/deadline_reminder_dialog_text1" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/dateTimeToDate"
+        style="@style/DialogText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        custom:textStyle="bold"
+        android:layout_margin="20dp"
+        android:textSize="@dimen/text_size_20sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal" >
+        <com.ros.smartrocket.views.CustomTextView
+            style="@style/DialogText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/deadline_reminder_dialog_text2" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/atDateTime"
+            style="@style/DialogText"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            custom:textStyle="bold"
+            android:textSize="@dimen/text_size_20sp" />
+    </LinearLayout >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="54dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/closeButton"
+            style="@style/DialogButton"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/red"
+            android:text="@string/close"
+            custom:textStyle="bold" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/goToTaskButton"
+            style="@style/DialogButton"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:textColor="@color/green"
+            android:layout_weight="1"
+            android:text="@string/go_to_mission"
+            custom:textStyle="bold" />
+    </LinearLayout >
+</LinearLayout >

@@ -1,77 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DialogTheme"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="20dp" >
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+    style="@style/CustomDialog"
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
         android:text="@string/take_picture"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_medium" />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="10dp"
-        android:background="@color/grey" />
-    <TextView
+        android:drawableLeft="@drawable/camera_icon_white"
+        android:drawablePadding="20dp"
+        style="@style/DialogTitle"
+        android:background="@color/green"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/camera"
-        android:layout_width="fill_parent"
+        style="@style/SelectImageDialogItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:drawablePadding="15dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:text="@string/take_from_camera"
-        android:textColor="@color/black"
-        android:drawableLeft="@drawable/dialog_take_a_photo"
-        android:textSize="@dimen/text_size_medium" />
+        android:drawableLeft="@drawable/camera_icon_black"
+        custom:textStyle="bold" />
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/grey" />
-    <TextView
+        android:layout_height="1dp"
+        android:background="@color/grey_light" />
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/gallery"
-        android:layout_width="fill_parent"
+        style="@style/SelectImageDialogItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:drawablePadding="15dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:text="@string/choose_from_gallery"
-        android:textColor="@color/black"
-        android:drawableLeft="@drawable/dialog_choose_from_gallery"
-        android:textSize="@dimen/text_size_medium" />
+        android:drawableLeft="@drawable/folder_icon"
+        custom:textStyle="bold" />
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/grey" />
-    <TextView
+        android:layout_height="1dp"
+        android:background="@color/grey_light" />
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/remove"
-        android:layout_width="fill_parent"
+        style="@style/SelectImageDialogItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:drawablePadding="15dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:text="@string/remove_current_picture"
-        android:textColor="@color/black"
-        android:drawableLeft="@drawable/dialog_cancel"
-        android:textSize="@dimen/text_size_medium" />
+        android:drawableLeft="@drawable/delete_icon"
+        custom:textStyle="bold" />
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:background="@color/grey" />
-    <Button
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/cancelButton"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/button_red_selector"
-        android:padding="10dp"
-        android:text="@string/cancel_set_image"
-        android:textColor="@color/white" />
+        style="@style/DialogButton"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:textColor="@color/red"
+        android:layout_weight="1"
+        custom:textStyle="bold"
+        android:text="@string/cancel_set_image" />
 </LinearLayout >

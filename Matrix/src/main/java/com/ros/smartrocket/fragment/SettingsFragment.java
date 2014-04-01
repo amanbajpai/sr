@@ -31,8 +31,9 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     //private static final String TAG = SettingsFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
-    public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "ru"};
-    public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Русский"};
+    public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
+    public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Chinese (Simplified)",
+            "Chinese (Traditional)"};
     public static final int[] APPOINTMENT_INTERVAL_CODE = new int[]{0, 1, 2};
     public static final String[] APPOINTMENT_INTERVAL = new String[]{"Never", "Always"};
     public static final int[] LIMIT_MB_CODE = new int[]{10000, 5, 10, 20, 50, 100, 200};
@@ -105,8 +106,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
             currentLanguageCode = DEFAULT_LANG;
         }
 
-        ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
-                SUPPORTED_LANGUAGE);
+        ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_item_single_line_spinner, R.id.name, SUPPORTED_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
         int selectedItemPosition = 0;

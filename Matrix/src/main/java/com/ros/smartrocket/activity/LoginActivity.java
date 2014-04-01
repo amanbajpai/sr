@@ -221,6 +221,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onUpdate(Address address) {
                 if (address != null) {
+                    L.e(TAG, "CountryCode " + address.getCountryCode());
                     currentAddress = address;
                     apiFacade.checkLocationForRegistration(LoginActivity.this,
                             address.getCountryName(), address.getLocality(),

@@ -34,6 +34,7 @@
     <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
     <string name="confirm_and_register" >CONFIRM &amp; REGISTER</string >
     <string name="cancel" >Cancel</string >
+    <string name="close" >Close</string >
     <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
     <string name="fill_in_field" >Please, fill in field</string >
@@ -254,9 +255,6 @@
     <string name="next" >NEXT</string >
     <string name="validate" >VALIDATE</string >
     <string name="enter_here" >Enter here</string >
-    <string name="take_photo" >Take photo</string >
-    <string name="re_photo" >Re-photo</string >
-    <string name="confirm" >Confirm</string >
     <string name="quite_mission" >Quite mission</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
@@ -282,7 +280,6 @@
     <string name="task_validation_text2" >If you find any issues with your answers on task questions or you not satisfied by them you can check it once more before validation</string >-->
     <string name="recheck_my_answer" >RECHECK MY ANSWERS</string >
     <string name="expiry_time" >EXPIRY TIME: </string >
-    <string name="expiry_time_at" >at</string >
     <string name="task_data_size" >TASK DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
     <string name="confirm_you_can_find_in_my_mission" >Validation confirm you can find in \"My missions\"</string >
@@ -320,4 +317,22 @@
     <string name="maximum_mission_dialog_text" >You\'ve claimed the maximum number of missions for this
         Project.\n\nTo claim more missions on this Project,
     you must first complete your existing missions.</string >
+    <!-- DEADLINE REMINDER DIALOG -->
+    <string name="deadline_reminder_dialog_title" >Deadline reminder</string >
+    <string name="go_to_mission" >Go to mission</string >
+    <string name="deadline_reminder_dialog_text1" >The best pub on the street</string >
+    <string name="deadline_reminder_dialog_text2" >at </string >
+
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
 </resources >

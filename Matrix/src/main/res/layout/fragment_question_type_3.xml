@@ -36,7 +36,7 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/app_name"
             android:adjustViewBounds="true"
-            android:src="@drawable/camera_icon" />
+            android:background="@drawable/camera_icon" />
         <ImageButton
             android:id="@+id/rePhotoButton"
             android:layout_gravity="top|left"
