@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
     <string name="app_name" >SmartRocket</string >
+    <string name="click_back_again_to_exit" >Please click BACK again to exit</string >
     <!-- LOGIN ACTIVITY -->
     <string name="your_email_hint" >Your e-mail</string >
     <string name="your_password_hint" >Your password</string >
@@ -112,8 +113,8 @@
     <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >
     <string name="notification_settings" >NOTIFICATION SETTINGS</string >
-    <string name="appointment_interval" >Appointment Interval</string >
-    <string name="deadline_reminder" >Deadline reminder</string >
+    <string name="reminder" >Reminder</string >
+    <string name="deadline_warning" >Deadline Warning</string >
     <string name="app_version" >Application version</string >
     <string name="confirm_and_save_big" >CONFIRM &amp; SAVE</string >
     <string name="cancel_big" >CANCEL</string >
@@ -322,17 +323,16 @@
     <string name="go_to_mission" >Go to mission</string >
     <string name="deadline_reminder_dialog_text1" >The best pub on the street</string >
     <string name="deadline_reminder_dialog_text2" >at </string >
-
-    <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
-    </plurals>
-    <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
-    </plurals>
-    <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
-    </plurals>
+    <plurals name="minute" >
+        <item quantity="one" >minute</item >
+        <item quantity="other" >minutes</item >
+    </plurals >
+    <plurals name="hour" >
+        <item quantity="one" >hour</item >
+        <item quantity="other" >hours</item >
+    </plurals >
+    <plurals name="day" >
+        <item quantity="one" >day</item >
+        <item quantity="other" >days</item >
+    </plurals >
 </resources >

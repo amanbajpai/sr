@@ -187,7 +187,7 @@
                 custom:textStyle="bold"
                 style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
-                android:text="@string/deadline_reminder" />
+                android:text="@string/deadline_warning" />
             <ToggleButton
                 android:id="@+id/deadlineReminderToggleButton"
                 android:layout_width="wrap_content"
@@ -195,9 +195,9 @@
                 android:layout_gravity="center_vertical" />
         </LinearLayout >
         <LinearLayout
+            android:id="@+id/deadlineReminderLayout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="20dp"
             android:orientation="horizontal" >
             <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
@@ -205,9 +205,9 @@
                 custom:textStyle="bold"
                 style="@style/settingsTextStyle"
                 android:gravity="center_vertical"
-                android:text="@string/appointment_interval" />
+                android:text="@string/reminder" />
             <Spinner
-                android:id="@+id/appointmentIntervalSpinner"
+                android:id="@+id/deadlineReminderSpinner"
                 style="@style/Spinner"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
@@ -217,6 +217,7 @@
         </LinearLayout >
         <View
             style="@style/profileSectionDividerStyle"
+            android:layout_marginTop="15dp"
             android:layout_height="1dp"
             android:layout_width="match_parent" />
         <LinearLayout

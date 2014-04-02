@@ -8,7 +8,7 @@ public interface Keys {
 
     //Settings
     String LANGUAGE_CODE = "language_code";
-    String APPOINTMENT_INTERVAL_CODE = "appointment_interval_code";
+    String DEADLINE_REMINDER_MILLISECOND = "deadline_reminder_millisecond";
     String USE_ONLY_WI_FI_CONNACTION = "use_only_wifi_connaction";
     String USE_LOCATION_SERVICES = "use_location_services";
     String USE_SOCIAL_SHARING = "use_social_sharing";

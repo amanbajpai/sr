@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -27,23 +30,26 @@ import java.util.Locale;
 /**
  * Setting fragment with all application related settings
  */
-public class SettingsFragment extends Fragment implements OnClickListener {
+public class SettingsFragment extends Fragment implements OnClickListener, CompoundButton.OnCheckedChangeListener {
     //private static final String TAG = SettingsFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
     public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Chinese (Simplified)",
             "Chinese (Traditional)"};
-    public static final int[] APPOINTMENT_INTERVAL_CODE = new int[]{0, 1, 2};
-    public static final String[] APPOINTMENT_INTERVAL = new String[]{"Never", "Always"};
     public static final int[] LIMIT_MB_CODE = new int[]{10000, 5, 10, 20, 50, 100, 200};
     public static final String[] LIMIT_MB = new String[]{"Unlimited", "5", "10", "20", "50", "100", "200"};
+    public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS, DateUtils.MINUTE_IN_MILLIS * 2,
+            DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10, DateUtils.MINUTE_IN_MILLIS * 30,
+            DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
     private ViewGroup view;
 
     private Spinner languageSpinner;
-    private Spinner appointmentIntervalSpinner;
+    private Spinner deadlineReminderSpinner;
     private Spinner taskLimitSpinner;
     private Spinner monthLimitSpinner;
+
+    private LinearLayout deadlineReminderLayout;
 
     private ToggleButton locationServicesToggleButton;
     private ToggleButton pushMessagesToggleButton;
@@ -66,9 +72,11 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
-        appointmentIntervalSpinner = (Spinner) view.findViewById(R.id.appointmentIntervalSpinner);
+        deadlineReminderSpinner = (Spinner) view.findViewById(R.id.deadlineReminderSpinner);
         taskLimitSpinner = (Spinner) view.findViewById(R.id.taskLimitSpinner);
         monthLimitSpinner = (Spinner) view.findViewById(R.id.monthLimitSpinner);
+
+        deadlineReminderLayout = (LinearLayout) view.findViewById(R.id.deadlineReminderLayout);
 
         locationServicesToggleButton = (ToggleButton) view.findViewById(R.id.locationServicesToggleButton);
         pushMessagesToggleButton = (ToggleButton) view.findViewById(R.id.pushMessagesToggleButton);
@@ -76,6 +84,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         saveImageToggleButton = (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
         useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
+        deadlineReminderToggleButton.setOnCheckedChangeListener(this);
 
         view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
         view.findViewById(R.id.cancelButton).setOnClickListener(this);
@@ -88,7 +97,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
     public void setData() {
         setLanguageSpinner();
-        setApppointmentIntervalSpinner();
+        setDeadlineReminderSpinner();
         setTaskLimitSpinner();
         setMonthLimitSpinner();
 
@@ -120,21 +129,37 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         languageSpinner.setSelection(selectedItemPosition);
     }
 
-    public void setApppointmentIntervalSpinner() {
-        int currentIntervalCode = preferencesManager.getAppointmentInervalCode();
+    public void setDeadlineReminderSpinner() {
+        long currentRefreshTime = preferencesManager.getDeadlineReminderMillisecond();
 
-        ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
-                APPOINTMENT_INTERVAL);
-        appointmentIntervalSpinner.setAdapter(languageAdapter);
+        String[] refreshTimeArray = new String[TIME_IN_MILLIS.length];
+        for (int i = 0; i < TIME_IN_MILLIS.length; i++) {
+            int hours = (int) ((TIME_IN_MILLIS[i] / (1000 * 60 * 60)) % 24);
+            int minutes = (int) ((TIME_IN_MILLIS[i] / (1000 * 60)) % 60);
+
+            if (hours != 0) {
+                refreshTimeArray[i] = hours + " " + getResources().getQuantityString(R.plurals.hour, hours);
+            } else if (hours == 0 && minutes != 0) {
+                refreshTimeArray[i] = minutes + " " + getResources().getQuantityString(R.plurals.minute, minutes);
+            }
+        }
+
+        ArrayAdapter<String> refreshTimeAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner,
+                R.id.name, refreshTimeArray);
+
+        deadlineReminderSpinner.setAdapter(refreshTimeAdapter);
 
         int selectedItemPosition = 0;
-        for (int i = 0; i < APPOINTMENT_INTERVAL_CODE.length; i++) {
-            if (APPOINTMENT_INTERVAL_CODE[i] == currentIntervalCode) {
+        for (int i = 0; i < TIME_IN_MILLIS.length; i++) {
+            if (TIME_IN_MILLIS[i] == currentRefreshTime) {
                 selectedItemPosition = i;
                 break;
             }
         }
-        appointmentIntervalSpinner.setSelection(selectedItemPosition);
+
+        deadlineReminderSpinner.setSelection(selectedItemPosition);
+
+        deadlineReminderLayout.setVisibility(preferencesManager.getUseDeadlineReminder() ? View.VISIBLE : View.GONE);
     }
 
     public void setTaskLimitSpinner() {
@@ -172,6 +197,15 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     }
 
     @Override
+    public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+        switch (v.getId()) {
+            case R.id.deadlineReminderToggleButton:
+                deadlineReminderLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                break;
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirmAndSaveButton:
@@ -188,7 +222,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                 preferencesManager.set3GUploadTaskLimit(LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
                 preferencesManager.set3GUploadMonthLimit(LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
 
-                preferencesManager.setAppointmentInervalCode(APPOINTMENT_INTERVAL_CODE[appointmentIntervalSpinner
+                preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);
 
                 UIUtils.showSimpleToast(getActivity(), R.string.success);

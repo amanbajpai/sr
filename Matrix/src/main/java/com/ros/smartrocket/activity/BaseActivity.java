@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class BaseActivity extends ActionBarActivity {
 
     public static final String KEY_SAVED_ACTIVITY_INTENT = "KEY_SAVED_ACTIVITY_INTENT";
-
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private BroadcastReceiver receiver;
     private IntentFilter filter;
     private ArrayList<NetworkOperationListenerInterface> networkOperationListeners =
@@ -56,7 +56,7 @@ public class BaseActivity extends ActionBarActivity {
         if (checkDeviceSettingsByOnResume) {
             if (UIUtils.isMockLocationEnabled(this)) {
                 DialogUtils.showMockLocationDialog(this, false);
-            } else if (!UIUtils.isGpsEnabled(this)) {
+            } else if (!UIUtils.isGpsEnabled(this) && preferencesManager.getUseLocationServices()) {
                 DialogUtils.showLocationDialog(this, false);
             }
         }

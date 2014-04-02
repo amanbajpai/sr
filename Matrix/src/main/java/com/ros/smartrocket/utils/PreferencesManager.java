@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -128,12 +129,12 @@ public class PreferencesManager {
         setString(Keys.LANGUAGE_CODE, languageCode);
     }
 
-    public int getAppointmentInervalCode() {
-        return getInt(Keys.APPOINTMENT_INTERVAL_CODE, 0);
+    public long getDeadlineReminderMillisecond() {
+        return getLong(Keys.DEADLINE_REMINDER_MILLISECOND, DateUtils.MINUTE_IN_MILLIS * 30);
     }
 
-    public void setAppointmentInervalCode(int appointmentInervalCode) {
-        setInt(Keys.APPOINTMENT_INTERVAL_CODE, appointmentInervalCode);
+    public void setDeadlineReminderMillisecond(long deadlineReminderMillisecond) {
+        setLong(Keys.DEADLINE_REMINDER_MILLISECOND, deadlineReminderMillisecond);
     }
 
     public boolean getUseOnlyWiFiConnaction() {
@@ -145,7 +146,7 @@ public class PreferencesManager {
     }
 
     public boolean getUseLocationServices() {
-        return getBoolean(Keys.USE_LOCATION_SERVICES, false);
+        return getBoolean(Keys.USE_LOCATION_SERVICES, true);
     }
 
     public void setUseLocationServices(boolean use) {
@@ -153,7 +154,7 @@ public class PreferencesManager {
     }
 
     public boolean getUseSocialSharing() {
-        return getBoolean(Keys.USE_SOCIAL_SHARING, false);
+        return getBoolean(Keys.USE_SOCIAL_SHARING, true);
     }
 
     public void setUseSocialSharing(boolean use) {
@@ -169,7 +170,7 @@ public class PreferencesManager {
     }
 
     public boolean getUsePushMessages() {
-        return getBoolean(Keys.USE_PUSH_MESSAGES, false);
+        return getBoolean(Keys.USE_PUSH_MESSAGES, true);
     }
 
     public void setUsePushMessages(boolean use) {

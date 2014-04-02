@@ -10,6 +10,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
  * GCM Services
@@ -18,6 +19,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     //@SuppressWarnings("hiding")
     private static final String TAG = GCMIntentService.class.getSimpleName();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
 
     public GCMIntentService() {
@@ -51,7 +53,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         String message = extras.getString("message");
         L.d(TAG, "Received message [message=" + message + "]");
 
-        NotificationUtils.showTaskStatusChangedNotification(context, message);
+        if(preferencesManager.getUsePushMessages()){
+            NotificationUtils.showTaskStatusChangedNotification(context, message);
+        }
         apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
 
     }

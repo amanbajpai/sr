@@ -10,6 +10,21 @@ public interface TaskDbSchema {
     String SORT_ORDER_DESC_LIMIT_1 = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_ASC_LIMIT_1 = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC LIMIT 1";
     String SORT_ORDER_DESC = Table.TASK.getName() + "." + Columns._ID.getName() + " DESC";
+    String SORT_ORDER_DESC_MY_TASKS_LIST =
+            "CASE " + Table.TASK.getName() + "." + Columns.STATUS_ID.getName() +
+                    " WHEN 4 THEN 1 " +
+                    "WHEN 2 THEN 2 " +
+                    "WHEN 1 THEN 3 " +
+                    "WHEN 8 THEN 4 " +
+                    "WHEN 5 THEN 5 " +
+                    "WHEN 3 THEN 6 " +
+                    "WHEN 6 THEN 7 " +
+                    "WHEN 7 THEN 8 " +
+                    "WHEN 0 THEN 9 " +
+                    "ELSE 10 END,  " +
+                    Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName() + " DESC";
+    /*String SORT_ORDER_DESC_MY_TASKS_LIST = Table.TASK.getName() + "." + Columns.STATUS_ID.getName() + " DESC,  " +
+            "" + Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName() + " DESC";*/
     String SORT_ORDER_DISTANCE_ASC = Table.TASK.getName() + "." + Columns.DISTANCE.getName() + " ASC";
     //String SORT_ORDER = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC";
 

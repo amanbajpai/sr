@@ -48,6 +48,16 @@ public class TasksBL {
         );
     }
 
+    public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean withHiddenTasks) {
+        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, Table.TASK.getName()
+                        + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?" + withHiddenTaskWhere,
+                new String[]{String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC
+        );
+    }
+
 
     public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
@@ -82,7 +92,15 @@ public class TasksBL {
     public static void getMyTasksFromDB(AsyncQueryHandler handler) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1",
-                null, TaskDbSchema.SORT_ORDER_DESC);
+                null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST);
+    }
+
+    public static void getMyTasksForMapFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and " +
+                        TaskDbSchema.Columns.STATUS_ID + " <> 7",
+                null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
+        );
     }
 
     public static void setHideTaskOnMapByID(AsyncQueryHandler handler, Integer taskId, Boolean isHide) {

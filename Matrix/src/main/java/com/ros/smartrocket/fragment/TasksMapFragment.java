@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -87,6 +88,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private ImageView refreshButton;
     private MarkerOptions myPinLocation;
 
+    private Display display;
+    private float mapWidth;
     private Clusterkraf clusterkraf;
     private ClusterOptions options;
 
@@ -104,6 +107,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
+
+        display = getActivity().getWindowManager().getDefaultDisplay();
+        mapWidth = UIUtils.getDpFromPx(getActivity(), display.getWidth() - 60);
 
         if (this.options == null) {
             this.options = new ClusterOptions();
@@ -132,22 +138,27 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 sbRadiusProgress = progress;
                 taskRadius = RADIUS_DELTA * sbRadiusProgress;
                 setRadiusText();
+
                 updateMapPins(lm.getLocation());
+                moveCameraToMyLocation();
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
+                loadTasksFromLocalDb();
                 Location location = lm.getLocation();
                 if (location == null && UIUtils.isOnline(getActivity())) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                 }
             }
         });
+
+        showFilterPanel(false);
 
         return view;
     }
@@ -160,8 +171,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         setViewMode(getArguments());
         updateUI();
         loadData();
-
-        showFilterPanel(false);
     }
 
     public void clearMap() {
@@ -204,9 +213,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void loadTasksFromLocalDb() {
         if (mode == Keys.MapViewMode.ALLTASKS) {
-            TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
+            //TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
+            TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked());
         } else if (mode == Keys.MapViewMode.MYTASKS) {
-            TasksBL.getMyTasksFromDB(handler);
+            TasksBL.getMyTasksForMapFromDB(handler);
         } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
             TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
             Log.d(TAG, "loadTasksFromLocalDb() [surveyId  =  " + viewItemId + "]");
@@ -276,7 +286,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 moveCameraToMyLocation();
                 isFirstStart = false;
             }
-        } else {
+        } else if (UIUtils.isGpsEnabled(getActivity())) {
             UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
@@ -291,6 +301,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     }
                 }
             });
+        } else {
+            refreshIconState(false);
         }
     }
 
@@ -341,7 +353,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             Task item = list.get(i);
             if (item.getLatitude() != null && item.getLongitude() != null) {
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
-            } else {
+            } else if (location != null) {
                 item.setLatitude(location.getLatitude() - (i == 0 ? 0.000040f : 0.000040f * (i + 1)));
                 item.setLongitude(location.getLongitude() + (i == 0 ? 0.000040f : 0.000040f * (i + 1)));
 
@@ -589,7 +601,24 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 .snippet(MYLOC)
                 .position(coordinates)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
-        restoreCameraPosition = new CameraPosition(coordinates, zoomLevel, 0, 0);
+    }
+
+    private void restoreCameraPositionByRadius(Location location, int radius) {
+        if (location != null) {
+            LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
+
+            zoomLevel = getZoomForMetersWide(radius * 2, location.getLatitude());
+
+            restoreCameraPosition = new CameraPosition(coord, zoomLevel, 0, 0);
+        }
+    }
+
+    public float getZoomForMetersWide(final double desiredMeters, final double latitude) {
+        final double latitudinalAdjustment = Math.cos(Math.PI * latitude / 180.0);
+
+        final double arg = (40075004 * mapWidth * latitudinalAdjustment / (desiredMeters * 256.0));
+
+        return (float) (Math.log(arg) / Math.log(2.0));
     }
 
     /**
@@ -603,13 +632,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
 
             addMyLocation(coord);
+            restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
 
             if (getActivity() != null) {
                 Resources r = getActivity().getResources();
                 addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
                         r.getColor(R.color.map_radius_fill));
-                addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
-                        r.getColor(R.color.map_accuracy_fill));
+                /*addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
+                        r.getColor(R.color.map_accuracy_fill));*/
             }
         }
     }

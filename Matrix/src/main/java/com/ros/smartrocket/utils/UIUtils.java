@@ -219,34 +219,56 @@ public class UIUtils {
      * @return
      */
     public static boolean isOnline(Context c) {
-        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean isOnline = false;
+        if (c != null) {
+            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
+        }
 
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        return isOnline;
     }
 
     public static boolean isWiFi(Context c) {
-        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isOnline = false;
+        if (c != null) {
+            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
+        }
 
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        return isOnline;
     }
 
     public static boolean is3G(Context c) {
-        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isOnline = false;
+        if (c != null) {
+            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
+        }
 
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        return isOnline;
     }
 
     public static boolean isGpsEnabled(Context c) {
-        LocationManager locationManager = (LocationManager) c.getSystemService(c.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isEnable = false;
+        if (c != null) {
+            LocationManager locationManager = (LocationManager) c.getSystemService(c.LOCATION_SERVICE);
+            isEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+
+        return isEnable;
     }
 
     public static boolean isGooglePlayServicesEnabled(Context c) {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(c);
-        return resultCode == ConnectionResult.SUCCESS;
+        boolean isEnable = false;
+        if (c != null) {
+            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(c);
+            isEnable = resultCode == ConnectionResult.SUCCESS;
+        }
+
+        return isEnable;
     }
 
     public static boolean isMockLocationEnabled(Context context) {

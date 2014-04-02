@@ -3,15 +3,19 @@ package com.ros.smartrocket.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
+import com.ros.smartrocket.utils.UIUtils;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     //private static final String TAG = MainActivity.class.getSimpleName();
     private FragmentHelper fragmetHelper = new FragmentHelper();
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,5 +44,23 @@ public class MainActivity extends BaseSlidingMenuActivity {
     public void startActivity(Activity activity) {
         Intent i = new Intent(this, activity.getClass());
         startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        UIUtils.showSimpleToast(this, getString(R.string.click_back_again_to_exit));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }
