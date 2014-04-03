@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
@@ -21,6 +23,7 @@ import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -33,8 +36,14 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
     private ResponseReceiver localReceiver;
     private IntentFilter intentFilter;
+    private ImageView photoImageView;
+    private ImageView levelIcon;
+    private TextView nameTextView;
     private TextView balanceTextView;
     private TextView levelTextView;
+    private TextView levelName;
+    private TextView minLevelExperience;
+    private TextView maxLevelExperience;
     private SeekBar levelProgressBar;
 
     @Override
@@ -44,8 +53,14 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
 
+        photoImageView = (ImageView) view.findViewById(R.id.photoImageView);
+        levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
+        nameTextView = (TextView) view.findViewById(R.id.nameTextView);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
-        levelTextView = (TextView) view.findViewById(R.id.levelTextView);
+        levelTextView = (TextView) view.findViewById(R.id.levelNumberTextView);
+        levelName = (TextView) view.findViewById(R.id.levelName);
+        minLevelExperience = (TextView) view.findViewById(R.id.minLevelExperience);
+        maxLevelExperience = (TextView) view.findViewById(R.id.maxLevelExperience);
         levelProgressBar = (SeekBar) view.findViewById(R.id.levelProgressBar);
         levelProgressBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -74,11 +89,29 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     public void setData(MyAccount myAccount) {
+        if (!TextUtils.isEmpty(myAccount.getPhotoUrl())) {
+            ImageLoader.getInstance().displayImage(myAccount.getPhotoUrl(), photoImageView,
+                    ImageLoader.SMALL_IMAGE_VAR, false, false, 0, true);
+        }
+
+        if (!TextUtils.isEmpty(myAccount.getLevelIconUrl())) {
+            ImageLoader.getInstance().displayImage(myAccount.getLevelIconUrl(), levelIcon,
+                    ImageLoader.SMALL_IMAGE_VAR, false, false, R.drawable.badge, true);
+        }
+
+        nameTextView.setText(myAccount.getName());
         balanceTextView.setText(myAccount.getBalance() + " HK$");
-        levelTextView.setText(String.valueOf(myAccount.getLevel()));
-        if (myAccount.getExperience() != null && myAccount.getToNextLevel() != null) {
-            levelProgressBar.setMax(myAccount.getExperience() + myAccount.getToNextLevel());
-            levelProgressBar.setProgress(myAccount.getExperience());
+        levelTextView.setText(String.valueOf(myAccount.getLevelNumber()));
+        levelName.setText(String.valueOf(myAccount.getLevelName()));
+        minLevelExperience.setText(String.valueOf(myAccount.getMinLevelExperience()));
+        maxLevelExperience.setText(String.valueOf(myAccount.getMaxLevelExperience()));
+
+        if (myAccount.getExperience() != null) {
+            int maxProgress = myAccount.getMaxLevelExperience() - myAccount.getMinLevelExperience();
+            int currentProgress = myAccount.getExperience() - myAccount.getMinLevelExperience();
+
+            levelProgressBar.setMax(maxProgress);
+            levelProgressBar.setProgress(currentProgress);
         }
     }
 

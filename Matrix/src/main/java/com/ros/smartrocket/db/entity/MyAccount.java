@@ -3,12 +3,17 @@ package com.ros.smartrocket.db.entity;
 public class MyAccount extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-
+    private String Name;
+    private String PhotoUrl;
     private Double TotalEarnings;
     private Double Balance;
-    private Integer Level;
     private Integer Experience;
+    private Integer MinLevelExperience;
+    private Integer MaxLevelExperience;
     private Integer ToNextLevel;
+    private Integer LevelNumber;
+    private String LevelName;
+    private String LevelIconUrl;
 
     public Double getTotalEarnings() {
         return TotalEarnings;
@@ -24,14 +29,6 @@ public class MyAccount extends BaseEntity {
 
     public void setBalance(Double balance) {
         Balance = balance;
-    }
-
-    public Integer getLevel() {
-        return Level;
-    }
-
-    public void setLevel(Integer level) {
-        Level = level;
     }
 
     public Integer getExperience() {
@@ -51,4 +48,59 @@ public class MyAccount extends BaseEntity {
     }
 
 
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getPhotoUrl() {
+        return PhotoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        PhotoUrl = photoUrl;
+    }
+
+    public Integer getMinLevelExperience() {
+        return MinLevelExperience;
+    }
+
+    public void setMinLevelExperience(Integer minLevelExperience) {
+        MinLevelExperience = minLevelExperience;
+    }
+
+    public Integer getMaxLevelExperience() {
+        return MaxLevelExperience;
+    }
+
+    public void setMaxLevelExperience(Integer maxLevelExperience) {
+        MaxLevelExperience = maxLevelExperience;
+    }
+
+    public Integer getLevelNumber() {
+        return LevelNumber;
+    }
+
+    public void setLevelNumber(Integer levelNumber) {
+        LevelNumber = levelNumber;
+    }
+
+    public String getLevelName() {
+        return LevelName;
+    }
+
+    public void setLevelName(String levelName) {
+        LevelName = levelName;
+    }
+
+    public String getLevelIconUrl() {
+        return LevelIconUrl;
+    }
+
+    public void setLevelIconUrl(String levelIconUrl) {
+        LevelIconUrl = levelIconUrl;
+    }
 }
