@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -224,6 +225,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
 
                 preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);
+
+                if (!UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
+                    DialogUtils.showLocationDialog(getActivity(), false);
+                }
 
                 UIUtils.showSimpleToast(getActivity(), R.string.success);
                 break;

@@ -119,6 +119,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         btnFilter = (ImageView) view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(this);
+
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
         showHiddenTasksToggleButton = (ToggleButton) view.findViewById(R.id.showHiddenTasksToggleButton);
@@ -139,8 +140,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 taskRadius = RADIUS_DELTA * sbRadiusProgress;
                 setRadiusText();
 
-                updateMapPins(lm.getLocation());
-                moveCameraToMyLocation();
+                Location location = lm.getLocation();
+                if (location != null && UIUtils.isGpsEnabled(getActivity())) {
+                    updateMapPins(location);
+                    moveCameraToMyLocation();
+                }
             }
 
             @Override
@@ -152,7 +156,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             public void onStopTrackingTouch(SeekBar seekBar) {
                 loadTasksFromLocalDb();
                 Location location = lm.getLocation();
-                if (location == null && UIUtils.isOnline(getActivity())) {
+                if (location == null && UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                 }
             }
@@ -202,6 +206,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
         }
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
+        btnFilter.setVisibility(mode == Keys.MapViewMode.ALLTASKS ? View.VISIBLE : View.INVISIBLE);
+
         if ((mode == Keys.MapViewMode.SURVEYTASKS) || (mode == Keys.MapViewMode.SINGLETASK)) {
             viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
         }
@@ -303,6 +309,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             });
         } else {
             refreshIconState(false);
+            loadTasksFromLocalDb();
+            updateDataFromServer(location);
         }
     }
 
@@ -634,7 +642,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             addMyLocation(coord);
             restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
 
-            if (getActivity() != null) {
+            if (getActivity() != null && mode == Keys.MapViewMode.ALLTASKS) {
                 Resources r = getActivity().getResources();
                 addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
                         r.getColor(R.color.map_radius_fill));

@@ -70,7 +70,7 @@
                 android:id="@+id/birthdayEditText"
                 style="@style/EditText"
                 android:layout_height="match_parent"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:inputType="number"
                 android:focusable="false"
                 android:layout_weight="1"

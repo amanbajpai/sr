@@ -94,7 +94,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
             SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius);
 
-            if (UIUtils.isOnline(getActivity())) {
+            if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
                 lm.getAddress(location, new MatrixLocationManager.IAddress() {
                     @Override
                     public void onUpdate(Address address) {
@@ -108,7 +108,9 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
                 });
             } else {
                 refreshIconState(false);
-                UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+                if (!UIUtils.isOnline(getActivity())) {
+                    UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+                }
             }
         }
     }
