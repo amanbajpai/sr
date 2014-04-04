@@ -111,7 +111,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             int currentProgress = myAccount.getExperience() - myAccount.getMinLevelExperience();
 
             levelProgressBar.setMax(maxProgress);
-            levelProgressBar.setProgress(currentProgress);
+            levelProgressBar.setProgress(100);
         }
     }
 

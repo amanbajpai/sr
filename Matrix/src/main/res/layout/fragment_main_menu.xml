@@ -161,11 +161,11 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:layout_height="50dp"
-                android:thumbOffset="14dp"
+                android:thumbOffset="6dp"
                 android:layout_gravity="bottom"
                 android:thumb="@drawable/menu_man"
                 android:layout_marginBottom="-20dp"
-                android:progress="10" />
+                android:progress="0" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

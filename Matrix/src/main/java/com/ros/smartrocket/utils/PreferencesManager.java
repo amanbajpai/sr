@@ -122,7 +122,7 @@ public class PreferencesManager {
     }
 
     public String getLanguageCode() {
-        return getString(Keys.LANGUAGE_CODE, "en");
+        return getString(Keys.LANGUAGE_CODE, "");
     }
 
     public void setLanguageCode(String languageCode) {

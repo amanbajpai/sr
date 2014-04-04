@@ -255,7 +255,9 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         if (!TextUtils.isEmpty(preferencesManager.getLanguageCode())) {
             setDefaultLanguage(App.getInstance(), preferencesManager.getLanguageCode());
         } else {
-            setDefaultLanguage(App.getInstance(), getLanguageCodeFromSupported());
+            String supportedLanguage = getLanguageCodeFromSupported();
+            preferencesManager.setLanguageCode(supportedLanguage);
+            setDefaultLanguage(App.getInstance(), supportedLanguage);
         }
     }
 
