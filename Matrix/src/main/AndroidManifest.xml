@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Global receiver -->
-    <permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Cloud to Device Messaging permissions -->
     <permission
         android:name="com.ros.smartrocket.permission.C2D_MESSAGE"
@@ -144,6 +144,7 @@
             <intent-filter android:priority="1000" >
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
             </intent-filter >
         </receiver >
 

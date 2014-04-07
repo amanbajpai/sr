@@ -6,6 +6,20 @@ import com.ros.smartrocket.db.SurveyDbSchema;
 public class Survey extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
+    public enum SurveyTypes {
+        claimed(1), started(2), validation(3), reDoTask(4), pending(5);
+
+        private int id;
+
+        private SurveyTypes(int statusId) {
+            this.id = statusId;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+
     private Boolean ClaimableBeforeLive;
     private Integer ConcurrentClaimsPerAgent;
     private String Description;

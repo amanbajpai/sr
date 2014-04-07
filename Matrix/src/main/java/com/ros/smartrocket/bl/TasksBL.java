@@ -103,6 +103,19 @@ public class TasksBL {
         );
     }
 
+    public static void getTaskToRemindFromDB(AsyncQueryHandler handler, long fromTime, long tillTime) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and " + TaskDbSchema.Columns.END_DATE_TIME +
+                        ">" + fromTime + " and " + TaskDbSchema.Columns.END_DATE_TIME +
+                        "<" + tillTime + " and (" +
+                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or " +
+                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or " +
+                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.reDoTask.getStatusId() + " or " +
+                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.scheduled.getStatusId() + ") ",
+                null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1
+        );
+    }
+
     public static void setHideTaskOnMapByID(AsyncQueryHandler handler, Integer taskId, Boolean isHide) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
@@ -196,6 +209,18 @@ public class TasksBL {
      */
     public static Task convertCursorToTask(Cursor cursor) {
         Task result = new Task();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                result = Task.fromCursor(cursor);
+            }
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    public static Task convertCursorToTaskOrNull(Cursor cursor) {
+        Task result = null;
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result = Task.fromCursor(cursor);

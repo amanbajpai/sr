@@ -1,6 +1,7 @@
 package com.ros.smartrocket;
 
 
+import android.text.format.DateUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class Config {
@@ -27,6 +28,7 @@ public class Config {
 
     public static final int CHECK_NOT_UPLOADED_FILE_MILLISECONDS = 1000 * 60 * 10;
     public static final int SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS = 1000 * 60 * 5;
+    public static final long DEADLINE_REMINDER_MILLISECONDS = DateUtils.MINUTE_IN_MILLIS;
     public static final String ACRA_FORM_KEY = "dFZnWE93RnVfb2VhSHFFR2VicWoyamc6MA";
 
     public static final boolean ACRA_ENABLED;

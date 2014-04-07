@@ -17,10 +17,10 @@ import java.util.Calendar;
 public class DatePickerDialog extends Dialog implements View.OnClickListener {
 
     private DatePicker datePicker;
-    private long currentDate;
+    private Long currentDate;
     private DialogButtonClickListener dialogButtonClickListener;
 
-    public DatePickerDialog(Activity activity, long currentDate, DialogButtonClickListener dialogButtonClickListener) {
+    public DatePickerDialog(Activity activity, Long currentDate, DialogButtonClickListener dialogButtonClickListener) {
         super(activity);
         this.currentDate = currentDate;
         this.dialogButtonClickListener = dialogButtonClickListener;
@@ -64,10 +64,11 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
                                 view.init(maxYear, maxMonth, maxDay, this);
                             }
                         }
-                    });
+                    }
+            );
         }
 
-        if (currentDate > 0) {
+        if (currentDate != null) {
             Calendar calendar = getMaxDateCalendar();
             calendar.setTimeInMillis(currentDate);
             int year = calendar.get(Calendar.YEAR);

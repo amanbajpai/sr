@@ -52,7 +52,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private EditText countryEditText;
     private EditText cityEditText;
     private CheckBox agreeCheckBox;
-    private long selectedBirthDay = 0;
+    private Long selectedBirthDay = null;
     private int countryId;
     private int cityId;
     private String countryName;
@@ -177,7 +177,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                 UIUtils.setEditTextColorByState(this, firstNameEditText, !TextUtils.isEmpty(firstName));
                 UIUtils.setEditTextColorByState(this, lastNameEditText, !TextUtils.isEmpty(lastName));
-                UIUtils.setEditTextColorByState(this, birthdayEditText, selectedBirthDay > 0);
+                UIUtils.setEditTextColorByState(this, birthdayEditText, selectedBirthDay != null);
 
                 UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
                 UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));

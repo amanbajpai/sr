@@ -62,6 +62,7 @@ import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener,
@@ -76,6 +77,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
+    private static final float COORDINATE_OFFSET = 0.00002f;
     private static final int DEFAULT_TASK_RADIUS = 20000;
     private static final int METERS_IN_KM = 1000;
     public static int taskRadius = DEFAULT_TASK_RADIUS;
@@ -87,6 +89,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private SeekBar sbRadius;
     private ImageView refreshButton;
     private MarkerOptions myPinLocation;
+    private HashMap<String, String> markerLocation;
 
     private Display display;
     private float mapWidth;
@@ -357,6 +360,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void onLoadingComplete(ArrayList<Task> list) {
         ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
         Location location = lm.getLocation();
+
+        //coordinateForMarker(list.size(), );
+
         for (int i = 0; i < list.size(); i++) {
             Task item = list.get(i);
             if (item.getLatitude() != null && item.getLongitude() != null) {
@@ -675,6 +681,47 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
         }
     }
+
+/*    private String[] coordinateForMarker(int itemSize, float latitude, float longitude) {
+
+        String[] location = new String[2];
+
+        for (int i = 0; i <= itemSize; i++) {
+
+            if (mapAlreadyHasMarkerForLocation((latitude + i
+                    * COORDINATE_OFFSET)
+                    + "," + (longitude + i * COORDINATE_OFFSET))) {
+
+                // If i = 0 then below if condition is same as upper one. Hence, no need to execute below if condition.
+                if (i == 0)
+                    continue;
+
+                if (mapAlreadyHasMarkerForLocation((latitude - i
+                        * COORDINATE_OFFSET)
+                        + "," + (longitude - i * COORDINATE_OFFSET))) {
+
+                    continue;
+
+                } else {
+                    location[0] = latitude - (i * COORDINATE_OFFSET) + "";
+                    location[1] = longitude - (i * COORDINATE_OFFSET) + "";
+                    break;
+                }
+
+            } else {
+                location[0] = latitude + (i * COORDINATE_OFFSET) + "";
+                location[1] = longitude + (i * COORDINATE_OFFSET) + "";
+                break;
+            }
+        }
+
+        return location;
+    }
+
+    // Return whether marker with same location is already on map
+    private boolean mapAlreadyHasMarkerForLocation(String location) {
+        return (markerLocation.containsValue(location));
+    }*/
 
     @Override
     public void onStart() {

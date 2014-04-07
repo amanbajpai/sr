@@ -1,6 +1,7 @@
 package com.ros.smartrocket.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -225,6 +228,13 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
 
                 preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);
+
+                if (deadlineReminderToggleButton.isChecked()) {
+                    getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
+                            .ACTION_START_REMINDER_TIMER));
+                } else {
+                    getActivity().stopService(new Intent(getActivity(), TaskReminderService.class));
+                }
 
                 if (!UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
                     DialogUtils.showLocationDialog(getActivity(), false);

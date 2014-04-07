@@ -55,6 +55,8 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
             survey = (Survey) getIntent().getSerializableExtra(Keys.SURVEY);
         }
 
+        setTitleIcon(1);
+
         handler = new DbHandler(getContentResolver());
 
         projectName = (TextView) findViewById(R.id.projectName);
@@ -73,6 +75,29 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         showAllTasksButton.setOnClickListener(this);
 
         findViewById(R.id.mapImageView).setOnClickListener(this);
+    }
+
+    public void setTitleIcon(int surveyType){
+        switch (surveyType){
+            case 1:
+                getSupportActionBar().setIcon(R.drawable.project_type_1);
+                break;
+            case 2:
+                getSupportActionBar().setIcon(R.drawable.project_type_2);
+                break;
+            case 3:
+                getSupportActionBar().setIcon(R.drawable.project_type_3);
+                break;
+            case 4:
+                getSupportActionBar().setIcon(R.drawable.project_type_4);
+                break;
+            case 5:
+                getSupportActionBar().setIcon(R.drawable.project_type_5);
+                break;
+            default:
+                getSupportActionBar().setIcon(R.drawable.ic_launcher);
+                break;
+        }
     }
 
     @Override

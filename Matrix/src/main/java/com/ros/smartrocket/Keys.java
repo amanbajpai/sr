@@ -119,5 +119,7 @@ public interface Keys {
     String GCM_PROPERTY_APP_VERSION = "gcm_appVersion";
     String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";
 
-
+    //NotUploadFile Service
+    String ACTION_START_REMINDER_TIMER = "start_reminder_timer";
+    String ACTION_STOP_REMINDER_TIMER = "stop_reminder_timer";
 }

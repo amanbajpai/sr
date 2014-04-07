@@ -1,12 +1,15 @@
 package com.ros.smartrocket;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.text.format.DateUtils;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.TaskReminderService;
+import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import org.acra.ACRA;
@@ -41,6 +44,8 @@ public class App extends Application {
         deviceApiNumber = android.os.Build.VERSION.SDK_INT;
         deviceType = "android";
         locationManager = new MatrixLocationManager(getApplicationContext());
+
+        startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
 
         SettingsFragment.setCurrentLanguage();
         clearMonthLimitIfNeed();

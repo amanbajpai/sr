@@ -47,6 +47,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private Button registerButton;
     private Location currentLocation;
     private Address currentAddress;
 
@@ -82,7 +83,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
 
-        findViewById(R.id.registerButton).setOnClickListener(this);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(false);
 
@@ -194,6 +196,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else if (UIUtils.isMockLocationEnabled(this)) {
                     DialogUtils.showMockLocationDialog(this, true);
                 } else {
+                    registerButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
 
                     Location location = lm.getLocation();

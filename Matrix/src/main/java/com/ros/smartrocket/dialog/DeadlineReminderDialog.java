@@ -1,7 +1,7 @@
 package com.ros.smartrocket.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -9,23 +9,25 @@ import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
 
 public class DeadlineReminderDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
-    private Activity activity;
+    private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
+    private Context activity;
     private int taskId;
 
-    public DeadlineReminderDialog(Activity activity, long deadlineTimeInMillis, int taskId) {
-        super(activity);
-        this.activity = activity;
+    public DeadlineReminderDialog(Context context, long deadlineTimeInMillis, int taskId) {
+        super(context);
+        this.activity = context;
         this.taskId = taskId;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
             show();
+            L.i(TAG, "Show dialog 2");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,9 +47,9 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
 
-        String daysText = days + " " + activity.getResources().getQuantityString(R.plurals.day, days);
-        String hoursText = hours + " " + activity.getResources().getQuantityString(R.plurals.hour, hours);
-        String minutesText = minutes + " " + activity.getResources().getQuantityString(R.plurals.minute, minutes);
+        String daysText = days + " " + context.getResources().getQuantityString(R.plurals.day, days);
+        String hoursText = hours + " " + context.getResources().getQuantityString(R.plurals.hour, hours);
+        String minutesText = minutes + " " + context.getResources().getQuantityString(R.plurals.minute, minutes);
 
         String dateTimeToDate = daysText + " " + hoursText + " " + minutesText;
         ((TextView) findViewById(R.id.dateTimeToDate)).setText(dateTimeToDate);

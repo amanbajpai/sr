@@ -178,7 +178,7 @@ public class PreferencesManager {
     }
 
     public boolean getUseDeadlineReminder() {
-        return getBoolean(Keys.USE_DEADLINE_REMINDER, false);
+        return getBoolean(Keys.USE_DEADLINE_REMINDER, true);
     }
 
     public void setUseDeadlineReminder(boolean use) {
