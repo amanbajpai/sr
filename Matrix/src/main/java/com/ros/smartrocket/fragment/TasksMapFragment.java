@@ -342,8 +342,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag()) ||
-                    Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())
+                    || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
                 loadTasksFromLocalDb();
             }
         } else {
@@ -452,7 +452,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void initMap() {
         if (map == null) {
-            TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+            TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) getActivity()
+                    .getSupportFragmentManager().findFragmentById(R.id.map);
             if (mapFragment != null) {
                 map = mapFragment.getMap();
                 if (map != null) {

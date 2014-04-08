@@ -199,8 +199,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
             final NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: " +
-                        notUploadedFile.getFileName());
+                L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: "
+                        + notUploadedFile.getFileName());
 
                 preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                         + (int) (notUploadedFile.getFileSizeB() / 1000));
@@ -219,8 +219,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 }
 
             } else {
-                L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: " +
-                        notUploadedFile.getFileName());
+                L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
+                        + notUploadedFile.getFileName());
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
             //QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
@@ -269,18 +269,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     public static boolean canUploadNextFile(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         return (preferencesManager.getUsed3GUploadMonthlySize() < preferencesManager.get3GUploadMonthLimit() &&
-                UIUtils.is3G(context)) || UIUtils.isWiFi(context);
-    }
-
-    public void sendFile(NotUploadedFile notUploadedFile) {
-        L.i(TAG, "onQueryComplete. Send file. Uri: " + notUploadedFile.getFileUri());
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UPLOAD_TASK_FILE);
-        operation.setTag(Keys.UPLOAD_TASK_FILE_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(notUploadedFile);
-        sendNetworkOperation(operation);
+                UIUtils.is3G(context) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(context);
     }
 
     public void sendNetworkOperation(BaseOperation operation) {

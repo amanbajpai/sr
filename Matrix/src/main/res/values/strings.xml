@@ -335,4 +335,6 @@
         <item quantity="one" >day</item >
         <item quantity="other" >days</item >
     </plurals >
+
+    <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
 </resources >

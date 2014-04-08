@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -68,9 +66,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 L.i(TAG, "[NEW LOC = " + location + "]");
             }
         });
-
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
-                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);

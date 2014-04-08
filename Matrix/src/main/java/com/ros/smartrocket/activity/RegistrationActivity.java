@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
@@ -90,10 +88,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 getString(R.string.employed_part_time), getString(R.string.employed_full_time),
                 getString(R.string.not_employed_looking_for_work),
                 getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
-
-
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
-                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         profilePhotoImageView = (ImageView) findViewById(R.id.profilePhotoImageView);
         profilePhotoImageView.setOnClickListener(this);
@@ -188,8 +182,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 UIUtils.setProfilePhotoImageViewmageByState(profilePhotoImageView, photoBitmap != null);
 
 
-                if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || !UIUtils.isEmailValid(email) ||
-                        selectedBirthDay <= 0 || !UIUtils.isPasswordValid(password) || photoBitmap == null) {
+                if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || !UIUtils.isEmailValid(email)
+                        || selectedBirthDay <= 0 || !UIUtils.isPasswordValid(password) || photoBitmap == null) {
                     break;
                 }
 

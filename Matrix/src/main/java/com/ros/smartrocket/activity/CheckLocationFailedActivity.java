@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -37,9 +35,6 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         setContentView(R.layout.activity_checking_failed);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId="
-                + UIUtils.getDeviceId(this), (long) 0).build());
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);

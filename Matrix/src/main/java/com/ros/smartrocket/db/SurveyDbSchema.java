@@ -3,7 +3,7 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface SurveyDbSchema {
-    static final int SURVEY_BY_DISTANCE = 102;
+    public static final int SURVEY_BY_DISTANCE = 102;
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.SURVEY
             .getName()).build();

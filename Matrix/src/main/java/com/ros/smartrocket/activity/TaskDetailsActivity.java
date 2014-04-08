@@ -14,8 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -87,9 +85,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
 
         handler = new DbHandler(getContentResolver());
-
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate",
-                "deviceId=" + UIUtils.getDeviceId(this), (long) 0).build());
 
         taskName = (TextView) findViewById(R.id.taskName);
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
@@ -212,8 +207,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         task.getId()));
             }
         } else {
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() ==
-                    BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
+                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
                 DialogUtils.showMaximumMissionDialog(this);
             } else {
                 UIUtils.showSimpleToast(this, operation.getResponseError());

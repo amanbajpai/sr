@@ -6,8 +6,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -40,9 +38,6 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         if (getIntent() != null) {
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
         }
-
-        EasyTracker.getInstance(this).send(MapBuilder.createEvent(TAG, "onCreate", "deviceId="
-                + UIUtils.getDeviceId(this), (long) 0).build());
 
         findViewById(R.id.checkMyLocationButton).setOnClickListener(this);
 

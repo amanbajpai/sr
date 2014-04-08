@@ -97,21 +97,22 @@ public class TasksBL {
 
     public static void getMyTasksForMapFromDB(AsyncQueryHandler handler) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and " +
-                        TaskDbSchema.Columns.STATUS_ID + " <> 7",
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
+                        + TaskDbSchema.Columns.STATUS_ID + " <> 7",
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
     }
 
     public static void getTaskToRemindFromDB(AsyncQueryHandler handler, long fromTime, long tillTime) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and " + TaskDbSchema.Columns.END_DATE_TIME +
-                        ">" + fromTime + " and " + TaskDbSchema.Columns.END_DATE_TIME +
-                        "<" + tillTime + " and (" +
-                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or " +
-                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or " +
-                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.reDoTask.getStatusId() + " or " +
-                        TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.scheduled.getStatusId() + ") ",
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
+                        + TaskDbSchema.Columns.END_DATE_TIME
+                        + ">" + fromTime + " and " + TaskDbSchema.Columns.END_DATE_TIME
+                        + "<" + tillTime + " and ("
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or "
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or "
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.reDoTask.getStatusId() + " or "
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.scheduled.getStatusId() + ") ",
                 null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1
         );
     }
