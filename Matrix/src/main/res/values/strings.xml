@@ -335,6 +335,9 @@
         <item quantity="one" >day</item >
         <item quantity="other" >days</item >
     </plurals >
-
     <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
+    <!-- FORGOT PASSWORD ACTIVITY -->
+    <string name="send_password" >SEND PASSWORD TO YOUR E-MAIL</string >
+    <string name="we_sent_your_password" >We\'ve sent your password to your e-mail. \n Check it and back to
+        login</string >
 </resources >

@@ -77,7 +77,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private boolean isFilterShow = false;
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
-    private static final float COORDINATE_OFFSET = 0.00002f;
+    private static final float COORDINATE_OFFSET = 0.00004f;
     private static final int DEFAULT_TASK_RADIUS = 20000;
     private static final int METERS_IN_KM = 1000;
     public static int taskRadius = DEFAULT_TASK_RADIUS;
@@ -89,7 +89,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private SeekBar sbRadius;
     private ImageView refreshButton;
     private MarkerOptions myPinLocation;
-    private HashMap<String, String> markerLocation;
+    private HashMap<String, String> markerLocation = new HashMap<String, String>();
 
     private Display display;
     private float mapWidth;
@@ -361,22 +361,29 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
         Location location = lm.getLocation();
 
-        //coordinateForMarker(list.size(), );
+        markerLocation.clear();
 
         for (int i = 0; i < list.size(); i++) {
             Task item = list.get(i);
-            if (item.getLatitude() != null && item.getLongitude() != null) {
-                inputPoints.add(new InputPoint(item.getLatLng(), item));
-            } else if (location != null) {
-                item.setLatitude(location.getLatitude() - (i == 0 ? 0.000040f : 0.000040f * (i + 1)));
-                item.setLongitude(location.getLongitude() + (i == 0 ? 0.000040f : 0.000040f * (i + 1)));
+            Double latitude = item.getLatitude();
+            Double longitude = item.getLongitude();
 
+            if (location != null && (latitude == null || longitude == null)) {
+                latitude = location.getLatitude() + COORDINATE_OFFSET;
+                longitude = location.getLongitude() + COORDINATE_OFFSET;
+            }
+
+            if (latitude != null && longitude != null) {
+                Double[] newTaskCoordinate = coordinateForMarker(list.size(), latitude, longitude);
+                if (newTaskCoordinate != null) {
+                    item.setLatitude(newTaskCoordinate[0]);
+                    item.setLongitude(newTaskCoordinate[1]);
+                }
                 inputPoints.add(new InputPoint(item.getLatLng(), item));
             }
         }
 
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
-        Log.i(TAG, "initClusterkraf [tasks.size=" + inputPoints.size() + "]");
 
         if (inputPoints.size() > 0) {
             if (clusterkraf == null) {
@@ -683,37 +690,47 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
-/*    private String[] coordinateForMarker(int itemSize, float latitude, float longitude) {
+    /**
+     * Check coordinates of pins and change it if they are equals
+     * */
+    private Double[] coordinateForMarker(int itemSize, double latitude, double longitude) {
 
-        String[] location = new String[2];
+        Double[] location = null;
+        String locationToAdd = null;
 
         for (int i = 0; i <= itemSize; i++) {
 
-            if (mapAlreadyHasMarkerForLocation((latitude + i
-                    * COORDINATE_OFFSET)
+            if (mapAlreadyHasMarkerForLocation((latitude + i * COORDINATE_OFFSET)
                     + "," + (longitude + i * COORDINATE_OFFSET))) {
 
                 // If i = 0 then below if condition is same as upper one. Hence, no need to execute below if condition.
                 if (i == 0)
                     continue;
 
-                if (mapAlreadyHasMarkerForLocation((latitude - i
-                        * COORDINATE_OFFSET)
+                if (mapAlreadyHasMarkerForLocation((latitude - i * COORDINATE_OFFSET)
                         + "," + (longitude - i * COORDINATE_OFFSET))) {
 
                     continue;
 
                 } else {
-                    location[0] = latitude - (i * COORDINATE_OFFSET) + "";
-                    location[1] = longitude - (i * COORDINATE_OFFSET) + "";
+                    location = new Double[2];
+                    location[0] = latitude - (i * COORDINATE_OFFSET);
+                    location[1] = longitude - (i * COORDINATE_OFFSET);
+                    locationToAdd = (latitude - i * COORDINATE_OFFSET) + "," + (longitude - i * COORDINATE_OFFSET);
                     break;
                 }
 
             } else {
-                location[0] = latitude + (i * COORDINATE_OFFSET) + "";
-                location[1] = longitude + (i * COORDINATE_OFFSET) + "";
+                location = new Double[2];
+                location[0] = latitude + (i * COORDINATE_OFFSET);
+                location[1] = longitude + (i * COORDINATE_OFFSET);
+                locationToAdd = (latitude + i * COORDINATE_OFFSET) + "," + (longitude + i * COORDINATE_OFFSET);
                 break;
             }
+        }
+
+        if (location != null) {
+            markerLocation.put(locationToAdd, locationToAdd);
         }
 
         return location;
@@ -722,7 +739,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     // Return whether marker with same location is already on map
     private boolean mapAlreadyHasMarkerForLocation(String location) {
         return (markerLocation.containsValue(location));
-    }*/
+    }
 
     @Override
     public void onStart() {

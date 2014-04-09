@@ -240,7 +240,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.REGISTRETION_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
                 UIUtils.showSimpleToast(this, R.string.success);
 
                 new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());

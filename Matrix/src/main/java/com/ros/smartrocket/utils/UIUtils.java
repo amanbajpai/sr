@@ -441,6 +441,14 @@ public class UIUtils {
         }
     }
 
+    public static void setEmailImageByState(ImageView imageView, boolean isValidState) {
+        if (isValidState) {
+            imageView.setImageResource(R.drawable.mail_icon_select);
+        } else {
+            imageView.setImageResource(R.drawable.mail_icon_error);
+        }
+    }
+
     public static void setPasswordEditTextImageByState(EditText editText, boolean isValidState) {
         if (isValidState) {
             editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_select, 0, 0, 0);

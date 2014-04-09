@@ -9,6 +9,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.CheckLocation;
+import com.ros.smartrocket.db.entity.ForgotPassword;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.RegisterDevice;
@@ -69,6 +70,26 @@ public class APIFacade {
 
     /**
      * @param activity
+     * @param email
+     */
+    public void forgotPassword(Activity activity, String email) {
+        if (!TextUtils.isEmpty(email)) {
+            ForgotPassword forgotPasswordEntity = new ForgotPassword();
+            forgotPasswordEntity.setEmail(email);
+
+            BaseOperation operation = new BaseOperation();
+            operation.setUrl(WSUrl.FORGOT_PASSWORD);
+            operation.setTag(Keys.FORGOT_PASSWORD_OPERATION_TAG);
+            operation.setMethod(BaseOperation.Method.POST);
+            operation.getEntities().add(forgotPasswordEntity);
+            ((BaseActivity) activity).sendNetworkOperation(operation);
+        } else {
+            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
+        }
+    }
+
+    /**
+     * @param activity
      * @param registrationEntity
      */
     public void registration(Activity activity, Registration registrationEntity, boolean agree) {
@@ -77,7 +98,7 @@ public class APIFacade {
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.REGISTRATION);
-            operation.setTag(Keys.REGISTRETION_OPERATION_TAG);
+            operation.setTag(Keys.REGISTRATION_OPERATION_TAG);
             operation.setMethod(BaseOperation.Method.POST);
             operation.getEntities().add(registrationEntity);
             ((BaseActivity) activity).sendNetworkOperation(operation);
@@ -85,7 +106,6 @@ public class APIFacade {
             UIUtils.showSimpleToast(activity, R.string.do_you_agree_with_term);
         } else {
             UIUtils.showSimpleToast(activity, R.string.fill_in_field);
-
         }
     }
 

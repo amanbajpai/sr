@@ -5,6 +5,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 public class WriteDataHelper {
@@ -19,6 +20,7 @@ public class WriteDataHelper {
      */
     public static void prepareLogout(Context context) {
         PreferencesManager.getInstance().clearAll();
+        SettingsFragment.setCurrentLanguage();
 
         SurveysBL.removeAllSurveysFromDB(context);
         TasksBL.removeAllTasksFromDB(context);

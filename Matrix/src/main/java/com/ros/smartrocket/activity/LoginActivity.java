@@ -75,6 +75,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             passwordEditText.setText(getString(R.string.login_test_password));
         }
 
+        findViewById(R.id.forgotPasswordButton).setOnClickListener(this);
+
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
 
@@ -207,6 +209,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         });
                     }
                 }
+                break;
+            case R.id.forgotPasswordButton:
+                startActivity(new Intent(this, ForgotPasswordActivity.class));
                 break;
             default:
                 break;

@@ -78,6 +78,7 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
             markerOptions.anchor(ANCHOR_MARKER_U, ANCHOR_MARKER_V);
             L.d(TAG, "choose() [size=" + clusterPoint.size() + ", isCluster="
                     + isCluster + ", " + "title=" + title + "]");
+
         }
     }
 
