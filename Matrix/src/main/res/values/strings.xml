@@ -208,7 +208,7 @@
     <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
     <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
     <!-- Google Map Fragment -->
-    <string name="map_popup_distance" >Distance:</string >
+    <string name="map_popup_distance" >%1$s %2$s</string >
     <!-- Current Location -->
     <string name="looking_for_location" >Looking for your current location&#8230;</string >
     <string name="current_location_not_defined" >There is no current location. Looking for your current location,
@@ -241,6 +241,7 @@
     <string name="start_time" >Start time:</string >
     <string name="deadline_time" >Deadline time:</string >
     <string name="expiry_task_time" >Expiry task time:</string >
+    <string name="mission_address" >MISSION ADDRESS</string >
     <!-- WITHDRAW DIALOG -->
     <string name="withdraw_task_dialog_title" >Withdraw from mission</string >
     <string name="withdraw_task_dialog_text1" >Withdraw from this mission only if you\'re can\'t complete it by the due

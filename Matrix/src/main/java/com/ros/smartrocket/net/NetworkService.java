@@ -99,6 +99,9 @@ public class NetworkService extends BaseNetworkService {
 
                             ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
+                                task.setName(survey.getName());
+                                task.setDescription(survey.getDescription());
+
                                 if (task.getLatitude() != null && task.getLongitude() != null) {
                                     tampLocation.setLatitude(task.getLatitude());
                                     tampLocation.setLongitude(task.getLongitude());
@@ -137,6 +140,9 @@ public class NetworkService extends BaseNetworkService {
 
                             ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
                             for (Task task : survey.getTasks()) {
+                                task.setName(survey.getName());
+                                task.setDescription(survey.getDescription());
+
                                 if (task.getLatitude() != null && task.getLongitude() != null) {
                                     tampLocation.setLatitude(task.getLatitude());
                                     tampLocation.setLongitude(task.getLongitude());

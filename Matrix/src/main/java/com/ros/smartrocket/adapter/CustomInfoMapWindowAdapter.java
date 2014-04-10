@@ -2,12 +2,15 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.Marker;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
 
@@ -17,9 +20,11 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private final View mWindow;
     private final View mContents;
     private Keys.MapViewMode mode;
+    private Activity activity;
 
     public CustomInfoMapWindowAdapter(Activity activity, Keys.MapViewMode mode) {
         this.mode = mode;
+        this.activity = activity;
 
         mWindow = activity.getLayoutInflater().inflate(R.layout.map_info_window, null);
         mContents = activity.getLayoutInflater().inflate(R.layout.map_info_contents, null);
@@ -34,25 +39,48 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         if (clusterPoint.getPointAtOffset(0) != null) {
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-            // Set Price prefix
-            String title = task.getName();
-            TextView titleUi = ((TextView) view.findViewById(R.id.title));
-            titleUi.setText(title);
+            LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);
 
-            // Set Price prefix
-            String prefix = "HK$";
-            TextView prefixTitleUi = ((TextView) view.findViewById(R.id.price_label));
-            prefixTitleUi.setText(prefix);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView priceText = (TextView) view.findViewById(R.id.price_value);
+            TextView pointText = (TextView) view.findViewById(R.id.point_value);
+            TextView distanceText = (TextView) view.findViewById(R.id.distance_value);
 
-            // Set Price
-            String price = "" + task.getPrice();
-            TextView rateText = ((TextView) view.findViewById(R.id.price_value));
-            rateText.setText(price);
+            title.setText(task.getName());
+            priceText.setText("HK$" + task.getPrice());
+            pointText.setText("0");
+            distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.map_popup_distance));
 
-            // Set Distance
-            String distance = "" + task.getDistance();
-            TextView distanceText = ((TextView) view.findViewById(R.id.distance_value));
-            distanceText.setText(distance);
+            switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+                case none:
+                case claimed:
+                case started:
+                case scheduled:
+                case validation:
+                    mainLayout.setBackgroundResource(R.drawable.popup_green);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    break;
+                case reDoTask:
+                    mainLayout.setBackgroundResource(R.drawable.popup_red);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
+                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
+                    break;
+                case pending:
+                    mainLayout.setBackgroundResource(R.drawable.popup_blue);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                    break;
+                default:
+                    mainLayout.setBackgroundResource(R.drawable.popup_green);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    break;
+            }
 
             result = true;
         }

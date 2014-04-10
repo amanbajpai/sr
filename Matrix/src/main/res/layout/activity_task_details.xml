@@ -1,236 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent" >
+    android:orientation="vertical" >
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:baselineAligned="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+                    <TextView
+                        android:id="@+id/taskName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:textSize="@dimen/text_size_large"
+                        android:drawableLeft="@drawable/ic_launcher" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_weight="1"
+                            android:text="@string/start_time"
+                            android:textSize="@dimen/text_size_small" />
+                        <TextView
+                            android:id="@+id/startTimeTextView"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_weight="1"
+                            android:text="@string/deadline_time"
+                            android:textSize="@dimen/text_size_small" />
+                        <TextView
+                            android:id="@+id/deadlineTimeTextView"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_weight="1"
+                            android:text="@string/expiry_task_time"
+                            android:textSize="@dimen/text_size_small" />
+                        <TextView
+                            android:id="@+id/expiryTimeTextView"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout >
+                </LinearLayout >
+                <LinearLayout
+                    android:id="@+id/showTaskOnMapButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="@string/show_map" />
+                    <ImageView
+                        android:id="@+id/mapImageView"
+                        android:contentDescription="@string/app_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/map_default"
+                        android:scaleType="centerCrop" />
+                </LinearLayout >
+            </LinearLayout >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/taskPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="@string/task_price" />
+                <TextView
+                    android:id="@+id/taskExp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="@string/task_exp" />
+                <TextView
+                    android:id="@+id/taskDistance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="@string/task_distance" />
+            </LinearLayout >
+            <LinearLayout
+                android:id="@+id/addressLayout"
+                android:layout_width="match_parent"
+                android:layout_margin="15dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                <com.ros.smartrocket.views.CustomTextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:textColor="@color/grey"
+                    android:text="@string/mission_address"
+                    custom:textStyle="bold" />
+                <View
+                    android:layout_height="1px"
+                    android:layout_width="match_parent"
+                    android:background="@color/black" />
+                <TextView
+                    android:id="@+id/taskAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_marginTop="10dp"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:text="@string/task_description"
+                android:textSize="@dimen/text_size_medium" />
+            <TextView
+                android:id="@+id/taskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:text="@string/task_composition"
+                android:textSize="@dimen/text_size_medium" />
+            <TextView
+                android:id="@+id/taskComposition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout >
+    </ScrollView >
     <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp" >
-        <LinearLayout
-            android:baselineAligned="false"
+        android:padding="10dp"
+        android:background="@color/black_transparence"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/withdrawTaskButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical" >
-                <TextView
-                    android:id="@+id/taskName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textSize="@dimen/text_size_large"
-                    android:drawableLeft="@drawable/ic_launcher" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal" >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:text="@string/start_time"
-                        android:textSize="@dimen/text_size_small" />
-                    <TextView
-                        android:id="@+id/startTimeTextView"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textSize="@dimen/text_size_medium" />
-                </LinearLayout >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal" >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:text="@string/deadline_time"
-                        android:textSize="@dimen/text_size_small" />
-                    <TextView
-                        android:id="@+id/deadlineTimeTextView"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textSize="@dimen/text_size_medium" />
-                </LinearLayout >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal" >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:text="@string/expiry_task_time"
-                        android:textSize="@dimen/text_size_small" />
-                    <TextView
-                        android:id="@+id/expiryTimeTextView"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textColor="@color/red"
-                        android:textSize="@dimen/text_size_medium" />
-                </LinearLayout >
-            </LinearLayout >
-            <LinearLayout
-                android:id="@+id/showTaskOnMapButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical" >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="@string/show_map" />
-                <ImageView
-                    android:id="@+id/mapImageView"
-                    android:contentDescription="@string/app_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/map_default"
-                    android:scaleType="centerCrop" />
-            </LinearLayout >
-        </LinearLayout >
-        <LinearLayout
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/withdraw_task"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/bookTaskButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-            <TextView
-                android:id="@+id/taskPrice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_small"
-                android:text="@string/task_price" />
-            <TextView
-                android:id="@+id/taskExp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_small"
-                android:text="@string/task_exp" />
-            <TextView
-                android:id="@+id/taskDistance"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_small"
-                android:text="@string/task_distance" />
-        </LinearLayout >
-        <TextView
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/book_this_task"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/startTaskButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:text="@string/task_description"
-            android:textSize="@dimen/text_size_medium" />
-        <TextView
-            android:id="@+id/taskDescription"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/start_this_task"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/hideTaskButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_marginTop="10dp"
-            android:textSize="@dimen/text_size_small" />
-        <TextView
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/hide_task"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/showTaskButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:text="@string/task_composition"
-            android:textSize="@dimen/text_size_medium" />
-        <TextView
-            android:id="@+id/taskComposition"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/show_task"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/continueTaskButton"
+            style="@style/Button"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_marginTop="10dp"
-            android:textSize="@dimen/text_size_small" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:text="@string/task_address"
-            android:textSize="@dimen/text_size_medium" />
-        <TextView
-            android:id="@+id/taskAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_marginTop="10dp"
-            android:textSize="@dimen/text_size_small" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-            <Button
-                android:id="@+id/withdrawTaskButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="@string/withdraw_task" />
-            <Button
-                android:id="@+id/bookTaskButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/book_this_task" />
-            <Button
-                android:id="@+id/startTaskButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/start_this_task" />
-            <Button
-                android:id="@+id/hideTaskButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="@string/hide_task" />
-            <Button
-                android:id="@+id/showTaskButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="@string/show_task" />
-            <Button
-                android:id="@+id/continueTaskButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="@string/continue_task" />
-        </LinearLayout >
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/continue_task"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            custom:textStyle="bold" />
     </LinearLayout >
-</ScrollView >
+</RelativeLayout >

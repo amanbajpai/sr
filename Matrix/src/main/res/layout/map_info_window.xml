@@ -1,60 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout"
     style="@style/MapWindowTheme"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-    <ImageView
-        android:id="@+id/img"
-        android:contentDescription="@string/app_name"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_launcher"
-        android:padding="1dp"
-        android:layout_marginRight="5dp"
-        android:adjustViewBounds="true" />
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:layout_marginTop="5dp"
-        style="@style/MapTaskTitle"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/img" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/price_label"
-        style="@style/MapTaskLabel"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/title"
-        android:layout_toRightOf="@+id/img" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/price_value"
-        style="@style/MapTaskValue"
-        android:layout_marginLeft="5dp"
-        android:layout_alignTop="@+id/price_label"
-        android:layout_toRightOf="@+id/price_label" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/map_popup_distance"
-        style="@style/MapTaskLabel"
-        android:id="@+id/distance_label"
-        android:layout_marginLeft="15dp"
-        android:layout_alignTop="@+id/price_label"
-        android:layout_toRightOf="@+id/price_value" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/MapTaskValue"
-        android:id="@+id/distance_value"
-        android:layout_marginLeft="5dp"
-        android:layout_alignTop="@+id/distance_label"
-        android:layout_toRightOf="@+id/distance_label" />
-</RelativeLayout >
+    android:minWidth="250dp"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+        <ImageView
+            android:id="@+id/img"
+            android:contentDescription="@string/app_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_launcher"
+            android:padding="1dp"
+            android:layout_marginRight="5dp"
+            android:adjustViewBounds="true" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:maxLines="2"
+            android:layout_gravity="center_horizontal"
+            style="@style/MapTaskTitle"
+            custom:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/grey_light"
+            android:layout_marginTop="1dp"
+            android:padding="5dp"
+            android:gravity="center" >
+            <ImageView
+                android:contentDescription="@string/app_name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/arrow_grey"
+                android:adjustViewBounds="true" />
+        </LinearLayout >
+    </LinearLayout >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:padding="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/price_value"
+            style="@style/MapTaskValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/rocket_blue"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/point_value"
+            style="@style/MapTaskValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/rocket_blue"
+            custom:textStyle="bold" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/distance_value"
+            style="@style/MapTaskValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/rocket_blue"
+            custom:textStyle="bold" />
+    </LinearLayout >
+</LinearLayout >

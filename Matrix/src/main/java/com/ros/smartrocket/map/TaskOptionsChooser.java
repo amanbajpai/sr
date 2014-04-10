@@ -1,7 +1,5 @@
 package com.ros.smartrocket.map;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,7 +13,9 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.fragment.TasksMapFragment;
 import com.ros.smartrocket.utils.L;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.MarkerOptionsChooser;
@@ -69,7 +69,8 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
                 title = "" + clusterSize;
             } else {
                 Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
+
+                icon = getPinBitmap(data);
                 title = data.getName();
                 markerOptions.snippet("" + data.getId());
             }
@@ -110,5 +111,41 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
 
         canvas.drawText(String.valueOf(clusterSize), bitmap.getWidth() * 0.5f, originY, paint);
         return bitmap;
+    }
+
+    private BitmapDescriptor getPinBitmap(Task task) {
+        BitmapDescriptor icon;
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case none:
+            case claimed:
+            case started:
+            case scheduled:
+            case validation:
+                if (!task.getIsHide()) {
+                    if (task.getDistance() <= TasksMapFragment.taskRadius) {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
+                    } else {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_light_green);
+                    }
+                } else {
+                    if (task.getDistance() <= TasksMapFragment.taskRadius) {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green_hidden);
+                    } else {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_light_green_hidden);
+                    }
+                }
+                break;
+            case reDoTask:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
+                break;
+            case pending:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_blue);
+                break;
+            default:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
+                break;
+        }
+
+        return icon;
     }
 }

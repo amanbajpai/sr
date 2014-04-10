@@ -388,14 +388,14 @@ public class UIUtils {
         return password.length() >= 6 && password.length() < 16;
     }
 
-    public static String convertMToKm(Activity activity, float distance, int textResId) {
+    public static String convertMToKm(Context context, float distance, int textResId) {
         String result = "0";
         String format = "%.1f";
         float convertedDistance = distance > 1000 ? distance / 1000 : distance;
-        String mOrKm = activity.getString(distance > 1000 ? R.string.distance_km : R.string.distance_m);
+        String mOrKm = context.getString(distance > 1000 ? R.string.distance_km : R.string.distance_m);
 
         if (textResId != 0) {
-            result = String.format(activity.getString(textResId),
+            result = String.format(context.getString(textResId),
                     String.format(Locale.US, format, convertedDistance), mOrKm);
         } else {
             result = String.format(Locale.US, format, convertedDistance);
