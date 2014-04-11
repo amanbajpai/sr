@@ -134,13 +134,11 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.hideAllTasksButton:
                 nearTask.setIsHide(true);
-                //setButtonsSettings(nearTask);
                 TasksBL.setHideAllProjectTasksOnMapByID(handler, survey.getId(), true);
                 break;
             case R.id.showAllTasksButton:
                 TasksBL.setHideAllProjectTasksOnMapByID(handler, survey.getId(), false);
                 nearTask.setIsHide(false);
-                //setButtonsSettings(nearTask);
                 break;
             case R.id.mapImageView:
                 Bundle bundle = new Bundle();

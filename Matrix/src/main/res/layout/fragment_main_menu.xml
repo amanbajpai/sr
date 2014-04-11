@@ -20,6 +20,7 @@
                 android:layout_width="40dp"
                 android:contentDescription="@string/app_name"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/cam" />
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/nameTextView"
@@ -129,6 +130,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_width="match_parent" />
             <LinearLayout
+                android:id="@+id/levelLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

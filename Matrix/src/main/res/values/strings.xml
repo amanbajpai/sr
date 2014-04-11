@@ -146,7 +146,7 @@
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >
     <string name="task_exp" >EXP: &lt;b>%1$s&lt;/b></string >
     <string name="task_distance_away" >%1$s %2$s away</string >
-    <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
+    <!--<string name="m_to_km_with_text_mask" >%1$s %2$s</string >-->
     <string name="hk" >HK$</string >
     <string name="start_time" >START:</string >
     <string name="deadline_time" >DEADLINE:</string >
@@ -162,9 +162,6 @@
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="survey_detail_title" >Project details</string >
     <string name="survey_missions_description" >PROJECT\'S MISSIONS DESCRIPTION</string >
-    <string name="survey_price_detail" >Price: HK &lt;b>%1$s $+&lt;/b></string >
-    <string name="survey_exp_detail" >EXP: &lt;b>%1$s +&lt;/b></string >
-    <string name="survey_locations" >Locations: &lt;b>%1$s&lt;/b></string >
     <string name="show_missions" >SHOW MISSIONS</string >
     <string name="view_missions" >VIEW MISSIONS</string >
     <string name="hide_missions" >HIDE MISSIONS</string >

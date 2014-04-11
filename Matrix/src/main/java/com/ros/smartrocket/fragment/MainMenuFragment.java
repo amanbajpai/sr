@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -22,6 +23,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.dialog.LevelUpDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -30,12 +32,10 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    private static final String TAG = MainMenuFragment.class.getSimpleName();
+    //private static final String TAG = MainMenuFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ViewGroup view;
 
     private ResponseReceiver localReceiver;
-    private IntentFilter intentFilter;
     private ImageView photoImageView;
     private ImageView levelIcon;
     private TextView nameTextView;
@@ -51,7 +51,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
+        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
 
         photoImageView = (ImageView) view.findViewById(R.id.photoImageView);
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
@@ -75,9 +75,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
+        view.findViewById(R.id.levelLayout).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
-        intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.REFRESH_MAIN_MENU);
 
         getActivity().registerReceiver(localReceiver, intentFilter);
@@ -89,14 +90,40 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     public void setData(MyAccount myAccount) {
-        if (!TextUtils.isEmpty(myAccount.getPhotoUrl())) {
-            ImageLoader.getInstance().displayImage(myAccount.getPhotoUrl(), photoImageView,
-                    ImageLoader.SMALL_IMAGE_VAR, false, false, 0, true);
+        String photoUrl = myAccount.getPhotoUrl();
+        if (!TextUtils.isEmpty(photoUrl)) {
+            ImageLoader.getInstance().loadBitmap(photoUrl, ImageLoader.SMALL_IMAGE_VAR,
+                    new ImageLoader.OnFetchCompleteListener() {
+
+                        @Override
+                        public void onFetchComplete(final Bitmap result) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    photoImageView.setImageBitmap(result);
+                                }
+                            });
+                        }
+                    }
+            );
         }
 
-        if (!TextUtils.isEmpty(myAccount.getLevelIconUrl())) {
-            ImageLoader.getInstance().displayImage(myAccount.getLevelIconUrl(), levelIcon,
-                    ImageLoader.SMALL_IMAGE_VAR, false, false, R.drawable.badge, true);
+        String levelIconUrl = myAccount.getLevelIconUrl();
+        if (!TextUtils.isEmpty(levelIconUrl)) {
+            ImageLoader.getInstance().loadBitmap(levelIconUrl, ImageLoader.SMALL_IMAGE_VAR,
+                    new ImageLoader.OnFetchCompleteListener() {
+
+                        @Override
+                        public void onFetchComplete(final Bitmap result) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    levelIcon.setImageBitmap(result);
+                                }
+                            });
+                        }
+                    }
+            );
         }
 
         nameTextView.setText(myAccount.getName());
@@ -121,7 +148,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equals(Keys.REFRESH_MAIN_MENU)) {
+            if (Keys.REFRESH_MAIN_MENU.equals(action)) {
                 apiFacade.getMyAccount(getActivity());
             }
         }
@@ -177,6 +204,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.settingsButton:
                 ((MainActivity) getActivity()).startFragment(new SettingsFragment());
                 ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.levelLayout:
+                new LevelUpDialog(getActivity());
                 break;
             default:
                 break;
