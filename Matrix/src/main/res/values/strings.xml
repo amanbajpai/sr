@@ -142,26 +142,32 @@
     <string name="share_via_sina_weibo" >Sina Weibo</string >
     <string name="share_via_qzone" >QZone</string >
     <!-- TASK DETAIL ACTIVITY-->
-    <string name="task_detail_title" >Task details</string >
+    <string name="task_detail_title" >Mission details</string >
     <string name="task_price" >Task price: &lt;b>%1$s $&lt;/b></string >
     <string name="task_exp" >EXP: &lt;b>%1$s&lt;/b></string >
-    <string name="task_distance" >Distance: &lt;b>%1$s&lt;/b> %2$s</string >
-    <string name="task_description" >Task description</string >
-    <string name="task_address" >Task address</string >
-    <string name="task_composition" >Task Composition</string >
-    <string name="book_this_task" >Book this task</string >
-    <string name="start_this_task" >Start this task</string >
-    <string name="hide_task" >Hide task</string >
-    <string name="show_task" >Show task</string >
-    <string name="withdraw_task" >Withdraw from task</string >
-    <string name="continue_task" >Continue</string >
+    <string name="task_distance_away" >%1$s %2$s away</string >
+    <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
+    <string name="hk" >HK$</string >
+    <string name="start_time" >START:</string >
+    <string name="deadline_time" >DEADLINE:</string >
+    <string name="duration_time" >DURATION:</string >
+    <string name="mission_address" >MISSION ADDRESS</string >
+    <string name="full_description" >FULL DESCRIPTION</string >
+    <string name="book_this_task" >CLAIM</string >
+    <string name="start_this_task" >START NOW</string >
+    <string name="hide_task" >HIDE MISSION</string >
+    <string name="show_task" >SHOW MISSION</string >
+    <string name="withdraw_task" >WITHDRAW</string >
+    <string name="continue_task" >CONTINUE</string >
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="survey_detail_title" >Project details</string >
+    <string name="survey_missions_description" >PROJECT\'S MISSIONS DESCRIPTION</string >
     <string name="survey_price_detail" >Price: HK &lt;b>%1$s $+&lt;/b></string >
     <string name="survey_exp_detail" >EXP: &lt;b>%1$s +&lt;/b></string >
     <string name="survey_locations" >Locations: &lt;b>%1$s&lt;/b></string >
-    <string name="hide_all_survey_tasks" >Hide all Project tasks</string >
-    <string name="show_all_survey_tasks" >Show all Project tasks</string >
+    <string name="show_missions" >SHOW MISSIONS</string >
+    <string name="view_missions" >VIEW MISSIONS</string >
+    <string name="hide_missions" >HIDE MISSIONS</string >
     <!-- MAP ACTIVITY-->
     <string name="task_location_title" >Task Location</string >
     <!-- CHECK LOCATION ACTIVITY -->
@@ -236,12 +242,6 @@
     <string name="not_employed_looking_for_work" >Not Employed - looking for work</string >
     <string name="not_employed_not_looking_for_work" >Not Employed - not looking for work</string >
     <string name="retired" >Retired</string >
-    <!-- TASK DETAIL -->
-    <string name="show_map" >Show map</string >
-    <string name="start_time" >Start time:</string >
-    <string name="deadline_time" >Deadline time:</string >
-    <string name="expiry_task_time" >Expiry task time:</string >
-    <string name="mission_address" >MISSION ADDRESS</string >
     <!-- WITHDRAW DIALOG -->
     <string name="withdraw_task_dialog_title" >Withdraw from mission</string >
     <string name="withdraw_task_dialog_text1" >Withdraw from this mission only if you\'re can\'t complete it by the due
@@ -257,16 +257,17 @@
     <string name="next" >NEXT</string >
     <string name="validate" >VALIDATE</string >
     <string name="enter_here" >Enter here</string >
-    <string name="quite_mission" >Quite mission</string >
+    <string name="quite_mission" >QUITE MISSION</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
     <string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >
     <string name="take_photo_big" >TAKE PHOTO</string >
     <!-- QUITE TASK DIALOG -->
-    <string name="quite_task_dialog_title" >Quite task pop-up</string >
+    <string name="quite_task_dialog_title" >Quite mission</string >
     <string name="quite_task_dialog_text1" >Warning!</string >
-    <string name="quite_task_dialog_text2" >You will lose all data in this task. Do you really want to quit?</string >
+    <string name="quite_task_dialog_text2" >You will lose all data in this task.\nDo you really want to
+        quit?</string >
     <!-- MAP FRAGMENT -->
     <string name="zoom_to_this_radius" >Zoom to this radius</string >
     <!--<string name="apply" >Apply</string >-->

@@ -5,10 +5,12 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Html;
+import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -25,79 +27,54 @@ import java.util.Locale;
  */
 public class SurveyDetailsActivity extends BaseActivity implements View.OnClickListener {
     //private static final String TAG = SurveyDetailsActivity.class.getSimpleName();
-    //private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
     private AsyncQueryHandler handler;
 
     private Task nearTask = new Task();
     private Survey survey = new Survey();
 
     private TextView projectName;
+
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
-    private TextView expiryTimeTextView;
+    private TextView durationTextView;
+
     private TextView projectPrice;
     private TextView projectExp;
     private TextView projectLocations;
-    private TextView taskDescription;
-    private TextView taskComposition;
-    private Button hideAllTasksButton;
-    private Button showAllTasksButton;
+
+    private LinearLayout descriptionLayout;
+    private TextView projectDescription;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_survey_details);
-        setTitle(R.string.survey_detail_title);
+
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
             survey = (Survey) getIntent().getSerializableExtra(Keys.SURVEY);
         }
 
-        setTitleIcon(1);
-
         handler = new DbHandler(getContentResolver());
 
         projectName = (TextView) findViewById(R.id.projectName);
+
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        expiryTimeTextView = (TextView) findViewById(R.id.expiryTimeTextView);
+        durationTextView = (TextView) findViewById(R.id.durationTextView);
+
         projectPrice = (TextView) findViewById(R.id.projectPrice);
         projectExp = (TextView) findViewById(R.id.projectExp);
         projectLocations = (TextView) findViewById(R.id.projectLocations);
-        taskDescription = (TextView) findViewById(R.id.taskDescription);
-        taskComposition = (TextView) findViewById(R.id.taskComposition);
 
-        hideAllTasksButton = (Button) findViewById(R.id.hideAllTasksButton);
-        hideAllTasksButton.setOnClickListener(this);
-        showAllTasksButton = (Button) findViewById(R.id.showAllTasksButton);
-        showAllTasksButton.setOnClickListener(this);
+        descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
+        projectDescription = (TextView) findViewById(R.id.projectDescription);
 
+        findViewById(R.id.hideAllTasksButton).setOnClickListener(this);
+        findViewById(R.id.showAllTasksButton).setOnClickListener(this);
         findViewById(R.id.mapImageView).setOnClickListener(this);
-    }
-
-    public void setTitleIcon(int surveyType){
-        switch (surveyType){
-            case 1:
-                getSupportActionBar().setIcon(R.drawable.project_type_1);
-                break;
-            case 2:
-                getSupportActionBar().setIcon(R.drawable.project_type_2);
-                break;
-            case 3:
-                getSupportActionBar().setIcon(R.drawable.project_type_3);
-                break;
-            case 4:
-                getSupportActionBar().setIcon(R.drawable.project_type_4);
-                break;
-            case 5:
-                getSupportActionBar().setIcon(R.drawable.project_type_5);
-                break;
-            default:
-                getSupportActionBar().setIcon(R.drawable.ic_launcher);
-                break;
-        }
     }
 
     @Override
@@ -120,7 +97,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     nearTask = TasksBL.convertCursorToTask(cursor);
 
-                    setTaskData(nearTask);
+                    //setTaskData(nearTask);
                     break;
                 default:
                     break;
@@ -128,41 +105,28 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    public void setTaskData(Task task) {
-        taskDescription.setText(task.getDescription());
-        taskComposition.setText("-");
-
-        setButtonsSettings(task);
-    }
-
     public void setSurveyData(Survey survey) {
         projectName.setText(survey.getName());
+        projectDescription.setText(survey.getDescription());
+        descriptionLayout.setVisibility(TextUtils.isEmpty(survey.getDescription()) ? View.GONE : View.VISIBLE);
 
         long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
+        long durationInMillisecond = endTimeInMillisecond - startTimeInMillisecond;
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        //TODO Set expiry time
-        expiryTimeTextView.setText("-");
+        durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
 
-        projectPrice.setText(Html.fromHtml(String.format(getString(R.string.survey_price_detail),
-                String.format(Locale.US, "%.1f", survey.getNearTaskPrice()))));
+        projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", survey.getNearTaskPrice()));
+
         //TODO Set EXP
-        projectExp.setText(Html.fromHtml(String.format(getString(R.string.survey_exp_detail),
-                String.format(Locale.US, "%,d", 130))));
-        projectLocations.setText(Html.fromHtml(String.format(getString(R.string.survey_locations),
-                survey.getTaskCount())));
-    }
+        projectExp.setText(String.valueOf(0));
 
-    public void setButtonsSettings(Task task) {
-        if (UIUtils.isTrue(task.getIsHide())) {
-            hideAllTasksButton.setVisibility(View.GONE);
-            showAllTasksButton.setVisibility(View.VISIBLE);
-        } else {
-            hideAllTasksButton.setVisibility(View.VISIBLE);
-            showAllTasksButton.setVisibility(View.GONE);
-        }
+        projectLocations.setText(String.valueOf(survey.getTaskCount()));
+
+        //TODO Get survey type from server
+        getSupportActionBar().setIcon(UIUtils.getSurveyTypeIcon(1));
     }
 
     @Override
@@ -170,13 +134,13 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.hideAllTasksButton:
                 nearTask.setIsHide(true);
-                setButtonsSettings(nearTask);
+                //setButtonsSettings(nearTask);
                 TasksBL.setHideAllProjectTasksOnMapByID(handler, survey.getId(), true);
                 break;
             case R.id.showAllTasksButton:
                 TasksBL.setHideAllProjectTasksOnMapByID(handler, survey.getId(), false);
                 nearTask.setIsHide(false);
-                setButtonsSettings(nearTask);
+                //setButtonsSettings(nearTask);
                 break;
             case R.id.mapImageView:
                 Bundle bundle = new Bundle();
@@ -189,6 +153,21 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        View view = actionBar.getCustomView();
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.survey_detail_title);
+
+        return true;
     }
 
     @Override

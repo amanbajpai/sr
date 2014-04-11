@@ -39,20 +39,9 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         Calendar calendar = Calendar.getInstance();
-
         long timeInMillis = deadlineTimeInMillis - calendar.getTimeInMillis();
-        calendar.setTimeInMillis(timeInMillis);
 
-        int days = calendar.get(Calendar.DAY_OF_MONTH);
-        int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE);
-
-        String daysText = days + " " + context.getResources().getQuantityString(R.plurals.day, days);
-        String hoursText = hours + " " + context.getResources().getQuantityString(R.plurals.hour, hours);
-        String minutesText = minutes + " " + context.getResources().getQuantityString(R.plurals.minute, minutes);
-
-        String dateTimeToDate = daysText + " " + hoursText + " " + minutesText;
-        ((TextView) findViewById(R.id.dateTimeToDate)).setText(dateTimeToDate);
+        ((TextView) findViewById(R.id.dateTimeToDate)).setText(UIUtils.getTimeInDayHoursMinutes(activity, timeInMillis));
 
         String atDateTime = UIUtils.longToString(deadlineTimeInMillis, 3);
         ((TextView) findViewById(R.id.atDateTime)).setText(atDateTime);

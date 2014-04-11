@@ -94,7 +94,7 @@ public class SurveyAdapter extends BaseAdapter {
                 String.format(Locale.US, "%,d", 130))));
 
         holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),
-                R.string.survey_distance)));
+                R.string.survey_distance, true)));
 
         return convertView;
     }

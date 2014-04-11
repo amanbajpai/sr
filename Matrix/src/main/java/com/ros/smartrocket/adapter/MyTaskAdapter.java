@@ -110,7 +110,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 String.format(Locale.US, "%,d", 130))));
 
         holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, task.getDistance(),
-                R.string.task_distance)));
+                R.string.task_distance_away, true)));
 
         long timeInMillisecond = UIUtils.isoTimeToLong(task.getEndDateTime());
 

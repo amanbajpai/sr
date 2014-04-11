@@ -8,11 +8,12 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -38,7 +39,6 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Activity for view Task detail information
@@ -55,16 +55,19 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Task task;
     private Survey survey = new Survey();
 
-    private TextView taskName;
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
-    private TextView expiryTimeTextView;
+    private TextView durationTextView;
     private TextView taskPrice;
     private TextView taskExp;
     private TextView taskDistance;
+
+    private LinearLayout addressLayout;
+    private LinearLayout descriptionLayout;
+
     private TextView taskAddress;
     private TextView taskDescription;
-    private TextView taskComposition;
+
     private Button bookTaskButton;
     private Button startTaskButton;
     private Button hideTaskButton;
@@ -78,7 +81,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_details);
 
-        //getSupportActionBar().setIcon(R.drawable.ic_launcher);
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
@@ -86,16 +89,19 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         handler = new DbHandler(getContentResolver());
 
-        taskName = (TextView) findViewById(R.id.taskName);
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        expiryTimeTextView = (TextView) findViewById(R.id.expiryTimeTextView);
+        durationTextView = (TextView) findViewById(R.id.durationTextView);
+
         taskPrice = (TextView) findViewById(R.id.taskPrice);
         taskExp = (TextView) findViewById(R.id.taskExp);
         taskDistance = (TextView) findViewById(R.id.taskDistance);
+
+        descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
+        addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
+
         taskDescription = (TextView) findViewById(R.id.taskDescription);
         taskAddress = (TextView) findViewById(R.id.taskAddress);
-        taskComposition = (TextView) findViewById(R.id.taskComposition);
 
         bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
         bookTaskButton.setOnClickListener(this);
@@ -111,8 +117,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         continueTaskButton.setOnClickListener(this);
 
         findViewById(R.id.mapImageView).setOnClickListener(this);
-
-        findViewById(R.id.showTaskOnMapButton).setOnClickListener(this);
     }
 
     @Override
@@ -218,13 +222,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setTaskData(Task task) {
-        taskName.setText(task.getName());
-        taskDescription.setText(task.getDescription());
-        taskComposition.setText("-");
-        taskPrice.setText(Html.fromHtml(String.format(getString(R.string.task_price), String.format(Locale.US, "%.1f",
-                task.getPrice()))));
+        taskPrice.setText(getString(R.string.hk) + task.getPrice());
+        taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
 
-        taskDistance.setText(Html.fromHtml(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance)));
+        descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
+        addressLayout.setVisibility(TextUtils.isEmpty(task.getAddress()) ? View.GONE : View.VISIBLE);
+
+        taskDescription.setText(task.getDescription());
         taskAddress.setText(task.getAddress());
 
         setButtonsSettings(task);
@@ -233,15 +237,17 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setSurveyData(Survey survey) {
         long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
+        long durationInMillisecond = endTimeInMillisecond - startTimeInMillisecond;
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        //TODO Set expiry time
-        expiryTimeTextView.setText("-");
+        durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
 
         //TODO Set EXP
-        taskExp.setText(Html.fromHtml(String.format(getString(R.string.task_exp), String.format(Locale.US, "%,d",
-                130))));
+        taskExp.setText("0");
+
+        //TODO Get survey type from server
+        getSupportActionBar().setIcon(UIUtils.getSurveyTypeIcon(1));
     }
 
     public void setButtonsSettings(Task task) {
@@ -293,11 +299,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 task.setIsHide(false);
                 setButtonsSettings(task);
                 TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
-                break;
-            case R.id.showTaskOnMapButton:
-                TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
-                task.setIsHide(false);
-                setButtonsSettings(task);
                 break;
             case R.id.withdrawTaskButton:
                 String endDateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);

@@ -6,6 +6,7 @@
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
 
+    <dimen name="text_size_8sp">8sp</dimen>
     <dimen name="text_size_12sp">12sp</dimen>
     <!--<dimen name="text_size_13sp">13sp</dimen>-->
     <dimen name="text_size_13p6sp">13.6sp</dimen>

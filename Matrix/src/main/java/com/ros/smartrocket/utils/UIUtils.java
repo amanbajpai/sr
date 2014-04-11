@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -388,11 +389,12 @@ public class UIUtils {
         return password.length() >= 6 && password.length() < 16;
     }
 
-    public static String convertMToKm(Context context, float distance, int textResId) {
+    public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {
         String result = "0";
         String format = "%.1f";
-        float convertedDistance = distance > 1000 ? distance / 1000 : distance;
-        String mOrKm = context.getString(distance > 1000 ? R.string.distance_km : R.string.distance_m);
+        float convertedDistance = distance < 1000 && useMetersIfLessThanOne ? distance : distance / 1000;
+        String mOrKm = context.getString(distance < 1000 && useMetersIfLessThanOne ? R.string.distance_m : R.string
+                .distance_km);
 
         if (textResId != 0) {
             result = String.format(context.getString(textResId),
@@ -466,5 +468,76 @@ public class UIUtils {
     public static void setActivityBackgroundColor(Activity activity, int color) {
         View view = activity.getWindow().getDecorView();
         view.setBackgroundColor(color);
+    }
+
+    public static String getTimeInDayHoursMinutes(Context context, long timeInMillisecond) {
+        int days = (int) timeInMillisecond / 24 / 60 / 60 / 1000;
+        int hours = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days) / 60 / 60 / 1000;
+        int minutes = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days - DateUtils.HOUR_IN_MILLIS * hours) / 60 / 1000;
+
+        String daysText = "";
+        if (days != 0) {
+            daysText = days + " " + context.getResources().getQuantityString(R.plurals.day, days) + " ";
+        }
+        String hoursText = "";
+        if (hours != 0) {
+            hoursText = hours + " " + context.getResources().getQuantityString(R.plurals.hour, hours) + " ";
+        }
+        String minutesText = "";
+        if (minutes != 0) {
+            minutesText = minutes + " " + context.getResources().getQuantityString(R.plurals.minute, minutes) + " ";
+        }
+
+        return daysText + hoursText + minutesText;
+    }
+
+    public static int getSurveyTypeIcon(int surveyType) {
+        int iconResId;
+        switch (surveyType) {
+            case 1:
+                iconResId = R.drawable.project_type_1;
+                break;
+            case 2:
+                iconResId = R.drawable.project_type_2;
+                break;
+            case 3:
+                iconResId = R.drawable.project_type_3;
+                break;
+            case 4:
+                iconResId = R.drawable.project_type_4;
+                break;
+            case 5:
+                iconResId = R.drawable.project_type_5;
+                break;
+            default:
+                iconResId = R.drawable.ic_launcher;
+                break;
+        }
+        return iconResId;
+    }
+
+    public static int getSurveyTypePopupIcon(int surveyType) {
+        int iconResId;
+        switch (surveyType) {
+            case 1:
+                iconResId = R.drawable.project_type_1_popup;
+                break;
+            case 2:
+                iconResId = R.drawable.project_type_2_popup;
+                break;
+            case 3:
+                iconResId = R.drawable.project_type_3_popup;
+                break;
+            case 4:
+                iconResId = R.drawable.project_type_4_popup;
+                break;
+            case 5:
+                iconResId = R.drawable.project_type_5_popup;
+                break;
+            default:
+                iconResId = R.drawable.ic_launcher;
+                break;
+        }
+        return iconResId;
     }
 }

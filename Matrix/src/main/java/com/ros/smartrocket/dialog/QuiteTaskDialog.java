@@ -11,7 +11,7 @@ import com.ros.smartrocket.R;
 public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
     //private static final String TAG = QuiteTaskDialog.class.getSimpleName();
     //private Activity activity;
-    private DialogButtonClickListener onDialogButtonClicklistener;
+    private DialogButtonClickListener onDialogButtonClickListener;
 
     public QuiteTaskDialog(Activity activity) {
         super(activity);
@@ -37,13 +37,13 @@ public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancelButton:
-                if (onDialogButtonClicklistener != null) {
-                    onDialogButtonClicklistener.onCancelButtonPressed(this);
+                if (onDialogButtonClickListener != null) {
+                    onDialogButtonClickListener.onCancelButtonPressed(this);
                 }
                 break;
             case R.id.quiteTaskButton:
-                if (onDialogButtonClicklistener != null) {
-                    onDialogButtonClicklistener.onQuiteTaskButtonPressed(this);
+                if (onDialogButtonClickListener != null) {
+                    onDialogButtonClickListener.onQuiteTaskButtonPressed(this);
                 }
                 break;
             default:
@@ -51,8 +51,8 @@ public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
         }
     }
 
-    public void setOnDialogButtonClicklistener(DialogButtonClickListener onDialogButtonClicklistener) {
-        this.onDialogButtonClicklistener = onDialogButtonClicklistener;
+    public void setOnDialogButtonClickListener(DialogButtonClickListener onDialogButtonClickListener) {
+        this.onDialogButtonClickListener = onDialogButtonClickListener;
     }
 
     public interface DialogButtonClickListener {

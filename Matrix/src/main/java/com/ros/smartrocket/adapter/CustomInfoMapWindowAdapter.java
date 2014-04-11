@@ -2,6 +2,7 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.Marker;
@@ -41,15 +42,19 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
 
             LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);
 
+            ImageView typeIcon = (ImageView) view.findViewById(R.id.typeIcon);
+
             TextView title = (TextView) view.findViewById(R.id.title);
             TextView priceText = (TextView) view.findViewById(R.id.price_value);
             TextView pointText = (TextView) view.findViewById(R.id.point_value);
             TextView distanceText = (TextView) view.findViewById(R.id.distance_value);
 
+            //TODO Get survey type from server
+            typeIcon.setImageResource(UIUtils.getSurveyTypePopupIcon(1));
             title.setText(task.getName());
-            priceText.setText("HK$" + task.getPrice());
+            priceText.setText(activity.getString(R.string.hk) + task.getPrice());
             pointText.setText("0");
-            distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.map_popup_distance));
+            distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.map_popup_distance, false));
 
             switch (TasksBL.getTaskStatusType(task.getStatusId())) {
                 case none:
@@ -58,27 +63,27 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
                 case scheduled:
                 case validation:
                     mainLayout.setBackgroundResource(R.drawable.popup_green);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
                     break;
                 case reDoTask:
                     mainLayout.setBackgroundResource(R.drawable.popup_red);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_red, 0, 0, 0);
                     break;
                 case pending:
                     mainLayout.setBackgroundResource(R.drawable.popup_blue);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_blue, 0, 0, 0);
                     break;
                 default:
                     mainLayout.setBackgroundResource(R.drawable.popup_green);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
                     break;
             }
 
@@ -91,7 +96,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     @Override
     public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
         View view = null;
-        // Don't show popup window in such cases
+
         if (marker != null && !MYLOC.equals(marker.getSnippet())
                 && mode != Keys.MapViewMode.SINGLETASK && render(marker, mContents, clusterPoint)) {
             view = mContents;
@@ -103,7 +108,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     @Override
     public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
         View view = null;
-        // Don't show popup window in such cases
+
         if (marker != null && !MYLOC.equals(marker.getSnippet())
                 && mode != Keys.MapViewMode.SINGLETASK && render(marker, mWindow, clusterPoint)) {
             view = mWindow;

@@ -37,7 +37,8 @@
         android:background="@drawable/map_filter_bg"
         android:padding="10dp"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" >
         <com.ros.smartrocket.views.CustomTextView
             android:layout_width="match_parent"
             android:textColor="@color/black"

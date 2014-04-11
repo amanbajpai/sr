@@ -100,7 +100,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         }
 
         nameTextView.setText(myAccount.getName());
-        balanceTextView.setText(myAccount.getBalance() + " HK$");
+        balanceTextView.setText(myAccount.getBalance() + " " + getString(R.string.hk));
         levelTextView.setText(String.valueOf(myAccount.getLevelNumber()));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
         minLevelExperience.setText(String.valueOf(myAccount.getMinLevelExperience()));

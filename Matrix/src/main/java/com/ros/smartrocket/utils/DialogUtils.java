@@ -260,7 +260,7 @@ public class DialogUtils {
      */
     public static Dialog showQuiteTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
-        dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
             public void onCancelButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -287,7 +287,7 @@ public class DialogUtils {
      */
     public static Dialog showReCheckAnswerTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
-        dialog.setOnDialogButtonClicklistener(new QuiteTaskDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
             public void onCancelButtonPressed(Dialog dialog) {
                 dialog.dismiss();
