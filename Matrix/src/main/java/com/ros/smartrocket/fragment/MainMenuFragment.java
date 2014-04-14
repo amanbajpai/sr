@@ -29,11 +29,13 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = MainMenuFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     private ResponseReceiver localReceiver;
     private ImageView photoImageView;
@@ -75,7 +77,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
-        view.findViewById(R.id.levelLayout).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -139,6 +140,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
             levelProgressBar.setMax(maxProgress);
             levelProgressBar.setProgress(currentProgress);
+        }
+
+
+        if (preferencesManager.getLastLevelNumber() != myAccount.getLevelNumber()) {
+            new LevelUpDialog(getActivity());
+            preferencesManager.setLastLevelNumber(myAccount.getLevelNumber());
         }
     }
 
@@ -204,9 +211,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.settingsButton:
                 ((MainActivity) getActivity()).startFragment(new SettingsFragment());
                 ((MainActivity) getActivity()).togleMenu();
-                break;
-            case R.id.levelLayout:
-                new LevelUpDialog(getActivity());
                 break;
             default:
                 break;

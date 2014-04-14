@@ -15,6 +15,8 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
 
+import java.util.Locale;
+
 public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private static final String TAG = CustomInfoMapWindowAdapter.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
@@ -53,7 +55,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
             typeIcon.setImageResource(UIUtils.getSurveyTypePopupIcon(1));
             title.setText(task.getName());
             priceText.setText(activity.getString(R.string.hk) + task.getPrice());
-            pointText.setText("0");
+            pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
             distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.map_popup_distance, false));
 
             switch (TasksBL.getTaskStatusType(task.getStatusId())) {

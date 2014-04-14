@@ -35,6 +35,7 @@ public interface SurveyDbSchema {
         END_DATE_TIME("EndDateTime", DBType.INT),
         EXPECTED_END_DATE_TIME("ExpectedEndDateTime", DBType.INT),
         EXPECTED_START_DATE_TIME("ExpectedStartDateTime", DBType.INT),
+        EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
         DELETED("Deleted", DBType.INT);
 
@@ -84,7 +85,9 @@ public interface SurveyDbSchema {
 
                 Table.SURVEY.getName() + "." + Columns.END_DATE_TIME.getName(),
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName()
+                Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
+                Table.SURVEY.getName() + "." + Columns.EXPERIENCE_OFFER.getName()
+
         };
 
         int _ID = 0;
@@ -105,6 +108,7 @@ public interface SurveyDbSchema {
         int END_DATE_TIME = 15;
         int EXPECTED_END_DATE_TIME = 16;
         int EXPECTED_START_DATE_TIME = 17;
+        int EXPERIENCE_OFFER = 18;
     }
 
     public interface QuerySurveyByDistance {
@@ -134,5 +138,6 @@ public interface SurveyDbSchema {
         int TASK_COUNT = 19;
         int NEAR_TASK_PRICE = 20;
         int NEAR_TASK_ID = 21;
+        int EXPERIENCE_OFFER = 22;
     }
 }

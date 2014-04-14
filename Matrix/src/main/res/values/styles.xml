@@ -145,14 +145,14 @@
 
     <style name="SurveyListTitle" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_medium</item >
+        <item name="android:textSize" >@dimen/text_size_16sp</item >
         <item name="android:textColor" >@color/black</item >
     </style >
 
     <style name="SurveyListDescription" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_small</item >
-        <item name="android:textColor" >@color/grey</item >
+        <item name="android:textSize" >@dimen/text_size_9sp</item >
+        <item name="android:textColor" >@color/black</item >
     </style >
 
     <style name="SurveyListTime" parent="@android:style/Widget.TextView" >
@@ -354,9 +354,20 @@
         <item name="android:layout_margin" >5dp</item >
         <item name="android:layout_weight" >1</item >
     </style >
+
     <style name="SurveyDetailButton" parent="Button" >
         <item name="android:padding" >10dp</item >
         <item name="android:layout_margin" >5dp</item >
+        <item name="android:layout_weight" >1</item >
+    </style >
+
+    <style name="TaskAndSurveyListOptionStyle" parent="@android:style/Widget.TextView" >
+        <item name="android:textStyle" >bold</item >
+        <item name="android:gravity" >center_vertical</item >
+        <item name="android:drawablePadding" >5dp</item >
+        <item name="android:textSize" >@dimen/text_size_11sp</item >
+        <item name="android:textColor" >@color/white</item >
+        <item name="android:singleLine" >true</item >
         <item name="android:layout_weight" >1</item >
     </style >
 </resources >

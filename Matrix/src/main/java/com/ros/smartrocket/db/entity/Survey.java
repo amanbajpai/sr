@@ -34,6 +34,7 @@ public class Survey extends BaseEntity {
     private Integer TargetMaximum;
     private Integer TargetMinimum;
     private Boolean ViewableBeforeLive;
+    private Double ExperienceOffer;
 
     private transient Float Longitude;
     private transient Float Latitude;
@@ -84,6 +85,7 @@ public class Survey extends BaseEntity {
             result.setEndDateTime(c.getString(SurveyDbSchema.Query.END_DATE_TIME));
             result.setExpectedEndDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_START_DATE_TIME));
+            result.setExperienceOffer(c.getDouble(SurveyDbSchema.Query.EXPERIENCE_OFFER));
         }
         return result;
     }
@@ -117,6 +119,8 @@ public class Survey extends BaseEntity {
             result.setNearTaskDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_DISTANCE));
             result.setTaskCount(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TASK_COUNT));
             result.setNearTaskPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_PRICE));
+
+            result.setExperienceOffer(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.EXPERIENCE_OFFER));
 
         }
         return result;
@@ -282,7 +286,6 @@ public class Survey extends BaseEntity {
         NearTaskPrice = nearTaskPrice;
     }
 
-
     public Integer getNearTaskId() {
         return NearTaskId;
     }
@@ -291,4 +294,11 @@ public class Survey extends BaseEntity {
         NearTaskId = nearTaskId;
     }
 
+    public Double getExperienceOffer() {
+        return ExperienceOffer;
+    }
+
+    public void setExperienceOffer(Double experienceOffer) {
+        ExperienceOffer = experienceOffer;
+    }
 }

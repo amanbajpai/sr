@@ -64,7 +64,7 @@
     <string name="subscribe" >SUBSCRIBE</string >
     <!-- FIND TASK FRAGMENT-->
     <!-- SURVEY LIST FRAGMENT-->
-    <string name="distance_for_nearest_location" >Distance for nearest location</string >
+    <string name="distance_to_nearest_location" >Distance to the nearest location</string >
     <string name="locations" >&lt;b>%1$s &lt;/b> Locations</string >
     <string name="survey_distance" >&lt;b>%1$s&lt;/b> %2$s</string >
     <string name="survey_price" >HK: &lt;b>%1$s $&lt;/b></string >

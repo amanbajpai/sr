@@ -119,10 +119,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
 
         projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", survey.getNearTaskPrice()));
-
-        //TODO Set EXP
-        projectExp.setText(String.valueOf(0));
-
+        projectExp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
         projectLocations.setText(String.valueOf(survey.getTaskCount()));
 
         //TODO Get survey type from server

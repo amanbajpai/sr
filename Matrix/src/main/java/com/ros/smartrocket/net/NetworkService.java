@@ -3,8 +3,6 @@ package com.ros.smartrocket.net;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.util.SparseArray;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,11 +11,10 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.SurveyDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
@@ -28,9 +25,7 @@ import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Surveys;
-import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
@@ -74,96 +69,43 @@ public class NetworkService extends BaseNetworkService {
 
     protected void processResponse(BaseOperation operation) {
         Gson gson = new Gson();
-        Location currentLocation;
-        Location tampLocation;
         int responseCode = operation.getResponseStatusCode();
         String responseString = operation.getResponseString();
         if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
                 ContentResolver contentResolver = getContentResolver();
                 SparseArray<ContentValues> scheduledTaskContentValuesMap;
+                SparseArray<ContentValues> hiddenTaskContentValuesMap;
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
                     case WSUrl.GET_SURVEYS_ID:
-                        currentLocation = App.getInstance().getLocationManager().getLocation();
-                        tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
                         Surveys surveys = gson.fromJson(responseString, Surveys.class);
 
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
+                        hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
                         TasksBL.removeNotMyTask(contentResolver);
-
-                        for (Survey survey : surveys.getSurveys()) {
-                            contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
-
-                            ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
-                            for (Task task : survey.getTasks()) {
-                                task.setName(survey.getName());
-                                task.setDescription(survey.getDescription());
-
-                                if (task.getLatitude() != null && task.getLongitude() != null) {
-                                    tampLocation.setLatitude(task.getLatitude());
-                                    tampLocation.setLongitude(task.getLongitude());
-
-                                    if (currentLocation != null) {
-                                        task.setDistance(currentLocation.distanceTo(tampLocation));
-                                    }
-                                } else {
-                                    task.setDistance(0f);
-                                }
-
-                                vals.add(task.toContentValues());
-                                //L.e(TAG, "All task Id: " + task.getId());
-                            }
-                            ContentValues[] bulk = new ContentValues[vals.size()];
-                            contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
-                        }
+                        SurveysBL.saveSurveyAndTaskFromServer(contentResolver, surveys, false);
 
                         //Update task status id
-                        TasksBL.updateScheduledTask(contentResolver, scheduledTaskContentValuesMap);
+                        TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
+                        TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
-                        currentLocation = App.getInstance().getLocationManager().getLocation();
-                        tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
                         Surveys myTasksSurveys = gson.fromJson(responseString, Surveys.class);
 
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
+                        hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
                         TasksBL.removeAllMyTask(contentResolver);
-
-                        //Replace tasks
-                        for (Survey survey : myTasksSurveys.getSurveys()) {
-                            contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
-
-                            ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
-                            for (Task task : survey.getTasks()) {
-                                task.setName(survey.getName());
-                                task.setDescription(survey.getDescription());
-
-                                if (task.getLatitude() != null && task.getLongitude() != null) {
-                                    tampLocation.setLatitude(task.getLatitude());
-                                    tampLocation.setLongitude(task.getLongitude());
-                                    task.setIsMy(true);
-                                    //L.e(TAG, "My task Id: " + task.getId());
-
-                                    if (currentLocation != null) {
-                                        task.setDistance(currentLocation.distanceTo(tampLocation));
-                                    }
-                                } else {
-                                    task.setIsMy(true);
-                                    task.setDistance(0f);
-                                }
-                                vals.add(task.toContentValues());
-                            }
-                            ContentValues[] bulk = new ContentValues[vals.size()];
-                            contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
-                        }
+                        SurveysBL.saveSurveyAndTaskFromServer(contentResolver, myTasksSurveys, true);
 
                         //Update task status id
-                        TasksBL.updateScheduledTask(contentResolver, scheduledTaskContentValuesMap);
+                        TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
+                        TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
                         break;
 
                     case WSUrl.CLAIM_TASKS_ID:
@@ -225,7 +167,8 @@ public class NetworkService extends BaseNetworkService {
                             contentResolver.delete(AnswerDbSchema.CONTENT_URI,
                                     AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID
                                             + "=?",
-                                    new String[]{String.valueOf(question.getId()), String.valueOf(taskId)});
+                                    new String[]{String.valueOf(question.getId()), String.valueOf(taskId)}
+                            );
 
                             if (question.getAnswers() != null) {
                                 for (Answer answer : question.getAnswers()) {

@@ -233,6 +233,14 @@ public class PreferencesManager {
         setString(Keys.SHORT_URL_TO_SHARE, url);
     }
 
+    public void setLastLevelNumber(int levelNumber) {
+        setInt(Keys.LAST_LEVEL_NUMBER, levelNumber);
+    }
+
+    public int getLastLevelNumber() {
+        return getInt(Keys.LAST_LEVEL_NUMBER, 0);
+    }
+
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

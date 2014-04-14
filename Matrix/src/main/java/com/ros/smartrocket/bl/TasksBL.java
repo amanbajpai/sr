@@ -267,10 +267,32 @@ public class TasksBL {
         return scheduledContentValuesMap;
     }
 
-    public static void updateScheduledTask(ContentResolver contentResolver, SparseArray<ContentValues> scheduledContentValuesMap) {
-        for (int i = 0; i < scheduledContentValuesMap.size(); i++) {
-            Integer taskId = scheduledContentValuesMap.keyAt(i);
-            ContentValues contentValues = scheduledContentValuesMap.get(taskId);
+    @SuppressWarnings("unchecked")
+    public static SparseArray<ContentValues> getHiddenTaskHashMap(ContentResolver contentResolver) {
+        String[] projection = {Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName()};
+
+        Cursor tasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
+                TaskDbSchema.Columns.IS_HIDE + "=1", null, null);
+
+        SparseArray<ContentValues> contentValuesMap = new SparseArray<ContentValues>();
+        if (tasksCursor != null) {
+            while (tasksCursor.moveToNext()) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), true);
+
+                contentValuesMap.put(tasksCursor.getInt(0), contentValues);
+            }
+            tasksCursor.close();
+        }
+
+        return contentValuesMap;
+    }
+
+    public static void updateTasksByContentValues(ContentResolver contentResolver,
+                                                  SparseArray<ContentValues> contentValuesMap) {
+        for (int i = 0; i < contentValuesMap.size(); i++) {
+            Integer taskId = contentValuesMap.keyAt(i);
+            ContentValues contentValues = contentValuesMap.get(taskId);
 
             contentResolver.update(TaskDbSchema.CONTENT_URI, contentValues,
                     TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});

@@ -39,6 +39,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Activity for view Task detail information
@@ -224,6 +225,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setTaskData(Task task) {
         taskPrice.setText(getString(R.string.hk) + task.getPrice());
         taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
+        taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
 
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
         addressLayout.setVisibility(TextUtils.isEmpty(task.getAddress()) ? View.GONE : View.VISIBLE);
@@ -242,9 +244,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
-
-        //TODO Set EXP
-        taskExp.setText("0");
 
         //TODO Get survey type from server
         getSupportActionBar().setIcon(UIUtils.getSurveyTypeIcon(1));

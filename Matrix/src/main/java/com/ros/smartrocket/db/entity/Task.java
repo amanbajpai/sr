@@ -37,13 +37,14 @@ public class Task extends BaseEntity {
     private Double Price;
     private String Address;
     private Float Distance;
-
     private String RemakeTill;
+
     private String Started;
     private Integer StatusId;
     private String Status;
     private String StartDateTime;
     private String EndDateTime;
+    private Double ExperienceOffer;
 
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
@@ -91,6 +92,8 @@ public class Task extends BaseEntity {
 
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
             result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 0 ? false : true);
+
+            result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
         }
         L.d("Task", result.toString());
         return result;
@@ -240,6 +243,14 @@ public class Task extends BaseEntity {
 
     public void setIsHide(Boolean isHide) {
         IsHide = isHide;
+    }
+
+    public Double getExperienceOffer() {
+        return ExperienceOffer;
+    }
+
+    public void setExperienceOffer(Double experienceOffer) {
+        ExperienceOffer = experienceOffer;
     }
 
     /**
