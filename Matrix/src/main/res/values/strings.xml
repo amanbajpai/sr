@@ -39,9 +39,7 @@
     <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
     <string name="fill_in_field" >Please, fill in field</string >
-    <string name="fill_in_education_level" >Please, fill in Education Level field</string >
-    <string name="fill_in_employment_status" >Please, fill in Employment Status field</string >
-    <string name="do_you_agree_with_term" >Do you agree with Matrix Term&amp;Conditions?</string >
+    <string name="fill_in_all_fields" >Please, complete all items</string >
     <!-- MAIN MENU ACTIVITY -->
     <string name="drawer_open" >Open navigation drawer</string >
     <string name="drawer_close" >Close navigation drawer</string >
@@ -54,8 +52,6 @@
     <string name="rocket_points" >Rocket points</string >
     <string name="level_name" >Level name</string >
     <string name="level_0" >0</string >
-    <!--<string name="navigator" >Navigator</string >
-    <string name="sprinter" >Sprinter</string >-->
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry!</string >
     <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,
@@ -67,8 +63,6 @@
     <string name="distance_to_nearest_location" >Distance to the nearest location</string >
     <string name="locations" >&lt;b>%1$s &lt;/b> Locations</string >
     <string name="survey_distance" >&lt;b>%1$s&lt;/b> %2$s</string >
-    <string name="survey_price" >HK: &lt;b>%1$s $&lt;/b></string >
-    <string name="survey_exp" >EXP: &lt;b>%1$s &lt;/b></string >
     <string name="distance_m" >m</string >
     <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
@@ -79,6 +73,8 @@
     <string name="task_claimed_status" >Task claimed</string >
     <string name="task_started_status" >Task started</string >
     <string name="task_validated_status" >Validated</string >
+    <string name="redo_mission_till" >Re-do mission till:</string >
+    <string name="pending" >PENDING...</string >
     <!-- PROFILE FRAGMENT-->
     <string name="profile_title" >Profile</string >
     <string name="my_account_title" >My account</string >
@@ -276,8 +272,6 @@
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_title" >Validation</string >
     <string name="validation_big" >VALIDATION</string >
-    <!--<string name="task_validation_text1" >You have completed this Task. If you are satisfied with your answers, you may now Confirm &amp; Send it for validation or you can send it later.</string >
-    <string name="task_validation_text2" >If you find any issues with your answers on task questions or you not satisfied by them you can check it once more before validation</string >-->
     <string name="recheck_my_answer" >RECHECK MY ANSWERS</string >
     <string name="expiry_time" >EXPIRY TIME: </string >
     <string name="task_data_size" >TASK DATA SIZE: </string >

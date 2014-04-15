@@ -30,7 +30,8 @@
                 android:layout_height="48dp"
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@+id/profilePhotoImageView"
-                android:hint="@string/first_name" />
+                android:hint="@string/first_name"
+                android:inputType="textCapWords" />
             <com.ros.smartrocket.views.CustomEditTextView
                 android:id="@+id/lastNameEditText"
                 style="@style/EditText"
@@ -39,7 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@+id/profilePhotoImageView"
                 android:layout_below="@+id/firstNameEditText"
-                android:hint="@string/last_name" />
+                android:hint="@string/last_name"
+                android:inputType="textCapWords" />
         </RelativeLayout >
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,7 +129,8 @@
             android:paddingLeft="10dp"
             android:enabled="false"
             android:layout_width="match_parent"
-            android:hint="@string/your_country_hint" />
+            android:hint="@string/your_country_hint"
+            android:focusable="false"/>
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/cityEditText"
             style="@style/EditText"
@@ -138,7 +141,8 @@
             android:drawablePadding="10dp"
             android:paddingLeft="10dp"
             android:layout_width="match_parent"
-            android:hint="@string/your_city_hint" />
+            android:hint="@string/your_city_hint"
+            android:focusable="false"/>
         <Spinner
             android:id="@+id/educationLevelSpinner"
             android:layout_marginTop="20dp"

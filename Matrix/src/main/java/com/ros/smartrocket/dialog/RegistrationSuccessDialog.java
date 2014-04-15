@@ -24,7 +24,7 @@ public class RegistrationSuccessDialog extends Dialog implements View.OnClickLis
             e.printStackTrace();
         }
         setContentView(R.layout.dialog_registration_success);
-        setCancelable(true);
+        setCancelable(false);
 
         getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         getWindow().setGravity(Gravity.CENTER);

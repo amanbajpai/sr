@@ -19,8 +19,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -76,9 +78,13 @@ public class UIUtils {
      * @param duration
      */
     public static void showSimpleToast(Context context, int resId, int duration) {
+        showSimpleToast(context, resId, duration, Gravity.BOTTOM);
+    }
+
+    public static void showSimpleToast(Context context, int resId, int duration, int gravity) {
         if (context != null) {
             Toast toast = Toast.makeText(context, resId, duration);
-            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.setGravity(gravity, 0, 0);
             toast.show();
         }
     }
@@ -90,9 +96,13 @@ public class UIUtils {
      * @param msg
      */
     public static void showSimpleToast(Context context, String msg) {
+        showSimpleToast(context, msg, Toast.LENGTH_SHORT, Gravity.BOTTOM);
+    }
+
+    public static void showSimpleToast(Context context, String msg, int duration, int gravity) {
         if (context != null && msg != null) {
-            Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            Toast toast = Toast.makeText(context, msg, duration);
+            toast.setGravity(gravity, 0, 0);
             toast.show();
         }
     }
@@ -462,6 +472,21 @@ public class UIUtils {
     public static void setProfilePhotoImageViewmageByState(ImageView imageView, boolean isValidState) {
         if (!isValidState) {
             imageView.setImageResource(R.drawable.cam_error);
+        }
+    }
+
+    public static void setSpinnerBackgroundByState(Spinner spinner, boolean isValidState) {
+        if (isValidState) {
+            spinner.setBackgroundResource(R.drawable.spinner_green);
+        } else {
+            spinner.setBackgroundResource(R.drawable.spinner_red);
+        }
+        spinner.setPadding(0, 0, 0, 0);
+    }
+
+    public static void setCheckBoxBackgroundByState(CheckBox checkBox, boolean isValidState) {
+        if (!isValidState) {
+            checkBox.setButtonDrawable(R.drawable.check_box_error);
         }
     }
 

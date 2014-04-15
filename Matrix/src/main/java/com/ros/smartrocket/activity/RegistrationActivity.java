@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,10 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -63,6 +66,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private Spinner educationLevelSpinner;
     private Spinner employmentStatusSpinner;
     private Bitmap photoBitmap;
+    private CustomProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -169,6 +173,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
+                int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
+                int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
+
                 UIUtils.setEditTextColorByState(this, firstNameEditText, !TextUtils.isEmpty(firstName));
                 UIUtils.setEditTextColorByState(this, lastNameEditText, !TextUtils.isEmpty(lastName));
                 UIUtils.setEditTextColorByState(this, birthdayEditText, selectedBirthDay != null);
@@ -179,22 +186,21 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 UIUtils.setEditTextColorByState(this, passwordEditText, UIUtils.isPasswordValid(password));
                 UIUtils.setPasswordEditTextImageByState(passwordEditText, UIUtils.isPasswordValid(password));
 
-                UIUtils.setProfilePhotoImageViewmageByState(profilePhotoImageView, photoBitmap != null);
+                UIUtils.setSpinnerBackgroundByState(educationLevelSpinner, educationLevel != 0);
+                UIUtils.setSpinnerBackgroundByState(employmentStatusSpinner, employmentStatus != 0);
 
+                UIUtils.setCheckBoxBackgroundByState(agreeCheckBox, agreeCheckBox.isChecked());
+                //UIUtils.setProfilePhotoImageViewmageByState(profilePhotoImageView, photoBitmap != null);
+
+                firstNameEditText.clearFocus();
+                lastNameEditText.clearFocus();
+                emailEditText.clearFocus();
+                passwordEditText.clearFocus();
 
                 if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || !UIUtils.isEmailValid(email)
-                        || selectedBirthDay <= 0 || !UIUtils.isPasswordValid(password) || photoBitmap == null) {
-                    break;
-                }
-
-                int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
-                int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
-                if (educationLevel == 0) {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_education_level);
-                    break;
-                }
-                if (employmentStatus == 0) {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_employment_status);
+                        || selectedBirthDay == null || !UIUtils.isPasswordValid(password) || educationLevel == 0 ||
+                        employmentStatus == 0 || !agreeCheckBox.isChecked()/* || photoBitmap == null*/) {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
                     break;
                 }
 
@@ -227,7 +233,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         break;
                 }
 
-                apiFacade.registration(this, registrationEntity, agreeCheckBox.isChecked());
+                progressDialog = CustomProgressDialog.show(this);
+                apiFacade.registration(this, registrationEntity);
                 break;
             case R.id.cancelButton:
                 finish();
@@ -241,12 +248,16 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
-                UIUtils.showSimpleToast(this, R.string.success);
-
                 new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
             }
         } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError());
+            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.CENTER);
+            UIUtils.setEditTextColorByState(this, emailEditText, false);
+            UIUtils.setEmailEditTextImageByState(emailEditText, false);
+        }
+
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 

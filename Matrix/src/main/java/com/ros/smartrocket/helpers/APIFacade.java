@@ -92,21 +92,13 @@ public class APIFacade {
      * @param activity
      * @param registrationEntity
      */
-    public void registration(Activity activity, Registration registrationEntity, boolean agree) {
-        if (!TextUtils.isEmpty(registrationEntity.getEmail()) && !TextUtils.isEmpty(registrationEntity.getPassword())
-                && agree) {
-
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.REGISTRATION);
-            operation.setTag(Keys.REGISTRATION_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(registrationEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else if (!agree) {
-            UIUtils.showSimpleToast(activity, R.string.do_you_agree_with_term);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
-        }
+    public void registration(Activity activity, Registration registrationEntity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.REGISTRATION);
+        operation.setTag(Keys.REGISTRATION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(registrationEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     public void checkLocationForRegistration(Activity activity, String country, String city, double latitude,

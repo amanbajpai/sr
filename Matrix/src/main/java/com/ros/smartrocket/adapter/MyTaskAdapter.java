@@ -15,6 +15,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class MyTaskAdapter extends BaseAdapter {
@@ -22,16 +23,17 @@ public class MyTaskAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<Task> items = new ArrayList<Task>();
     private LayoutInflater inflater;
+    private Calendar calendar = Calendar.getInstance();
 
     public static class ViewHolder {
         private TextView name;
-        private TextView description;
         private ImageView image;
-        private TextView time;
-        private TextView date;
+        private TextView timeLeft;
+        private TextView redoTime;
         private TextView price;
         private TextView exp;
         private TextView distance;
+        private LinearLayout defaultStatusLayout;
         private LinearLayout pendingStatusLayout;
         private LinearLayout validationStatusLayout;
         private LinearLayout reDuStatusLayout;
@@ -77,13 +79,13 @@ public class MyTaskAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.description = (TextView) convertView.findViewById(R.id.description);
             holder.image = (ImageView) convertView.findViewById(R.id.image);
-            holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.timeLeft = (TextView) convertView.findViewById(R.id.timeLeft);
+            holder.redoTime = (TextView) convertView.findViewById(R.id.redoTime);
             holder.price = (TextView) convertView.findViewById(R.id.price);
             holder.exp = (TextView) convertView.findViewById(R.id.exp);
             holder.distance = (TextView) convertView.findViewById(R.id.distance);
+            holder.defaultStatusLayout = (LinearLayout) convertView.findViewById(R.id.defaultStatusLayout);
             holder.pendingStatusLayout = (LinearLayout) convertView.findViewById(R.id.pendingStatusLayout);
             holder.validationStatusLayout = (LinearLayout) convertView.findViewById(R.id.validationStatusLayout);
             holder.reDuStatusLayout = (LinearLayout) convertView.findViewById(R.id.reDuStatusLayout);
@@ -101,22 +103,24 @@ public class MyTaskAdapter extends BaseAdapter {
         Task task = items.get(position);
 
         holder.name.setText(task.getName());
-        holder.description.setText(task.getDescription());
-        holder.price.setText(Html.fromHtml(String.format(activity.getString(R.string.task_price),
-                String.format(Locale.US, "%.1f", task.getPrice()))));
+        holder.price.setText(activity.getString(R.string.hk) + String.format(Locale.US, "%.1f", task.getPrice()));
 
         //TODO Set EXP
         holder.exp.setText(Html.fromHtml(String.format(activity.getString(R.string.task_exp),
                 String.format(Locale.US, "%,d", 130))));
 
         holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, task.getDistance(),
-                R.string.task_distance_away, true)));
+                R.string.survey_distance, true)));
 
-        long timeInMillisecond = UIUtils.isoTimeToLong(task.getEndDateTime());
+        //long startTimeInMillisecond = UIUtils.isoTimeToLong(task.getStartDateTime());
+        long endTimeInMillisecond = UIUtils.isoTimeToLong(task.getEndDateTime());
+        long redoTillTimeInMillisecond = UIUtils.isoTimeToLong(task.getRemakeTill());
+        long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
 
-        holder.time.setText(UIUtils.longToString(timeInMillisecond, 0));
-        holder.date.setText(UIUtils.longToString(timeInMillisecond, 1));
+        holder.redoTime.setText(UIUtils.longToString(redoTillTimeInMillisecond, 3));
+        holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond));
 
+        holder.defaultStatusLayout.setVisibility(View.GONE);
         holder.pendingStatusLayout.setVisibility(View.GONE);
         holder.validationStatusLayout.setVisibility(View.GONE);
         holder.reDuStatusLayout.setVisibility(View.GONE);
