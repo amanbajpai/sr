@@ -16,6 +16,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -48,6 +49,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private Button registerButton;
     private Location currentLocation;
     private Address currentAddress;
+    private CustomProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     startActivity(new Intent(this, CheckLocationActivity.class));
                 }
+                registerButton.setEnabled(true);
+                progressDialog.dismiss();
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
                 .ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
@@ -151,6 +155,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 DialogUtils.showLoginFailedDialog(this);
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 startActivity(new Intent(this, CheckLocationActivity.class));
+                registerButton.setEnabled(true);
+                progressDialog.dismiss();
             }
         }
 
@@ -193,6 +199,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else if (UIUtils.isMockLocationEnabled(this)) {
                     DialogUtils.showMockLocationDialog(this, true);
                 } else {
+                    progressDialog = CustomProgressDialog.show(this);
                     registerButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
 

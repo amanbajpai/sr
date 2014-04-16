@@ -11,6 +11,7 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.LoginActivity;
+import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.QuitQuestionActivity;
 import com.ros.smartrocket.activity.SurveyDetailsActivity;
@@ -65,6 +66,18 @@ public class IntentUtils {
      */
     public static Intent getLoginIntentForLogout(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Main screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getMainActivityIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
@@ -266,6 +279,12 @@ public class IntentUtils {
 
         intent.setData(Uri.parse("market://details?id=" + packageName));
 
+        return intent;
+    }
+
+    public static Intent getBrowserIntent(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
         return intent;
     }
 

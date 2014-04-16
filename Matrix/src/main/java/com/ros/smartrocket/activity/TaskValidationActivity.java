@@ -33,6 +33,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -133,7 +134,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
                 TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.validation.getStatusId());
 
-                finish();
+                finishActivity();
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
@@ -189,30 +190,45 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     public void onLeftButtonPressed(Dialog dialog) {
                         dialog.dismiss();
                         setFilesToUploadDbAndStartUpload(false);
-                        finish();
+                        finishActivity();
                     }
 
                     @Override
                     public void onRightButtonPressed(Dialog dialog) {
                         dialog.dismiss();
                         setFilesToUploadDbAndStartUpload(true);
-                        finish();
+                        finishActivity();
                     }
                 });
             } else {
                 setFilesToUploadDbAndStartUpload(true);
-                finish();
+                finishActivity();
             }
         } else {
             validateTask(task.getId());
         }
     }
 
+    public void finishActivity() {
+        startActivity(IntentUtils.getMainActivityIntent(this));
+        finish();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                DialogUtils.showReCheckAnswerTaskDialog(this, task.getSurveyId(), task.getId());
+                //DialogUtils.showReCheckAnswerTaskDialog(this, task.getSurveyId(), task.getId());
+
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
+
+                PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + taskId);
+
+                //AnswersBL.clearTaskUserAnswers(this, taskId);
+
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), taskId));
+                finishActivity();
                 break;
             case R.id.sendNowButton:
                 setSupportProgressBarIndeterminateVisibility(true);
@@ -220,7 +236,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 apiFacade.sendAnswers(this, answerListToSend);
                 break;
             case R.id.sendLaterButton:
-                finish();
+                finishActivity();
                 break;
             default:
                 break;
@@ -231,7 +247,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                finishActivity();
                 break;
             default:
                 break;

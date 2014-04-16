@@ -53,7 +53,7 @@ public class SupportFragment extends Fragment implements OnClickListener {
                 getActivity().startActivity(IntentUtils.getTermsAndConditionIntent(getActivity()));
                 break;
             case R.id.knowledgeBaseButton:
-
+                getActivity().startActivity(IntentUtils.getBrowserIntent(Config.KNOWLEDGE_BASE_URL));
                 break;
             case R.id.sendMessageButton:
                 getActivity().startActivity(IntentUtils.getEmailIntent("", Config.DEV_EMAIL, null));

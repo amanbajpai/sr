@@ -9,7 +9,6 @@ import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.TaskReminderService;
-import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import org.acra.ACRA;
@@ -63,7 +62,7 @@ public class App extends Application {
 
     public MyAccount getMyAccount() {
         if (myAccount == null) {
-            String profileJson = PreferencesManager.getInstance().getString(Keys.MY_ACCOUNT, "{}");
+            String profileJson = PreferencesManager.getInstance().getString(Keys.MY_ACCOUNT, "");
             myAccount = new Gson().fromJson(profileJson, MyAccount.class);
         }
         return myAccount;

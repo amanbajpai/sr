@@ -238,7 +238,15 @@ public class PreferencesManager {
     }
 
     public int getLastLevelNumber() {
-        return getInt(Keys.LAST_LEVEL_NUMBER, 0);
+        return getInt(Keys.LAST_LEVEL_NUMBER, -1);
+    }
+
+    public void setDefaultRadius(int radius) {
+        setInt(Keys.DEFAULT_RADIUS, radius);
+    }
+
+    public int getDefaultRadius() {
+        return getInt(Keys.DEFAULT_RADIUS, 20000);
     }
 
     public int getInt(String key, int defaultValue) {

@@ -20,6 +20,7 @@ public class Config {
             (CACHE_PREFIX_DIR).getPath();
     public static final String LONG_URL_TO_SHARE = "https://play.google.com/store/apps/details?id=com.ua.makeev"
             + ".lovewidgetpaid";
+    public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/";
     public static final int REFRESH_LOCATION_DISTANCE = 100;
 
     public static final int REFRESH_LOCATION_TIME = 0;

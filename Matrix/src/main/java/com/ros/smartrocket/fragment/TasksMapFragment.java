@@ -53,6 +53,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.Clusterkraf;
@@ -70,6 +71,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MYLOC = "MyLoc";
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ImageView btnFilter;
     private LinearLayout rlFilterPanel;
@@ -78,9 +80,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private GoogleMap map;
     private CameraPosition restoreCameraPosition;
     private static final float COORDINATE_OFFSET = 0.00004f;
-    private static final int DEFAULT_TASK_RADIUS = 20000;
     private static final int METERS_IN_KM = 1000;
-    public static int taskRadius = DEFAULT_TASK_RADIUS;
+    public static int taskRadius = 20000;
     private int sbRadiusProgress = 20;
     private static final int RADIUS_DELTA = 1000; // 1% = 1000m => Max = 100km
     private TextView txtRadius;
@@ -131,7 +132,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
         sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
-        taskRadius = DEFAULT_TASK_RADIUS;
+
+        taskRadius = preferencesManager.getDefaultRadius();
+        sbRadiusProgress = taskRadius / RADIUS_DELTA;
 
         setRadiusText();
 
@@ -157,6 +160,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                preferencesManager.setDefaultRadius(taskRadius);
                 loadTasksFromLocalDb();
                 Location location = lm.getLocation();
                 if (location == null && UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
@@ -196,6 +200,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             setViewMode(getArguments());
             updateUI();
             loadData();
+        } else {
+            if(isFilterShow){
+                showFilterPanel(false);
+            }
         }
     }
 
@@ -401,7 +409,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 moveCameraToMyLocation();
                 break;
             case R.id.applyButton:
-                loadData();
+                //loadData();
                 toggleFilterPanel();
                 break;
             case R.id.btnFilter:
@@ -692,7 +700,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     /**
      * Check coordinates of pins and change it if they are equals
-     * */
+     */
     private Double[] coordinateForMarker(int itemSize, double latitude, double longitude) {
 
         Double[] location = null;

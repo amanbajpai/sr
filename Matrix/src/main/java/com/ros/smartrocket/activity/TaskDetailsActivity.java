@@ -136,12 +136,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
-                        if (task != null && (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId
-                                .scheduled
-                                || TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.validation)) {
-                            finish();
-                            break;
-                        }
                         task = TasksBL.convertCursorToTask(cursor);
 
                         setTaskData(task);

@@ -20,6 +20,7 @@ public interface Keys {
     String USED_TREE_G_UPLOAD_MONTHLY_SIZE = "used_tree_g_upload_monthly_size";
     String LAST_REFRESH_MONTH_LIMIT_DATE = "last_refresh_moth_limit_date";
     String LAST_LEVEL_NUMBER = "last_level_number";
+    String DEFAULT_RADIUS = "default_radius";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
