@@ -228,7 +228,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 //AnswersBL.clearTaskUserAnswers(this, taskId);
 
                 startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), taskId));
-                finishActivity();
+                finish();
                 break;
             case R.id.sendNowButton:
                 setSupportProgressBarIndeterminateVisibility(true);

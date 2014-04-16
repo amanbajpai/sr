@@ -341,7 +341,7 @@ public class DialogUtils {
      * @param context
      */
     public static Dialog showAgeVerificationDialog(final Context context) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(context, 0, R.drawable.info_icon,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, 0, R.drawable.plus_18,
                 context.getText(R.string.age_verification_dialog_title),
                 context.getText(R.string.age_verification_dialog_text1),
                 R.string.age_verification_dialog_under, R.string.age_verification_dialog_redo);
