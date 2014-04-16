@@ -334,4 +334,11 @@
     <string name="send_password" >SEND PASSWORD TO YOUR E-MAIL</string >
     <string name="we_sent_your_password" >We\'ve sent your password to your e-mail. \n Check it and back to
         login</string >
+
+    <!-- AGE VERIFICATION DIALOG -->
+    <string name="age_verification_dialog_title" >Age verification</string >
+    <string name="age_verification_dialog_text1" >You must be <b>18 years or older</b> to join
+        SmartRocket. \n\nPlease try again or remove app if you under 18.</string >
+    <string name="age_verification_dialog_redo" >Redo</string >
+    <string name="age_verification_dialog_under" >Under 18</string >
 </resources >

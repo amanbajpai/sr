@@ -334,4 +334,31 @@ public class DialogUtils {
         });
         return dialog;
     }
+
+    /**
+     * Age verification Dialog message
+     *
+     * @param context
+     */
+    public static Dialog showAgeVerificationDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, 0, R.drawable.info_icon,
+                context.getText(R.string.age_verification_dialog_title),
+                context.getText(R.string.age_verification_dialog_text1),
+                R.string.age_verification_dialog_under, R.string.age_verification_dialog_redo);
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                context.startActivity(IntentUtils.getLoginIntentForLogout(context));
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+
+        return dialog;
+    }
 }

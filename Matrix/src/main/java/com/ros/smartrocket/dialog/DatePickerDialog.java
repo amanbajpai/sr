@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
@@ -45,7 +46,7 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
         final Calendar maxDateCalendar = getMaxDateCalendar();
         datePicker = (DatePicker) findViewById(R.id.datePicker);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             datePicker.setMaxDate(maxDateCalendar.getTimeInMillis());
         } else {
             final int maxYear = maxDateCalendar.get(Calendar.YEAR);
@@ -66,7 +67,7 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
                         }
                     }
             );
-        }
+        }*/
 
         if (currentDate != null) {
             Calendar calendar = getMaxDateCalendar();
@@ -99,10 +100,16 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
 
-                String previewDate = UIUtils.longToString(calendar.getTimeInMillis(), 4);
+                long selectedTimeInMillis = calendar.getTimeInMillis();
 
-                dialogButtonClickListener.onOkButtonPressed(calendar.getTimeInMillis(), previewDate);
-                dismiss();
+                if (selectedTimeInMillis <= getMaxDateCalendar().getTimeInMillis()) {
+                    String previewDate = UIUtils.longToString(selectedTimeInMillis, 4);
+
+                    dialogButtonClickListener.onOkButtonPressed(selectedTimeInMillis, previewDate);
+                    dismiss();
+                } else {
+                    DialogUtils.showAgeVerificationDialog(getContext());
+                }
                 break;
 
             case R.id.cancelButton:

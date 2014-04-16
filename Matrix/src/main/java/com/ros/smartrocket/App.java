@@ -62,7 +62,7 @@ public class App extends Application {
 
     public MyAccount getMyAccount() {
         if (myAccount == null) {
-            String profileJson = PreferencesManager.getInstance().getString(Keys.MY_ACCOUNT, "");
+            String profileJson = PreferencesManager.getInstance().getString(Keys.MY_ACCOUNT, "{}");
             myAccount = new Gson().fromJson(profileJson, MyAccount.class);
         }
         return myAccount;
