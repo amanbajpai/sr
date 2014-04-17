@@ -421,6 +421,15 @@ public class SelectImageManager {
         }
     }*/
 
+    public static String getVideoPathFromContentURI(Activity activity, Uri contentUri) {
+        String[] column = {MediaStore.Video.Media.DATA};
+        Cursor cursor = activity.getContentResolver().query(contentUri, column, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+        return cursor.getString(columnIndex);
+    }
+
     public File getLastFile() {
         return lastFile;
     }

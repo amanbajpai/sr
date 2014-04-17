@@ -31,6 +31,7 @@ import com.ros.smartrocket.fragment.QuestionType1Fragment;
 import com.ros.smartrocket.fragment.QuestionType2Fragment;
 import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
+import com.ros.smartrocket.fragment.QuestionType5Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
@@ -153,7 +154,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
-        mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId-1) / questionsToAnswerCount * 100)));
+        mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
         if (questionType != 2) {
             questionOfLayout.setVisibility(View.VISIBLE);
             questionOf.setText(getString(R.string.question_of, currentQuestionOrderId, questionsToAnswerCount));
@@ -247,7 +248,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType3Fragment();
                     break;
                 case 5:
-                    currentFragment = new QuestionType4Fragment();
+                    currentFragment = new QuestionType5Fragment();
+                    break;
+                case 7:
+                    currentFragment = new QuestionType5Fragment();
                     break;
                 default:
                     break;

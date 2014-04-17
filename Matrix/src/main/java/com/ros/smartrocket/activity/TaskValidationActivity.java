@@ -184,7 +184,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());
 
         if (filesSizeB > 0) {
-            if (filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
+            if (UIUtils.is3G(this) && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
                 DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
                     @Override
                     public void onLeftButtonPressed(Dialog dialog) {
