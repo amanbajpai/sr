@@ -248,7 +248,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType3Fragment();
                     break;
                 case 5:
-                    currentFragment = new QuestionType5Fragment();
+                    currentFragment = new QuestionType4Fragment();
                     break;
                 case 7:
                     currentFragment = new QuestionType5Fragment();
