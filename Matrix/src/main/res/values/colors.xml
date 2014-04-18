@@ -2,14 +2,19 @@
 <resources >
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="black_light">#222222</color>
     <color name="grey">#999999</color>
+    <color name="grey_dark">#4f5051</color>
+    <color name="grey_middle">#d9d9d9</color>
     <color name="grey_light">#f2f2f2</color>
     <color name="green">#637f11</color>
+    <color name="green_dark">#637f10</color>
     <color name="green_light">#8cad2a</color>
     <color name="red">#cb333a</color>
     <color name="red_light">#fecccf</color>
     <color name="blue">#007aff</color>
     <color name="blue_light">#c6e0fb</color>
+    <color name="yellow">#ffc73c</color>
     <color name="orange">#fbae42</color>
 
     <color name="map_radius_stroke">#aaff0033</color>

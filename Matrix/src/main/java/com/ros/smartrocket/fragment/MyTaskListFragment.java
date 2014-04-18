@@ -135,23 +135,10 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
             case scheduled:
                 startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId()));
                 break;
-            case validation:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
-                break;
             case reDoTask:
                 startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getSurveyId(), task.getId()));
                 break;
-            case pending:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
-                break;
-            case completed:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
-                break;
-            case validated:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
-                break;
             default:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
                 break;
         }
     }

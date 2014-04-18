@@ -509,7 +509,7 @@ public class UIUtils {
             hoursText = hours + " " + context.getResources().getQuantityString(R.plurals.hour, hours) + " ";
         }
         String minutesText = "";
-        if (minutes != 0) {
+        if (days == 0 && minutes != 0) {
             minutesText = minutes + " " + context.getResources().getQuantityString(R.plurals.minute, minutes) + " ";
         }
 

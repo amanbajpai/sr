@@ -88,11 +88,9 @@ public class SurveyAdapter extends BaseAdapter {
 
         holder.price.setText(activity.getString(R.string.hk)
                 + " " + String.format(Locale.US, "%.1f", survey.getNearTaskPrice()));
-
         holder.exp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
-
         holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),
-                R.string.survey_distance, true)));
+                R.string.m_to_km_with_text_mask, true)));
 
         return convertView;
     }

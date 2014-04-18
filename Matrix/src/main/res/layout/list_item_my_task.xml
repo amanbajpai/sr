@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/listItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
     <LinearLayout
+        android:id="@+id/listItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/popup_green"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/mission_green_bg"
         android:orientation="vertical" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
             android:orientation="horizontal"
             android:gravity="center_vertical" >
             <ImageView
@@ -30,110 +36,72 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    style="@style/TaskListTitle"
-                    custom:textStyle="bold" />
                 <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:orientation="horizontal" >
+                    <com.ros.smartrocket.views.CustomTextView
+                        android:id="@+id/name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        style="@style/TaskListTitle"
+                        custom:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/arrow"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="5dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/arrow_grey" />
+                </LinearLayout >
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal" >
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/timeLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TaskListTime"
-                        android:drawableLeft="@drawable/human_green"
-                        android:layout_marginLeft="5dp" />
+                        android:drawablePadding="3dp"
+                        android:drawableLeft="@drawable/sandclock_grey"
+                        custom:textStyle="bold" />
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        style="@style/TaskListDate"
-                        android:drawableLeft="@drawable/human_green" />
+                        android:drawablePadding="3dp"
+                        style="@style/TaskListDistance"
+                        android:drawableLeft="@drawable/human"
+                        custom:textStyle="bold" />
                 </LinearLayout >
             </LinearLayout >
-            <ImageView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/arrow_grey" />
         </LinearLayout >
-        <LinearLayout
-            android:id="@+id/defaultStatusLayout"
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/statusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/grey_light"
-            android:padding="5dp"
-            android:orientation="horizontal" >
-            <com.ros.smartrocket.views.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/task_expires_at"
-                android:textColor="@color/grey"/>
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/expiresTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TaskListTime"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/grey"/>
-        </LinearLayout >
+            android:textSize="@dimen/text_size_13p6sp"
+            android:padding="8dp"
+            custom:textStyle="bold" />
         <LinearLayout
-            android:id="@+id/reDuStatusLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/red_light"
-            android:padding="5dp"
-            android:orientation="horizontal" >
-            <com.ros.smartrocket.views.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/redo_mission_till"
-                android:textColor="@color/red"/>
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/redoTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TaskListTime"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/red"/>
-        </LinearLayout >
-        <LinearLayout
-            android:id="@+id/pendingStatusLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/blue_light"
-            android:padding="5dp"
-            android:orientation="horizontal" >
-            <com.ros.smartrocket.views.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pending"
-                android:textColor="@color/blue"/>
-        </LinearLayout >
-
-        <LinearLayout
+            android:id="@+id/optionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/green_light"
             android:gravity="center_vertical"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingRight="5dp"
             android:orientation="horizontal" >
             <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/price"
+                android:id="@+id/taskPrice"
                 style="@style/TaskAndSurveyOptionStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,117 +109,35 @@
                 android:drawableLeft="@drawable/wallet_green"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/exp"
+                android:id="@+id/taskExp"
                 style="@style/TaskAndSurveyOptionStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:drawableLeft="@drawable/rocket_green"
                 custom:textStyle="bold" />
+            <View
+                android:id="@+id/optionDivider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:background="@color/green_dark" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/textQuestionsCount"
+                style="@style/TaskAndSurveyOptionStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:drawableLeft="@drawable/quote_green"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/photoQuestionsCount"
+                style="@style/TaskAndSurveyOptionStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:drawableLeft="@drawable/camera_green"
+                custom:textStyle="bold" />
         </LinearLayout >
-    </LinearLayout >
-    <LinearLayout
-        android:id="@+id/validationStatusLayout"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="top|right"
-        android:orientation="horizontal"
-        android:background="@color/white_transparence"
-        android:visibility="gone" >
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/task_on_validation_status" />
-    </LinearLayout >
-    <LinearLayout
-        android:id="@+id/scheduledStatusLayout"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="top|right"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/scheduled" />
-    </LinearLayout >
-    <LinearLayout
-        android:id="@+id/completedStatusLayout"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="top|right"
-        android:orientation="horizontal"
-        android:background="@color/white_transparence"
-        android:visibility="gone" >
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/task_completed_status" />
-    </LinearLayout >
-    <LinearLayout
-        android:id="@+id/claimedStatusLayout"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="top|right"
-        android:orientation="horizontal"
-        android:background="@color/white_transparence"
-        android:visibility="gone" >
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/task_claimed_status" />
-    </LinearLayout >
-    <LinearLayout
-        android:id="@+id/startedStatusLayout"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="top|right"
-        android:orientation="horizontal"
-        android:background="@color/white_transparence"
-        android:visibility="gone" >
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/task_started_status" />
-    </LinearLayout >
-    <LinearLayout
-        android:id="@+id/validatedStatusLayout"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:gravity="top|right"
-        android:orientation="horizontal"
-        android:background="@color/white_transparence"
-        android:visibility="gone" >
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/task_validated_status" />
     </LinearLayout >
 </LinearLayout >

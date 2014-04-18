@@ -12,7 +12,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
         <com.ros.smartrocket.views.CustomTextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -117,8 +118,6 @@
             android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:background="@drawable/button_green_selector"
             android:text="@string/confirm_and_send"
             android:layout_marginRight="5dp"

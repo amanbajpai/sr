@@ -32,8 +32,6 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
     private Task nearTask = new Task();
     private Survey survey = new Survey();
 
-    private TextView projectName;
-
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
     private TextView durationTextView;
@@ -41,6 +39,8 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
     private TextView projectPrice;
     private TextView projectExp;
     private TextView projectLocations;
+    private TextView textQuestionsCount;
+    private TextView photoQuestionsCount;
 
     private LinearLayout descriptionLayout;
     private TextView projectDescription;
@@ -59,8 +59,6 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
 
         handler = new DbHandler(getContentResolver());
 
-        projectName = (TextView) findViewById(R.id.projectName);
-
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
         durationTextView = (TextView) findViewById(R.id.durationTextView);
@@ -68,6 +66,8 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         projectPrice = (TextView) findViewById(R.id.projectPrice);
         projectExp = (TextView) findViewById(R.id.projectExp);
         projectLocations = (TextView) findViewById(R.id.projectLocations);
+        textQuestionsCount = (TextView) findViewById(R.id.textQuestionsCount);
+        photoQuestionsCount = (TextView) findViewById(R.id.photoQuestionsCount);
 
         descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
         projectDescription = (TextView) findViewById(R.id.projectDescription);
@@ -106,7 +106,6 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
     }
 
     public void setSurveyData(Survey survey) {
-        projectName.setText(survey.getName());
         projectDescription.setText(survey.getDescription());
         descriptionLayout.setVisibility(TextUtils.isEmpty(survey.getDescription()) ? View.GONE : View.VISIBLE);
 
@@ -121,6 +120,8 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", survey.getNearTaskPrice()));
         projectExp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
         projectLocations.setText(String.valueOf(survey.getTaskCount()));
+        textQuestionsCount.setText("0");
+        photoQuestionsCount.setText("0");
 
         //TODO Get survey type from server
         getSupportActionBar().setIcon(UIUtils.getSurveyTypeIcon(1));
@@ -160,7 +161,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         actionBar.setDisplayShowCustomEnabled(true);
 
         View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.survey_detail_title);
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(survey.getName());
 
         return true;
     }

@@ -23,17 +23,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical" >
-                    <com.ros.smartrocket.views.CustomTextView
-                        android:id="@+id/projectName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        custom:textStyle="bold"
-                        android:textSize="@dimen/text_size_18sp" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal" >
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
@@ -51,7 +43,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal" >
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
@@ -69,7 +61,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal" >
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
@@ -94,9 +86,9 @@
                     <ImageView
                         android:id="@+id/mapImageView"
                         android:contentDescription="@string/app_name"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/map_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/map_piece"
                         android:scaleType="centerCrop" />
                     <com.ros.smartrocket.views.CustomTextView
                         android:layout_width="wrap_content"
@@ -116,7 +108,8 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal" >
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectPrice"
@@ -131,7 +124,7 @@
                     style="@style/TaskAndSurveyOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
                     android:drawableLeft="@drawable/rocket_green"
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
@@ -139,8 +132,29 @@
                     style="@style/TaskAndSurveyOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/rocket_green"
+                    android:layout_weight="1.16"
+                    android:drawableLeft="@drawable/place_green"
+                    custom:textStyle="bold" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/green_dark" />
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/textQuestionsCount"
+                    style="@style/TaskAndSurveyOptionStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.1"
+                    android:drawableLeft="@drawable/quote_green"
+                    custom:textStyle="bold" />
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/photoQuestionsCount"
+                    style="@style/TaskAndSurveyOptionStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.1"
+                    android:drawableLeft="@drawable/camera_green"
                     custom:textStyle="bold" />
             </LinearLayout >
             <LinearLayout

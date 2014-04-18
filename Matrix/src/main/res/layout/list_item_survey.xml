@@ -8,8 +8,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/popup_green"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/mission_green_bg"
         android:orientation="vertical" >
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,8 +64,8 @@
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                custom:textStyle="bold"
                 android:textColor="@color/grey"
+                custom:textStyle="bold"
                 android:textSize="@dimen/text_size_12sp" />
         </LinearLayout >
         <com.ros.smartrocket.views.CustomTextView
@@ -75,6 +78,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:background="@color/green"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:orientation="horizontal" >

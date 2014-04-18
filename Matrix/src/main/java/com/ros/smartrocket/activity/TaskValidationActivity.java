@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -65,7 +67,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_validation);
-        setTitle(R.string.validation_title);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
@@ -247,13 +248,28 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finishActivity();
+                finish();
                 break;
             default:
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        View view = actionBar.getCustomView();
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.validation_title);
+
+        return true;
     }
 
     @Override

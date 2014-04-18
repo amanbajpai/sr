@@ -61,6 +61,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView durationTextView;
     private TextView taskPrice;
     private TextView taskExp;
+    private TextView textQuestionsCount;
+    private TextView photoQuestionsCount;
     private TextView taskDistance;
 
     private LinearLayout addressLayout;
@@ -96,6 +98,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         taskPrice = (TextView) findViewById(R.id.taskPrice);
         taskExp = (TextView) findViewById(R.id.taskExp);
+        textQuestionsCount = (TextView) findViewById(R.id.textQuestionsCount);
+        photoQuestionsCount = (TextView) findViewById(R.id.photoQuestionsCount);
         taskDistance = (TextView) findViewById(R.id.taskDistance);
 
         descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
@@ -219,6 +223,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setTaskData(Task task) {
         taskPrice.setText(getString(R.string.hk) + task.getPrice());
         taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
+        textQuestionsCount.setText("0");
+        photoQuestionsCount.setText("0");
         taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
 
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
