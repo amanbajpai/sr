@@ -149,7 +149,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 });
                 break;
             case R.id.profilePhotoImageView:
-                selectImageManager.showSelectImageDialog(this, true, new SelectImageManager.OnImageCompleteListener() {
+                selectImageManager.showSelectImageDialog(this, true);
+                selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
                     @Override
                     public void onImageComplete(Bitmap bitmap) {
                         RegistrationActivity.this.photoBitmap = bitmap;

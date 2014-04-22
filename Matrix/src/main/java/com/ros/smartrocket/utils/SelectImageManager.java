@@ -57,6 +57,7 @@ public class SelectImageManager {
 
     private Dialog selectImageDialog;
     private File lastFile;
+    private Boolean lastFileFromGallery = true;
 
     public static SelectImageManager getInstance() {
         if (instance == null) {
@@ -68,17 +69,21 @@ public class SelectImageManager {
     public SelectImageManager() {
     }
 
-    public void startGallery(Activity activity) {
+    public void startGalleryForImage(Activity activity) {
         this.activity = activity;
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.setType("image/*");
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (!IntentUtils.isIntentAvailable(activity, i)) {
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("photo/*");
+        }
         activity.startActivityForResult(i, GALLERY);
     }
 
-    public void startCamera(Activity activity) {
+    public void startPhotoCamera(Activity activity) {
         this.activity = activity;
 
         lastFile = getTempFile(activity);
+        lastFileFromGallery = false;
 
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
@@ -95,10 +100,8 @@ public class SelectImageManager {
         activity.startActivityForResult(i, CUSTOM_CAMERA);
     }*/
 
-    public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton,
-                                        final OnImageCompleteListener imageCompleteListener) {
+    public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton) {
         this.activity = activity;
-        this.imageCompleteListener = imageCompleteListener;
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
@@ -106,7 +109,7 @@ public class SelectImageManager {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                startGallery(activity);
+                startGalleryForImage(activity);
             }
         });
 
@@ -114,7 +117,7 @@ public class SelectImageManager {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                startCamera(activity);
+                startPhotoCamera(activity);
             }
         });
 
@@ -148,7 +151,7 @@ public class SelectImageManager {
         if (resultCode == Activity.RESULT_OK) {
             Bitmap bitmap = null;
             if (requestCode == SelectImageManager.GALLERY) {
-                bitmap = getBitmapFromGalery(intent);
+                bitmap = getBitmapFromGallery(intent);
 
             } else if (requestCode == SelectImageManager.CAMERA || requestCode == SelectImageManager.CUSTOM_CAMERA) {
                 bitmap = getBitmapFromCamera(intent);
@@ -164,7 +167,7 @@ public class SelectImageManager {
         }
     }
 
-    public Bitmap getBitmapFromGalery(Intent intent) {
+    public Bitmap getBitmapFromGallery(Intent intent) {
         Bitmap resultBitmap = null;
         try {
             if (intent != null && intent.getData() != null) {
@@ -175,8 +178,9 @@ public class SelectImageManager {
                     if (idx != -1) {
                         String fileUri = cursor.getString(idx);
                         lastFile = copyFileToTempFolder(activity, new File(fileUri));
+                        lastFileFromGallery = true;
 
-                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, false);
                     }
                 }
             }
@@ -208,7 +212,7 @@ public class SelectImageManager {
         }
 
         try {
-            return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+            return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -216,22 +220,21 @@ public class SelectImageManager {
     }
 
     public static Bitmap prepareBitmap(File f) {
-        return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
+        return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, false);
     }
 
-    public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte) {
+    public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte, boolean rotateByExif) {
         Bitmap resultBitmap = null;
-
         try {
-
             resultBitmap = getScaledBitmapByPxSize(f, maxSizeInPx);
 
             if (maxSizeInByte > 0) {
                 resultBitmap = getScaledBitmapByByteSize(resultBitmap, maxSizeInByte);
             }
 
-            resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
-
+            if (rotateByExif) {
+                resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -319,8 +322,8 @@ public class SelectImageManager {
 
     }
 
-    public static File getScaledFile(/*Context context,*/ File file, int maxSizeInPx, long maxSizeInByte) {
-        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte);
+    public File getScaledFile(File file, int maxSizeInPx, long maxSizeInByte) {
+        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte, !lastFileFromGallery);
 
         try {
             FileOutputStream fos = new FileOutputStream(file, false);
@@ -421,15 +424,6 @@ public class SelectImageManager {
         }
     }*/
 
-    public static String getVideoPathFromContentURI(Activity activity, Uri contentUri) {
-        String[] column = {MediaStore.Video.Media.DATA};
-        Cursor cursor = activity.getContentResolver().query(contentUri, column, null, null, null);
-        cursor.moveToFirst();
-
-        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-        return cursor.getString(columnIndex);
-    }
-
     public File getLastFile() {
         return lastFile;
     }
@@ -438,5 +432,13 @@ public class SelectImageManager {
         void onImageComplete(Bitmap bitmap);
 
         void onSelectImageError(int imageFrom);
+    }
+
+    public OnImageCompleteListener getImageCompleteListener() {
+        return imageCompleteListener;
+    }
+
+    public void setImageCompleteListener(OnImageCompleteListener imageCompleteListener) {
+        this.imageCompleteListener = imageCompleteListener;
     }
 }

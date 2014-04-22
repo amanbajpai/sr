@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_marginBottom="15dp"
-        android:text="@string/take_photo_big"
+        android:text="@string/take_video_big"
         custom:textStyle="bold" />
     <FrameLayout
         android:layout_width="match_parent"

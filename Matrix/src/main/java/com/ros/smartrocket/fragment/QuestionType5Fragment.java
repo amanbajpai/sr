@@ -31,6 +31,7 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.SelectVideoManager;
 
 import java.io.File;
 
@@ -202,7 +203,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == VIDEO_CAPTURE && resultCode == getActivity().RESULT_OK) {
             Uri videoUri = intent.getData();
-            videoPath = SelectImageManager.getVideoPathFromContentURI(getActivity(), videoUri);
+            videoPath = SelectVideoManager.getVideoPathFromContentURI(getActivity(), videoUri);
             L.e(TAG, "Video Path: "+videoPath);
             isVideoAdded = !TextUtils.isEmpty(videoPath);
             isVideoConfirmed = false;
@@ -240,7 +241,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                         videoView.setBackgroundColor(Color.TRANSPARENT);
                         videoView.pause();
                     }
-                }, 300);
+                }, 500);
             }
         });
     }

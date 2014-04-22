@@ -252,6 +252,7 @@
     <string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >
     <string name="write_your_number" >WRITE YOUR NUMBER FROM %1$s TILL %2$s</string >
     <string name="take_photo_big" >TAKE PHOTO</string >
+    <string name="take_video_big" >TAKE VIDEO</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quite mission</string >
     <string name="quite_task_dialog_text1" >Warning!</string >

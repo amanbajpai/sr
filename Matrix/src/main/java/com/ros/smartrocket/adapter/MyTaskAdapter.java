@@ -116,6 +116,7 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.distance.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.m_to_km_with_text_mask, true));
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case none:
             case claimed:
             case started:
             case scheduled:
