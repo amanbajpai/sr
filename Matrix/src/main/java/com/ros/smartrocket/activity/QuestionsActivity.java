@@ -32,6 +32,7 @@ import com.ros.smartrocket.fragment.QuestionType2Fragment;
 import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.fragment.QuestionType5Fragment;
+import com.ros.smartrocket.fragment.QuestionType6Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
@@ -252,6 +253,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     break;
                 case 7:
                     currentFragment = new QuestionType5Fragment();
+                    break;
+                case 8:
+                    currentFragment = new QuestionType6Fragment();
                     break;
                 default:
                     break;

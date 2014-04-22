@@ -27,6 +27,10 @@ public interface QuestionDbSchema {
         PREVIOUS_QUESTION_ORDER_ID("PreviousQuestionOrderId", DBType.NUMERIC),
         VALIDATION_COMMENT("ValidationComment", DBType.NUMERIC),
 
+        MIN_VALUES("MinValue", DBType.NUMERIC),
+        MAX_VALUES("MaxValue", DBType.NUMERIC),
+        PATTERN_TYPE("PatternType", DBType.NUMERIC),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -78,7 +82,11 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
                 Table.QUESTION.getName() + "." + Columns.ASK_IF.getName(),
                 Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName(),
-                Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName()
+                Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName(),
+
+                Table.QUESTION.getName() + "." + Columns.MIN_VALUES.getName(),
+                Table.QUESTION.getName() + "." + Columns.MAX_VALUES.getName(),
+                Table.QUESTION.getName() + "." + Columns.PATTERN_TYPE.getName()
 
 
         };
@@ -97,5 +105,9 @@ public interface QuestionDbSchema {
         int ASK_IF = 11;
         int PREVIOUS_QUESTION_ORDER_ID = 12;
         int VALIDATION_COMMENT = 13;
+
+        int MIN_VALUES = 14;
+        int MAX_VALUES = 15;
+        int PATTERN_TYPE = 16;
     }
 }

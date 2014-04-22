@@ -210,7 +210,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         task.getId()));
             }
         } else {
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
                 DialogUtils.showMaximumMissionDialog(this);
             } else {

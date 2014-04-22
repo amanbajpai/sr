@@ -19,6 +19,9 @@ public class Question extends BaseEntity implements Serializable {
     private Boolean ShowBackButton;
     private Boolean AllowMultiplyPhotos;
     private String AskIf = "";
+    private Integer MinValue;
+    private Integer MaxValue;
+    private Integer PatternType;
 
     private String ValidationComment;
 
@@ -42,11 +45,15 @@ public class Question extends BaseEntity implements Serializable {
             result.setOrderId(c.getInt(QuestionDbSchema.Query.ORDER_ID));
             result.setMaximumCharacters(c.getInt(QuestionDbSchema.Query.MAXIMUM_CHARACTERS));
             result.setMaximumPhotos(c.getInt(QuestionDbSchema.Query.MAXIMUM_PHOTOS));
-            result.setShowBackButton(c.getInt(QuestionDbSchema.Query.SHOW_BACK_BUTTON) == 1 ? true : false);
-            result.setAllowMultiplyPhotos(c.getInt(QuestionDbSchema.Query.ALLOW_MULTIPLY_PHOTOS) == 1 ? true : false);
+            result.setShowBackButton(c.getInt(QuestionDbSchema.Query.SHOW_BACK_BUTTON) == 1);
+            result.setAllowMultiplyPhotos(c.getInt(QuestionDbSchema.Query.ALLOW_MULTIPLY_PHOTOS) == 1);
             result.setAskIf(c.getString(QuestionDbSchema.Query.ASK_IF));
             result.setPreviousQuestionOrderId(c.getInt(QuestionDbSchema.Query.PREVIOUS_QUESTION_ORDER_ID));
             result.setValidationComment(c.getString(QuestionDbSchema.Query.VALIDATION_COMMENT));
+
+            result.setMinValue(c.getInt(QuestionDbSchema.Query.MIN_VALUES));
+            result.setMaxValue(c.getInt(QuestionDbSchema.Query.MAX_VALUES));
+            result.setPatternType(c.getInt(QuestionDbSchema.Query.PATTERN_TYPE));
         }
 
         L.d("Question", result.toString());
@@ -160,4 +167,28 @@ public class Question extends BaseEntity implements Serializable {
         ValidationComment = validationComment;
     }
 
+
+    public Integer getMinValue() {
+        return MinValue;
+    }
+
+    public void setMinValue(Integer minValue) {
+        MinValue = minValue;
+    }
+
+    public Integer getMaxValue() {
+        return MaxValue;
+    }
+
+    public void setMaxValue(Integer maxValue) {
+        MaxValue = maxValue;
+    }
+
+    public Integer getPatternType() {
+        return PatternType;
+    }
+
+    public void setPatternType(Integer patternType) {
+        PatternType = patternType;
+    }
 }

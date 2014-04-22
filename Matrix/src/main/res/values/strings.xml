@@ -68,11 +68,6 @@
     <!-- SURVEYS TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >Mission expires at: %1$s</string >
     <!-- MY TASK FRAGMENT-->
-    <string name="task_on_validation_status" >Task on validation</string >
-    <string name="task_completed_status" >Task completed</string >
-    <string name="task_claimed_status" >Task claimed</string >
-    <string name="task_started_status" >Task started</string >
-    <string name="task_validated_status" >Validated</string >
     <string name="redo_mission_till" >Re-do mission till: %1$s</string >
     <string name="pending" >PENDING...</string >
     <string name="mission_in_validation" >Mission in validation</string >
@@ -142,7 +137,6 @@
     <string name="share_via_qzone" >QZone</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >Mission details</string >
-    <string name="task_exp" >EXP: &lt;b>%1$s&lt;/b></string >
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="hk" >HK$</string >
@@ -158,7 +152,6 @@
     <string name="withdraw_task" >WITHDRAW</string >
     <string name="continue_task" >CONTINUE</string >
     <!-- PROJECT DETAIL ACTIVITY-->
-    <string name="survey_detail_title" >Project details</string >
     <string name="survey_missions_description" >PROJECT\'S MISSIONS DESCRIPTION</string >
     <string name="show_missions" >SHOW MISSIONS</string >
     <string name="view_missions" >VIEW MISSIONS</string >
@@ -251,11 +244,13 @@
     <string name="previous" >PREVIOUS</string >
     <string name="next" >NEXT</string >
     <string name="enter_here" >Enter here</string >
+    <!--<string name="from_till" >From %1$s till %2$s</string >-->
     <string name="quite_mission" >QUITE MISSION</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
     <string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >
+    <string name="write_your_number" >WRITE YOUR NUMBER FROM %1$s TILL %2$s</string >
     <string name="take_photo_big" >TAKE PHOTO</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quite mission</string >
