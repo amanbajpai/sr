@@ -47,7 +47,9 @@ public class SelectVideoManager {
     public SelectVideoManager() {
     }
 
-    public void startGallery() {
+    public void startGallery(Activity activity) {
+        this.activity = activity;
+
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         if (!IntentUtils.isIntentAvailable(activity, i)) {
             i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -56,7 +58,9 @@ public class SelectVideoManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
-    public void startCamera() {
+    public void startCamera(Activity activity) {
+        this.activity = activity;
+
         lastFile = getTempFile(activity);
 
         Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -67,15 +71,13 @@ public class SelectVideoManager {
     }
 
     public Dialog showSelectVideoDialog(final Activity activity, final boolean showRemoveButton) {
-        this.activity = activity;
-
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
         v.findViewById(R.id.gallery).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectVideoDialog.dismiss();
-                startGallery();
+                startGallery(activity);
             }
         });
 
@@ -83,7 +85,7 @@ public class SelectVideoManager {
             @Override
             public void onClick(View v) {
                 selectVideoDialog.dismiss();
-                startCamera();
+                startCamera(activity);
             }
         });
 
@@ -122,6 +124,7 @@ public class SelectVideoManager {
             } else if (requestCode == CAMERA) {
                 path = getVideoPathFromCamera(intent);
             }
+
             if (videoCompleteListener != null) {
                 if (!TextUtils.isEmpty(path)) {
                     videoCompleteListener.onVideoComplete(path);
