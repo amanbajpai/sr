@@ -10,7 +10,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -19,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 import com.ros.smartrocket.Keys;
@@ -29,8 +29,8 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.SelectVideoManager;
 
 import java.io.File;
@@ -38,8 +38,7 @@ import java.io.File;
 public class QuestionType5Fragment extends BaseQuestionFragment implements View.OnClickListener,
         MediaPlayer.OnCompletionListener {
     private static final String TAG = QuestionType3Fragment.class.getSimpleName();
-    static final int VIDEO_CAPTURE = 122;
-
+    private SelectVideoManager selectVideoManager = SelectVideoManager.getInstance();
     private ImageButton rePhotoButton;
     private ImageButton confirmButton;
     private VideoView videoView;
@@ -50,7 +49,6 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
-
     private AsyncQueryHandler handler;
 
     @Override
@@ -201,21 +199,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == VIDEO_CAPTURE && resultCode == getActivity().RESULT_OK) {
-            Uri videoUri = intent.getData();
-            videoPath = SelectVideoManager.getVideoPathFromContentURI(getActivity(), videoUri);
-            L.e(TAG, "Video Path: "+videoPath);
-            isVideoAdded = !TextUtils.isEmpty(videoPath);
-            isVideoConfirmed = false;
-            answerSelectedListener.onAnswerSelected(false);
-
-            if (videoUri != null) {
-                playPauseVideo(videoPath);
-            }
-
-            refreshRePhotoButton();
-            refreshConfirmButton();
-        }
+        selectVideoManager.onActivityResult(requestCode, resultCode, intent);
     }
 
     public void playVideo() {
@@ -230,6 +214,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     }
 
     public void playPauseVideo(String videoPath) {
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -238,10 +223,11 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                 videoView.start();
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
+                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                         videoView.setBackgroundColor(Color.TRANSPARENT);
                         videoView.pause();
                     }
-                }, 500);
+                }, 700);
             }
         });
     }
@@ -264,11 +250,31 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     break;
                 }
             case R.id.rePhotoButton:
-                Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                if (takeVideoIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    getActivity().startActivityForResult(takeVideoIntent, VIDEO_CAPTURE);
-                }
+                selectVideoManager.showSelectVideoDialog(getActivity(), true);
+                selectVideoManager.setVideoCompleteListener(new SelectVideoManager.OnVideoCompleteListener() {
+                    @Override
+                    public void onVideoComplete(String videoFilePath) {
+                        videoPath = videoFilePath;
 
+                        isVideoAdded = !TextUtils.isEmpty(videoPath);
+                        isVideoConfirmed = false;
+                        answerSelectedListener.onAnswerSelected(false);
+
+                        if (!TextUtils.isEmpty(videoPath)) {
+                            playPauseVideo(videoPath);
+                        } else {
+                            videoView.setBackgroundResource(R.drawable.camera_icon);
+                        }
+
+                        refreshRePhotoButton();
+                        refreshConfirmButton();
+                    }
+
+                    @Override
+                    public void onSelectVideoError(int imageFrom) {
+                        DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+                    }
+                });
                 break;
             case R.id.confirmButton:
                 if (!isVideoConfirmed) {

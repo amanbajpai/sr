@@ -30,11 +30,12 @@
         android:layout_height="wrap_content" >
         <VideoView
             android:id="@+id/video"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:adjustViewBounds="true"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:layout_gravity="top|center_horizontal" />
         <ImageButton
             android:id="@+id/rePhotoButton"
             android:layout_gravity="top|left"

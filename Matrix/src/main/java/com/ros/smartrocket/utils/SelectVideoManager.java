@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -49,8 +48,11 @@ public class SelectVideoManager {
     }
 
     public void startGallery() {
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.setType("video/*");
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        if (!IntentUtils.isIntentAvailable(activity, i)) {
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("video/*");
+        }
         activity.startActivityForResult(i, GALLERY);
     }
 
