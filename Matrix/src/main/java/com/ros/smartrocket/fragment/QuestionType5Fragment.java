@@ -127,7 +127,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                         isVideoConfirmed = false;
 
                         videoView.setVisibility(View.VISIBLE);
-                        videoView.setBackgroundResource(R.drawable.camera_icon);
+                        videoView.setBackgroundResource(R.drawable.camera_video_icon);
                     }
 
                     refreshRePhotoButton();
@@ -264,7 +264,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                         if (!TextUtils.isEmpty(videoPath)) {
                             playPauseVideo(videoPath);
                         } else {
-                            videoView.setBackgroundResource(R.drawable.camera_icon);
+                            videoView.setBackgroundResource(R.drawable.camera_video_icon);
                         }
 
                         refreshRePhotoButton();

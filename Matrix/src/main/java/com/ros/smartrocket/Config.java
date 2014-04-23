@@ -36,6 +36,7 @@ public class Config {
     public static final String WEB_SERVICE_URL;
 
     public static String TERMS_AND_CONDITION_URL;
+    public static String PROFILE_PAGE_URL;
 
     public static boolean LOG_ENABLED;
     public static boolean CAN_USE_FAKE_LOCATION = false; //TODO Remove in production
@@ -48,12 +49,14 @@ public class Config {
                 LOG_ENABLED = false;
                 WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
                 TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
+                PROFILE_PAGE_URL = "http://matrix.web.uran.po.ciklum.net/Account/Manage";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
                 TERMS_AND_CONDITION_URL = "http://web.staging.redoceansolutions.com/TermsAndConditions?withoutMenu=true";
+                PROFILE_PAGE_URL = "http://web.staging.redoceansolutions.com/Account/Manage";
                 break;
             case DEVELOPMENT:
             default:
@@ -61,6 +64,7 @@ public class Config {
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
                 TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
+                PROFILE_PAGE_URL = "http://matrix.web.uran.po.ciklum.net/Account/Manage";
                 break;
         }
     }

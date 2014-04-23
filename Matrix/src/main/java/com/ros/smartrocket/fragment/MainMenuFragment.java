@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -29,6 +30,7 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -204,8 +206,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myAccountButton:
-                ((MainActivity) getActivity()).startFragment(new MyAccountFragment());
-                ((MainActivity) getActivity()).togleMenu();
+                ((MainActivity) getActivity()).startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
+                //((MainActivity) getActivity()).startFragment(new MyAccountFragment());
+                //((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.shareButton:
                 ((MainActivity) getActivity()).startFragment(new ShareFragment());

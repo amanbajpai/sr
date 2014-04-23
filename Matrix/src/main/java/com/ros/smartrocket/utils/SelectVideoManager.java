@@ -145,37 +145,6 @@ public class SelectVideoManager {
         return getVideoPathFromContentURI(activity, videoUri);
     }
 
-    public static File copyFileToTempFolder(Context context, File file) {
-        File resultFile = getTempFile(context);
-        try {
-            InputStream in = new FileInputStream(file);
-            OutputStream out = new FileOutputStream(resultFile);
-
-            // Transfer bytes from in to out
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            in.close();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultFile;
-    }
-
-    public static String getFileAsString(File file) {
-        String resultString = "";
-        try {
-            byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
-            resultString = Base64.encodeToString(fileAsBytesArray, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultString;
-    }
-
     public static File getTempFile(Context context) {
         File ret = null;
         try {
@@ -202,17 +171,6 @@ public class SelectVideoManager {
         }
         return ret;
     }
-
-    /*private void deleteTempFile() {
-        try {
-            File file = getTempFile(activity);
-            if (file != null && file.exists()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            L.w(TAG, e.toString());
-        }
-    }*/
 
     public static String getVideoPathFromContentURI(Activity activity, Uri contentUri) {
         String[] column = {MediaStore.Video.Media.DATA};

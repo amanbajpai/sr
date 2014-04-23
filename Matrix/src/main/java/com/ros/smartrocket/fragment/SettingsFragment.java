@@ -12,6 +12,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import android.widget.ToggleButton;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -281,6 +284,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
 
+        inflater.inflate(R.menu.menu_settings, menu);
+
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -290,5 +295,19 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.app_settings_title);
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                WriteDataHelper.prepareLogout(getActivity());
+
+                getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
