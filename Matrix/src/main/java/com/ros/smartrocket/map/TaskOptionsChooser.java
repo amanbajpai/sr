@@ -41,17 +41,17 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
         Resources res = context.getResources();
 
         clusterPaintMedium = new Paint();
-        clusterPaintMedium.setColor(Color.WHITE);
+        clusterPaintMedium.setColor(res.getColor(R.color.green));
         clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
         clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
         clusterPaintMedium.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC));
-        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_medium));
+        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_14sp));
 
         clusterPaintSmall = new Paint(clusterPaintMedium);
-        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_small));
+        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_9sp));
 
         clusterPaintLarge = new Paint(clusterPaintMedium);
-        clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_large));
+        clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_18sp));
     }
 
     @Override
@@ -100,13 +100,13 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
         float originY;
         if (clusterSize < CLUSTER_SIZE_100) {
             paint = clusterPaintLarge;
-            originY = bitmap.getHeight() * 0.64f;
+            originY = bitmap.getHeight() * 0.6f;
         } else if (clusterSize < CLUSTER_SIZE_1000) {
             paint = clusterPaintMedium;
-            originY = bitmap.getHeight() * 0.6f;
+            originY = bitmap.getHeight() * 0.56f;
         } else {
             paint = clusterPaintSmall;
-            originY = bitmap.getHeight() * 0.56f;
+            originY = bitmap.getHeight() * 0.52f;
         }
 
         canvas.drawText(String.valueOf(clusterSize), bitmap.getWidth() * 0.5f, originY, paint);

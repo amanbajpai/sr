@@ -25,6 +25,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     private ViewGroup view;
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
+    private LinearLayout tabsLayout;
     private LinearLayout mapButton;
     private LinearLayout listButton;
 
@@ -41,6 +42,8 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         if (getArguments() != null) {
             contentType = getArguments().getString(Keys.CONTENT_TYPE);
         }
+
+        tabsLayout = (LinearLayout) view.findViewById(R.id.tabsLayout);
 
         mapButton = (LinearLayout) view.findViewById(R.id.mapButton);
         mapButton.setOnClickListener(this);
@@ -83,6 +86,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
      * Show Map with proper mode
      */
     public void showMap() {
+        tabsLayout.setBackgroundResource(R.drawable.tabs_map_bg);
         mapButton.setSelected(true);
         listButton.setSelected(false);
 
@@ -104,6 +108,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
      * Show List with proper contentType
      */
     public void showList() {
+        tabsLayout.setBackgroundResource(R.drawable.tabs_list_bg);
         mapButton.setSelected(false);
         listButton.setSelected(true);
 

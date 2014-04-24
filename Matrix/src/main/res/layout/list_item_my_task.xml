@@ -55,7 +55,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="5dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/arrow_grey" />
+                        android:src="@drawable/arrow_grey_big" />
                 </LinearLayout >
                 <LinearLayout
                     android:layout_height="wrap_content"
