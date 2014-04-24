@@ -81,14 +81,16 @@
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/validationButton"
             style="@style/Button"
+            android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_width="match_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:background="@drawable/button_green_selector"
             android:text="@string/next"
             android:drawableRight="@drawable/arrow_icon_right"
-            android:visibility="gone"
             android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+            android:visibility="gone"
             custom:textStyle="bold" />
     </LinearLayout >
 </LinearLayout >

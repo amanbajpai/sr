@@ -206,7 +206,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.myAccountButton:
-                ((MainActivity) getActivity()).startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
+                getActivity().startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
                 //((MainActivity) getActivity()).startFragment(new MyAccountFragment());
                 //((MainActivity) getActivity()).togleMenu();
                 break;
@@ -215,8 +215,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
-                ((MainActivity) getActivity()).startFragment(new SupportFragment());
-                ((MainActivity) getActivity()).togleMenu();
+                getActivity().startActivity(IntentUtils.getBrowserIntent(Config.KNOWLEDGE_BASE_URL));
+                /*((MainActivity) getActivity()).startFragment(new SupportFragment());
+                ((MainActivity) getActivity()).togleMenu();*/
                 break;
             case R.id.settingsButton:
                 ((MainActivity) getActivity()).startFragment(new SettingsFragment());

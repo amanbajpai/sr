@@ -41,6 +41,7 @@
     <string name="show_password" >Show password</string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="fill_in_all_fields" >Please, complete all items</string >
+    <string name="registration_form" >Registration form</string >
     <!-- MAIN MENU ACTIVITY -->
     <string name="drawer_open" >Open navigation drawer</string >
     <string name="drawer_close" >Close navigation drawer</string >

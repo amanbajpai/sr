@@ -4,6 +4,10 @@ import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.TasksMapFragment;
@@ -24,7 +28,7 @@ public class MapActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(R.string.task_location_title);
+        //setTitle(R.string.task_location_title);
 
         // If not already added to the Fragment manager add it.
         // If you don't do this a new Fragment will be added every time this method is  called (Such as on
@@ -56,4 +60,19 @@ public class MapActivity extends BaseActivity {
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        View view = actionBar.getCustomView();
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.task_location_title);
+
+        return true;
+    }
 }

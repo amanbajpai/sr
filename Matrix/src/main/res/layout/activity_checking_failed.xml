@@ -51,14 +51,14 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:drawableLeft="@drawable/country_icon"
+        android:drawableLeft="@drawable/country_icon_select"
         android:drawablePadding="10dp"
         android:hint="@string/your_country_hint" />
     <com.ros.smartrocket.views.CustomEditTextView
         android:id="@+id/cityEditText"
         style="@style/EditText"
         android:enabled="false"
-        android:drawableLeft="@drawable/city_icon"
+        android:drawableLeft="@drawable/city_icon_select"
         android:drawablePadding="10dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"

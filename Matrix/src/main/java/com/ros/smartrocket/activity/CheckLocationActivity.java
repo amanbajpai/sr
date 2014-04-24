@@ -65,7 +65,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
 
                                 @Override
                                 public void onCheckLocationFailed(Dialog dialog) {
-
+                                    startActivity(new Intent(CheckLocationActivity.this,
+                                            CheckLocationFailedActivity.class));
                                 }
                             }
                     );

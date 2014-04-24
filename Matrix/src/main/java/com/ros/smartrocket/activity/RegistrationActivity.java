@@ -3,9 +3,11 @@ package com.ros.smartrocket.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.ros.smartrocket.Keys;
@@ -282,6 +285,21 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         selectImageManager.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        View view = actionBar.getCustomView();
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.registration_form);
+
+        return true;
     }
 
     @Override

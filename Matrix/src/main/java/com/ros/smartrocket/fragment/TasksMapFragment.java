@@ -201,7 +201,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             updateUI();
             loadData();
         } else {
-            if(isFilterShow){
+            if (isFilterShow) {
                 showFilterPanel(false);
             }
         }
@@ -441,7 +441,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         View view = actionBar.getCustomView();
         if (view != null) {
             refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
-            refreshButton.setOnClickListener(this);
+            if (refreshButton != null) {
+                refreshButton.setOnClickListener(this);
+            }
         }
 
         super.onCreateOptionsMenu(menu, inflater);
