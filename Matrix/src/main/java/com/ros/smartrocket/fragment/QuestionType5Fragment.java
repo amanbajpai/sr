@@ -250,8 +250,14 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     break;
                 }
             case R.id.rePhotoButton:
-                //selectVideoManager.showSelectVideoDialog(getActivity(), true);
-                selectVideoManager.startCamera(getActivity());
+                if (question.getVideoSource() == 0) {
+                    selectVideoManager.startCamera(getActivity());
+                } else if (question.getVideoSource() == 1) {
+                    selectVideoManager.startGallery(getActivity());
+                } else {
+                    selectVideoManager.showSelectVideoDialog(getActivity(), true);
+                }
+
                 selectVideoManager.setVideoCompleteListener(new SelectVideoManager.OnVideoCompleteListener() {
                     @Override
                     public void onVideoComplete(String videoFilePath) {

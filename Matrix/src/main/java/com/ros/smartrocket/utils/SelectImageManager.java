@@ -69,8 +69,9 @@ public class SelectImageManager {
     public SelectImageManager() {
     }
 
-    public void startGalleryForImage(Activity activity) {
+    public void startGallery(Activity activity) {
         this.activity = activity;
+
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         if (!IntentUtils.isIntentAvailable(activity, i)) {
             i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -79,7 +80,7 @@ public class SelectImageManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
-    public void startPhotoCamera(Activity activity) {
+    public void startCamera(Activity activity) {
         this.activity = activity;
 
         lastFile = getTempFile(activity);
@@ -101,15 +102,13 @@ public class SelectImageManager {
     }*/
 
     public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton) {
-        this.activity = activity;
-
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
         v.findViewById(R.id.gallery).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                startGalleryForImage(activity);
+                startGallery(activity);
             }
         });
 
@@ -117,7 +116,7 @@ public class SelectImageManager {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                startPhotoCamera(activity);
+                startCamera(activity);
             }
         });
 

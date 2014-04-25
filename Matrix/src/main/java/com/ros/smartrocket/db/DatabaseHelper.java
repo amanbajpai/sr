@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-    private static final int DB_VERSION = 21;
+    private static final int DB_VERSION = 22;
     private static final String DB_NAME = "matrix_db";
     private static DatabaseHelper instance;
 

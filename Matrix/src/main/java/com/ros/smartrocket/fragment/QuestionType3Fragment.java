@@ -197,7 +197,13 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     break;
                 }
             case R.id.rePhotoButton:
-                selectImageManager.showSelectImageDialog(getActivity(), true);
+                if (question.getPhotoSource() == 0) {
+                    selectImageManager.startCamera(getActivity());
+                } else if (question.getPhotoSource() == 1) {
+                    selectImageManager.startGallery(getActivity());
+                } else {
+                    selectImageManager.showSelectImageDialog(getActivity(), true);
+                }
                 selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
                     @Override
                     public void onImageComplete(Bitmap bitmap) {

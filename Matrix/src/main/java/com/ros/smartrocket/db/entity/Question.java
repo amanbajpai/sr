@@ -22,6 +22,8 @@ public class Question extends BaseEntity implements Serializable {
     private Integer MinValue;
     private Integer MaxValue;
     private Integer PatternType;
+    private Integer VideoSource;
+    private Integer PhotoSource;
 
     private String ValidationComment;
 
@@ -54,6 +56,8 @@ public class Question extends BaseEntity implements Serializable {
             result.setMinValue(c.getInt(QuestionDbSchema.Query.MIN_VALUES));
             result.setMaxValue(c.getInt(QuestionDbSchema.Query.MAX_VALUES));
             result.setPatternType(c.getInt(QuestionDbSchema.Query.PATTERN_TYPE));
+            result.setVideoSource(c.getInt(QuestionDbSchema.Query.VIDEO_SOURCE));
+            result.setPhotoSource(c.getInt(QuestionDbSchema.Query.PHOTO_SOURCE));
         }
 
         L.d("Question", result.toString());
@@ -191,4 +195,22 @@ public class Question extends BaseEntity implements Serializable {
     public void setPatternType(Integer patternType) {
         PatternType = patternType;
     }
+
+
+    public Integer getVideoSource() {
+        return VideoSource;
+    }
+
+    public void setVideoSource(Integer videoSource) {
+        VideoSource = videoSource;
+    }
+
+    public Integer getPhotoSource() {
+        return PhotoSource;
+    }
+
+    public void setPhotoSource(Integer photoSource) {
+        PhotoSource = photoSource;
+    }
+
 }
