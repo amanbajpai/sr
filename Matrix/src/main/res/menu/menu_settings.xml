@@ -3,6 +3,5 @@
     <item
         android:id="@+id/logout"
         android:icon="@drawable/quit_icon"
-        yourapp:showAsAction="always|withText"
-        android:title="@string/logout" />
+        yourapp:showAsAction="always|withText" />
 </menu >

@@ -396,7 +396,27 @@ public class UIUtils {
     }
 
     public static boolean isPasswordValid(String password) {
-        return password.length() >= 6 && password.length() < 16;
+        boolean containUpperLetter = false;
+        boolean containLowerLetter = false;
+        boolean containNumber = false;
+        boolean availableLength = password.length() >= 8 && password.length() <= 16;
+
+        char[] charArray = password.toCharArray();
+        for (int i = 0; i < charArray.length; i++) {
+            if (Character.isLetter(charArray[i]) && Character.isUpperCase(charArray[i])) {
+                containUpperLetter = true;
+            } else if (Character.isLetter(charArray[i]) && Character.isLowerCase(charArray[i])) {
+                containLowerLetter = true;
+            } else if (Character.isDigit(charArray[i])) {
+                containNumber = true;
+            }
+
+            if (containUpperLetter && containLowerLetter && containNumber) {
+                break;
+            }
+        }
+
+        return containUpperLetter && containLowerLetter && containNumber && availableLength;
     }
 
     public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {

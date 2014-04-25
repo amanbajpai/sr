@@ -40,7 +40,7 @@ import java.util.Locale;
 public class SettingsFragment extends Fragment implements OnClickListener, CompoundButton.OnCheckedChangeListener {
     //private static final String TAG = SettingsFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    public static final String DEFAULT_LANG = java.util.Locale.getDefault().getLanguage();
+    public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
     public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Chinese (Simplified)",
             "Chinese (Traditional)"};
@@ -276,7 +276,15 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
 
     public static void setDefaultLanguage(Context context, String languageCode) {
         Configuration config = context.getResources().getConfiguration();
-        config.locale = new Locale(languageCode);
+
+        if (languageCode.equals("zh_CN")) {
+            config.locale = Locale.SIMPLIFIED_CHINESE;
+        } else if (languageCode.equals("zh_TW")) {
+            config.locale = Locale.TRADITIONAL_CHINESE;
+        } else {
+            config.locale = new Locale(languageCode);
+        }
+
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 

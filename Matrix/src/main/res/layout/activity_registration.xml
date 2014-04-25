@@ -100,6 +100,16 @@
             android:layout_height="48dp"
             android:layout_width="match_parent"
             android:hint="@string/password" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/passwordValidationText"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/red"
+            android:gravity="center_vertical"
+            android:text="@string/password_validation_text"
+            android:visibility="gone" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +140,7 @@
             android:enabled="false"
             android:layout_width="match_parent"
             android:hint="@string/your_country_hint"
-            android:focusable="false"/>
+            android:focusable="false" />
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/cityEditText"
             style="@style/EditText"
@@ -142,7 +152,7 @@
             android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:hint="@string/your_city_hint"
-            android:focusable="false"/>
+            android:focusable="false" />
         <Spinner
             android:id="@+id/educationLevelSpinner"
             android:layout_marginTop="20dp"

@@ -332,8 +332,8 @@ public class SelectImageManager {
 
             fos.flush();
             fos.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return file;

@@ -55,6 +55,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private EditText emailEditText;
     private EditText countryEditText;
     private EditText cityEditText;
+    private TextView passwordValidationText;
     private CheckBox agreeCheckBox;
     private Long selectedBirthDay = null;
     private int countryId;
@@ -106,6 +107,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         countryEditText = (EditText) findViewById(R.id.countryEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
+
+        passwordValidationText = (TextView) findViewById(R.id.passwordValidationText);
 
         birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);
         birthdayEditText.setOnClickListener(this);
@@ -187,8 +190,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
                 UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));
 
-                UIUtils.setEditTextColorByState(this, passwordEditText, UIUtils.isPasswordValid(password));
-                UIUtils.setPasswordEditTextImageByState(passwordEditText, UIUtils.isPasswordValid(password));
+                boolean isPasswordValid = UIUtils.isPasswordValid(password);
+                UIUtils.setEditTextColorByState(this, passwordEditText, isPasswordValid);
+                UIUtils.setPasswordEditTextImageByState(passwordEditText, isPasswordValid);
+                passwordValidationText.setVisibility(isPasswordValid ? View.GONE : View.VISIBLE);
 
                 UIUtils.setSpinnerBackgroundByState(educationLevelSpinner, educationLevel != 0);
                 UIUtils.setSpinnerBackgroundByState(employmentStatusSpinner, employmentStatus != 0);

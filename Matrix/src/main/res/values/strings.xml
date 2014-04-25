@@ -39,6 +39,9 @@
     <string name="close_big" >CLOSE</string >
     <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
+    <string name="password_validation_text" >Your password needs to be 8-16 characters long with at least one upper-
+        and lower-case letter and one number.
+    </string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="fill_in_all_fields" >Please, complete all items</string >
     <string name="registration_form" >Registration form</string >
@@ -53,7 +56,10 @@
     <string name="share" >Share</string >
     <string name="rocket_points" >Rocket points</string >
     <string name="level_name" >Level name</string >
+    <string name="earnings" >Earnings</string >
+    <string name="logout" >Log out</string >
     <string name="level_0" >0</string >
+    <string name="balance_0" >0$</string >
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry" >Sorry!</string >
     <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,
@@ -74,28 +80,6 @@
     <string name="mission_in_validation" >Mission in validation</string >
     <string name="mission_completed" >Mission completed</string >
     <string name="mission_validated" >Mission validated</string >
-    <!-- PROFILE FRAGMENT-->
-    <string name="profile_title" >Profile</string >
-    <string name="my_account_title" >My account</string >
-    <string name="earnings" >Earnings</string >
-    <string name="balance_0" >0$</string >
-    <string name="number_0" >0</string >
-    <string name="transfer_funds" >Transfer Funds</string >
-    <string name="registered_account" >Registered account</string >
-    <string name="pay_pal" >PayPal</string >
-    <string name="change_account_info" ><u >Change account info</u ></string >
-    <string name="total_earnings" >Total earnings</string >
-    <string name="your_account" >Your Account</string >
-    <string name="your_info" >Your Info</string >
-    <string name="account_info" >Account Info</string >
-    <string name="agent_level" >Agent level</string >
-    <string name="agent_experience" >Agent Experience</string >
-    <string name="to_next_level" >To next level</string >
-    <string name="x_points" >&lt;b>%1$s &lt;/b> points</string >
-    <string name="logout" >Log out</string >
-    <string name="change_password" ><u >Change password</u ></string >
-    <string name="update_my_location" >Update my location</string >
-    <string name="confirm_and_save" >Confirm &amp; Save</string >
     <!-- SETTINGS FRAGMENT-->
     <string name="app_settings_title" >App settings</string >
     <string name="application_settings" >APPLICATION SETTINGS</string >

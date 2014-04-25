@@ -4,7 +4,6 @@
     <!-- <dimen name="text_size_micro">12sp</dimen>-->
     <dimen name="text_size_small">13sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
-    <dimen name="text_size_large">22sp</dimen>
 
     <dimen name="text_size_8sp">8sp</dimen>
     <dimen name="text_size_9sp">9sp</dimen>
