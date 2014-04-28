@@ -24,12 +24,7 @@
     <string name="first_name" >First name</string >
     <string name="last_name" >Last name</string >
     <string name="password" >Password</string >
-    <string name="gender" >Gender</string >
-    <string name="birthday" >Birthday</string >
     <string name="your_birthday" >Your birthday</string >
-    <string name="day" >Day</string >
-    <string name="month" >Month</string >
-    <string name="year" >Year</string >
     <string name="your_country_hint" >Your Country</string >
     <string name="your_city_hint" >Your City</string >
     <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
@@ -74,7 +69,6 @@
     <!-- SURVEYS TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >Mission expires at: %1$s</string >
     <!-- MY TASK FRAGMENT-->
-    <string name="redo_mission_till" >Re-do mission till: %1$s</string >
     <string name="redo_mission" >Re-do Mission</string >
     <string name="send_latter_mission" >Send latter Mission</string >
     <string name="mission_in_validation" >Mission in validation</string >
