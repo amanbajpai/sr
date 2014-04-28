@@ -361,4 +361,31 @@ public class DialogUtils {
 
         return dialog;
     }
+
+    /**
+     * Account confirmed Dialog
+     *
+     * @param context
+     */
+    public static Dialog showAccountConfirmedDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.green, R.drawable.confirm_icon,
+                context.getText(R.string.account_confirmed_dialog_title),
+                context.getText(R.string.account_confirmed_dialog_text1),
+                0, R.string.ok);
+        dialog.setCancelable(false);
+        dialog.hideLeftButton();;
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                context.startActivity(IntentUtils.getLoginIntentForLogout(context));
+            }
+        });
+
+        return dialog;
+    }
 }

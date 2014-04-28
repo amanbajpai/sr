@@ -25,9 +25,12 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.GoogleUrlShortenManager;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+
+import java.io.UnsupportedEncodingException;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
@@ -168,6 +171,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.loginButton:
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
+
+                /*String result1 = "";
+                String result2 = "";
+                String result3 = "";
+                try {
+                    result1 = new String(email.getBytes("UTF-8"));
+                    result2 = new String(email.getBytes("UTF-8"), "UTF-8");
+                    result3 = new String(email.getBytes("UTF-16"), "UTF-16");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                L.e(TAG, "Result 1: " + result1);
+                L.e(TAG, "Result 2: " + result2);
+                L.e(TAG, "Result 3: " + result3);*/
 
                 LoginBL lBL = new LoginBL();
                 LoginBL.PreLoginErrors error = lBL.login(this, email, password);

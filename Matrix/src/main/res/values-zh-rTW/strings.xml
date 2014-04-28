@@ -68,18 +68,19 @@
     <string name="subscribe" >SUBSCRIBE</string >
     <!-- FIND TASK FRAGMENT-->
     <!-- SURVEY LIST FRAGMENT-->
-    <string name="distance_to_nearest_location" >Distance to the nearest location</string >
-    <string name="locations" >&lt;b>%1$s &lt;/b> Locations</string >
+    <string name="distance_to_nearest_location" >Distance to the nearest location &lt;b>%1$s &lt;/b></string >
     <string name="distance_m" >m</string >
     <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >Mission expires at: %1$s</string >
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission_till" >Re-do mission till: %1$s</string >
-    <string name="pending" >PENDING...</string >
+    <string name="redo_mission" >Re-do Mission</string >
+    <string name="send_latter_mission" >Send latter Mission</string >
     <string name="mission_in_validation" >Mission in validation</string >
     <string name="mission_completed" >Mission completed</string >
     <string name="mission_validated" >Mission validated</string >
+    <string name="time_left" >left</string >
     <!-- SETTINGS FRAGMENT-->
     <string name="app_settings_title" >App settings</string >
     <string name="application_settings" >APPLICATION SETTINGS</string >
@@ -324,4 +325,15 @@
     <string name="check_location_dialog_text1" >Checking your location...</string >
     <string name="check_location_dialog_text2" >Your location checked.</string >
     <string name="check_location_dialog_text3" >Check location failed.</string >
+    <!-- ACTIVATE ACCOUNT ACTIVITY -->
+    <string name="activate_account_text1" >Thanks for filling in the fields!</string >
+    <string name="activate_account_text2" >Thank you for registering with SmartRocket. Your account has been created
+        and a verification email has been sent to your registered email address. Please click on the verification link
+    included in the email to activate your account. \n\nYour account will not be activated until you verify
+    your email address. \n\nHaving trouble accessing your account? Please contact Online Customer Support.</string >
+    <string name="activate_account" >ACTIVATE ACCOUNT</string >
+    <!-- ACCOUNT CONFIRMED DIALOG -->
+    <string name="account_confirmed_dialog_title" >Confirmation</string >
+    <string name="account_confirmed_dialog_text1" >Thanks! Your account is confirmed. \n\nNow you can use the
+     SmartRocket application and unlock new badges.</string >
 </resources >

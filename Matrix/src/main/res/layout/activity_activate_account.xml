@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp" >
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="@string/app_name"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo_color" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="@dimen/text_size_16sp"
+        android:textColor="@color/black"
+        custom:textStyle="bold"
+        android:text="@string/activate_account_text1" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="@dimen/text_size_14sp"
+        android:textColor="@color/black"
+        android:text="@string/activate_account_text2"
+        custom:textStyle="light" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/activateAccountButton"
+        style="@style/Button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/user_icon"
+        android:drawableRight="@drawable/arrow_icon_right"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/button_green_selector"
+        android:text="@string/activate_account"
+        custom:textStyle="bold" />
+</LinearLayout >

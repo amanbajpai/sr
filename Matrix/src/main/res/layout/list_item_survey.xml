@@ -19,15 +19,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:minHeight="48dp">
             <ImageView
                 android:id="@+id/image"
                 android:contentDescription="@string/app_name"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:adjustViewBounds="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/project_type_2_popup" />
+                android:layout_marginRight="10dp" />
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/name"
                 android:layout_width="0dp"
@@ -42,68 +42,75 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/arrow_grey" />
-        </LinearLayout >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:background="@color/grey_light" >
-            <com.ros.smartrocket.views.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="@string/distance_to_nearest_location"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_9sp" />
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grey"
-                custom:textStyle="bold"
-                android:textSize="@dimen/text_size_12sp" />
+                android:src="@drawable/arrow_grey_big" />
         </LinearLayout >
         <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/description"
+            android:id="@+id/distance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            style="@style/SurveyListDescription" />
+            android:textSize="@dimen/text_size_13p6sp"
+            android:textColor="@color/grey"
+            android:padding="8dp"
+            android:background="@color/grey_light" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/green_light"
             android:gravity="center_vertical"
-            android:background="@color/green"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingRight="5dp"
             android:orientation="horizontal" >
             <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/locations"
-                style="@style/TaskAndSurveyListOptionStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/wallet_green"
-                custom:textStyle="bold" />
-            <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/price"
-                style="@style/TaskAndSurveyListOptionStyle"
+                style="@style/TaskAndSurveyOptionStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/wallet_green"
+                android:textSize="@dimen/text_size_12sp"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/exp"
-                style="@style/TaskAndSurveyListOptionStyle"
+                style="@style/TaskAndSurveyOptionStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.1"
                 android:drawableLeft="@drawable/rocket_green"
+                android:textSize="@dimen/text_size_12sp"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/locations"
+                style="@style/TaskAndSurveyOptionStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:drawableLeft="@drawable/pin"
+                android:textSize="@dimen/text_size_12sp"
+                custom:textStyle="bold" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:background="@color/green_dark" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/textQuestionsCount"
+                style="@style/TaskAndSurveyOptionStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:drawableLeft="@drawable/quote_green"
+                android:textSize="@dimen/text_size_12sp"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/photoQuestionsCount"
+                style="@style/TaskAndSurveyOptionStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:drawableLeft="@drawable/camera_green"
+                android:textSize="@dimen/text_size_12sp"
                 custom:textStyle="bold" />
         </LinearLayout >
     </LinearLayout >

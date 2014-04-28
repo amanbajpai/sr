@@ -29,34 +29,20 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:adjustViewBounds="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/project_type_2_popup" />
+                android:layout_marginRight="10dp" />
             <LinearLayout
                 android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:orientation="vertical" >
-                <LinearLayout
-                    android:layout_height="wrap_content"
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
-                    android:orientation="horizontal" >
-                    <com.ros.smartrocket.views.CustomTextView
-                        android:id="@+id/name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        style="@style/TaskListTitle"
-                        custom:textStyle="bold" />
-                    <ImageView
-                        android:id="@+id/arrow"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="5dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/arrow_grey_big" />
-                </LinearLayout >
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/arrow_grey_big"
+                    android:layout_marginRight="5dp"
+                    android:singleLine="true"
+                    style="@style/TaskListTitle"
+                    custom:textStyle="bold" />
                 <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"

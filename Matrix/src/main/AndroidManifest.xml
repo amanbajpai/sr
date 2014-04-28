@@ -105,6 +105,19 @@
             android:name="com.ros.smartrocket.activity.CheckLocationFailedActivity"
             android:configChanges="locale" />
         <activity
+            android:name="com.ros.smartrocket.activity.ActivateAccountActivity"
+            android:configChanges="locale" >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--<data android:host="www.youtube.com" android:scheme="http"></data>-->
+                <data android:scheme="smartrocket" />
+                <data android:scheme="http" android:host="com.ros.smartrocket"/>
+            </intent-filter >
+        </activity >
+        <activity
             android:name="com.ros.smartrocket.activity.QuestionsActivity"
             android:theme="@style/AppThemeGreen"
             android:configChanges="locale"

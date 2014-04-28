@@ -8,6 +8,7 @@ import java.util.HashMap;
 public final class WSUrl {
     public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
     public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL + "api/ForgotPassword"; // TODO
+    public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/ActivateAccount"; // TODO
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
@@ -54,6 +55,7 @@ public final class WSUrl {
     public static final int GET_REFERRAL_CASES_ID = 19;
     public static final int SAVE_REFERRAL_CASE_ID = 20;
     public static final int REJECT_TASK_ID = 20;
+    public static final int ACTIVATE_ACCOUNT_ID = 20;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -79,6 +81,7 @@ public final class WSUrl {
         URLS.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);
         URLS.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
+        URLS.put(ACTIVATE_ACCOUNT, ACTIVATE_ACCOUNT_ID);
     }
 
     public static int matchUrl(String url) {

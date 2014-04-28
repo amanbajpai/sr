@@ -2,6 +2,7 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,13 @@ public class SurveyAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         private TextView name;
-        private TextView description;
         private ImageView image;
         private TextView locations;
         private TextView price;
         private TextView exp;
         private TextView distance;
+        private TextView textQuestionsCount;
+        private TextView photoQuestionsCount;
     }
 
     public SurveyAdapter(Activity activity) {
@@ -65,12 +67,13 @@ public class SurveyAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.description = (TextView) convertView.findViewById(R.id.description);
             holder.image = (ImageView) convertView.findViewById(R.id.image);
             holder.locations = (TextView) convertView.findViewById(R.id.locations);
             holder.price = (TextView) convertView.findViewById(R.id.price);
             holder.exp = (TextView) convertView.findViewById(R.id.exp);
             holder.distance = (TextView) convertView.findViewById(R.id.distance);
+            holder.textQuestionsCount = (TextView) convertView.findViewById(R.id.textQuestionsCount);
+            holder.photoQuestionsCount = (TextView) convertView.findViewById(R.id.photoQuestionsCount);
 
             convertView.setTag(holder);
         } else {
@@ -80,17 +83,22 @@ public class SurveyAdapter extends BaseAdapter {
         Survey survey = items.get(position);
 
         holder.name.setText(survey.getName());
-        holder.description.setText(survey.getDescription());
-        holder.image.setImageResource(R.drawable.ic_launcher);
+        holder.image.setImageResource(R.drawable.project_type_1);
 
-        holder.locations.setText(Html.fromHtml(String.format(activity.getString(R.string.locations),
-                survey.getTaskCount())));
-
+        holder.locations.setText(String.valueOf(survey.getTaskCount()));
         holder.price.setText(activity.getString(R.string.hk)
                 + " " + String.format(Locale.US, "%.0f", survey.getNearTaskPrice()));
         holder.exp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
-        holder.distance.setText(Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),
-                R.string.m_to_km_with_text_mask, true)));
+
+        Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),
+                R.string.m_to_km_with_text_mask, true));
+
+        holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.distance_to_nearest_location),
+                distance)));
+
+        holder.textQuestionsCount.setText("0");
+        holder.photoQuestionsCount.setText("0");
+
 
         return convertView;
     }

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.activity.ActivateAccountActivity;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
@@ -310,6 +311,18 @@ public class IntentUtils {
     public static Intent getSurveyDetailsIntent(Context context, Survey survey) {
         Intent intent = new Intent(context, SurveyDetailsActivity.class);
         intent.putExtra(Keys.SURVEY, survey);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Survey detail screen
+     *
+     * @param context
+     * @return
+     */
+
+    public static Intent getActivateAccountIntent(Context context) {
+        Intent intent = new Intent(context, ActivateAccountActivity.class);
         return intent;
     }
 }

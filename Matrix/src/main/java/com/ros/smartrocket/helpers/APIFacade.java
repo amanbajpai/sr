@@ -90,6 +90,27 @@ public class APIFacade {
 
     /**
      * @param activity
+     * @param activationCode
+     */
+    public void activateAccount(Activity activity, String activationCode) {
+        //TODO
+        if (!TextUtils.isEmpty(activationCode)) {
+            ForgotPassword forgotPasswordEntity = new ForgotPassword();
+            forgotPasswordEntity.setEmail(activationCode);
+
+            BaseOperation operation = new BaseOperation();
+            operation.setUrl(WSUrl.ACTIVATE_ACCOUNT);
+            operation.setTag(Keys.ACTIVATE_ACCOUNT_OPERATION_TAG);
+            operation.setMethod(BaseOperation.Method.POST);
+            operation.getEntities().add(forgotPasswordEntity);
+            ((BaseActivity) activity).sendNetworkOperation(operation);
+        } else {
+            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
+        }
+    }
+
+    /**
+     * @param activity
      * @param registrationEntity
      */
     public void registration(Activity activity, Registration registrationEntity) {
