@@ -324,7 +324,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
                         break;
                     case scheduled:
-                        startActivity(IntentUtils.getTaskValidationIntent(this, task.getId()));
+                        startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false));
                         break;
                     default:
                         break;

@@ -98,6 +98,7 @@ public interface Keys {
     //Question
     String QUESTION = "question";
     String LAST_NOT_ANSWERED_QUESTION_ORDER_ID = "last_not_answered_question_order_id";
+    String SHOW_RECHECK_ANSWERS_BUTTON = "show_recheck_answers_button";
 
     //NotUploadFile Service
     String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_files";

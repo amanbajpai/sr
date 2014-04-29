@@ -37,6 +37,7 @@
     <string name="password_validation_text" >Your password needs to be 8-16 characters long with at least one upper-
         and lower-case letter and one number.
     </string >
+    <string name="user_already_exist" >User already exists.</string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="fill_in_all_fields" >Please, complete all items</string >
     <string name="registration_form" >Registration form</string >

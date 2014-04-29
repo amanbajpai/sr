@@ -89,6 +89,16 @@
             android:paddingLeft="10dp"
             android:inputType="textEmailAddress"
             android:hint="@string/your_email_hint" />
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/emailValidationText"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/red"
+            android:gravity="center_vertical"
+            android:text="@string/user_already_exist"
+            android:visibility="gone" />
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/passwordEditText"
             style="@style/EditText"

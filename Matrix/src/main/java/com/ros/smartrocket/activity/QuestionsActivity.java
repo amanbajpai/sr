@@ -318,10 +318,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void startValidationActivity() {
         TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
-        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
-                + task.getId());
+        /*preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
+                + task.getId());*/
 
-        startActivity(IntentUtils.getTaskValidationIntent(this, taskId));
+        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true));
         finish();
     }
 

@@ -50,6 +50,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int NO_INTERNET = -100500;
     public static final int ACCOUNT_NOT_ACTIVATED_ERROR_CODE = 10020;
     public static final int MAXIMUM_MISSION_ERROR_CODE = 10022;
+    public static final int USER_ALREADY_EXISTS_ERROR_CODE = 10006;
     public static final int SUCCESS = 200;
 
     public BaseNetworkService(String name) {

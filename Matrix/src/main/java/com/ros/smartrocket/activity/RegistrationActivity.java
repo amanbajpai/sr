@@ -55,6 +55,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private EditText emailEditText;
     private EditText countryEditText;
     private EditText cityEditText;
+    private TextView emailValidationText;
     private TextView passwordValidationText;
     private CheckBox agreeCheckBox;
     private Long selectedBirthDay = null;
@@ -108,6 +109,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         cityEditText = (EditText) findViewById(R.id.cityEditText);
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
 
+        emailValidationText = (TextView) findViewById(R.id.emailValidationText);
         passwordValidationText = (TextView) findViewById(R.id.passwordValidationText);
 
         birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);
@@ -243,6 +245,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 }
 
                 progressDialog = CustomProgressDialog.show(this);
+                progressDialog.setCancelable(false);
                 apiFacade.registration(this, registrationEntity);
                 break;
             case R.id.cancelButton:
@@ -259,10 +262,20 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
                 new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
             }
+
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
+                .USER_ALREADY_EXISTS_ERROR_CODE) {
+            if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
+                DialogUtils.showUserAlreadyExistDialog(this);
+                UIUtils.setEditTextColorByState(this, emailEditText, false);
+                UIUtils.setEmailEditTextImageByState(emailEditText, false);
+                emailValidationText.setVisibility(View.VISIBLE);
+            }
         } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.CENTER);
-            UIUtils.setEditTextColorByState(this, emailEditText, false);
-            UIUtils.setEmailEditTextImageByState(emailEditText, false);
+            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+            UIUtils.setEditTextColorByState(this, emailEditText, true);
+            UIUtils.setEmailEditTextImageByState(emailEditText, true);
+            emailValidationText.setVisibility(View.GONE);
         }
 
         if (progressDialog != null) {

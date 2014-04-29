@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
@@ -54,6 +55,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private LinearLayout closingQuestionTextLayout;
 
     private int taskId;
+    private boolean showRecheckAnswerButton;
     private Task task = new Task();
 
     private AsyncQueryHandler handler;
@@ -72,6 +74,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            showRecheckAnswerButton = getIntent().getBooleanExtra(Keys.SHOW_RECHECK_ANSWERS_BUTTON, true);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -79,9 +82,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         expiryDateTextView = (TextView) findViewById(R.id.expiryDateTextView);
         taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
         closingQuestionTextLayout = (LinearLayout) findViewById(R.id.closingQuestionTextLayout);
+        //closingQuestionTextLayout.setVisibility(showRecheckAnswerButton ? View.VISIBLE : View.GONE);
         closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
 
-        findViewById(R.id.recheckTaskButton).setOnClickListener(this);
+        Button recheckAnswerButton = (Button) findViewById(R.id.recheckTaskButton);
+        recheckAnswerButton.setOnClickListener(this);
+        recheckAnswerButton.setVisibility(showRecheckAnswerButton ? View.VISIBLE : View.GONE);
+
         findViewById(R.id.sendNowButton).setOnClickListener(this);
         findViewById(R.id.sendLaterButton).setOnClickListener(this);
 
@@ -211,6 +218,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void finishActivity() {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + taskId);
+
         startActivity(IntentUtils.getMainActivityIntent(this));
         finish();
     }
@@ -219,14 +229,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                //DialogUtils.showReCheckAnswerTaskDialog(this, task.getSurveyId(), task.getId());
-
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
-
-                PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + taskId);
-
-                //AnswersBL.clearTaskUserAnswers(this, taskId);
 
                 startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), taskId));
                 finish();

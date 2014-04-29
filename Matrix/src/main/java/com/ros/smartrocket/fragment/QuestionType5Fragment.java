@@ -18,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 import com.ros.smartrocket.Keys;
@@ -30,7 +29,6 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectVideoManager;
 
 import java.io.File;
@@ -223,7 +221,9 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                 videoView.start();
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                        if (getActivity() != null) {
+                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                        }
                         videoView.setBackgroundColor(Color.TRANSPARENT);
                         videoView.pause();
                     }
