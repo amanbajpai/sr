@@ -32,9 +32,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.App;
@@ -78,7 +78,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private ToggleButton showHiddenTasksToggleButton;
     private boolean isFilterShow = false;
     private GoogleMap map;
-    private CameraPosition restoreCameraPosition;
+    private CameraPosition restoreCameraByPositionAndRadius;
+    private LatLngBounds restoreCameraByPins;
     private static final float COORDINATE_OFFSET = 0.00004f;
     private static final int METERS_IN_KM = 1000;
     public static int taskRadius = 20000;
@@ -148,8 +149,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 Location location = lm.getLocation();
                 if (location != null && UIUtils.isGpsEnabled(getActivity())) {
-                    updateMapPins(location);
-                    moveCameraToMyLocation();
+                    map.clear();
+                    addMyLocation(location);
+                    addRadiusAndZoomByRadius(location);
+                    moveCameraToLocation();
                 }
             }
 
@@ -169,8 +172,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
         });
 
-        showFilterPanel(false);
-
         return view;
     }
 
@@ -182,14 +183,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         setViewMode(getArguments());
         updateUI();
         loadData();
-    }
-
-    public void clearMap() {
-        if (clusterkraf != null) {
-            clusterkraf.clear();
-        }
-        //Remove my location and Circle from the map!
-        map.clear();
     }
 
     @Override
@@ -205,6 +198,51 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 showFilterPanel(false);
             }
         }
+    }
+
+    /**
+     * Initialize Google Map
+     */
+    private void initMap() {
+        if (map == null) {
+            TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) getActivity()
+                    .getSupportFragmentManager().findFragmentById(R.id.map);
+            if (mapFragment != null) {
+                map = mapFragment.getMap();
+                if (map != null) {
+                    UiSettings uiSettings = map.getUiSettings();
+                    uiSettings.setAllGesturesEnabled(false);
+                    uiSettings.setScrollGesturesEnabled(true);
+                    uiSettings.setZoomGesturesEnabled(true);
+                    map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                        @Override
+                        public void onCameraChange(CameraPosition pos) {
+                            zoomLevel = pos.zoom;
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    /**
+     * Inirialize Cluster library and add pins
+     */
+    private void initClusterkraf(ArrayList<InputPoint> inputPoints) {
+        if (this.map != null && inputPoints != null && inputPoints.size() > 0) {
+            com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
+            applyemoApplicationOptionsToClusterkrafOptions(options);
+            // customize the options before you construct a Clusterkraf instance
+            this.clusterkraf = new Clusterkraf(this.map, options, inputPoints);
+        }
+    }
+
+    public void clearMap() {
+        if (clusterkraf != null) {
+            clusterkraf.clear();
+        }
+        //Remove my location and Circle from the map!
+        map.clear();
     }
 
     /**
@@ -224,13 +262,65 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    private void toggleFilterPanel() {
+        showFilterPanel(!isFilterShow);
+    }
+
+    private void showFilterPanel(boolean show) {
+        this.isFilterShow = show;
+
+        if (isFilterShow) {
+            Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_up);
+            rlFilterPanel.startAnimation(bottomUp);
+            rlFilterPanel.setVisibility(View.VISIBLE);
+        } else {
+            Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_down);
+            rlFilterPanel.startAnimation(bottomDown);
+            rlFilterPanel.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * Update All UI elements when view mode change
+     */
+    private void updateUI() {
+        if (mode == Keys.MapViewMode.MYTASKS
+                || mode == Keys.MapViewMode.SURVEYTASKS) {
+            btnFilter.setEnabled(false);
+        } else {
+            btnFilter.setEnabled(true);
+        }
+    }
+
+    private void loadData() {
+        refreshIconState(true);
+        clearMap();
+        Location location = lm.getLocation();
+        if (location != null) {
+            loadTasksFromLocalDb();
+            updateDataFromServer(location);
+        } else if (UIUtils.isGpsEnabled(getActivity())) {
+            UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    L.i(TAG, "Location Updated!");
+                    loadTasksFromLocalDb();
+                    updateDataFromServer(location);
+                }
+            });
+        } else {
+            refreshIconState(false);
+            loadTasksFromLocalDb();
+            updateDataFromServer(location);
+        }
+    }
 
     /**
      * Get Tasks from local db
      */
     private void loadTasksFromLocalDb() {
         if (mode == Keys.MapViewMode.ALLTASKS) {
-            //TasksBL.getNotMyTasksFromDBbyRadius(handler, taskRadius, showHiddenTasksToggleButton.isChecked());
             TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked());
         } else if (mode == Keys.MapViewMode.MYTASKS) {
             TasksBL.getMyTasksForMapFromDB(handler);
@@ -288,40 +378,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     }
                 }
             });
-        }
-    }
-
-    private void loadData() {
-        refreshIconState(true);
-        clearMap();
-        Location location = lm.getLocation();
-        if (location != null) {
-            loadTasksFromLocalDb();
-            updateDataFromServer(location);
-            addMyLocationAndRadius(location, taskRadius);
-            if (isFirstStart) {
-                moveCameraToMyLocation();
-                isFirstStart = false;
-            }
-        } else if (UIUtils.isGpsEnabled(getActivity())) {
-            UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                @Override
-                public void onUpdate(Location location) {
-                    L.i(TAG, "Location Updated!");
-                    loadTasksFromLocalDb();
-                    updateDataFromServer(location);
-                    addMyLocationAndRadius(location, taskRadius);
-                    if (isFirstStart) {
-                        moveCameraToMyLocation();
-                        isFirstStart = false;
-                    }
-                }
-            });
-        } else {
-            refreshIconState(false);
-            loadTasksFromLocalDb();
-            updateDataFromServer(location);
         }
     }
 
@@ -400,13 +456,33 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 clusterkraf.replace(inputPoints);
             }
         }
+
+        if (mode == Keys.MapViewMode.ALLTASKS) {
+            addRadiusAndZoomByRadius(location);
+        } else {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (InputPoint point : inputPoints) {
+                builder.include(point.getMapPosition());
+            }
+            builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
+
+            restoreCameraByPins = inputPoints.size() > 0 ? builder.build() : null;
+        }
+
+
+        if (isFirstStart) {
+            moveCameraToLocation();
+            isFirstStart = false;
+        }
+
+        addMyLocation(location);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnMyLocation:
-                moveCameraToMyLocation();
+                moveCameraToLocation();
                 break;
             case R.id.applyButton:
                 //loadData();
@@ -464,42 +540,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     * Methods for Clusters pins display on the map
     * ============================================== */
 
-    /**
-     * Initialize Google Map
-     */
-    private void initMap() {
-        if (map == null) {
-            TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) getActivity()
-                    .getSupportFragmentManager().findFragmentById(R.id.map);
-            if (mapFragment != null) {
-                map = mapFragment.getMap();
-                if (map != null) {
-                    UiSettings uiSettings = map.getUiSettings();
-                    uiSettings.setAllGesturesEnabled(false);
-                    uiSettings.setScrollGesturesEnabled(true);
-                    uiSettings.setZoomGesturesEnabled(true);
-                    map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                        @Override
-                        public void onCameraChange(CameraPosition pos) {
-                            zoomLevel = pos.zoom;
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    /**
-     * Inirialize Cluster library and add pins
-     */
-    private void initClusterkraf(ArrayList<InputPoint> inputPoints) {
-        if (this.map != null && inputPoints != null && inputPoints.size() > 0) {
-            com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
-            applyemoApplicationOptionsToClusterkrafOptions(options);
-            // customize the options before you construct a Clusterkraf instance
-            this.clusterkraf = new Clusterkraf(this.map, options, inputPoints);
-        }
-    }
 
     /**
      * Applies the sample.SampleActivity.Options chosen in Normal or Advanced
@@ -577,71 +617,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
     }
 
-    private void toggleFilterPanel() {
-        showFilterPanel(!isFilterShow);
-    }
-
-    private void showFilterPanel(boolean show) {
-        this.isFilterShow = show;
-
-        if (isFilterShow) {
-            Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_up);
-            rlFilterPanel.startAnimation(bottomUp);
-            rlFilterPanel.setVisibility(View.VISIBLE);
-        } else {
-            Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_down);
-            rlFilterPanel.startAnimation(bottomDown);
-            rlFilterPanel.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /**
-     * Update All UI elements when view mode change
-     */
-    private void updateUI() {
-        if (mode == Keys.MapViewMode.MYTASKS
-                || mode == Keys.MapViewMode.SURVEYTASKS) {
-            btnFilter.setEnabled(false);
-        } else {
-            btnFilter.setEnabled(true);
-        }
-    }
-
-    /**
-     * Draw circle on the map
-     *
-     * @param coordinates
-     * @param radius
-     */
-    private void addCircle(LatLng coordinates, int radius, int strokeColor, int fillColor) {
-        Circle circle = map.addCircle(new CircleOptions()
-                .center(coordinates)
-                .radius(radius)
-                .strokeColor(strokeColor)
-                .strokeWidth(5f)
-                .fillColor(fillColor));
-    }
-
-    /**
-     * Add marker with myu location on the map
-     *
-     * @param coordinates
-     */
-    private void addMyLocation(LatLng coordinates) {
-        L.d(TAG, "addMyLocation");
-        map.addMarker(new MarkerOptions()
-                .snippet(MYLOC)
-                .position(coordinates)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
-    }
-
     private void restoreCameraPositionByRadius(Location location, int radius) {
         if (location != null) {
-            LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
-
             zoomLevel = getZoomForMetersWide(radius * 2, location.getLatitude());
 
-            restoreCameraPosition = new CameraPosition(coord, zoomLevel, 0, 0);
+            LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+            restoreCameraByPositionAndRadius = new CameraPosition(coordinates, zoomLevel, 0, 0);
         }
     }
 
@@ -654,34 +635,52 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     /**
-     * Add My location pin to the Map with radius and accuracy circle
+     * Add marker with myu location on the map
+     *
+     * @param location
+     */
+    private void addMyLocation(Location location) {
+        L.d(TAG, "addMyLocation");
+        LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+        map.addMarker(new MarkerOptions()
+                .snippet(MYLOC)
+                .position(coordinates)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
+    }
+
+    /**
+     * Add Radius and zoom map by radius
      *
      * @param location - should be not null
-     * @param radius
      */
-    private void addMyLocationAndRadius(Location location, int radius) {
+    private void addRadiusAndZoomByRadius(Location location) {
         if (location != null) {
-            LatLng coord = new LatLng(location.getLatitude(), location.getLongitude());
-
-            addMyLocation(coord);
+            LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
             restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
 
-            if (getActivity() != null && mode == Keys.MapViewMode.ALLTASKS) {
+            if (getActivity() != null) {
                 Resources r = getActivity().getResources();
-                addCircle(coord, radius, r.getColor(R.color.map_radius_stroke),
+                addCircle(coordinate, taskRadius, r.getColor(R.color.map_radius_stroke),
                         r.getColor(R.color.map_radius_fill));
-                /*addCircle(coord, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
+                /*addCircle(coordinate, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
                         r.getColor(R.color.map_accuracy_fill));*/
             }
         }
     }
 
     /**
-     * Remove all pins and update mapview
+     * Draw circle on the map
+     *
+     * @param coordinates - center coordinates
+     * @param radius      - current radius
      */
-    private void updateMapPins(Location location) {
-        map.clear();
-        addMyLocationAndRadius(location, taskRadius);
+    private void addCircle(LatLng coordinates, int radius, int strokeColor, int fillColor) {
+        map.addCircle(new CircleOptions()
+                .center(coordinates)
+                .radius(radius)
+                .strokeColor(strokeColor)
+                .strokeWidth(5f)
+                .fillColor(fillColor));
     }
 
     private void setRadiusText() {
@@ -692,11 +691,22 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /**
      * Move camera to current location or show Toast message if location not defined.
      */
-    private void moveCameraToMyLocation() {
-        if (restoreCameraPosition != null) {
-            map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraPosition));
-        } else if (UIUtils.isOnline(getActivity())) {
-            UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
+    private void moveCameraToLocation() {
+        if (mode == Keys.MapViewMode.ALLTASKS) {
+            if (restoreCameraByPositionAndRadius != null) {
+                map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraByPositionAndRadius));
+            } else if (UIUtils.isOnline(getActivity())) {
+                UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
+            }
+        } else if (mode == Keys.MapViewMode.MYTASKS) {
+            Location location = lm.getLocation();
+            if (location != null) {
+                map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            }
+        } else {
+            if (restoreCameraByPins != null) {
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, 150));
+            }
         }
     }
 
@@ -719,7 +729,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 if (mapAlreadyHasMarkerForLocation((latitude - i * COORDINATE_OFFSET)
                         + "," + (longitude - i * COORDINATE_OFFSET))) {
-
                     continue;
 
                 } else {

@@ -83,7 +83,7 @@ public class SurveyAdapter extends BaseAdapter {
         Survey survey = items.get(position);
 
         holder.name.setText(survey.getName());
-        holder.image.setImageResource(R.drawable.project_type_1);
+        holder.image.setImageResource(UIUtils.getSurveyTypeListIcon(1));
 
         holder.locations.setText(String.valueOf(survey.getTaskCount()));
         holder.price.setText(activity.getString(R.string.hk)

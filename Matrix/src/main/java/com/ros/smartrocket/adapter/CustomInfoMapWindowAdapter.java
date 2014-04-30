@@ -62,12 +62,24 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
                 case none:
                 case claimed:
                 case started:
-                case scheduled:
-                case validation:
                     mainLayout.setBackgroundResource(R.drawable.popup_green);
                     priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
                     distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
+                    break;
+                case scheduled:
+                case pending:
+                    mainLayout.setBackgroundResource(R.drawable.popup_blue);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
+                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_blue, 0, 0, 0);
+                    break;
+                case completed:
+                case validation:
+                    mainLayout.setBackgroundResource(R.drawable.popup_grey);
+                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
+                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
+                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_lightgrey, 0, 0, 0);
                     break;
                 case reDoTask:
                     mainLayout.setBackgroundResource(R.drawable.popup_red);
@@ -75,12 +87,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
                     distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_red, 0, 0, 0);
                     break;
-                case pending:
-                    mainLayout.setBackgroundResource(R.drawable.popup_blue);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_blue, 0, 0, 0);
-                    break;
+
                 default:
                     mainLayout.setBackgroundResource(R.drawable.popup_green);
                     priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);

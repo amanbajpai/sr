@@ -28,7 +28,6 @@ public class MyTaskAdapter extends BaseAdapter {
         private LinearLayout listItem;
 
         private TextView name;
-        private ImageView arrow;
         private ImageView image;
         private TextView timeLeft;
         private TextView distance;
@@ -66,11 +65,6 @@ public class MyTaskAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void addData(final ArrayList<Task> items) {
-        this.items.addAll(items);
-        notifyDataSetChanged();
-    }
-
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
@@ -86,7 +80,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
             holder.statusText = (TextView) convertView.findViewById(R.id.statusText);
             holder.optionLayout = (LinearLayout) convertView.findViewById(R.id.optionLayout);
-            holder.optionDivider = (View) convertView.findViewById(R.id.optionDivider);
+            holder.optionDivider = convertView.findViewById(R.id.optionDivider);
 
             holder.taskPrice = (TextView) convertView.findViewById(R.id.taskPrice);
             holder.taskExp = (TextView) convertView.findViewById(R.id.taskExp);
@@ -101,7 +95,7 @@ public class MyTaskAdapter extends BaseAdapter {
         Task task = items.get(position);
 
         holder.name.setText(task.getName());
-        holder.image.setImageResource(R.drawable.project_type_2_popup);
+        holder.image.setImageResource(UIUtils.getSurveyTypeListIcon(2));
         holder.taskPrice.setText(activity.getString(R.string.hk) + String.format(Locale.US, "%.0f", task.getPrice()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
         holder.textQuestionsCount.setText("0");
@@ -120,7 +114,6 @@ public class MyTaskAdapter extends BaseAdapter {
             case none:
             case claimed:
             case started:
-            case scheduled:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
@@ -135,6 +128,37 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
                 holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                break;
+            case scheduled:
+            case pending:
+                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                holder.listItem.setBackgroundResource(R.drawable.mission_blue_bg);
+                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
+                holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
+                holder.statusText.setText(activity.getString(R.string.send_latter_mission));
+
+                holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
+
+                holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
+                holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_blue, 0, 0, 0);
+                holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_blue, 0, 0, 0);
+                break;
+            case completed:
+                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
+                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
+                holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
+                holder.statusText.setText(activity.getString(R.string.mission_completed));
+
+                holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.grey));
+                holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
+
+                holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
+                holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
+                holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
+                holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
                 break;
             case validation:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -166,39 +190,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_red, 0, 0, 0);
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_red, 0, 0, 0);
                 break;
-            case pending:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                holder.listItem.setBackgroundResource(R.drawable.mission_blue_bg);
-                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
-                holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
-                holder.statusText.setText(activity.getString(R.string.send_latter_mission));
-
-                holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
-
-                holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
-                holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
-                holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_blue, 0, 0, 0);
-                holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_blue, 0, 0, 0);
-                break;
-            case completed:
-                //holder.arrow.setVisibility(View.GONE);
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
-                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
-                holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
-                holder.statusText.setText(activity.getString(R.string.mission_completed));
-
-                holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.orange));
-                holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
-
-                holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_gold, 0, 0, 0);
-                holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_gold, 0, 0, 0);
-                holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_gold, 0, 0, 0);
-                holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
-                break;
             case validated:
-                //holder.arrow.setVisibility(View.GONE);
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
@@ -214,7 +206,6 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
                 break;
             case rejected:
-                //holder.arrow.setVisibility(View.GONE);
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_dark_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_dark));
@@ -234,13 +225,5 @@ public class MyTaskAdapter extends BaseAdapter {
         }
 
         return convertView;
-    }
-
-    public long getLastItemId() {
-        if (items.size() > 0) {
-            return items.get(items.size() - 1).get_id();
-        } else {
-            return 0;
-        }
     }
 }

@@ -18,7 +18,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -60,7 +62,6 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_survey_list, null);
 
         handler = new DbHandler(getActivity().getContentResolver());
-
         adapter = new SurveyAdapter(getActivity());
 
         ListView surveyList = (ListView) view.findViewById(R.id.surveyList);

@@ -76,6 +76,8 @@
     <string name="mission_completed" >Mission completed</string >
     <string name="mission_validated" >Mission validated</string >
     <string name="time_left" >left</string >
+    <string name="you_have_no_tasks" >You currently have no missions. \nGo to \"Find Missions\" to claim and complete
+        additional Missions</string >
     <!-- SETTINGS FRAGMENT-->
     <string name="app_settings_title" >App settings</string >
     <string name="application_settings" >APPLICATION SETTINGS</string >
@@ -331,4 +333,8 @@
     <string name="account_confirmed_dialog_title" >Confirmation</string >
     <string name="account_confirmed_dialog_text1" >Thanks! Your account is confirmed. \n\nNow you can use the
      SmartRocket application and unlock new badges.</string >
+    <!-- USER ALREADY EXISTS DIALOG -->
+    <string name="user_already_exists_dialog_title" >Error</string >
+    <string name="user_already_exists_dialog_text1" >User already exists. Please, enter a different email
+        address.</string >
 </resources >

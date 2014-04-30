@@ -119,8 +119,6 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
             case none:
             case claimed:
             case started:
-            case scheduled:
-            case validation:
                 if (!task.getIsHide()) {
                     if (task.getDistance() <= TasksMapFragment.taskRadius) {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
@@ -135,12 +133,18 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
                     }
                 }
                 break;
-            case reDoTask:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
-                break;
+            case scheduled:
             case pending:
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_blue);
                 break;
+            case completed:
+            case validation:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_grey);
+                break;
+            case reDoTask:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
+                break;
+
             default:
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
                 break;

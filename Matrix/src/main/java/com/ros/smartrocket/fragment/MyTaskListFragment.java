@@ -16,7 +16,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -56,10 +58,12 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_my_task_list, null);
 
         handler = new DbHandler(getActivity().getContentResolver());
-
         adapter = new MyTaskAdapter(getActivity());
 
+        TextView emptyListLTextView = (TextView) view.findViewById(R.id.emptyListLTextView);
+
         ListView taskList = (ListView) view.findViewById(R.id.taskList);
+        taskList.setEmptyView(emptyListLTextView);
         taskList.setOnItemClickListener(this);
         taskList.setAdapter(adapter);
 

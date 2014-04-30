@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.UiSettings;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -28,6 +30,7 @@ import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
+import com.ros.smartrocket.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -78,6 +81,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Button withdrawTaskButton;
     private Button continueTaskButton;
 
+    private GoogleMap map;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,12 +127,33 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         continueTaskButton.setOnClickListener(this);
 
         findViewById(R.id.mapImageView).setOnClickListener(this);
+
+        //findViewById(R.id.map).setOnClickListener(this);
+        //initMap();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TasksBL.getTaskFromDBbyID(handler, taskId);
+    }
+
+    private void initMap() {
+        TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            GoogleMap map = mapFragment.getMap();
+            if (map != null) {
+
+                UiSettings uiSettings = map.getUiSettings();
+                //uiSettings.setAllGesturesEnabled(false);
+
+                uiSettings.setZoomControlsEnabled(false);
+                //uiSettings.setScrollGesturesEnabled(false);
+
+            }
+        }
+
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -246,7 +272,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
 
         //TODO Get survey type from server
-        getSupportActionBar().setIcon(UIUtils.getSurveyTypeIcon(1));
+        getSupportActionBar().setIcon(UIUtils.getSurveyTypeActionBarIcon(1));
     }
 
     public void setButtonsSettings(Task task) {
@@ -335,6 +361,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 Bundle bundle = new Bundle();
                 bundle.putInt(Keys.MAP_VIEWITEM_ID, task.getId());
                 bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLETASK.toString());
+
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

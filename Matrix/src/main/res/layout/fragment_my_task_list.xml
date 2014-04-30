@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/taskList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:cacheColorHint="@android:color/transparent"
-    android:divider="@android:color/transparent"
-    tools:listitem="@layout/list_item_task"
-    android:background="@color/grey_middle" />
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/emptyListLTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:gravity="center"
+        android:text="@string/you_have_no_tasks"
+        custom:textStyle="bold"
+        android:lineSpacingExtra="3dp"
+        android:background="@color/grey_middle"
+        android:textColor="@color/grey_dark" />
+    <ListView
+        android:id="@+id/taskList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        tools:listitem="@layout/list_item_task"
+        android:background="@color/grey_middle" />
+</LinearLayout >

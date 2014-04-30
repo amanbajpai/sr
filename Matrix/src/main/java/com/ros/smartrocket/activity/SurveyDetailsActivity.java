@@ -124,7 +124,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         photoQuestionsCount.setText("0");
 
         //TODO Get survey type from server
-        getSupportActionBar().setIcon(UIUtils.getSurveyTypeIcon(1));
+        getSupportActionBar().setIcon(UIUtils.getSurveyTypeActionBarIcon(1));
     }
 
     @Override

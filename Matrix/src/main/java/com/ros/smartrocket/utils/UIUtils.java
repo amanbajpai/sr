@@ -536,7 +536,32 @@ public class UIUtils {
         return daysText + hoursText + minutesText;
     }
 
-    public static int getSurveyTypeIcon(int surveyType) {
+    public static int getSurveyTypeListIcon(int surveyType) {
+        int iconResId;
+        switch (surveyType) {
+            case 1:
+                iconResId = R.drawable.project_type_1_grey;
+                break;
+            case 2:
+                iconResId = R.drawable.project_type_2_grey;
+                break;
+            case 3:
+                iconResId = R.drawable.project_type_3_grey;
+                break;
+            case 4:
+                iconResId = R.drawable.project_type_4_grey;
+                break;
+            case 5:
+                iconResId = R.drawable.project_type_5_grey;
+                break;
+            default:
+                iconResId = R.drawable.ic_launcher;
+                break;
+        }
+        return iconResId;
+    }
+
+    public static int getSurveyTypeActionBarIcon(int surveyType) {
         int iconResId;
         switch (surveyType) {
             case 1:

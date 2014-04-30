@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
@@ -18,17 +19,12 @@ import com.ros.smartrocket.utils.PreferencesManager;
  * Activity for view Task detail information
  */
 public class MapActivity extends BaseActivity {
-    private static final String TAG = MapActivity.class.getSimpleName();
-    private APIFacade apiFacade = APIFacade.getInstance();
-    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
-    private AsyncQueryHandler handler;
+    //private static final String TAG = MapActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //setTitle(R.string.task_location_title);
 
         // If not already added to the Fragment manager add it.
         // If you don't do this a new Fragment will be added every time this method is  called (Such as on
@@ -48,18 +44,17 @@ public class MapActivity extends BaseActivity {
         }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                break;
-//            default:
-//                break;
-//
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

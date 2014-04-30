@@ -84,6 +84,11 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/map_piece"
                     android:scaleType="centerCrop" />
+                <!--<fragment
+                    android:id="@+id/map"
+                    android:layout_width="68dp"
+                    android:layout_height="68dp"
+                    android:name="com.ros.smartrocket.fragment.TransparentSupportMapFragment" />-->
             </LinearLayout >
             <LinearLayout
                 android:layout_width="match_parent"
