@@ -254,6 +254,8 @@
     <string name="expiry_time" >EXPIRY TIME: </string >
     <string name="task_data_size" >TASK DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
+    <string name="task_has_not_yet_submitted" >This task has not yet been submitted. \nIt must be submitted before the
+        expiry time in order to qualify for payment and Rocket Points.</string >
     <string name="confirm_you_can_find_in_my_mission" >Validation confirm you can find in \"My missions\"</string >
     <string name="confirm_and_send" >CONFIRM &amp; SEND</string >
     <string name="send_later" >SEND LATER</string >

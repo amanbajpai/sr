@@ -114,7 +114,12 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                     setTaskData(task);
                     //SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
-                    QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
+                    if (showRecheckAnswerButton) {
+                        QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
+                    } else {
+                        closingQuestionText.setText(R.string.task_has_not_yet_submitted);
+                        closingQuestionTextLayout.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     ArrayList<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);

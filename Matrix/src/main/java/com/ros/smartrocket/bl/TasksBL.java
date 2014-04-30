@@ -98,7 +98,9 @@ public class TasksBL {
     public static void getMyTasksForMapFromDB(AsyncQueryHandler handler) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
-                        + TaskDbSchema.Columns.STATUS_ID + " <> 7",
+                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.completed.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.validated.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.rejected.getStatusId(),
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
     }

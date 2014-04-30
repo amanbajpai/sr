@@ -705,7 +705,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
         } else {
             if (restoreCameraByPins != null) {
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, 150));
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
+                        display.getHeight(), 150));
             }
         }
     }

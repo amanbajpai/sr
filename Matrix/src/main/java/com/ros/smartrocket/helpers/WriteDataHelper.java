@@ -19,8 +19,13 @@ public class WriteDataHelper {
      * 2. Remove Surveys, Tasks, Questions, Answers from DB
      */
     public static void prepareLogout(Context context) {
-        PreferencesManager.getInstance().clearAll();
+        PreferencesManager preferencesManager =  PreferencesManager.getInstance();
+        int taskRadius = preferencesManager.getDefaultRadius();
+
+        preferencesManager.clearAll();
+
         SettingsFragment.setCurrentLanguage();
+        preferencesManager.setDefaultRadius(taskRadius);
 
         SurveysBL.removeAllSurveysFromDB(context);
         TasksBL.removeAllTasksFromDB(context);
