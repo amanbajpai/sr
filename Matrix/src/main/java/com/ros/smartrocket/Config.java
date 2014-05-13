@@ -47,9 +47,9 @@ public class Config {
             case PRODUCTION:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
-                WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
-                TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
-                PROFILE_PAGE_URL = "http://matrix.web.uran.po.ciklum.net/Account/Manage";
+                WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
+                TERMS_AND_CONDITION_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/TermsAndConditions?withoutMenu=true";
+                PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;
@@ -62,9 +62,9 @@ public class Config {
             default:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
-                WEB_SERVICE_URL = "http://matrix.api.uran.po.ciklum.net/";
-                TERMS_AND_CONDITION_URL = "http://matrix.web.uran.po.ciklum.net/TermsAndConditions?withoutMenu=true";
-                PROFILE_PAGE_URL = "http://matrix.web.uran.po.ciklum.net/Account/Manage";
+                WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
+                TERMS_AND_CONDITION_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/TermsAndConditions?withoutMenu=true";
+                PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";
                 break;
         }
     }
