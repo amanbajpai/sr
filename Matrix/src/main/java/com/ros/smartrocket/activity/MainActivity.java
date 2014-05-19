@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
+import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainActivity extends BaseSlidingMenuActivity {
@@ -31,6 +33,11 @@ public class MainActivity extends BaseSlidingMenuActivity {
         fragmetHelper.startFragmentFromStack(this, fragment);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
+
+        /*Intent intent = new Intent(this, MainActivity.class);
+        NotificationUtils.generateNotification(this, "Title", "Message text\n, Message text, <b>Message text,</b> " +
+                "Message text, Message text, Message text, Message text, Message text, Message text, Message text, " +
+                "Message text, Message text, ", intent);*/
     }
 
     public void startFragment(Fragment fragment) {

@@ -14,6 +14,7 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Surveys;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,7 @@ public class SurveysBL {
                 task.setName(survey.getName());
                 task.setDescription(survey.getDescription());
                 task.setExperienceOffer(survey.getExperienceOffer());
+                task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
 
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     tampLocation.setLatitude(task.getLatitude());

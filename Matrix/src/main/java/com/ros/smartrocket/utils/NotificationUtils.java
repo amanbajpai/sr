@@ -8,6 +8,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.Html;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.MainActivity;
@@ -49,20 +50,22 @@ public class NotificationUtils {
      * @param jsonObject - message Json object
      */
     public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
+        Intent intent = new Intent(context, MainActivity.class);
         String title = context.getString(R.string.app_name);
         String message = "";
 
         try {
             JSONObject messageObject = new JSONObject(jsonObject);
             int statusType = messageObject.optInt("StatusType");
-            //int surveyId = messageObject.optInt("SurveyId");
-            //int taskId = messageObject.optInt("TaskId");
+            int surveyId = messageObject.optInt("SurveyId");
+            int taskId = messageObject.optInt("TaskId");
             String taskName = messageObject.optString("TaskName");
             //String endDateTime = messageObject.optString("endDateTime");
 
             switch (statusType) {
                 case 4: //Re-do
                     message = String.format(context.getString(R.string.re_do_task_status_message), taskName);
+                    intent = IntentUtils.getQuestionsIntent(context, surveyId, taskId);
                     break;
                 case 6: //Validated
                     message = String.format(context.getString(R.string.validated_task_status_message), taskName);
@@ -76,7 +79,7 @@ public class NotificationUtils {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(context, MainActivity.class);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         generateNotification(context, title, message, intent);
@@ -89,6 +92,8 @@ public class NotificationUtils {
         mBuilder.setAutoCancel(true);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle()
+                .bigText(Html.fromHtml(message)));
 
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(sound);
@@ -96,7 +101,6 @@ public class NotificationUtils {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(App.getInstance());
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(intent);
-
 
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);

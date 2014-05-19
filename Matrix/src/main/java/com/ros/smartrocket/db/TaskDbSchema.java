@@ -49,6 +49,7 @@ public interface TaskDbSchema {
         END_DATE_TIME("EndDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
         IS_HIDE("IsHide", DBType.INT),
+        LONG_END_DATE_TIME("LongEndDateTime", DBType.NUMERIC),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
         DELETED("deleted", DBType.INT);
@@ -110,6 +111,7 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.IS_MY.getName(),
                     Table.TASK.getName() + "." + Columns.IS_HIDE.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName()
             };
 
@@ -133,7 +135,8 @@ public interface TaskDbSchema {
             int END_DATE_TIME = 17;
             int IS_MY = 18;
             int IS_HIDE = 19;
-            int EXPERIENCE_OFFER = 20;
+            int LONG_END_DATE_TIME = 20;
+            int EXPERIENCE_OFFER = 21;
         }
 
         public interface GetDistance {

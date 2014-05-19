@@ -48,6 +48,7 @@ public class Task extends BaseEntity {
 
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
+    private transient Long LongEndDateTime;
 
     public Task() {
     }
@@ -92,6 +93,7 @@ public class Task extends BaseEntity {
 
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
             result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 0 ? false : true);
+            result.setLongEndDateTime(c.getLong(TaskDbSchema.Query.All.LONG_END_DATE_TIME));
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
         }
@@ -252,6 +254,15 @@ public class Task extends BaseEntity {
     public void setExperienceOffer(Double experienceOffer) {
         ExperienceOffer = experienceOffer;
     }
+
+    public Long getLongEndDateTime() {
+        return LongEndDateTime;
+    }
+
+    public void setLongEndDateTime(Long longEndDateTime) {
+        LongEndDateTime = longEndDateTime;
+    }
+
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link Task}
