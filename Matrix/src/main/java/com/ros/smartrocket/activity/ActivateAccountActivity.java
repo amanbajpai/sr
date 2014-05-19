@@ -2,6 +2,7 @@ package com.ros.smartrocket.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
     private Button activateAccountButton;
+    private String email;
+    private String token;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +47,12 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
                 String scheme = data.getScheme(); // "http"
                 String host = data.getHost(); // "twitter.com"
                 List<String> params = data.getPathSegments();
-                String first = params.get(0); // "status"
-                String second = params.get(1); // "1234"
+                email = params.get(0);
+                token = params.get(1);
 
-                L.e(TAG, "scheme: " + scheme + "host: " + host + "first: " + first + "second: " + second);
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(token)){
+                    activateAccountButton.setEnabled(false);
+                }
             }
         }
 
@@ -63,7 +68,7 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
                     progressDialog = CustomProgressDialog.show(this);
                     activateAccountButton.setEnabled(false);
 
-                    apiFacade.activateAccount(this, "ActivationCode");
+                    apiFacade.activateAccount(this, email, token);
                 }
                 break;
             default:

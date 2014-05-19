@@ -365,12 +365,12 @@ public class DialogUtils {
     /**
      * Account confirmed Dialog
      *
-     * @param context
+     * @param activity
      */
-    public static Dialog showAccountConfirmedDialog(final Context context) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.green, R.drawable.confirm_icon,
-                context.getText(R.string.account_confirmed_dialog_title),
-                context.getText(R.string.account_confirmed_dialog_text1),
+    public static Dialog showAccountConfirmedDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.color.green, R.drawable.confirm_icon,
+                activity.getText(R.string.account_confirmed_dialog_title),
+                activity.getText(R.string.account_confirmed_dialog_text1),
                 0, R.string.ok);
         dialog.setCancelable(false);
         dialog.hideLeftButton();
@@ -382,7 +382,8 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                context.startActivity(IntentUtils.getLoginIntentForLogout(context));
+                activity.finish();
+                activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
             }
         });
 

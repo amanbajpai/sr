@@ -377,8 +377,10 @@ public class SelectImageManager {
     public static String getFileAsString(File file) {
         String resultString = "";
         try {
-            byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
-            resultString = Base64.encodeToString(fileAsBytesArray, 0);
+            if (file != null) {
+                byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
+                resultString = Base64.encodeToString(fileAsBytesArray, 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

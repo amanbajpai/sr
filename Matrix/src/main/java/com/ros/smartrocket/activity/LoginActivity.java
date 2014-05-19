@@ -124,7 +124,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
                     }
                 }*/
-                // Start MainActivity
+
+                progressDialog.dismiss();
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
@@ -149,11 +150,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
                 .ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.dismiss();
                 loginButton.setEnabled(true);
                 DialogUtils.showAccountNotActivatedDialog(this);
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.dismiss();
                 loginButton.setEnabled(true);
                 DialogUtils.showLoginFailedDialog(this);
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
@@ -191,8 +194,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 LoginBL.PreLoginErrors error = lBL.login(this, email, password);
 
                 if (error == LoginBL.PreLoginErrors.SUCCESS) {
+                    progressDialog = CustomProgressDialog.show(this);
                     loginButton.setEnabled(false);
-                    setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.login(this, email, password);
                 } else if (error == LoginBL.PreLoginErrors.NOCONNECTION) {
                     DialogUtils.showNetworkDialog(this);

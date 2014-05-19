@@ -207,20 +207,23 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
-                //TODO Check not uploaded file for this task
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
                 if (notUploadedFileCount == 0) {
                     validateTask(notUploadedFile.getTaskId());
                 }
 
-                if (canUploadNextFile(this)) {
-                    FilesBL.getFirstNotUploadedFileFromDB(dbHandler, notUploadedFile.get_id(),
-                            UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
-                }
+            } else if (operation.getResponseStatusCode() == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
+                    operation.getResponseStatusCode() == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName());
+            }
+
+            if (canUploadNextFile(this)) {
+                FilesBL.getFirstNotUploadedFileFromDB(dbHandler, notUploadedFile.get_id(),
+                        UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
             //QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());

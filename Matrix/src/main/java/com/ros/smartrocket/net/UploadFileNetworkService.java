@@ -68,6 +68,16 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                                 files[i].delete();
                                 operation.setResponseStatusCode(responseCode);
+
+                                /*if (files.length == i + 1) {
+                                    tempOperation = getSendTempFileOperation(null, notUploadedFile, mainFileLength);
+                                    executeRequest(tempOperation);
+                                }*/
+                            } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
+                                    responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+                                files[i].delete();
+                                operation.setResponseStatusCode(responseCode);
+                                break;
                             } else {
                                 operation.setResponseStatusCode(NO_INTERNET);
                                 break;

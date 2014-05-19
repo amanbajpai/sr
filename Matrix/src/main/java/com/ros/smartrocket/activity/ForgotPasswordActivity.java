@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
@@ -24,6 +25,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     private EditText emailEditText;
     private Button sendButton;
     private ImageView mailImageView;
+    private CustomProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,14 +43,12 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
         findViewById(R.id.cancelButton).setOnClickListener(this);
 
-        setSupportProgressBarIndeterminateVisibility(false);
-
         checkDeviceSettingsByOnResume(false);
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        setSupportProgressBarIndeterminateVisibility(false);
+        progressDialog.dismiss();
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
                 finish();
@@ -56,6 +56,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
             }
         } else {
             if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
+                UIUtils.setEditTextColorByState(this, emailEditText, false);
+                UIUtils.setEmailImageByState(mailImageView, false);
+
                 sendButton.setEnabled(true);
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
@@ -76,8 +79,8 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
                     break;
                 }
 
+                progressDialog = CustomProgressDialog.show(this);
                 sendButton.setEnabled(false);
-                setSupportProgressBarIndeterminateVisibility(true);
                 apiFacade.forgotPassword(this, email);
 
                 break;
