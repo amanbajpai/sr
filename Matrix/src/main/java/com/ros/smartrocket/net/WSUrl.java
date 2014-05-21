@@ -11,6 +11,7 @@ public final class WSUrl {
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
+    public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UploadPhoto"; //TODO
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
     public static final String GET_SURVEYS = Config.WEB_SERVICE_URL
             + "api/Surveys?latitude=%s&longitude=%s&countryName=%s&cityName=%s&radius=%s&language=%s";
@@ -54,8 +55,9 @@ public final class WSUrl {
     public static final int SEND_ANSWERS_ID = 18;
     public static final int GET_REFERRAL_CASES_ID = 19;
     public static final int SAVE_REFERRAL_CASE_ID = 20;
-    public static final int REJECT_TASK_ID = 20;
-    public static final int ACTIVATE_ACCOUNT_ID = 20;
+    public static final int REJECT_TASK_ID = 21;
+    public static final int ACTIVATE_ACCOUNT_ID = 22;
+    public static final int UPLOAD_PHOTO_ID = 23;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -82,6 +84,7 @@ public final class WSUrl {
         URLS.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
         URLS.put(ACTIVATE_ACCOUNT, ACTIVATE_ACCOUNT_ID);
+        URLS.put(UPLOAD_PHOTO, UPLOAD_PHOTO_ID);
     }
 
     public static int matchUrl(String url) {

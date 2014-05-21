@@ -11,6 +11,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.MatrixLocation;
+import com.ros.smartrocket.fragment.TasksMapFragment;
 
 import java.util.Date;
 
@@ -246,7 +247,7 @@ public class PreferencesManager {
     }
 
     public int getDefaultRadius() {
-        return getInt(Keys.DEFAULT_RADIUS, 20000);
+        return getInt(Keys.DEFAULT_RADIUS, TasksMapFragment.DEFAULT_TASK_RADIUSE);
     }
 
     public int getInt(String key, int defaultValue) {

@@ -399,6 +399,7 @@ public class UIUtils {
         boolean containUpperLetter = false;
         boolean containLowerLetter = false;
         boolean containNumber = false;
+        boolean containSpecialSymbol = false;
         boolean availableLength = password.length() >= 8 && password.length() <= 16;
 
         char[] charArray = password.toCharArray();
@@ -416,7 +417,11 @@ public class UIUtils {
             }
         }
 
-        return containUpperLetter && containLowerLetter && containNumber && availableLength;
+        if (password.matches("[!@#$%^&*()_+-{}|?><:;]*")) {
+            containSpecialSymbol = true;
+        }
+
+        return containUpperLetter && containLowerLetter && containNumber && availableLength && containSpecialSymbol;
     }
 
     public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {

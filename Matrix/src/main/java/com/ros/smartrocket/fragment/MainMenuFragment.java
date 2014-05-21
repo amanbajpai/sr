@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,23 +25,28 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.UploadPhoto;
 import com.ros.smartrocket.dialog.LevelUpDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = MainMenuFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
+    private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private ResponseReceiver localReceiver;
     private ImageView photoImageView;
+    private ImageView uploadPhotoProgressImage;
     private ImageView levelIcon;
     private TextView nameTextView;
     private TextView balanceTextView;
@@ -58,6 +64,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
 
         photoImageView = (ImageView) view.findViewById(R.id.photoImageView);
+        uploadPhotoProgressImage = (ImageView) view.findViewById(R.id.uploadPhotoProgressImage);
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
         nameTextView = (TextView) view.findViewById(R.id.nameTextView);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
@@ -73,6 +80,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             }
         });
 
+        view.findViewById(R.id.photoImageView).setOnClickListener(this);
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myAccountButton).setOnClickListener(this);
@@ -109,6 +117,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                         }
                     }
             );
+        } else {
+            photoImageView.setImageResource(R.drawable.cam);
         }
 
         String levelIconUrl = myAccount.getLevelIconUrl();
@@ -176,10 +186,21 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
                 MyAccount myAccount = (MyAccount) operation.getResponseEntities().get(0);
                 setData(myAccount);
+            } else if (Keys.UPLOAD_PHOTO_OPERATION_TAG.equals(operation.getTag())) {
+                finishUploadingPhoto();
             }
         } else {
+            if (Keys.UPLOAD_PHOTO_OPERATION_TAG.equals(operation.getTag())) {
+                finishUploadingPhoto();
+            }
             UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
+    }
+
+    public void finishUploadingPhoto() {
+        uploadPhotoProgressImage.clearAnimation();
+        uploadPhotoProgressImage.setVisibility(View.GONE);
+        apiFacade.getMyAccount(getActivity());
     }
 
     @Override
@@ -188,6 +209,34 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         Fragment fragment;
 
         switch (v.getId()) {
+            case R.id.photoImageView:
+                selectImageManager.showSelectImageDialog(getActivity(), false);
+                selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
+                    @Override
+                    public void onImageComplete(Bitmap bitmap) {
+
+                        if (bitmap != null) {
+                            uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
+                            uploadPhotoProgressImage.setVisibility(View.VISIBLE);
+
+                            photoImageView.setImageBitmap(bitmap);
+
+                            UploadPhoto uploadPhotoEntity = new UploadPhoto();
+                            uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(bitmap));
+
+                            apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
+
+                        } else {
+                            photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                        }
+                    }
+
+                    @Override
+                    public void onSelectImageError(int imageFrom) {
+                        DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+                    }
+                });
+                break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
 
@@ -226,6 +275,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             default:
                 break;
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        selectImageManager.onActivityResult(requestCode, resultCode, intent);
     }
 
     @Override

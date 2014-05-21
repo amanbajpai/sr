@@ -35,7 +35,7 @@
     <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
     <string name="password_validation_text" >Your password needs to be 8-16 characters long with at least one upper-
-        and lower-case letter and one number.
+        and lower-case letter, one number and one special symbol.
     </string >
     <string name="user_already_exist" >User already exists.</string >
     <string name="fill_in_field" >Please, fill in field</string >
@@ -246,7 +246,7 @@
     <string name="show_hidden_tasks_on_map" >Show hidden tasks on map</string >
     <!--<string name="show" >Show</string >-->
     <string name="min_distance" >0.1 km</string >
-    <string name="max_distance" >100 km</string >
+    <string name="max_distance" >20 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_title" >Validation</string >
     <string name="validation_big" >VALIDATION</string >

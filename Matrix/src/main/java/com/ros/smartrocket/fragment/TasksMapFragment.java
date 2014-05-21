@@ -84,9 +84,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private LatLngBounds restoreCameraByPins;
     private static final float COORDINATE_OFFSET = 0.00004f;
     private static final int METERS_IN_KM = 1000;
-    public static int taskRadius = 20000;
-    private int sbRadiusProgress = 20;
-    private static final int RADIUS_DELTA = 1000; // 1% = 1000m => Max = 100km
+    public static int DEFAULT_TASK_RADIUSE = 5000;
+    public static int taskRadius = DEFAULT_TASK_RADIUSE;
+    private int sbRadiusProgress = 5;
+    private static final int RADIUS_DELTA = 200; // 1% = 200m => Max = 20km
     private TextView txtRadius;
     private static final float DEFAULT_ZOOM_LEVEL = 11f;
     private float zoomLevel = DEFAULT_ZOOM_LEVEL;

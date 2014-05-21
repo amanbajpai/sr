@@ -18,6 +18,7 @@ import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.db.entity.TestPushMessage;
+import com.ros.smartrocket.db.entity.UploadPhoto;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
@@ -111,6 +112,19 @@ public class APIFacade {
         operation.setTag(Keys.REGISTRATION_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(registrationEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
+     * @param uploadPhoto
+     */
+    public void uploadPhoto(Activity activity, UploadPhoto uploadPhoto) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.UPLOAD_PHOTO);
+        operation.setTag(Keys.UPLOAD_PHOTO_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(uploadPhoto);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

@@ -40,6 +40,7 @@ public interface Keys {
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String FORGOT_PASSWORD_OPERATION_TAG = "forgot_password_tag";
     String REGISTRATION_OPERATION_TAG = "registration_operation_tag";
+    String UPLOAD_PHOTO_OPERATION_TAG = "upload_photo_operation_tag";
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";

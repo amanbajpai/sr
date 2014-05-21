@@ -246,7 +246,7 @@
     <string name="show_hidden_tasks_on_map" >Show hidden tasks on map</string >
     <!--<string name="show" >Show</string >-->
     <string name="min_distance" >0.1 km</string >
-    <string name="max_distance" >100 km</string >
+    <string name="max_distance" >20 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_title" >Validation</string >
     <string name="validation_big" >VALIDATION</string >

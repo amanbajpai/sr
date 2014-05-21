@@ -33,6 +33,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.FontUtils;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -130,6 +131,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);
 
+        findViewById(R.id.termsAndConditionsButton).setOnClickListener(this);
         findViewById(R.id.confirmButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
 
@@ -247,6 +249,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 progressDialog = CustomProgressDialog.show(this);
                 progressDialog.setCancelable(false);
                 apiFacade.registration(this, registrationEntity);
+                break;
+            case R.id.termsAndConditionsButton:
+                startActivity(IntentUtils.getTermsAndConditionIntent(this));
                 break;
             case R.id.cancelButton:
                 finish();

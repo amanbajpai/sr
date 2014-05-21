@@ -337,7 +337,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (currentFragment != null) {
             currentFragment.onActivityResult(requestCode, resultCode, data);
         }
