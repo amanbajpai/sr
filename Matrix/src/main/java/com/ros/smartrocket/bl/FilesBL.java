@@ -23,6 +23,11 @@ public class FilesBL {
                 NotUploadedFileDbSchema.Query.PROJECTION, null, null, NotUploadedFileDbSchema.SORT_ORDER_DESC);
     }
 
+    public static void getNotUploadedFilesCountFromDB(AsyncQueryHandler handler, String cookie) {
+        handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, cookie, NotUploadedFileDbSchema.CONTENT_URI,
+                new String[] { "count(*)" }, null, null, null);
+    }
+
     public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long currentId,
                                                      boolean useTreeGOnly, String cookie) {
         String where = NotUploadedFileDbSchema.Columns._ID + ">'" + currentId + "'";

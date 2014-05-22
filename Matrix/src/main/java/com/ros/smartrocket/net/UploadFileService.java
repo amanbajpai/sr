@@ -47,9 +47,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     private Timer uploadFilesTimer;
     private Timer showNotificationTimer;
+    private boolean uploadingFiles = false;
 
     private static final String COOKIE_UPLOAD_FILE = "upload_file";
     private static final String COOKIE_SHOW_NOTIFICATION = "show_notification";
+    private static final String COOKIE_CHECK_NOT_UPLOAD_FILE_COUNT = "not_upload_file_count";
 
     private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 15;
     private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
@@ -108,7 +110,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         public void run() {
 
                             L.i(TAG, "In timer. Start");
-                            if (canUploadNextFile(UploadFileService.this)) {
+                            if (!uploadingFiles && canUploadNextFile(UploadFileService.this)) {
                                 L.i(TAG, "Can upload file");
                                 FilesBL.getFirstNotUploadedFileFromDB(dbHandler, 0,
                                         UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
@@ -162,13 +164,17 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
 
                         if (notUploadedFile != null) {
+                            L.i(TAG, "Upload file");
                             //if (Calendar.getInstance().getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
+                            uploadingFiles = true;
                             apiFacade.sendFile(UploadFileService.this, notUploadedFile);
                             /*} else {
                                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
                             }*/
                         } else {
-                            stopUploadedFilesTimer();
+                            uploadingFiles = false;
+                            FilesBL.getNotUploadedFilesCountFromDB(dbHandler, COOKIE_CHECK_NOT_UPLOAD_FILE_COUNT);
+
                         }
                     } else if (cookie.equals(COOKIE_SHOW_NOTIFICATION)) {
                         ArrayList<NotUploadedFile> notUploadedFileList = FilesBL.convertCursorToNotUploadedFileList
@@ -186,6 +192,15 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         } else {
                             stopShowNotifiationTimer();
                         }
+                    } else if (cookie.equals(COOKIE_CHECK_NOT_UPLOAD_FILE_COUNT)) {
+                        if (cursor != null && cursor.getCount() > 0) {
+                            cursor.moveToFirst();
+                            if (cursor.getInt(0) == 0) {
+                                stopUploadedFilesTimer();
+                            }
+                        } else {
+                            stopUploadedFilesTimer();
+                        }
                     }
                     break;
             }
@@ -198,7 +213,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
         if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
             final NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+            int responseCode = operation.getResponseStatusCode();
+
+            if (responseCode == BaseNetworkService.SUCCESS) {
                 L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName());
 
@@ -212,8 +229,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     validateTask(notUploadedFile.getTaskId());
                 }
 
-            } else if (operation.getResponseStatusCode() == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
-                    operation.getResponseStatusCode() == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+            } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
+                    responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
             } else {
@@ -221,9 +238,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         + notUploadedFile.getFileName());
             }
 
-            if (canUploadNextFile(this)) {
+            if (responseCode != BaseNetworkService.NO_INTERNET && canUploadNextFile(this)) {
                 FilesBL.getFirstNotUploadedFileFromDB(dbHandler, notUploadedFile.get_id(),
                         UIUtils.is3G(UploadFileService.this), COOKIE_UPLOAD_FILE);
+            } else {
+                uploadingFiles = false;
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
             //QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
