@@ -28,6 +28,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import com.google.android.gms.internal.is;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
@@ -131,6 +132,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
         showHiddenTasksToggleButton = (ToggleButton) view.findViewById(R.id.showHiddenTasksToggleButton);
+        showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
         showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
 
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
@@ -506,6 +508,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.showHiddenTasksToggleButton:
+                preferencesManager.setShowHiddenTask(isChecked);
                 loadData();
                 break;
             default:
@@ -590,7 +593,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private OnMarkerClickDownstreamListener onMarkerClickListener = new OnMarkerClickDownstreamListener() {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
-            return mode == Keys.MapViewMode.SURVEYTASKS || mode == Keys.MapViewMode.SINGLETASK;
+            return mode == Keys.MapViewMode.SINGLETASK;
         }
     };
 

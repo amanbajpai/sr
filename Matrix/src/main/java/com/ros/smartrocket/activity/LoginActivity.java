@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import com.google.android.gms.common.ConnectionResult;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.LoginBL;
@@ -25,12 +26,9 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.GoogleUrlShortenManager;
-import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-
-import java.io.UnsupportedEncodingException;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
@@ -48,6 +46,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
     private EditText passwordEditText;
+    private CheckBox rememberMeCheckBox;
     private Button loginButton;
     private Button registerButton;
     private Location currentLocation;
@@ -74,10 +73,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
 
-        if (Config.ENV == Config.Environment.DEVELOPMENT) {
+        String lastEmail = preferencesManager.getLastEmail();
+        String lastPassword = preferencesManager.getLastPassword();
+
+        /*if (Config.ENV == Config.Environment.DEVELOPMENT) {
             emailEditText.setText(getString(R.string.login_test_account));
             passwordEditText.setText(getString(R.string.login_test_password));
+        } else*/
+        if (!TextUtils.isEmpty(lastEmail) || !TextUtils.isEmpty(lastPassword)) {
+            emailEditText.setText(lastEmail);
+            passwordEditText.setText(lastPassword);
+            rememberMeCheckBox.setChecked(true);
         }
 
         findViewById(R.id.forgotPasswordButton).setOnClickListener(this);
@@ -125,6 +133,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     }
                 }*/
 
+                if (rememberMeCheckBox.isChecked()) {
+                    preferencesManager.setLastEmail(emailEditText.getText().toString().trim());
+                    preferencesManager.setLastPassword(passwordEditText.getText().toString().trim());
+                } else {
+                    preferencesManager.setLastEmail("");
+                    preferencesManager.setLastPassword("");
+                }
                 progressDialog.dismiss();
                 finish();
                 startActivity(new Intent(this, MainActivity.class));

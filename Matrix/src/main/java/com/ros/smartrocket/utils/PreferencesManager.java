@@ -250,6 +250,30 @@ public class PreferencesManager {
         return getInt(Keys.DEFAULT_RADIUS, TasksMapFragment.DEFAULT_TASK_RADIUSE);
     }
 
+    public String getLastEmail() {
+        return getString(Keys.LAST_EMAIL, "");
+    }
+
+    public void setLastEmail(String login) {
+        setString(Keys.LAST_EMAIL, login);
+    }
+
+    public String getLastPassword() {
+        return getString(Keys.LAST_PASSWORD, "");
+    }
+
+    public void setLastPassword(String password) {
+        setString(Keys.LAST_PASSWORD, password);
+    }
+
+    public boolean getShowHiddenTask() {
+        return getBoolean(Keys.SHOW_HIDDEN_TASKS, false);
+    }
+
+    public void setShowHiddenTask(boolean use) {
+        setBoolean(Keys.SHOW_HIDDEN_TASKS, use);
+    }
+
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

@@ -18,9 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -36,6 +34,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -46,6 +45,7 @@ import java.util.ArrayList;
 public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface, View.OnClickListener {
     private static final String TAG = SurveyListFragment.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ImageView refreshButton;
     private AsyncQueryHandler handler;
@@ -93,7 +93,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
             final int radius = TasksMapFragment.taskRadius;
             L.i(TAG, "Radius: " + radius);
 
-            SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius);
+            SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
 
             if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
                 lm.getAddress(location, new MatrixLocationManager.IAddress() {
@@ -138,7 +138,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
-                SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius);
+                SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius, preferencesManager.getShowHiddenTask());
             }
         } else {
             L.e(TAG, operation.getResponseError());

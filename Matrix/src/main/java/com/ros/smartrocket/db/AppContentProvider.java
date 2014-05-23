@@ -137,7 +137,7 @@ public class AppContentProvider extends ContentProvider {
 
                 groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();
 
-                cursor = db.query(table, colums, null, null, groupBy, null, TaskDbSchema.SORT_ORDER_DISTANCE_ASC);
+                cursor = db.query(table, colums, null, null, groupBy, null, TaskDbSchema.SORT_ORDER_END_DATE_ASC);
                 break;
             default:
                 break;

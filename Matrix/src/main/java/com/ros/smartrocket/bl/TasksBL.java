@@ -49,8 +49,8 @@ public class TasksBL {
         );
     }
 
-    public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean withHiddenTasks) {
-        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+    public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean showHiddenTasks) {
+        String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, Table.TASK.getName()

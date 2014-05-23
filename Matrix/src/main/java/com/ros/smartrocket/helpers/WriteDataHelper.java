@@ -21,11 +21,15 @@ public class WriteDataHelper {
     public static void prepareLogout(Context context) {
         PreferencesManager preferencesManager =  PreferencesManager.getInstance();
         int taskRadius = preferencesManager.getDefaultRadius();
+        String lastEmail = preferencesManager.getLastEmail();
+        String lastPassword = preferencesManager.getLastPassword();
 
         preferencesManager.clearAll();
 
         SettingsFragment.setCurrentLanguage();
         preferencesManager.setDefaultRadius(taskRadius);
+        preferencesManager.setLastEmail(lastEmail);
+        preferencesManager.setLastPassword(lastPassword);
 
         SurveysBL.removeAllSurveysFromDB(context);
         TasksBL.removeAllTasksFromDB(context);

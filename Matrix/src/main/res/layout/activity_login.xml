@@ -61,6 +61,16 @@
             android:background="@color/white"
             android:hint="@string/your_password_hint" />
     </LinearLayout >
+    <com.ros.smartrocket.views.CustomCheckBox
+        android:id="@+id/rememberMeCheckBox"
+        style="@style/CheckBox"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/orange"
+        android:layout_marginTop="20dp"
+        android:text="@string/remember_me" />
     <com.ros.smartrocket.views.CustomButton
         android:id="@+id/loginButton"
         style="@style/Button"

@@ -5,6 +5,8 @@ public interface Keys {
     String APP_VERSION = "app_version";
     String TOKEN = "token";
     String SHORT_URL_TO_SHARE = "short_url_to_share";
+    String LAST_EMAIL = "last_email";
+    String LAST_PASSWORD = "last_password";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
@@ -21,6 +23,7 @@ public interface Keys {
     String LAST_REFRESH_MONTH_LIMIT_DATE = "last_refresh_moth_limit_date";
     String LAST_LEVEL_NUMBER = "last_level_number";
     String DEFAULT_RADIUS = "default_radius";
+    String SHOW_HIDDEN_TASKS = "show_hidden_tasks";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";

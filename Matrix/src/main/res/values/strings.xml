@@ -27,6 +27,7 @@
     <string name="your_birthday" >Your birthday</string >
     <string name="your_country_hint" >Your Country</string >
     <string name="your_city_hint" >Your City</string >
+    <string name="remember_me" >Remember me</string >
     <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
     <string name="confirm_and_register" >CONFIRM &amp; REGISTER</string >
     <string name="cancel" >Cancel</string >
