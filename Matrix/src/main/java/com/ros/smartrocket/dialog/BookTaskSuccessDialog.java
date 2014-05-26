@@ -32,8 +32,6 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        ((TextView) findViewById(R.id.dateTime)).setText(dateTime);
-
         ((TextView) findViewById(R.id.text0)).setText(activity.getString(R.string.book_task_success_dialog_text0,
                 dateTime));
 
