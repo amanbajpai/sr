@@ -16,45 +16,12 @@
         custom:textStyle="bold" />
     <com.ros.smartrocket.views.CustomTextView
         style="@style/DialogText"
-        android:id="@+id/text1"
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/deadline_reminder_dialog_text1" />
-    <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/dateTimeToDate"
-        style="@style/DialogText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        custom:textStyle="bold"
         android:layout_margin="20dp"
-        android:textSize="@dimen/text_size_20sp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal" >
-        <com.ros.smartrocket.views.CustomTextView
-            style="@style/DialogText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="@string/deadline_reminder_dialog_text2" />
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/atDateTime"
-            style="@style/DialogText"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_height="wrap_content"
-            custom:textStyle="bold"
-            android:textSize="@dimen/text_size_20sp" />
-    </LinearLayout >
+        android:text="@string/deadline_reminder_dialog_text" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -65,14 +32,14 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
         <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/closeButton"
+            android:id="@+id/cancelButton"
             style="@style/DialogButton"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:textColor="@color/red"
-            android:text="@string/close"
+            android:text="@string/cancel_big"
             custom:textStyle="bold" />
         <View
             android:layout_width="1dp"

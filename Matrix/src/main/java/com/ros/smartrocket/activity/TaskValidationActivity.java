@@ -63,6 +63,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private ArrayList<Answer> answerListToSend = new ArrayList<Answer>();
     private float filesSizeB = 0;
 
+    private View actionBarView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +108,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     task = TasksBL.convertCursorToTask(cursor);
 
+                    if (actionBarView != null) {
+                        ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
+                    }
+
                     long endDateTime = UIUtils.isoTimeToLong(task.getEndDateTime());
 
                     answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
@@ -117,7 +123,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     if (showRecheckAnswerButton) {
                         QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
                     } else {
-                        closingQuestionText.setText(R.string.task_has_not_yet_submitted);
+                        closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
                         closingQuestionTextLayout.setVisibility(View.VISIBLE);
                     }
                     break;
@@ -274,8 +280,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.validation_title);
+        actionBarView = actionBar.getCustomView();
 
         return true;
     }

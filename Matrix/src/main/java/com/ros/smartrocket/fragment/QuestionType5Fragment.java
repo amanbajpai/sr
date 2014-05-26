@@ -63,7 +63,6 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
         handler = new DbHandler(getActivity().getContentResolver());
 
         TextView questionText = (TextView) view.findViewById(R.id.questionText);
-        TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
 
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
@@ -71,7 +70,6 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
             validationComment.setVisibility(View.VISIBLE);
 
             questionText.setVisibility(View.GONE);
-            conditionText.setVisibility(View.GONE);
         }
 
         videoView = (VideoView) view.findViewById(R.id.video);

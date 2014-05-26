@@ -6,6 +6,7 @@ public interface Keys {
     String TOKEN = "token";
     String SHORT_URL_TO_SHARE = "short_url_to_share";
     String LAST_EMAIL = "last_email";
+    String EMAIL = "email";
     String LAST_PASSWORD = "last_password";
 
     //Settings

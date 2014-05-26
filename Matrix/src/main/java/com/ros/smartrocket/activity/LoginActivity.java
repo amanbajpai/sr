@@ -169,6 +169,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginButton.setEnabled(true);
                 DialogUtils.showAccountNotActivatedDialog(this);
             }
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
+                .NO_INTERNET) {
+            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.dismiss();
+                loginButton.setEnabled(true);
+                DialogUtils.showBadOrNoInternetDialog(this);
+            }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 progressDialog.dismiss();

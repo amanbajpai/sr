@@ -81,6 +81,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Button withdrawTaskButton;
     private Button continueTaskButton;
 
+    private View actionBarView;
+
     private GoogleMap map;
 
     @Override
@@ -271,6 +273,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
 
+        setTitle(getString(R.string.task_detail_title, survey.getName()));
+        if (actionBarView != null) {
+            TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
+            titleTextView.setText(getString(R.string.task_detail_title, survey.getName()));
+        }
         //TODO Get survey type from server
         getSupportActionBar().setIcon(UIUtils.getSurveyTypeActionBarIcon(1));
     }
@@ -393,8 +400,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.task_detail_title);
+        actionBarView = actionBar.getCustomView();
 
         return true;
     }

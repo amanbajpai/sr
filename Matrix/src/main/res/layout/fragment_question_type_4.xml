@@ -18,13 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="20dp" />
-    <com.ros.smartrocket.views.CustomTextView
+    <!--<com.ros.smartrocket.views.CustomTextView
         style="@style/QuestionConditionText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
         android:text="@string/write_your_opinion_about_this"
-        custom:textStyle="bold" />
+        custom:textStyle="bold" />-->
     <com.ros.smartrocket.views.CustomEditTextView
         android:id="@+id/answerEditText"
         style="@style/EditText"

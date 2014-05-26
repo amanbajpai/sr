@@ -108,7 +108,8 @@ public class TaskReminderService extends Service {
                     if (task != null && App.getInstance() != null) {
                         L.i(TAG, "Show dialog 1");
                         long endDateTimeInMilliseconds = UIUtils.isoTimeToLong(task.getEndDateTime());
-                        new DeadlineReminderDialog(App.getInstance(), endDateTimeInMilliseconds, task.getId());
+                        new DeadlineReminderDialog(App.getInstance(), endDateTimeInMilliseconds, task.getName(),
+                                task.getSurveyId(), task.getId());
                     }
                     break;
             }

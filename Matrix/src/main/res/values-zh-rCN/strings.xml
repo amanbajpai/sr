@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
     <string name="app_name" >SmartRocket</string >
-    <string name="click_back_again_to_exit" >请再次点击返回键退出</string >
+    <string name="click_back_again_to_exit" >Please click BACK again to exit</string >
     <!-- LOGIN ACTIVITY -->
     <string name="your_email_hint" >Your e-mail</string >
     <string name="your_password_hint" >Your password</string >
     <string name="forgot_your_password" >Forgot your password?</string >
-    <string name="login_big" >登录</string >
-    <string name="i_new_user" >I\'AM A NEW USER</string >
-    <string name="login_fail_dialog_title" >Log in pop-up</string >
-    <string name="credentials_wrong" >Your credentials are wrong. Please input correct e-mail and password</string >
-    <string name="account_not_activated" >Account is not activated. Go to E-mail client for activation your
-        account.</string >
-    <string name="login_test_account" >Agent1</string >
-    <string name="login_test_password" >123456</string >
+    <string name="login_big" >LOGIN</string >
+    <string name="i_new_user" >NEW USER</string >
+    <string name="login_fail_dialog_title" >SmartRocket Login</string >
+    <string name="credentials_wrong" >The email or password you entered is incorrect. Please try again.</string >
+    <string name="account_not_activated" >Your SmartRocket account has not yet been activated. To use SmartRocket,
+        please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
+        folder or request a new Activiation Link.</string >
+    <string name="request_new_activation_link" >Request New Activiation Link</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >CONTINUE</string >
-    <string name="welcome_to_smart_rocket" >Welcome to Smart Rocket!</string >
-    <string name="how_did_you_hear_about_us" >How did you hear about us?</string >
-    <string name="it_is_very_important_information" >It is very important information for us to know how did you hear
-        about us, please help us to improve our application. Thanks</string >
+    <string name="welcome_to_smart_rocket" >Welcome to SmartRocket registration!</string >
+    <string name="how_did_you_hear_about_us" >How did you first hear about SmartRocket?</string >
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name" >First name</string >
     <string name="last_name" >Last name</string >
@@ -27,75 +25,76 @@
     <string name="your_birthday" >Your birthday</string >
     <string name="your_country_hint" >Your Country</string >
     <string name="your_city_hint" >Your City</string >
-    <string name="i_agree_with_matrix_term" >I agree with Matrix Term&amp;Conditions</string >
-    <string name="confirm_and_register" >CONFIRM &amp; REGISTER</string >
+    <string name="remember_me" >Remember me</string >
+    <string name="i_agree_with_matrix_term" >I agree with SmartRocket Terms &amp; Conditions</string >
+    <string name="confirm_and_register" >REGISTER</string >
     <string name="cancel" >Cancel</string >
+    <string name="cancel_big" >CANCEL</string >
     <string name="close" >Close</string >
     <string name="close_big" >CLOSE</string >
     <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
-    <string name="password_validation_text" >Your password needs to be 8-16 characters long with at least one upper-
-        and lower-case letter and one number.
-    </string >
-    <string name="user_already_exist" >User already exists.</string >
+    <string name="password_validation_text" >Your password must be 8-16 characters long with at least one upper-case
+        letter, one lower-case letter, one number and one special character (!, @, #, $, etc).</string >
+    <string name="user_already_exist" >User already exists. Please enter a different email address.</string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="fill_in_all_fields" >Please, complete all items</string >
-    <string name="registration_form" >Registration form</string >
+    <string name="registration_form" >SmartRocket registration</string >
     <!-- MAIN MENU ACTIVITY -->
-    <string name="drawer_open" >Open navigation drawer</string >
-    <string name="drawer_close" >Close navigation drawer</string >
-    <string name="find_mission" >Find missions</string >
+    <string name="drawer_open" >Open menu drawer</string >
+    <string name="drawer_close" >Close menu drawer</string >
+    <string name="find_mission" >New missions</string >
     <string name="my_missions" >My missions</string >
-    <string name="my_portal" >My portal</string >
+    <string name="my_portal" >MyPortal</string >
     <string name="settings" >Settings</string >
     <string name="support" >Support</string >
     <string name="share" >Share</string >
-    <string name="rocket_points" >Rocket points</string >
-    <string name="level_name" >Level name</string >
+    <string name="rocket_points" >Rocket Points</string >
+    <string name="level_name" >Rank</string >
     <string name="earnings" >Earnings</string >
-    <string name="logout" >Log out</string >
+    <string name="logout" >Logout</string >
     <string name="level_0" >0</string >
     <string name="balance_0" >0$</string >
     <!-- CHECKING FAIL ACTIVITY -->
-    <string name="sorry" >Sorry!</string >
-    <string name="we_dont_have_available_tasks" >At the moment we do not have the available tasks in your area,
-        but you can leave your details to us and we will inform you as soon as the objectives for your region will be
-        available</string >
-    <string name="subscribe" >SUBSCRIBE</string >
+    <string name="sorry" >Sorry! SmartRocket is not yet available in your area.</string >
+    <string name="we_dont_have_available_tasks" >Unfortunately, we do not currently have tasks available in your
+        area, but we are adding new locations all the time. If you would like to be notified when we launch in your
+        area, please submit your email address below.</string >
+    <string name="subscribe" >SUBMIT</string >
     <!-- FIND TASK FRAGMENT-->
     <!-- SURVEY LIST FRAGMENT-->
     <string name="distance_to_nearest_location" >Distance to the nearest location &lt;b>%1$s &lt;/b></string >
     <string name="distance_m" >m</string >
     <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
-    <string name="mission_expires_at" >Mission expires at: %1$s</string >
+    <string name="mission_expires_at" >Mission expires: %1$s</string >
     <!-- MY TASK FRAGMENT-->
-    <string name="redo_mission" >Re-do Mission</string >
-    <string name="send_latter_mission" >Send latter Mission</string >
+    <string name="redo_mission" >Re-do. Mission expires: %1$s</string >
+    <string name="send_latter_mission" >Unsubmitted. Mission expires: %1$s</string >
     <string name="mission_in_validation" >Mission in validation</string >
+    <string name="mission_rejected" >Mission rejected</string >
     <string name="mission_completed" >Mission completed</string >
-    <string name="mission_validated" >Mission validated</string >
+    <string name="mission_validated" >Congratulations! Mission approved!</string >
     <string name="time_left" >left</string >
-    <string name="you_have_no_tasks" >You currently have no missions. \nGo to \"Find Missions\" to claim and complete
-        additional Missions</string >
+    <string name="you_have_no_tasks" >You have no current missions. \nGo to \"New Missions\" to claim and complete
+        new missions.</string >
     <!-- SETTINGS FRAGMENT-->
-    <string name="app_settings_title" >App settings</string >
+    <string name="app_settings_title" >SmartRocket Settings</string >
     <string name="application_settings" >APPLICATION SETTINGS</string >
     <string name="language" >Language</string >
     <string name="location_services" >Location services</string >
     <string name="push_messages" >Push messages</string >
-    <string name="tree_g_upload_task_limit" >3G Upload Limit per Task (MB)</string >
-    <string name="tree_g_upload_month_limit" >3G Monthly Upload Limit (MB)</string >
+    <string name="tree_g_upload_task_limit" >3G upload limit per mission (MB)</string >
+    <string name="tree_g_upload_month_limit" >3G total monthly upload limit (MB)</string >
     <string name="social_sharing" >Social sharing</string >
-    <string name="save_images_to_camera_roll" >Save images to Camera roll</string >
+    <string name="save_images_to_camera_roll" >Save images to Gallery</string >
     <string name="send_only_by_wifi" >Send information only by WiFi</string >
     <string name="notification_settings" >NOTIFICATION SETTINGS</string >
     <string name="reminder" >Reminder</string >
-    <string name="deadline_warning" >Deadline Warning</string >
+    <string name="deadline_warning" >Mission deadline warning</string >
     <string name="app_version" >Application version</string >
-    <string name="confirm_and_save_big" >CONFIRM &amp; SAVE</string >
-    <string name="cancel_big" >CANCEL</string >
-    <!-- SUPPORT FRAGMENT-->
+    <string name="confirm_and_save_big" >APPLY</string >
+    <!-- //TODO SUPPORT FRAGMENT-->
     <string name="support_title" >Support</string >
     <string name="support_text1" >Survey description Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Phasellus eget feugiat justo. Integer eget ligula porta, commodo magna at, porta purus. Sed non placerat nisi. Aenean tempor nibh in purus egestas porta.</string >
@@ -118,16 +117,17 @@
     <string name="share_via_tencent_weibo" >Tencent Weibo</string >
     <string name="share_via_sina_weibo" >Sina Weibo</string >
     <string name="share_via_qzone" >QZone</string >
+    <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
     <!-- TASK DETAIL ACTIVITY-->
-    <string name="task_detail_title" >Mission details</string >
+    <string name="task_detail_title" >%1$s field</string >
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="hk" >HK$</string >
     <string name="start_time" >START:</string >
     <string name="deadline_time" >DEADLINE:</string >
-    <string name="duration_time" >DURATION:</string >
+    <string name="duration_time" >EXPIRY:</string >
     <string name="mission_address" >MISSION ADDRESS</string >
-    <string name="full_description" >FULL DESCRIPTION</string >
+    <string name="full_description" >MISSION DESCRIPTION</string >
     <string name="book_this_task" >CLAIM</string >
     <string name="start_this_task" >START NOW</string >
     <string name="hide_task" >HIDE MISSION</string >
@@ -135,47 +135,50 @@
     <string name="withdraw_task" >WITHDRAW</string >
     <string name="continue_task" >CONTINUE</string >
     <!-- PROJECT DETAIL ACTIVITY-->
-    <string name="survey_missions_description" >PROJECT\'S MISSIONS DESCRIPTION</string >
+    <string name="survey_missions_description" >FULL DESCRIPTION</string >
     <string name="show_missions" >SHOW MISSIONS</string >
     <string name="view_missions" >VIEW MISSIONS</string >
     <string name="hide_missions" >HIDE MISSIONS</string >
     <!-- MAP ACTIVITY-->
-    <string name="task_location_title" >Task Location</string >
+    <string name="task_location_title" >Mission location</string >
     <!-- CHECK LOCATION ACTIVITY -->
-    <string name="since_jobs" >Since jobs for our agents are tied to specific locations? We have to check your
-        location to determine the presence of tasks for your location.</string >
-    <string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >
+    <string name="since_jobs" >Before registration, we need to check if there are tasks available in your location.
+        You will need to be connected to the internet and have Location Services enabled.</string >
+    <!--<string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >-->
     <string name="check_my_location" >CHECK MY LOCATION</string >
     <!-- ERROR STRINGS -->
-    <string name="error" >Error</string >
-    <string name="success" >Success</string >
-    <string name="no_internet" >Please turn On internet connection.</string >
+    <string name="error" >Error.</string >
+    <string name="success" >Success.</string >
+    <string name="no_internet" >Please turn ON internet connection.</string >
     <!-- TURN ON LOCATION DIALOG -->
-    <string name="turn_on_location_dialog_title" >Location pop-up</string >
-    <string name="turn_on_location_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
-        services on your phone settings</string >
+    <string name="turn_on_location_dialog_title" >Location services</string >
+    <string name="turn_on_location_dialog_text" >To use SmartRocket, you must TURN ON Location Services in your
+        smartphone settings.</string >
     <!-- TURN ON NETWORK DIALOG -->
-    <string name="turn_on_network_dialog_title" >Network pop-up</string >
-    <string name="turn_on_network_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Network
-        services on your phone settings</string >
+    <string name="turn_on_network_dialog_title" >Network services</string >
+    <string name="turn_on_network_dialog_text" >To use SmartRocket, you must TURN ON Network Services in your
+        smartphone settings.</string >
     <!-- TURN ON GOOGLE SDK DIALOG -->
-    <string name="turn_on_google_sdk_dialog_title" >Google SDK pop-up</string >
-    <string name="turn_on_google_sdk_dialog_text" >For use Matrix application you need to <b >TURN ON</b > Location
-        services on your phone settings</string >
+    <string name="turn_on_google_sdk_dialog_title" >Google SDK services</string >
+    <string name="turn_on_google_sdk_dialog_text" >To use SmartRocket, you must INSTALL Google SDK Services in your
+        smartphone settings.</string >
     <!-- TURN OFF MOCK LOCATION DIALOG -->
-    <string name="turn_of_mock_location_dialog_title" >GPS mock OFF pop-up</string >
-    <string name="turn_of_mock_location_dialog_text" >For use Matrix you need <b >TURN OFF</b > GPS mock location on your smartphone</string >
+    <string name="turn_of_mock_location_dialog_title" >GPS mock location</string >
+    <string name="turn_of_mock_location_dialog_text" >To use SmartRocket, you must TURN OFF GPS mock location in your
+        smartphone settings.</string >
     <!-- REGISTRATION SUCCESS DIALOG -->
-    <string name="registration_success_dialog_title" >Registration</string >
-    <string name="registration_success_dialog_text0" >Congratulations!</string >
-    <string name="registration_success_dialog_text1" >You\'ve passed the registration and we send link to </string >
-    <string name="registration_success_dialog_text2" >Please use it for you e-mail validation before you can start
-        using Smart Rocket application</string >
+    <string name="registration_success_dialog_title" >SmartRocket registration</string >
+    <string name="registration_success_dialog_text0" >Thank you!</string >
+    <string name="registration_success_dialog_text1" >We have sent an email to <b >%1$s</b > with a link to activate
+        your SmartRocket account.</string >
+    <string name="registration_success_dialog_text2" >You must click this link in order to complete registration and
+        login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us at
+        registration@smart-rocket.com</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
-    <string name="book_task_success_dialog_title" >Claim</string >
-    <string name="book_task_success_dialog_text0" >Congratulations!</string >
-    <string name="book_task_success_dialog_text2" >You can find this task in \"My Task list\" until you successfully
-        complete it.</string >
+    <string name="book_task_success_dialog_title" >Mission Claimed</string >
+    <string name="book_task_success_dialog_text0" >This mission must be completed by <b >%1$s</b >.</string >
+    <string name="book_task_success_dialog_text1" >You can find this mission in \"My Missions\" until it is
+        successfully completed.</string >
     <string name="start_later" >Start later</string >
     <string name="start_now" >Start now</string >
     <!-- GCM -->
@@ -187,9 +190,8 @@
     <!-- Google Map Fragment -->
     <string name="map_popup_distance" >%1$s %2$s</string >
     <!-- Current Location -->
-    <string name="looking_for_location" >Looking for your current location&#8230;</string >
-    <string name="current_location_not_defined" >There is no current location. Looking for your current location,
-        please wait&#8230;</string >
+    <string name="looking_for_location" >Checking your current location&#8230;</string >
+    <string name="current_location_not_defined" >Unable to confirm your current location. Please try again.</string >
     <!-- Select image dialog -->
     <string name="take_picture" >Take picture</string >
     <string name="choose_from_gallery" >Choose from gallery</string >
@@ -215,64 +217,68 @@
     <string name="retired" >Retired</string >
     <!-- WITHDRAW DIALOG -->
     <string name="withdraw_task_dialog_title" >Withdraw from mission</string >
-    <string name="withdraw_task_dialog_text1" >Withdraw from this mission only if you\'re can\'t complete it by the due
-        </string >
+    <string name="withdraw_task_dialog_text1" >Withdraw from this mission only if you cannot complete it by this
+        deadline;</string >
     <string name="withdraw_task_dialog_text2" >Withdrawing from the mission cannot be undone and affects your
         reputation.</string >
     <string name="withdraw_task_dialog_text3" >Do you want withdraw from mission?</string >
     <string name="no_button" >NO</string >
-    <string name="yes_button" >YES</string >
+    <string name="withdraw_button" >WITHDRAW</string >
     <!-- QUESTION ACTIVITY-->
     <string name="question_title" >Mission</string >
     <string name="previous" >PREVIOUS</string >
     <string name="next" >NEXT</string >
     <string name="enter_here" >Enter here</string >
     <!--<string name="from_till" >From %1$s till %2$s</string >-->
-    <string name="quite_mission" >QUITE MISSION</string >
+    <string name="quite_mission" >QUIT MISSION</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
-    <string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >
-    <string name="write_your_number" >WRITE YOUR NUMBER FROM %1$s TILL %2$s</string >
-    <string name="take_photo_big" >TAKE PHOTO</string >
-    <string name="take_video_big" >TAKE VIDEO</string >
+    <!--<string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >-->
+    <string name="write_your_number" >WRITE A NUMBER BETWEEN %1$s AND %2$s</string >
+    <!--<string name="take_photo_big" >TAKE PHOTO</string >
+    <string name="take_video_big" >TAKE VIDEO</string >-->
     <!-- QUITE TASK DIALOG -->
-    <string name="quite_task_dialog_title" >Quite mission</string >
+    <string name="quite_task_dialog_title" >Quit mission</string >
     <string name="quite_task_dialog_text1" >Warning!</string >
-    <string name="quite_task_dialog_text2" >You will lose all data in this task.\nDo you really want to
-        quit?</string >
+    <string name="quite_task_dialog_text2" >If you quit now, you will lose all data from this mission. You will need
+        to either restart this mission later or withdraw. Do you really want to quit?</string >
     <!-- MAP FRAGMENT -->
-    <string name="zoom_to_this_radius" >Zoom to this radius</string >
-    <string name="show_hidden_tasks_on_map" >Show hidden tasks on map</string >
+    <string name="zoom_to_this_radius" >Set default zoom radius</string >
+    <string name="show_hidden_tasks_on_map" >Show all hidden missions</string >
+    <string name="apply_big" >APPLY</string >
     <!--<string name="show" >Show</string >-->
-    <string name="min_distance" >0.1 km</string >
+    <string name="min_distance" >0 km</string >
     <string name="max_distance" >20 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
-    <string name="validation_title" >Validation</string >
-    <string name="validation_big" >VALIDATION</string >
-    <string name="recheck_my_answer" >RECHECK MY ANSWERS</string >
-    <string name="expiry_time" >EXPIRY TIME: </string >
-    <string name="task_data_size" >TASK DATA SIZE: </string >
+    <string name="validation_big" >SUBMIT MISSION</string >
+    <string name="recheck_my_answer" >BACK</string >
+    <string name="expiry_time" >MISSION EXPIRES: </string >
+    <string name="task_data_size" >MISSION DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
-    <string name="task_has_not_yet_submitted" >This task has not yet been submitted. \nIt must be submitted before the
-        expiry time in order to qualify for payment and Rocket Points.</string >
-    <string name="confirm_you_can_find_in_my_mission" >Validation confirm you can find in \"My missions\"</string >
-    <string name="confirm_and_send" >CONFIRM &amp; SEND</string >
-    <string name="send_later" >SEND LATER</string >
+    <string name="task_has_not_yet_submitted" >This mission must be submitted before the expiry time below and
+        successfully validated to qualify for cash payment and Rocket Points.</string >
+    <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \n\n It must be
+        submitted before the expiry time below and successfully validated to qualify for cash payment and Rocket Points. </string >
+    <string name="confirm_you_can_find_in_my_mission" >If you choose to SUBMIT LATER, you can find this mission in
+        \"My Missions\" until it is SUBMITTED or it EXPIRES.</string >
+    <string name="submit_now" >SUBMIT NOW</string >
+    <string name="submit_later" >SUBMIT LATER</string >
     <!-- QUIT QUESTION ACTIVITY -->
     <string name="quit_question_title" >Quit</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
     <string name="registration_subscribe_dialog_title" >Confirmation</string >
-    <string name="registration_subscribe_dialog_text1" >Thanks! We get your info and get in touch with you when we can
-        offer missions in your location </string >
-    <string name="registration_subscribe_dialog_text2" >For more information you can visit</string >
-    <string name="registration_subscribe_dialog_text3" >www.matrix.com/about</string >
+    <string name="registration_subscribe_dialog_text1" >Thank you for your interest in SmartRocket.</string >
+    <string name="registration_subscribe_dialog_text2" >We will send you an email letting you know when we have
+        missions available in your area. For more information on SmartRocket and the locations we are active, please
+        visit: <b >www.smart-rocket.com/about</b ></string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
-    <string name="tree_g_limit_exceeded_dialog_title" >3G limit reached pop-up</string >
-    <string name="tree_g_limit_exceeded_dialog_text1" >Attention! Task files size more then 3G limit for task. Do
-        you want start upload files using 3G?</string >
-    <string name="tree_g_limit_exceeded_dialog_yes" >Yes</string >
-    <string name="tree_g_limit_exceeded_dialog_only_wifi" >Use Wi-Fi only</string >
+    <string name="tree_g_limit_exceeded_dialog_title" >3G upload limit warning</string >
+    <string name="tree_g_limit_exceeded_dialog_text1" >Attention! \n\nThis mission exceeds your current 3G upload per
+        mission limit. Do you wish to continue? If you choose WI-FI only, you can find this mission in \"My Missions\"
+        until it is SUBMITTED or it EXPIRES.</string >
+    <string name="tree_g_limit_exceeded_dialog_yes" >SUBMIT 3G NOW</string >
+    <string name="tree_g_limit_exceeded_dialog_only_wifi" >SUBMIT LATER</string >
     <!-- Not uploaded file notification-->
     <string name="file_waiting_to_upload" >File is waiting to upload</string >
     <!-- Task status changed -->
@@ -281,21 +287,19 @@
     <string name="validated_task_status_message" >Task \"%1$s\" changed status to Validated!</string >
     <string name="unknown_status_id_message" >Unknown statusId \"%1$s\" !</string >
     <!-- Photo can not be added -->
-    <string name="add_photo_error_title" >Add photo error</string >
-    <string name="add_photo_error_text" >Photo can not be added from this places.</string >
-    <string name="toast_application_not_found" >Application not found</string >
+    <string name="add_photo_error_title" >Add photo error.</string >
+    <string name="add_photo_error_text" >Photo can not be added from this source.</string >
+    <string name="toast_application_not_found" >Application not found.</string >
     <!-- Date picker dialog -->
     <string name="date_picker_dialog_title_birthday" >Birthday</string >
     <!-- LOGIN ACTIVITY -->
-    <string name="maximum_mission_dialog_title" >Maximum mission</string >
-    <string name="maximum_mission_dialog_text" >You\'ve claimed the maximum number of missions for this
-        Project.\n\nTo claim more missions on this Project,
-    you must first complete your existing missions.</string >
+    <string name="maximum_mission_dialog_title" >Mission claim limit reached</string >
+    <string name="maximum_mission_dialog_text" >You have claimed the maximum number of missions for this Project. To
+        claim more missions on this Project, you must first complete existing missions.</string >
     <!-- DEADLINE REMINDER DIALOG -->
-    <string name="deadline_reminder_dialog_title" >Deadline reminder</string >
-    <string name="go_to_mission" >Go to mission</string >
-    <string name="deadline_reminder_dialog_text1" >The best pub on the street</string >
-    <string name="deadline_reminder_dialog_text2" >at </string >
+    <string name="deadline_reminder_dialog_title" >Mission deadline reminder</string >
+    <string name="go_to_mission" >GO TO MISSION</string >
+    <string name="deadline_reminder_dialog_text" >%1$s %2$s expires: %3$s</string >
     <plurals name="minute" >
         <item quantity="one" >minute</item >
         <item quantity="other" >minutes</item >
@@ -308,35 +312,35 @@
         <item quantity="one" >day</item >
         <item quantity="other" >days</item >
     </plurals >
-    <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
     <!-- FORGOT PASSWORD ACTIVITY -->
-    <string name="send_password" >SEND PASSWORD TO YOUR E-MAIL</string >
-    <string name="we_sent_your_password" >We\'ve sent your password to your e-mail. \n Check it and back to
-        login</string >
+    <string name="send_password" >EMAIL MY PASSWORD</string >
+    <string name="we_sent_your_password" >Your password has been sent to %1$s. If you cannot find this message,
+        check your Junk/Spam folder.</string >
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >Age verification</string >
     <string name="age_verification_dialog_text1" >You must be <b >18 years or older</b > to join
-        SmartRocket. \n\nPlease try again or remove app if you under 18.</string >
-    <string name="age_verification_dialog_redo" >Redo</string >
-    <string name="age_verification_dialog_under" >Under 18</string >
+        SmartRocket.</string >
+    <string name="age_verification_dialog_redo" >REDO</string >
+    <string name="age_verification_dialog_under" >UNDER 18</string >
     <!-- CHECK LOCATION SUCCESS DIALOG -->
-    <string name="check_location_dialog_title" >Location</string >
+    <string name="check_location_dialog_title" >Location Check</string >
     <string name="check_location_dialog_text1" >Checking your location...</string >
-    <string name="check_location_dialog_text2" >Your location checked.</string >
-    <string name="check_location_dialog_text3" >Check location failed.</string >
+    <string name="check_location_dialog_text2" >Location check complete.</string >
+    <string name="check_location_dialog_text3" >Location check complete.</string >
     <!-- ACTIVATE ACCOUNT ACTIVITY -->
-    <string name="activate_account_text1" >Thanks for filling in the fields!</string >
-    <string name="activate_account_text2" >Thank you for registering with SmartRocket. Your account has been created
-        and a verification email has been sent to your registered email address. Please click on the verification link
-    included in the email to activate your account. \n\nYour account will not be activated until you verify
-    your email address. \n\nHaving trouble accessing your account? Please contact Online Customer Support.</string >
+    <string name="activate_account_text1" >Registration complete</string >
+    <string name="activate_account_text2" >Thank you for completing registration!\n\n Please activate your
+        SmartRocket Account to begin using SmartRocket.</string >
     <string name="activate_account" >ACTIVATE ACCOUNT</string >
     <!-- ACCOUNT CONFIRMED DIALOG -->
-    <string name="account_confirmed_dialog_title" >Confirmation</string >
-    <string name="account_confirmed_dialog_text1" >Thanks! Your account is confirmed. \n\nNow you can use the
-     SmartRocket application and unlock new badges.</string >
+    <string name="account_confirmed_dialog_title" >Account activation</string >
+    <string name="account_confirmed_dialog_text1" >Your SmartRocket account has now been activated! \n\nFirst, you
+        will need to complete a short series of training missions to help you navigate the App and qualify you as a
+        crew member. After which, you can start claiming missions for real cash and Rocket Points. At any time you
+        can get help, access FAQs and training through the \"Support\" button in the SmartRocket App Menu. \n\nWelcome
+        aboard!</string >
     <!-- USER ALREADY EXISTS DIALOG -->
-    <string name="user_already_exists_dialog_title" >Error</string >
-    <string name="user_already_exists_dialog_text1" >User already exists. Please, enter a different email
+    <string name="user_already_exists_dialog_title" >Invalid username.</string >
+    <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
         address.</string >
 </resources >

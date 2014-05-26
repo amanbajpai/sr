@@ -30,7 +30,8 @@ public class RegistrationSuccessDialog extends Dialog implements View.OnClickLis
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        ((TextView) findViewById(R.id.email)).setText(email);
+        ((TextView) findViewById(R.id.text1)).setText(activity.getString(R.string.registration_success_dialog_text1,
+                email));
 
         findViewById(R.id.okButton).setOnClickListener(this);
     }

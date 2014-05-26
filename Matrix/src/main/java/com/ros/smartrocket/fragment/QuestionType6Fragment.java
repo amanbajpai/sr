@@ -29,7 +29,7 @@ import com.ros.smartrocket.utils.L;
  * Fragment for display About information
  */
 public class QuestionType6Fragment extends BaseQuestionFragment {
-    private static final String TAG = QuestionType6Fragment.class.getSimpleName();
+    //private static final String TAG = QuestionType6Fragment.class.getSimpleName();
     private ViewGroup view;
     private TextView questionText;
     private TextView writeNumberFromTillText;

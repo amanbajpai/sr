@@ -194,6 +194,33 @@ public class DialogUtils {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.login_fail_dialog_title),
                 activity.getText(R.string.account_not_activated),
+                R.string.request_new_activation_link, android.R.string.ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                //TODO Request new activation link. Use Login, Pass
+                //activity.startActivity(IntentUtils.getEmailIntent(null, null));
+            }
+        });
+        return dialog;
+    }
+
+    /**
+     * Show no internet connection Dialog message
+     *
+     * @param activity
+     */
+    public static Dialog showBadOrNoInternetDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.login_fail_dialog_title),
+                activity.getText(R.string.turn_on_google_sdk_dialog_text),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
         dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {

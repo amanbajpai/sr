@@ -44,8 +44,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
     public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Chinese (Simplified)",
             "Chinese (Traditional)"};
-    public static final int[] LIMIT_MB_CODE = new int[]{10000, 5, 10, 20, 50, 100, 200};
-    public static final String[] LIMIT_MB = new String[]{"Unlimited", "5", "10", "20", "50", "100", "200"};
+    public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{10000, 50, 100, 250, 500};
+    public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
+    public static final int[] MISSION_LIMIT_MB_CODE = new int[]{10000, 10, 25, 50, 100};
+    public static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "10", "25", "50", "100"};
     public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS, DateUtils.MINUTE_IN_MILLIS * 2,
             DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10, DateUtils.MINUTE_IN_MILLIS * 30,
             DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
@@ -173,12 +175,12 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         int limit = preferencesManager.get3GUploadTaskLimit();
 
         ArrayAdapter taskLimitAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
-                LIMIT_MB);
+                MISSION_LIMIT_MB);
         taskLimitSpinner.setAdapter(taskLimitAdapter);
 
         int selectedItemPosition = 0;
-        for (int i = 0; i < LIMIT_MB_CODE.length; i++) {
-            if (LIMIT_MB_CODE[i] == limit) {
+        for (int i = 0; i < MISSION_LIMIT_MB_CODE.length; i++) {
+            if (MISSION_LIMIT_MB_CODE[i] == limit) {
                 selectedItemPosition = i;
                 break;
             }
@@ -190,12 +192,12 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         int limit = preferencesManager.get3GUploadMonthLimit();
 
         ArrayAdapter monthLimitAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
-                LIMIT_MB);
+                MONTHLY_LIMIT_MB);
         monthLimitSpinner.setAdapter(monthLimitAdapter);
 
         int selectedItemPosition = 0;
-        for (int i = 0; i < LIMIT_MB_CODE.length; i++) {
-            if (LIMIT_MB_CODE[i] == limit) {
+        for (int i = 0; i < MONTHLY_LIMIT_MB_CODE.length; i++) {
+            if (MONTHLY_LIMIT_MB_CODE[i] == limit) {
                 selectedItemPosition = i;
                 break;
             }
@@ -226,8 +228,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
                 preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
 
-                preferencesManager.set3GUploadTaskLimit(LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
-                preferencesManager.set3GUploadMonthLimit(LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
+                preferencesManager.set3GUploadTaskLimit(MISSION_LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
+                preferencesManager.set3GUploadMonthLimit(MONTHLY_LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
 
                 preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);

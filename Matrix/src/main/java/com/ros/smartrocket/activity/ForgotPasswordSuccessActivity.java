@@ -2,6 +2,8 @@ package com.ros.smartrocket.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -10,6 +12,7 @@ import com.ros.smartrocket.utils.UIUtils;
  */
 public class ForgotPasswordSuccessActivity extends BaseActivity implements View.OnClickListener {
     //private static final String TAG = ForgotPasswordSuccessActivity.class.getSimpleName();
+    private String email = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,6 +21,12 @@ public class ForgotPasswordSuccessActivity extends BaseActivity implements View.
         setContentView(R.layout.activity_forgot_password_success);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.orange));
+
+        if (getIntent() != null) {
+            email = getIntent().getStringExtra(Keys.EMAIL);
+        }
+
+        ((TextView) findViewById(R.id.passwordSentText)).setText(getString(R.string.we_sent_your_password, email));
 
         findViewById(R.id.okButton).setOnClickListener(this);
 

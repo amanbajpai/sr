@@ -30,21 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:text="@string/registration_subscribe_dialog_text2" />
-    <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/dateTime"
-        style="@style/DialogText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/registration_subscribe_dialog_text3"
-        custom:textStyle="bold"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:textSize="@dimen/text_size_18sp" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

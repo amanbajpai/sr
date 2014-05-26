@@ -119,7 +119,7 @@
             android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
-            android:text="@string/confirm_and_send"
+            android:text="@string/submit_now"
             android:layout_marginRight="5dp"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomButton
@@ -131,7 +131,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:background="@drawable/button_green_selector"
-            android:text="@string/send_later"
+            android:text="@string/submit_later"
             android:layout_marginLeft="5dp"
             custom:textStyle="bold" />
     </LinearLayout >

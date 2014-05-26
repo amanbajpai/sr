@@ -25,31 +25,13 @@
         android:layout_marginRight="20dp"
         android:text="@string/book_task_success_dialog_text0" />
     <com.ros.smartrocket.views.CustomTextView
-        style="@style/DialogText"
         android:id="@+id/text1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:layout_margin="20dp"
-        android:text="@string/registration_success_dialog_text1" />
-    <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/dateTime"
-        style="@style/DialogText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        custom:textStyle="bold"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textSize="@dimen/text_size_18sp" />
-    <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/text2"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
         style="@style/DialogText"
-        android:text="@string/book_task_success_dialog_text2" />
+        android:text="@string/book_task_success_dialog_text1" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

@@ -135,7 +135,8 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.listItem.setBackgroundResource(R.drawable.mission_blue_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
-                holder.statusText.setText(activity.getString(R.string.send_latter_mission));
+                holder.statusText.setText(activity.getString(R.string.send_latter_mission,
+                        UIUtils.longToString(endTimeInMillisecond, 3)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
@@ -150,7 +151,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-                holder.statusText.setText(activity.getString(R.string.mission_completed));
+                holder.statusText.setText(activity.getString(R.string.mission_completed)); //TODO
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.grey));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
@@ -180,7 +181,8 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
-                holder.statusText.setText(activity.getString(R.string.redo_mission));
+                holder.statusText.setText(activity.getString(R.string.redo_mission,
+                        UIUtils.longToString(endTimeInMillisecond, 3)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.red_dark));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.red));
@@ -210,7 +212,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.listItem.setBackgroundResource(R.drawable.mission_dark_bg);
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_dark));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
-                holder.statusText.setText(activity.getString(R.string.mission_in_validation));
+                holder.statusText.setText(activity.getString(R.string.mission_rejected));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.black_light));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.grey_dark));

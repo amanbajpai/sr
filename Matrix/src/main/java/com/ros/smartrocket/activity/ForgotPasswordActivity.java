@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +13,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
@@ -52,7 +52,8 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
                 finish();
-                startActivity(new Intent(this, ForgotPasswordSuccessActivity.class));
+                startActivity(IntentUtils.getForgotPasswordSuccessIntent(this, emailEditText.getText().toString()
+                        .trim()));
             }
         } else {
             if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {

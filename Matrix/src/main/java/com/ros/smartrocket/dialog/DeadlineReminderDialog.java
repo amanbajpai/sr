@@ -19,7 +19,8 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
     private Context activity;
     private int taskId;
 
-    public DeadlineReminderDialog(Context context, long deadlineTimeInMillis, int taskId) {
+    public DeadlineReminderDialog(Context context, long deadlineTimeInMillis, String taskName, int surveyId,
+                                  int taskId) {
         super(context);
         this.activity = context;
         this.taskId = taskId;
@@ -38,22 +39,23 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        Calendar calendar = Calendar.getInstance();
+        /*Calendar calendar = Calendar.getInstance();
         long timeInMillis = deadlineTimeInMillis - calendar.getTimeInMillis();
 
-        ((TextView) findViewById(R.id.dateTimeToDate)).setText(UIUtils.getTimeInDayHoursMinutes(activity, timeInMillis));
+        ((TextView) findViewById(R.id.dateTimeToDate)).setText(UIUtils.getTimeInDayHoursMinutes(activity, timeInMillis));*/
 
         String atDateTime = UIUtils.longToString(deadlineTimeInMillis, 3);
-        ((TextView) findViewById(R.id.atDateTime)).setText(atDateTime);
+        ((TextView) findViewById(R.id.text)).setText(activity.getString(R.string.deadline_reminder_dialog_text,
+                taskName, String.valueOf(surveyId), atDateTime));
 
-        findViewById(R.id.closeButton).setOnClickListener(this);
+        findViewById(R.id.cancelButton).setOnClickListener(this);
         findViewById(R.id.goToTaskButton).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.closeButton:
+            case R.id.cancelButton:
                 dismiss();
                 break;
             case R.id.goToTaskButton:

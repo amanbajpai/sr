@@ -11,6 +11,7 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.ActivateAccountActivity;
+import com.ros.smartrocket.activity.ForgotPasswordSuccessActivity;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
@@ -116,6 +117,18 @@ public class IntentUtils {
     public static Intent getQuitQuestionIntent(Context context, Question question) {
         Intent intent = new Intent(context, QuitQuestionActivity.class);
         intent.putExtra(Keys.QUESTION, question);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Forgot Password screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getForgotPasswordSuccessIntent(Context context, String email) {
+        Intent intent = new Intent(context, ForgotPasswordSuccessActivity.class);
+        intent.putExtra(Keys.EMAIL, email);
         return intent;
     }
 

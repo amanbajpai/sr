@@ -40,7 +40,6 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private ViewGroup view;
     private TextView questionText;
-    private TextView conditionText;
     private ImageButton rePhotoButton;
     private ImageButton confirmButton;
     private ImageView photoImageView;
@@ -66,7 +65,6 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
-        conditionText = (TextView) view.findViewById(R.id.conditionText);
 
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
@@ -74,7 +72,6 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
             validationComment.setVisibility(View.VISIBLE);
 
             questionText.setVisibility(View.GONE);
-            conditionText.setVisibility(View.GONE);
         }
 
         photoImageView = (ImageView) view.findViewById(R.id.photo);

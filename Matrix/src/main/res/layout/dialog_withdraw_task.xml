@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/green"
             android:layout_weight="1"
-            android:text="@string/yes_button"
+            android:text="@string/withdraw_button"
             custom:textStyle="bold" />
     </LinearLayout >
 </LinearLayout >

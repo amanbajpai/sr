@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -28,7 +27,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import com.google.android.gms.internal.is;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
@@ -65,7 +63,6 @@ import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -612,7 +609,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static class ClusterOptions {
         private static final int TRANSITION_DURATION = 500;
         //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
-        private static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 100;
+        private static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 50;
         private static final int ZOOM_TO_BOUNDS_ANIMATION_DURATION = 500;
         private static final int SHOW_INFO_WINDOW_ANIMATION_DURATION = 500;
         private static final double EXPAND_BOUNDS_FACTOR = 0.5d;
@@ -647,11 +644,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void addMyLocation(Location location) {
         L.d(TAG, "addMyLocation");
-        LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-        map.addMarker(new MarkerOptions()
-                .snippet(MYLOC)
-                .position(coordinates)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
+        if (location != null) {
+            LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+            map.addMarker(new MarkerOptions()
+                    .snippet(MYLOC)
+                    .position(coordinates)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
+        }
     }
 
     /**
