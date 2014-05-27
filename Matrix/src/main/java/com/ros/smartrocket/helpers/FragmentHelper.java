@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 
@@ -77,7 +78,7 @@ public class FragmentHelper {
         try {
             ft.commitAllowingStateLoss();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "RemoveFragmentFromList error" + e.getMessage(), e);
         }
 
         int fragmentIdToRemove = -1;
@@ -104,7 +105,7 @@ public class FragmentHelper {
         try {
             ft.commitAllowingStateLoss();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "RemoveAllFragmentFromList error" + e.getMessage(), e);
         }
         fragmentList.clear();
     }

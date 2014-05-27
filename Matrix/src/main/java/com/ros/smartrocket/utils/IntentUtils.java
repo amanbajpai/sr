@@ -30,14 +30,14 @@ import java.util.List;
  * Utils class for easy work with UI Views
  */
 public class IntentUtils {
-    //private static final String TAG = "IntentUtils";
+    private static final String TAG = IntentUtils.class.getSimpleName();
 
     /**
      * Return intent for opening Questions screen
      *
-     * @param context - context
+     * @param context  - context
      * @param surveyId - current surveyId
-     * @param taskId - current taskId
+     * @param taskId   - current taskId
      * @return Intent
      */
     public static Intent getQuestionsIntent(Context context, int surveyId, int taskId) {
@@ -51,7 +51,7 @@ public class IntentUtils {
      * Return intent for opening Task detail screen
      *
      * @param context - context
-     * @param taskId - current taskId
+     * @param taskId  - current taskId
      * @return Intent
      */
     public static Intent getTaskDetailIntent(Context context, int taskId) {
@@ -209,7 +209,7 @@ public class IntentUtils {
                 try {
                     intent.setData(Uri.parse("sms:" + URLEncoder.encode(phoneNumber, "UTF-8")));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    L.e(TAG, "GetSmsIntent SDK>=19 error: " + e.getMessage(), e);
                 }
             }
         } else {
@@ -220,7 +220,7 @@ public class IntentUtils {
                 try {
                     intent.setData(Uri.parse("sms:" + URLEncoder.encode(phoneNumber, "UTF-8")));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    L.e(TAG, "GetSmsIntent SDK<19 error: " + e.getMessage(), e);
                 }
             } else {
                 intent.setData(Uri.parse("sms:"));
@@ -311,7 +311,7 @@ public class IntentUtils {
             List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
             isAvailable = list.size() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "IsIntentAvailable error: " + e.getMessage(), e);
         }
         return intent != null && isAvailable;
     }

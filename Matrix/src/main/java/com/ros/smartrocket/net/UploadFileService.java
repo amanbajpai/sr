@@ -130,7 +130,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         }
                     }, 5000, Config.SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    L.e(TAG, "StartCheckNotUploadedFilesTimer error: " + e.getMessage(), e);
                 }
             }
         }.start();

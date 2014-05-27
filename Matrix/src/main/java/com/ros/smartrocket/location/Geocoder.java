@@ -200,8 +200,8 @@ public final class Geocoder {
             }
         } catch (LimitExceededException e) {
             throw e;
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            L.e(TAG, "parseJson error: " + e.getMessage(), e);
         }
     }
 
@@ -215,14 +215,14 @@ public final class Geocoder {
                 response.append(line + "\r");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            L.e(TAG, "ReadResponse error: " + e.getMessage(), e);
             return null;
         } finally {
             try {
                 br.close();
                 is.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                L.e(TAG, "ReadResponse closeStream error: " + e.getMessage(), e);
             }
         }
 

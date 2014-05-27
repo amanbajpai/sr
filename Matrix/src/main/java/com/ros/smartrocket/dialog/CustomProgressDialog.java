@@ -10,8 +10,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.L;
 
 public class CustomProgressDialog extends Dialog {
+    private static final String TAG = CustomProgressDialog.class.getSimpleName();
     private static LayoutInflater inflater;
 
     public CustomProgressDialog(Context context) {
@@ -39,6 +41,7 @@ public class CustomProgressDialog extends Dialog {
                 dialog.show();
                 return dialog;
             } catch (Exception e) {
+                L.e(TAG, "Show dialog error" + e.getMessage(), e);
             }
         }
         return null;
@@ -61,6 +64,7 @@ public class CustomProgressDialog extends Dialog {
                 dialog.show();
                 return dialog;
             } catch (Exception e) {
+                L.e(TAG, "Show dialog error" + e.getMessage(), e);
             }
         }
         return null;

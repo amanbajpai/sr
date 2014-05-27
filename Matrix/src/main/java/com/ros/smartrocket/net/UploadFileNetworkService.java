@@ -84,7 +84,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        L.e(TAG, "Upload file error" + e.getMessage(), e);
                     }
                 }
             } else {
@@ -147,7 +147,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
                     fos.close();
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    L.e(TAG, "SeparatePartFile error: " + e.getMessage(), e);
                 }
 
                 files[i - notUploadedFile.getPortion()] = tempFile;
@@ -155,7 +155,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
             return files;
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "SeparateFile error: " + e.getMessage(), e);
         }
 
         return null;

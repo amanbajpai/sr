@@ -304,7 +304,7 @@ public class ImageLoader {
             o2.inSampleSize = scale;
             return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "DecodeFile error" + e.getMessage(), e);
         }
         return null;
     }
@@ -349,7 +349,7 @@ public class ImageLoader {
 
             return Bitmap.createScaledBitmap(b, b.getWidth() / scale, b.getHeight() / scale, true);
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "DecodeBitmap error" + e.getMessage(), e);
         }
         return null;
     }
@@ -470,7 +470,7 @@ public class ImageLoader {
         fileCache.clear();
     }
 
-    public File getRawRsourceAsFile(Activity activity, int resId) {
+    public File getRawResourceAsFile(Activity activity, int resId) {
         File f = fileCache.getFile(String.valueOf(resId));
 
         if (f.exists()) {
@@ -485,7 +485,7 @@ public class ImageLoader {
             Utils.copyStream(is, os);
             os.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "GetRawResourceAsFile error" + e.getMessage(), e);
         }
 
         return f;
@@ -507,7 +507,7 @@ public class ImageLoader {
             bitmap.compress(Bitmap.CompressFormat.PNG, COMPRESS_IMAGE, out);
             out.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "GetFileByBitmap error" + e.getMessage(), e);
         }
         return f;
     }

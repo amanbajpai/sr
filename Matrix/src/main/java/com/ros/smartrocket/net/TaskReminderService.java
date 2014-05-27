@@ -80,7 +80,7 @@ public class TaskReminderService extends Service {
                     }, 0, Config.DEADLINE_REMINDER_MILLISECONDS);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    L.e(TAG, "StartReminderTimer error: " + e.getMessage(), e);
                 }
             }
         }.start();

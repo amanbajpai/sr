@@ -184,7 +184,7 @@ public class SelectImageManager {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "GetBitmapFromGallery error" + e.getMessage(), e);
         }
         return resultBitmap;
     }
@@ -205,17 +205,12 @@ public class SelectImageManager {
                     os.write(buffer, 0, byteRead);
                 }
                 fos.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                L.e(TAG, "GetBitmapFromCamera error" + e.getMessage(), e);
             }
         }
 
-        try {
-            return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
     }
 
     public static Bitmap prepareBitmap(File f) {
@@ -235,7 +230,7 @@ public class SelectImageManager {
                 resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "PrepareBitmap error" + e.getMessage(), e);
         }
         return resultBitmap;
     }
@@ -314,7 +309,7 @@ public class SelectImageManager {
             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             //}
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "RotateByExif error" + e.getMessage(), e);
         }
 
         return bitmap;
@@ -332,7 +327,7 @@ public class SelectImageManager {
             fos.flush();
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "GetScaledFile error" + e.getMessage(), e);
         }
 
         return file;
@@ -353,7 +348,7 @@ public class SelectImageManager {
             in.close();
             out.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "CopyFileToTempFolder error" + e.getMessage(), e);
         }
         return resultFile;
     }
@@ -382,7 +377,7 @@ public class SelectImageManager {
                 resultString = Base64.encodeToString(fileAsBytesArray, 0);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "GetFileAsString error" + e.getMessage(), e);
         }
         return resultString;
     }
@@ -409,7 +404,7 @@ public class SelectImageManager {
                 ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + ".jpg");
             }
         } catch (Exception e) {
-            L.e(TAG, "Error get Temp File", e);
+            L.e(TAG, "GetTempFile error", e);
         }
         return ret;
     }

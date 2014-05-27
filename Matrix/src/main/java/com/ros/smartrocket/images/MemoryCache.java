@@ -51,8 +51,8 @@ public class MemoryCache {
             cache.put(id, bitmap);
             size += getSizeInBytes(bitmap);
             checkSize();
-        } catch (Throwable th) {
-            th.printStackTrace();
+        } catch (Exception e) {
+            L.e(TAG, "PutImageToCache error: " + e.getMessage(), e);
         }
     }
 

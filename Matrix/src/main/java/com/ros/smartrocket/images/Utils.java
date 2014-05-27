@@ -1,5 +1,7 @@
 package com.ros.smartrocket.images;
 
+import com.ros.smartrocket.utils.L;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -15,8 +17,8 @@ public class Utils {
                 }
                 os.write(bytes, 0, count);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            L.e("Utils", "Utils copyStream error: " + e.getMessage(), e);
         }
     }
 }

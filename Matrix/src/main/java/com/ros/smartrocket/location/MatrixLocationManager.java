@@ -148,7 +148,7 @@ public class MatrixLocationManager implements LocationListener,
             try {
                 locationClient.removeLocationUpdates(this);
             } catch (Exception e) {
-                e.printStackTrace();
+                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
             }
         }
     }
@@ -212,14 +212,12 @@ public class MatrixLocationManager implements LocationListener,
                 addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
             } catch (IOException e1) {
                 L.e(TAG, "IO Exception in getFromLocation()", e1);
-                e1.printStackTrace();
                 return null;
             } catch (IllegalArgumentException e2) {
                 // Error message to post in the log
                 String errorString = "Illegal arguments " + Double.toString(loc.getLatitude())
                         + " , " + Double.toString(loc.getLongitude()) + " passed to address service";
                 L.e(TAG, errorString, e2);
-                e2.printStackTrace();
                 return null;
             } catch (Geocoder.LimitExceededException e) {
                 L.e(TAG, "GetAddressTask Error ", e);

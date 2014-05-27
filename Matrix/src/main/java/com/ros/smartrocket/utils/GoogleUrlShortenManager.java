@@ -134,7 +134,7 @@ public class GoogleUrlShortenManager {
             requestJson.put(LONG_URL, longUrl);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "GetShortUrlRequestJson error" + e.getMessage(), e);
         }
 
         return requestJson.toString();
@@ -150,14 +150,14 @@ public class GoogleUrlShortenManager {
                 response.append(line + "\r");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            L.e(TAG, "ReadResponse error" + e.getMessage(), e);
             return null;
         } finally {
             try {
                 br.close();
                 is.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                L.e(TAG, "ReadResponse closeStream error" + e.getMessage(), e);
             }
         }
 
