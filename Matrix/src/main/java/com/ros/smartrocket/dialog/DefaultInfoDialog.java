@@ -17,7 +17,7 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
 
     public DefaultInfoDialog(Context context, CharSequence title, CharSequence text, int leftButtonResId,
                              int rightButtonResId) {
-        this(context, 0, 0, title, text, leftButtonResId, rightButtonResId);
+        this(context, 0, R.drawable.info_icon, title, text, leftButtonResId, rightButtonResId);
     }
 
     public DefaultInfoDialog(Context context, int titleBackgroundColorResId, int titleIconResId, CharSequence title,

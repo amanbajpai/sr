@@ -597,8 +597,27 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private OnInfoWindowClickDownstreamListener onInfoWindowClickListener = new OnInfoWindowClickDownstreamListener() {
         @Override
         public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
-            int taskId = Integer.valueOf(marker.getSnippet());
-            startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
+            String[] taskData = marker.getSnippet().split("_");
+            int taskId = Integer.valueOf(taskData[0]);
+            int surveyId = Integer.valueOf(taskData[1]);
+            int taskStatusId = Integer.valueOf(taskData[2]);
+
+            switch (TasksBL.getTaskStatusType(taskStatusId)) {
+                case none:
+                case claimed:
+                case started:
+                    startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
+                    break;
+                case scheduled:
+                    startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false));
+                    break;
+                case reDoTask:
+                    startActivity(IntentUtils.getQuestionsIntent(getActivity(), surveyId, taskId));
+                    break;
+                default:
+                    return true;
+            }
+
             return false;
         }
     };
@@ -685,7 +704,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 .radius(radius)
                 .strokeColor(strokeColor)
                 .strokeWidth(5f)
-                .fillColor(fillColor));
+                /*.fillColor(fillColor)*/);
     }
 
     private void setRadiusText() {

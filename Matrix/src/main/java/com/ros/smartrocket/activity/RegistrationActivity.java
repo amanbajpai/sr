@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -34,6 +35,7 @@ import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -41,7 +43,7 @@ import com.ros.smartrocket.utils.UIUtils;
  * Activity for first Agents registration into system
  */
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
+        NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = RegistrationActivity.class.getSimpleName();
     private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
@@ -214,6 +216,16 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         || selectedBirthDay == null || !UIUtils.isPasswordValid(password) || educationLevel == 0 ||
                         employmentStatus == 0 || !agreeCheckBox.isChecked()/* || photoBitmap == null*/) {
                     UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
+
+                    firstNameEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, firstNameEditText));
+                    lastNameEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, lastNameEditText));
+                    birthdayEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, birthdayEditText));
+                    emailEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, emailEditText));
+                    passwordEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, passwordEditText,
+                            passwordValidationText));
+
+                    educationLevelSpinner.setOnItemSelectedListener(this);
+                    employmentStatusSpinner.setOnItemSelectedListener(this);
                     break;
                 }
 
@@ -304,6 +316,27 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (view.getId()) {
+            case R.id.educationLevelSpinner:
+                int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
+
+                UIUtils.setSpinnerBackgroundByState(educationLevelSpinner, educationLevel != 0);
+                break;
+            case R.id.emailEditText:
+                int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
+
+                UIUtils.setSpinnerBackgroundByState(employmentStatusSpinner, employmentStatus != 0);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

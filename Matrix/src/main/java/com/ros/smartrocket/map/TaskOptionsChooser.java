@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -44,14 +43,14 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
         clusterPaintMedium.setColor(res.getColor(R.color.green));
         clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
         clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
-        clusterPaintMedium.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC));
-        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_14sp));
+        clusterPaintMedium.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_18sp));
 
         clusterPaintSmall = new Paint(clusterPaintMedium);
-        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_9sp));
+        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_13p6sp));
 
         clusterPaintLarge = new Paint(clusterPaintMedium);
-        clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_18sp));
+        clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_20sp));
     }
 
     @Override
@@ -72,7 +71,7 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
 
                 icon = getPinBitmap(data);
                 title = data.getName();
-                markerOptions.snippet("" + data.getId());
+                markerOptions.snippet(data.getId() + "_" + data.getSurveyId() + "_" + data.getStatusId());
             }
             markerOptions.icon(icon);
             markerOptions.title(title);

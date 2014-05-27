@@ -204,17 +204,20 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onStartLaterButtonPressed(Dialog dialog) {
+                        setButtonsSettings(task);
+                        startActivity(IntentUtils.getMainActivityIntent(TaskDetailsActivity.this));
+                        finish();
                     }
 
                     @Override
                     public void onStartNowButtonPressed(Dialog dialog) {
                         setSupportProgressBarIndeterminateVisibility(true);
+                        setButtonsSettings(task);
                         apiFacade.startTask(TaskDetailsActivity.this, task.getId());
 
                     }
                 });
 
-                setButtonsSettings(task);
                 TasksBL.updateTask(handler, task);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -121,7 +122,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     setTaskData(task);
                     //SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
                     if (showRecheckAnswerButton) {
-                        QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
+                        closingQuestionText.setText(R.string.task_has_not_yet_submitted);
+                        closingQuestionTextLayout.setVisibility(View.VISIBLE);
+                        //QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
                     } else {
                         closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
                         closingQuestionTextLayout.setVisibility(View.VISIBLE);
@@ -229,10 +232,12 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void finishActivity() {
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + taskId);
+        if (showRecheckAnswerButton) {
+            PreferencesManager preferencesManager = PreferencesManager.getInstance();
+            preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + taskId);
 
-        startActivity(IntentUtils.getMainActivityIntent(this));
+            startActivity(IntentUtils.getMainActivityIntent(this));
+        }
         finish();
     }
 
@@ -262,13 +267,22 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (!showRecheckAnswerButton) {
+                    finish();
+                }
                 break;
             default:
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!showRecheckAnswerButton) {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -281,6 +295,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         actionBar.setDisplayShowCustomEnabled(true);
 
         actionBarView = actionBar.getCustomView();
+
+        if (task != null && !TextUtils.isEmpty(task.getName())) {
+            ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
+        }
 
         return true;
     }

@@ -49,8 +49,8 @@ public class UIUtils {
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("HH:mm a dd MMM"
-            + " yy", Locale.ENGLISH);
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM"
+            + " yy HH:mma", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("HH:mm a dd MMM"
             + " yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM"
@@ -521,7 +521,7 @@ public class UIUtils {
     }
 
     public static String getTimeInDayHoursMinutes(Context context, long timeInMillisecond) {
-        int days = (int) timeInMillisecond / 24 / 60 / 60 / 1000;
+        int days = (int) (timeInMillisecond / 24 / 60 / 60 / 1000);
         int hours = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days) / 60 / 60 / 1000;
         int minutes = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days - DateUtils.HOUR_IN_MILLIS * hours) / 60 / 1000;
 
@@ -614,5 +614,9 @@ public class UIUtils {
                 break;
         }
         return iconResId;
+    }
+
+    public String getBalance(Context context, Double balance){
+        return String.format(Locale.US, "%.2f", balance) + " " + context.getString(R.string.hk);
     }
 }

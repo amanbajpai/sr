@@ -37,5 +37,7 @@
         android:textSize="@dimen/text_size_15sp"
         android:singleLine="true"
         custom:textStyle="bold"
+        android:hint="@string/please_write_in"
+        android:textColorHint="@color/grey_middle"
         android:visibility="gone" />
 </LinearLayout >

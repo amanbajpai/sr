@@ -28,6 +28,11 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/map_tab_icon" />
         </LinearLayout >
+        <View
+            android:layout_width="1dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="20dp"
+            android:background="@color/red" />
         <LinearLayout
             android:id="@+id/listButton"
             android:layout_width="match_parent"

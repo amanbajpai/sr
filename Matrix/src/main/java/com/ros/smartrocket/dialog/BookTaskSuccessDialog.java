@@ -2,6 +2,7 @@ package com.ros.smartrocket.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -32,8 +33,8 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        ((TextView) findViewById(R.id.text0)).setText(activity.getString(R.string.book_task_success_dialog_text0,
-                dateTime));
+        ((TextView) findViewById(R.id.text0)).setText(Html.fromHtml(activity.getString(R.string.book_task_success_dialog_text0,
+                dateTime)));
 
         findViewById(R.id.cancelButton).setOnClickListener(this);
         findViewById(R.id.startLaterButton).setOnClickListener(this);

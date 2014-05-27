@@ -119,7 +119,7 @@
     <string name="share_via_qzone" >QZone</string >
     <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
     <!-- TASK DETAIL ACTIVITY-->
-    <string name="task_detail_title" >%1$s field</string >
+    <string name="task_detail_title" >%1$s</string >
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="hk" >HK$</string >
@@ -176,7 +176,7 @@
         registration@smart-rocket.com</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >Mission Claimed</string >
-    <string name="book_task_success_dialog_text0" >This mission must be completed by <b >%1$s</b >.</string >
+    <string name="book_task_success_dialog_text0" >This mission must be completed by &lt;b>%1$s&lt;/b>.</string >
     <string name="book_task_success_dialog_text1" >You can find this mission in \"My Missions\" until it is
         successfully completed.</string >
     <string name="start_later" >Start later</string >
@@ -229,6 +229,7 @@
     <string name="previous" >PREVIOUS</string >
     <string name="next" >NEXT</string >
     <string name="enter_here" >Enter here</string >
+    <string name="please_write_in" >Other – please write in</string >
     <!--<string name="from_till" >From %1$s till %2$s</string >-->
     <string name="quite_mission" >QUIT MISSION</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
@@ -258,7 +259,7 @@
     <string name="task_data_size_mb" >MB</string >
     <string name="task_has_not_yet_submitted" >This mission must be submitted before the expiry time below and
         successfully validated to qualify for cash payment and Rocket Points.</string >
-    <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \n\n It must be
+    <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \n\nIt must be
         submitted before the expiry time below and successfully validated to qualify for cash payment and Rocket Points. </string >
     <string name="confirm_you_can_find_in_my_mission" >If you choose to SUBMIT LATER, you can find this mission in
         \"My Missions\" until it is SUBMITTED or it EXPIRES.</string >
