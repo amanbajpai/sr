@@ -18,6 +18,8 @@ public class Registration extends BaseEntity {
     private String GroupCode;
     private String photoBase64;
 
+    private Integer TermsAndConditionsVersion;
+
     public String getEmail() {
         return Email;
     }
@@ -132,5 +134,12 @@ public class Registration extends BaseEntity {
         this.photoBase64 = photoBase64;
     }
 
+    public Integer getTermsAndConditionsVersion() {
+        return TermsAndConditionsVersion;
+    }
+
+    public void setTermsAndConditionsVersion(Integer termsAndConditionsVersion) {
+        TermsAndConditionsVersion = termsAndConditionsVersion;
+    }
 
 }

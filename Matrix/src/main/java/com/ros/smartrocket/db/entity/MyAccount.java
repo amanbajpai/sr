@@ -15,6 +15,8 @@ public class MyAccount extends BaseEntity {
     private String LevelName;
     private String LevelIconUrl;
 
+    private Integer TermsAndConditionsVersion;
+
     public Double getTotalEarnings() {
         return TotalEarnings;
     }
@@ -103,4 +105,13 @@ public class MyAccount extends BaseEntity {
     public void setLevelIconUrl(String levelIconUrl) {
         LevelIconUrl = levelIconUrl;
     }
+
+    public Integer getTermsAndConditionsVersion() {
+        return TermsAndConditionsVersion != null ? TermsAndConditionsVersion : 1;
+    }
+
+    public void setTermsAndConditionsVersion(Integer termsAndConditionsVersion) {
+        TermsAndConditionsVersion = termsAndConditionsVersion;
+    }
+
 }

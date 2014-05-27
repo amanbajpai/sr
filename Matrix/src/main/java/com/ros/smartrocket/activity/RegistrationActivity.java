@@ -24,6 +24,7 @@ import android.widget.ToggleButton;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
@@ -75,6 +76,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private Spinner employmentStatusSpinner;
     private Bitmap photoBitmap;
     private CustomProgressDialog progressDialog;
+    private int currentTermsAndConditionsVersion = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,6 +143,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         cityEditText.setText(cityName);
 
         checkDeviceSettingsByOnResume(false);
+
+        apiFacade.getCurrentTermsAndConditionVersion(this);
     }
 
     @Override
@@ -242,6 +246,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setGroupCode(groupCode);
                 registrationEntity.setEducationLevel(educationLevel);
                 registrationEntity.setEmploymentStatus(employmentStatus);
+                registrationEntity.setTermsAndConditionsVersion(currentTermsAndConditionsVersion);
 
                 if (photoBitmap != null) {
                     registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));
@@ -263,7 +268,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 apiFacade.registration(this, registrationEntity);
                 break;
             case R.id.termsAndConditionsButton:
-                startActivity(IntentUtils.getTermsAndConditionIntent(this));
+                startActivity(IntentUtils.getTermsAndConditionIntent(this, currentTermsAndConditionsVersion));
                 break;
             case R.id.cancelButton:
                 finish();
@@ -278,6 +283,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
                 new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
+            } else if (Keys.GET_CURRENT_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
+                TermsAndConditionVersion version = (TermsAndConditionVersion) operation.getResponseEntities().get(0);
+                currentTermsAndConditionsVersion = version.getVersion();
             }
 
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService

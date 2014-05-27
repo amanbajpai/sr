@@ -8,6 +8,7 @@ public interface Keys {
     String LAST_EMAIL = "last_email";
     String EMAIL = "email";
     String LAST_PASSWORD = "last_password";
+    String T_AND_C_VERSION = "t_and_c_version";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
@@ -42,7 +43,8 @@ public interface Keys {
     String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
     String LOGIN_OPERATION_TAG = "login_operation_tag";
-    String FORGOT_PASSWORD_OPERATION_TAG = "forgot_password_tag";
+    String FORGOT_PASSWORD_OPERATION_TAG = "forgot_password_operation_tag";
+    String GET_CURRENT_T_AND_C_OPERATION_TAG = "get_current_t_and_c_operation_tag";
     String REGISTRATION_OPERATION_TAG = "registration_operation_tag";
     String UPLOAD_PHOTO_OPERATION_TAG = "upload_photo_operation_tag";
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";

@@ -103,8 +103,9 @@ public class IntentUtils {
      * @param context - context
      * @return Intent
      */
-    public static Intent getTermsAndConditionIntent(Context context) {
+    public static Intent getTermsAndConditionIntent(Context context, int versionId) {
         Intent intent = new Intent(context, TermsAndConditionActivity.class);
+        intent.putExtra(Keys.T_AND_C_VERSION, versionId);
         return intent;
     }
 

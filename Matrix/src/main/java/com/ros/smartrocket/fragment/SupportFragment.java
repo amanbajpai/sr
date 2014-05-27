@@ -13,16 +13,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
  * Fragment for display About information
  */
 public class SupportFragment extends Fragment implements OnClickListener {
     private static final String TAG = SupportFragment.class.getSimpleName();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private ViewGroup view;
+    private MyAccount account;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class SupportFragment extends Fragment implements OnClickListener {
 
         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
 
+        account = App.getInstance().getMyAccount();
+
         return view;
     }
 
@@ -50,7 +57,8 @@ public class SupportFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.termAndConditionsButton:
-                getActivity().startActivity(IntentUtils.getTermsAndConditionIntent(getActivity()));
+                getActivity().startActivity(IntentUtils.getTermsAndConditionIntent(getActivity(),
+                        account.getTermsAndConditionsVersion()));
                 break;
             case R.id.knowledgeBaseButton:
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.KNOWLEDGE_BASE_URL));

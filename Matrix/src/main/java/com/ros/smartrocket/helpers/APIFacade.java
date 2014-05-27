@@ -87,6 +87,17 @@ public class APIFacade {
 
     /**
      * @param activity
+     */
+    public void getCurrentTermsAndConditionVersion(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_CURRENT_T_AND_C);
+        operation.setTag(Keys.GET_CURRENT_T_AND_C_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
      * @param token
      */
     public void activateAccount(Activity activity, String email, String token) {

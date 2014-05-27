@@ -28,7 +28,6 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
             show();
-            L.i(TAG, "Show dialog 2");
         } catch (Exception e) {
             e.printStackTrace();
         }

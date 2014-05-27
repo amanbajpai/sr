@@ -26,6 +26,7 @@ import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.db.entity.Surveys;
+import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
@@ -118,6 +119,11 @@ public class NetworkService extends BaseNetworkService {
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);
                         getPreferencesManager().setToken(loginResponse.getToken());
+                        break;
+                    case WSUrl.GET_CURRENT_T_AND_C_ID:
+                        TermsAndConditionVersion currentVersion = gson.fromJson(responseString,
+                                TermsAndConditionVersion.class);
+                        operation.responseEntities.add(currentVersion);
                         break;
                     case WSUrl.GET_REFERRAL_CASES_ID:
                         ReferralCases referralCases = gson.fromJson(responseString, ReferralCases.class);
