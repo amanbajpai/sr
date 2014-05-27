@@ -14,9 +14,10 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.utils.L;
 
 public class LevelUpDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = LevelUpDialog.class.getSimpleName();
+    private static final String TAG = LevelUpDialog.class.getSimpleName();
     private Activity activity;
 
     public LevelUpDialog(final Activity activity) {
@@ -26,7 +27,7 @@ public class LevelUpDialog extends Dialog implements View.OnClickListener {
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_level_up);
         setCancelable(true);

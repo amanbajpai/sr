@@ -53,7 +53,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         String message = extras.getString("message");
         L.d(TAG, "Received message [message=" + message + "]");
 
-        if(preferencesManager.getUsePushMessages()){
+        if (preferencesManager.getUsePushMessages()) {
             NotificationUtils.showTaskStatusChangedNotification(context, message);
         }
         apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());

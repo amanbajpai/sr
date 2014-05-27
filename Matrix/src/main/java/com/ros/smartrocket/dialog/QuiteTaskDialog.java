@@ -7,9 +7,10 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.L;
 
 public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = QuiteTaskDialog.class.getSimpleName();
+    private static final String TAG = QuiteTaskDialog.class.getSimpleName();
     //private Activity activity;
     private DialogButtonClickListener onDialogButtonClickListener;
 
@@ -20,7 +21,7 @@ public class QuiteTaskDialog extends Dialog implements View.OnClickListener {
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_quite_task);
         setCancelable(true);

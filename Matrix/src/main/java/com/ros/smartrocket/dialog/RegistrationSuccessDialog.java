@@ -9,9 +9,10 @@ import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
 
 public class RegistrationSuccessDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = RegistrationSuccessDialog.class.getSimpleName();
+    private static final String TAG = RegistrationSuccessDialog.class.getSimpleName();
     private Activity activity;
 
     public RegistrationSuccessDialog(Activity activity, String email) {
@@ -21,7 +22,7 @@ public class RegistrationSuccessDialog extends Dialog implements View.OnClickLis
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_registration_success);
         setCancelable(false);

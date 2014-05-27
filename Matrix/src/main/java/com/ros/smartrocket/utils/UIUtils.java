@@ -128,7 +128,7 @@ public class UIUtils {
         try {
             currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (Exception e) {
-            L.e(TAG, "getAppVersion() Error get app version");
+            L.e(TAG, "getAppVersion() Error get app version", e);
         }
         return currentVersion;
     }
@@ -145,7 +145,7 @@ public class UIUtils {
         try {
             currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
-            L.e(TAG, "getAppVersionCode() Error get app version");
+            L.e(TAG, "getAppVersionCode() Error get app version", e);
         }
         return currentVersion;
     }
@@ -352,7 +352,7 @@ public class UIUtils {
         try {
             return ISO_DATE_FORMAT.parse(dateString).getTime();
         } catch (Exception e) {
-            L.e("isoTimeToLong", "Parse error" + e);
+            L.e("isoTimeToLong", "Parse error" + e, e);
         }
         return 0;
     }
@@ -616,7 +616,7 @@ public class UIUtils {
         return iconResId;
     }
 
-    public String getBalance(Context context, Double balance){
+    public String getBalance(Context context, Double balance) {
         return String.format(Locale.US, "%.2f", balance) + " " + context.getString(R.string.hk);
     }
 }

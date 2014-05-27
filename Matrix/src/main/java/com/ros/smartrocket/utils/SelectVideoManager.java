@@ -167,7 +167,7 @@ public class SelectVideoManager {
                 ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + ".mp4");
             }
         } catch (Exception e) {
-            L.e(TAG, "Error get Temp File");
+            L.e(TAG, "Error get Temp File", e);
         }
         return ret;
     }

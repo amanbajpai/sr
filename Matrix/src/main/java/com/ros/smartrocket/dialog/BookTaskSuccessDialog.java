@@ -9,9 +9,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.L;
 
 public class BookTaskSuccessDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
+    private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
     //private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
@@ -24,7 +25,7 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_book_task_success);
         setCancelable(true);

@@ -11,12 +11,13 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
 
 public class DatePickerDialog extends Dialog implements View.OnClickListener {
-
+    private static final String TAG = DatePickerDialog.class.getSimpleName();
     private DatePicker datePicker;
     private Long currentDate;
     private DialogButtonClickListener dialogButtonClickListener;
@@ -37,7 +38,7 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
     }
 

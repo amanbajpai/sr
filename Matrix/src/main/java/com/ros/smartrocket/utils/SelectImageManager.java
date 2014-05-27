@@ -259,7 +259,7 @@ public class SelectImageManager {
             o2.inSampleSize = scale;
             return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "getScaledBitmapByPxSize" + e.getMessage(), e);
         }
         return null;
     }
@@ -280,7 +280,7 @@ public class SelectImageManager {
                 return Bitmap.createScaledBitmap(sourceBitmap, resultWidth, resultHeight, false);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "getScaledBitmapByByteSize" + e.getMessage(), e);
         }
         return sourceBitmap;
     }
@@ -409,7 +409,7 @@ public class SelectImageManager {
                 ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + ".jpg");
             }
         } catch (Exception e) {
-            L.e(TAG, "Error get Temp File");
+            L.e(TAG, "Error get Temp File", e);
         }
         return ret;
     }

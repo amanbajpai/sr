@@ -197,7 +197,7 @@ public class NetworkService extends BaseNetworkService {
                         break;
                 }
             } catch (JsonSyntaxException e) {
-                L.e(TAG, e.toString());
+                L.e(TAG, e.toString(), e);
             }
         } else if (responseCode == NO_INTERNET) {
             operation.setResponseError(getString(R.string.no_internet));

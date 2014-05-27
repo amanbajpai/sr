@@ -8,9 +8,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
 
 public class RegistrationSubscribeSuccessDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = RegistrationSubscribeSuccessDialog.class.getSimpleName();
+    private static final String TAG = RegistrationSubscribeSuccessDialog.class.getSimpleName();
     private Activity activity;
 
     public RegistrationSubscribeSuccessDialog(Activity activity) {
@@ -20,7 +21,7 @@ public class RegistrationSubscribeSuccessDialog extends Dialog implements View.O
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_registration_subscribe);
         setCancelable(true);

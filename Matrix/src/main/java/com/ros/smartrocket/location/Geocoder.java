@@ -154,7 +154,7 @@ public final class Geocoder {
             HttpResponse response = client.execute(get);
             result = readResponse(response.getEntity().getContent());
         } catch (Exception e) {
-            L.e(TAG, "Send geocoder request: " + e.toString());
+            L.e(TAG, "Send geocoder request: " + e.toString(), e);
 
         }
         //L.i(TAG, "Response geocoder json: " + result);

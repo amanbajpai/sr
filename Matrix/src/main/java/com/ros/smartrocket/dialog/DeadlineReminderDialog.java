@@ -29,7 +29,7 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_deadline_reminder);
         setCancelable(true);

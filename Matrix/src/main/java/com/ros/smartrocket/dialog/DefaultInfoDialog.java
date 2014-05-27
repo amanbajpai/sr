@@ -8,9 +8,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.L;
 
 public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = DefaultInfoDialog.class.getSimpleName();
+    private static final String TAG = DefaultInfoDialog.class.getSimpleName();
     private DialogButtonClickListener onDialogButtonClicklistener;
     private TextView leftButton;
     private TextView rightButton;
@@ -27,7 +28,7 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_default_info);
         setCancelable(true);

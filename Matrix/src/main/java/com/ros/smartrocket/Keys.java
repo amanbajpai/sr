@@ -69,6 +69,7 @@ public interface Keys {
 
     String MAP_MODE_VIEWTYPE = "map_mode_viewtype";
     String MAP_VIEWITEM_ID = "map_viewitem_id";
+
     /**
      * All possible view modes on map
      */

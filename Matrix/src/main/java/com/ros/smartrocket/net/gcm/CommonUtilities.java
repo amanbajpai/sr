@@ -96,8 +96,8 @@ public final class CommonUtilities {
                     PreferencesManager.getInstance().setGCMRegistrationId(regId);
 
                     return regId;
-                } catch (IOException ex) {
-                    L.e(TAG, "registerGCMInBackground() [Error :" + ex.getMessage() + "]");
+                } catch (IOException e) {
+                    L.e(TAG, "registerGCMInBackground() [Error :" + e.getMessage() + "]", e);
                     // If there is an error, don't just keep trying to register.
                     // Require the user to click a button again, or perform
                     // exponential back-off.

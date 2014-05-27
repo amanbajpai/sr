@@ -211,18 +211,18 @@ public class MatrixLocationManager implements LocationListener,
             try {
                 addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
             } catch (IOException e1) {
-                L.e(TAG, "IO Exception in getFromLocation()");
+                L.e(TAG, "IO Exception in getFromLocation()", e1);
                 e1.printStackTrace();
                 return null;
             } catch (IllegalArgumentException e2) {
                 // Error message to post in the log
                 String errorString = "Illegal arguments " + Double.toString(loc.getLatitude())
                         + " , " + Double.toString(loc.getLongitude()) + " passed to address service";
-                L.e(TAG, errorString);
+                L.e(TAG, errorString, e2);
                 e2.printStackTrace();
                 return null;
             } catch (Geocoder.LimitExceededException e) {
-                e.printStackTrace();
+                L.e(TAG, "GetAddressTask Error ", e);
             }
             Address address = null;
             // If the reverse geocode returned an address

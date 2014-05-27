@@ -73,7 +73,7 @@ public class FontUtils {
             try {
                 t = Typeface.createFromAsset(assetManager, assetPath);
             } catch (Exception e) {
-                L.e(TAG, "Failed to load typeface from font asset '" + assetPath + "'");
+                L.e(TAG, "Failed to load typeface from font asset '" + assetPath + "'", e);
                 e.printStackTrace();
                 return null;
             }

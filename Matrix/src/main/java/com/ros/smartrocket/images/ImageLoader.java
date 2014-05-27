@@ -172,7 +172,7 @@ public class ImageLoader {
                 os.close();
                 return f;
             } catch (Exception e) {
-                L.e(TAG, "getFile: " + e);
+                L.e(TAG, "getFile: " + url, e);
                 return null;
             }
         }

@@ -8,9 +8,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.L;
 
 public class WithdrawTaskDialog extends Dialog implements View.OnClickListener {
-    //private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
+    private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
     //private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
@@ -23,7 +24,7 @@ public class WithdrawTaskDialog extends Dialog implements View.OnClickListener {
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_withdraw_task);
         setCancelable(true);

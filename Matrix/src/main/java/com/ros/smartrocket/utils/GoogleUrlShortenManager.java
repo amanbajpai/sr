@@ -122,7 +122,7 @@ public class GoogleUrlShortenManager {
             HttpResponse httpResponse = client.execute(request);
             response = readResponse(httpResponse.getEntity().getContent());
         } catch (Exception e) {
-            L.e(TAG, "Send post request: " + e.toString());
+            L.e(TAG, "Send post request: " + e.toString(), e);
         }
         L.i(TAG, "Response result: " + response);
         return response;

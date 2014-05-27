@@ -19,10 +19,11 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class CheckLocationDialog extends Dialog {
-    //private static final String TAG = CheckLocationDialog.class.getSimpleName();
+    private static final String TAG = CheckLocationDialog.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Activity activity;
@@ -42,7 +43,7 @@ public class CheckLocationDialog extends Dialog {
         try {
             show();
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_check_location_success);
         setCancelable(true);

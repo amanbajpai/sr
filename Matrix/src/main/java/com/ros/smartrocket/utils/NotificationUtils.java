@@ -21,7 +21,7 @@ import java.io.File;
  * Utils class for easy work with UI Views
  */
 public class NotificationUtils {
-    //private static final String TAG = "NotificationUtils";
+    private static final String TAG = NotificationUtils.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
 
     /**
@@ -76,7 +76,7 @@ public class NotificationUtils {
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
         }
 
 

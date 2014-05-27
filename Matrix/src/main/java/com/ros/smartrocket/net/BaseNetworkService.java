@@ -167,11 +167,11 @@ public abstract class BaseNetworkService extends IntentService {
         } catch (ClientProtocolException e) {
             operation.setResponseStatusCode(NO_INTERNET);
             operation.setResponseError(getString(R.string.no_internet));
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IOException e) {
             operation.setResponseStatusCode(NO_INTERNET);
             operation.setResponseError(getString(R.string.no_internet));
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         }
 
         processResponse(operation);
@@ -201,7 +201,7 @@ public abstract class BaseNetworkService extends IntentService {
             fileWriter.append(operation.toString());
             fileWriter.close();
         } catch (IOException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         }
     }
 
@@ -222,7 +222,7 @@ public abstract class BaseNetworkService extends IntentService {
                 IOUtils.copy(is, writer, "utf-8");
                 result = writer.toString();
             } catch (IOException e) {
-                L.e(TAG, e.toString());
+                L.e(TAG, e.toString(), e);
             }
         }
         return result;
