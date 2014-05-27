@@ -43,11 +43,11 @@ public class SchemeInterpreter {
             Field contentUriField = schemaClass.getDeclaredField("CONTENT_URI");
             uri = (Uri) contentUriField.get(null);
         } catch (NoSuchFieldException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IllegalArgumentException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IllegalAccessException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         }
         return uri;
     }
@@ -57,11 +57,11 @@ public class SchemeInterpreter {
             Field customSqlField = schemaClass.getDeclaredField("CUSTOM_SQL");
             customSql = (String) customSqlField.get(null);
         } catch (NoSuchFieldException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IllegalArgumentException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IllegalAccessException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         }
         return customSql;
     }
@@ -83,13 +83,13 @@ public class SchemeInterpreter {
                 columnsMap.put(columnName, columnType);
             }
         } catch (NoSuchMethodException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IllegalArgumentException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (IllegalAccessException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         } catch (InvocationTargetException e) {
-            L.e(TAG, e.toString());
+            L.e(TAG, e.toString(), e);
         }
         return columnsMap;
     }

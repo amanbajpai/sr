@@ -19,6 +19,12 @@ public class L {
         }
     }
 
+    public static void e(String tag, String string, Exception e) {
+        if (Config.LOG_ENABLED && tag != null && string != null) {
+            android.util.Log.e(tag, string, e);
+        }
+    }
+
     public static void d(String tag, String string) {
         if (Config.LOG_ENABLED && tag != null && string != null) {
             android.util.Log.d(tag, string);

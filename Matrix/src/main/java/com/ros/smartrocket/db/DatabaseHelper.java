@@ -36,7 +36,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
             if (skipTable(table)) {
                 continue;
             }
-            if (appendCreateTableSQL(sql, table)){
+            if (appendCreateTableSQL(sql, table)) {
                 continue;
             }
             db.execSQL(sql.toString());
@@ -67,7 +67,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                 try {
                     c = db.query(table.getName(), null, null, null, null, null, null);
                 } catch (Exception e) {
-                    L.e(TAG, "Error process table: " + table.getName() + " Exception text: " + e.getLocalizedMessage());
+                    L.e(TAG, "Error process table: " + table.getName() + " Exception text: " + e.getLocalizedMessage(), e);
                 }
 
                 if (c != null && c.getCount() > 0) {
@@ -118,7 +118,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                 db.execSQL("DROP TABLE IF EXISTS " + table.getName());
 
                 StringBuilder sql = new StringBuilder(1024);
-                if (appendCreateTableSQL(sql, table)){
+                if (appendCreateTableSQL(sql, table)) {
                     continue;
                 }
                 db.execSQL(sql.toString());
@@ -131,7 +131,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
 
                 db.setTransactionSuccessful();
             } catch (Exception e) {
-                L.e(TAG, "Error process table: " + table.getName() + " Exception text: " + e.getLocalizedMessage());
+                L.e(TAG, "Error process table: " + table.getName() + " Exception text: " + e.getLocalizedMessage(), e);
             } finally {
                 db.endTransaction();
             }
