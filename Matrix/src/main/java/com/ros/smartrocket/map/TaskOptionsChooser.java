@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Build;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -15,6 +14,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.fragment.TasksMapFragment;
+import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.L;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.MarkerOptionsChooser;
@@ -43,14 +43,14 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
         clusterPaintMedium.setColor(res.getColor(R.color.green));
         clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
         clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
-        clusterPaintMedium.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_18sp));
+        clusterPaintMedium.setTypeface(FontUtils.loadFontFromAsset(context.getAssets(), FontUtils.getFontAssetPath(3)));
+        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_22sp));
 
         clusterPaintSmall = new Paint(clusterPaintMedium);
-        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_13p6sp));
+        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_18sp));
 
         clusterPaintLarge = new Paint(clusterPaintMedium);
-        clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_20sp));
+        clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_26sp));
     }
 
     @Override

@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -410,15 +411,13 @@ public class UIUtils {
                 containLowerLetter = true;
             } else if (Character.isDigit(charArray[i])) {
                 containNumber = true;
+            } else if(!Character.isLetter(charArray[i]) && !Character.isDigit(charArray[i])){
+                containSpecialSymbol = true;
             }
 
-            if (containUpperLetter && containLowerLetter && containNumber) {
+            if (containUpperLetter && containLowerLetter && containNumber && containSpecialSymbol) {
                 break;
             }
-        }
-
-        if (password.matches("[!@#$%^&*()_+-{}|?><:;]*")) {
-            containSpecialSymbol = true;
         }
 
         return containUpperLetter && containLowerLetter && containNumber && availableLength && containSpecialSymbol;
