@@ -344,4 +344,6 @@
     <string name="user_already_exists_dialog_title" >Invalid username.</string >
     <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
         address.</string >
+    <!-- SET NEW PASSWORD ACTIVITY-->
+    <string name="new_password" >New password</string >
 </resources >

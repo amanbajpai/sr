@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.Html;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.dialog.RegistrationSubscribeSuccessDialog;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
@@ -39,6 +38,9 @@ public class MainActivity extends BaseSlidingMenuActivity {
         NotificationUtils.generateNotification(this, "Title", "Message text\n, Message text, <b>Message text,</b> " +
                 "Message text, Message text, Message text, Message text, Message text, Message text, Message text, " +
                 "Message text, Message text, ", intent);*/
+
+
+        //NotificationUtils.showOverlayNotification(App.getInstance(), "Test text", "Description. Description", null);
     }
 
     public void startFragment(Fragment fragment) {

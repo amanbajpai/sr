@@ -35,6 +35,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
+
+    <!-- Custom notification -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -115,6 +119,19 @@
                 <!--<data android:host="www.youtube.com" android:scheme="http"></data>-->
                 <data android:scheme="smartrocket" />
                 <data android:scheme="http" android:host="com.ros.smartrocket"/>
+            </intent-filter >
+        </activity >
+        <activity
+            android:name="com.ros.smartrocket.activity.SetNewPasswordActivity"
+            android:configChanges="locale" >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--TODO-->
+               <!-- <data android:scheme="smartrocket" />
+                <data android:scheme="http" android:host="com.ros.smartrocket"/>-->
             </intent-filter >
         </activity >
         <activity

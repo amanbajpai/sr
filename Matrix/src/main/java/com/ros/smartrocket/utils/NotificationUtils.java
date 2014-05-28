@@ -4,14 +4,22 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import org.json.JSONObject;
 
@@ -111,5 +119,56 @@ public class NotificationUtils {
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
         return true;
+    }
+
+    public static void showOverlayNotification(final Context context, String name, String description,
+                                               final Intent intent) {
+        final CustomNotificationStatus notificationStatus = new CustomNotificationStatus();
+
+        final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+        final View mTopView = LayoutInflater.from(App.getInstance()).inflate(R.layout.view_custom_notification, null);
+
+        TextView nameTextView = (TextView) mTopView.findViewById(R.id.name);
+        TextView descriptionTextView = (TextView) mTopView.findViewById(R.id.description);
+        nameTextView.setText(name);
+        descriptionTextView.setText(description);
+
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                        | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.TRANSLUCENT
+        );
+
+        params.gravity = Gravity.TOP;
+        params.windowAnimations = R.style.CustomNotificationStyle;
+
+        wm.addView(mTopView, params);
+
+        mTopView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wm.removeView(mTopView);
+                notificationStatus.setHiden(true);
+
+                if (intent != null) {
+                    context.startActivity(IntentUtils.getMainActivityIntent(App.getInstance()));
+                }
+            }
+        });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!notificationStatus.isHiden()) {
+                    wm.removeView(mTopView);
+                }
+
+            }
+        }, 8000);
     }
 }

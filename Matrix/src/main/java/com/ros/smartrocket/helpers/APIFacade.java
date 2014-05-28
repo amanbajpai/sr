@@ -16,6 +16,7 @@ import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.Registration;
 import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
+import com.ros.smartrocket.db.entity.SetPassword;
 import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.db.entity.TestPushMessage;
 import com.ros.smartrocket.db.entity.UploadPhoto;
@@ -110,6 +111,24 @@ public class APIFacade {
         operation.setTag(Keys.ACTIVATE_ACCOUNT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(activateAccountEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
+     * @param token
+     */
+    public void setPassword(Activity activity, String email, String token, String password) {
+        SetPassword setPasswordEntity = new SetPassword();
+        setPasswordEntity.setEmail(email);
+        setPasswordEntity.setPasswordResetToken(token);
+        setPasswordEntity.setNewPassword(password);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SET_PASSWORD);
+        operation.setTag(Keys.SET_PASSWORD_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(setPasswordEntity);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

@@ -10,6 +10,7 @@ public final class WSUrl {
     public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ForgotPassword?email=%s";
     public static final String GET_CURRENT_T_AND_C = Config.WEB_SERVICE_URL + "GetTermsAndConditionsCurrentVersion";
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
+    public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UploadPhoto"; //TODO
@@ -60,6 +61,7 @@ public final class WSUrl {
     public static final int ACTIVATE_ACCOUNT_ID = 22;
     public static final int UPLOAD_PHOTO_ID = 23;
     public static final int GET_CURRENT_T_AND_C_ID = 24;
+    public static final int SET_PASSWORD_ID = 24;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -88,6 +90,7 @@ public final class WSUrl {
         URLS.put(ACTIVATE_ACCOUNT, ACTIVATE_ACCOUNT_ID);
         URLS.put(UPLOAD_PHOTO, UPLOAD_PHOTO_ID);
         URLS.put(GET_CURRENT_T_AND_C, GET_CURRENT_T_AND_C_ID);
+        URLS.put(SET_PASSWORD, SET_PASSWORD_ID);
     }
 
     public static int matchUrl(String url) {
