@@ -54,7 +54,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
             //TODO Get survey type from server
             typeIcon.setImageResource(UIUtils.getSurveyTypePopupIcon(1));
             title.setText(task.getName());
-            priceText.setText(activity.getString(R.string.hk) + task.getPrice());
+            priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice()));
             pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
             distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.map_popup_distance, false));
 

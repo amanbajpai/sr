@@ -68,8 +68,6 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
-
-            questionText.setVisibility(View.GONE);
         }
 
         videoView = (VideoView) view.findViewById(R.id.video);

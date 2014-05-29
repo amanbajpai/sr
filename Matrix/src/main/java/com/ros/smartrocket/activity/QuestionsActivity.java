@@ -1,5 +1,6 @@
 package com.ros.smartrocket.activity;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -87,6 +89,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (getIntent() != null) {
             surveyId = getIntent().getIntExtra(Keys.SURVEY_ID, 0);
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            //statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -125,7 +128,18 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     setTitle(task.getName());
 
+                    UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId());
+
                     if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.reDoTask) {
+                        nextButton.setBackgroundResource(R.drawable.button_red_selector);
+                        previousButton.setBackgroundResource(R.drawable.button_red_selector);
+                        validationButton.setBackgroundResource(R.drawable.button_red_selector);
+
+                        int padding = UIUtils.getPxFromDp(QuestionsActivity.this, 10);
+                        nextButton.setPadding(padding, padding, padding, padding);
+                        previousButton.setPadding(padding, padding, padding, padding);
+                        validationButton.setPadding(padding, padding, padding, padding);
+
                         apiFacade.getReDoQuestions(QuestionsActivity.this, surveyId, taskId);
                     } else {
                         QuestionsBL.getQuestionsListFromDB(handler, surveyId, taskId);
@@ -337,7 +351,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (currentFragment != null) {
             currentFragment.onActivityResult(requestCode, resultCode, data);
         }

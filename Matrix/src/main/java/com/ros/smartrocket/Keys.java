@@ -83,6 +83,7 @@ public interface Keys {
 
     //Tasks
     String TASK_ID = "task_id";
+    String STATUS_ID = "status_id";
     //Survey
     String SURVEYS = "Surveys";
     String SURVEY = "survey";

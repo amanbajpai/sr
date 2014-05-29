@@ -20,6 +20,7 @@ import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -27,6 +28,7 @@ import java.util.Locale;
  */
 public class SurveyDetailsActivity extends BaseActivity implements View.OnClickListener {
     //private static final String TAG = SurveyDetailsActivity.class.getSimpleName();
+    private Calendar calendar = Calendar.getInstance();
     private AsyncQueryHandler handler;
 
     private Task nearTask = new Task();
@@ -34,7 +36,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
 
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
-    private TextView durationTextView;
+    private TextView dueTextView;
 
     private TextView projectPrice;
     private TextView projectExp;
@@ -61,7 +63,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
 
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        durationTextView = (TextView) findViewById(R.id.durationTextView);
+        dueTextView = (TextView) findViewById(R.id.dueTextView);
 
         projectPrice = (TextView) findViewById(R.id.projectPrice);
         projectExp = (TextView) findViewById(R.id.projectExp);
@@ -111,11 +113,11 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
 
         long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
-        long durationInMillisecond = endTimeInMillisecond - startTimeInMillisecond;
+        long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
+        dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
 
         projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", survey.getNearTaskPrice()));
         projectExp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));

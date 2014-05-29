@@ -24,9 +24,11 @@
                     android:layout_weight="1"
                     android:orientation="vertical" >
                     <LinearLayout
+                        android:id="@+id/startTimeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal"
+                        android:visibility="gone" >
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -41,10 +43,12 @@
                             custom:textStyle="bold" />
                     </LinearLayout >
                     <LinearLayout
+                        android:id="@+id/deadlineTimeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal"
+                        android:visibility="gone" >
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -59,18 +63,21 @@
                             custom:textStyle="bold" />
                     </LinearLayout >
                     <LinearLayout
+                        android:id="@+id/expireTimeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal"
+                        android:visibility="gone" >
                         <com.ros.smartrocket.views.CustomTextView
+                            android:id="@+id/expireText"
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/duration_time"
                             custom:textStyle="bold" />
                         <com.ros.smartrocket.views.CustomTextView
-                            android:id="@+id/durationTextView"
+                            android:id="@+id/dueTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -163,6 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
+                    android:lineSpacingExtra="5dp"
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/text_size_13p6sp" />
                 <com.ros.smartrocket.views.CustomTextView
@@ -198,6 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
+                    android:lineSpacingExtra="5dp"
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/text_size_13p6sp" />
             </LinearLayout >

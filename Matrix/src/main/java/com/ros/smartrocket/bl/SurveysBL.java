@@ -34,8 +34,7 @@ public class SurveysBL {
         String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
         handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null,
-                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " and " + Table.TASK.getName() + "."
-                        + TaskDbSchema.Columns.DISTANCE.getName() + "<= '" + radius + "' and  " + Table.TASK.getName()
+                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " and " + Table.TASK.getName()
                         + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + withHiddenTaskWhere, null, null
         );
     }

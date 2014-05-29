@@ -53,6 +53,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
+    private Calendar calendar = Calendar.getInstance();
     private AsyncQueryHandler handler;
 
     private Integer taskId;
@@ -61,7 +62,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
-    private TextView durationTextView;
+    private TextView dueTextView;
+    private TextView expireText;
     private TextView taskPrice;
     private TextView taskExp;
     private TextView textQuestionsCount;
@@ -83,6 +85,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private View actionBarView;
 
+    private LinearLayout startTimeLayout;
+    private LinearLayout deadlineTimeLayout;
+    private LinearLayout expireTimeLayout;
+
     private GoogleMap map;
 
     @Override
@@ -99,9 +105,14 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         handler = new DbHandler(getContentResolver());
 
+        startTimeLayout = (LinearLayout) findViewById(R.id.startTimeLayout);
+        deadlineTimeLayout = (LinearLayout) findViewById(R.id.deadlineTimeLayout);
+        expireTimeLayout = (LinearLayout) findViewById(R.id.expireTimeLayout);
+
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        durationTextView = (TextView) findViewById(R.id.durationTextView);
+        dueTextView = (TextView) findViewById(R.id.dueTextView);
+        expireText = (TextView) findViewById(R.id.expireText);
 
         taskPrice = (TextView) findViewById(R.id.taskPrice);
         taskExp = (TextView) findViewById(R.id.taskExp);
@@ -252,7 +263,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setTaskData(Task task) {
-        taskPrice.setText(getString(R.string.hk) + task.getPrice());
+        startTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
+        deadlineTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
+        expireTimeLayout.setVisibility(View.VISIBLE);
+
+        expireText.setText(task.getIsMy() ? R.string.due_in : R.string.duration_time);
+
+        taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice()));
         taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
         textQuestionsCount.setText("0");
         photoQuestionsCount.setText("0");
@@ -270,13 +287,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setSurveyData(Survey survey) {
         long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
-        long durationInMillisecond = endTimeInMillisecond - startTimeInMillisecond;
+        long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        durationTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, durationInMillisecond));
+        dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
 
-        setTitle(getString(R.string.task_detail_title, survey.getName()));
+        //setTitle(getString(R.string.task_detail_title, survey.getName()));
         if (actionBarView != null) {
             TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
             titleTextView.setText(getString(R.string.task_detail_title, survey.getName()));
@@ -405,6 +422,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         actionBarView = actionBar.getCustomView();
 
+        if (survey != null) {
+            TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
+            titleTextView.setText(getString(R.string.task_detail_title, survey.getName()));
+        }
         return true;
     }
 

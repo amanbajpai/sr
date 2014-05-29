@@ -8,7 +8,7 @@
     <string name="forgot_your_password" >Forgot your password?</string >
     <string name="login_big" >LOGIN</string >
     <string name="i_new_user" >NEW USER</string >
-    <string name="login_fail_dialog_title" >SmartRocket Login</string >
+    <string name="login_fail_dialog_title" >SmartRocket login</string >
     <string name="credentials_wrong" >The email or password you entered is incorrect. Please try again.</string >
     <string name="account_not_activated" >Your SmartRocket account has not yet been activated. To use SmartRocket,
         please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
@@ -67,13 +67,13 @@
     <string name="distance_m" >m</string >
     <string name="distance_km" >km</string >
     <!-- SURVEYS TASK LIST ACTIVITY -->
-    <string name="mission_expires_at" >Mission expires: %1$s</string >
+    <string name="mission_expires_at" >Mission due: %1$s</string >
     <!-- MY TASK FRAGMENT-->
-    <string name="redo_mission" >Re-do. Mission expires: %1$s</string >
-    <string name="send_latter_mission" >Unsubmitted. Mission expires: %1$s</string >
-    <string name="mission_in_validation" >Mission in validation</string >
-    <string name="mission_rejected" >Mission rejected</string >
-    <string name="mission_completed" >Mission completed</string >
+    <string name="redo_mission" >Re-do. Mission due: %1$s</string >
+    <string name="send_latter_mission" >Unsubmitted. Mission due: %1$s</string >
+    <string name="mission_in_validation" >Mission in validation.</string >
+    <string name="mission_rejected" >Mission rejected.</string >
+    <string name="mission_completed" >Mission completed.</string >
     <string name="mission_validated" >Congratulations! Mission approved!</string >
     <string name="time_left" >left</string >
     <string name="you_have_no_tasks" >You have no current missions. \nGo to \"New Missions\" to claim and complete
@@ -126,6 +126,7 @@
     <string name="start_time" >START:</string >
     <string name="deadline_time" >DEADLINE:</string >
     <string name="duration_time" >EXPIRY:</string >
+    <string name="due_in" >DUE IN:</string >
     <string name="mission_address" >MISSION ADDRESS</string >
     <string name="full_description" >MISSION DESCRIPTION</string >
     <string name="book_this_task" >CLAIM</string >
@@ -175,7 +176,7 @@
         login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us at
         registration@smart-rocket.com</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
-    <string name="book_task_success_dialog_title" >Mission Claimed</string >
+    <string name="book_task_success_dialog_title" >Mission claimed</string >
     <string name="book_task_success_dialog_text0" >This mission must be completed by &lt;b>%1$s&lt;/b>.</string >
     <string name="book_task_success_dialog_text1" >You can find this mission in \"My Missions\" until it is
         successfully completed.</string >
@@ -255,10 +256,11 @@
     <string name="validation_big" >SUBMIT MISSION</string >
     <string name="recheck_my_answer" >BACK</string >
     <string name="expiry_time" >MISSION EXPIRES: </string >
+    <string name="mission_due" >MISSION DUE: </string >
     <string name="task_data_size" >MISSION DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
-    <string name="task_has_not_yet_submitted" >This mission must be submitted before the expiry time below and
-        successfully validated to qualify for cash payment and Rocket Points.</string >
+    <string name="task_has_not_yet_submitted" >Thank you! This mission must be submitted before the expiry time below
+        and successfully validated to qualify for cash payment and Rocket Points. \n%1$s</string >
     <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \n\nIt must be
         submitted before the expiry time below and successfully validated to qualify for cash payment and Rocket Points. </string >
     <string name="confirm_you_can_find_in_my_mission" >If you choose to SUBMIT LATER, you can find this mission in
@@ -324,7 +326,7 @@
     <string name="age_verification_dialog_redo" >REDO</string >
     <string name="age_verification_dialog_under" >UNDER 18</string >
     <!-- CHECK LOCATION SUCCESS DIALOG -->
-    <string name="check_location_dialog_title" >Location Check</string >
+    <string name="check_location_dialog_title" >Location check</string >
     <string name="check_location_dialog_text1" >Checking your location...</string >
     <string name="check_location_dialog_text2" >Location check complete.</string >
     <string name="check_location_dialog_text3" >Location check complete.</string >

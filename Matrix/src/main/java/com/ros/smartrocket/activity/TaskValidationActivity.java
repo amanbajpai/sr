@@ -42,6 +42,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
@@ -50,8 +51,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
+    private Calendar calendar = Calendar.getInstance();
     private TextView expiryDateTextView;
     private TextView taskDataSizeTextView;
+    private TextView dueInTextView;
     private TextView closingQuestionText;
     private LinearLayout closingQuestionTextLayout;
 
@@ -63,6 +66,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private ArrayList<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
     private ArrayList<Answer> answerListToSend = new ArrayList<Answer>();
     private float filesSizeB = 0;
+
+    private Button sendNowButton;
+    private Button sendLaterButton;
 
     private View actionBarView;
 
@@ -84,7 +90,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         expiryDateTextView = (TextView) findViewById(R.id.expiryDateTextView);
         taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
-        closingQuestionTextLayout = (LinearLayout) findViewById(R.id.closingQuestionTextLayout);
+        dueInTextView = (TextView) findViewById(R.id.dueInTextView);
         //closingQuestionTextLayout.setVisibility(showRecheckAnswerButton ? View.VISIBLE : View.GONE);
         closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
 
@@ -92,8 +98,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         recheckAnswerButton.setOnClickListener(this);
         recheckAnswerButton.setVisibility(showRecheckAnswerButton ? View.VISIBLE : View.GONE);
 
-        findViewById(R.id.sendNowButton).setOnClickListener(this);
-        findViewById(R.id.sendLaterButton).setOnClickListener(this);
+        sendNowButton = (Button) findViewById(R.id.sendNowButton);
+        sendNowButton.setOnClickListener(this);
+
+        sendLaterButton = (Button) findViewById(R.id.sendLaterButton);
+        sendLaterButton.setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
     }
@@ -122,22 +131,25 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     setTaskData(task);
                     //SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
                     if (showRecheckAnswerButton) {
-                        closingQuestionText.setText(R.string.task_has_not_yet_submitted);
-                        closingQuestionTextLayout.setVisibility(View.VISIBLE);
-                        //QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
+                        //closingQuestionTextLayout.setVisibility(View.VISIBLE);
+                        QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
                     } else {
+                        sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
+                        sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
+
+                        UIUtils.setActionBarBackground(TaskValidationActivity.this, task.getStatusId());
                         closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
-                        closingQuestionTextLayout.setVisibility(View.VISIBLE);
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     ArrayList<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
                     if (questions.size() > 0) {
                         Question question = questions.get(0);
-                        closingQuestionText.setText(question.getQuestion());
-                        closingQuestionTextLayout.setVisibility(View.VISIBLE);
+                        closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted,
+                                question.getQuestion()));
+
                     } else {
-                        closingQuestionTextLayout.setVisibility(View.GONE);
+                        closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted, ""));
                     }
                     break;
                 default:
@@ -165,11 +177,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void setTaskData(Task task) {
-        long expiryTimeLong = UIUtils.isoTimeToLong(task.getEndDateTime());
+        long leftTimeInMillisecond = task.getLongEndDateTime() - calendar.getTimeInMillis();
 
-        expiryDateTextView.setText(UIUtils.longToString(expiryTimeLong, 6));
+        expiryDateTextView.setText(UIUtils.longToString(task.getLongEndDateTime(), 3));
         taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
                 .task_data_size_mb));
+
+        dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {

@@ -42,24 +42,6 @@
                 android:drawableLeft="@drawable/share_icon_mail"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
-                android:id="@+id/messageButton"
-                style="@style/ShareButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:background="@drawable/button_green_selector"
-                android:text="@string/share_via_message"
-                android:drawableLeft="@drawable/share_icon_message"
-                custom:textStyle="bold" />
-            <com.ros.smartrocket.views.CustomButton
-                android:id="@+id/twitterButton"
-                style="@style/ShareButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:background="@drawable/button_twitter_selector"
-                android:text="@string/share_via_twitter"
-                android:drawableLeft="@drawable/share_icon_twitter"
-                custom:textStyle="bold" />
-            <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/facebookButton"
                 style="@style/ShareButton"
                 android:layout_height="wrap_content"
@@ -78,22 +60,22 @@
                 android:drawableLeft="@drawable/share_icon_linked"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
-                android:id="@+id/whatsappButton"
+                android:id="@+id/messageButton"
                 style="@style/ShareButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="@drawable/button_whats_selector"
-                android:text="@string/share_via_whatsapp"
-                android:drawableLeft="@drawable/share_icon_whats"
+                android:background="@drawable/button_green_selector"
+                android:text="@string/share_via_message"
+                android:drawableLeft="@drawable/share_icon_message"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
-                android:id="@+id/wechatButton"
+                android:id="@+id/sinaWeiboButton"
                 style="@style/ShareButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="@drawable/button_wechat_selector"
-                android:text="@string/share_via_wechat"
-                android:drawableLeft="@drawable/share_icon_wechat"
+                android:background="@drawable/button_sina_selector"
+                android:text="@string/share_via_sina_weibo"
+                android:drawableLeft="@drawable/share_icon_sina"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/tencentWeiboButton"
@@ -105,13 +87,31 @@
                 android:drawableLeft="@drawable/share_icon_tencent"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
-                android:id="@+id/sinaWeiboButton"
+                android:id="@+id/twitterButton"
                 style="@style/ShareButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="@drawable/button_sina_selector"
-                android:text="@string/share_via_sina_weibo"
-                android:drawableLeft="@drawable/share_icon_sina"
+                android:background="@drawable/button_twitter_selector"
+                android:text="@string/share_via_twitter"
+                android:drawableLeft="@drawable/share_icon_twitter"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomButton
+                android:id="@+id/wechatButton"
+                style="@style/ShareButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@drawable/button_wechat_selector"
+                android:text="@string/share_via_wechat"
+                android:drawableLeft="@drawable/share_icon_wechat"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomButton
+                android:id="@+id/whatsappButton"
+                style="@style/ShareButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@drawable/button_whats_selector"
+                android:text="@string/share_via_whatsapp"
+                android:drawableLeft="@drawable/share_icon_whats"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/qzoneButton"

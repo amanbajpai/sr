@@ -70,8 +70,6 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
-
-            questionText.setVisibility(View.GONE);
         }
 
         photoImageView = (ImageView) view.findViewById(R.id.photo);

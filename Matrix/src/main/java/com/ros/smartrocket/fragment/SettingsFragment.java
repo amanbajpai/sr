@@ -25,6 +25,8 @@ import android.widget.ToggleButton;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -249,6 +251,14 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 break;
             case R.id.cancelButton:
                 setData();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
+
+                Fragment fragment = new AllTaskFragment();
+                fragment.setArguments(bundle);
+                ((MainActivity) getActivity()).startFragment(fragment);
+
                 break;
             default:
                 break;

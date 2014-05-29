@@ -104,7 +104,7 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
                 long selectedTimeInMillis = calendar.getTimeInMillis();
 
                 if (selectedTimeInMillis <= getMaxDateCalendar().getTimeInMillis()) {
-                    String previewDate = UIUtils.longToString(selectedTimeInMillis, 4);
+                    String previewDate = UIUtils.longToString(selectedTimeInMillis, 1);
 
                     dialogButtonClickListener.onOkButtonPressed(selectedTimeInMillis, previewDate);
                     dismiss();

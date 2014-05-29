@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
+import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -28,12 +29,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,9 +52,9 @@ public class UIUtils {
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM"
-            + " yy HH:mma", Locale.ENGLISH);
-    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("HH:mm a dd MMM"
-            + " yyyy", Locale.ENGLISH);
+            + " yy  HH:mm a", Locale.ENGLISH);
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd MMM"
+            + " yyyy  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM"
             + ".yyyy / HH:mm", Locale.ENGLISH);
 
@@ -411,7 +412,7 @@ public class UIUtils {
                 containLowerLetter = true;
             } else if (Character.isDigit(charArray[i])) {
                 containNumber = true;
-            } else if(!Character.isLetter(charArray[i]) && !Character.isDigit(charArray[i])){
+            } else if (!Character.isLetter(charArray[i]) && !Character.isDigit(charArray[i])) {
                 containSpecialSymbol = true;
             }
 
@@ -615,7 +616,24 @@ public class UIUtils {
         return iconResId;
     }
 
-    public String getBalance(Context context, Double balance) {
-        return String.format(Locale.US, "%.2f", balance) + " " + context.getString(R.string.hk);
+    public static String getBalanceOrPrice(Context context, Double balance) {
+        return "$"+String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
+    }
+
+    public static void setActionBarBackground(ActionBarActivity activity, int statusId) {
+        int backgroundRes;
+        switch (TasksBL.getTaskStatusType(statusId)) {
+            case scheduled:
+            case pending:
+                backgroundRes = R.drawable.action_bar_blue;
+                break;
+            case reDoTask:
+                backgroundRes = R.drawable.action_bar_red;
+                break;
+            default:
+                backgroundRes = R.drawable.action_bar_green;
+                break;
+        }
+        activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(backgroundRes));
     }
 }

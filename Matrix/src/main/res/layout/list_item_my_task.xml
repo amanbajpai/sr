@@ -49,6 +49,7 @@
                     style="@style/TaskListTitle"
                     custom:textStyle="bold" />
                 <LinearLayout
+                    android:id="@+id/timeAndDistanceLayout"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp"
@@ -71,6 +72,15 @@
                         android:drawableLeft="@drawable/human_grey"
                         custom:textStyle="bold" />
                 </LinearLayout >
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/locationNameAddressText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_13p6sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/grey"
+                    android:singleLine="true"
+                    custom:textStyle="bold" />
             </LinearLayout >
         </LinearLayout >
         <com.ros.smartrocket.views.CustomTextView

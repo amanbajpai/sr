@@ -32,6 +32,9 @@ public class MyTaskAdapter extends BaseAdapter {
         private TextView timeLeft;
         private TextView distance;
 
+        private LinearLayout timeAndDistanceLayout;
+        private TextView locationNameAddressText;
+
         private TextView statusText;
         private LinearLayout optionLayout;
         private View optionDivider;
@@ -78,6 +81,9 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.timeLeft = (TextView) convertView.findViewById(R.id.timeLeft);
             holder.distance = (TextView) convertView.findViewById(R.id.distance);
 
+            holder.timeAndDistanceLayout = (LinearLayout) convertView.findViewById(R.id.timeAndDistanceLayout);
+            holder.locationNameAddressText = (TextView) convertView.findViewById(R.id.locationNameAddressText);
+
             holder.statusText = (TextView) convertView.findViewById(R.id.statusText);
             holder.optionLayout = (LinearLayout) convertView.findViewById(R.id.optionLayout);
             holder.optionDivider = convertView.findViewById(R.id.optionDivider);
@@ -94,9 +100,13 @@ public class MyTaskAdapter extends BaseAdapter {
 
         Task task = items.get(position);
 
+        holder.timeAndDistanceLayout.setVisibility(View.GONE);
+        holder.locationNameAddressText.setVisibility(View.GONE);
+
         holder.name.setText(task.getName());
         holder.image.setImageResource(UIUtils.getSurveyTypeListIcon(2));
-        holder.taskPrice.setText(activity.getString(R.string.hk) + String.format(Locale.US, "%.0f", task.getPrice()));
+        holder.locationNameAddressText.setText(task.getAddress());
+        holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
         holder.textQuestionsCount.setText("0");
         holder.photoQuestionsCount.setText("0");
@@ -116,10 +126,13 @@ public class MyTaskAdapter extends BaseAdapter {
             case started:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
+
+                holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
                 holder.statusText.setText(activity.getString(R.string.mission_expires_at,
-                        UIUtils.longToString(endTimeInMillisecond, 3)));
+                        UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
@@ -133,10 +146,13 @@ public class MyTaskAdapter extends BaseAdapter {
             case pending:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_blue_bg);
+
+                holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
                 holder.statusText.setText(activity.getString(R.string.send_latter_mission,
-                        UIUtils.longToString(endTimeInMillisecond, 3)));
+                        UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
@@ -149,6 +165,9 @@ public class MyTaskAdapter extends BaseAdapter {
             case completed:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
+
+                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
                 holder.statusText.setText(activity.getString(R.string.mission_completed)); //TODO
@@ -164,6 +183,9 @@ public class MyTaskAdapter extends BaseAdapter {
             case validation:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
+
+                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
                 holder.statusText.setText(activity.getString(R.string.mission_in_validation));
@@ -179,10 +201,13 @@ public class MyTaskAdapter extends BaseAdapter {
             case reDoTask:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);
+
+                holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
                 holder.statusText.setText(activity.getString(R.string.redo_mission,
-                        UIUtils.longToString(endTimeInMillisecond, 3)));
+                        UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.red_dark));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.red));
@@ -195,6 +220,9 @@ public class MyTaskAdapter extends BaseAdapter {
             case validated:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
+
+                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
                 holder.statusText.setText(activity.getString(R.string.mission_validated));
@@ -210,6 +238,9 @@ public class MyTaskAdapter extends BaseAdapter {
             case rejected:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_dark_bg);
+
+                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_dark));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
                 holder.statusText.setText(activity.getString(R.string.mission_rejected));

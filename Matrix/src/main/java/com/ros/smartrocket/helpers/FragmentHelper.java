@@ -10,13 +10,14 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Singleton class for work with server API
  */
 public class FragmentHelper {
     private static final String TAG = FragmentHelper.class.getSimpleName();
-    private ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
+    private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private Fragment lastFragment;
 
     public FragmentHelper() {
@@ -29,6 +30,15 @@ public class FragmentHelper {
 
     public void startFragmentFromStack(Activity activity, Fragment fragment) {
         startFragmentFromStack(activity, fragment, R.id.content_frame);
+    }
+
+    public Fragment getPreviousFragmentFromStack(){
+        Fragment fragment = null;
+        if(fragmentList.size()>2){
+            fragment = fragmentList.get(fragmentList.size()-2);
+        }
+
+        return fragment;
     }
 
     public void startFragmentFromStack(Activity activity, Fragment fragment, int layoutId) {
@@ -52,6 +62,9 @@ public class FragmentHelper {
             for (int i = 0; i < fragmentList.size(); i++) {
                 if (fragmentList.get(i).getClass().equals(fragment.getClass())) {
                     lastFragment = fragmentList.get(i);
+                    /*fragmentList.remove(i);
+                    fragmentList.add(lastFragment);
+                    lastFragment = fragmentList.get(i);*/
                     if(fragment.getArguments() != null){
                         lastFragment.getArguments().putAll(fragment.getArguments());
                     }

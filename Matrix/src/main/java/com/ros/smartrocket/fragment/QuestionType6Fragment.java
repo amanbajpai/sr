@@ -31,8 +31,6 @@ import com.ros.smartrocket.utils.L;
 public class QuestionType6Fragment extends BaseQuestionFragment {
     //private static final String TAG = QuestionType6Fragment.class.getSimpleName();
     private ViewGroup view;
-    private TextView questionText;
-    private TextView writeNumberFromTillText;
     private EditText answerEditText;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
@@ -53,14 +51,14 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        questionText = (TextView) view.findViewById(R.id.questionText);
+        TextView questionText = (TextView) view.findViewById(R.id.questionText);
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
 
-        writeNumberFromTillText = (TextView) view.findViewById(R.id.writeNumberFromTillText);
+        TextView writeNumberFromTillText = (TextView) view.findViewById(R.id.writeNumberFromTillText);
         answerEditText = (EditText) view.findViewById(R.id.answerEditText);
 
         if (question.getPatternType() != 1) {

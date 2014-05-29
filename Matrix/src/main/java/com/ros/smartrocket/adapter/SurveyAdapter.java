@@ -86,8 +86,7 @@ public class SurveyAdapter extends BaseAdapter {
         holder.image.setImageResource(UIUtils.getSurveyTypeListIcon(1));
 
         holder.locations.setText(String.valueOf(survey.getTaskCount()));
-        holder.price.setText(activity.getString(R.string.hk)
-                + " " + String.format(Locale.US, "%.0f", survey.getNearTaskPrice()));
+        holder.price.setText(UIUtils.getBalanceOrPrice(activity, survey.getNearTaskPrice()));
         holder.exp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
 
         Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),

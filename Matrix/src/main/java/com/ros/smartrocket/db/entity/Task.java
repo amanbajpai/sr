@@ -91,8 +91,8 @@ public class Task extends BaseEntity {
             result.setStartDateTime(c.getString(TaskDbSchema.Query.All.START_DATE_TIME));
             result.setEndDateTime(c.getString(TaskDbSchema.Query.All.END_DATE_TIME));
 
-            result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 0 ? false : true);
-            result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 0 ? false : true);
+            result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 1);
+            result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 1);
             result.setLongEndDateTime(c.getLong(TaskDbSchema.Query.All.LONG_END_DATE_TIME));
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
