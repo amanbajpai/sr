@@ -113,8 +113,11 @@ public class MyTaskAdapter extends BaseAdapter {
 
         //long startTimeInMillisecond = UIUtils.isoTimeToLong(task.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(task.getEndDateTime());
-        //long redoTillTimeInMillisecond = UIUtils.isoTimeToLong(task.getRemakeTill());
-        long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
+        long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
+        long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
+        long missionDueInMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+        long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);
+
 
         holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)
                 + " " + activity.getString(R.string.time_left));
@@ -132,7 +135,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
                 holder.statusText.setText(activity.getString(R.string.mission_expires_at,
-                        UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)));
+                        UIUtils.longToString(missionDueInMillisecond, 3)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
@@ -152,7 +155,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
                 holder.statusText.setText(activity.getString(R.string.send_latter_mission,
-                        UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)));
+                        UIUtils.longToString(missionDueInMillisecond, 3)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.blue_light));
@@ -199,15 +202,22 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_lightgrey, 0, 0, 0);
                 break;
             case reDoTask:
+                long reDoTimeInMillisecond = UIUtils.isoTimeToLong(task.getRedoDate());
+                long missionDueForReDoInMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
+                long leftTimeForReDoInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - reDoTimeInMillisecond);
+
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);
 
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
 
+                holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, leftTimeForReDoInMillisecond)
+                        + " " + activity.getString(R.string.time_left));
+
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
                 holder.statusText.setText(activity.getString(R.string.redo_mission,
-                        UIUtils.getTimeInDayHoursMinutes(activity, leftTimeInMillisecond)));
+                        UIUtils.longToString(missionDueForReDoInMillisecond, 3)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.red_dark));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.red));

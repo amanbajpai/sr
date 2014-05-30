@@ -9,6 +9,8 @@
     <string name="login_big" >LOGIN</string >
     <string name="i_new_user" >NEW USER</string >
     <string name="login_fail_dialog_title" >SmartRocket login</string >
+    <string name="internet_connection_is_bad">Your internet connection is unstable, please change source of
+        internet.</string>
     <string name="credentials_wrong" >The email or password you entered is incorrect. Please try again.</string >
     <string name="account_not_activated" >Your SmartRocket account has not yet been activated. To use SmartRocket,
         please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
@@ -332,7 +334,7 @@
     <string name="check_location_dialog_text3" >Location check complete.</string >
     <!-- ACTIVATE ACCOUNT ACTIVITY -->
     <string name="activate_account_text1" >Registration complete</string >
-    <string name="activate_account_text2" >Thank you for completing registration!\n\n Please activate your
+    <string name="activate_account_text2" >Thank you for completing registration!\n\nPlease activate your
         SmartRocket Account to begin using SmartRocket.</string >
     <string name="activate_account" >ACTIVATE ACCOUNT</string >
     <!-- ACCOUNT CONFIRMED DIALOG -->

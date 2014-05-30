@@ -56,18 +56,20 @@ public class SurveysBL {
                 task.setDescription(survey.getDescription());
                 task.setExperienceOffer(survey.getExperienceOffer());
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
+                task.setExpireTimeoutForClaimedTask(survey.getExpireTimeoutForClaimedTask());
+                task.setPreClaimedTaskExpireAfterStart(survey.getPreClaimedTaskExpireAfterStart());
+
+                task.setIsMy(isMy);
 
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     tampLocation.setLatitude(task.getLatitude());
                     tampLocation.setLongitude(task.getLongitude());
-                    task.setIsMy(isMy);
 
                     if (currentLocation != null) {
                         task.setDistance(currentLocation.distanceTo(tampLocation));
                     }
                 } else {
                     task.setDistance(0f);
-                    task.setIsMy(isMy);
                 }
 
                 vals.add(task.toContentValues());

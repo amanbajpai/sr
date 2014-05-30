@@ -32,6 +32,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textSize="@dimen/text_size_14sp"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/black"
         android:text="@string/activate_account_text2"
         custom:textStyle="light" />

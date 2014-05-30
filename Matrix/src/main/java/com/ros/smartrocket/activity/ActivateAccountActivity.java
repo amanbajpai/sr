@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -14,10 +13,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
-
-import java.util.List;
 
 public class ActivateAccountActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
@@ -42,18 +38,13 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
         checkDeviceSettingsByOnResume(false);
 
         if (getIntent() != null) {
-            Uri data = getIntent().getData();
-            if (data != null) {
-                String scheme = data.getScheme(); // "http"
-                String host = data.getHost(); // "twitter.com"
-                List<String> params = data.getPathSegments();
-                email = params.get(0);
-                token = params.get(1);
+            email = getIntent().getStringExtra(Keys.EMAIL);
+            token = getIntent().getStringExtra(Keys.TOKEN);
 
-                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(token)){
-                    activateAccountButton.setEnabled(false);
-                }
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(token)) {
+                activateAccountButton.setEnabled(false);
             }
+
         }
 
     }

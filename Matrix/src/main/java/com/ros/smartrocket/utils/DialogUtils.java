@@ -220,7 +220,7 @@ public class DialogUtils {
     public static Dialog showBadOrNoInternetDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
                 activity.getText(R.string.login_fail_dialog_title),
-                activity.getText(R.string.turn_on_google_sdk_dialog_text),
+                activity.getText(R.string.internet_connection_is_bad),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
         dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {

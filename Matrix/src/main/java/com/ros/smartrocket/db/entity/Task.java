@@ -46,6 +46,11 @@ public class Task extends BaseEntity {
     private String EndDateTime;
     private Double ExperienceOffer;
 
+    private Integer ExpireTimeoutForClaimedTask;
+    private Integer PreClaimedTaskExpireAfterStart;
+    private String Claimed;
+    private String RedoDate;
+
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
@@ -96,6 +101,12 @@ public class Task extends BaseEntity {
             result.setLongEndDateTime(c.getLong(TaskDbSchema.Query.All.LONG_END_DATE_TIME));
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
+
+            result.setExpireTimeoutForClaimedTask(c.getInt(TaskDbSchema.Query.All.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(TaskDbSchema.Query.All
+                    .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+            result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));
+            result.setRedoDate(c.getString(TaskDbSchema.Query.All.REDO_DATE));
         }
         L.d("Task", result.toString());
         return result;
@@ -261,6 +272,38 @@ public class Task extends BaseEntity {
 
     public void setLongEndDateTime(Long longEndDateTime) {
         LongEndDateTime = longEndDateTime;
+    }
+
+    public Integer getPreClaimedTaskExpireAfterStart() {
+        return PreClaimedTaskExpireAfterStart;
+    }
+
+    public void setPreClaimedTaskExpireAfterStart(Integer preClaimedTaskExpireAfterStart) {
+        PreClaimedTaskExpireAfterStart = preClaimedTaskExpireAfterStart;
+    }
+
+    public Integer getExpireTimeoutForClaimedTask() {
+        return ExpireTimeoutForClaimedTask;
+    }
+
+    public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {
+        ExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
+    }
+
+    public String getClaimed() {
+        return Claimed;
+    }
+
+    public void setClaimed(String claimed) {
+        Claimed = claimed;
+    }
+
+    public String getRedoDate() {
+        return RedoDate;
+    }
+
+    public void setRedoDate(String redoDate) {
+        RedoDate = redoDate;
     }
 
 

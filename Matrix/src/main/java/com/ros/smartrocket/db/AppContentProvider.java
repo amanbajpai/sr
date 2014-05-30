@@ -132,7 +132,10 @@ public class AppContentProvider extends ContentProvider {
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName(),
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName(),
 
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPERIENCE_OFFER.getName()
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPERIENCE_OFFER.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
+
                 };
 
                 groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();

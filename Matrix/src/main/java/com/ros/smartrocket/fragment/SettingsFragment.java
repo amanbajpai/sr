@@ -248,21 +248,25 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 }
 
                 UIUtils.showSimpleToast(getActivity(), R.string.success);
+                moveToFindTaskFragment();
                 break;
             case R.id.cancelButton:
                 setData();
 
-                Bundle bundle = new Bundle();
-                bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
-
-                Fragment fragment = new AllTaskFragment();
-                fragment.setArguments(bundle);
-                ((MainActivity) getActivity()).startFragment(fragment);
-
+                moveToFindTaskFragment();
                 break;
             default:
                 break;
         }
+    }
+
+    public void moveToFindTaskFragment(){
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
+
+        Fragment fragment = new AllTaskFragment();
+        fragment.setArguments(bundle);
+        ((MainActivity) getActivity()).startFragment(fragment);
     }
 
     public static String getLanguageCodeFromSupported() {

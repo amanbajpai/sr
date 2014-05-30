@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -20,8 +19,6 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.List;
-
 public class SetNewPasswordActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
     //private static final String TAG = SetNewPasswordActivity.class.getSimpleName();
@@ -37,11 +34,11 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_activate_account);
+        setContentView(R.layout.activity_set_new_password);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
-        setPasswordButton = (Button) findViewById(R.id.activateAccountButton);
+        setPasswordButton = (Button) findViewById(R.id.setPasswordButton);
         setPasswordButton.setOnClickListener(this);
 
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -50,19 +47,14 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
         checkDeviceSettingsByOnResume(false);
 
         if (getIntent() != null) {
-            Uri data = getIntent().getData();
-            if (data != null) {
-                String scheme = data.getScheme(); // "http"
-                String host = data.getHost(); // "twitter.com"
-                List<String> params = data.getPathSegments();
-                email = params.get(0);
-                token = params.get(1);
+            email = getIntent().getStringExtra(Keys.EMAIL);
+            token = getIntent().getStringExtra(Keys.TOKEN);
 
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(token)) {
-                    setPasswordButton.setEnabled(false);
-                }
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(token)) {
+                setPasswordButton.setEnabled(false);
             }
         }
+
 
     }
 
@@ -73,8 +65,6 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
                 if (!UIUtils.isOnline(this)) {
                     DialogUtils.showNetworkDialog(this);
                 } else {
-                    progressDialog = CustomProgressDialog.show(this);
-                    setPasswordButton.setEnabled(false);
 
                     String password = passwordEditText.getText().toString().trim();
 
@@ -88,6 +78,9 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
                                 passwordEditText, passwordValidationText));
                         break;
                     }
+
+                    progressDialog = CustomProgressDialog.show(this);
+                    setPasswordButton.setEnabled(false);
 
                     apiFacade.setPassword(this, email, token, password);
                 }

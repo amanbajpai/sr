@@ -147,7 +147,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 CheckLocationResponse checkLocationResponse =
                         (CheckLocationResponse) operation.getResponseEntities().get(0);
 
-                if (checkLocationResponse.getStatus()) {
+                if (checkLocationResponse.getStatus() && currentAddress!=null) {
                     Intent intent = new Intent(this, ReferralCasesActivity.class);
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
@@ -171,7 +171,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
                 .NO_INTERNET) {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())
+                    || Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 progressDialog.dismiss();
                 loginButton.setEnabled(true);
                 DialogUtils.showBadOrNoInternetDialog(this);

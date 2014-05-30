@@ -32,10 +32,14 @@ public interface SurveyDbSchema {
         TARGET_MAXIMUM("TargetMaximum", DBType.INT),
         TARGET_MINIMUM("TargetMinimum", DBType.INT),
         MAXIMUM_CLAIMS_PER_AGENT("MaximumClaimsPerAgent", DBType.INT),
-        END_DATE_TIME("EndDateTime", DBType.INT),
-        EXPECTED_END_DATE_TIME("ExpectedEndDateTime", DBType.INT),
-        EXPECTED_START_DATE_TIME("ExpectedStartDateTime", DBType.INT),
+        END_DATE_TIME("EndDateTime", DBType.TEXT),
+        EXPECTED_END_DATE_TIME("ExpectedEndDateTime", DBType.TEXT),
+        EXPECTED_START_DATE_TIME("ExpectedStartDateTime", DBType.TEXT),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
+
+        EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("ExpireTimeoutForClaimedTask", DBType.INT),
+        PRE_CLAIMED_TASK_EXPIRE_AFTER_START("PreClaimedTaskExpireAfterStart", DBType.INT),
+        CLAIMED("Claimed", DBType.TEXT),
 
         DELETED("Deleted", DBType.INT);
 
@@ -86,8 +90,10 @@ public interface SurveyDbSchema {
                 Table.SURVEY.getName() + "." + Columns.END_DATE_TIME.getName(),
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
                 Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPERIENCE_OFFER.getName()
+                Table.SURVEY.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
 
+                Table.SURVEY.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                Table.SURVEY.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
         };
 
         int _ID = 0;
@@ -109,6 +115,8 @@ public interface SurveyDbSchema {
         int EXPECTED_END_DATE_TIME = 16;
         int EXPECTED_START_DATE_TIME = 17;
         int EXPERIENCE_OFFER = 18;
+        int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 19;
+        int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 20;
     }
 
     public interface QuerySurveyByDistance {
@@ -139,5 +147,7 @@ public interface SurveyDbSchema {
         int NEAR_TASK_PRICE = 20;
         int NEAR_TASK_ID = 21;
         int EXPERIENCE_OFFER = 22;
+        int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
+        int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 24;
     }
 }

@@ -35,6 +35,8 @@ public class Survey extends BaseEntity {
     private Integer TargetMinimum;
     private Boolean ViewableBeforeLive;
     private Double ExperienceOffer;
+    private Integer ExpireTimeoutForClaimedTask;
+    private Integer PreClaimedTaskExpireAfterStart;
 
     private transient Float Longitude;
     private transient Float Latitude;
@@ -86,6 +88,10 @@ public class Survey extends BaseEntity {
             result.setExpectedEndDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_START_DATE_TIME));
             result.setExperienceOffer(c.getDouble(SurveyDbSchema.Query.EXPERIENCE_OFFER));
+
+            result.setExpireTimeoutForClaimedTask(c.getInt(SurveyDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(SurveyDbSchema.Query
+                    .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
         }
         return result;
     }
@@ -121,6 +127,10 @@ public class Survey extends BaseEntity {
             result.setNearTaskPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_PRICE));
 
             result.setExperienceOffer(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.EXPERIENCE_OFFER));
+
+            result.setExpireTimeoutForClaimedTask(c.getInt(SurveyDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(SurveyDbSchema.Query
+                    .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
         }
         return result;
@@ -300,5 +310,21 @@ public class Survey extends BaseEntity {
 
     public void setExperienceOffer(Double experienceOffer) {
         ExperienceOffer = experienceOffer;
+    }
+
+    public Integer getPreClaimedTaskExpireAfterStart() {
+        return PreClaimedTaskExpireAfterStart;
+    }
+
+    public void setPreClaimedTaskExpireAfterStart(Integer preClaimedTaskExpireAfterStart) {
+        PreClaimedTaskExpireAfterStart = preClaimedTaskExpireAfterStart;
+    }
+
+    public Integer getExpireTimeoutForClaimedTask() {
+        return ExpireTimeoutForClaimedTask;
+    }
+
+    public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {
+        ExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
     }
 }

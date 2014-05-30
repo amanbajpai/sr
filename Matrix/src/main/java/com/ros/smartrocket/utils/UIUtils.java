@@ -617,7 +617,7 @@ public class UIUtils {
     }
 
     public static String getBalanceOrPrice(Context context, Double balance) {
-        return "$"+String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
+        return "$" + String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
     }
 
     public static void setActionBarBackground(ActionBarActivity activity, int statusId) {
@@ -635,5 +635,9 @@ public class UIUtils {
                 break;
         }
         activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(backgroundRes));
+    }
+
+    public static long getHoursAsMilliseconds(int hoursCount) {
+        return hoursCount * DateUtils.HOUR_IN_MILLIS;
     }
 }

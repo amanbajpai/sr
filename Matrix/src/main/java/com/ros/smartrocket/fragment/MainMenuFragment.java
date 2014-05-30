@@ -80,7 +80,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             }
         });
 
-        view.findViewById(R.id.photoImageView).setOnClickListener(this);
+        //view.findViewById(R.id.photoImageView).setOnClickListener(this);
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myAccountButton).setOnClickListener(this);

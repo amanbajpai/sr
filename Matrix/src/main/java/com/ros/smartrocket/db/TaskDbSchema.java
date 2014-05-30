@@ -53,6 +53,11 @@ public interface TaskDbSchema {
         LONG_END_DATE_TIME("LongEndDateTime", DBType.NUMERIC),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
+        EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("ExpireTimeoutForClaimedTask", DBType.INT),
+        PRE_CLAIMED_TASK_EXPIRE_AFTER_START("PreClaimedTaskExpireAfterStart", DBType.INT),
+        CLAIMED("Claimed", DBType.TEXT),
+        REDO_DATE("RedoDate", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -113,7 +118,11 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.IS_MY.getName(),
                     Table.TASK.getName() + "." + Columns.IS_HIDE.getName(),
                     Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName()
+                    Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
+                    Table.TASK.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                    Table.TASK.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
+                    Table.TASK.getName() + "." + Columns.CLAIMED.getName(),
+                    Table.TASK.getName() + "." + Columns.REDO_DATE.getName()
             };
 
             int _ID = 0;
@@ -138,6 +147,10 @@ public interface TaskDbSchema {
             int IS_HIDE = 19;
             int LONG_END_DATE_TIME = 20;
             int EXPERIENCE_OFFER = 21;
+            int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 22;
+            int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 23;
+            int CLAIMED = 24;
+            int REDO_DATE = 25;
         }
 
         public interface GetDistance {

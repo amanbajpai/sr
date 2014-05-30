@@ -33,16 +33,12 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- Get Photo -->
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
-
     <!-- Custom notification -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-
     <application
         android:name="com.ros.smartrocket.App"
         android:allowBackup="true"
@@ -106,10 +102,7 @@
             android:name="com.ros.smartrocket.activity.CheckLocationActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.CheckLocationFailedActivity"
-            android:configChanges="locale" />
-        <activity
-            android:name="com.ros.smartrocket.activity.ActivateAccountActivity"
+            android:name="com.ros.smartrocket.activity.EmailRedirectActivity"
             android:configChanges="locale" >
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
@@ -117,23 +110,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--<data android:host="www.youtube.com" android:scheme="http"></data>-->
-                <data android:scheme="smartrocket" />
-                <data android:scheme="http" android:host="com.ros.smartrocket"/>
+                <data
+                    android:scheme="http"
+                    android:host="smart-rocket.com" />
             </intent-filter >
         </activity >
         <activity
+            android:name="com.ros.smartrocket.activity.CheckLocationFailedActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.ActivateAccountActivity"
+            android:configChanges="locale" />
+        <activity
             android:name="com.ros.smartrocket.activity.SetNewPasswordActivity"
-            android:configChanges="locale" >
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!--TODO-->
-               <!-- <data android:scheme="smartrocket" />
-                <data android:scheme="http" android:host="com.ros.smartrocket"/>-->
-            </intent-filter >
-        </activity >
+            android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.QuestionsActivity"
             android:theme="@style/AppThemeGreen"

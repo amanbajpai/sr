@@ -16,6 +16,7 @@ import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.QuitQuestionActivity;
+import com.ros.smartrocket.activity.SetNewPasswordActivity;
 import com.ros.smartrocket.activity.SurveyDetailsActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
@@ -336,8 +337,17 @@ public class IntentUtils {
      * @return
      */
 
-    public static Intent getActivateAccountIntent(Context context) {
+    public static Intent getActivateAccountIntent(Context context, String email, String token) {
         Intent intent = new Intent(context, ActivateAccountActivity.class);
+        intent.putExtra(Keys.EMAIL, email);
+        intent.putExtra(Keys.TOKEN, token);
+        return intent;
+    }
+
+    public static Intent getSetNewPasswordIntent(Context context, String email, String token) {
+        Intent intent = new Intent(context, SetNewPasswordActivity.class);
+        intent.putExtra(Keys.EMAIL, email);
+        intent.putExtra(Keys.TOKEN, token);
         return intent;
     }
 }

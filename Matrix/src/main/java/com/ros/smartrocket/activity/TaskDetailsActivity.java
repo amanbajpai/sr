@@ -287,11 +287,23 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void setSurveyData(Survey survey) {
         long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
-        long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
+        //long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
+
+        long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
+        long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
+        long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
+
+        if (task.getIsMy()) {
+            dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
+        } else {
+            dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
+            /*String hoursCount = task.getExpireTimeoutForClaimedTask()
+                    + " " + getResources().getQuantityString(R.plurals.hour, task.getExpireTimeoutForClaimedTask());
+            dueTextView.setText(hoursCount);*/
+        }
 
         //setTitle(getString(R.string.task_detail_title, survey.getName()));
         if (actionBarView != null) {

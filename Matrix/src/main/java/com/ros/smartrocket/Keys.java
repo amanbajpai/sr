@@ -9,6 +9,8 @@ public interface Keys {
     String EMAIL = "email";
     String LAST_PASSWORD = "last_password";
     String T_AND_C_VERSION = "t_and_c_version";
+    String ACTIVATE_ACCOUNT = "activate_account";
+    String FORGOT_PASS = "forgot_pass";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
