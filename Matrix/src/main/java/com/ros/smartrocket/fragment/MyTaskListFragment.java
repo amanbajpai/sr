@@ -152,6 +152,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         switch (v.getId()) {
             case R.id.refreshButton:
                 getMyTasks();
+                IntentUtils.refreshProfileAndMainMenu(getActivity());
                 break;
             default:
                 break;

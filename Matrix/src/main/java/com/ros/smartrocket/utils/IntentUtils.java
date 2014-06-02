@@ -23,6 +23,7 @@ import com.ros.smartrocket.activity.TaskValidationActivity;
 import com.ros.smartrocket.activity.TermsAndConditionActivity;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.fragment.MainMenuFragment;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -349,5 +350,10 @@ public class IntentUtils {
         intent.putExtra(Keys.EMAIL, email);
         intent.putExtra(Keys.TOKEN, token);
         return intent;
+    }
+
+    public static void refreshProfileAndMainMenu(Context context) {
+        Intent intent = new Intent(Keys.REFRESH_MAIN_MENU);
+        context.sendBroadcast(intent);
     }
 }

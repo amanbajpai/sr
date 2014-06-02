@@ -2,6 +2,7 @@ package com.ros.smartrocket.fragment;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Address;
@@ -495,6 +496,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 break;
             case R.id.refreshButton:
                 loadData();
+                IntentUtils.refreshProfileAndMainMenu(getActivity());
                 break;
             default:
                 break;

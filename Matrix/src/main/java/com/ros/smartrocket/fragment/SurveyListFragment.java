@@ -157,6 +157,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         switch (v.getId()) {
             case R.id.refreshButton:
                 getSurveys();
+                IntentUtils.refreshProfileAndMainMenu(getActivity());
                 break;
             default:
                 break;
