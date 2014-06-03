@@ -26,7 +26,6 @@ import android.content.IntentFilter;
 public final class ServerUtilities {
 
     @SuppressWarnings("hiding")
-    private static final String TAG = ServerUtilities.class.getSimpleName();
 
     private Context context;
     private ResponseReceiver receiver;

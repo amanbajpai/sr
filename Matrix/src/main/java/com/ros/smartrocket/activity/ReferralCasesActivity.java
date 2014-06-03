@@ -19,7 +19,6 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    //private static final String TAG = ReferralCasesActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private int countryId;
     private Spinner referralCasesSpinner;

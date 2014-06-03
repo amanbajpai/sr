@@ -26,7 +26,6 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.MainActivity;
-import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -40,7 +39,6 @@ import java.util.Locale;
  * Setting fragment with all application related settings
  */
 public class SettingsFragment extends Fragment implements OnClickListener, CompoundButton.OnCheckedChangeListener {
-    //private static final String TAG = SettingsFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
@@ -53,7 +51,6 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS, DateUtils.MINUTE_IN_MILLIS * 2,
             DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10, DateUtils.MINUTE_IN_MILLIS * 30,
             DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
-    private ViewGroup view;
 
     private Spinner languageSpinner;
     private Spinner deadlineReminderSpinner;
@@ -77,10 +74,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /*final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
-        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);*/
-
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
         deadlineReminderSpinner = (Spinner) view.findViewById(R.id.deadlineReminderSpinner);
@@ -150,7 +144,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
 
             if (hours != 0) {
                 refreshTimeArray[i] = hours + " " + getResources().getQuantityString(R.plurals.hour, hours);
-            } else if (hours == 0 && minutes != 0) {
+            } else if (minutes != 0) {
                 refreshTimeArray[i] = minutes + " " + getResources().getQuantityString(R.plurals.minute, minutes);
             }
         }
@@ -260,7 +254,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         }
     }
 
-    public void moveToFindTaskFragment(){
+    public void moveToFindTaskFragment() {
         Bundle bundle = new Bundle();
         bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
 

@@ -12,12 +12,10 @@ import com.ros.smartrocket.utils.L;
 
 public class WithdrawTaskDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
-    //private Activity activity;
     private DialogButtonClickListener buttonClickListener;
 
     public WithdrawTaskDialog(Activity activity, String dateTime, DialogButtonClickListener buttonClickListener) {
         super(activity);
-        //this.activity = activity;
         this.buttonClickListener = buttonClickListener;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

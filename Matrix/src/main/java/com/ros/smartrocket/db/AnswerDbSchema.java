@@ -7,7 +7,6 @@ public interface AnswerDbSchema {
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.ANSWER
             .getName()).build();
 
-    // String SORT_ORDER_DESC_LIMIT_1 = Table.ANSWER.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
     String SORT_ORDER_ASC = Table.ANSWER.getName() + "." + Columns._ID.getName() + " ASC";
 
     public enum Columns {
@@ -58,9 +57,7 @@ public interface AnswerDbSchema {
 
     public interface Query {
         int TOKEN_QUERY = 31;
-        //int TOKEN_INSERT = 32;
         int TOKEN_UPDATE = 33;
-        //int TOKEN_DELETE = 34;
 
         String[] PROJECTION = {Table.ANSWER.getName() + "." + Columns._ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.ID.getName(),

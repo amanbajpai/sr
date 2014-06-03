@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class MyTaskAdapter extends BaseAdapter {
-    // private static final String TAG = "MyTaskAdapter";
     private Activity activity;
     private ArrayList<Task> items = new ArrayList<Task>();
     private LayoutInflater inflater;

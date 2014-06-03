@@ -76,6 +76,7 @@ public class GoogleUrlShortenManager {
 
                 responseJson = new JSONObject(responseJsonString);
             } catch (Exception e) {
+                L.e(TAG, "GetShortUrlAsyncTask error: " + e.getMessage(), e);
                 onShotrUrlReadyListener.onGetShortUrlError(e.getMessage());
             }
             client.close();

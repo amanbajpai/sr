@@ -50,9 +50,9 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param email
-     * @param password
+     * @param activity - current activity
+     * @param email - current email
+     * @param password - current password
      */
     public void login(Activity activity, String email, String password) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
@@ -71,8 +71,8 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param email
+     * @param activity - current activity
+     * @param email - current email
      */
     public void forgotPassword(Activity activity, String email) {
         if (!TextUtils.isEmpty(email)) {
@@ -87,7 +87,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
+     * @param activity - current activity
      */
     public void getCurrentTermsAndConditionVersion(Activity activity) {
         BaseOperation operation = new BaseOperation();
@@ -98,8 +98,9 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param token
+     * @param activity - current activity
+     * @param email - current email
+     * @param token - current token
      */
     public void activateAccount(Activity activity, String email, String token) {
         ActivateAccount activateAccountEntity = new ActivateAccount();
@@ -115,8 +116,10 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param token
+     * @param activity - current activity
+     * @param email - current email
+     * @param token - current token
+     * @param password - current password
      */
     public void setPassword(Activity activity, String email, String token, String password) {
         SetPassword setPasswordEntity = new SetPassword();
@@ -133,7 +136,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
+     * @param activity - current activity
      * @param registrationEntity
      */
     public void registration(Activity activity, Registration registrationEntity) {
@@ -146,8 +149,8 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param uploadPhoto
+     * @param activity - current activity
+     * @param uploadPhoto - photo to upload
      */
     public void uploadPhoto(Activity activity, UploadPhoto uploadPhoto) {
         BaseOperation operation = new BaseOperation();
@@ -179,8 +182,8 @@ public class APIFacade {
     }
 
     /**
-     * @param context
-     * @param countryId
+     * @param context - current context
+     * @param countryId - current country id from server
      */
     public void getReferralCases(Context context, int countryId) {
         BaseOperation operation = new BaseOperation();
@@ -191,9 +194,9 @@ public class APIFacade {
     }
 
     /**
-     * @param context
-     * @param countryId
-     * @param referralId
+     * @param context - current context
+     * @param countryId - current country id from server
+     * @param referralId - current referral id from server
      */
     public void saveReferralCases(Context context, int countryId, int referralId) {
         SaveReferralCase caseEntity = new SaveReferralCase();
@@ -209,7 +212,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
+     * @param activity - current activity
      * @param latitude
      * @param longitude
      */
@@ -228,7 +231,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
+     * @param activity - current activity
      * @param surveyId
      */
     public void getSurveysTask(Activity activity, Integer surveyId) {
@@ -251,8 +254,8 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param taskId
+     * @param activity - current activity
+     * @param taskId - tack id to claim
      */
     public void claimTask(Activity activity, Integer taskId, double latitude, double longitude) {
         SendTaskId sendTaskId = new SendTaskId();

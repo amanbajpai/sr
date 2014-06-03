@@ -28,7 +28,6 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
  * Fragment for display About information
  */
 public class QuestionType4Fragment extends BaseQuestionFragment {
-    //private static final String TAG = QuestionType4Fragment.class.getSimpleName();
     private ViewGroup view;
     private TextView questionText;
     private EditText answerEditText;

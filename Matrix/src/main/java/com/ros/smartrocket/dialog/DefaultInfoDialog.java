@@ -12,7 +12,7 @@ import com.ros.smartrocket.utils.L;
 
 public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = DefaultInfoDialog.class.getSimpleName();
-    private DialogButtonClickListener onDialogButtonClicklistener;
+    private DialogButtonClickListener onDialogButtonClickListener;
     private TextView leftButton;
     private TextView rightButton;
 
@@ -76,13 +76,13 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.leftButton:
-                if (onDialogButtonClicklistener != null) {
-                    onDialogButtonClicklistener.onLeftButtonPressed(this);
+                if (onDialogButtonClickListener != null) {
+                    onDialogButtonClickListener.onLeftButtonPressed(this);
                 }
                 break;
             case R.id.rightButton:
-                if (onDialogButtonClicklistener != null) {
-                    onDialogButtonClicklistener.onRightButtonPressed(this);
+                if (onDialogButtonClickListener != null) {
+                    onDialogButtonClickListener.onRightButtonPressed(this);
                 }
                 break;
             default:
@@ -90,9 +90,9 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         }
     }
 
-    public void setOnDialogButtonClicklistener(DialogButtonClickListener onDialogButtonClicklistener) {
+    public void setOnDialogButtonClickListener(DialogButtonClickListener onDialogButtonClickListener) {
 
-        this.onDialogButtonClicklistener = onDialogButtonClicklistener;
+        this.onDialogButtonClickListener = onDialogButtonClickListener;
     }
 
     public interface DialogButtonClickListener {

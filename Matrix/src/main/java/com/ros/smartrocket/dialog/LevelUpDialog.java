@@ -18,11 +18,9 @@ import com.ros.smartrocket.utils.L;
 
 public class LevelUpDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = LevelUpDialog.class.getSimpleName();
-    private Activity activity;
 
     public LevelUpDialog(final Activity activity) {
         super(activity);
-        this.activity = activity;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
             show();

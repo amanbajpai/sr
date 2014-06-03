@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class SurveyAdapter extends BaseAdapter {
-    // private static final String TAG = "SurveyAdapter";
     private Activity activity;
     private ArrayList<Survey> items = new ArrayList<Survey>();
     private LayoutInflater inflater;

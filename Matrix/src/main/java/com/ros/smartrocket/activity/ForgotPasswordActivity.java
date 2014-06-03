@@ -20,7 +20,6 @@ import com.ros.smartrocket.utils.UIUtils;
  * Activity for Agents login into system
  */
 public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
     private Button sendButton;

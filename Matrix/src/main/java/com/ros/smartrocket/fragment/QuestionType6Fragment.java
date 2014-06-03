@@ -23,14 +23,11 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
-import com.ros.smartrocket.utils.L;
 
 /**
  * Fragment for display About information
  */
 public class QuestionType6Fragment extends BaseQuestionFragment {
-    //private static final String TAG = QuestionType6Fragment.class.getSimpleName();
-    private ViewGroup view;
     private EditText answerEditText;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
@@ -43,7 +40,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_6, null);
+        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_6, null);
 
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);

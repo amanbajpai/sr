@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,9 +53,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
-    public static final int MULTIPLE_CHOSE = 0;
-    public static final int OPEN_COMMENT_QUESTION_TYPE = 0;
-
     private Integer surveyId;
     private Integer taskId;
     private Task task = new Task();
@@ -89,7 +84,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (getIntent() != null) {
             surveyId = getIntent().getIntExtra(Keys.SURVEY_ID, 0);
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
-            //statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -150,7 +144,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     if (questions.size() > 0) {
                         questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
-                        //int previousQuestionOrderId = preferencesManager.getPreviousQuestionOrderId(taskId);
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(surveyId,
                                 taskId);
 
@@ -332,8 +325,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void startValidationActivity() {
         TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
-        /*preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
-                + task.getId());*/
 
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true));
         finish();

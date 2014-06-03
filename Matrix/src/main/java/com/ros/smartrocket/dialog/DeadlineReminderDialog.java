@@ -38,10 +38,6 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
         getWindow().setGravity(Gravity.CENTER);
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        /*Calendar calendar = Calendar.getInstance();
-        long timeInMillis = deadlineTimeInMillis - calendar.getTimeInMillis();
-
-        ((TextView) findViewById(R.id.dateTimeToDate)).setText(UIUtils.getTimeInDayHoursMinutes(activity, timeInMillis));*/
 
         String atDateTime = UIUtils.longToString(deadlineTimeInMillis, 3);
         ((TextView) findViewById(R.id.text)).setText(activity.getString(R.string.deadline_reminder_dialog_text,

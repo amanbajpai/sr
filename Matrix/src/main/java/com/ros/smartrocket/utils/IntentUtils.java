@@ -23,7 +23,6 @@ import com.ros.smartrocket.activity.TaskValidationActivity;
 import com.ros.smartrocket.activity.TermsAndConditionActivity;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Survey;
-import com.ros.smartrocket.fragment.MainMenuFragment;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -163,9 +162,9 @@ public class IntentUtils {
     /**
      * Return intent for sending email
      *
-     * @param email
-     * @param text
-     * @return
+     * @param email - send to email
+     * @param text - text to send
+     * @return Intent
      */
     public static Intent getEmailIntent(String subject, String email, String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -189,7 +188,7 @@ public class IntentUtils {
     /**
      * Return intent for sending sms
      *
-     * @return
+     * @return Intent
      */
 
     @TargetApi(19)
@@ -321,8 +320,8 @@ public class IntentUtils {
     /**
      * Return intent for opening Survey detail screen
      *
-     * @param context
-     * @return
+     * @param context - current context
+     * @return Intent
      */
 
     public static Intent getSurveyDetailsIntent(Context context, Survey survey) {
@@ -332,10 +331,10 @@ public class IntentUtils {
     }
 
     /**
-     * Return intent for opening Survey detail screen
+     * Return intent for opening activate account screen
      *
-     * @param context
-     * @return
+     * @param context - current context
+     * @return Intent
      */
 
     public static Intent getActivateAccountIntent(Context context, String email, String token) {

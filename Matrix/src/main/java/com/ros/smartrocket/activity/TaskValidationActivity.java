@@ -47,7 +47,6 @@ import java.util.Locale;
 
 public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    //private static final String TAG = TaskValidationActivity.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -91,7 +90,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         expiryDateTextView = (TextView) findViewById(R.id.expiryDateTextView);
         taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
         dueInTextView = (TextView) findViewById(R.id.dueInTextView);
-        //closingQuestionTextLayout.setVisibility(showRecheckAnswerButton ? View.VISIBLE : View.GONE);
         closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
 
         Button recheckAnswerButton = (Button) findViewById(R.id.recheckTaskButton);
@@ -129,9 +127,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                     setTaskData(task);
-                    //SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
                     if (showRecheckAnswerButton) {
-                        //closingQuestionTextLayout.setVisibility(View.VISIBLE);
                         QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
                     } else {
                         sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);

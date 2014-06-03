@@ -19,7 +19,6 @@ import com.ros.smartrocket.utils.PreferencesManager;
  * Activity for view Task detail information
  */
 public class MapActivity extends BaseActivity {
-    //private static final String TAG = MapActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

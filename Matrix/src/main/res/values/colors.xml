@@ -17,7 +17,7 @@
     <color name="blue_light">#3495ff</color>
     <color name="orange">#fbae42</color>
 
-    <color name="map_radius_stroke">#aaff0033</color>
+    <color name="map_radius_stroke">#ca1f1f</color>
     <color name="map_radius_fill">#07ff0033</color>
 
     <!--<color name="white_transparence">#a9949494</color>-->

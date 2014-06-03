@@ -210,6 +210,7 @@ public class NetworkService extends BaseNetworkService {
                     operation.setResponseErrorCode(error.getErrorCode());
                 }
             } catch (JsonSyntaxException e) {
+                L.e(TAG, "ProcessResponse error: " + e.getMessage(), e);
                 operation.setResponseError(getString(R.string.error));
             }
         }

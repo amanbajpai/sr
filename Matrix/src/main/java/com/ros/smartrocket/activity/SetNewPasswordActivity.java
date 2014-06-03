@@ -21,7 +21,6 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class SetNewPasswordActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    //private static final String TAG = SetNewPasswordActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
     private EditText passwordEditText;

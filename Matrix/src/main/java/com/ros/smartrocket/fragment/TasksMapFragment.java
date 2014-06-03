@@ -2,7 +2,6 @@ package com.ros.smartrocket.fragment;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Address;
@@ -91,6 +90,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private static final float DEFAULT_ZOOM_LEVEL = 11f;
     private float zoomLevel = DEFAULT_ZOOM_LEVEL;
     private SeekBar sbRadius;
+    private ImageView roundImage;
     private ImageView refreshButton;
     private MarkerOptions myPinLocation;
     private HashMap<String, String> markerLocation = new HashMap<String, String>();
@@ -116,7 +116,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
 
         display = getActivity().getWindowManager().getDefaultDisplay();
-        mapWidth = UIUtils.getDpFromPx(getActivity(), display.getWidth() - 60);
+        mapWidth = UIUtils.getDpFromPx(getActivity(), display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
 
         if (this.options == null) {
             this.options = new ClusterOptions();
@@ -124,6 +124,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         handler = new DbHandler(getActivity().getContentResolver());
 
+        roundImage = (ImageView) view.findViewById(R.id.roundImage);
         btnFilter = (ImageView) view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(this);
 
@@ -144,31 +145,38 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         sbRadius.setProgress(sbRadiusProgress);
         sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                map.clear();
+                moveCameraToLocation();
+                roundImage.setVisibility(View.VISIBLE);
+            }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 sbRadiusProgress = progress;
                 taskRadius = RADIUS_DELTA * sbRadiusProgress;
                 setRadiusText();
 
-                Location location = lm.getLocation();
-                if (location != null && UIUtils.isGpsEnabled(getActivity())) {
-                    map.clear();
-                    addMyLocation(location);
-                    addRadiusAndZoomByRadius(location);
-                    moveCameraToLocation();
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
+                restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
+                moveCameraToLocation();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 preferencesManager.setDefaultRadius(taskRadius);
+                roundImage.setVisibility(View.GONE);
                 loadTasksFromLocalDb();
+
                 Location location = lm.getLocation();
+
+                if (location != null && UIUtils.isGpsEnabled(getActivity())) {
+                    map.clear();
+                    addMyLocation(location);
+                    addRadius(location);
+                }
+
                 if (location == null && UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                 }
@@ -461,7 +469,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
 
         if (mode == Keys.MapViewMode.ALLTASKS) {
-            addRadiusAndZoomByRadius(location);
+            restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
+            addRadius(location);
+
         } else {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (InputPoint point : inputPoints) {
@@ -675,22 +685,20 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     /**
-     * Add Radius and zoom map by radius
+     * Add Radius
      *
      * @param location - should be not null
      */
-    private void addRadiusAndZoomByRadius(Location location) {
-        if (location != null) {
-            LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
-            restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
 
-            if (getActivity() != null) {
-                Resources r = getActivity().getResources();
-                addCircle(coordinate, taskRadius, r.getColor(R.color.map_radius_stroke),
-                        r.getColor(R.color.map_radius_fill));
+    private void addRadius(Location location) {
+        if (location != null && getActivity() != null) {
+            LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
+            Resources r = getActivity().getResources();
+            addCircle(coordinate, taskRadius, r.getColor(R.color.map_radius_stroke),
+                    r.getColor(R.color.map_radius_fill));
                 /*addCircle(coordinate, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
                         r.getColor(R.color.map_accuracy_fill));*/
-            }
+
         }
     }
 
@@ -702,11 +710,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void addCircle(LatLng coordinates, int radius, int strokeColor, int fillColor) {
         map.addCircle(new CircleOptions()
-                .center(coordinates)
-                .radius(radius)
-                .strokeColor(strokeColor)
-                .strokeWidth(5f)
-                /*.fillColor(fillColor)*/);
+                        .center(coordinates)
+                        .radius(radius)
+                        .strokeColor(strokeColor)
+                        .strokeWidth(6f)
+                /*.fillColor(fillColor)*/
+        );
     }
 
     private void setRadiusText() {

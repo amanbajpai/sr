@@ -307,38 +307,6 @@ public class UIUtils {
         return decimalFormat.format(num);
     }
 
-    public static void setFakeAlpha(View view, float alpha) {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
-        alphaAnimation.setDuration(0); // Make animation instant
-        alphaAnimation.setFillAfter(true); // Tell it to persist after the animation ends
-        view.startAnimation(alphaAnimation);
-    }
-
-    public static void unSetFakeAlpha(View view) {
-        view.clearAnimation();
-    }
-
-    @SuppressLint("NewApi")
-    public static boolean copyToClipboard(Context context, String text) {
-        try {
-            int sdk = android.os.Build.VERSION.SDK_INT;
-            if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setText(text);
-                return true;
-            } else {
-                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
-                android.content.ClipData clip = android.content.ClipData.newPlainText("Opinion", text);
-                clipboard.setPrimaryClip(clip);
-                return true;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public static String getDeviceId(Context context) {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }

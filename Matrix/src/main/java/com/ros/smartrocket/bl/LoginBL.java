@@ -8,8 +8,6 @@ import com.ros.smartrocket.utils.UIUtils;
  *
  */
 public class LoginBL {
-    //private static final String TAG = LoginBL.class.getSimpleName();
-
     /**
      * All possible errors before login initiation
      */
@@ -26,6 +24,7 @@ public class LoginBL {
 
     /**
      * Check all conditions before login
+     *
      * @param context
      * @param email
      * @param password

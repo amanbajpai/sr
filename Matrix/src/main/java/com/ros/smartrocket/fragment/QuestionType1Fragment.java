@@ -27,10 +27,6 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
  * Fragment for display About information
  */
 public class QuestionType1Fragment extends BaseQuestionFragment implements AdapterView.OnItemClickListener {
-    //private static final String TAG = QuestionType1Fragment.class.getSimpleName();
-    private ViewGroup view;
-    private ListView list;
-    private TextView questionText;
     private AnswerCheckBoxAdapter adapter;
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
@@ -43,7 +39,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_1, null);
+        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_1, null);
 
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
@@ -51,10 +47,10 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        list = (ListView) view.findViewById(R.id.answerList);
+        ListView list = (ListView) view.findViewById(R.id.answerList);
         list.setOnItemClickListener(this);
 
-        questionText = (TextView) view.findViewById(R.id.questionText);
+        TextView questionText = (TextView) view.findViewById(R.id.questionText);
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());

@@ -11,8 +11,6 @@ import com.ros.smartrocket.db.entity.NotUploadedFile;
 import java.util.ArrayList;
 
 public class FilesBL {
-    //private static final String TAG = TasksBL.class.getSimpleName();
-
 
     public FilesBL() {
 
@@ -25,7 +23,7 @@ public class FilesBL {
 
     public static void getNotUploadedFilesCountFromDB(AsyncQueryHandler handler, String cookie) {
         handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, cookie, NotUploadedFileDbSchema.CONTENT_URI,
-                new String[] { "count(*)" }, null, null, null);
+                new String[]{"count(*)"}, null, null, null);
     }
 
     public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long currentId,
@@ -91,7 +89,7 @@ public class FilesBL {
      * Convert cursor to NotUploadedFile list
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return ArrayList
      */
     public static ArrayList<NotUploadedFile> convertCursorToNotUploadedFileList(Cursor cursor) {
         ArrayList<NotUploadedFile> result = new ArrayList<NotUploadedFile>();
@@ -108,7 +106,7 @@ public class FilesBL {
      * Convert cursor to NotUploadedFile
      *
      * @param cursor - all fields cursor
-     * @return
+     * @return NotUploadedFile
      */
     public static NotUploadedFile convertCursorToNotUploadedFile(Cursor cursor) {
         NotUploadedFile result = null;

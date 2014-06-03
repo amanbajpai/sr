@@ -21,13 +21,12 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayS
  * Utils class for easy work with UI Views
  */
 public class DialogUtils {
-    //private static final String TAG = "DialogUtils";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     /**
      * Show location Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showLocationDialog(final Activity activity, final boolean isCancelable) {
         int cancelButtonResId = R.string.cancel;
@@ -40,7 +39,7 @@ public class DialogUtils {
                 activity.getText(R.string.turn_on_location_dialog_text),
                 cancelButtonResId, R.string.settings);
         locationDialog.setCancelable(isCancelable);
-        locationDialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        locationDialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 if (isCancelable) {
@@ -67,14 +66,14 @@ public class DialogUtils {
     /**
      * Show network Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showNetworkDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_network_dialog_title),
                 activity.getText(R.string.turn_on_network_dialog_text),
                 R.string.cancel, R.string.settings);
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -92,14 +91,14 @@ public class DialogUtils {
     /**
      * Show Google SDK Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showGoogleSdkDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
                 activity.getText(R.string.turn_on_google_sdk_dialog_title),
                 activity.getText(R.string.turn_on_google_sdk_dialog_text),
                 R.string.cancel, R.string.settings);
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -120,7 +119,7 @@ public class DialogUtils {
     /**
      * Show mock location Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showMockLocationDialog(final Activity activity, final boolean isCancelable) {
         int cancelButtonResId = R.string.cancel;
@@ -133,7 +132,7 @@ public class DialogUtils {
                 activity.getText(R.string.turn_of_mock_location_dialog_text),
                 cancelButtonResId, R.string.settings);
         dialog.setCancelable(isCancelable);
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 if (isCancelable) {
@@ -164,7 +163,7 @@ public class DialogUtils {
     /**
      * Show registration failed Dialog message
      *
-     * @param context
+     * @param context - current context
      */
     public static Dialog showLoginFailedDialog(final Context context) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context,
@@ -172,7 +171,7 @@ public class DialogUtils {
                 context.getText(R.string.credentials_wrong),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
             }
@@ -188,7 +187,7 @@ public class DialogUtils {
     /**
      * Show account not activated Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showAccountNotActivatedDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
@@ -196,7 +195,7 @@ public class DialogUtils {
                 activity.getText(R.string.account_not_activated),
                 R.string.request_new_activation_link, android.R.string.ok);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -215,7 +214,7 @@ public class DialogUtils {
     /**
      * Show no internet connection Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showBadOrNoInternetDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
@@ -223,7 +222,7 @@ public class DialogUtils {
                 activity.getText(R.string.internet_connection_is_bad),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -241,7 +240,7 @@ public class DialogUtils {
     /**
      * Show dialog. Photo can not be add.
      *
-     * @param context
+     * @param context - current context
      */
     public static Dialog showPhotoCanNotBeAddDialog(final Context context) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context,
@@ -249,7 +248,7 @@ public class DialogUtils {
                 context.getText(R.string.add_photo_error_text),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
             }
@@ -265,7 +264,7 @@ public class DialogUtils {
     /**
      * Show 3G limit reached Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog show3GLimitExceededDialog(final Context activity,
                                                    DefaultInfoDialog.DialogButtonClickListener
@@ -275,7 +274,7 @@ public class DialogUtils {
                 activity.getText(R.string.tree_g_limit_exceeded_dialog_text1),
                 R.string.tree_g_limit_exceeded_dialog_only_wifi, R.string.tree_g_limit_exceeded_dialog_yes);
         dialog.setCancelable(false);
-        dialog.setOnDialogButtonClicklistener(dialogButtonClickListener);
+        dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
 
         return dialog;
     }
@@ -283,7 +282,7 @@ public class DialogUtils {
     /**
      * Show quite task Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showQuiteTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
@@ -310,7 +309,7 @@ public class DialogUtils {
     /**
      * Show quite task Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showReCheckAnswerTaskDialog(final Activity activity, final int surveyId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
@@ -340,7 +339,7 @@ public class DialogUtils {
     /**
      * Show account not activated Dialog message
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showMaximumMissionDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.color.green, R.drawable.info_icon,
@@ -348,7 +347,7 @@ public class DialogUtils {
                 activity.getText(R.string.maximum_mission_dialog_text),
                 0, android.R.string.ok);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -365,7 +364,7 @@ public class DialogUtils {
     /**
      * Age verification Dialog message
      *
-     * @param context
+     * @param context - current context
      */
     public static Dialog showAgeVerificationDialog(final Context context) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, 0, R.drawable.plus_18,
@@ -373,7 +372,7 @@ public class DialogUtils {
                 context.getText(R.string.age_verification_dialog_text1),
                 R.string.age_verification_dialog_under, R.string.age_verification_dialog_redo);
         dialog.setCancelable(false);
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -392,7 +391,7 @@ public class DialogUtils {
     /**
      * Account confirmed Dialog
      *
-     * @param activity
+     * @param activity - current activity
      */
     public static Dialog showAccountConfirmedDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.color.green, R.drawable.confirm_icon,
@@ -401,7 +400,7 @@ public class DialogUtils {
                 0, R.string.ok);
         dialog.setCancelable(false);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
             }
@@ -420,7 +419,7 @@ public class DialogUtils {
     /**
      * User already exist Dialog
      *
-     * @param context
+     * @param context - current context
      */
     public static Dialog showUserAlreadyExistDialog(final Context context) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
@@ -428,7 +427,7 @@ public class DialogUtils {
                 context.getText(R.string.user_already_exists_dialog_text1),
                 0, R.string.ok);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClicklistener(new DefaultInfoDialog.DialogButtonClickListener() {
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
             }

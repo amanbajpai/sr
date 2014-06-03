@@ -78,10 +78,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         String lastEmail = preferencesManager.getLastEmail();
         String lastPassword = preferencesManager.getLastPassword();
 
-        /*if (Config.ENV == Config.Environment.DEVELOPMENT) {
-            emailEditText.setText(getString(R.string.login_test_account));
-            passwordEditText.setText(getString(R.string.login_test_password));
-        } else*/
         if (!TextUtils.isEmpty(lastEmail) || !TextUtils.isEmpty(lastPassword)) {
             emailEditText.setText(lastEmail);
             passwordEditText.setText(lastPassword);

@@ -79,7 +79,6 @@ public class ImageLoader {
     }
 
     public ImageLoader() {
-        // LogUtils.e(TAG, "new ImageLoader");
         fileCache = new FileCache();
         executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     }
@@ -296,10 +295,7 @@ public class ImageLoader {
                 heightTmp /= 2;
                 scale *= 2;
             }
-            // LogUtils.e(TAG,
-            // "BIG_SIZE_VAR: "+BIG_SIZE_VAR+" NORMAL_SIZE_VAR: "+NORMAL_SIZE_VAR+" SMALL_SIZE_VAR: "+SMALL_SIZE_VAR);
-            // LogUtils.e(TAG, "widthTmp: "+widthTmp+" heightTmp: "+heightTmp+" scale: "+scale);
-            // decode with inSampleSize
+
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);

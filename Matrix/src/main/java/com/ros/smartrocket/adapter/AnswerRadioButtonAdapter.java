@@ -12,10 +12,8 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 
 public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter {
-    //private static final String TAG = "AnswerCheckBoxAdapter";
     private Answer[] answers;
     private LayoutInflater inflater;
-    //private Activity activity;
 
     public static class ViewHolder {
         private TextView name;
@@ -31,8 +29,6 @@ public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter
     }
 
     public AnswerRadioButtonAdapter(Activity activity) {
-        //this.activity = activity;
-
         this.inflater = LayoutInflater.from(activity);
     }
 

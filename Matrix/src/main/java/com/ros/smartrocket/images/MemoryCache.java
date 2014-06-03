@@ -32,15 +32,16 @@ public class MemoryCache {
     }
 
     public Bitmap get(String id) {
+        Bitmap result = null;
         try {
-            if (!cache.containsKey(id)) {
-                return null;
+            if (cache.containsKey(id)) {
+                // NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
+                result = cache.get(id);
             }
-            // NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
-            return cache.get(id);
-        } catch (NullPointerException ex) {
-            return null;
+        } catch (NullPointerException e) {
+            L.e(TAG, "Get bitmap error: " + e.getMessage(), e);
         }
+        return result;
     }
 
     public void put(String id, Bitmap bitmap) {

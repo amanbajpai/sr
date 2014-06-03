@@ -9,7 +9,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 public class TermsAndConditionActivity extends BaseActivity {
-    //private static final String TAG = TermsAndConditionActivity.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     @Override

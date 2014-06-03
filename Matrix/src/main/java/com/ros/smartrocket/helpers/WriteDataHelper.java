@@ -9,7 +9,6 @@ import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 public class WriteDataHelper {
-    //private static final String TAG = WriteDataHelper.class.getSimpleName();
     public WriteDataHelper() {
 
     }

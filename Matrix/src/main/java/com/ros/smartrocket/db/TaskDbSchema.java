@@ -23,11 +23,7 @@ public interface TaskDbSchema {
                     + "WHEN 0 THEN 9 "
                     + "ELSE 10 END,  "
                     + Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName() + " DESC";
-    /*String SORT_ORDER_DESC_MY_TASKS_LIST = Table.TASK.getName() + "." + Columns.STATUS_ID.getName() + " DESC,  " +
-            "" + Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName() + " DESC";*/
-    String SORT_ORDER_DISTANCE_ASC = Table.TASK.getName() + "." + Columns.DISTANCE.getName() + " ASC";
     String SORT_ORDER_END_DATE_ASC = Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName() + " ASC";
-    //String SORT_ORDER = Table.TASK.getName() + "." + Columns._ID.getName() + " ASC";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),

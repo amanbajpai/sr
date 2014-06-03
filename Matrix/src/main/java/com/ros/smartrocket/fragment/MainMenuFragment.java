@@ -40,7 +40,6 @@ import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = MainMenuFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();

@@ -15,7 +15,6 @@ import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainActivity extends BaseSlidingMenuActivity {
-    //private static final String TAG = MainActivity.class.getSimpleName();
     private FragmentHelper fragmetHelper = new FragmentHelper();
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -33,14 +32,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
         fragmetHelper.startFragmentFromStack(this, fragment);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
-
-        /*Intent intent = new Intent(this, MainActivity.class);
-        NotificationUtils.generateNotification(this, "Title", "Message text\n, Message text, <b>Message text,</b> " +
-                "Message text, Message text, Message text, Message text, Message text, Message text, Message text, " +
-                "Message text, Message text, ", intent);*/
-
-
-        //NotificationUtils.showOverlayNotification(App.getInstance(), "Test text", "Description. Description", null);
     }
 
     public void startFragment(Fragment fragment) {

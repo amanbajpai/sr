@@ -14,8 +14,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.MainMenuFragment;
 
 public class BaseSlidingMenuActivity extends BaseActivity {
-    //private static final String TAG = BaseSlidingMenuActivity.class.getSimpleName();
-
     private DrawerLayout mDrawerLayout;
     private FrameLayout leftDrawer;
     private ActionBarDrawerToggle mDrawerToggle;

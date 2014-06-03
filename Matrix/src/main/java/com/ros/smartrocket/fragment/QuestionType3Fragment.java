@@ -23,7 +23,6 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -35,11 +34,7 @@ import java.io.File;
  * Fragment for display About information
  */
 public class QuestionType3Fragment extends BaseQuestionFragment implements View.OnClickListener {
-    //private static final String TAG = QuestionType3Fragment.class.getSimpleName();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
-    private ImageLoader imageLoader = ImageLoader.getInstance();
-    private ViewGroup view;
-    private TextView questionText;
     private ImageButton rePhotoButton;
     private ImageButton confirmButton;
     private ImageView photoImageView;
@@ -56,7 +51,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_3, null);
+        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_3, null);
 
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
@@ -64,7 +59,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        questionText = (TextView) view.findViewById(R.id.questionText);
+        TextView questionText = (TextView) view.findViewById(R.id.questionText);
 
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);

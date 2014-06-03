@@ -35,7 +35,6 @@ import java.io.File;
 
 public class QuestionType5Fragment extends BaseQuestionFragment implements View.OnClickListener,
         MediaPlayer.OnCompletionListener {
-    private static final String TAG = QuestionType3Fragment.class.getSimpleName();
     private SelectVideoManager selectVideoManager = SelectVideoManager.getInstance();
     private ImageButton rePhotoButton;
     private ImageButton confirmButton;

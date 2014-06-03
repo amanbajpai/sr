@@ -27,7 +27,6 @@ import java.util.Locale;
  * Activity for view Task detail information
  */
 public class SurveyDetailsActivity extends BaseActivity implements View.OnClickListener {
-    //private static final String TAG = SurveyDetailsActivity.class.getSimpleName();
     private Calendar calendar = Calendar.getInstance();
     private AsyncQueryHandler handler;
 
@@ -99,7 +98,6 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     nearTask = TasksBL.convertCursorToTask(cursor);
 
-                    //setTaskData(nearTask);
                     break;
                 default:
                     break;

@@ -11,10 +11,6 @@ public interface SurveyDbSchema {
             .appendPath(Table.SURVEY.getName() + SURVEY_BY_DISTANCE).build();
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
-    //String SORT_ORDER_DESC = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC";
-    //String SORT_ORDER = Table.SURVEY.getName() + "." + Columns._ID.getName() + " ASC";
-
-    //final String NEAR_TASK_DISTANCE = "near_task_distance";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),

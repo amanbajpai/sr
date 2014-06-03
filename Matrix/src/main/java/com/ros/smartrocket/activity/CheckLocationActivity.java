@@ -17,8 +17,6 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class CheckLocationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    private static final String TAG = CheckLocationActivity.class.getSimpleName();
-    //private int countryId;
     private CheckLocationDialog checkLocationDialog;
 
     @Override

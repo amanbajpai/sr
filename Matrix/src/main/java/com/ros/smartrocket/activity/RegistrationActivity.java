@@ -209,7 +209,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 UIUtils.setSpinnerBackgroundByState(employmentStatusSpinner, employmentStatus != 0);
 
                 UIUtils.setCheckBoxBackgroundByState(agreeCheckBox, agreeCheckBox.isChecked());
-                //UIUtils.setProfilePhotoImageViewmageByState(profilePhotoImageView, photoBitmap != null);
 
                 firstNameEditText.clearFocus();
                 lastNameEditText.clearFocus();

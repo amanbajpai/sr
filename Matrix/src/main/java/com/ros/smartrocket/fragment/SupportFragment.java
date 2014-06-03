@@ -18,14 +18,11 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
  * Fragment for display About information
  */
 public class SupportFragment extends Fragment implements OnClickListener {
-    private static final String TAG = SupportFragment.class.getSimpleName();
-    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private ViewGroup view;
     private MyAccount account;
 

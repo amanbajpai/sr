@@ -30,6 +30,14 @@
         android:layout_marginBottom="260dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
+    <ImageView
+        android:id="@+id/roundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/round"
+        android:layout_margin="8dp"
+        android:adjustViewBounds="true"
+        android:visibility="gone" />
     <LinearLayout
         android:id="@+id/hidden_panel"
         android:layout_width="match_parent"
@@ -61,7 +69,6 @@
             <SeekBar
                 android:id="@+id/seekBarRadius"
                 style="@style/SeekBarRed"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtRadius" />

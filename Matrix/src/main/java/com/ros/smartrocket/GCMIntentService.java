@@ -8,6 +8,7 @@ import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
+import com.ros.smartrocket.net.gcm.ServerUtilities;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -38,8 +39,6 @@ public class GCMIntentService extends GCMBaseIntentService {
         CommonUtilities.displayMessage(context, getString(R.string.gcm_unregistered));
         if (GCMRegistrar.isRegisteredOnServer(context)) {
             L.i(TAG, "Register on Matrix server");
-//            ServerUtilities serverUtilities = new ServerUtilities(this);
-//            serverUtilities.makeRequestUnregister();
         } else {
             // This callback results from the call to unregister made on
             // ServerUtilities when the registration to the server failed.
