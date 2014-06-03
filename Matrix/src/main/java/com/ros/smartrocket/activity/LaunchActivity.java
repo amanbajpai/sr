@@ -11,7 +11,7 @@ public class LaunchActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = null;
+        Intent intent;
         if (!PreferencesManager.getInstance().getToken().equals("")) {
             intent = new Intent(this, MainActivity.class);
         } else {

@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import com.google.android.gms.common.ConnectionResult;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -30,16 +28,11 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
-import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
-import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
-import static com.google.android.gms.common.GooglePlayServicesUtil.isUserRecoverableError;
-
 /**
  * Activity for Agents login into system
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
@@ -143,7 +136,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 CheckLocationResponse checkLocationResponse =
                         (CheckLocationResponse) operation.getResponseEntities().get(0);
 
-                if (checkLocationResponse.getStatus() && currentAddress!=null) {
+                if (checkLocationResponse.getStatus() && currentAddress != null) {
                     Intent intent = new Intent(this, ReferralCasesActivity.class);
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
@@ -293,24 +286,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
-    }
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean isPlayServicesAvailable(Context context) {
-        int resultCode = isGooglePlayServicesAvailable(context);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (isUserRecoverableError(resultCode)) {
-                getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                L.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
     }
 }

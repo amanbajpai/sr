@@ -31,10 +31,10 @@ public class FragmentHelper {
         startFragmentFromStack(activity, fragment, R.id.content_frame);
     }
 
-    public Fragment getPreviousFragmentFromStack(){
+    public Fragment getPreviousFragmentFromStack() {
         Fragment fragment = null;
-        if(fragmentList.size()>2){
-            fragment = fragmentList.get(fragmentList.size()-2);
+        if (fragmentList.size() > 2) {
+            fragment = fragmentList.get(fragmentList.size() - 2);
         }
 
         return fragment;
@@ -61,7 +61,7 @@ public class FragmentHelper {
             for (int i = 0; i < fragmentList.size(); i++) {
                 if (fragmentList.get(i).getClass().equals(fragment.getClass())) {
                     lastFragment = fragmentList.get(i);
-                    if(fragment.getArguments() != null){
+                    if (fragment.getArguments() != null) {
                         lastFragment.getArguments().putAll(fragment.getArguments());
                     }
                     break;
@@ -119,7 +119,7 @@ public class FragmentHelper {
         fragmentList.clear();
     }
 
-    public void hideLastFragment(Activity activity){
+    public void hideLastFragment(Activity activity) {
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
         if (lastFragment != null) {
             ft.hide(lastFragment);
@@ -127,7 +127,7 @@ public class FragmentHelper {
         ft.commitAllowingStateLoss();
     }
 
-    public void showLastFragment(Activity activity){
+    public void showLastFragment(Activity activity) {
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
         if (lastFragment != null) {
             ft.show(lastFragment);

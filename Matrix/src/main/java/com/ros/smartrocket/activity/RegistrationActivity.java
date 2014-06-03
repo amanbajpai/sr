@@ -45,7 +45,6 @@ import com.ros.smartrocket.utils.UIUtils;
  */
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
-    private static final String TAG = RegistrationActivity.class.getSimpleName();
     private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
 
@@ -57,8 +56,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private EditText passwordEditText;
     private EditText birthdayEditText;
     private EditText emailEditText;
-    private EditText countryEditText;
-    private EditText cityEditText;
     private TextView emailValidationText;
     private TextView passwordValidationText;
     private CheckBox agreeCheckBox;
@@ -71,7 +68,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private RadioGroup genderRadioGroup;
     private Double latitude;
     private Double longitude;
-    private ToggleButton showPasswordToggleButton;
     private Spinner educationLevelSpinner;
     private Spinner employmentStatusSpinner;
     private Bitmap photoBitmap;
@@ -110,8 +106,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
-        countryEditText = (EditText) findViewById(R.id.countryEditText);
-        cityEditText = (EditText) findViewById(R.id.cityEditText);
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
 
         emailValidationText = (TextView) findViewById(R.id.emailValidationText);
@@ -120,8 +114,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);
         birthdayEditText.setOnClickListener(this);
 
-        showPasswordToggleButton = (ToggleButton) findViewById(R.id.showPasswordToggleButton);
-        showPasswordToggleButton.setOnCheckedChangeListener(this);
+        ((ToggleButton) findViewById(R.id.showPasswordToggleButton)).setOnCheckedChangeListener(this);
 
         educationLevelSpinner = (Spinner) findViewById(R.id.educationLevelSpinner);
         ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
@@ -139,8 +132,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.confirmButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
 
-        countryEditText.setText(countryName);
-        cityEditText.setText(cityName);
+        ((EditText) findViewById(R.id.countryEditText)).setText(countryName);
+        ((EditText) findViewById(R.id.cityEditText)).setText(cityName);
 
         checkDeviceSettingsByOnResume(false);
 

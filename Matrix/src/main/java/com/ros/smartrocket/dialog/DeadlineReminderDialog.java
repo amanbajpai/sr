@@ -12,8 +12,6 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.Calendar;
-
 public class DeadlineReminderDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
     private Context activity;

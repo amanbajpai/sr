@@ -109,17 +109,6 @@ public class AnswersBL {
         return convertCursorToAnswerList(cursor);
     }
 
-    public static List<Answer> getAnswersWithFilesListToSend(Integer taskId) {
-        ContentResolver resolver = App.getInstance().getContentResolver();
-        Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and "
-                        + AnswerDbSchema.Columns.FILE_URI + " NOT NULL",
-                new String[]{String.valueOf(taskId), String.valueOf(1)}, null
-        );
-
-        return convertCursorToAnswerList(cursor);
-    }
-
     /**
      * Convert cursor to Answer array
      *

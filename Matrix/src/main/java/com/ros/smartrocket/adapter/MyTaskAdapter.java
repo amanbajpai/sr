@@ -111,8 +111,6 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.textQuestionsCount.setText("0");
         holder.photoQuestionsCount.setText("0");
 
-        //long startTimeInMillisecond = UIUtils.isoTimeToLong(task.getStartDateTime());
-        long endTimeInMillisecond = UIUtils.isoTimeToLong(task.getEndDateTime());
         long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
         long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
         long missionDueInMillisecond = claimTimeInMillisecond + timeoutInMillisecond;

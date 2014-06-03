@@ -3,7 +3,6 @@ package com.ros.smartrocket.dialog;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;

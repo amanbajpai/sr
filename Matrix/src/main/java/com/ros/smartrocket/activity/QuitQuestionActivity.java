@@ -12,7 +12,6 @@ import com.ros.smartrocket.db.entity.Question;
 
 public class QuitQuestionActivity extends BaseActivity implements
         View.OnClickListener {
-    private static final String TAG = QuitQuestionActivity.class.getSimpleName();
     private Question question;
 
     @Override

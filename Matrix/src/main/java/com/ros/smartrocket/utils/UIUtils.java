@@ -1,6 +1,5 @@
 package com.ros.smartrocket.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -18,7 +17,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;

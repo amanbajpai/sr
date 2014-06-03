@@ -128,7 +128,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
-        for(Answer answer: adapter.getData()){
+        for (Answer answer : adapter.getData()) {
             answer.setChecked(false);
         }
 

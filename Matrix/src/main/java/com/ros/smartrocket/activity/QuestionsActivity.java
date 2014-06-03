@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -227,7 +226,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     UIUtils.showSimpleToast(this, getString(R.string.no_internet));
                 }
                 return;
-            } else if (nextQuestion == null || (nextQuestion != null && nextQuestion.getType() == 3)) {
+            } else if (nextQuestion == null || nextQuestion.getType() == 3) {
                 nextButton.setVisibility(View.GONE);
                 validationButton.setVisibility(View.VISIBLE);
             } else {
@@ -275,10 +274,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 t.replace(R.id.contentLayout, currentFragment).commit();
 
             }
-        } else if (question == null || (question != null && question.getType() == 3)) {
-            startValidationActivity();
         } else {
-            ((FrameLayout) findViewById(R.id.contentLayout)).removeAllViews();
+            startValidationActivity();
         }
     }
 

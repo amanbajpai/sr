@@ -36,7 +36,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.setAnswer(c.getString(AnswerDbSchema.Query.ANSWER));
             result.setValue(c.getString(AnswerDbSchema.Query.VALUE));
             result.setRouting(c.getInt(AnswerDbSchema.Query.ROUTING));
-            result.setChecked(c.getInt(AnswerDbSchema.Query.CHECKED) == 1 ? true : false);
+            result.setChecked(c.getInt(AnswerDbSchema.Query.CHECKED) == 1);
             result.setFileUri(c.getString(AnswerDbSchema.Query.FILE_URI));
             result.setFileSizeB(c.getLong(AnswerDbSchema.Query.FILE_SIZE_B));
             result.setFileName(c.getString(AnswerDbSchema.Query.FILE_NAME));

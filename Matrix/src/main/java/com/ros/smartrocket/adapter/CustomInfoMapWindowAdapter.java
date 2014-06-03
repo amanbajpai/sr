@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private static final String TAG = CustomInfoMapWindowAdapter.class.getSimpleName();
-    private static final String MYLOC = "MyLoc";
+    private static final String MY_LOCATION = "MyLoc";
     private final View mWindow;
     private final View mContents;
     private Keys.MapViewMode mode;
@@ -107,7 +107,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
         View view = null;
 
-        if (marker != null && !MYLOC.equals(marker.getSnippet())
+        if (marker != null && !MY_LOCATION.equals(marker.getSnippet())
                 && mode != Keys.MapViewMode.SINGLETASK && render(marker, mContents, clusterPoint)) {
             view = mContents;
 
@@ -119,7 +119,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     public View getInfoWindow(Marker marker, ClusterPoint clusterPoint) {
         View view = null;
 
-        if (marker != null && !MYLOC.equals(marker.getSnippet())
+        if (marker != null && !MY_LOCATION.equals(marker.getSnippet())
                 && mode != Keys.MapViewMode.SINGLETASK && render(marker, mWindow, clusterPoint)) {
             view = mWindow;
         }

@@ -96,12 +96,4 @@ public class SurveyAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-    public long getLastItemId() {
-        if (items.size() > 0) {
-            return items.get(items.size() - 1).get_id();
-        } else {
-            return 0;
-        }
-    }
 }

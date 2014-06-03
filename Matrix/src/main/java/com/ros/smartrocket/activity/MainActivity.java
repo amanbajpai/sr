@@ -5,41 +5,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
-import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class MainActivity extends BaseSlidingMenuActivity {
-    private FragmentHelper fragmetHelper = new FragmentHelper();
+    private FragmentHelper fragmentHelper = new FragmentHelper();
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fragmetHelper.removeFragmentFromList(this, new AllTaskFragment());
+        fragmentHelper.removeFragmentFromList(this, new AllTaskFragment());
 
         Bundle bundle = new Bundle();
         bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
 
         Fragment fragment = new AllTaskFragment();
         fragment.setArguments(bundle);
-        fragmetHelper.startFragmentFromStack(this, fragment);
+        fragmentHelper.startFragmentFromStack(this, fragment);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
     public void startFragment(Fragment fragment) {
-        fragmetHelper.startFragmentFromStack(this, fragment);
+        fragmentHelper.startFragmentFromStack(this, fragment);
     }
 
     public void removeFragmentFromList(Fragment fragment) {
-        fragmetHelper.removeFragmentFromList(this, fragment);
+        fragmentHelper.removeFragmentFromList(this, fragment);
     }
 
     public void startActivity(Activity activity) {

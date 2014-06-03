@@ -138,7 +138,7 @@ public class IntentUtils {
      * Return intent for sending email
      *
      * @param email - send to email
-     * @param text - text to send
+     * @param text  - text to send
      * @return Intent
      */
     public static Intent getEmailIntent(String subject, String email, String text) {

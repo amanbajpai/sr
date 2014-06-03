@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.UiSettings;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -30,7 +28,6 @@ import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
-import com.ros.smartrocket.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -49,7 +46,6 @@ import java.util.Locale;
  */
 public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    private static final String TAG = TaskDetailsActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
@@ -88,8 +84,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout startTimeLayout;
     private LinearLayout deadlineTimeLayout;
     private LinearLayout expireTimeLayout;
-
-    private GoogleMap map;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.TasksMapFragment;
-import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
  * Activity for view Task detail information

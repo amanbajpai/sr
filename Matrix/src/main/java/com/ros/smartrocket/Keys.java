@@ -2,7 +2,6 @@ package com.ros.smartrocket;
 
 public interface Keys {
     // Application
-    String APP_VERSION = "app_version";
     String TOKEN = "token";
     String SHORT_URL_TO_SHARE = "short_url_to_share";
     String LAST_EMAIL = "last_email";
@@ -31,10 +30,6 @@ public interface Keys {
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
-
-    // Update service
-    String PROGRESS_STATUS_MESSAGE = "progress_status_message";
-    String PROGRESS_STATUS_PERSENT = "progress_status_persent";
 
     // Operation tags - Using for cache response from NetworkService
     String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
@@ -85,12 +80,11 @@ public interface Keys {
 
     //Tasks
     String TASK_ID = "task_id";
-    String STATUS_ID = "status_id";
+    ;
     //Survey
     String SURVEYS = "Surveys";
     String SURVEY = "survey";
     String SURVEY_ID = "survey_id";
-    String NEAR_TASK_ID = "near_task_id";
 
     //Location
     String LATITUDE = "latitude";

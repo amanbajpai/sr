@@ -28,7 +28,6 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +51,7 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param email - current email
+     * @param email    - current email
      * @param password - current password
      */
     public void login(Activity activity, String email, String password) {
@@ -73,7 +72,7 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param email - current email
+     * @param email    - current email
      */
     public void forgotPassword(Activity activity, String email) {
         if (!TextUtils.isEmpty(email)) {
@@ -100,8 +99,8 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param email - current email
-     * @param token - current token
+     * @param email    - current email
+     * @param token    - current token
      */
     public void activateAccount(Activity activity, String email, String token) {
         ActivateAccount activateAccountEntity = new ActivateAccount();
@@ -118,8 +117,8 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param email - current email
-     * @param token - current token
+     * @param email    - current email
+     * @param token    - current token
      * @param password - current password
      */
     public void setPassword(Activity activity, String email, String token, String password) {
@@ -137,7 +136,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity - current activity
+     * @param activity           - current activity
      * @param registrationEntity
      */
     public void registration(Activity activity, Registration registrationEntity) {
@@ -150,7 +149,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity - current activity
+     * @param activity    - current activity
      * @param uploadPhoto - photo to upload
      */
     public void uploadPhoto(Activity activity, UploadPhoto uploadPhoto) {
@@ -183,7 +182,7 @@ public class APIFacade {
     }
 
     /**
-     * @param context - current context
+     * @param context   - current context
      * @param countryId - current country id from server
      */
     public void getReferralCases(Context context, int countryId) {
@@ -195,8 +194,8 @@ public class APIFacade {
     }
 
     /**
-     * @param context - current context
-     * @param countryId - current country id from server
+     * @param context    - current context
+     * @param countryId  - current country id from server
      * @param referralId - current referral id from server
      */
     public void saveReferralCases(Context context, int countryId, int referralId) {
@@ -213,7 +212,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity - current activity
+     * @param activity  - current activity
      * @param latitude
      * @param longitude
      */
@@ -256,7 +255,7 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param taskId - tack id to claim
+     * @param taskId   - tack id to claim
      */
     public void claimTask(Activity activity, Integer taskId, double latitude, double longitude) {
         SendTaskId sendTaskId = new SendTaskId();

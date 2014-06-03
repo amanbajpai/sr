@@ -8,7 +8,6 @@ import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
-import com.ros.smartrocket.net.gcm.ServerUtilities;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;

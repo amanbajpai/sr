@@ -22,10 +22,6 @@ public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter
         public TextView getName() {
             return name;
         }
-
-        public RadioButton getRadioButton() {
-            return radioButton;
-        }
     }
 
     public AnswerRadioButtonAdapter(Activity activity) {

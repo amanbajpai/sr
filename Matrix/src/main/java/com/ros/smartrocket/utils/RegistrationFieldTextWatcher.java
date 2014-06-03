@@ -19,6 +19,7 @@ public class RegistrationFieldTextWatcher implements TextWatcher {
         this.context = context;
         this.view = view;
     }
+
     public RegistrationFieldTextWatcher(Context context, View view, TextView validationText) {
         this.context = context;
         this.view = view;
@@ -55,7 +56,7 @@ public class RegistrationFieldTextWatcher implements TextWatcher {
                 UIUtils.setEditTextColorByState(context, passwordEditText, isPasswordValid);
                 UIUtils.setPasswordEditTextImageByState(passwordEditText, isPasswordValid);
 
-                if(validationText!=null){
+                if (validationText != null) {
                     validationText.setVisibility(isPasswordValid ? View.GONE : View.VISIBLE);
                 }
                 break;

@@ -17,7 +17,6 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class ActivateAccountActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    private static final String TAG = ActivateAccountActivity.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
     private Button activateAccountButton;
