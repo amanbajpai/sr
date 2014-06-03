@@ -16,7 +16,8 @@ public class MemoryCache {
     private static final float LOAD_FACTOR = 1.5f;
     private static final int PART_OF_HEAP_SIZE = 5;
     private static final int BYTE_IN_KBYTE = 1024;
-    private Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(CAPACITY, LOAD_FACTOR, true));
+    private Map<String, Bitmap> cache
+            = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(CAPACITY, LOAD_FACTOR, true));
 
     // Last argument true for LRU ordering
     private long size = 0; //current allocated size

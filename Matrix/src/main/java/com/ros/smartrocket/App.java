@@ -77,7 +77,8 @@ public class App extends Application {
     public static void clearMonthLimitIfNeed() {
         Calendar calendar = Calendar.getInstance();
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        if (calendar.getTimeInMillis() >= preferencesManager.getLastRefreshMonthLimitDate() + DateUtils.YEAR_IN_MILLIS / 12) {
+        if (calendar.getTimeInMillis() >= preferencesManager.getLastRefreshMonthLimitDate()
+                + DateUtils.YEAR_IN_MILLIS / 12) {
             preferencesManager.setUsed3GUploadMonthlySize(0);
             preferencesManager.setLastRefreshMonthLimitDate(calendar.getTimeInMillis());
         }

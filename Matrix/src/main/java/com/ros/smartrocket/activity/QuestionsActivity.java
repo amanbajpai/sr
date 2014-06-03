@@ -45,7 +45,7 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface,
         View.OnClickListener, OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
@@ -67,7 +67,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private Button validationButton;
 
     private AsyncQueryHandler handler;
-    private ArrayList<Question> questions;
+    private List<Question> questions;
     private BaseQuestionFragment currentFragment;
 
     private int questionsToAnswerCount = 0;

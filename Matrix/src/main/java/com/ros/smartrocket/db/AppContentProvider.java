@@ -90,8 +90,6 @@ public class AppContentProvider extends ContentProvider {
                 cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case ENTITIES:
-                //builder = buildExpandedSelection(uri);
-                // cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
                 cursor = db.query(getTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case SURVEY_BY_DISTANCE:
@@ -133,8 +131,10 @@ public class AppContentProvider extends ContentProvider {
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName(),
 
                         Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPERIENCE_OFFER.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
+                        Table.SURVEY.getName() + "."
+                                + SurveyDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                        Table.SURVEY.getName() + "."
+                                + SurveyDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
 
                 };
 

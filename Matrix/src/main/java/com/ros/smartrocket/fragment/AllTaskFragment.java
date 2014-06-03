@@ -74,7 +74,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         }
     }
 
-    public void showDefaultFragment(){
+    public void showDefaultFragment() {
         if (Keys.FIND_TASK.equals(contentType)) {
             showMap();
         } else if (Keys.MY_TASK.equals(contentType)) {
@@ -113,9 +113,11 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         listButton.setSelected(true);
 
         if (Keys.FIND_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new SurveyListFragment(), R.id.map_list_content_frame);
+            fragmentHelper.startFragmentFromStack(getActivity(), new SurveyListFragment(),
+                    R.id.map_list_content_frame);
         } else if (Keys.MY_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment(), R.id.map_list_content_frame);
+            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment(),
+                    R.id.map_list_content_frame);
         }
     }
 

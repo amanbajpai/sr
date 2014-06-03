@@ -9,6 +9,7 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsBL {
 
@@ -84,8 +85,8 @@ public class QuestionsBL {
      * @param cursor - all fields cursor
      * @return ArrayList<Question>
      */
-    public static ArrayList<Question> convertCursorToQuestionList(Cursor cursor) {
-        ArrayList<Question> result = new ArrayList<Question>();
+    public static List<Question> convertCursorToQuestionList(Cursor cursor) {
+        List<Question> result = new ArrayList<Question>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(Question.fromCursor(cursor));
@@ -120,7 +121,7 @@ public class QuestionsBL {
      * @param orderId   - orderId to select
      * @return Question
      */
-    public static Question getQuestionByOrderId(ArrayList<Question> questions, int orderId) {
+    public static Question getQuestionByOrderId(List<Question> questions, int orderId) {
         Question result = null;
         for (Question question : questions) {
             if (question.getOrderId() == orderId) {
@@ -137,7 +138,7 @@ public class QuestionsBL {
      * @param questions - question list
      * @return Integer
      */
-    public static int getQuestionsToAnswerCount(ArrayList<Question> questions) {
+    public static int getQuestionsToAnswerCount(List<Question> questions) {
         int result = 0;
         for (Question question : questions) {
             if (question.getType() != 3 && question.getType() != 4) {

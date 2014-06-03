@@ -44,31 +44,7 @@ public class DatePickerDialog extends Dialog implements View.OnClickListener {
 
     @TargetApi(11)
     private void initViews() {
-        final Calendar maxDateCalendar = getMaxDateCalendar();
         datePicker = (DatePicker) findViewById(R.id.datePicker);
-
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            datePicker.setMaxDate(maxDateCalendar.getTimeInMillis());
-        } else {
-            final int maxYear = maxDateCalendar.get(Calendar.YEAR);
-            final int maxMonth = maxDateCalendar.get(Calendar.MONTH);
-            final int maxDay = maxDateCalendar.get(Calendar.DAY_OF_MONTH);
-
-            datePicker.init(maxYear, maxMonth, maxDay,
-                    new DatePicker.OnDateChangedListener() {
-
-                        public void onDateChanged(DatePicker view, int year,
-                                                  int month, int day) {
-                            Calendar newDate = Calendar.getInstance();
-                            newDate.set(year, month, day);
-
-                            if (newDate.after(maxDateCalendar)) {
-                                view.init(maxYear, maxMonth, maxDay, this);
-                            }
-                        }
-                    }
-            );
-        }*/
 
         if (currentDate != null) {
             Calendar calendar = getMaxDateCalendar();

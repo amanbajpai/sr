@@ -9,6 +9,7 @@ import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FilesBL {
 
@@ -91,8 +92,8 @@ public class FilesBL {
      * @param cursor - all fields cursor
      * @return ArrayList
      */
-    public static ArrayList<NotUploadedFile> convertCursorToNotUploadedFileList(Cursor cursor) {
-        ArrayList<NotUploadedFile> result = new ArrayList<NotUploadedFile>();
+    public static List<NotUploadedFile> convertCursorToNotUploadedFileList(Cursor cursor) {
+        List<NotUploadedFile> result = new ArrayList<NotUploadedFile>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(NotUploadedFile.fromCursor(cursor));

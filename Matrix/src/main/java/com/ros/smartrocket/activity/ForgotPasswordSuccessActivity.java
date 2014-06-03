@@ -11,7 +11,6 @@ import com.ros.smartrocket.utils.UIUtils;
  * Activity for Agents login into system
  */
 public class ForgotPasswordSuccessActivity extends BaseActivity implements View.OnClickListener {
-    //private static final String TAG = ForgotPasswordSuccessActivity.class.getSimpleName();
     private String email = "";
 
     @Override

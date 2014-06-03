@@ -231,7 +231,6 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                //activity.startActivity(IntentUtils.getEmailIntent(null, null));
             }
         });
         return dialog;

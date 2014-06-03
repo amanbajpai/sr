@@ -62,9 +62,6 @@ public interface SurveyDbSchema {
 
     public interface Query {
         int TOKEN_QUERY = 10;
-        int TOKEN_INSERT = 11;
-        //int TOKEN_UPDATE = 12;
-        //int TOKEN_DELETE = 13;
 
         String[] PROJECTION = {Table.SURVEY.getName() + "." + Columns._ID.getName(),
                 Table.SURVEY.getName() + "." + Columns.ID.getName(),

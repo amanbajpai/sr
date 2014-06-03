@@ -14,11 +14,12 @@ import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class SurveyAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<Survey> items = new ArrayList<Survey>();
+    private List<Survey> items = new ArrayList<Survey>();
     private LayoutInflater inflater;
 
     public static class ViewHolder {
@@ -49,13 +50,8 @@ public class SurveyAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setData(final ArrayList<Survey> items) {
+    public void setData(final List<Survey> items) {
         this.items = items;
-        notifyDataSetChanged();
-    }
-
-    public void addData(final ArrayList<Survey> items) {
-        this.items.addAll(items);
         notifyDataSetChanged();
     }
 

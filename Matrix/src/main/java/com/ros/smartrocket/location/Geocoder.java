@@ -70,7 +70,8 @@ public final class Geocoder {
      * @throws IllegalArgumentException if longitude is less than -180 or greater than 180
      * @throws java.io.IOException      if the network is unavailable or any other I/O problem occurs
      */
-    public List<Address> getFromLocation(double latitude, double longitude, int maxResults) throws IOException, LimitExceededException {
+    public List<Address> getFromLocation(double latitude, double longitude, int maxResults)
+            throws IOException, LimitExceededException {
         client = AndroidHttpClient.newInstance(TAG, context);
 
         if (latitude < -90.0 || latitude > 90.0) {
@@ -117,7 +118,8 @@ public final class Geocoder {
      * @throws IllegalArgumentException if locationName is null
      * @throws java.io.IOException      if the network is unavailable or any other I/O problem occurs
      */
-    public List<Address> getFromLocationName(String locationName, int maxResults) throws IOException, LimitExceededException {
+    public List<Address> getFromLocationName(String locationName, int maxResults)
+            throws IOException, LimitExceededException {
         if (locationName == null) {
             throw new IllegalArgumentException("locationName == null");
         }
@@ -141,7 +143,6 @@ public final class Geocoder {
     }
 
     public String sendGetRequest(final String url) {
-        //L.i(TAG, "Geocoder URL: "+url);
         String result = null;
 
         try {
@@ -157,7 +158,6 @@ public final class Geocoder {
             L.e(TAG, "Send geocoder request: " + e.toString(), e);
 
         }
-        //L.i(TAG, "Response geocoder json: " + result);
         return result;
     }
 

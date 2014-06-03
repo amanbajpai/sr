@@ -17,6 +17,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BaseActivity extends ActionBarActivity {
 
@@ -24,7 +25,7 @@ public class BaseActivity extends ActionBarActivity {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private BroadcastReceiver receiver;
     private IntentFilter filter;
-    private ArrayList<NetworkOperationListenerInterface> networkOperationListeners =
+    private List<NetworkOperationListenerInterface> networkOperationListeners =
             new ArrayList<NetworkOperationListenerInterface>();
     private boolean checkDeviceSettingsByOnResume = true;
 

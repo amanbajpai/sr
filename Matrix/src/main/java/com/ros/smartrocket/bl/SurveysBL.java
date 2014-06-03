@@ -17,6 +17,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SurveysBL {
 
@@ -30,7 +31,8 @@ public class SurveysBL {
                 new String[]{String.valueOf(surveyId)}, SurveyDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
-    public static void getNotMyTasksSurveysListFromDB(AsyncQueryHandler handler, Integer radius, boolean showHiddenTasks) {
+    public static void getNotMyTasksSurveysListFromDB(AsyncQueryHandler handler, Integer radius,
+                                                      boolean showHiddenTasks) {
         String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
         handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null,
@@ -50,7 +52,7 @@ public class SurveysBL {
         for (Survey survey : surveys.getSurveys()) {
             contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
 
-            ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
+            List<ContentValues> vals = new ArrayList<ContentValues>();
             for (Task task : survey.getTasks()) {
                 task.setName(survey.getName());
                 task.setDescription(survey.getDescription());

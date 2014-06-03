@@ -14,12 +14,9 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
 public class TasksBL {
-    //private static final String TAG = TasksBL.class.getSimpleName();
-
-
     public TasksBL() {
 
     }
@@ -167,7 +164,7 @@ public class TasksBL {
         Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
         ContentValues contentValues = new ContentValues();
 
-        ArrayList<Task> tasks = convertCursorToTasksList(cursor);
+        List<Task> tasks = convertCursorToTasksList(cursor);
 
         if (currentLocation != null) {
             for (Task task : tasks) {
@@ -194,8 +191,8 @@ public class TasksBL {
      * @param cursor - all fields cursor
      * @return ArrayList<Task>
      */
-    public static ArrayList<Task> convertCursorToTasksList(Cursor cursor) {
-        ArrayList<Task> result = new ArrayList<Task>();
+    public static List<Task> convertCursorToTasksList(Cursor cursor) {
+        List<Task> result = new ArrayList<Task>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(Task.fromCursor(cursor));

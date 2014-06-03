@@ -37,7 +37,6 @@ public class ImageLoader {
     private static final int TIMEOUT = 30000;
     private static final int MAX_RANDOM_ID = 1000000;
     private static final int COMPRESS_IMAGE = 100;
-    //private static int PADDING = 80;
     private static ImageLoader instance = null;
     private MemoryCache memoryCache = new MemoryCache();
     private FileCache fileCache;

@@ -135,31 +135,6 @@ public class IntentUtils {
     }
 
     /**
-     * Return intent for opening EnterGroupCodeActivity screen
-     *
-     * @param context - context
-     * @param countryId - current countryId
-     * @param cityId - current cityId
-     * @param countryName - current countryName
-     * @param cityName - current cityName
-     * @param latitude - current latitude
-     * @param longitude - current longitude
-     * @return Intent
-     *//*
-    public static Intent getEnterGroupCodeIntent(Context context, int countryId, int cityId, String countryName,
-                                                 String cityName, Double latitude, Double longitude) {
-        Intent intent = new Intent(context, EnterGroupCodeActivity.class);
-        intent.putExtra(Keys.COUNTRY_ID, countryId);
-        intent.putExtra(Keys.COUNTRY_NAME, countryName);
-        intent.putExtra(Keys.CITY_ID, cityId);
-        intent.putExtra(Keys.CITY_NAME, cityName);
-        intent.putExtra(Keys.LATITUDE, latitude);
-        intent.putExtra(Keys.LONGITUDE, longitude);
-
-        return intent;
-    }*/
-
-    /**
      * Return intent for sending email
      *
      * @param email - send to email

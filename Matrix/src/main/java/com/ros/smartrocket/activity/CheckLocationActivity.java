@@ -48,7 +48,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     checkLocationDialog = new CheckLocationDialog(this,
                             new CheckLocationDialog.CheckLocationListener() {
                                 @Override
-                                public void onLocationChecked(Dialog dialog, Address address, CheckLocationResponse serverResponse) {
+                                public void onLocationChecked(Dialog dialog, Address address,
+                                                              CheckLocationResponse serverResponse) {
                                     Intent intent = new Intent(CheckLocationActivity.this, RegistrationActivity.class);
                                     if (getIntent().getExtras() != null) {
                                         intent.putExtras(getIntent().getExtras());

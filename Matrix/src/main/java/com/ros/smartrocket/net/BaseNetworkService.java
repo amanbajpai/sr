@@ -146,7 +146,6 @@ public abstract class BaseNetworkService extends IntentService {
 
     protected void executeRequest(BaseOperation operation) {
         L.i(TAG, operation.getMethod() + " request to URL: " + operation.getRequestUrl());
-        // if (operation.getEntities().size() > 0) {
         try {
             HttpUriRequest request = prepareRequest(operation);
             if (UIUtils.isOnline(this)) {
@@ -175,7 +174,6 @@ public abstract class BaseNetworkService extends IntentService {
         }
 
         processResponse(operation);
-        // }
     }
 
     protected BaseOperation readResponseToOperation(HttpResponse response, BaseOperation operation)
@@ -189,7 +187,8 @@ public abstract class BaseNetworkService extends IntentService {
         operation.setResponseString(responseString);
         L.i(TAG,
                 "Response status code: " + operation.getResponseStatusCode() + "\nResponse: "
-                        + operation.getResponseString());
+                        + operation.getResponseString()
+        );
         // logToFile(operation);
         return operation;
     }

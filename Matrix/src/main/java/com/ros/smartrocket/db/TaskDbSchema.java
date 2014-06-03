@@ -89,9 +89,7 @@ public interface TaskDbSchema {
     public interface Query {
         public interface All {
             int TOKEN_QUERY = 1;
-            int TOKEN_INSERT = 2;
             int TOKEN_UPDATE = 3;
-            //int TOKEN_DELETE = 4;
 
             String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                     Table.TASK.getName() + "." + Columns.ID.getName(),
@@ -147,19 +145,6 @@ public interface TaskDbSchema {
             int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 23;
             int CLAIMED = 24;
             int REDO_DATE = 25;
-        }
-
-        public interface GetDistance {
-            int TOKEN_QUERY = 1;
-            String[] PROJECTION = {
-                    Table.TASK.getName() + "." + Columns.LONGITUDE.getName(),
-                    Table.TASK.getName() + "." + Columns.LATITUDE.getName(),
-                    Table.TASK.getName() + "." + Columns.DISTANCE.getName()
-            };
-
-            int LONGITUDE = 0;
-            int LATITUDE = 1;
-            int DISTANCE = 2;
         }
     }
 }

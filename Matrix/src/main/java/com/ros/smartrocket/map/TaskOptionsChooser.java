@@ -43,7 +43,8 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
         clusterPaintMedium.setColor(res.getColor(R.color.green));
         clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
         clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
-        clusterPaintMedium.setTypeface(FontUtils.loadFontFromAsset(context.getAssets(), FontUtils.getFontAssetPath(3)));
+        clusterPaintMedium.setTypeface(FontUtils.loadFontFromAsset(context.getAssets(),
+                FontUtils.getFontAssetPath(3)));
         clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_22sp));
 
         clusterPaintSmall = new Paint(clusterPaintMedium);

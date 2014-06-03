@@ -216,7 +216,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     public void onImageComplete(Bitmap bitmap) {
 
                         if (bitmap != null) {
-                            uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
+                            uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                                    R.anim.rotate));
                             uploadPhotoProgressImage.setVisibility(View.VISIBLE);
 
                             photoImageView.setImageBitmap(bitmap);
@@ -256,8 +257,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 break;
             case R.id.myAccountButton:
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
-                //((MainActivity) getActivity()).startFragment(new MyAccountFragment());
-                //((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.shareButton:
                 ((MainActivity) getActivity()).startFragment(new ShareFragment());
@@ -265,8 +264,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 break;
             case R.id.supportButton:
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.KNOWLEDGE_BASE_URL));
-                /*((MainActivity) getActivity()).startFragment(new SupportFragment());
-                ((MainActivity) getActivity()).togleMenu();*/
                 break;
             case R.id.settingsButton:
                 ((MainActivity) getActivity()).startFragment(new SettingsFragment());

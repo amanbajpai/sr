@@ -3,13 +3,10 @@ package com.ros.smartrocket.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.text.Editable;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.FontUtils;
-
-import java.net.URLEncoder;
 
 
 public class CustomEditTextView extends EditText {
@@ -37,9 +34,4 @@ public class CustomEditTextView extends EditText {
 
         a.recycle();
     }
-
-   /* @Override
-    public Editable getText() {
-        return URLEncoder.encode(super.getText().toString(), "UTF-8");
-    }*/
 }

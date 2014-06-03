@@ -14,7 +14,6 @@ public class SchemeInterpreter {
 
     private static final String TAG = SchemeInterpreter.class.getSimpleName();
     private Uri uri;
-    //private String[] columnsArray;
     private String customSql;
     private Class<?> schemaClass;
     private Class<?> columnsClass;
@@ -22,10 +21,10 @@ public class SchemeInterpreter {
     /**
      * WARNING! Reflection is used here!
      * Every Table must specify name and class of schema
-     * Every schema must have: - CUSTOM_SQL constant for specific logic while creating tables - Columns enumeration with
-     * getName() and getType() methods getName() must return String getType() must return DBType
+     * Every schema must have: - CUSTOM_SQL constant for specific logic while creating tables - Columns enumeration
+     * with getName() and getType() methods getName() must return String getType() must return DBType
      *
-     * @param schemeClass
+     * @param schemeClass - class scheme
      */
     public SchemeInterpreter(Class<?> schemeClass) {
         this.schemaClass = schemeClass;

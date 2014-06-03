@@ -15,11 +15,12 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class MyTaskAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<Task> items = new ArrayList<Task>();
+    private List<Task> items = new ArrayList<Task>();
     private LayoutInflater inflater;
     private Calendar calendar = Calendar.getInstance();
 
@@ -62,7 +63,7 @@ public class MyTaskAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setData(final ArrayList<Task> items) {
+    public void setData(final List<Task> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -203,7 +204,8 @@ public class MyTaskAdapter extends BaseAdapter {
             case reDoTask:
                 long reDoTimeInMillisecond = UIUtils.isoTimeToLong(task.getRedoDate());
                 long missionDueForReDoInMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
-                long leftTimeForReDoInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - reDoTimeInMillisecond);
+                long leftTimeForReDoInMillisecond = timeoutInMillisecond
+                        - (calendar.getTimeInMillis() - reDoTimeInMillisecond);
 
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);

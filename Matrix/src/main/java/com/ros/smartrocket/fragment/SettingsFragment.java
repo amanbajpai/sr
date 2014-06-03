@@ -224,8 +224,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
                 preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
 
-                preferencesManager.set3GUploadTaskLimit(MISSION_LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
-                preferencesManager.set3GUploadMonthLimit(MONTHLY_LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
+                preferencesManager.set3GUploadTaskLimit(
+                        MISSION_LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
+                preferencesManager.set3GUploadMonthLimit(
+                        MONTHLY_LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
 
                 preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);

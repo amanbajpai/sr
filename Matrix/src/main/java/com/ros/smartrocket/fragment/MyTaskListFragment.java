@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
@@ -34,7 +33,7 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment - display my tasks in {@link android.widget.ListView}
@@ -106,7 +105,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
+                    List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
                     adapter.setData(tasks);
                     break;
                 default:

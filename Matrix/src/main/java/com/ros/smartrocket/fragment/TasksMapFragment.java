@@ -64,6 +64,7 @@ import com.twotoasters.clusterkraf.Options;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener,
@@ -405,7 +406,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    ArrayList<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
+                    List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
                     onLoadingComplete(tasks);
                     break;
                 default:
@@ -432,7 +433,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      *
      * @param list - result list with data
      */
-    private void onLoadingComplete(ArrayList<Task> list) {
+    private void onLoadingComplete(List<Task> list) {
         ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
         Location location = lm.getLocation();
 
@@ -498,7 +499,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 moveCameraToLocation();
                 break;
             case R.id.applyButton:
-                //loadData();
                 toggleFilterPanel();
                 break;
             case R.id.btnFilter:
@@ -587,7 +587,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         options.setOnInfoWindowClickDownstreamListener(onInfoWindowClickListener);
         options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(getActivity(), mode));
-        //options.setProcessingListener(this);
     }
 
     /**
@@ -736,7 +735,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else if (mode == Keys.MapViewMode.MYTASKS) {
             Location location = lm.getLocation();
             if (location != null) {
-                map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                map.animateCamera(
+                        CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
             }
         } else {
             if (restoreCameraByPins != null) {

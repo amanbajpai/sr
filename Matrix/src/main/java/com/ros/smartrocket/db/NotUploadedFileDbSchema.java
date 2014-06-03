@@ -60,9 +60,6 @@ public interface NotUploadedFileDbSchema {
 
     public interface Query {
         int TOKEN_QUERY = 41;
-        int TOKEN_INSERT = 42;
-        int TOKEN_UPDATE = 43;
-        //int TOKEN_DELETE = 44;
 
         String[] PROJECTION = {Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.ID.getName(),

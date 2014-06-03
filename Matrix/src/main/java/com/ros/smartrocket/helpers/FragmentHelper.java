@@ -61,9 +61,6 @@ public class FragmentHelper {
             for (int i = 0; i < fragmentList.size(); i++) {
                 if (fragmentList.get(i).getClass().equals(fragment.getClass())) {
                     lastFragment = fragmentList.get(i);
-                    /*fragmentList.remove(i);
-                    fragmentList.add(lastFragment);
-                    lastFragment = fragmentList.get(i);*/
                     if(fragment.getArguments() != null){
                         lastFragment.getArguments().putAll(fragment.getArguments());
                     }

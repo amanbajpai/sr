@@ -26,6 +26,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -177,7 +178,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                         }
                     } else if (cookie.equals(COOKIE_SHOW_NOTIFICATION)) {
-                        ArrayList<NotUploadedFile> notUploadedFileList = FilesBL.convertCursorToNotUploadedFileList
+                        List<NotUploadedFile> notUploadedFileList = FilesBL.convertCursorToNotUploadedFileList
                                 (cursor);
 
                         if (notUploadedFileList.size() > 0) {
@@ -245,7 +246,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 uploadingFiles = false;
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-            //QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
             sendNetworkOperation(apiFacade.getMyTasksOperation());
         }
     }

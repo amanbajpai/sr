@@ -42,7 +42,8 @@ import java.util.ArrayList;
 /**
  * Fragment - display all tasks in {@link android.widget.ListView}
  */
-public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface, View.OnClickListener {
+public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface,
+        View.OnClickListener {
     private static final String TAG = SurveyListFragment.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -138,7 +139,8 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
-                SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius, preferencesManager.getShowHiddenTask());
+                SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius,
+                        preferencesManager.getShowHiddenTask());
             }
         } else {
             L.e(TAG, operation.getResponseError());

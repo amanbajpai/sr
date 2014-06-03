@@ -29,6 +29,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Singleton class for work with server API
@@ -332,7 +333,7 @@ public class APIFacade {
      * @param activity
      * @param answers
      */
-    public void sendAnswers(Activity activity, ArrayList<Answer> answers) {
+    public void sendAnswers(Activity activity, List<Answer> answers) {
         BaseOperation operation = new BaseOperation();
         operation.setIsArray(true);
         operation.setUrl(WSUrl.SEND_ANSWERS, preferencesManager.getLanguageCode());

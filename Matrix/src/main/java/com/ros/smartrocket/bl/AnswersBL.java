@@ -16,6 +16,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnswersBL {
 
@@ -46,7 +47,7 @@ public class AnswersBL {
         }
     }
 
-    public static ArrayList<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, long endDateTime) {
+    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=?",
@@ -54,7 +55,7 @@ public class AnswersBL {
 
         Answer[] answers = convertCursorToAnswersArray(cursor);
 
-        ArrayList<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
+        List<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
         for (Answer answer : answers) {
             if (!TextUtils.isEmpty(answer.getFileUri())) {
                 NotUploadedFile fileToUpload = new NotUploadedFile();
@@ -76,7 +77,7 @@ public class AnswersBL {
     }
 
 
-    public static float getTaskFilesSizeMb(ArrayList<NotUploadedFile> filesToUpload) {
+    public static float getTaskFilesSizeMb(List<NotUploadedFile> filesToUpload) {
         long resultSizeInB = 0;
         for (NotUploadedFile fileToUpload : filesToUpload) {
             resultSizeInB = resultSizeInB + fileToUpload.getFileSizeB();
@@ -98,21 +99,21 @@ public class AnswersBL {
         return hrSize;
     }
 
-    public static ArrayList<Answer> getAnswersListToSend(Integer taskId) {
+    public static List<Answer> getAnswersListToSend(Integer taskId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=?"/* and " + AnswerDbSchema
-                        .Columns.FILE_URI + " IS NULL"*/,
+                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=?"
+                /* and " + AnswerDbSchema.Columns.FILE_URI + " IS NULL"*/,
                 new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
 
         return convertCursorToAnswerList(cursor);
     }
 
-    public static ArrayList<Answer> getAnswersWithFilesListToSend(Integer taskId) {
+    public static List<Answer> getAnswersWithFilesListToSend(Integer taskId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " + AnswerDbSchema
-                        .Columns.FILE_URI + " NOT NULL",
+                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and "
+                        + AnswerDbSchema.Columns.FILE_URI + " NOT NULL",
                 new String[]{String.valueOf(taskId), String.valueOf(1)}, null
         );
 
@@ -144,7 +145,7 @@ public class AnswersBL {
      * @param cursor - all fields cursor
      * @return ArrayList<Answer>
      */
-    public static ArrayList<Answer> convertCursorToAnswerList(Cursor cursor) {
+    public static List<Answer> convertCursorToAnswerList(Cursor cursor) {
         ArrayList<Answer> result = new ArrayList<Answer>();
         if (cursor != null) {
             while (cursor.moveToNext()) {

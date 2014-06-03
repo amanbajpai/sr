@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public abstract class BaseEntity implements Serializable {
@@ -36,7 +37,7 @@ public abstract class BaseEntity implements Serializable {
         return null;
     }
 
-    private ArrayList<Field> setAllFields(Class cls, ArrayList<Field> fields) {
+    private List<Field> setAllFields(Class cls, List<Field> fields) {
         fields.addAll(Arrays.asList(cls.getDeclaredFields()));
         Class superCls = cls.getSuperclass();
         if (superCls != null) {

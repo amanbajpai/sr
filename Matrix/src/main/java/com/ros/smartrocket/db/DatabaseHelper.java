@@ -8,6 +8,7 @@ import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
@@ -58,7 +59,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
 
             db.beginTransaction();
             try {
-                ArrayList<ContentValues> tableContent = new ArrayList<ContentValues>();
+                List<ContentValues> tableContent = new ArrayList<ContentValues>();
 
                 SchemeInterpreter schemeInterpretator = new SchemeInterpreter(table.getSchema());
                 HashMap<String, String> columns = schemeInterpretator.getColumnsMap();
@@ -67,7 +68,8 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                 try {
                     c = db.query(table.getName(), null, null, null, null, null, null);
                 } catch (Exception e) {
-                    L.e(TAG, "Error process table: " + table.getName() + " Exception text: " + e.getLocalizedMessage(), e);
+                    L.e(TAG, "Error process table: " + table.getName()
+                            + " Exception text: " + e.getLocalizedMessage(), e);
                 }
 
                 if (c != null && c.getCount() > 0) {

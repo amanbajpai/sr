@@ -206,25 +206,6 @@ public class UIUtils {
         return gcd(b, x);
     }
 
-    /*public static long getMemorySize(int type) {
-        try {
-            Runtime info = Runtime.getRuntime();
-            switch (type) {
-                case 1:
-                    return info.freeMemory();
-                case 2:
-                    return info.totalMemory() - info.freeMemory();
-                case 3:
-                    return info.totalMemory();
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }*/
-
     /**
      * Check if there is Ethernet connection
      *
@@ -317,8 +298,6 @@ public class UIUtils {
      * @param dateString
      */
     public static long isoTimeToLong(String dateString) {
-
-        // TODO dateString = "2015-03-25T13:27:00.000+02:00";
         try {
             return ISO_DATE_FORMAT.parse(dateString).getTime();
         } catch (Exception e) {
@@ -491,7 +470,8 @@ public class UIUtils {
     public static String getTimeInDayHoursMinutes(Context context, long timeInMillisecond) {
         int days = (int) (timeInMillisecond / 24 / 60 / 60 / 1000);
         int hours = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days) / 60 / 60 / 1000;
-        int minutes = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days - DateUtils.HOUR_IN_MILLIS * hours) / 60 / 1000;
+        int minutes = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days
+                - DateUtils.HOUR_IN_MILLIS * hours) / 60 / 1000;
 
         String daysText = "";
         if (days != 0) {

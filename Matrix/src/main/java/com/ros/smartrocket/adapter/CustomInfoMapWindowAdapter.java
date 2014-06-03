@@ -56,7 +56,8 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
             title.setText(task.getName());
             priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice()));
             pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-            distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.map_popup_distance, false));
+            distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(),
+                    R.string.map_popup_distance, false));
 
             switch (TasksBL.getTaskStatusType(task.getStatusId())) {
                 case none:

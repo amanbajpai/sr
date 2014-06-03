@@ -48,34 +48,6 @@ public final class ServerUtilities {
         context.registerReceiver(receiver, filterUnregister);
     }
 
-    ///---------------------------- REQUEST ---------------------------///
-
-//    public void makeRequestRegister(String deviceToken) {
-////        Intent msgIntent = new Intent(context, SimpleIntentService.class);
-////
-////        PreferenceController preferenceController = new PreferenceController(context);
-////        String phoneNumber = preferenceController.getUser().getPhone();
-////
-////        msgIntent.putExtra(NetworkConfig.PARAM_IN_REQUEST, new RegisterDeviceRequest(phoneNumber, deviceToken));
-////        msgIntent.putExtra(NetworkConfig.PARAM_IN_ACTION, ResponseReceiver.ACTION_REGISTER);
-////        context.startService(msgIntent);
-//    }
-//
-//    public void makeRequestUnregister() {
-////        Intent msgIntent = new Intent(context, SimpleIntentService.class);
-////
-////        PreferenceController preferenceController = new PreferenceController(context);
-////        String phoneNumber = preferenceController.getUser().getPhone();
-////
-////        msgIntent.putExtra(NetworkConfig.PARAM_IN_REQUEST, new UnregisterDeviceRequest(phoneNumber));
-////        msgIntent.putExtra(NetworkConfig.PARAM_IN_ACTION, ResponseReceiver.ACTION_REGISTER);
-////        context.startService(msgIntent);
-//    }
-//
-//    public void unregisterReceiver() {
-//        context.unregisterReceiver(receiver);
-//    }
-//
     private class ResponseReceiver extends BroadcastReceiver {
 
         public static final String ACTION_REGISTER = "com.ros.smartrocket.intent.action.REGISTER_DEVICE";

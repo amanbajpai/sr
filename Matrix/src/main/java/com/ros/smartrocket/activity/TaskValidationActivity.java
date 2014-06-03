@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -43,6 +42,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
@@ -55,15 +55,14 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private TextView taskDataSizeTextView;
     private TextView dueInTextView;
     private TextView closingQuestionText;
-    private LinearLayout closingQuestionTextLayout;
 
     private int taskId;
     private boolean showRecheckAnswerButton;
     private Task task = new Task();
 
     private AsyncQueryHandler handler;
-    private ArrayList<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
-    private ArrayList<Answer> answerListToSend = new ArrayList<Answer>();
+    private List<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
+    private List<Answer> answerListToSend = new ArrayList<Answer>();
     private float filesSizeB = 0;
 
     private Button sendNowButton;
@@ -138,7 +137,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
-                    ArrayList<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+                    List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
                     if (questions.size() > 0) {
                         Question question = questions.get(0);
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted,
@@ -213,7 +212,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     private void sendAnswerTextsSuccess() {
         TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
-        //QuestionsBL.removeQuestionsFromDB(TaskValidationActivity.this, task.getSurveyId(), task.getId());
 
         if (filesSizeB > 0) {
             if (UIUtils.is3G(this) && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
@@ -244,7 +242,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void finishActivity() {
         if (showRecheckAnswerButton) {
             PreferencesManager preferencesManager = PreferencesManager.getInstance();
-            preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_" + taskId);
+            preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId()
+                    + "_" + taskId);
 
             startActivity(IntentUtils.getMainActivityIntent(this));
         }
