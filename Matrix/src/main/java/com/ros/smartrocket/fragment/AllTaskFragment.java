@@ -90,11 +90,11 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         mapButton.setSelected(true);
         listButton.setSelected(false);
 
-        Keys.MapViewMode mode = Keys.MapViewMode.ALLTASKS;
+        Keys.MapViewMode mode = Keys.MapViewMode.ALL_TASKS;
         if (Keys.FIND_TASK.equals(contentType)) {
-            mode = Keys.MapViewMode.ALLTASKS;
+            mode = Keys.MapViewMode.ALL_TASKS;
         } else if (Keys.MY_TASK.equals(contentType)) {
-            mode = Keys.MapViewMode.MYTASKS;
+            mode = Keys.MapViewMode.MY_TASKS;
         }
         Bundle bundle = new Bundle();
         bundle.putString(Keys.MAP_MODE_VIEWTYPE, mode.toString());

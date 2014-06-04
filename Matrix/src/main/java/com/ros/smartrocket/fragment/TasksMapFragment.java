@@ -267,10 +267,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
         }
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
-        btnFilter.setVisibility(mode == Keys.MapViewMode.ALLTASKS ? View.VISIBLE : View.INVISIBLE);
+        btnFilter.setVisibility(mode == Keys.MapViewMode.ALL_TASKS ? View.VISIBLE : View.INVISIBLE);
 
-        if ((mode == Keys.MapViewMode.SURVEYTASKS) || (mode == Keys.MapViewMode.SINGLETASK)) {
-            viewItemId = bundle.getInt(Keys.MAP_VIEWITEM_ID);
+        if ((mode == Keys.MapViewMode.SURVEY_TASKS) || (mode == Keys.MapViewMode.SINGLE_TASK)) {
+            viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
         }
     }
 
@@ -296,8 +296,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Update All UI elements when view mode change
      */
     private void updateUI() {
-        if (mode == Keys.MapViewMode.MYTASKS
-                || mode == Keys.MapViewMode.SURVEYTASKS) {
+        if (mode == Keys.MapViewMode.MY_TASKS
+                || mode == Keys.MapViewMode.SURVEY_TASKS) {
             btnFilter.setEnabled(false);
         } else {
             btnFilter.setEnabled(true);
@@ -332,14 +332,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Get Tasks from local db
      */
     private void loadTasksFromLocalDb() {
-        if (mode == Keys.MapViewMode.ALLTASKS) {
+        if (mode == Keys.MapViewMode.ALL_TASKS) {
             TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked());
-        } else if (mode == Keys.MapViewMode.MYTASKS) {
+        } else if (mode == Keys.MapViewMode.MY_TASKS) {
             TasksBL.getMyTasksForMapFromDB(handler);
-        } else if (mode == Keys.MapViewMode.SURVEYTASKS) {
+        } else if (mode == Keys.MapViewMode.SURVEY_TASKS) {
             TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
             Log.d(TAG, "loadTasksFromLocalDb() [surveyId  =  " + viewItemId + "]");
-        } else if (mode == Keys.MapViewMode.SINGLETASK) {
+        } else if (mode == Keys.MapViewMode.SINGLE_TASK) {
             TasksBL.getTaskFromDBbyID(handler, viewItemId);
             Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
         }
@@ -354,9 +354,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void updateDataFromServer(Location location) {
         if (UIUtils.isOnline(getActivity())) {
-            if (mode == Keys.MapViewMode.MYTASKS) {
+            if (mode == Keys.MapViewMode.MY_TASKS) {
                 getMyTasksFromServer();
-            } else if (mode == Keys.MapViewMode.ALLTASKS) {
+            } else if (mode == Keys.MapViewMode.ALL_TASKS) {
                 getSurveysFromServer(location, taskRadius);
             }
         } else {
@@ -469,7 +469,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
         }
 
-        if (mode == Keys.MapViewMode.ALLTASKS) {
+        if (mode == Keys.MapViewMode.ALL_TASKS) {
             restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
             addRadius(location);
 
@@ -601,7 +601,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private OnMarkerClickDownstreamListener onMarkerClickListener = new OnMarkerClickDownstreamListener() {
         @Override
         public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
-            return mode == Keys.MapViewMode.SINGLETASK;
+            return mode == Keys.MapViewMode.SINGLE_TASK;
         }
     };
 
@@ -726,13 +726,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Move camera to current location or show Toast message if location not defined.
      */
     private void moveCameraToLocation() {
-        if (mode == Keys.MapViewMode.ALLTASKS) {
+        if (mode == Keys.MapViewMode.ALL_TASKS) {
             if (restoreCameraByPositionAndRadius != null) {
                 map.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraByPositionAndRadius));
             } else if (UIUtils.isOnline(getActivity())) {
                 UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
             }
-        } else if (mode == Keys.MapViewMode.MYTASKS) {
+        } else if (mode == Keys.MapViewMode.MY_TASKS) {
             Location location = lm.getLocation();
             if (location != null) {
                 map.animateCamera(

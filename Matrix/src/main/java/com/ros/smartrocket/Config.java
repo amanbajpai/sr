@@ -6,7 +6,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class Config {
     public enum Environment {
-        DEVELOPMENT, PRODUCTION, STAGING;
+        DEVELOPMENT, PRODUCTION, STAGING
     }
 
     public static final Environment ENV = Environment.DEVELOPMENT;
@@ -18,12 +18,8 @@ public class Config {
 
     public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory
             (CACHE_PREFIX_DIR).getPath();
-    public static final String LONG_URL_TO_SHARE = "https://play.google.com/store/apps/details?id=com.ua.makeev"
-            + ".lovewidgetpaid";
     public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/";
-    public static final int REFRESH_LOCATION_DISTANCE = 100;
 
-    public static final int REFRESH_LOCATION_TIME = 0;
     public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 5;
     public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 50;
 
@@ -39,7 +35,7 @@ public class Config {
     public static String PROFILE_PAGE_URL;
 
     public static boolean LOG_ENABLED;
-    public static boolean CAN_USE_FAKE_LOCATION = false; //TODO Remove in production
+    public static final boolean CAN_USE_FAKE_LOCATION = false; //TODO Remove in production
 
     static {
         APP_VERSION = UIUtils.getAppVersion(App.getInstance());
@@ -47,10 +43,9 @@ public class Config {
             case PRODUCTION:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
-                WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
-                TERMS_AND_CONDITION_URL = "http://dev.web.matrix.osiris.pp.ciklum" +
-                        ".com/TermsAndConditions?withoutMenu=true&language=%s&version=%s";
-                PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";
+                WEB_SERVICE_URL = "";
+                TERMS_AND_CONDITION_URL = "";
+                PROFILE_PAGE_URL = "";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;

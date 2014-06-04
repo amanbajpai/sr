@@ -59,7 +59,7 @@ public class UIUtils {
     /**
      * Show simple Toast message
      *
-     * @param context
+     * @param context - current context
      * @param resId
      */
     public static void showSimpleToast(Context context, int resId) {
@@ -73,7 +73,7 @@ public class UIUtils {
     /**
      * Show simple Toast message
      *
-     * @param context
+     * @param context  - current context
      * @param resId
      * @param duration
      */
@@ -92,13 +92,21 @@ public class UIUtils {
     /**
      * Show simple Toast message
      *
-     * @param context
+     * @param context - current context
      * @param msg
      */
     public static void showSimpleToast(Context context, String msg) {
         showSimpleToast(context, msg, Toast.LENGTH_SHORT, Gravity.BOTTOM);
     }
 
+    /**
+     * Show simple Toast message
+     *
+     * @param context  - current context
+     * @param msg
+     * @param duration
+     * @param gravity
+     */
     public static void showSimpleToast(Context context, String msg, int duration, int gravity) {
         if (context != null && msg != null) {
             Toast toast = Toast.makeText(context, msg, duration);
@@ -107,11 +115,23 @@ public class UIUtils {
         }
     }
 
+    /**
+     * Hide soft keyboard
+     *
+     * @param activity - current activity
+     * @param editText
+     */
+
     public static void hideSoftKeyboard(Activity activity, EditText editText) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
+    /**
+     * Show soft keyboard
+     *
+     * @param activity - current activity
+     */
     public static void showSoftKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.RESULT_SHOWN, 0);
@@ -120,8 +140,8 @@ public class UIUtils {
     /**
      * Get version name visible for users
      *
-     * @param context
-     * @return
+     * @param context - current context
+     * @return String
      */
     public static String getAppVersion(Context context) {
         String currentVersion = "";
@@ -137,8 +157,8 @@ public class UIUtils {
     /**
      * Get developer version of application
      *
-     * @param context
-     * @return
+     * @param context - current context
+     * @return int
      */
     public static int getAppVersionCode(Context context) {
         int currentVersion = 0;
@@ -151,7 +171,9 @@ public class UIUtils {
     }
 
     /**
-     * @param context
+     * Check if app is running
+     *
+     * @param context - current context
      */
     public static boolean isApplicationRuning(Context context) {
         if (context != null) {
@@ -168,8 +190,8 @@ public class UIUtils {
     }
 
     /**
-     * @param context
-     * @param pixels
+     * @param context - current context
+     * @param pixels  - px
      */
     public static int getDpFromPx(Context context, int pixels) {
         final float d = context.getResources().getDisplayMetrics().density;
@@ -177,8 +199,8 @@ public class UIUtils {
     }
 
     /**
-     * @param context
-     * @param dp
+     * @param context - current context
+     * @param dp      - dp
      */
     public static int getPxFromDp(Context context, int dp) {
         final float d = context.getResources().getDisplayMetrics().density;
@@ -196,6 +218,12 @@ public class UIUtils {
         return rounded.doubleValue();
     }
 
+    /**
+     * Least common multiple between the numbers
+     *
+     * @param a - number one
+     * @param b - number two
+     */
     public static int gcd(int a, int b) {
         if (b == 0) {
             return a;
@@ -207,13 +235,13 @@ public class UIUtils {
     /**
      * Check if there is Ethernet connection
      *
-     * @param c
-     * @return
+     * @param context - current context
+     * @return boolean
      */
-    public static boolean isOnline(Context c) {
+    public static boolean isOnline(Context context) {
         boolean isOnline = false;
-        if (c != null) {
-            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
         }
@@ -221,10 +249,16 @@ public class UIUtils {
         return isOnline;
     }
 
-    public static boolean isWiFi(Context c) {
+    /**
+     * Check if there is WiFi connection
+     *
+     * @param context - current context
+     * @return boolean
+     */
+    public static boolean isWiFi(Context context) {
         boolean isOnline = false;
-        if (c != null) {
-            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
         }
@@ -232,10 +266,16 @@ public class UIUtils {
         return isOnline;
     }
 
-    public static boolean is3G(Context c) {
+    /**
+     * Check if there is 3G connection
+     *
+     * @param context - current context
+     * @return boolean
+     */
+    public static boolean is3G(Context context) {
         boolean isOnline = false;
-        if (c != null) {
-            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             isOnline = netInfo != null && netInfo.isConnectedOrConnecting();
         }
@@ -243,26 +283,44 @@ public class UIUtils {
         return isOnline;
     }
 
-    public static boolean isGpsEnabled(Context c) {
+    /**
+     * Check if GPS is enabled
+     *
+     * @param context - current context
+     * @return boolean
+     */
+    public static boolean isGpsEnabled(Context context) {
         boolean isEnable = false;
-        if (c != null) {
-            LocationManager locationManager = (LocationManager) c.getSystemService(c.LOCATION_SERVICE);
+        if (context != null) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
             isEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }
 
         return isEnable;
     }
 
-    public static boolean isGooglePlayServicesEnabled(Context c) {
+    /**
+     * Check if GooglePlayServices is enabled
+     *
+     * @param context - current context
+     * @return boolean
+     */
+    public static boolean isGooglePlayServicesEnabled(Context context) {
         boolean isEnable = false;
-        if (c != null) {
-            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(c);
+        if (context != null) {
+            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
             isEnable = resultCode == ConnectionResult.SUCCESS;
         }
 
         return isEnable;
     }
 
+    /**
+     * Check if MockLocation is enabled
+     *
+     * @param context - current context
+     * @return boolean
+     */
     public static boolean isMockLocationEnabled(Context context) {
         if (Config.CAN_USE_FAKE_LOCATION) {
             return false;
@@ -272,6 +330,13 @@ public class UIUtils {
         }
     }
 
+    /**
+     * Check if intent is available
+     *
+     * @param context - current context
+     * @param intent  - intent to check
+     * @return boolean
+     */
     public static boolean isIntentAvailable(Context context, Intent intent) {
         final PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -286,6 +351,12 @@ public class UIUtils {
         return decimalFormat.format(num);
     }
 
+    /**
+     * Get device id
+     *
+     * @param context - current context
+     * @return boolean
+     */
     public static String getDeviceId(Context context) {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
@@ -293,7 +364,7 @@ public class UIUtils {
     /**
      * Convert ISO time to long format
      *
-     * @param dateString
+     * @param dateString - iso string to formatting
      */
     public static long isoTimeToLong(String dateString) {
         try {
@@ -305,8 +376,11 @@ public class UIUtils {
     }
 
     /**
-     * @param dateLong
-     * @param formatId
+     * Return date string in selected format
+     *
+     * @param dateLong - date
+     * @param formatId - selected format
+     * @return String
      */
     public static String longToString(long dateLong, int formatId) {
         switch (formatId) {
@@ -334,14 +408,32 @@ public class UIUtils {
         return Calendar.getInstance().getTimeInMillis();
     }
 
+    /**
+     * Check if camera is available
+     *
+     * @param context - current context
+     * @return boolean
+     */
     public static boolean isCameraAvailable(Context context) {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
+    /**
+     * Check if email is valid
+     *
+     * @param email - email to check
+     * @return boolean
+     */
     public static boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    /**
+     * Check if password is valid
+     *
+     * @param password - password to check
+     * @return boolean
+     */
     public static boolean isPasswordValid(String password) {
         boolean containUpperLetter = false;
         boolean containLowerLetter = false;
@@ -369,8 +461,17 @@ public class UIUtils {
         return containUpperLetter && containLowerLetter && containNumber && availableLength && containSpecialSymbol;
     }
 
+    /**
+     * Convert Meters to Kilometers
+     *
+     * @param context                - current context
+     * @param distance               - current distance
+     * @param textResId              - set result distance in this resource
+     * @param useMetersIfLessThanOne - if false will use KM only
+     * @return String
+     */
     public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {
-        String result = "0";
+        String result;
         String format = "%.1f";
         float convertedDistance = distance < 1000 && useMetersIfLessThanOne ? distance : distance / 1000;
         String mOrKm = context.getString(distance < 1000 && useMetersIfLessThanOne ? R.string.distance_m : R.string
@@ -436,12 +537,6 @@ public class UIUtils {
             editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_select, 0, 0, 0);
         } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_error, 0, 0, 0);
-        }
-    }
-
-    public static void setProfilePhotoImageViewmageByState(ImageView imageView, boolean isValidState) {
-        if (!isValidState) {
-            imageView.setImageResource(R.drawable.cam_error);
         }
     }
 

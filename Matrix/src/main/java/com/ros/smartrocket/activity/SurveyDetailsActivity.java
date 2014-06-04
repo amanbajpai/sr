@@ -139,8 +139,8 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
                 nearTask.setIsHide(false);
             case R.id.mapImageView:
                 Bundle bundle = new Bundle();
-                bundle.putInt(Keys.MAP_VIEWITEM_ID, nearTask.getSurveyId());
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SURVEYTASKS.toString());
+                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, nearTask.getSurveyId());
+                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SURVEY_TASKS.toString());
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

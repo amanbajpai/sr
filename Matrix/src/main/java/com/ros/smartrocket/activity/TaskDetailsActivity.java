@@ -366,8 +366,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.mapImageView:
                 Bundle bundle = new Bundle();
-                bundle.putInt(Keys.MAP_VIEWITEM_ID, task.getId());
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLETASK.toString());
+                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
+                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
 
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtras(bundle);

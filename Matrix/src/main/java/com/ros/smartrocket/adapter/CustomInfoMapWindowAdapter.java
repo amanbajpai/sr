@@ -108,7 +108,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         View view = null;
 
         if (marker != null && !MY_LOCATION.equals(marker.getSnippet())
-                && mode != Keys.MapViewMode.SINGLETASK && render(marker, mContents, clusterPoint)) {
+                && mode != Keys.MapViewMode.SINGLE_TASK && render(marker, mContents, clusterPoint)) {
             view = mContents;
 
         }
@@ -120,7 +120,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         View view = null;
 
         if (marker != null && !MY_LOCATION.equals(marker.getSnippet())
-                && mode != Keys.MapViewMode.SINGLETASK && render(marker, mWindow, clusterPoint)) {
+                && mode != Keys.MapViewMode.SINGLE_TASK && render(marker, mWindow, clusterPoint)) {
             view = mWindow;
         }
         return view;

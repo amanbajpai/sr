@@ -9,8 +9,8 @@
     <string name="login_big" >LOGIN</string >
     <string name="i_new_user" >NEW USER</string >
     <string name="login_fail_dialog_title" >SmartRocket login</string >
-    <string name="internet_connection_is_bad">Your internet connection is unstable, please change source of
-        internet.</string>
+    <string name="internet_connection_is_bad" >Your internet connection is unstable, please change source of
+        internet.</string >
     <string name="credentials_wrong" >The email or password you entered is incorrect. Please try again.</string >
     <string name="account_not_activated" >Your SmartRocket account has not yet been activated. To use SmartRocket,
         please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
@@ -32,8 +32,6 @@
     <string name="confirm_and_register" >REGISTER</string >
     <string name="cancel" >Cancel</string >
     <string name="cancel_big" >CANCEL</string >
-    <string name="close" >Close</string >
-    <string name="close_big" >CLOSE</string >
     <string name="ok" >OK</string >
     <string name="show_password" >Show password</string >
     <string name="password_validation_text" >Your password must be 8-16 characters long with at least one upper-case
@@ -140,7 +138,6 @@
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="survey_missions_description" >FULL DESCRIPTION</string >
     <string name="show_missions" >SHOW MISSIONS</string >
-    <string name="view_missions" >VIEW MISSIONS</string >
     <string name="hide_missions" >HIDE MISSIONS</string >
     <!-- MAP ACTIVITY-->
     <string name="task_location_title" >Mission location</string >
@@ -250,14 +247,12 @@
     <!-- MAP FRAGMENT -->
     <string name="zoom_to_this_radius" >Set default zoom radius</string >
     <string name="show_hidden_tasks_on_map" >Show all hidden missions</string >
-    <string name="apply_big" >APPLY</string >
     <!--<string name="show" >Show</string >-->
     <string name="min_distance" >0 km</string >
     <string name="max_distance" >20 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_big" >SUBMIT MISSION</string >
     <string name="recheck_my_answer" >BACK</string >
-    <string name="expiry_time" >MISSION EXPIRES: </string >
     <string name="mission_due" >MISSION DUE: </string >
     <string name="task_data_size" >MISSION DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
@@ -348,6 +343,4 @@
     <string name="user_already_exists_dialog_title" >Invalid username.</string >
     <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
         address.</string >
-    <!-- SET NEW PASSWORD ACTIVITY-->
-    <string name="new_password" >New password</string >
 </resources >

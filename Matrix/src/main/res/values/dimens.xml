@@ -18,7 +18,6 @@
     <dimen name="text_size_18sp">18sp</dimen>
     <dimen name="text_size_20sp">20sp</dimen>
     <dimen name="text_size_22sp">22sp</dimen>
-    <dimen name="text_size_24sp">24sp</dimen>
     <dimen name="text_size_26sp">26sp</dimen>
 
     <!-- Image size -->

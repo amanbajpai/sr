@@ -29,6 +29,10 @@ public class BaseActivity extends ActionBarActivity {
             new ArrayList<NetworkOperationListenerInterface>();
     private boolean checkDeviceSettingsByOnResume = true;
 
+    public BaseActivity() {
+        
+    }
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);

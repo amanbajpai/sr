@@ -66,21 +66,21 @@ public interface Keys {
     String MY_TASK = "my_task";
 
     String MAP_MODE_VIEWTYPE = "map_mode_viewtype";
-    String MAP_VIEWITEM_ID = "map_viewitem_id";
+    String MAP_VIEW_ITEM_ID = "map_view_item_id";
 
     /**
      * All possible view modes on map
      */
     public enum MapViewMode {
-        ALLTASKS,
-        MYTASKS,
-        SURVEYTASKS,
-        SINGLETASK;
+        ALL_TASKS,
+        MY_TASKS,
+        SURVEY_TASKS,
+        SINGLE_TASK
     }
 
     //Tasks
     String TASK_ID = "task_id";
-    ;
+
     //Survey
     String SURVEYS = "Surveys";
     String SURVEY = "survey";
@@ -113,8 +113,8 @@ public interface Keys {
     /* ------------ Location parameters -----------------------*/
     // Milliseconds per second
     int MILLISECONDS_PER_SECOND = 1000;
-    // Update frequency in seconds
-    int UPDATE_INTERVAL_IN_SECONDS = 600; // every 10 minutes
+    // Update frequency in seconds. every 10 minutes
+    int UPDATE_INTERVAL_IN_SECONDS = 600;
     // Update frequency in milliseconds
     long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
     // The fastest update frequency, in seconds
@@ -127,7 +127,6 @@ public interface Keys {
     String GCM_ID = "145199350695";
 
     String GCM_PROPERTY_REG_ID = "gcm_registration_id";
-    String GCM_PROPERTY_APP_VERSION = "gcm_appVersion";
     String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";
 
     //NotUploadFile Service
