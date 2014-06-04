@@ -19,6 +19,9 @@ public class BaseSlidingMenuActivity extends BaseActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private MainMenuFragment mainMenuFragment;
 
+    public BaseSlidingMenuActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

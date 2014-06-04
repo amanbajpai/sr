@@ -16,6 +16,9 @@ public class MainActivity extends BaseSlidingMenuActivity {
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private boolean doubleBackToExitPressedOnce = false;
 
+    public MainActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

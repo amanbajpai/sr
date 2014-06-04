@@ -17,6 +17,9 @@ import com.ros.smartrocket.fragment.TasksMapFragment;
  */
 public class MapActivity extends BaseActivity {
 
+    public MapActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

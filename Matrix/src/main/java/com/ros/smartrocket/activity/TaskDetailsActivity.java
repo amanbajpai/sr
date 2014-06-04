@@ -85,6 +85,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout deadlineTimeLayout;
     private LinearLayout expireTimeLayout;
 
+    public TaskDetailsActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

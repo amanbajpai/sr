@@ -27,6 +27,9 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     private EditText cityEditText;
     private EditText emailEditText;
 
+    public CheckLocationFailedActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

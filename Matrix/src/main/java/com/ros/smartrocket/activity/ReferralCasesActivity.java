@@ -25,6 +25,9 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     private Button continueButton;
     private ReferralCase[] referralCaseArray;
 
+    public ReferralCasesActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

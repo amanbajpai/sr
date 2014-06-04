@@ -27,6 +27,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
 
 import java.math.BigDecimal;
@@ -55,6 +56,12 @@ public class UIUtils {
             + " yyyy  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM"
             + ".yyyy / HH:mm", Locale.ENGLISH);
+
+    private static final long METERS_IN_KM = 1000;
+    private static final Random random = new Random();
+
+    public UIUtils() {
+    }
 
     /**
      * Show simple Toast message
@@ -176,17 +183,18 @@ public class UIUtils {
      * @param context - current context
      */
     public static boolean isApplicationRuning(Context context) {
+        Boolean result = false;
         if (context != null) {
             ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
             List<RunningTaskInfo> tasks = am.getRunningTasks(1);
             if (!tasks.isEmpty()) {
                 ComponentName topActivity = tasks.get(0).topActivity;
                 if (topActivity.getPackageName().equals(context.getPackageName())) {
-                    return true;
+                    result = true;
                 }
             }
         }
-        return false;
+        return result;
     }
 
     /**
@@ -322,12 +330,12 @@ public class UIUtils {
      * @return boolean
      */
     public static boolean isMockLocationEnabled(Context context) {
-        if (Config.CAN_USE_FAKE_LOCATION) {
-            return false;
-        } else {
-            return !Settings.Secure.getString(context.getContentResolver(),
-                    Settings.Secure.ALLOW_MOCK_LOCATION).equals("0");
+        boolean result = false;
+        if (!Config.CAN_USE_FAKE_LOCATION) {
+            result = !"0".equals(Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ALLOW_MOCK_LOCATION));
         }
+        return result;
     }
 
     /**
@@ -340,7 +348,7 @@ public class UIUtils {
     public static boolean isIntentAvailable(Context context, Intent intent) {
         final PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+        return list.isEmpty();
     }
 
     public static String formatAmount(int num) {
@@ -367,12 +375,13 @@ public class UIUtils {
      * @param dateString - iso string to formatting
      */
     public static long isoTimeToLong(String dateString) {
+        long result = 0;
         try {
-            return ISO_DATE_FORMAT.parse(dateString).getTime();
+            result = ISO_DATE_FORMAT.parse(dateString).getTime();
         } catch (Exception e) {
             L.e("isoTimeToLong", "Parse error" + e, e);
         }
-        return 0;
+        return result;
     }
 
     /**
@@ -383,25 +392,34 @@ public class UIUtils {
      * @return String
      */
     public static String longToString(long dateLong, int formatId) {
+        String result;
         switch (formatId) {
             case 0:
-                return HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+                result = HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+                break;
             case 1:
-                return DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                result = DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                break;
             case 2:
-                return ISO_DATE_FORMAT.format(new Date(dateLong));
+                result = ISO_DATE_FORMAT.format(new Date(dateLong));
+                break;
             case 3:
-                return HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                break;
             case 4:
-                return DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
+                result = DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
+                break;
             case 5:
-                return DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+                result = DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+                break;
             case 6:
-                return HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
+                result = HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
+                break;
             default:
+                result = "longToStringFormatNotFound";
                 break;
         }
-        return "longToStringFormatNotFound";
+        return result;
     }
 
     public static long getCurrentTimeInMilliseconds() {
@@ -473,8 +491,8 @@ public class UIUtils {
     public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {
         String result;
         String format = "%.1f";
-        float convertedDistance = distance < 1000 && useMetersIfLessThanOne ? distance : distance / 1000;
-        String mOrKm = context.getString(distance < 1000 && useMetersIfLessThanOne ? R.string.distance_m : R.string
+        float convertedDistance = distance < METERS_IN_KM && useMetersIfLessThanOne ? distance : distance / METERS_IN_KM;
+        String mOrKm = context.getString(distance < METERS_IN_KM && useMetersIfLessThanOne ? R.string.distance_m : R.string
                 .distance_km);
 
         if (textResId != 0) {
@@ -494,16 +512,12 @@ public class UIUtils {
         return s == null || !s;
     }
 
-    public static String getNumbersOnly(CharSequence s) {
-        return s.toString().replaceAll("[^0-9]", ""); // Should of course be more robust
-    }
-
     public static int getRandomInt(int max) {
-        return new Random().nextInt(max);
+        return random.nextInt(max);
     }
 
     public static int getRandomInt(int min, int max) {
-        return new Random().nextInt(max - min + 1) + min;
+        return random.nextInt(max - min + 1) + min;
     }
 
     public static void setEditTextColorByState(Context context, EditText editText, boolean isValidState) {
@@ -561,10 +575,10 @@ public class UIUtils {
     }
 
     public static String getTimeInDayHoursMinutes(Context context, long timeInMillisecond) {
-        int days = (int) (timeInMillisecond / 24 / 60 / 60 / 1000);
-        int hours = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days) / 60 / 60 / 1000;
-        int minutes = (int) (timeInMillisecond - DateUtils.DAY_IN_MILLIS * days
-                - DateUtils.HOUR_IN_MILLIS * hours) / 60 / 1000;
+        int days = (int) (timeInMillisecond / DateUtils.DAY_IN_MILLIS);
+        int hours = (int) ((timeInMillisecond - DateUtils.DAY_IN_MILLIS * days) / DateUtils.HOUR_IN_MILLIS);
+        int minutes = (int) ((timeInMillisecond - DateUtils.DAY_IN_MILLIS * days
+                - DateUtils.HOUR_IN_MILLIS * hours) / DateUtils.MINUTE_IN_MILLIS);
 
         String daysText = "";
         if (days != 0) {
@@ -582,22 +596,22 @@ public class UIUtils {
         return daysText + hoursText + minutesText;
     }
 
-    public static int getSurveyTypeListIcon(int surveyType) {
+    public static int getSurveyTypeListIcon(int typeId) {
         int iconResId;
-        switch (surveyType) {
-            case 1:
+        switch (SurveysBL.getSurveyType(typeId)) {
+            case type1:
                 iconResId = R.drawable.project_type_1_grey;
                 break;
-            case 2:
+            case type2:
                 iconResId = R.drawable.project_type_2_grey;
                 break;
-            case 3:
+            case type3:
                 iconResId = R.drawable.project_type_3_grey;
                 break;
-            case 4:
+            case type4:
                 iconResId = R.drawable.project_type_4_grey;
                 break;
-            case 5:
+            case type5:
                 iconResId = R.drawable.project_type_5_grey;
                 break;
             default:
@@ -609,20 +623,20 @@ public class UIUtils {
 
     public static int getSurveyTypeActionBarIcon(int surveyType) {
         int iconResId;
-        switch (surveyType) {
-            case 1:
+        switch (SurveysBL.getSurveyType(surveyType)) {
+            case type1:
                 iconResId = R.drawable.project_type_1;
                 break;
-            case 2:
+            case type2:
                 iconResId = R.drawable.project_type_2;
                 break;
-            case 3:
+            case type3:
                 iconResId = R.drawable.project_type_3;
                 break;
-            case 4:
+            case type4:
                 iconResId = R.drawable.project_type_4;
                 break;
-            case 5:
+            case type5:
                 iconResId = R.drawable.project_type_5;
                 break;
             default:
@@ -634,20 +648,20 @@ public class UIUtils {
 
     public static int getSurveyTypePopupIcon(int surveyType) {
         int iconResId;
-        switch (surveyType) {
-            case 1:
+        switch (SurveysBL.getSurveyType(surveyType)) {
+            case type1:
                 iconResId = R.drawable.project_type_1_popup;
                 break;
-            case 2:
+            case type2:
                 iconResId = R.drawable.project_type_2_popup;
                 break;
-            case 3:
+            case type3:
                 iconResId = R.drawable.project_type_3_popup;
                 break;
-            case 4:
+            case type4:
                 iconResId = R.drawable.project_type_4_popup;
                 break;
-            case 5:
+            case type5:
                 iconResId = R.drawable.project_type_5_popup;
                 break;
             default:

@@ -70,6 +70,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     private View actionBarView;
 
+    public TaskValidationActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

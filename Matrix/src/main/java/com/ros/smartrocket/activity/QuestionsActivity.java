@@ -71,6 +71,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     private int questionsToAnswerCount = 0;
 
+    public QuestionsActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

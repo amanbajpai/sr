@@ -11,6 +11,9 @@ import com.ros.smartrocket.utils.PreferencesManager;
 public class TermsAndConditionActivity extends BaseActivity {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
+    public TermsAndConditionActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

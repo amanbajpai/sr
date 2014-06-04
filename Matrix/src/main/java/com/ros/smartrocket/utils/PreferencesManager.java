@@ -247,7 +247,7 @@ public class PreferencesManager {
     }
 
     public int getDefaultRadius() {
-        return getInt(Keys.DEFAULT_RADIUS, TasksMapFragment.DEFAULT_TASK_RADIUSE);
+        return getInt(Keys.DEFAULT_RADIUS, TasksMapFragment.DEFAULT_TASK_RADIUS);
     }
 
     public String getLastEmail() {

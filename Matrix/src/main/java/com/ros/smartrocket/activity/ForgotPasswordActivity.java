@@ -27,6 +27,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     private ImageView mailImageView;
     private CustomProgressDialog progressDialog;
 
+    public ForgotPasswordActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

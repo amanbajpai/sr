@@ -46,6 +46,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private Address currentAddress;
     private CustomProgressDialog progressDialog;
 
+    public LoginActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

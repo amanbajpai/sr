@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +77,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private CustomProgressDialog progressDialog;
     private int currentTermsAndConditionsVersion = 1;
 
+    public RegistrationActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +134,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);
 
+
         findViewById(R.id.termsAndConditionsButton).setOnClickListener(this);
         findViewById(R.id.confirmButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
@@ -138,6 +145,20 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         checkDeviceSettingsByOnResume(false);
 
         apiFacade.getCurrentTermsAndConditionVersion(this);
+    }
+
+    public void setAgreeCheckBoxText() {
+        SpannableString ss = new SpannableString(getString(R.string.i_agree_with_matrix_term));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                startActivity(IntentUtils.getTermsAndConditionIntent(RegistrationActivity.this,
+                        currentTermsAndConditionsVersion));
+            }
+        };
+        ss.setSpan(clickableSpan, 22, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        agreeCheckBox.setText(ss);
     }
 
     @Override

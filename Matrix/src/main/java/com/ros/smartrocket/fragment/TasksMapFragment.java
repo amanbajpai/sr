@@ -66,12 +66,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener,
         CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
-    private static final String MYLOC = "MyLoc";
+    private static final String MY_LOCATION = "MyLoc";
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ImageView btnFilter;
@@ -83,18 +84,17 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private LatLngBounds restoreCameraByPins;
     private static final float COORDINATE_OFFSET = 0.00004f;
     private static final int METERS_IN_KM = 1000;
-    public static int DEFAULT_TASK_RADIUSE = 5000;
-    public static int taskRadius = DEFAULT_TASK_RADIUSE;
+    public static int DEFAULT_TASK_RADIUS = 5000;
+    public static int taskRadius = DEFAULT_TASK_RADIUS;
     private int sbRadiusProgress = 5;
-    private static final int RADIUS_DELTA = 200; // 1% = 200m => Max = 20km
+    // 1% = 200m => Max = 20km
+    private static final int RADIUS_DELTA = 200;
     private TextView txtRadius;
     private static final float DEFAULT_ZOOM_LEVEL = 11f;
     private float zoomLevel = DEFAULT_ZOOM_LEVEL;
-    private SeekBar sbRadius;
     private ImageView roundImage;
     private ImageView refreshButton;
-    private MarkerOptions myPinLocation;
-    private HashMap<String, String> markerLocation = new HashMap<String, String>();
+    private Map<String, String> markerLocation = new HashMap<String, String>();
 
     private Display display;
     private float mapWidth;
@@ -103,8 +103,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
-    private int viewItemId = 0; // Used for Survey and SingleTask map mode view
+
+    // Used for Survey and SingleTask map mode view
+    private int viewItemId = 0;
+
     private boolean isFirstStart = true;
+
+    public TasksMapFragment() {
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -136,7 +142,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
 
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
-        sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
+        SeekBar sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
 
         taskRadius = preferencesManager.getDefaultRadius();
@@ -269,7 +275,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
         btnFilter.setVisibility(mode == Keys.MapViewMode.ALL_TASKS ? View.VISIBLE : View.INVISIBLE);
 
-        if ((mode == Keys.MapViewMode.SURVEY_TASKS) || (mode == Keys.MapViewMode.SINGLE_TASK)) {
+        if (bundle != null && (mode == Keys.MapViewMode.SURVEY_TASKS || mode == Keys.MapViewMode.SINGLE_TASK)) {
             viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
         }
     }
@@ -324,7 +330,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else {
             refreshIconState(false);
             loadTasksFromLocalDb();
-            updateDataFromServer(location);
         }
     }
 
@@ -670,14 +675,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /**
      * Add marker with myu location on the map
      *
-     * @param location
+     * @param location - my current location
      */
     private void addMyLocation(Location location) {
         L.d(TAG, "addMyLocation");
         if (location != null) {
             LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
             map.addMarker(new MarkerOptions()
-                    .snippet(MYLOC)
+                    .snippet(MY_LOCATION)
                     .position(coordinates)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
         }

@@ -46,6 +46,9 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
     private LinearLayout descriptionLayout;
     private TextView projectDescription;
 
+    public SurveyDetailsActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

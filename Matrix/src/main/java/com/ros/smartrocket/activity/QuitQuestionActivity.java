@@ -14,6 +14,9 @@ public class QuitQuestionActivity extends BaseActivity implements
         View.OnClickListener {
     private Question question;
 
+    public QuitQuestionActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

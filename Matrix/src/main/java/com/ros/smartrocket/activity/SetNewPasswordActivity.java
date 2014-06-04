@@ -29,6 +29,9 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     private String email;
     private String token;
 
+    public SetNewPasswordActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

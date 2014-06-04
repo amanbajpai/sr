@@ -7,6 +7,9 @@ import com.ros.smartrocket.utils.PreferencesManager;
 
 public class LaunchActivity extends Activity {
 
+    public LaunchActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

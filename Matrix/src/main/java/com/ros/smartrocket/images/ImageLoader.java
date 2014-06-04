@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
@@ -66,8 +67,9 @@ public class ImageLoader {
     private static final int LOADING_SMALL_IMAGE_RES_ID = R.drawable.loading_small;
     private static final int NO_IMAGE_RES_ID = R.drawable.no_image;
 
-    public interface OnFetchCompleteListener {
-        void onFetchComplete(Bitmap result);
+    public ImageLoader() {
+        fileCache = new FileCache();
+        executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     }
 
     public static ImageLoader getInstance() {
@@ -75,11 +77,6 @@ public class ImageLoader {
             instance = new ImageLoader();
         }
         return instance;
-    }
-
-    public ImageLoader() {
-        fileCache = new FileCache();
-        executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     }
 
     public void displayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,
@@ -179,7 +176,7 @@ public class ImageLoader {
 
     public Bitmap getStageBitmap(String[] urlList, int sizeType) {
         int imageCount = urlList.length;
-        ArrayList<Bitmap> bitmapList = new ArrayList<Bitmap>();
+        List<Bitmap> bitmapList = new ArrayList<Bitmap>();
 
         for (int i = 0; i < imageCount; i++) {
             Bitmap bitmap = getBitmap(urlList[i], null, sizeType);
@@ -188,7 +185,7 @@ public class ImageLoader {
         return getStageBitmap(bitmapList, sizeType);
     }
 
-    public Bitmap getStageBitmap(ArrayList<Bitmap> bitmapList, int sizeType) {
+    public Bitmap getStageBitmap(List<Bitmap> bitmapList, int sizeType) {
         Bitmap resultBitmap = null;
 
         switch (sizeType) {
@@ -218,9 +215,9 @@ public class ImageLoader {
         int stage = 0;
         for (Bitmap bitmap : bitmapList) {
             Bitmap bitmapToCanvas = Bitmap.createScaledBitmap(bitmap,
-                    (int) (resultBitmap.getWidth() - (bitmapList.size() - 1) * STAGE_STEP),
-                    (int) (resultBitmap.getHeight() - (bitmapList.size() - 1) * STAGE_STEP), false);
-            canvas.drawBitmap(bitmapToCanvas, 0 + stage, 0 + stage, null);
+                    resultBitmap.getWidth() - (bitmapList.size() - 1) * STAGE_STEP,
+                    resultBitmap.getHeight() - (bitmapList.size() - 1) * STAGE_STEP, false);
+            canvas.drawBitmap(bitmapToCanvas, stage, stage, null);
             stage = stage + STAGE_STEP;
         }
         return resultBitmap;
@@ -284,7 +281,8 @@ public class ImageLoader {
             BitmapFactory.decodeFile(f.getAbsolutePath(), o);
 
             // Find the correct scale value. It should be the power of 2.
-            int widthTmp = o.outWidth, heightTmp = o.outHeight;
+            int widthTmp = o.outWidth;
+            int heightTmp = o.outHeight;
 
             while (true) {
                 if (widthTmp / 2 < bitmapSize || heightTmp / 2 < bitmapSize) {
@@ -378,7 +376,7 @@ public class ImageLoader {
             if (imageViewReused(photoToLoad)) {
                 return;
             }
-            Bitmap bmp = null;
+            Bitmap bmp;
             String[] urlList = photoToLoad.url.split(",,");
             if (urlList.length > 1) {
                 bmp = getStageBitmap(urlList, photoToLoad.sizeType);
@@ -505,5 +503,9 @@ public class ImageLoader {
             L.e(TAG, "GetFileByBitmap error" + e.getMessage(), e);
         }
         return f;
+    }
+
+    public interface OnFetchCompleteListener {
+        void onFetchComplete(Bitmap result);
     }
 }

@@ -38,11 +38,11 @@ import java.util.TimerTask;
  */
 
 public class UploadFileService extends Service implements NetworkOperationListenerInterface {
-    final String TAG = "UploadFileService";
+    private static final String TAG = UploadFileService.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
-    private ArrayList<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
+    private List<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
     private AsyncQueryHandler dbHandler;
     private BroadcastReceiver receiver;
 
@@ -54,9 +54,13 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private static final String COOKIE_SHOW_NOTIFICATION = "show_notification";
     private static final String COOKIE_CHECK_NOT_UPLOAD_FILE_COUNT = "not_upload_file_count";
 
+    private static final int WAIT_START_TIMER_IN_MILLISECONDS = 5000;
     private static final int MINUTE_IN_MILLISECONDS_15 = 1000 * 60 * 15;
     private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
     private static final int MINUTE_IN_MILLISECONDS_60 = 1000 * 60 * 60;
+
+    public UploadFileService() {
+    }
 
     @Override
     public void onCreate() {
@@ -119,7 +123,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                             }
 
                         }
-                    }, 5000, Config.CHECK_NOT_UPLOADED_FILE_MILLISECONDS);
+                    }, WAIT_START_TIMER_IN_MILLISECONDS, Config.CHECK_NOT_UPLOADED_FILE_MILLISECONDS);
 
                     showNotificationTimer = new Timer();
                     showNotificationTimer.schedule(new TimerTask() {
@@ -129,7 +133,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                             FilesBL.getNotUploadedFilesFromDB(dbHandler, COOKIE_SHOW_NOTIFICATION);
 
                         }
-                    }, 5000, Config.SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS);
+                    }, WAIT_START_TIMER_IN_MILLISECONDS, Config.SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS);
                 } catch (Exception e) {
                     L.e(TAG, "StartCheckNotUploadedFilesTimer error: " + e.getMessage(), e);
                 }
@@ -232,7 +236,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
             } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
                     responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
-                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
+                //Forward to remove the uploaded file
+                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
 
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "

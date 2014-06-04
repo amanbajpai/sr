@@ -7,12 +7,12 @@ public class Survey extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum SurveyTypes {
-        claimed(1), started(2), validation(3), reDoTask(4), pending(5);
+        none(0), type1(1), type2(2), type3(3), type4(4), type5(5);
 
         private int id;
 
-        private SurveyTypes(int statusId) {
-            this.id = statusId;
+        private SurveyTypes(int typeId) {
+            this.id = typeId;
         }
 
         public int getId() {

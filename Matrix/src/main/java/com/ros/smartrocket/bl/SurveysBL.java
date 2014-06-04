@@ -115,4 +115,15 @@ public class SurveysBL {
 
         return result;
     }
+
+    public static Survey.SurveyTypes getSurveyType(int typeId) {
+        Survey.SurveyTypes result = Survey.SurveyTypes.none;
+        for (Survey.SurveyTypes type : Survey.SurveyTypes.values()) {
+            if (type.getId() == typeId) {
+                result = type;
+                break;
+            }
+        }
+        return result;
+    }
 }

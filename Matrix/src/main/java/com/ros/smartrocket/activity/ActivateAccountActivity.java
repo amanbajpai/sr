@@ -23,6 +23,9 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
     private String email;
     private String token;
 
+    public ActivateAccountActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

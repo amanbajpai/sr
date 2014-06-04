@@ -13,6 +13,9 @@ import com.ros.smartrocket.utils.UIUtils;
 public class ForgotPasswordSuccessActivity extends BaseActivity implements View.OnClickListener {
     private String email = "";
 
+    public ForgotPasswordSuccessActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -30,7 +30,6 @@ public class BaseActivity extends ActionBarActivity {
     private boolean checkDeviceSettingsByOnResume = true;
 
     public BaseActivity() {
-        
     }
 
     @Override
@@ -93,6 +92,8 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     class NetworkBroadcastReceiver extends BroadcastReceiver {
+        public NetworkBroadcastReceiver() {
+        }
 
         @Override
         public void onReceive(Context context, Intent intent) {

@@ -19,6 +19,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
         NetworkOperationListenerInterface {
     private CheckLocationDialog checkLocationDialog;
 
+    public CheckLocationActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
