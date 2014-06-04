@@ -46,6 +46,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     private AsyncQueryHandler handler;
     private MyTaskAdapter adapter;
 
+    public MyTaskListFragment() {
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

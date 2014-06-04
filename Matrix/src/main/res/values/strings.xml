@@ -9,8 +9,8 @@
     <string name="login_big" >LOGIN</string >
     <string name="i_new_user" >NEW USER</string >
     <string name="login_fail_dialog_title" >SmartRocket login</string >
-    <string name="internet_connection_is_bad">Your internet connection is unstable, please change source of
-        internet.</string>
+    <string name="internet_connection_is_bad" >Your internet connection is unstable, please change source of
+        internet.</string >
     <string name="credentials_wrong" >The email or password you entered is incorrect. Please try again.</string >
     <string name="account_not_activated" >Your SmartRocket account has not yet been activated. To use SmartRocket,
         please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
@@ -101,7 +101,7 @@
     <string name="support_text2" >Survey description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string >
     <string name="support_text3" >Phasellus eget feugiat justo. Integer eget ligula porta, commodo magna at, porta
         purus. Sed non placerat nisi. Aenean tempor nibh in purus egestas porta.</string >
-    <string name="term_and_conditions" >TERMS &amp; CONDITIONS</string >
+    <string name="term_and_conditions" ><u >TERMS &amp; CONDITIONS</u ></string >
     <string name="knowledge_base" >KNOWLEDGE BASE</string >
     <string name="send_message" >SEND MESSAGE</string >
     <!-- SHARE AND REFER FRAGMENT-->

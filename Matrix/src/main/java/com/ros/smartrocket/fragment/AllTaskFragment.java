@@ -29,6 +29,9 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     private LinearLayout mapButton;
     private LinearLayout listButton;
 
+    public AllTaskFragment() {
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
