@@ -54,6 +54,7 @@ public class Task extends BaseEntity {
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
+    private transient Boolean StartedStatusSent = false;
 
     public Task() {
     }
@@ -99,6 +100,7 @@ public class Task extends BaseEntity {
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 1);
             result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 1);
             result.setLongEndDateTime(c.getLong(TaskDbSchema.Query.All.LONG_END_DATE_TIME));
+            result.setStartedStatusSent(c.getInt(TaskDbSchema.Query.All.STARTED_STATUS_SENT) == 1);
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
 
@@ -305,6 +307,15 @@ public class Task extends BaseEntity {
     public void setRedoDate(String redoDate) {
         RedoDate = redoDate;
     }
+
+    public Boolean getStartedStatusSent() {
+        return StartedStatusSent;
+    }
+
+    public void setStartedStatusSent(Boolean startedStatusSent) {
+        StartedStatusSent = startedStatusSent;
+    }
+
 
 
     /**

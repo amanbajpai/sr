@@ -158,8 +158,18 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
+        setSupportProgressBarIndeterminateVisibility(false);
+
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                setSupportProgressBarIndeterminateVisibility(true);
+
+                task.setStartedStatusSent(true);
+                TasksBL.updateTask(handler, task);
+
+                apiFacade.sendAnswers(this, answerListToSend);
+
+            } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
                 sendAnswerTextsSuccess();
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
@@ -171,7 +181,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
-        setSupportProgressBarIndeterminateVisibility(false);
+
     }
 
     public void setTaskData(Task task) {
@@ -265,7 +275,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             case R.id.sendNowButton:
                 setSupportProgressBarIndeterminateVisibility(true);
 
-                apiFacade.sendAnswers(this, answerListToSend);
+                if (task.getStartedStatusSent()) {
+                    apiFacade.sendAnswers(this, answerListToSend);
+                } else {
+                    apiFacade.startTask(this, task.getId());
+                }
                 break;
             case R.id.sendLaterButton:
                 finishActivity();

@@ -46,6 +46,7 @@ public interface TaskDbSchema {
         END_DATE_TIME("EndDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
         IS_HIDE("IsHide", DBType.INT),
+        STARTED_STATUS_SENT("StartedStatusSent", DBType.INT),
         LONG_END_DATE_TIME("LongEndDateTime", DBType.NUMERIC),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
@@ -116,7 +117,8 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                     Table.TASK.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
                     Table.TASK.getName() + "." + Columns.CLAIMED.getName(),
-                    Table.TASK.getName() + "." + Columns.REDO_DATE.getName()
+                    Table.TASK.getName() + "." + Columns.REDO_DATE.getName(),
+                    Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName()
             };
 
             int _ID = 0;
@@ -145,6 +147,7 @@ public interface TaskDbSchema {
             int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 23;
             int CLAIMED = 24;
             int REDO_DATE = 25;
+            int STARTED_STATUS_SENT = 26;
         }
     }
 }

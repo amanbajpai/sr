@@ -13,7 +13,7 @@ public final class WSUrl {
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
-    public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UploadPhoto"; //TODO
+    public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePhoto";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
     public static final String GET_SURVEYS = Config.WEB_SERVICE_URL
             + "api/Surveys?latitude=%s&longitude=%s&countryName=%s&cityName=%s&radius=%s&language=%s";

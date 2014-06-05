@@ -176,8 +176,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
+        setSupportProgressBarIndeterminateVisibility(false);
+
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
+                setSupportProgressBarIndeterminateVisibility(true);
+
+                Location location = lm.getLocation();
+
+                apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
+            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                 task.setIsMy(true);
 
@@ -220,12 +228,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 AnswersBL.removeAnswersByTaskId(TaskDetailsActivity.this, task.getId());
 
             } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                task.setStatusId(Task.TaskStatusId.started.getStatusId());
-                task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 2));
-                setButtonsSettings(task);
-                TasksBL.updateTask(handler, task);
-                startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
-                        task.getId()));
+                changeStatusToStartedAndOpenQuestion(true);
             }
         } else {
             if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
@@ -235,7 +238,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
         }
-        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     public void setTaskData(Task task) {
@@ -315,15 +317,23 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    public void changeStatusToStartedAndOpenQuestion(boolean startedStatusSent){
+        task.setStatusId(Task.TaskStatusId.started.getStatusId());
+        task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 2));
+        task.setStartedStatusSent(startedStatusSent);
+        setButtonsSettings(task);
+        TasksBL.updateTask(handler, task);
+        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
+                task.getId()));
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
                 setSupportProgressBarIndeterminateVisibility(true);
 
-                Location location = lm.getLocation();
-
-                apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
+                apiFacade.getQuestions(this, task.getSurveyId(), taskId);
                 break;
             case R.id.hideTaskButton:
                 task.setIsHide(true);
@@ -350,8 +360,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
                 break;
             case R.id.startTaskButton:
-                setSupportProgressBarIndeterminateVisibility(true);
-                apiFacade.startTask(TaskDetailsActivity.this, task.getId());
+                if(UIUtils.isOnline(this)){
+                    setSupportProgressBarIndeterminateVisibility(true);
+                    apiFacade.startTask(TaskDetailsActivity.this, task.getId());
+                } else {
+                    changeStatusToStartedAndOpenQuestion(false);
+                }
                 break;
             case R.id.continueTaskButton:
                 switch (TasksBL.getTaskStatusType(task.getStatusId())) {
