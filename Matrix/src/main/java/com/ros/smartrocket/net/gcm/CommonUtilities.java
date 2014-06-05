@@ -50,8 +50,7 @@ public final class CommonUtilities {
 
     private static final String TAG = CommonUtilities.class.getSimpleName();
 
-    public CommonUtilities() {
-
+    private CommonUtilities() {
     }
 
     /**

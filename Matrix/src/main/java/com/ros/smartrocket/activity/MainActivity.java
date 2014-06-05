@@ -15,6 +15,7 @@ import com.ros.smartrocket.utils.UIUtils;
 public class MainActivity extends BaseSlidingMenuActivity {
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private boolean doubleBackToExitPressedOnce = false;
+    private static final int DOUBLE_PRESS_INTERVAL_MILLISECONDS = 2000;
 
     public MainActivity() {
     }
@@ -63,6 +64,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
             public void run() {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        }, DOUBLE_PRESS_INTERVAL_MILLISECONDS);
     }
 }

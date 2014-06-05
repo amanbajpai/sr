@@ -247,7 +247,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Inirialize Cluster library and add pins
      */
     private void initClusterkraf(ArrayList<InputPoint> inputPoints) {
-        if (this.map != null && inputPoints != null && inputPoints.size() > 0) {
+        if (this.map != null && inputPoints != null && !inputPoints.isEmpty()) {
             com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
             applyemoApplicationOptionsToClusterkrafOptions(options);
             // customize the options before you construct a Clusterkraf instance
@@ -485,7 +485,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
             builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
 
-            restoreCameraByPins = inputPoints.size() > 0 ? builder.build() : null;
+            restoreCameraByPins = !inputPoints.isEmpty() ? builder.build() : null;
         }
 
 

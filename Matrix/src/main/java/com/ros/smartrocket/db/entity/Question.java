@@ -9,6 +9,21 @@ import java.io.Serializable;
 public class Question extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
+    public enum QuestionType {
+        none(0), multiple_choice(1), photo(2), validation(3), reject(4), openComment(5), single_choice(6),
+        video(7), number(8);
+
+        private int typeId;
+
+        private QuestionType(int typeId) {
+            this.typeId = typeId;
+        }
+
+        public int getTypeId() {
+            return typeId;
+        }
+    }
+
     private Integer SurveyId;
     private Integer TaskId;
     private String Question = "";

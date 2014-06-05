@@ -30,7 +30,7 @@ public class SchemeInterpreter {
         this.schemaClass = schemeClass;
         Class<?>[] classes = schemeClass.getDeclaredClasses();
         for (Class<?> innerClass : classes) {
-            if (innerClass.getSimpleName().equals("Columns")) {
+            if ("Columns".equals(innerClass.getSimpleName())) {
                 columnsClass = innerClass;
                 break;
             }

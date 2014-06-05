@@ -20,7 +20,7 @@ import java.util.List;
 
 public class AnswersBL {
 
-    public AnswersBL() {
+    private AnswersBL() {
 
     }
 
@@ -135,7 +135,7 @@ public class AnswersBL {
      * @return ArrayList<Answer>
      */
     public static List<Answer> convertCursorToAnswerList(Cursor cursor) {
-        ArrayList<Answer> result = new ArrayList<Answer>();
+        List<Answer> result = new ArrayList<Answer>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(Answer.fromCursor(cursor));

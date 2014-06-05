@@ -27,7 +27,6 @@ public final class ServerUtilities {
 
     @SuppressWarnings("hiding")
 
-    private Context context;
     private ResponseReceiver receiver;
 
     private IntentFilter filterRegister;
@@ -35,8 +34,6 @@ public final class ServerUtilities {
     private boolean loadingCompleted = true;
 
     public ServerUtilities(Context context) {
-        this.context = context;
-
         receiver = new ResponseReceiver();
         filterRegister = new IntentFilter(ResponseReceiver.ACTION_REGISTER);
         filterRegister.addCategory(Intent.CATEGORY_DEFAULT);

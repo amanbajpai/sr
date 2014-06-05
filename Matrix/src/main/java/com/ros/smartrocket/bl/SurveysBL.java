@@ -21,7 +21,7 @@ import java.util.List;
 
 public class SurveysBL {
 
-    public SurveysBL() {
+    private SurveysBL() {
 
     }
 

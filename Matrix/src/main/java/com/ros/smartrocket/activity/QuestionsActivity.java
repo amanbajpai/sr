@@ -144,7 +144,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
 
-                    if (questions.size() > 0) {
+                    if (!questions.isEmpty()) {
                         questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(surveyId,
                                 taskId);
@@ -165,7 +165,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
         mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
-        if (questionType != 2 && questionType != 7) {
+        if (questionType != Question.QuestionType.photo.getTypeId() && questionType != Question.QuestionType.video.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
             questionOf.setText(getString(R.string.question_of, currentQuestionOrderId, questionsToAnswerCount));
         } else {
@@ -217,11 +217,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
-            if (question.getType() == 3) {
+            if (question.getType() == Question.QuestionType.validation.getTypeId()) {
                 startValidationActivity();
                 return;
 
-            } else if (question.getType() == 4) {
+            } else if (question.getType() == Question.QuestionType.reject.getTypeId()) {
                 if (UIUtils.isOnline(this)) {
                     setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.rejectTask(this, question.getTaskId());
@@ -229,7 +229,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     UIUtils.showSimpleToast(this, getString(R.string.no_internet));
                 }
                 return;
-            } else if (nextQuestion == null || nextQuestion.getType() == 3) {
+            } else if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.validation.getTypeId()) {
                 nextButton.setVisibility(View.GONE);
                 validationButton.setVisibility(View.VISIBLE);
             } else {
@@ -247,23 +247,23 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             fragmentBundle.putSerializable(Keys.QUESTION, question);
 
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-            switch (question.getType()) {
-                case 1:
+            switch (QuestionsBL.getQuestionType(question.getType())) {
+                case multiple_choice:
                     currentFragment = new QuestionType1Fragment();
                     break;
-                case 6:
+                case single_choice:
                     currentFragment = new QuestionType2Fragment();
                     break;
-                case 2:
+                case photo:
                     currentFragment = new QuestionType3Fragment();
                     break;
-                case 5:
+                case openComment:
                     currentFragment = new QuestionType4Fragment();
                     break;
-                case 7:
+                case video:
                     currentFragment = new QuestionType5Fragment();
                     break;
-                case 8:
+                case number:
                     currentFragment = new QuestionType6Fragment();
                     break;
                 default:

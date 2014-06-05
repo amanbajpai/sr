@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import com.google.gson.Gson;
 import com.ros.smartrocket.App;
@@ -107,7 +108,7 @@ public class PreferencesManager {
         Location location = null;
         Gson gson = new Gson();
         String locationJson = getString(Keys.PREFERENCE_CURRENT_LOCATION, "");
-        if (!locationJson.equals("")) {
+        if (!TextUtils.isEmpty(locationJson)) {
             MatrixLocation matrixLocation = gson.fromJson(locationJson, MatrixLocation.class);
             location = matrixLocation.getLocation();
         }

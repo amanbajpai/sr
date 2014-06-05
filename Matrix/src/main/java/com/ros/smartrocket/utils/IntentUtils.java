@@ -285,7 +285,7 @@ public class IntentUtils {
         try {
             final PackageManager packageManager = context.getPackageManager();
             List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            isAvailable = list.size() > 0;
+            isAvailable = !list.isEmpty();
         } catch (Exception e) {
             L.e(TAG, "IsIntentAvailable error: " + e.getMessage(), e);
         }

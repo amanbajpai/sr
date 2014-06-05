@@ -13,7 +13,7 @@ import java.util.List;
 
 public class QuestionsBL {
 
-    public QuestionsBL() {
+    private QuestionsBL() {
 
     }
 
@@ -165,4 +165,21 @@ public class QuestionsBL {
         }
         questions.set(index, questionToSet);
     }*/
+
+    /**
+     * Set Question by orderId
+     *
+     * @param typeId - question type id
+     * @return QuestionType
+     */
+    public static Question.QuestionType getQuestionType(int typeId) {
+        Question.QuestionType result = Question.QuestionType.none;
+        for (Question.QuestionType type : Question.QuestionType.values()) {
+            if (type.getTypeId() == typeId) {
+                result = type;
+                break;
+            }
+        }
+        return result;
+    }
 }

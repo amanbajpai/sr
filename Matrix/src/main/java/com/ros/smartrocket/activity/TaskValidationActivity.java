@@ -141,7 +141,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
-                    if (questions.size() > 0) {
+                    if (!questions.isEmpty()) {
                         Question question = questions.get(0);
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted,
                                 question.getQuestion()));

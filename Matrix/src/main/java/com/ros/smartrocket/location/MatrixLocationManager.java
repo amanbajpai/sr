@@ -224,7 +224,7 @@ public class MatrixLocationManager implements LocationListener,
             }
             Address address = null;
             // If the reverse geocode returned an address
-            if (addresses != null && addresses.size() > 0) {
+            if (addresses != null && !addresses.isEmpty()) {
                 // Get the first address
                 address = addresses.get(0);
             }

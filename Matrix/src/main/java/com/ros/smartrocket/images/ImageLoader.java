@@ -81,7 +81,7 @@ public class ImageLoader {
 
     public void displayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,
                              int noImageRes, boolean fromMemory) {
-        if (url != null && !url.equals("")) {
+        if (!TextUtils.isEmpty(url)) {
             imageView.setVisibility(View.VISIBLE);
             imageViews.put(imageView, url);
             Bitmap bitmap = null;

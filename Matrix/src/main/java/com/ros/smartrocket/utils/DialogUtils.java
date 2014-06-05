@@ -23,6 +23,9 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayS
 public class DialogUtils {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+    private DialogUtils() {
+    }
+
     /**
      * Show location Dialog message
      *

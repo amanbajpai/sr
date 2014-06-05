@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FilesBL {
 
-    public FilesBL() {
+    private FilesBL() {
 
     }
 

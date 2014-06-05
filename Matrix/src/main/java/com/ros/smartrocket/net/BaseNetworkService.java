@@ -74,7 +74,7 @@ public abstract class BaseNetworkService extends IntentService {
         String json;
         HttpEntity entity = null;
         BasicHeader contentTypeHeader = null;
-        if (operation.getEntities().size() > 0) {
+        if (!operation.getEntities().isEmpty()) {
             entity = getMultipartEntity(operation);
             if (entity == null) {
                 json = getRequestJson(operation);

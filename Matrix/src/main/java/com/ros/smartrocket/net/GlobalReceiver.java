@@ -12,7 +12,7 @@ public class GlobalReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.net.conn.CONNECTIVITY_CHANGE")) {
+        if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
             if (UIUtils.isOnline(context)) {
                 if (firstConnect) {
                     firstConnect = false;
