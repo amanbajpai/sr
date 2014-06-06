@@ -14,6 +14,11 @@
         <!--<item name="android:background">@color/white</item>-->
     </style >
 
+    <style name="CustomNotification.Theme" parent="@android:style/Theme.Dialog" >
+        <item name="android:windowNoTitle" >true</item >
+        <item name="android:windowBackground" >@android:color/transparent</item >
+    </style >
+
     <style name="AppThemeGreen" parent="AppTheme" >
         <item name="android:actionBarStyle" >@style/ActionBarGreen</item >
         <item name="actionBarStyle" >@style/ActionBarGreen</item >

@@ -88,6 +88,11 @@
             android:theme="@style/AppThemeGreen"
             android:configChanges="locale" />
         <activity
+            android:name="com.ros.smartrocket.activity.NotificationActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale"
+            android:theme="@style/CustomNotification.Theme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name="com.ros.smartrocket.activity.MapActivity"
             android:theme="@style/AppThemeGreen"
             android:configChanges="locale"
@@ -174,9 +179,18 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter >
+            <intent-filter >
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data
+                    android:path="com.ua.makeev.contactwidgetpaid"
+                    android:scheme="package" />
+            </intent-filter >
         </receiver >
 
         <service android:name="com.ros.smartrocket.GCMIntentService" />
+        <service
+            android:name="com.ros.smartrocket.net.TaskReminderService"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"

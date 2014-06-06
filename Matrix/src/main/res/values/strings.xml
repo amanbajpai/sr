@@ -343,4 +343,34 @@
     <string name="user_already_exists_dialog_title" >Invalid username.</string >
     <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
         address.</string >
+    <!-- NOTIFICATION ACTIVITY-->
+    <!--expire-->
+    <string name="expire_mission_notification_title" >Expired</string >
+    <string name="expire_mission_notification_text" >The following mission has expired and has been removed from your
+    list of Missions &lt;br>&lt;br>Mission: &lt;b >%1$s&lt;/b > &lt;br>Location: &lt;b >%2$s&lt;/b >
+    &lt;br> Address: &lt;b >%3$s&lt;/b ></string >
+    <!--approved-->
+    <string name="approved_mission_notification_title" >Congratulations!</string >
+    <string name="approved_mission_notification_text" >The following Mission has been approved.&lt;br>&lt;br>%1$s
+        &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
+        &lt;br> Address: &lt;b >%4$s&lt;/b >
+    </string >
+    <!--redo-->
+    <string name="redo_mission_notification_title" >Attention!</string >
+    <string name="redo_mission_notification_text" >The following Mission requires some rework and has not yet been
+        approved. &lt;br>&lt;br>Mission: &lt;b >%1$s&lt;/b > &lt;br>Location: &lt;b >%2$s&lt;/b >
+    &lt;br> Address: &lt;b >%3$s&lt;/b ></string >
+    <!--reject-->
+    <string name="reject_mission_notification_title" >Attention!</string >
+    <string name="reject_mission_notification_text" >Sorry. The following Mission has been rejected.&lt;br>&lt;br>%1$s
+        &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
+        &lt;br> Address: &lt;b >%4$s&lt;/b ></string >
+    <!--deadline-->
+    <string name="deadline_mission_notification_title" >Attention!</string >
+    <string name="deadline_mission_notification_text" >The following Mission is about to expire at %1$s
+        &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
+    &lt;br> Address: &lt;b >%4$s&lt;/b ></string >
+    <!--notification button-->
+    <string name="close_message" >Close Message</string >
+    <string name="open_mission" >Open Mission</string >
 </resources >

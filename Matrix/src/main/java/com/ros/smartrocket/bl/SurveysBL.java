@@ -11,6 +11,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.SurveyDbSchema;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.entity.Country;
 import com.ros.smartrocket.db.entity.Survey;
 import com.ros.smartrocket.db.entity.Surveys;
 import com.ros.smartrocket.db.entity.Task;
@@ -62,6 +63,11 @@ public class SurveysBL {
                 task.setPreClaimedTaskExpireAfterStart(survey.getPreClaimedTaskExpireAfterStart());
 
                 task.setIsMy(isMy);
+
+                Country country = survey.getCountry();
+                if (country != null) {
+                    task.setCountryName(country.getName());
+                }
 
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     tampLocation.setLatitude(task.getLatitude());

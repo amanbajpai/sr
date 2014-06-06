@@ -37,10 +37,9 @@ public class Survey extends BaseEntity {
     private Double ExperienceOffer;
     private Integer ExpireTimeoutForClaimedTask;
     private Integer PreClaimedTaskExpireAfterStart;
-
     private transient Float Longitude;
-    private transient Float Latitude;
 
+    private transient Float Latitude;
     @SkipFieldInContentValues
     private Task[] Tasks;
 
@@ -55,6 +54,9 @@ public class Survey extends BaseEntity {
 
     @SkipFieldInContentValues
     private Integer NearTaskId;
+
+    @SkipFieldInContentValues
+    private Country Country;
 
     public Survey() {
     }
@@ -327,4 +329,13 @@ public class Survey extends BaseEntity {
     public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {
         ExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
     }
+
+    public Country getCountry() {
+        return Country;
+    }
+
+    public void setCountry(Country country) {
+        Country = country;
+    }
+
 }

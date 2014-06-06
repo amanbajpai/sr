@@ -103,8 +103,8 @@ public class TasksBL {
         );
     }
 
-    public static void getTaskToRemindFromDB(AsyncQueryHandler handler, long fromTime, long tillTime) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+    public static void getTaskToRemindFromDB(AsyncQueryHandler handler, int coockie, long fromTime, long tillTime) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, coockie, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
                         + TaskDbSchema.Columns.END_DATE_TIME
                         + ">" + fromTime + " and " + TaskDbSchema.Columns.END_DATE_TIME

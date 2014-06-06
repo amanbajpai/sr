@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class GlobalReceiver extends BroadcastReceiver {
     public static final String TAG = "GlobalReceiver";
     private static boolean firstConnect = true;
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -16,20 +18,29 @@ public class GlobalReceiver extends BroadcastReceiver {
             if (UIUtils.isOnline(context)) {
                 if (firstConnect) {
                     firstConnect = false;
-                    if (UploadFileService.canUploadNextFile(context)) {
-                        context.startService(new Intent(context, UploadFileService.class).setAction(Keys.
-                                ACTION_CHECK_NOT_UPLOADED_FILES));
-                    }
+
+                    startUploadFileService(context);
                 }
             } else {
                 firstConnect = true;
             }
 
-        } else if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            context.startService(new Intent(context, UploadFileService.class).setAction(Keys.
-                    ACTION_CHECK_NOT_UPLOADED_FILES));
+        } else if (Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction())
+                || Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            startUploadFileService(context);
+            startTaskReminderService(context);
+        }
+    }
 
-        } else if (Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction())) {
+    public void startTaskReminderService(Context context) {
+        if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
+            context.startService(new Intent(context, TaskReminderService.class).setAction(Keys
+                    .ACTION_START_REMINDER_TIMER));
+        }
+    }
+
+    public void startUploadFileService(Context context) {
+        if (UploadFileService.canUploadNextFile(context)) {
             context.startService(new Intent(context, UploadFileService.class).setAction(Keys.
                     ACTION_CHECK_NOT_UPLOADED_FILES));
         }

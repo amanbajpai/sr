@@ -32,6 +32,7 @@ public class App extends Application {
     private String deviceType;
     private MatrixLocationManager locationManager;
     private MyAccount myAccount;
+    private PreferencesManager preferencesManager;
 
     @Override
     public void onCreate() {
@@ -43,8 +44,7 @@ public class App extends Application {
         deviceApiNumber = android.os.Build.VERSION.SDK_INT;
         deviceType = "android";
         locationManager = new MatrixLocationManager(getApplicationContext());
-
-        startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
+        preferencesManager = PreferencesManager.getInstance();
 
         SettingsFragment.setCurrentLanguage();
         clearMonthLimitIfNeed();

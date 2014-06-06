@@ -194,28 +194,8 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 } else {
                     selectImageManager.showSelectImageDialog(getActivity(), true);
                 }
-                selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
-                    @Override
-                    public void onImageComplete(Bitmap bitmap) {
-                        isBitmapAdded = bitmap != null;
-                        isBitmapConfirmed = false;
 
-                        if (bitmap != null) {
-                            photoImageView.setImageBitmap(bitmap);
-                        } else {
-                            photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-                        }
-
-                        refreshRePhotoButton();
-                        refreshConfirmButton();
-                        refreshNextButton();
-                    }
-
-                    @Override
-                    public void onSelectImageError(int imageFrom) {
-                        DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-                    }
-                });
+                selectImageManager.setImageCompleteListener(imageCompleteListener);
                 break;
             case R.id.confirmButton:
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
@@ -242,6 +222,29 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 break;
         }
     }
+
+    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener() {
+        @Override
+        public void onImageComplete(Bitmap bitmap) {
+            isBitmapAdded = bitmap != null;
+            isBitmapConfirmed = false;
+
+            if (bitmap != null) {
+                photoImageView.setImageBitmap(bitmap);
+            } else {
+                photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+            }
+
+            refreshRePhotoButton();
+            refreshConfirmButton();
+            refreshNextButton();
+        }
+
+        @Override
+        public void onSelectImageError(int imageFrom) {
+            DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+        }
+    };
 
     @Override
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {

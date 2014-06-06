@@ -73,8 +73,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
         addNetworkOperationListener(this);
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
-
-        startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
     @Override
@@ -114,7 +112,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     uploadFilesTimer.schedule(new TimerTask() {
                         public void run() {
 
-                            L.i(TAG, "In timer. Start");
+                            L.i(TAG, "In timer. Start UploadFilesTimer");
                             if (!uploadingFiles && canUploadNextFile(UploadFileService.this)) {
                                 L.i(TAG, "Can upload file");
                                 FilesBL.getFirstNotUploadedFileFromDB(dbHandler, 0,

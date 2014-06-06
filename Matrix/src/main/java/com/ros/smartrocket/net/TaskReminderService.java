@@ -12,8 +12,8 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.dialog.DeadlineReminderDialog;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -22,21 +22,23 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TaskReminderService extends Service {
-    final String TAG = TaskReminderService.class.getSimpleName();
+    private static final String TAG = TaskReminderService.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private AsyncQueryHandler dbHandler;
 
     private Timer reminderTimer;
+
+    public static final int COOKIE_DEADLINE_REMINDER = 1;
+    public static final int COOKIE_EXPIRED_TASK = 2;
+
+    public TaskReminderService() {
+    }
 
     @Override
     public void onCreate() {
         L.i(TAG, "onCreate");
 
         dbHandler = new DbHandler(getContentResolver());
-
-        if (preferencesManager.getUseDeadlineReminder()) {
-            startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
-        }
     }
 
     @Override
@@ -70,12 +72,22 @@ public class TaskReminderService extends Service {
                     reminderTimer = new Timer();
                     reminderTimer.schedule(new TimerTask() {
                         public void run() {
-                            L.i(TAG, "In timer. Start");
+                            L.i(TAG, "In timer. Start ReminderTimer");
                             long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
-                            long fromTime = currentTimeInMillis + preferencesManager.getDeadlineReminderMillisecond();
-                            long tillTime = fromTime + Config.DEADLINE_REMINDER_MILLISECONDS;
 
-                            TasksBL.getTaskToRemindFromDB(dbHandler, fromTime, tillTime);
+                            if (preferencesManager.getUseDeadlineReminder()) {
+                                long fromTime = currentTimeInMillis + preferencesManager.getDeadlineReminderMillisecond();
+                                long tillTime = fromTime + Config.DEADLINE_REMINDER_MILLISECONDS;
+
+                                TasksBL.getTaskToRemindFromDB(dbHandler, COOKIE_DEADLINE_REMINDER, fromTime, tillTime);
+                            }
+
+                            if (preferencesManager.getUsePushMessages()) {
+                                long fromTime = currentTimeInMillis - Config.DEADLINE_REMINDER_MILLISECONDS;
+                                long tillTime = currentTimeInMillis;
+
+                                TasksBL.getTaskToRemindFromDB(dbHandler, COOKIE_EXPIRED_TASK, fromTime, tillTime);
+                            }
                         }
                     }, 0, Config.DEADLINE_REMINDER_MILLISECONDS);
 
@@ -104,12 +116,24 @@ public class TaskReminderService extends Service {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     Task task = TasksBL.convertCursorToTaskOrNull(cursor);
+
                     L.i(TAG, "Is task found: " + (task != null));
                     if (task != null && App.getInstance() != null) {
-                        L.i(TAG, "Show dialog 1");
-                        long endDateTimeInMilliseconds = UIUtils.isoTimeToLong(task.getEndDateTime());
-                        new DeadlineReminderDialog(App.getInstance(), endDateTimeInMilliseconds, task.getName(),
-                                task.getSurveyId(), task.getId());
+                        int type = (Integer) cookie;
+                        if (COOKIE_DEADLINE_REMINDER == type) {
+                            L.i(TAG, "Show Deadline reminder dialog");
+                            long endDateTimeInMilliseconds = UIUtils.isoTimeToLong(task.getEndDateTime());
+
+                            NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
+                                    endDateTimeInMilliseconds,
+                                    task.getSurveyId(), task.getId(),
+                                    task.getName(), task.getCountryName(), task.getAddress());
+
+                        } else if (COOKIE_EXPIRED_TASK == type) {
+                            L.i(TAG, "Show Expire task dialog");
+                            NotificationUtils.startExpiredNotificationActivity(TaskReminderService.this,
+                                    task.getName(), task.getCountryName(), task.getAddress());
+                        }
                     }
                     break;
             }

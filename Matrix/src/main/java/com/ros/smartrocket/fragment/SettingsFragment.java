@@ -232,7 +232,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);
 
-                if (deadlineReminderToggleButton.isChecked()) {
+                if (pushMessagesToggleButton.isChecked() || deadlineReminderToggleButton.isChecked()) {
                     getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
                             .ACTION_START_REMINDER_TIMER));
                 } else {

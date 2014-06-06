@@ -11,14 +11,18 @@ import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.activity.NotificationActivity;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import org.json.JSONObject;
@@ -31,6 +35,143 @@ import java.io.File;
 public class NotificationUtils {
     private static final String TAG = NotificationUtils.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
+
+    public static void startExpiredNotificationActivity(Context context, String missionName,
+                                                        String locationName, String missionAddress) {
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.expire_mission_notification_text, missionName,
+                locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_expired.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.expire_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+
+        context.startActivity(intent);
+    }
+
+    public static void startApprovedNotificationActivity(Context context, String validationText, String missionName,
+                                                         String locationName, String missionAddress) {
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.approved_mission_notification_text,
+                validationText, missionName, locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_approved.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.green);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.confirm_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.approved_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+
+        context.startActivity(intent);
+    }
+
+    public static void startRedoNotificationActivity(Context context, int surveyId, int taskId, String missionName,
+                                                     String locationName, String missionAddress) {
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
+                missionName, locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+
+        intent.putExtra(Keys.SURVEY_ID, surveyId);
+        intent.putExtra(Keys.TASK_ID, taskId);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_redo.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.orange_dark);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.redo_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.LEFT_BUTTON_RES_ID, R.string.close_message);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.open_mission);
+
+        context.startActivity(intent);
+    }
+
+    public static void startRejectNotificationActivity(Context context, String validationText, String missionName,
+                                                       String locationName, String missionAddress) {
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.reject_mission_notification_text,
+                validationText, missionName, locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_rejected.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.reject_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+
+        context.startActivity(intent);
+    }
+
+    public static void startDeadlineNotificationActivity(Context context, long deadlineTime, int surveyId, int taskId,
+                                                         String missionName,
+                                                         String locationName, String missionAddress) {
+        String deadlineDateText = UIUtils.longToString(deadlineTime, 3);
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.deadline_mission_notification_text,
+                deadlineDateText, missionName, locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+
+        intent.putExtra(Keys.SURVEY_ID, surveyId);
+        intent.putExtra(Keys.TASK_ID, taskId);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_deadline.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.orange_dark);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.redo_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.LEFT_BUTTON_RES_ID, R.string.close_message);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.open_mission);
+
+        context.startActivity(intent);
+    }
+
+    /**
+     * Show notification about changed task status
+     *
+     * @param context    - current context
+     * @param jsonObject - message Json object
+     */
+    public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
+        try {
+            JSONObject messageObject = new JSONObject(jsonObject);
+            int statusType = messageObject.optInt("StatusType");
+            int surveyId = messageObject.optInt("SurveyId");
+            int taskId = messageObject.optInt("TaskId");
+            String taskName = messageObject.optString("TaskName");
+            //String endDateTime = messageObject.optString("endDateTime");
+
+            //TODO
+            switch (TasksBL.getTaskStatusType(statusType)) {
+                case reDoTask:
+                    NotificationUtils.startRedoNotificationActivity(context, surveyId, taskId, taskName,
+                            "locationName", "missionAddress");
+                    break;
+                case validated:
+                    NotificationUtils.startApprovedNotificationActivity(context, "Validation Text", taskName, "locationName",
+                            "missionAddress");
+                    break;
+                case rejected:
+                    NotificationUtils.startRejectNotificationActivity(context, "Validation Text", taskName, "locationName",
+                            "missionAddress");
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
+        }
+    }
 
     /**
      * Show notification about not uploaded file
@@ -49,49 +190,6 @@ public class NotificationUtils {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         generateNotification(context, title, message, intent);
-    }
-
-    /**
-     * Show notification about not uploaded file
-     *
-     * @param context    - current context
-     * @param jsonObject - message Json object
-     */
-    public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
-        Intent intent = new Intent(context, MainActivity.class);
-        String title = context.getString(R.string.app_name);
-        String message = "";
-
-        try {
-            JSONObject messageObject = new JSONObject(jsonObject);
-            int statusType = messageObject.optInt("StatusType");
-            int surveyId = messageObject.optInt("SurveyId");
-            int taskId = messageObject.optInt("TaskId");
-            String taskName = messageObject.optString("TaskName");
-            //String endDateTime = messageObject.optString("endDateTime");
-
-            switch (statusType) {
-                case 4: //Re-do
-                    message = String.format(context.getString(R.string.re_do_task_status_message), taskName);
-                    intent = IntentUtils.getQuestionsIntent(context, surveyId, taskId);
-                    break;
-                case 6: //Validated
-                    message = String.format(context.getString(R.string.validated_task_status_message), taskName);
-                    break;
-                default:
-                    message = String.format(context.getString(R.string.unknown_status_id_message),
-                            String.valueOf(statusType));
-                    break;
-            }
-        } catch (Exception e) {
-            L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
-        }
-
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        generateNotification(context, title, message, intent);
-
     }
 
     public static Boolean generateNotification(Context context, String title, String message, Intent intent) {

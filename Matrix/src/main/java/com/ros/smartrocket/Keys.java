@@ -69,6 +69,19 @@ public interface Keys {
     String MAP_VIEW_ITEM_ID = "map_view_item_id";
 
     /**
+     * Notification activity
+     * */
+    String TITLE_BACKGROUND_COLOR_RES_ID = "title_background_color_res_id";
+    String TITLE_ICON_RES_ID = "title_icon_res_id";
+    String NOTIFICATION_TITLE = "notification_title";
+    String NOTIFICATION_TEXT = "notification_text";
+    String NOTIFICATION_TYPE_ID = "notification_type_id";
+    String LEFT_BUTTON_RES_ID = "left_button_res_id";
+    String RIGHT_BUTTON_RES_ID = "right_button_res_id";
+    String SHOW_LEFT_BUTTON = "show_left_button";
+
+
+    /**
      * All possible view modes on map
      */
     public enum MapViewMode {

@@ -55,6 +55,8 @@ public interface TaskDbSchema {
         CLAIMED("Claimed", DBType.TEXT),
         REDO_DATE("RedoDate", DBType.TEXT),
 
+        COUNTRY_NAME("CountryName", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -118,7 +120,8 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
                     Table.TASK.getName() + "." + Columns.CLAIMED.getName(),
                     Table.TASK.getName() + "." + Columns.REDO_DATE.getName(),
-                    Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName()
+                    Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName(),
+                    Table.TASK.getName() + "." + Columns.COUNTRY_NAME.getName()
             };
 
             int _ID = 0;
@@ -148,6 +151,7 @@ public interface TaskDbSchema {
             int CLAIMED = 24;
             int REDO_DATE = 25;
             int STARTED_STATUS_SENT = 26;
+            int COUNTRY_NAME = 27;
         }
     }
 }

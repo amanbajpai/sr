@@ -55,6 +55,7 @@ public class Task extends BaseEntity {
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
     private transient Boolean StartedStatusSent = false;
+    private transient String CountryName;
 
     public Task() {
     }
@@ -109,6 +110,7 @@ public class Task extends BaseEntity {
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));
             result.setRedoDate(c.getString(TaskDbSchema.Query.All.REDO_DATE));
+            result.setCountryName(c.getString(TaskDbSchema.Query.All.COUNTRY_NAME));
         }
         L.d("Task", result.toString());
         return result;
@@ -291,6 +293,15 @@ public class Task extends BaseEntity {
     public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {
         ExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
     }
+
+    public String getCountryName() {
+        return CountryName;
+    }
+
+    public void setCountryName(String countryName) {
+        CountryName = countryName;
+    }
+
 
     public String getClaimed() {
         return Claimed;
