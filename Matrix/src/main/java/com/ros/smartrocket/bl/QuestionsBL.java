@@ -20,29 +20,29 @@ public class QuestionsBL {
     /**
      * Make request for getting Question list
      *
-     * @param handler  - Handler for getting response from DB
-     * @param surveyId - current surveyId
+     * @param handler - Handler for getting response from DB
+     * @param waveId  - current waveId
      */
-    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
+    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
                         .Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(surveyId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC
+                new String[]{String.valueOf(waveId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC
         );
     }
 
     /**
      * Make request for getting Closing Statement Question
      *
-     * @param handler  - Handler for getting response from DB
-     * @param surveyId - current surveyId
-     * @param taskId   - current taskId
+     * @param handler - Handler for getting response from DB
+     * @param waveId  - current waveId
+     * @param taskId  - current taskId
      */
-    public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer surveyId, Integer taskId) {
+    public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
                         .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=?",
-                new String[]{String.valueOf(surveyId), String.valueOf(taskId), String.valueOf(3)},
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(3)},
                 QuestionDbSchema.SORT_ORDER_DESC
         );
     }
@@ -63,16 +63,15 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    public static void removeQuestionsFromDB(Context context, Integer surveyId, int taskId) {
+    public static void removeQuestionsFromDB(Context context, Integer waveId, int taskId) {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Columns.SURVEY_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(surveyId), String.valueOf(taskId)});
+                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId)});
     }
 
-    public static void removeQuestionsBySurveyId(Context context, Integer surveyId) {
+    public static void removeQuestionsByWaveId(Context context, Integer waveId) {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Columns.SURVEY_ID + "=?",
-                new String[]{String.valueOf(surveyId)});
+                QuestionDbSchema.Columns.WAVE_ID + "=?", new String[]{String.valueOf(waveId)});
     }
 
     public static void removeAllQuestionsFromDB(Context context) {

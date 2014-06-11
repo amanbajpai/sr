@@ -3,7 +3,7 @@ package com.ros.smartrocket.db.entity;
 public class Country extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private Integer Id;
+    private transient Integer Id;
     private String Name;
 
     public Country() {

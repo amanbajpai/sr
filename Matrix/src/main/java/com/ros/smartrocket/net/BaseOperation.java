@@ -16,7 +16,7 @@ public class BaseOperation implements Serializable {
     private Method method;
 
     private Integer taskId;
-    private Integer surveyId;
+    private Integer waveId;
     private ArrayList<BaseEntity> requestEntities = new ArrayList<BaseEntity>();
     public ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
 
@@ -93,12 +93,12 @@ public class BaseOperation implements Serializable {
         this.taskId = taskId;
     }
 
-    public Integer getSurveyId() {
-        return surveyId;
+    public Integer getWaveId() {
+        return waveId;
     }
 
-    public void setSurveyId(Integer surveyId) {
-        this.surveyId = surveyId;
+    public void setWaveId(Integer waveId) {
+        this.waveId = waveId;
     }
 
     public void setUrl(String url, String... args) {

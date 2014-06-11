@@ -17,7 +17,7 @@ public class CustomProgressDialog extends Dialog {
     private static LayoutInflater inflater;
 
     public CustomProgressDialog(Context context) {
-        super(context, R.style.custom_progress_dialog);
+        super(context, R.style.customProgressDialog);
     }
 
     public static CustomProgressDialog show(Activity activity, CharSequence title, CharSequence message) {

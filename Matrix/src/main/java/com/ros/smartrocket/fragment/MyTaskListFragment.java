@@ -142,7 +142,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
                 startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId(), false));
                 break;
             case reDoTask:
-                startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getSurveyId(), task.getId()));
+                startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getWaveId(), task.getId()));
                 break;
             default:
                 break;

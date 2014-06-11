@@ -2,15 +2,15 @@ package com.ros.smartrocket.db;
 
 import android.net.Uri;
 
-public interface SurveyDbSchema {
-    public static final int SURVEY_BY_DISTANCE = 102;
+public interface WaveDbSchema {
+    public static final int WAVE_BY_DISTANCE = 102;
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
-    Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.SURVEY
+    Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.WAVE
             .getName()).build();
-    Uri CONTENT_URI_SURVEY_BY_DISTANCE = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity")
-            .appendPath(Table.SURVEY.getName() + SURVEY_BY_DISTANCE).build();
+    Uri CONTENT_URI_WAVE_BY_DISTANCE = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity")
+            .appendPath(Table.WAVE.getName() + WAVE_BY_DISTANCE).build();
 
-    String SORT_ORDER_DESC_LIMIT_1 = Table.SURVEY.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
+    String SORT_ORDER_DESC_LIMIT_1 = Table.WAVE.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
@@ -22,7 +22,7 @@ public interface SurveyDbSchema {
         CLAIMABLE_BEFORE_LIVE("ClaimableBeforeLive", DBType.INT),
         VIEWABLE_BEFORE_LIVE("ViewableBeforeLive", DBType.INT),
         CONCURRENT_CLAIMS_PER_AGENT("ConcurrentClaimsPerAgent", DBType.TEXT),
-        EXTERNAL_ID("ExternalId", DBType.TEXT),
+        EXTERNAL_WAVE_ID("ExternalWaveId", DBType.TEXT),
         START_DATE_TIME("StartDateTime", DBType.TEXT),
         SUSPENSION_TARGET("SuspensionTarget", DBType.INT),
         TARGET_MAXIMUM("TargetMaximum", DBType.INT),
@@ -63,30 +63,30 @@ public interface SurveyDbSchema {
     public interface Query {
         int TOKEN_QUERY = 10;
 
-        String[] PROJECTION = {Table.SURVEY.getName() + "." + Columns._ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.NAME.getName(),
-                Table.SURVEY.getName() + "." + Columns.DESCRIPTION.getName(),
-                Table.SURVEY.getName() + "." + Columns.LONGITUDE.getName(),
-                Table.SURVEY.getName() + "." + Columns.LATITUDE.getName(),
+        String[] PROJECTION = {Table.WAVE.getName() + "." + Columns._ID.getName(),
+                Table.WAVE.getName() + "." + Columns.ID.getName(),
+                Table.WAVE.getName() + "." + Columns.NAME.getName(),
+                Table.WAVE.getName() + "." + Columns.DESCRIPTION.getName(),
+                Table.WAVE.getName() + "." + Columns.LONGITUDE.getName(),
+                Table.WAVE.getName() + "." + Columns.LATITUDE.getName(),
 
-                Table.SURVEY.getName() + "." + Columns.CLAIMABLE_BEFORE_LIVE.getName(),
-                Table.SURVEY.getName() + "." + Columns.VIEWABLE_BEFORE_LIVE.getName(),
-                Table.SURVEY.getName() + "." + Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXTERNAL_ID.getName(),
-                Table.SURVEY.getName() + "." + Columns.START_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.SUSPENSION_TARGET.getName(),
-                Table.SURVEY.getName() + "." + Columns.TARGET_MAXIMUM.getName(),
-                Table.SURVEY.getName() + "." + Columns.TARGET_MINIMUM.getName(),
-                Table.SURVEY.getName() + "." + Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
+                Table.WAVE.getName() + "." + Columns.CLAIMABLE_BEFORE_LIVE.getName(),
+                Table.WAVE.getName() + "." + Columns.VIEWABLE_BEFORE_LIVE.getName(),
+                Table.WAVE.getName() + "." + Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
+                Table.WAVE.getName() + "." + Columns.EXTERNAL_WAVE_ID.getName(),
+                Table.WAVE.getName() + "." + Columns.START_DATE_TIME.getName(),
+                Table.WAVE.getName() + "." + Columns.SUSPENSION_TARGET.getName(),
+                Table.WAVE.getName() + "." + Columns.TARGET_MAXIMUM.getName(),
+                Table.WAVE.getName() + "." + Columns.TARGET_MINIMUM.getName(),
+                Table.WAVE.getName() + "." + Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
 
-                Table.SURVEY.getName() + "." + Columns.END_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
-                Table.SURVEY.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
+                Table.WAVE.getName() + "." + Columns.END_DATE_TIME.getName(),
+                Table.WAVE.getName() + "." + Columns.EXPECTED_END_DATE_TIME.getName(),
+                Table.WAVE.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
+                Table.WAVE.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
 
-                Table.SURVEY.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
-                Table.SURVEY.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
+                Table.WAVE.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                Table.WAVE.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
         };
 
         int _ID = 0;
@@ -98,7 +98,7 @@ public interface SurveyDbSchema {
         int CLAIMABLE_BEFORE_LIVE = 6;
         int VIEWABLE_BEFORE_LIVE = 7;
         int CONCURRENT_CLAIMS_PER_AGENT = 8;
-        int EXTERNAL_ID = 9;
+        int EXTERNAL_WAVE_ID = 9;
         int START_DATE_TIME = 10;
         int SUSPENSION_TARGET = 11;
         int TARGET_MAXIMUM = 12;
@@ -112,7 +112,7 @@ public interface SurveyDbSchema {
         int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 20;
     }
 
-    public interface QuerySurveyByDistance {
+    public interface QueryWaveByDistance {
         int TOKEN_QUERY = 10;
 
         //Look projection in AppContentProvider

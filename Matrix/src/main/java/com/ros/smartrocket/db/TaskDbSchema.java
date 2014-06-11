@@ -28,7 +28,7 @@ public interface TaskDbSchema {
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
-        SURVEY_ID("SurveyId", DBType.NUMERIC),
+        WAVE_ID("WaveId", DBType.NUMERIC),
         USER_ID("UserId", DBType.NUMERIC),
         NAME("Name", DBType.TEXT),
         DESCRIPTION("Description", DBType.TEXT),
@@ -96,7 +96,7 @@ public interface TaskDbSchema {
 
             String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                     Table.TASK.getName() + "." + Columns.ID.getName(),
-                    Table.TASK.getName() + "." + Columns.SURVEY_ID.getName(),
+                    Table.TASK.getName() + "." + Columns.WAVE_ID.getName(),
                     Table.TASK.getName() + "." + Columns.USER_ID.getName(),
                     Table.TASK.getName() + "." + Columns.NAME.getName(),
                     Table.TASK.getName() + "." + Columns.DESCRIPTION.getName(),
@@ -126,7 +126,7 @@ public interface TaskDbSchema {
 
             int _ID = 0;
             int ID = 1;
-            int SURVEY_ID = 2;
+            int WAVE_ID = 2;
             int USER_ID = 3;
             int NAME = 4;
             int DESCRIPTION = 5;

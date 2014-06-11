@@ -286,7 +286,7 @@ public class DialogUtils {
      *
      * @param activity - current activity
      */
-    public static Dialog showQuiteTaskDialog(final Activity activity, final int surveyId, final int taskId) {
+    public static Dialog showQuiteTaskDialog(final Activity activity, final int waveId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClickListener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
@@ -298,7 +298,7 @@ public class DialogUtils {
             public void onQuiteTaskButtonPressed(Dialog dialog) {
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + surveyId + "_" + taskId);
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
                 dialog.dismiss();
@@ -313,7 +313,7 @@ public class DialogUtils {
      *
      * @param activity - current activity
      */
-    public static Dialog showReCheckAnswerTaskDialog(final Activity activity, final int surveyId, final int taskId) {
+    public static Dialog showReCheckAnswerTaskDialog(final Activity activity, final int waveId, final int taskId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClickListener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
@@ -326,12 +326,12 @@ public class DialogUtils {
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
 
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + surveyId + "_" + taskId);
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
                 dialog.dismiss();
 
-                activity.startActivity(IntentUtils.getQuestionsIntent(activity, surveyId, taskId));
+                activity.startActivity(IntentUtils.getQuestionsIntent(activity, waveId, taskId));
                 activity.finish();
             }
         });

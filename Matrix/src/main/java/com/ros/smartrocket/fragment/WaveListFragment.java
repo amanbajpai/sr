@@ -23,10 +23,10 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
-import com.ros.smartrocket.adapter.SurveyAdapter;
-import com.ros.smartrocket.bl.SurveysBL;
-import com.ros.smartrocket.db.SurveyDbSchema;
-import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.adapter.WaveAdapter;
+import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.db.WaveDbSchema;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -42,15 +42,15 @@ import java.util.ArrayList;
 /**
  * Fragment - display all tasks in {@link android.widget.ListView}
  */
-public class SurveyListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface,
+public class WaveListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface,
         View.OnClickListener {
-    private static final String TAG = SurveyListFragment.class.getSimpleName();
+    private static final String TAG = WaveListFragment.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ImageView refreshButton;
     private AsyncQueryHandler handler;
-    private SurveyAdapter adapter;
+    private WaveAdapter adapter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -60,14 +60,14 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_survey_list, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_wave_list, null);
 
         handler = new DbHandler(getActivity().getContentResolver());
-        adapter = new SurveyAdapter(getActivity());
+        adapter = new WaveAdapter(getActivity());
 
-        ListView surveyList = (ListView) view.findViewById(R.id.surveyList);
-        surveyList.setOnItemClickListener(this);
-        surveyList.setAdapter(adapter);
+        ListView waveList = (ListView) view.findViewById(R.id.waveList);
+        waveList.setOnItemClickListener(this);
+        waveList.setAdapter(adapter);
         return view;
     }
 
@@ -75,7 +75,7 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     public void onResume() {
         super.onResume();
 
-        getSurveys();
+        getWaves();
     }
 
     @Override
@@ -83,25 +83,25 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            getSurveys();
+            getWaves();
         }
     }
 
-    private void getSurveys() {
+    private void getWaves() {
         refreshIconState(true);
         final Location location = lm.getLocation();
         if (location != null) {
             final int radius = TasksMapFragment.taskRadius;
             L.i(TAG, "Radius: " + radius);
 
-            SurveysBL.getNotMyTasksSurveysListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
+            WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
 
             if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
                 lm.getAddress(location, new MatrixLocationManager.IAddress() {
                     @Override
                     public void onUpdate(Address address) {
                         if (address != null) {
-                            apiFacade.getSurveys(getActivity(), location.getLatitude(), location.getLongitude(),
+                            apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
                                     address.getCountryName(), address.getLocality(), radius);
                         } else if (UIUtils.isOnline(getActivity())) {
                             UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
@@ -125,9 +125,9 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
-                case SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY:
-                    ArrayList<Survey> surveys = SurveysBL.convertCursorToSurveyListByDistance(cursor);
-                    adapter.setData(surveys);
+                case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
+                    ArrayList<Wave> waves = WavesBL.convertCursorToWaveListByDistance(cursor);
+                    adapter.setData(waves);
                     break;
                 default:
                     break;
@@ -138,8 +138,8 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())) {
-                SurveysBL.getNotMyTasksSurveysListFromDB(handler, TasksMapFragment.taskRadius,
+            if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())) {
+                WavesBL.getNotMyTasksWavesListFromDB(handler, TasksMapFragment.taskRadius,
                         preferencesManager.getShowHiddenTask());
             }
         } else {
@@ -150,15 +150,15 @@ public class SurveyListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Survey survey = adapter.getItem(position);
-        startActivity(IntentUtils.getSurveyDetailsIntent(getActivity(), survey));
+        Wave wave = adapter.getItem(position);
+        startActivity(IntentUtils.getWaveDetailsIntent(getActivity(), wave));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.refreshButton:
-                getSurveys();
+                getWaves();
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 break;
             default:

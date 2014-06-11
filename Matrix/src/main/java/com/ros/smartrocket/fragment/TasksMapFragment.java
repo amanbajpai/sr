@@ -104,7 +104,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
 
-    // Used for Survey and SingleTask map mode view
+    // Used for Wave and SingleTask map mode view
     private int viewItemId = 0;
 
     private boolean isFirstStart = true;
@@ -275,7 +275,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
         btnFilter.setVisibility(mode == Keys.MapViewMode.ALL_TASKS ? View.VISIBLE : View.INVISIBLE);
 
-        if (bundle != null && (mode == Keys.MapViewMode.SURVEY_TASKS || mode == Keys.MapViewMode.SINGLE_TASK)) {
+        if (bundle != null && (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK)) {
             viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
         }
     }
@@ -303,7 +303,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void updateUI() {
         if (mode == Keys.MapViewMode.MY_TASKS
-                || mode == Keys.MapViewMode.SURVEY_TASKS) {
+                || mode == Keys.MapViewMode.WAVE_TASKS) {
             btnFilter.setEnabled(false);
         } else {
             btnFilter.setEnabled(true);
@@ -341,9 +341,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked());
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             TasksBL.getMyTasksForMapFromDB(handler);
-        } else if (mode == Keys.MapViewMode.SURVEY_TASKS) {
-            TasksBL.getNotMyTasksFromDBbySurveyId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
-            Log.d(TAG, "loadTasksFromLocalDb() [surveyId  =  " + viewItemId + "]");
+        } else if (mode == Keys.MapViewMode.WAVE_TASKS) {
+            TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
+            Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
         } else if (mode == Keys.MapViewMode.SINGLE_TASK) {
             TasksBL.getTaskFromDBbyID(handler, viewItemId);
             Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
@@ -362,7 +362,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             if (mode == Keys.MapViewMode.MY_TASKS) {
                 getMyTasksFromServer();
             } else if (mode == Keys.MapViewMode.ALL_TASKS) {
-                getSurveysFromServer(location, taskRadius);
+                getWavesFromServer(location, taskRadius);
             }
         } else {
             refreshIconState(false);
@@ -382,13 +382,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      *
      * @param radius - selected radius
      */
-    private void getSurveysFromServer(final Location location, final int radius) {
+    private void getWavesFromServer(final Location location, final int radius) {
         if (location != null) {
             lm.getAddress(location, new MatrixLocationManager.IAddress() {
                 @Override
                 public void onUpdate(Address address) {
                     if (address != null) {
-                        APIFacade.getInstance().getSurveys(getActivity(), location.getLatitude(),
+                        APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
                                 location.getLongitude(), address.getCountryName(), address.getLocality(), radius);
                     } else if (UIUtils.isOnline(getActivity())) {
                         UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
@@ -423,7 +423,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_SURVEYS_OPERATION_TAG.equals(operation.getTag())
+            if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
                     || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
                 loadTasksFromLocalDb();
             }
@@ -615,7 +615,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
             String[] taskData = marker.getSnippet().split("_");
             int taskId = Integer.valueOf(taskData[0]);
-            int surveyId = Integer.valueOf(taskData[1]);
+            int waveId = Integer.valueOf(taskData[1]);
             int taskStatusId = Integer.valueOf(taskData[2]);
 
             switch (TasksBL.getTaskStatusType(taskStatusId)) {
@@ -628,7 +628,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false));
                     break;
                 case reDoTask:
-                    startActivity(IntentUtils.getQuestionsIntent(getActivity(), surveyId, taskId));
+                    startActivity(IntentUtils.getQuestionsIntent(getActivity(), waveId, taskId));
                     break;
                 default:
                     return true;

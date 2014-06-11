@@ -72,7 +72,7 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
 
                 icon = getPinBitmap(data);
                 title = data.getName();
-                markerOptions.snippet(data.getId() + "_" + data.getSurveyId() + "_" + data.getStatusId());
+                markerOptions.snippet(data.getId() + "_" + data.getWaveId() + "_" + data.getStatusId());
             }
             markerOptions.icon(icon);
             markerOptions.title(title);

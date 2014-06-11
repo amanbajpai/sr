@@ -126,7 +126,7 @@ public class TaskReminderService extends Service {
 
                             NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
                                     endDateTimeInMilliseconds,
-                                    task.getSurveyId(), task.getId(),
+                                    task.getWaveId(), task.getId(),
                                     task.getName(), task.getCountryName(), task.getAddress());
 
                         } else if (COOKIE_EXPIRED_TASK == type) {

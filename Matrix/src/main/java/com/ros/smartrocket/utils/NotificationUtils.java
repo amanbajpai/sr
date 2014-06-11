@@ -72,7 +72,7 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
-    public static void startRedoNotificationActivity(Context context, int surveyId, int taskId, String missionName,
+    public static void startRedoNotificationActivity(Context context, int waveId, int taskId, String missionName,
                                                      String locationName, String missionAddress) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
@@ -80,7 +80,7 @@ public class NotificationUtils {
 
         Intent intent = new Intent(context, NotificationActivity.class);
 
-        intent.putExtra(Keys.SURVEY_ID, surveyId);
+        intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_redo.getId());
@@ -112,7 +112,7 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
-    public static void startDeadlineNotificationActivity(Context context, long deadlineTime, int surveyId, int taskId,
+    public static void startDeadlineNotificationActivity(Context context, long deadlineTime, int waveId, int taskId,
                                                          String missionName,
                                                          String locationName, String missionAddress) {
         String deadlineDateText = UIUtils.longToString(deadlineTime, 3);
@@ -122,13 +122,13 @@ public class NotificationUtils {
 
         Intent intent = new Intent(context, NotificationActivity.class);
 
-        intent.putExtra(Keys.SURVEY_ID, surveyId);
+        intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_deadline.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.orange_dark);
         intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
-        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.redo_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.deadline_mission_notification_title));
         intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
         intent.putExtra(Keys.LEFT_BUTTON_RES_ID, R.string.close_message);
         intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.open_mission);
@@ -146,7 +146,7 @@ public class NotificationUtils {
         try {
             JSONObject messageObject = new JSONObject(jsonObject);
             int statusType = messageObject.optInt("StatusType");
-            int surveyId = messageObject.optInt("SurveyId");
+            int waveId = messageObject.optInt("WaveId");
             int taskId = messageObject.optInt("TaskId");
             String taskName = messageObject.optString("TaskName");
             //String endDateTime = messageObject.optString("endDateTime");
@@ -154,7 +154,7 @@ public class NotificationUtils {
             //TODO
             switch (TasksBL.getTaskStatusType(statusType)) {
                 case reDoTask:
-                    NotificationUtils.startRedoNotificationActivity(context, surveyId, taskId, taskName,
+                    NotificationUtils.startRedoNotificationActivity(context, waveId, taskId, taskName,
                             "locationName", "missionAddress");
                     break;
                 case validated:

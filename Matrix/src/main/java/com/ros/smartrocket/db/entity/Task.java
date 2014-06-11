@@ -26,7 +26,7 @@ public class Task extends BaseEntity {
         }
     }
 
-    private Integer SurveyId;
+    private Integer WaveId;
 
     private Long UserId;
     private String Name = "";
@@ -71,7 +71,7 @@ public class Task extends BaseEntity {
         if (c.getCount() > 0) {
             result.set_id(c.getInt(TaskDbSchema.Query.All._ID));
             result.setId(c.getInt(TaskDbSchema.Query.All.ID));
-            result.setSurveyId(c.getInt(TaskDbSchema.Query.All.SURVEY_ID));
+            result.setWaveId(c.getInt(TaskDbSchema.Query.All.WAVE_ID));
             result.setUserId(c.getLong(TaskDbSchema.Query.All.USER_ID));
             result.setName(c.getString(TaskDbSchema.Query.All.NAME));
             result.setDescription(c.getString(TaskDbSchema.Query.All.DESCRIPTION));
@@ -140,12 +140,12 @@ public class Task extends BaseEntity {
         UserId = userId;
     }
 
-    public Integer getSurveyId() {
-        return SurveyId;
+    public Integer getWaveId() {
+        return WaveId;
     }
 
-    public void setSurveyId(Integer surveyId) {
-        SurveyId = surveyId;
+    public void setWaveId(Integer waveId) {
+        WaveId = waveId;
     }
 
     public Double getLongitude() {
@@ -341,7 +341,7 @@ public class Task extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Task{ SurveyId=" + SurveyId + ", UserId='" + UserId + '\'' + ", Name='" + Name + '\''
+        return "Task{ WaveId=" + WaveId + ", UserId='" + UserId + '\'' + ", Name='" + Name + '\''
                 + ", Description='" + Description + '\'' + ", Language=" + Language
                 + ", Latitude='" + Latitude + '\'' + ", Longitude='" + Longitude + '\''
                 + ", Price='" + Price + '\'' + ", Address=" + Address + '}';

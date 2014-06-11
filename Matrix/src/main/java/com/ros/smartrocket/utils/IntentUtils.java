@@ -17,12 +17,12 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.QuitQuestionActivity;
 import com.ros.smartrocket.activity.SetNewPasswordActivity;
-import com.ros.smartrocket.activity.SurveyDetailsActivity;
+import com.ros.smartrocket.activity.WaveDetailsActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
 import com.ros.smartrocket.activity.TermsAndConditionActivity;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.db.entity.Wave;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -37,13 +37,13 @@ public class IntentUtils {
      * Return intent for opening Questions screen
      *
      * @param context  - context
-     * @param surveyId - current surveyId
+     * @param waveId - current waveId
      * @param taskId   - current taskId
      * @return Intent
      */
-    public static Intent getQuestionsIntent(Context context, int surveyId, int taskId) {
+    public static Intent getQuestionsIntent(Context context, int waveId, int taskId) {
         Intent intent = new Intent(context, QuestionsActivity.class);
-        intent.putExtra(Keys.SURVEY_ID, surveyId);
+        intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
         return intent;
     }
@@ -293,15 +293,15 @@ public class IntentUtils {
     }
 
     /**
-     * Return intent for opening Survey detail screen
+     * Return intent for opening Wave detail screen
      *
      * @param context - current context
      * @return Intent
      */
 
-    public static Intent getSurveyDetailsIntent(Context context, Survey survey) {
-        Intent intent = new Intent(context, SurveyDetailsActivity.class);
-        intent.putExtra(Keys.SURVEY, survey);
+    public static Intent getWaveDetailsIntent(Context context, Wave wave) {
+        Intent intent = new Intent(context, WaveDetailsActivity.class);
+        intent.putExtra(Keys.WAVE, wave);
         return intent;
     }
 

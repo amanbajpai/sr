@@ -216,28 +216,28 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public void getSurveys(Activity activity, double latitude, double longitude, String countryName, String cityName,
-                           int radius) {
+    public void getWaves(Activity activity, double latitude, double longitude, String countryName, String cityName,
+                         int radius) {
         if (activity != null && activity instanceof BaseActivity) {
             BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.GET_SURVEYS, String.valueOf(latitude), String.valueOf(longitude), countryName,
+            operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude), countryName,
                     cityName, String.valueOf(radius), preferencesManager.getLanguageCode());
-            operation.setTag(Keys.GET_SURVEYS_OPERATION_TAG);
+            operation.setTag(Keys.GET_WAVES_OPERATION_TAG);
             operation.setMethod(BaseOperation.Method.GET);
             ((BaseActivity) activity).sendNetworkOperation(operation);
         } else {
-            L.e(TAG, "getSurveys with wrong activity");
+            L.e(TAG, "getWaves with wrong activity");
         }
     }
 
     /**
      * @param activity - current activity
-     * @param surveyId
+     * @param waveId - current waveId
      */
-    public void getSurveysTask(Activity activity, Integer surveyId) {
+    public void getWaveTasks(Activity activity, Integer waveId) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_SURVEYS_TASKS, String.valueOf(surveyId));
-        operation.setTag(Keys.GET_SURVEYS_TASKS_OPERATION_TAG);
+        operation.setUrl(WSUrl.GET_WAVE_TASKS, String.valueOf(waveId));
+        operation.setTag(Keys.GET_WAVE_TASKS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
@@ -360,13 +360,13 @@ public class APIFacade {
 
     /**
      * @param activity
-     * @param surveyId
+     * @param waveId
      */
-    public void getQuestions(Activity activity, Integer surveyId, Integer taskId) {
+    public void getQuestions(Activity activity, Integer waveId, Integer taskId) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(surveyId), preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(waveId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
-        operation.setSurveyId(surveyId);
+        operation.setWaveId(waveId);
         operation.setTaskId(taskId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
@@ -376,11 +376,11 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void getReDoQuestions(Activity activity, Integer surveyId, Integer taskId) {
+    public void getReDoQuestions(Activity activity, Integer waveId, Integer taskId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
-        operation.setSurveyId(surveyId);
+        operation.setWaveId(waveId);
         operation.setTaskId(taskId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

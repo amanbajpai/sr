@@ -16,7 +16,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
     private CharSequence text;
 
     private int taskId;
-    private int surveyId;
+    private int waveId;
     private int notificationTypeId;
     private int titleBackgroundColorResId;
     private int titleIconResId;
@@ -47,7 +47,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
-            surveyId = getIntent().getIntExtra(Keys.SURVEY_ID, 0);
+            waveId = getIntent().getIntExtra(Keys.WAVE_ID, 0);
             notificationTypeId = getIntent().getIntExtra(Keys.NOTIFICATION_TYPE_ID, 0);
             titleBackgroundColorResId = getIntent().getIntExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, 0);
             titleIconResId = getIntent().getIntExtra(Keys.TITLE_ICON_RES_ID, 0);
@@ -111,7 +111,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case mission_redo:
-                startActivity(IntentUtils.getQuestionsIntent(this, surveyId, taskId));
+                startActivity(IntentUtils.getQuestionsIntent(this, waveId, taskId));
                 finish();
                 break;
             case mission_deadline:

@@ -84,7 +84,7 @@
             android:theme="@style/AppThemeGreen"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.SurveyDetailsActivity"
+            android:name=".activity.WaveDetailsActivity"
             android:theme="@style/AppThemeGreen"
             android:configChanges="locale" />
         <activity

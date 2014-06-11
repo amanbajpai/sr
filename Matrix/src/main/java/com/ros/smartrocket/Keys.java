@@ -32,10 +32,10 @@ public interface Keys {
     String REFRESH_MAIN_MENU = "refresh_main_menu";
 
     // Operation tags - Using for cache response from NetworkService
-    String GET_SURVEYS_OPERATION_TAG = "get_surveys_operation_tag";
+    String GET_WAVES_OPERATION_TAG = "get_waves_operation_tag";
     String GET_REFERRAL_CASES_OPERATION_TAG = "get_referral_cases_operation_tag";
     String SAVE_REFERRAL_CASES_OPERATION_TAG = "save_referral_cases_operation_tag";
-    String GET_SURVEYS_TASKS_OPERATION_TAG = "get_surveys_tasks_operation_tag";
+    String GET_WAVE_TASKS_OPERATION_TAG = "get_wave_tasks_operation_tag";
     String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
     String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
@@ -87,17 +87,17 @@ public interface Keys {
     public enum MapViewMode {
         ALL_TASKS,
         MY_TASKS,
-        SURVEY_TASKS,
+        WAVE_TASKS,
         SINGLE_TASK
     }
 
     //Tasks
     String TASK_ID = "task_id";
 
-    //Survey
-    String SURVEYS = "Surveys";
-    String SURVEY = "survey";
-    String SURVEY_ID = "survey_id";
+    //Wave
+    String WAVES = "Waves";
+    String WAVE = "wave";
+    String WAVE_ID = "wave_id";
 
     //Location
     String LATITUDE = "latitude";

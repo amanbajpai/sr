@@ -20,11 +20,11 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.SurveysBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.SurveyDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
@@ -54,7 +54,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private Integer taskId;
     private Task task;
-    private Survey survey = new Survey();
+    private Wave wave = new Wave();
 
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
@@ -158,15 +158,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         task = TasksBL.convertCursorToTask(cursor);
 
                         setTaskData(task);
-                        SurveysBL.getSurveyFromDB(handler, task.getSurveyId());
+                        WavesBL.getWaveFromDB(handler, task.getWaveId());
                     } else {
                         finish();
                     }
                     break;
-                case SurveyDbSchema.Query.TOKEN_QUERY:
-                    survey = SurveysBL.convertCursorToSurvey(cursor);
+                case WaveDbSchema.Query.TOKEN_QUERY:
+                    wave = WavesBL.convertCursorToWave(cursor);
 
-                    setSurveyData(survey);
+                    setWaveData(wave);
                     break;
                 default:
                     break;
@@ -189,7 +189,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                 task.setIsMy(true);
 
-                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 5);
+                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(wave.getEndDateTime()), 5);
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
@@ -215,7 +215,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 TasksBL.updateTask(handler, task);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId() + "_"
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId() + "_"
                         + task.getId());
 
                 task.setStatusId(Task.TaskStatusId.none.getStatusId());
@@ -224,7 +224,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 setButtonsSettings(task);
                 TasksBL.updateTask(handler, task);
 
-                QuestionsBL.removeQuestionsFromDB(TaskDetailsActivity.this, survey.getId(), task.getId());
+                QuestionsBL.removeQuestionsFromDB(TaskDetailsActivity.this, wave.getId(), task.getId());
                 AnswersBL.removeAnswersByTaskId(TaskDetailsActivity.this, task.getId());
 
             } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
@@ -262,9 +262,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         setButtonsSettings(task);
     }
 
-    public void setSurveyData(Survey survey) {
-        long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
-        long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
+    public void setWaveData(Wave wave) {
+        long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
+        long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
 
         long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
         long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
@@ -281,10 +281,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (actionBarView != null) {
             TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, survey.getName()));
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
-        //TODO Get survey type from server
-        getSupportActionBar().setIcon(UIUtils.getSurveyTypeActionBarIcon(1));
+        //TODO Get wave type from server
+        getSupportActionBar().setIcon(UIUtils.getWaveTypeActionBarIcon(1));
     }
 
     public void setButtonsSettings(Task task) {
@@ -323,7 +323,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         task.setStartedStatusSent(startedStatusSent);
         setButtonsSettings(task);
         TasksBL.updateTask(handler, task);
-        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getSurveyId(),
+        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getWaveId(),
                 task.getId()));
     }
 
@@ -333,7 +333,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case R.id.bookTaskButton:
                 setSupportProgressBarIndeterminateVisibility(true);
 
-                apiFacade.getQuestions(this, task.getSurveyId(), taskId);
+                apiFacade.getQuestions(this, task.getWaveId(), taskId);
                 break;
             case R.id.hideTaskButton:
                 task.setIsHide(true);
@@ -346,7 +346,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
                 break;
             case R.id.withdrawTaskButton:
-                String endDateTime = UIUtils.longToString(UIUtils.isoTimeToLong(survey.getEndDateTime()), 3);
+                String endDateTime = UIUtils.longToString(UIUtils.isoTimeToLong(wave.getEndDateTime()), 3);
                 new WithdrawTaskDialog(this, endDateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
                     @Override
                     public void onNoButtonPressed(Dialog dialog) {
@@ -371,7 +371,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 switch (TasksBL.getTaskStatusType(task.getStatusId())) {
                     case claimed:
                     case started:
-                        startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), task.getId()));
+                        startActivity(IntentUtils.getQuestionsIntent(this, task.getWaveId(), task.getId()));
                         break;
                     case scheduled:
                         startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false));
@@ -419,9 +419,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         actionBarView = actionBar.getCustomView();
 
-        if (survey != null) {
+        if (wave != null) {
             TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, survey.getName()));
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
         return true;
     }

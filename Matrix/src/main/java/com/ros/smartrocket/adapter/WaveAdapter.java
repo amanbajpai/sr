@@ -10,16 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SurveyAdapter extends BaseAdapter {
+public class WaveAdapter extends BaseAdapter {
     private Activity activity;
-    private List<Survey> items = new ArrayList<Survey>();
+    private List<Wave> items = new ArrayList<Wave>();
     private LayoutInflater inflater;
 
     public static class ViewHolder {
@@ -33,7 +33,7 @@ public class SurveyAdapter extends BaseAdapter {
         private TextView photoQuestionsCount;
     }
 
-    public SurveyAdapter(Activity activity) {
+    public WaveAdapter(Activity activity) {
         this.activity = activity;
         inflater = LayoutInflater.from(activity);
     }
@@ -42,7 +42,7 @@ public class SurveyAdapter extends BaseAdapter {
         return items.size();
     }
 
-    public Survey getItem(int position) {
+    public Wave getItem(int position) {
         return items.get(position);
     }
 
@@ -50,7 +50,7 @@ public class SurveyAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setData(final List<Survey> items) {
+    public void setData(final List<Wave> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -58,7 +58,7 @@ public class SurveyAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_survey, null);
+            convertView = inflater.inflate(R.layout.list_item_wave, null);
             holder = new ViewHolder();
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
@@ -75,16 +75,16 @@ public class SurveyAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Survey survey = items.get(position);
+        Wave wave = items.get(position);
 
-        holder.name.setText(survey.getName());
-        holder.image.setImageResource(UIUtils.getSurveyTypeListIcon(1));
+        holder.name.setText(wave.getName());
+        holder.image.setImageResource(UIUtils.getWaveTypeListIcon(1));
 
-        holder.locations.setText(String.valueOf(survey.getTaskCount()));
-        holder.price.setText(UIUtils.getBalanceOrPrice(activity, survey.getNearTaskPrice()));
-        holder.exp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
+        holder.locations.setText(String.valueOf(wave.getTaskCount()));
+        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice()));
+        holder.exp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
 
-        Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, survey.getNearTaskDistance(),
+        Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, wave.getNearTaskDistance(),
                 R.string.m_to_km_with_text_mask, true));
 
         holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.distance_to_nearest_location),

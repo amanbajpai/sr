@@ -16,7 +16,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Survey;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -26,12 +26,12 @@ import java.util.Locale;
 /**
  * Activity for view Task detail information
  */
-public class SurveyDetailsActivity extends BaseActivity implements View.OnClickListener {
+public class WaveDetailsActivity extends BaseActivity implements View.OnClickListener {
     private Calendar calendar = Calendar.getInstance();
     private AsyncQueryHandler handler;
 
     private Task nearTask = new Task();
-    private Survey survey = new Survey();
+    private Wave wave = new Wave();
 
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
@@ -46,19 +46,19 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
     private LinearLayout descriptionLayout;
     private TextView projectDescription;
 
-    public SurveyDetailsActivity() {
+    public WaveDetailsActivity() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_survey_details);
+        setContentView(R.layout.activity_wave_details);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
-            survey = (Survey) getIntent().getSerializableExtra(Keys.SURVEY);
+            wave = (Wave) getIntent().getSerializableExtra(Keys.WAVE);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -84,9 +84,9 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        setSurveyData(survey);
+        setWaveData(wave);
 
-        TasksBL.getTaskFromDBbyID(handler, survey.getNearTaskId());
+        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
 
     }
 
@@ -108,26 +108,26 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    public void setSurveyData(Survey survey) {
-        projectDescription.setText(survey.getDescription());
-        descriptionLayout.setVisibility(TextUtils.isEmpty(survey.getDescription()) ? View.GONE : View.VISIBLE);
+    public void setWaveData(Wave wave) {
+        projectDescription.setText(wave.getDescription());
+        descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
 
-        long startTimeInMillisecond = UIUtils.isoTimeToLong(survey.getStartDateTime());
-        long endTimeInMillisecond = UIUtils.isoTimeToLong(survey.getEndDateTime());
+        long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
+        long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
         long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
 
-        projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", survey.getNearTaskPrice()));
-        projectExp.setText(String.format(Locale.US, "%.0f", survey.getExperienceOffer()));
-        projectLocations.setText(String.valueOf(survey.getTaskCount()));
+        projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", wave.getNearTaskPrice()));
+        projectExp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
+        projectLocations.setText(String.valueOf(wave.getTaskCount()));
         textQuestionsCount.setText("0");
         photoQuestionsCount.setText("0");
 
-        //TODO Get survey type from server
-        getSupportActionBar().setIcon(UIUtils.getSurveyTypeActionBarIcon(1));
+        //TODO Get wave type from server
+        getSupportActionBar().setIcon(UIUtils.getWaveTypeActionBarIcon(1));
     }
 
     @Override
@@ -135,15 +135,15 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.hideAllTasksButton:
                 nearTask.setIsHide(true);
-                TasksBL.setHideAllProjectTasksOnMapByID(handler, survey.getId(), true);
+                TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), true);
                 break;
             case R.id.showAllTasksButton:
-                TasksBL.setHideAllProjectTasksOnMapByID(handler, survey.getId(), false);
+                TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);
                 nearTask.setIsHide(false);
             case R.id.mapImageView:
                 Bundle bundle = new Bundle();
-                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, nearTask.getSurveyId());
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SURVEY_TASKS.toString());
+                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, nearTask.getWaveId());
+                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.WAVE_TASKS.toString());
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -163,7 +163,7 @@ public class SurveyDetailsActivity extends BaseActivity implements View.OnClickL
         actionBar.setDisplayShowCustomEnabled(true);
 
         View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(survey.getName());
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(wave.getName());
 
         return true;
     }

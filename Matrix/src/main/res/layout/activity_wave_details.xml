@@ -118,7 +118,7 @@
                 android:orientation="horizontal" >
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectPrice"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -126,7 +126,7 @@
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectExp"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.1"
@@ -134,7 +134,7 @@
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectLocations"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.16"
@@ -147,7 +147,7 @@
                     android:background="@color/green_dark" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/textQuestionsCount"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.1"
@@ -155,7 +155,7 @@
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/photoQuestionsCount"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.1"
@@ -175,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:textSize="@dimen/text_size_12sp"
                     android:textColor="@color/grey"
-                    android:text="@string/survey_missions_description"
+                    android:text="@string/wave_missions_description"
                     custom:textStyle="bold" />
                 <View
                     android:layout_height="1px"
@@ -203,7 +203,7 @@
         android:orientation="horizontal" >
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/showAllTasksButton"
-            style="@style/SurveyDetailButton"
+            style="@style/WaveDetailButton"
             android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
@@ -211,7 +211,7 @@
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/hideAllTasksButton"
-            style="@style/SurveyDetailButton"
+            style="@style/WaveDetailButton"
             android:layout_height="40dp"
             android:layout_width="match_parent"
             android:background="@drawable/button_red_selector"

@@ -17,7 +17,7 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
     private Context activity;
     private int taskId;
 
-    public DeadlineReminderDialog(Context context, long deadlineTimeInMillis, String taskName, int surveyId,
+    public DeadlineReminderDialog(Context context, long deadlineTimeInMillis, String taskName, int waveId,
                                   int taskId) {
         super(context);
         this.activity = context;
@@ -39,7 +39,7 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
 
         String atDateTime = UIUtils.longToString(deadlineTimeInMillis, 3);
         ((TextView) findViewById(R.id.text)).setText(activity.getString(R.string.deadline_reminder_dialog_text,
-                taskName, String.valueOf(surveyId), atDateTime));
+                taskName, String.valueOf(waveId), atDateTime));
 
         findViewById(R.id.cancelButton).setOnClickListener(this);
         findViewById(R.id.goToTaskButton).setOnClickListener(this);

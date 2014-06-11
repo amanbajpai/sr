@@ -19,7 +19,7 @@ public class AppContentProvider extends ContentProvider {
 
     public static final int ENTITY = 100;
     public static final int ENTITIES = 101;
-    public static final int SURVEY_BY_DISTANCE = SurveyDbSchema.SURVEY_BY_DISTANCE;
+    public static final int WAVE_BY_DISTANCE = WaveDbSchema.WAVE_BY_DISTANCE;
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -31,7 +31,7 @@ public class AppContentProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, "entity/" + Table.SURVEY.getName() + SURVEY_BY_DISTANCE, SURVEY_BY_DISTANCE);
+        matcher.addURI(authority, "entity/" + Table.WAVE.getName() + WAVE_BY_DISTANCE, WAVE_BY_DISTANCE);
         matcher.addURI(authority, "entity/*/*", ENTITY);
         matcher.addURI(authority, "entity/*", ENTITIES);
         return matcher;
@@ -62,7 +62,7 @@ public class AppContentProvider extends ContentProvider {
             case ENTITY:
                 type = "vnd.android.cursor.item/vnd.com.ros.smartrocket.entity." + tableName;
                 break;
-            case SURVEY_BY_DISTANCE:
+            case WAVE_BY_DISTANCE:
             case ENTITIES:
                 type = "vnd.android.cursor.dir/vnd.com.ros.smartrocket.entity." + tableName;
                 break;
@@ -92,53 +92,53 @@ public class AppContentProvider extends ContentProvider {
             case ENTITIES:
                 cursor = db.query(getTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
                 break;
-            case SURVEY_BY_DISTANCE:
-                table = Table.SURVEY.getName() + " JOIN " + Table.TASK.getName() + " ON ("
-                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.SURVEY_ID.getName()
-                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " AND (SELECT "
+            case WAVE_BY_DISTANCE:
+                table = Table.WAVE.getName() + " JOIN " + Table.TASK.getName() + " ON ("
+                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.WAVE_ID.getName()
+                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND (SELECT "
                         + Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
-                        .getName() + " WHERE " + TaskDbSchema.Columns.SURVEY_ID.getName()
-                        + " = " + Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName() + " ORDER BY "
+                        .getName() + " WHERE " + TaskDbSchema.Columns.WAVE_ID.getName()
+                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " ORDER BY "
                         + TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "."
                         + TaskDbSchema.Columns.ID.getName() + selection + ")";
 
-                colums = new String[]{Table.SURVEY.getName() + "." + SurveyDbSchema.Columns._ID.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.NAME.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.DESCRIPTION.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.LONGITUDE.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.LATITUDE.getName(),
+                colums = new String[]{Table.WAVE.getName() + "." + WaveDbSchema.Columns._ID.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.NAME.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.DESCRIPTION.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONGITUDE.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.LATITUDE.getName(),
 
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.CLAIMABLE_BEFORE_LIVE.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.VIEWABLE_BEFORE_LIVE.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXTERNAL_ID.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.START_DATE_TIME.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.SUSPENSION_TARGET.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.TARGET_MAXIMUM.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.TARGET_MINIMUM.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CLAIMABLE_BEFORE_LIVE.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.VIEWABLE_BEFORE_LIVE.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXTERNAL_WAVE_ID.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.START_DATE_TIME.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.SUSPENSION_TARGET.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.TARGET_MAXIMUM.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.TARGET_MINIMUM.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
 
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.END_DATE_TIME.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPECTED_END_DATE_TIME.getName(),
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPECTED_START_DATE_TIME.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.END_DATE_TIME.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPECTED_END_DATE_TIME.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPECTED_START_DATE_TIME.getName(),
 
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName(),
                         "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
-                                + TaskDbSchema.Columns.SURVEY_ID.getName() + " = " + Table.SURVEY.getName() + "."
-                                + SurveyDbSchema.Columns.ID.getName() + selection + ")",
+                                + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
+                                + WaveDbSchema.Columns.ID.getName() + selection + ")",
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName(),
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName(),
 
-                        Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.EXPERIENCE_OFFER.getName(),
-                        Table.SURVEY.getName() + "."
-                                + SurveyDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
-                        Table.SURVEY.getName() + "."
-                                + SurveyDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPERIENCE_OFFER.getName(),
+                        Table.WAVE.getName() + "."
+                                + WaveDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                        Table.WAVE.getName() + "."
+                                + WaveDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
 
                 };
 
-                groupBy = Table.SURVEY.getName() + "." + SurveyDbSchema.Columns.ID.getName();
+                groupBy = Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName();
 
                 cursor = db.query(table, colums, null, null, groupBy, null, TaskDbSchema.SORT_ORDER_END_DATE_ASC);
                 break;

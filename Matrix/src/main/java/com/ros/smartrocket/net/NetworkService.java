@@ -11,7 +11,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.SurveysBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -25,7 +25,7 @@ import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.Surveys;
+import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.utils.L;
 
@@ -79,15 +79,15 @@ public class NetworkService extends BaseNetworkService {
                 SparseArray<ContentValues> hiddenTaskContentValuesMap;
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
-                    case WSUrl.GET_SURVEYS_ID:
-                        Surveys surveys = gson.fromJson(responseString, Surveys.class);
+                    case WSUrl.GET_WAVES_ID:
+                        Waves waves = gson.fromJson(responseString, Waves.class);
 
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
                         hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
                         TasksBL.removeNotMyTask(contentResolver);
-                        SurveysBL.saveSurveyAndTaskFromServer(contentResolver, surveys, false);
+                        WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, false);
 
                         //Update task status id
                         TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
@@ -95,14 +95,14 @@ public class NetworkService extends BaseNetworkService {
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
-                        Surveys myTasksSurveys = gson.fromJson(responseString, Surveys.class);
+                        Waves myTasksWaves = gson.fromJson(responseString, Waves.class);
 
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
                         hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
                         TasksBL.removeAllMyTask(contentResolver);
-                        SurveysBL.saveSurveyAndTaskFromServer(contentResolver, myTasksSurveys, true);
+                        WavesBL.saveWaveAndTaskFromServer(contentResolver, myTasksWaves, true);
 
                         //Update task status id
                         TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
@@ -155,10 +155,10 @@ public class NetworkService extends BaseNetworkService {
                         break;
                     case WSUrl.GET_QUESTIONS_ID:
                     case WSUrl.GET_REDO_QUESTION_ID:
-                        int surveyId = operation.getSurveyId();
+                        int waveId = operation.getWaveId();
                         int taskId = operation.getTaskId();
 
-                        QuestionsBL.removeQuestionsFromDB(this, surveyId, taskId);
+                        QuestionsBL.removeQuestionsFromDB(this, waveId, taskId);
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 

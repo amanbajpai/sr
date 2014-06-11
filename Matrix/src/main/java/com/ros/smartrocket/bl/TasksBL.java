@@ -64,25 +64,25 @@ public class TasksBL {
     }
 
     /**
-     * Get tasks for one Survey
+     * Get tasks for one Wave
      *
      * @param handler  - handler for request to DB
-     * @param surveyId - survey Id
+     * @param waveId - waveId
      */
-    public static void getTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId) {
+    public static void getTasksFromDBbyWaveId(AsyncQueryHandler handler, int waveId) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=?",
-                new String[]{String.valueOf(surveyId)},
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.WAVE_ID + "=?",
+                new String[]{String.valueOf(waveId)},
                 TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getNotMyTasksFromDBbySurveyId(AsyncQueryHandler handler, int surveyId, boolean withHiddenTasks) {
+    public static void getNotMyTasksFromDBbyWaveId(AsyncQueryHandler handler, int waveId, boolean withHiddenTasks) {
         String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.SURVEY_ID + "=? and "
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.WAVE_ID + "=? and "
                         + TaskDbSchema.Columns.IS_MY + "=?" + withHiddenTaskWhere,
-                new String[]{String.valueOf(surveyId), String.valueOf(0)},
+                new String[]{String.valueOf(waveId), String.valueOf(0)},
                 TaskDbSchema.SORT_ORDER_DESC
         );
     }
@@ -125,12 +125,12 @@ public class TasksBL {
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
-    public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer surveyId, Boolean isHide) {
+    public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer waveId, Boolean isHide) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
 
         handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
-                TaskDbSchema.Columns.SURVEY_ID + "=?", new String[]{String.valueOf(surveyId)});
+                TaskDbSchema.Columns.WAVE_ID + "=?", new String[]{String.valueOf(waveId)});
     }
 
     public static void updateTask(AsyncQueryHandler handler, Task task) {
@@ -314,9 +314,9 @@ public class TasksBL {
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
-    public static void removeTasksBySurveyId(ContentResolver contentResolver, int surveyId) {
+    public static void removeTasksByWaveId(ContentResolver contentResolver, int waveId) {
         contentResolver.delete(TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Columns.SURVEY_ID + "=?", new String[]{String.valueOf(surveyId)});
+                TaskDbSchema.Columns.WAVE_ID + "=?", new String[]{String.valueOf(waveId)});
     }
 
     public static void removeAllTasksFromDB(Context context) {

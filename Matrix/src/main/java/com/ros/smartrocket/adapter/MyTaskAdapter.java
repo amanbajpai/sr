@@ -104,7 +104,7 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.locationNameAddressText.setVisibility(View.GONE);
 
         holder.name.setText(task.getName());
-        holder.image.setImageResource(UIUtils.getSurveyTypeListIcon(2));
+        holder.image.setImageResource(UIUtils.getWaveTypeListIcon(2));
         holder.locationNameAddressText.setText(task.getAddress());
         holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));

@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -27,8 +28,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.SurveysBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WavesBL;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -376,10 +377,12 @@ public class UIUtils {
      */
     public static long isoTimeToLong(String dateString) {
         long result = 0;
-        try {
-            result = ISO_DATE_FORMAT.parse(dateString).getTime();
-        } catch (Exception e) {
-            L.e("isoTimeToLong", "Parse error" + e, e);
+        if (!TextUtils.isEmpty(dateString)) {
+            try {
+                result = ISO_DATE_FORMAT.parse(dateString).getTime();
+            } catch (Exception e) {
+                L.e("isoTimeToLong", "Parse error" + e, e);
+            }
         }
         return result;
     }
@@ -596,9 +599,9 @@ public class UIUtils {
         return daysText + hoursText + minutesText;
     }
 
-    public static int getSurveyTypeListIcon(int typeId) {
+    public static int getWaveTypeListIcon(int typeId) {
         int iconResId;
-        switch (SurveysBL.getSurveyType(typeId)) {
+        switch (WavesBL.getWaveType(typeId)) {
             case type1:
                 iconResId = R.drawable.project_type_1_grey;
                 break;
@@ -621,9 +624,9 @@ public class UIUtils {
         return iconResId;
     }
 
-    public static int getSurveyTypeActionBarIcon(int surveyType) {
+    public static int getWaveTypeActionBarIcon(int waveType) {
         int iconResId;
-        switch (SurveysBL.getSurveyType(surveyType)) {
+        switch (WavesBL.getWaveType(waveType)) {
             case type1:
                 iconResId = R.drawable.project_type_1;
                 break;
@@ -646,9 +649,9 @@ public class UIUtils {
         return iconResId;
     }
 
-    public static int getSurveyTypePopupIcon(int surveyType) {
+    public static int getWaveTypePopupIcon(int waveType) {
         int iconResId;
-        switch (SurveysBL.getSurveyType(surveyType)) {
+        switch (WavesBL.getWaveType(waveType)) {
             case type1:
                 iconResId = R.drawable.project_type_1_popup;
                 break;

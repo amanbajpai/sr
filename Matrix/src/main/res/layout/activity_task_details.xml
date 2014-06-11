@@ -105,7 +105,7 @@
                 android:orientation="horizontal" >
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/taskPrice"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -113,7 +113,7 @@
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/taskExp"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.1"
@@ -126,7 +126,7 @@
                     android:background="@color/green_dark" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/textQuestionsCount"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.17"
@@ -134,7 +134,7 @@
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/photoQuestionsCount"
-                    style="@style/TaskAndSurveyOptionStyle"
+                    style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.2"

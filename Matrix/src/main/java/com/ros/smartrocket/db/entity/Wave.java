@@ -1,17 +1,17 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-import com.ros.smartrocket.db.SurveyDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 
-public class Survey extends BaseEntity {
+public class Wave extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    public enum SurveyTypes {
+    public enum WaveTypes {
         none(0), type1(1), type2(2), type3(3), type4(4), type5(5);
 
         private int id;
 
-        private SurveyTypes(int typeId) {
+        private WaveTypes(int typeId) {
             this.id = typeId;
         }
 
@@ -26,7 +26,7 @@ public class Survey extends BaseEntity {
     private String EndDateTime;
     private String ExpectedEndDateTime;
     private String ExpectedStartDateTime;
-    private String ExternalId;
+    private String ExternalWaveId;
     private Integer MaximumClaimsPerAgent;
     private String Name;
     private String StartDateTime;
@@ -58,80 +58,80 @@ public class Survey extends BaseEntity {
     @SkipFieldInContentValues
     private Country Country;
 
-    public Survey() {
+    public Wave() {
     }
 
-    public Survey(String name, String description) {
+    public Wave(String name, String description) {
         this.Name = name;
         this.Description = description;
     }
 
-    public static Survey fromCursor(Cursor c) {
-        Survey result = new Survey();
+    public static Wave fromCursor(Cursor c) {
+        Wave result = new Wave();
         if (c.getCount() > 0) {
-            result.set_id(c.getInt(SurveyDbSchema.Query._ID));
-            result.setId(c.getInt(SurveyDbSchema.Query.ID));
-            result.setName(c.getString(SurveyDbSchema.Query.NAME));
-            result.setDescription(c.getString(SurveyDbSchema.Query.DESCRIPTION));
-            result.setLongitude(c.getFloat(SurveyDbSchema.Query.LONGITUDE));
-            result.setLatitude(c.getFloat(SurveyDbSchema.Query.LATITUDE));
+            result.set_id(c.getInt(WaveDbSchema.Query._ID));
+            result.setId(c.getInt(WaveDbSchema.Query.ID));
+            result.setName(c.getString(WaveDbSchema.Query.NAME));
+            result.setDescription(c.getString(WaveDbSchema.Query.DESCRIPTION));
+            result.setLongitude(c.getFloat(WaveDbSchema.Query.LONGITUDE));
+            result.setLatitude(c.getFloat(WaveDbSchema.Query.LATITUDE));
 
-            result.setClaimableBeforeLive(c.getInt(SurveyDbSchema.Query.CLAIMABLE_BEFORE_LIVE) == 1);
-            result.setViewableBeforeLive(c.getInt(SurveyDbSchema.Query.VIEWABLE_BEFORE_LIVE) == 1);
-            result.setConcurrentClaimsPerAgent(c.getInt(SurveyDbSchema.Query.CONCURRENT_CLAIMS_PER_AGENT));
-            result.setExternalId(c.getString(SurveyDbSchema.Query.EXTERNAL_ID));
-            result.setStartDateTime(c.getString(SurveyDbSchema.Query.START_DATE_TIME));
-            result.setSuspensionTarget(c.getInt(SurveyDbSchema.Query.SUSPENSION_TARGET));
-            result.setTargetMaximum(c.getInt(SurveyDbSchema.Query.TARGET_MAXIMUM));
-            result.setTargetMinimum(c.getInt(SurveyDbSchema.Query.TARGET_MINIMUM));
+            result.setClaimableBeforeLive(c.getInt(WaveDbSchema.Query.CLAIMABLE_BEFORE_LIVE) == 1);
+            result.setViewableBeforeLive(c.getInt(WaveDbSchema.Query.VIEWABLE_BEFORE_LIVE) == 1);
+            result.setConcurrentClaimsPerAgent(c.getInt(WaveDbSchema.Query.CONCURRENT_CLAIMS_PER_AGENT));
+            result.setExternalWaveId(c.getString(WaveDbSchema.Query.EXTERNAL_WAVE_ID));
+            result.setStartDateTime(c.getString(WaveDbSchema.Query.START_DATE_TIME));
+            result.setSuspensionTarget(c.getInt(WaveDbSchema.Query.SUSPENSION_TARGET));
+            result.setTargetMaximum(c.getInt(WaveDbSchema.Query.TARGET_MAXIMUM));
+            result.setTargetMinimum(c.getInt(WaveDbSchema.Query.TARGET_MINIMUM));
 
-            result.setMaximumClaimsPerAgent(c.getInt(SurveyDbSchema.Query.MAXIMUM_CLAIMS_PER_AGENT));
-            result.setEndDateTime(c.getString(SurveyDbSchema.Query.END_DATE_TIME));
-            result.setExpectedEndDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_END_DATE_TIME));
-            result.setExpectedStartDateTime(c.getString(SurveyDbSchema.Query.EXPECTED_START_DATE_TIME));
-            result.setExperienceOffer(c.getDouble(SurveyDbSchema.Query.EXPERIENCE_OFFER));
+            result.setMaximumClaimsPerAgent(c.getInt(WaveDbSchema.Query.MAXIMUM_CLAIMS_PER_AGENT));
+            result.setEndDateTime(c.getString(WaveDbSchema.Query.END_DATE_TIME));
+            result.setExpectedEndDateTime(c.getString(WaveDbSchema.Query.EXPECTED_END_DATE_TIME));
+            result.setExpectedStartDateTime(c.getString(WaveDbSchema.Query.EXPECTED_START_DATE_TIME));
+            result.setExperienceOffer(c.getDouble(WaveDbSchema.Query.EXPERIENCE_OFFER));
 
-            result.setExpireTimeoutForClaimedTask(c.getInt(SurveyDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
-            result.setPreClaimedTaskExpireAfterStart(c.getInt(SurveyDbSchema.Query
+            result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
         }
         return result;
     }
 
-    public static Survey fromCursorByDistance(Cursor c) {
-        Survey result = new Survey();
+    public static Wave fromCursorByDistance(Cursor c) {
+        Wave result = new Wave();
         if (c.getCount() > 0) {
-            result.set_id(c.getInt(SurveyDbSchema.QuerySurveyByDistance._ID));
-            result.setId(c.getInt(SurveyDbSchema.QuerySurveyByDistance.ID));
-            result.setName(c.getString(SurveyDbSchema.QuerySurveyByDistance.NAME));
-            result.setDescription(c.getString(SurveyDbSchema.QuerySurveyByDistance.DESCRIPTION));
-            result.setLongitude(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.LONGITUDE));
-            result.setLatitude(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.LATITUDE));
+            result.set_id(c.getInt(WaveDbSchema.QueryWaveByDistance._ID));
+            result.setId(c.getInt(WaveDbSchema.QueryWaveByDistance.ID));
+            result.setName(c.getString(WaveDbSchema.QueryWaveByDistance.NAME));
+            result.setDescription(c.getString(WaveDbSchema.QueryWaveByDistance.DESCRIPTION));
+            result.setLongitude(c.getFloat(WaveDbSchema.QueryWaveByDistance.LONGITUDE));
+            result.setLatitude(c.getFloat(WaveDbSchema.QueryWaveByDistance.LATITUDE));
 
-            result.setClaimableBeforeLive(c.getInt(SurveyDbSchema.QuerySurveyByDistance.CLAIMABLE_BEFORE_LIVE) == 1);
-            result.setViewableBeforeLive(c.getInt(SurveyDbSchema.QuerySurveyByDistance.VIEWABLE_BEFORE_LIVE) == 1);
-            result.setConcurrentClaimsPerAgent(c.getInt(SurveyDbSchema.QuerySurveyByDistance
+            result.setClaimableBeforeLive(c.getInt(WaveDbSchema.QueryWaveByDistance.CLAIMABLE_BEFORE_LIVE) == 1);
+            result.setViewableBeforeLive(c.getInt(WaveDbSchema.QueryWaveByDistance.VIEWABLE_BEFORE_LIVE) == 1);
+            result.setConcurrentClaimsPerAgent(c.getInt(WaveDbSchema.QueryWaveByDistance
                     .CONCURRENT_CLAIMS_PER_AGENT));
-            result.setExternalId(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXTERNAL_ID));
-            result.setStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.START_DATE_TIME));
-            result.setSuspensionTarget(c.getInt(SurveyDbSchema.QuerySurveyByDistance.SUSPENSION_TARGET));
-            result.setTargetMaximum(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TARGET_MAXIMUM));
-            result.setTargetMinimum(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TARGET_MINIMUM));
+            result.setExternalWaveId(c.getString(WaveDbSchema.QueryWaveByDistance.EXTERNAL_ID));
+            result.setStartDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.START_DATE_TIME));
+            result.setSuspensionTarget(c.getInt(WaveDbSchema.QueryWaveByDistance.SUSPENSION_TARGET));
+            result.setTargetMaximum(c.getInt(WaveDbSchema.QueryWaveByDistance.TARGET_MAXIMUM));
+            result.setTargetMinimum(c.getInt(WaveDbSchema.QueryWaveByDistance.TARGET_MINIMUM));
 
-            result.setMaximumClaimsPerAgent(c.getInt(SurveyDbSchema.QuerySurveyByDistance.MAXIMUM_CLAIMS_PER_AGENT));
-            result.setEndDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.END_DATE_TIME));
-            result.setExpectedEndDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_END_DATE_TIME));
-            result.setExpectedStartDateTime(c.getString(SurveyDbSchema.QuerySurveyByDistance.EXPECTED_START_DATE_TIME));
+            result.setMaximumClaimsPerAgent(c.getInt(WaveDbSchema.QueryWaveByDistance.MAXIMUM_CLAIMS_PER_AGENT));
+            result.setEndDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.END_DATE_TIME));
+            result.setExpectedEndDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.EXPECTED_END_DATE_TIME));
+            result.setExpectedStartDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.EXPECTED_START_DATE_TIME));
 
-            result.setNearTaskId(c.getInt(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_ID));
-            result.setNearTaskDistance(c.getFloat(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_DISTANCE));
-            result.setTaskCount(c.getInt(SurveyDbSchema.QuerySurveyByDistance.TASK_COUNT));
-            result.setNearTaskPrice(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.NEAR_TASK_PRICE));
+            result.setNearTaskId(c.getInt(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_ID));
+            result.setNearTaskDistance(c.getFloat(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_DISTANCE));
+            result.setTaskCount(c.getInt(WaveDbSchema.QueryWaveByDistance.TASK_COUNT));
+            result.setNearTaskPrice(c.getDouble(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_PRICE));
 
-            result.setExperienceOffer(c.getDouble(SurveyDbSchema.QuerySurveyByDistance.EXPERIENCE_OFFER));
+            result.setExperienceOffer(c.getDouble(WaveDbSchema.QueryWaveByDistance.EXPERIENCE_OFFER));
 
-            result.setExpireTimeoutForClaimedTask(c.getInt(SurveyDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
-            result.setPreClaimedTaskExpireAfterStart(c.getInt(SurveyDbSchema.Query
+            result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
         }
@@ -194,12 +194,12 @@ public class Survey extends BaseEntity {
         ConcurrentClaimsPerAgent = concurrentClaimsPerAgent;
     }
 
-    public String getExternalId() {
-        return ExternalId;
+    public String getExternalWaveId() {
+        return ExternalWaveId;
     }
 
-    public void setExternalId(String externalId) {
-        ExternalId = externalId;
+    public void setExternalWaveId(String externalWaveId) {
+        ExternalWaveId = externalWaveId;
     }
 
     public String getStartDateTime() {

@@ -3,7 +3,7 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface QuestionDbSchema {
-    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ", " + Columns.SURVEY_ID.getName() + ", "
+    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ", " + Columns.WAVE_ID.getName() + ", "
             + "" + Columns.TASK_ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.QUESTION
             .getName()).build();
@@ -13,7 +13,7 @@ public interface QuestionDbSchema {
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
-        SURVEY_ID("SurveyId", DBType.NUMERIC),
+        WAVE_ID("WaveId", DBType.NUMERIC),
         TASK_ID("TaskId", DBType.NUMERIC),
         QUESTION("Question", DBType.TEXT),
         TYPE("Type", DBType.NUMERIC),
@@ -72,7 +72,7 @@ public interface QuestionDbSchema {
 
         String[] PROJECTION = {Table.QUESTION.getName() + "." + Columns._ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.ID.getName(),
-                Table.QUESTION.getName() + "." + Columns.SURVEY_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.WAVE_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.TASK_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.QUESTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.TYPE.getName(),
@@ -96,7 +96,7 @@ public interface QuestionDbSchema {
 
         int _ID = 0;
         int ID = 1;
-        int SURVEY_ID = 2;
+        int WAVE_ID = 2;
         int TASK_ID = 3;
         int QUESTION = 4;
         int TYPE = 5;

@@ -8,63 +8,63 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.SurveyDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Country;
-import com.ros.smartrocket.db.entity.Survey;
-import com.ros.smartrocket.db.entity.Surveys;
+import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurveysBL {
+public class WavesBL {
 
-    private SurveysBL() {
+    private WavesBL() {
 
     }
 
-    public static void getSurveyFromDB(AsyncQueryHandler handler, Integer surveyId) {
-        handler.startQuery(SurveyDbSchema.Query.TOKEN_QUERY, null, SurveyDbSchema.CONTENT_URI,
-                SurveyDbSchema.Query.PROJECTION, SurveyDbSchema.Columns.ID + "=?",
-                new String[]{String.valueOf(surveyId)}, SurveyDbSchema.SORT_ORDER_DESC_LIMIT_1);
+    public static void getWaveFromDB(AsyncQueryHandler handler, Integer waveId) {
+        handler.startQuery(WaveDbSchema.Query.TOKEN_QUERY, null, WaveDbSchema.CONTENT_URI,
+                WaveDbSchema.Query.PROJECTION, WaveDbSchema.Columns.ID + "=?",
+                new String[]{String.valueOf(waveId)}, WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
-    public static void getNotMyTasksSurveysListFromDB(AsyncQueryHandler handler, Integer radius,
-                                                      boolean showHiddenTasks) {
+    public static void getNotMyTasksWavesListFromDB(AsyncQueryHandler handler, Integer radius,
+                                                    boolean showHiddenTasks) {
         String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
-        handler.startQuery(SurveyDbSchema.QuerySurveyByDistance.TOKEN_QUERY, null,
-                SurveyDbSchema.CONTENT_URI_SURVEY_BY_DISTANCE, null, " and " + Table.TASK.getName()
+        handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
+                WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, " and " + Table.TASK.getName()
                         + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + withHiddenTaskWhere, null, null
         );
     }
 
-    public static void removeAllSurveysFromDB(Context context) {
-        context.getContentResolver().delete(SurveyDbSchema.CONTENT_URI, null, null);
+    public static void removeAllWavesFromDB(Context context) {
+        context.getContentResolver().delete(WaveDbSchema.CONTENT_URI, null, null);
     }
 
-    public static void saveSurveyAndTaskFromServer(ContentResolver contentResolver, Surveys surveys, Boolean isMy) {
+    public static void saveWaveAndTaskFromServer(ContentResolver contentResolver, Waves waves, Boolean isMy) {
         Location currentLocation = App.getInstance().getLocationManager().getLocation();
         Location tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
 
-        for (Survey survey : surveys.getSurveys()) {
-            contentResolver.insert(SurveyDbSchema.CONTENT_URI, survey.toContentValues());
+        for (Wave wave : waves.getWaves()) {
+            contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
             List<ContentValues> vals = new ArrayList<ContentValues>();
-            for (Task task : survey.getTasks()) {
-                task.setName(survey.getName());
-                task.setDescription(survey.getDescription());
-                task.setExperienceOffer(survey.getExperienceOffer());
+            for (Task task : wave.getTasks()) {
+                task.setName(wave.getName());
+                task.setDescription(wave.getDescription());
+                task.setExperienceOffer(wave.getExperienceOffer());
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
-                task.setExpireTimeoutForClaimedTask(survey.getExpireTimeoutForClaimedTask());
-                task.setPreClaimedTaskExpireAfterStart(survey.getPreClaimedTaskExpireAfterStart());
+                task.setExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask());
+                task.setPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart());
 
                 task.setIsMy(isMy);
 
-                Country country = survey.getCountry();
+                Country country = wave.getCountry();
                 if (country != null) {
                     task.setCountryName(country.getName());
                 }
@@ -91,13 +91,13 @@ public class SurveysBL {
      * Convert cursor to Task list
      *
      * @param cursor - all fields cursor
-     * @return ArrayList<Survey>
+     * @return ArrayList<Wave>
      */
-    public static ArrayList<Survey> convertCursorToSurveyListByDistance(Cursor cursor) {
-        ArrayList<Survey> result = new ArrayList<Survey>();
+    public static ArrayList<Wave> convertCursorToWaveListByDistance(Cursor cursor) {
+        ArrayList<Wave> result = new ArrayList<Wave>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                result.add(Survey.fromCursorByDistance(cursor));
+                result.add(Wave.fromCursorByDistance(cursor));
             }
             cursor.close();
         }
@@ -105,16 +105,16 @@ public class SurveysBL {
     }
 
     /**
-     * Convert cursor to Survey
+     * Convert cursor to Wave
      *
      * @param cursor - all fields cursor
-     * @return Survey
+     * @return Wave
      */
-    public static Survey convertCursorToSurvey(Cursor cursor) {
-        Survey result = new Survey();
+    public static Wave convertCursorToWave(Cursor cursor) {
+        Wave result = new Wave();
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                result = Survey.fromCursor(cursor);
+                result = Wave.fromCursor(cursor);
             }
             cursor.close();
         }
@@ -122,9 +122,9 @@ public class SurveysBL {
         return result;
     }
 
-    public static Survey.SurveyTypes getSurveyType(int typeId) {
-        Survey.SurveyTypes result = Survey.SurveyTypes.none;
-        for (Survey.SurveyTypes type : Survey.SurveyTypes.values()) {
+    public static Wave.WaveTypes getWaveType(int typeId) {
+        Wave.WaveTypes result = Wave.WaveTypes.none;
+        for (Wave.WaveTypes type : Wave.WaveTypes.values()) {
             if (type.getId() == typeId) {
                 result = type;
                 break;

@@ -116,7 +116,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         listButton.setSelected(true);
 
         if (Keys.FIND_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new SurveyListFragment(),
+            fragmentHelper.startFragmentFromStack(getActivity(), new WaveListFragment(),
                     R.id.map_list_content_frame);
         } else if (Keys.MY_TASK.equals(contentType)) {
             fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment(),

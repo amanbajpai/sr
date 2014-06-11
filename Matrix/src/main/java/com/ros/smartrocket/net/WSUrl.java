@@ -15,9 +15,9 @@ public final class WSUrl {
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
     public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePhoto";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
-    public static final String GET_SURVEYS = Config.WEB_SERVICE_URL
-            + "api/Surveys?latitude=%s&longitude=%s&countryName=%s&cityName=%s&radius=%s&language=%s";
-    public static final String GET_SURVEYS_TASKS = Config.WEB_SERVICE_URL + "api/Surveys/%s/Tasks";
+    public static final String GET_WAVES = Config.WEB_SERVICE_URL
+            + "api/Waves?latitude=%s&longitude=%s&countryName=%s&cityName=%s&radius=%s&language=%s";
+    public static final String GET_WAVE_TASKS = Config.WEB_SERVICE_URL + "api/Waves/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
     public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers?language=%s";
@@ -29,7 +29,7 @@ public final class WSUrl {
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account";
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
-            + "api/Surveys/Questionnaire?surveyId=%s&language=%s";
+            + "api/Waves/Questionnaire?waveId=%s&language=%s";
     public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
             + "api/Tasks/Re-Do-Questions?taskId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
@@ -38,8 +38,8 @@ public final class WSUrl {
     public static final String SAVE_REFERRAL_CASE = Config.WEB_SERVICE_URL + "api/Authorize/ReferralCase";
 
     public static final int LOGIN_ID = 1;
-    public static final int GET_SURVEYS_ID = 2;
-    public static final int GET_SURVEYS_TASKS_ID = 3;
+    public static final int GET_WAVES_ID = 2;
+    public static final int GET_WAVES_TASKS_ID = 3;
     public static final int GET_MY_TASKS_ID = 4;
     public static final int REGISTRATION_ID = 5;
     public static final int SUBSCRIPTION_ID = 6;
@@ -68,8 +68,8 @@ public final class WSUrl {
     static {
         URLS = new HashMap<String, Integer>();
         URLS.put(LOGIN, LOGIN_ID);
-        URLS.put(GET_SURVEYS, GET_SURVEYS_ID);
-        URLS.put(GET_SURVEYS_TASKS, GET_SURVEYS_TASKS_ID);
+        URLS.put(GET_WAVES, GET_WAVES_ID);
+        URLS.put(GET_WAVE_TASKS, GET_WAVES_TASKS_ID);
         URLS.put(GET_MY_TASKS, GET_MY_TASKS_ID);
         URLS.put(REGISTRATION, REGISTRATION_ID);
         URLS.put(SUBSCRIPTION, SUBSCRIPTION_ID);

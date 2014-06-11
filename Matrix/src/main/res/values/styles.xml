@@ -150,25 +150,25 @@
         <item name="android:textColor" >@color/grey</item >
     </style >
 
-    <style name="SurveyListTitle" parent="@android:style/Widget.TextView" >
+    <style name="WaveListTitle" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
         <item name="android:textSize" >@dimen/text_size_16sp</item >
         <item name="android:textColor" >@color/black</item >
     </style >
 
-    <style name="SurveyListDescription" parent="@android:style/Widget.TextView" >
+    <style name="WaveListDescription" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >normal</item >
         <item name="android:textSize" >@dimen/text_size_9sp</item >
         <item name="android:textColor" >@color/black</item >
     </style >
 
-    <style name="SurveyListTime" parent="@android:style/Widget.TextView" >
+    <style name="WaveListTime" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >normal</item >
         <item name="android:textSize" >@dimen/text_size_small</item >
         <item name="android:textColor" >@color/red</item >
     </style >
 
-    <style name="SurveyListDate" parent="@android:style/Widget.TextView" >
+    <style name="WaveListDate" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
         <item name="android:textSize" >@dimen/text_size_small</item >
         <item name="android:textColor" >@color/grey</item >
@@ -347,7 +347,7 @@
         <item name="android:gravity" >left</item >
     </style >
 
-    <style name="TaskAndSurveyOptionStyle" parent="@android:style/Widget.TextView" >
+    <style name="TaskAndWaveOptionStyle" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
         <item name="android:gravity" >center_vertical</item >
         <item name="android:drawablePadding" >5dp</item >
@@ -363,13 +363,13 @@
         <item name="android:layout_weight" >1</item >
     </style >
 
-    <style name="SurveyDetailButton" parent="Button" >
+    <style name="WaveDetailButton" parent="Button" >
         <item name="android:padding" >10dp</item >
         <item name="android:layout_margin" >5dp</item >
         <item name="android:layout_weight" >1</item >
     </style >
 
-    <style name="TaskAndSurveyListOptionStyle" parent="@android:style/Widget.TextView" >
+    <style name="TaskAndWaveListOptionStyle" parent="@android:style/Widget.TextView" >
         <item name="android:textStyle" >bold</item >
         <item name="android:gravity" >center_vertical</item >
         <item name="android:drawablePadding" >5dp</item >
@@ -379,7 +379,7 @@
         <item name="android:layout_weight" >1</item >
     </style >
 
-    <style name="custom_progress_dialog" parent="android:Theme.Dialog" >
+    <style name="customProgressDialog" parent="android:Theme.Dialog" >
         <item name="android:windowFrame" >@null</item >
         <item name="android:windowBackground" >@android:color/transparent</item >
         <item name="android:windowIsFloating" >true</item >

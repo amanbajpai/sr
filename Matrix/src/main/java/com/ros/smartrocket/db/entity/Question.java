@@ -24,7 +24,7 @@ public class Question extends BaseEntity implements Serializable {
         }
     }
 
-    private Integer SurveyId;
+    private Integer WaveId;
     private Integer TaskId;
     private String Question = "";
     private Integer Type;
@@ -55,7 +55,7 @@ public class Question extends BaseEntity implements Serializable {
         if (c.getCount() > 0) {
             result.set_id(c.getInt(QuestionDbSchema.Query._ID));
             result.setId(c.getInt(QuestionDbSchema.Query.ID));
-            result.setSurveyId(c.getInt(QuestionDbSchema.Query.SURVEY_ID));
+            result.setWaveId(c.getInt(QuestionDbSchema.Query.WAVE_ID));
             result.setTaskId(c.getInt(QuestionDbSchema.Query.TASK_ID));
             result.setQuestion(c.getString(QuestionDbSchema.Query.QUESTION));
             result.setType(c.getInt(QuestionDbSchema.Query.TYPE));
@@ -87,12 +87,12 @@ public class Question extends BaseEntity implements Serializable {
         Question = question;
     }
 
-    public Integer getSurveyId() {
-        return SurveyId;
+    public Integer getWaveId() {
+        return WaveId;
     }
 
-    public void setSurveyId(Integer surveyId) {
-        SurveyId = surveyId;
+    public void setWaveId(Integer waveId) {
+        WaveId = waveId;
     }
 
     public Answer[] getAnswers() {

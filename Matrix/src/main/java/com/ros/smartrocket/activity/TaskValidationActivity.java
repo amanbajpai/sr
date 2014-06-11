@@ -130,7 +130,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                     setTaskData(task);
                     if (showRecheckAnswerButton) {
-                        QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getSurveyId(), task.getId());
+                        QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId());
                     } else {
                         sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
                         sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
@@ -173,7 +173,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 sendAnswerTextsSuccess();
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                QuestionsBL.removeQuestionsFromDB(this, task.getSurveyId(), task.getId());
+                QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId());
                 TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.validation.getStatusId());
 
                 finishActivity();
@@ -255,7 +255,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void finishActivity() {
         if (showRecheckAnswerButton) {
             PreferencesManager preferencesManager = PreferencesManager.getInstance();
-            preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getSurveyId()
+            preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId()
                     + "_" + taskId);
 
             startActivity(IntentUtils.getMainActivityIntent(this));
@@ -269,7 +269,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             case R.id.recheckTaskButton:
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
 
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getSurveyId(), taskId));
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getWaveId(), taskId));
                 finish();
                 break;
             case R.id.sendNowButton:
