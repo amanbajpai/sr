@@ -77,7 +77,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_validation);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
@@ -130,8 +129,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                     setTaskData(task);
                     if (showRecheckAnswerButton) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId());
                     } else {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                         sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
                         sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
 
