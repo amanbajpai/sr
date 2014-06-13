@@ -20,12 +20,12 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.WaveDbSchema;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -70,6 +70,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout descriptionLayout;
 
     private TextView taskAddress;
+    private TextView locationName;
     private TextView taskDescription;
 
     private Button bookTaskButton;
@@ -121,6 +122,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
 
         taskDescription = (TextView) findViewById(R.id.taskDescription);
+        locationName = (TextView) findViewById(R.id.locationName);
         taskAddress = (TextView) findViewById(R.id.taskAddress);
 
         bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
@@ -227,6 +229,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 QuestionsBL.removeQuestionsFromDB(TaskDetailsActivity.this, wave.getId(), task.getId());
                 AnswersBL.removeAnswersByTaskId(TaskDetailsActivity.this, task.getId());
 
+                startActivity(IntentUtils.getMainActivityIntent(this));
+
             } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 changeStatusToStartedAndOpenQuestion(true);
             }
@@ -234,6 +238,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
                 DialogUtils.showMaximumMissionDialog(this);
+            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
+                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
+                UIUtils.showSimpleToast(this, getString(R.string.task_no_longer_available));
             } else {
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
@@ -242,22 +249,37 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     public void setTaskData(Task task) {
         startTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
-        deadlineTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
+        deadlineTimeLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
 
+        deadlineTimeTextView.setText(task.getIsMy() ? R.string.mission_due : R.string.deadline_time);
         expireText.setText(task.getIsMy() ? R.string.due_in : R.string.duration_time);
 
         taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice()));
-        taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
         textQuestionsCount.setText("0");
         photoQuestionsCount.setText("0");
         taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
 
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
-        addressLayout.setVisibility(TextUtils.isEmpty(task.getAddress()) ? View.GONE : View.VISIBLE);
-
         taskDescription.setText(task.getDescription());
-        taskAddress.setText(task.getAddress());
+
+        if (TextUtils.isEmpty(task.getAddress()) && TextUtils.isEmpty(task.getCountryName())) {
+            addressLayout.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(task.getCountryName())) {
+            locationName.setText(getString(R.string.welcome) + " " + task.getCountryName());
+        } else {
+            locationName.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(task.getAddress())) {
+            taskAddress.setText(task.getAddress());
+        } else {
+            taskAddress.setVisibility(View.GONE);
+        }
+
+        taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
 
         setButtonsSettings(task);
     }
@@ -317,7 +339,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void changeStatusToStartedAndOpenQuestion(boolean startedStatusSent){
+    public void changeStatusToStartedAndOpenQuestion(boolean startedStatusSent) {
         task.setStatusId(Task.TaskStatusId.started.getStatusId());
         task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 2));
         task.setStartedStatusSent(startedStatusSent);
@@ -360,7 +382,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
                 break;
             case R.id.startTaskButton:
-                if(UIUtils.isOnline(this)){
+                if (UIUtils.isOnline(this)) {
                     setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.startTask(TaskDetailsActivity.this, task.getId());
                 } else {

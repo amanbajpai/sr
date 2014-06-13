@@ -22,7 +22,8 @@
     <com.ros.smartrocket.views.CustomTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="3dp"
         android:textSize="@dimen/text_size_16sp"
         android:textColor="@color/black"
         android:text="@string/sorry"
@@ -30,7 +31,8 @@
     <com.ros.smartrocket.views.CustomTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="3dp"
         android:textSize="@dimen/text_size_14sp"
         android:textColor="@color/black"
         android:text="@string/we_dont_have_available_tasks" />
@@ -68,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="30dp" >
+        android:layout_marginTop="10dp" >
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/subscribeButton"
             style="@style/Button"

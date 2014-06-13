@@ -28,7 +28,7 @@ public class ForgotPasswordSuccessActivity extends BaseActivity implements View.
             email = getIntent().getStringExtra(Keys.EMAIL);
         }
 
-        ((TextView) findViewById(R.id.passwordSentText)).setText(getString(R.string.we_sent_your_password, email));
+        ((TextView) findViewById(R.id.email)).setText(email);
 
         findViewById(R.id.okButton).setOnClickListener(this);
 

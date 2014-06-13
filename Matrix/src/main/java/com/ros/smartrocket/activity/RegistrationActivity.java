@@ -234,6 +234,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         employmentStatus == 0 || !agreeCheckBox.isChecked()/* || photoBitmap == null*/) {
                     UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
 
+
                     firstNameEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, firstNameEditText));
                     lastNameEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, lastNameEditText));
                     birthdayEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, birthdayEditText));
@@ -243,6 +244,20 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                     educationLevelSpinner.setOnItemSelectedListener(this);
                     employmentStatusSpinner.setOnItemSelectedListener(this);
+
+                    if (TextUtils.isEmpty(firstName)) {
+                        firstNameEditText.requestFocus();
+                    } else if (TextUtils.isEmpty(lastName)) {
+                        lastNameEditText.requestFocus();
+                    } else if (selectedBirthDay == null) {
+                        lastNameEditText.requestFocus();
+                        lastNameEditText.clearFocus();
+                    } else if (!UIUtils.isEmailValid(email)) {
+                        emailEditText.requestFocus();
+                    } else if (!UIUtils.isPasswordValid(password)) {
+                        passwordEditText.requestFocus();
+                    }
+
                     break;
                 }
 

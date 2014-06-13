@@ -50,6 +50,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int NO_INTERNET = -100500;
     public static final int ACCOUNT_NOT_ACTIVATED_ERROR_CODE = 10020;
     public static final int MAXIMUM_MISSION_ERROR_CODE = 10022;
+    public static final int MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE = 10032;
     public static final int USER_ALREADY_EXISTS_ERROR_CODE = 10006;
     public static final int TASK_NOT_FOUND_ERROR_CODE = 10014;
     public static final int FILE_ALREADY_UPLOADED_ERROR_CODE = 10053;

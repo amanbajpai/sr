@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -65,7 +66,10 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         handler = new DbHandler(getActivity().getContentResolver());
         adapter = new WaveAdapter(getActivity());
 
+        TextView emptyListLTextView = (TextView) view.findViewById(R.id.emptyListLTextView);
+
         ListView waveList = (ListView) view.findViewById(R.id.waveList);
+        waveList.setEmptyView(emptyListLTextView);
         waveList.setOnItemClickListener(this);
         waveList.setAdapter(adapter);
         return view;

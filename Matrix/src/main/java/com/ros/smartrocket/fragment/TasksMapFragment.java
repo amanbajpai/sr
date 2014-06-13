@@ -738,10 +738,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
             }
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
-            Location location = lm.getLocation();
-            if (location != null) {
-                map.animateCamera(
-                        CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            if (restoreCameraByPins != null) {
+                map.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
+                        display.getHeight(), 150));
             }
         } else {
             if (restoreCameraByPins != null) {
