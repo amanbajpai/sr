@@ -12,6 +12,11 @@ public class FontUtils {
     private final static Map<String, Typeface> LOADED_TYPEFACES_MAP = new HashMap<String, Typeface>();
     private final static PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
 
+
+    /**
+     * Return font path by style
+     */
+
     public static String getFontAssetPath(int textStyle) {
         String fontAssetPath;
         String languageCode = PREFERENCES_MANAGER.getLanguageCode();
@@ -67,6 +72,9 @@ public class FontUtils {
         return fontAssetPath;
     }
 
+    /**
+     * Get typeface from asset
+     */
     public static Typeface loadFontFromAsset(AssetManager assetManager, String assetPath) {
         Typeface t = LOADED_TYPEFACES_MAP.get(assetPath);
         if (t == null) {

@@ -455,7 +455,7 @@ public class APIFacade {
      */
     public void getMyAccount(Activity activity) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_MY_ACCOUNT);
+        operation.setUrl(WSUrl.GET_MY_ACCOUNT, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_MY_ACCOUNT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

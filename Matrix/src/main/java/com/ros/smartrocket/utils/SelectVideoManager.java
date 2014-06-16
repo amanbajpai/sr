@@ -41,6 +41,10 @@ public class SelectVideoManager {
     public SelectVideoManager() {
     }
 
+    /**
+     *  Get video from Gallery
+     */
+
     public void startGallery(Activity activity) {
         this.activity = activity;
 
@@ -52,6 +56,9 @@ public class SelectVideoManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
+    /**
+     *  Use camera for getting video
+     */
     public void startCamera(Activity activity) {
         this.activity = activity;
 
@@ -64,6 +71,9 @@ public class SelectVideoManager {
         }
     }
 
+    /**
+     *  Show dialog for selection 
+     */
     public Dialog showSelectVideoDialog(final Activity activity, final boolean showRemoveButton) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);

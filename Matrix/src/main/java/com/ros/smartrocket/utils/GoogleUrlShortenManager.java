@@ -46,6 +46,9 @@ public class GoogleUrlShortenManager {
     private GoogleUrlShortenManager() {
     }
 
+    /**
+     * Convert long url to short using Google services
+     */
     public void getShortUrl(Context context, String longUrl, OnShotrUrlReadyListener onShotrUrlReadyListener) {
         this.context = context;
         this.onShotrUrlReadyListener = onShotrUrlReadyListener;
@@ -143,21 +146,21 @@ public class GoogleUrlShortenManager {
 
     private String readResponse(InputStream is) {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line;
         StringBuffer response = new StringBuffer();
         response.append("");
         try {
+            String line;
             while ((line = br.readLine()) != null) {
                 response.append(line + "\r");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             L.e(TAG, "ReadResponse error" + e.getMessage(), e);
             return null;
         } finally {
             try {
                 br.close();
                 is.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 L.e(TAG, "ReadResponse closeStream error" + e.getMessage(), e);
             }
         }
