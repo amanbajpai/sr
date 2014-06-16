@@ -290,13 +290,14 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
         long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
-        long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);
+        long missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+        long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
 
         if (task.getIsMy()) {
-            dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
+            dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
         } else {
             dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         }
@@ -396,7 +397,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         startActivity(IntentUtils.getQuestionsIntent(this, task.getWaveId(), task.getId()));
                         break;
                     case scheduled:
-                        startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false));
+                        startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false, false));
                         break;
                     default:
                         break;

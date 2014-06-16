@@ -51,13 +51,14 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Calendar calendar = Calendar.getInstance();
-    private TextView expiryDateTextView;
+    private TextView missionDueTextView;
     private TextView taskDataSizeTextView;
     private TextView dueInTextView;
     private TextView closingQuestionText;
 
     private int taskId;
-    private boolean showRecheckAnswerButton;
+    private boolean firstlySelection;
+    private boolean isRedo;
     private Task task = new Task();
 
     private AsyncQueryHandler handler;
@@ -83,19 +84,20 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
-            showRecheckAnswerButton = getIntent().getBooleanExtra(Keys.SHOW_RECHECK_ANSWERS_BUTTON, true);
+            firstlySelection = getIntent().getBooleanExtra(Keys.FIRSTLY_SELECTION, true);
+            isRedo = getIntent().getBooleanExtra(Keys.IS_REDO, false);
         }
 
         handler = new DbHandler(getContentResolver());
 
-        expiryDateTextView = (TextView) findViewById(R.id.expiryDateTextView);
+        missionDueTextView = (TextView) findViewById(R.id.missionDueTextView);
         taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
         dueInTextView = (TextView) findViewById(R.id.dueInTextView);
         closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
 
         Button recheckAnswerButton = (Button) findViewById(R.id.recheckTaskButton);
         recheckAnswerButton.setOnClickListener(this);
-        recheckAnswerButton.setVisibility(showRecheckAnswerButton ? View.VISIBLE : View.GONE);
+        recheckAnswerButton.setVisibility(firstlySelection ? View.VISIBLE : View.GONE);
 
         sendNowButton = (Button) findViewById(R.id.sendNowButton);
         sendNowButton.setOnClickListener(this);
@@ -128,7 +130,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                     setTaskData(task);
-                    if (showRecheckAnswerButton) {
+                    if (firstlySelection) {
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId());
                     } else {
@@ -186,13 +188,25 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void setTaskData(Task task) {
-        long leftTimeInMillisecond = task.getLongEndDateTime() - calendar.getTimeInMillis();
+        long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
 
-        expiryDateTextView.setText(UIUtils.longToString(task.getLongEndDateTime(), 3));
         taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
                 .task_data_size_mb));
 
-        dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
+        long missionDueMillisecond;
+
+        if(isRedo){
+            long reDoTimeInMillisecond = UIUtils.isoTimeToLong(task.getRedoDate());
+            missionDueMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
+        } else {
+            long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
+            missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+        }
+
+        long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
+
+        dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+        missionDueTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {
@@ -254,7 +268,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void finishActivity() {
-        if (showRecheckAnswerButton) {
+        if (firstlySelection) {
             PreferencesManager preferencesManager = PreferencesManager.getInstance();
             preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId()
                     + "_" + taskId);
@@ -294,7 +308,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (!showRecheckAnswerButton) {
+                if (!firstlySelection) {
                     finish();
                 }
                 break;
@@ -307,7 +321,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-        if (!showRecheckAnswerButton) {
+        if (!firstlySelection) {
             super.onBackPressed();
         }
     }

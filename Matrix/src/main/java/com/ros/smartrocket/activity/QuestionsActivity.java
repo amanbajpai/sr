@@ -71,6 +71,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     private int questionsToAnswerCount = 0;
 
+    private boolean isRedo = false;
+
     public QuestionsActivity() {
     }
 
@@ -126,7 +128,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId());
 
-                    if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.reDoTask) {
+                    isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.reDoTask;
+
+                    if (isRedo) {
                         nextButton.setBackgroundResource(R.drawable.button_red_selector);
                         previousButton.setBackgroundResource(R.drawable.button_red_selector);
                         validationButton.setBackgroundResource(R.drawable.button_red_selector);
@@ -326,7 +330,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void startValidationActivity() {
         TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
 
-        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true));
+        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true, isRedo));
         finish();
     }
 

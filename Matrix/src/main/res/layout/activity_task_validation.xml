@@ -65,7 +65,7 @@
                 android:layout_marginRight="5dp"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/expiryDateTextView"
+                android:id="@+id/missionDueTextView"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"

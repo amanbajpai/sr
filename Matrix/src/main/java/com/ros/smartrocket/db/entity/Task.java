@@ -54,6 +54,8 @@ public class Task extends BaseEntity {
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
+    private transient Long LongRedoDateTime;
+    private transient Long LongClaimDateTime;
     private transient Boolean StartedStatusSent = false;
     private transient String CountryName;
 
@@ -111,6 +113,9 @@ public class Task extends BaseEntity {
             result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));
             result.setRedoDate(c.getString(TaskDbSchema.Query.All.REDO_DATE));
             result.setCountryName(c.getString(TaskDbSchema.Query.All.COUNTRY_NAME));
+
+            result.setLongRedoDateTime(c.getLong(TaskDbSchema.Query.All.LONG_REDO_DATE_TIME));
+            result.setLongClaimDateTime(c.getLong(TaskDbSchema.Query.All.LONG_CLAIM_DATE_TIME));
         }
         L.d("Task", result.toString());
         return result;
@@ -327,6 +332,21 @@ public class Task extends BaseEntity {
         StartedStatusSent = startedStatusSent;
     }
 
+    public Long getLongRedoDateTime() {
+        return LongRedoDateTime;
+    }
+
+    public void setLongRedoDateTime(Long longRedoDateTime) {
+        LongRedoDateTime = longRedoDateTime;
+    }
+
+    public Long getLongClaimDateTime() {
+        return LongClaimDateTime;
+    }
+
+    public void setLongClaimDateTime(Long longClaimDateTime) {
+        LongClaimDateTime = longClaimDateTime;
+    }
 
 
     /**

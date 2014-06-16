@@ -59,6 +59,8 @@ public class WavesBL {
                 task.setDescription(wave.getDescription());
                 task.setExperienceOffer(wave.getExperienceOffer());
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
+                task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
+                task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
                 task.setExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask());
                 task.setPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart());
 

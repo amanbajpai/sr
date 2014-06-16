@@ -91,10 +91,11 @@ public class IntentUtils {
      * @param context - context
      * @return Intent
      */
-    public static Intent getTaskValidationIntent(Context context, int taskId, boolean showRecheckAnswerButton) {
+    public static Intent getTaskValidationIntent(Context context, int taskId, boolean firstlySelection, boolean isRedo) {
         Intent intent = new Intent(context, TaskValidationActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
-        intent.putExtra(Keys.SHOW_RECHECK_ANSWERS_BUTTON, showRecheckAnswerButton);
+        intent.putExtra(Keys.FIRSTLY_SELECTION, firstlySelection);
+        intent.putExtra(Keys.IS_REDO, isRedo);
         return intent;
     }
 

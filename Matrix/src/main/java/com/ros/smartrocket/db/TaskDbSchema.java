@@ -57,6 +57,9 @@ public interface TaskDbSchema {
 
         COUNTRY_NAME("CountryName", DBType.TEXT),
 
+        LONG_REDO_DATE_TIME("LongRedoDateTime", DBType.NUMERIC),
+        LONG_CLAIM_DATE_TIME("LongClaimDateTime", DBType.NUMERIC),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -121,7 +124,9 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.CLAIMED.getName(),
                     Table.TASK.getName() + "." + Columns.REDO_DATE.getName(),
                     Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName(),
-                    Table.TASK.getName() + "." + Columns.COUNTRY_NAME.getName()
+                    Table.TASK.getName() + "." + Columns.COUNTRY_NAME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_REDO_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_CLAIM_DATE_TIME.getName()
             };
 
             int _ID = 0;
@@ -152,6 +157,8 @@ public interface TaskDbSchema {
             int REDO_DATE = 25;
             int STARTED_STATUS_SENT = 26;
             int COUNTRY_NAME = 27;
+            int LONG_REDO_DATE_TIME = 28;
+            int LONG_CLAIM_DATE_TIME = 29;
         }
     }
 }

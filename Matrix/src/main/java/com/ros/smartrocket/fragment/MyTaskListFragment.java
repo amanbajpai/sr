@@ -139,7 +139,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
                 startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
                 break;
             case scheduled:
-                startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId(), false));
+                startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId(), false, false));
                 break;
             case reDoTask:
                 startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getWaveId(), task.getId()));
