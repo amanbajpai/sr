@@ -37,8 +37,7 @@ public class LevelUpDialog extends Dialog implements View.OnClickListener {
         MyAccount account = App.getInstance().getMyAccount();
 
         ((TextView) findViewById(R.id.levelTitle)).setText(account.getLevelName());
-        //TODO Set level description
-        ((TextView) findViewById(R.id.levelDescription)).setText("" + account.getLevelNumber());
+        ((TextView) findViewById(R.id.levelDescription)).setText(account.getLevelDescription());
 
         String levelIconUrl = account.getLevelIconUrl();
         if (!TextUtils.isEmpty(levelIconUrl)) {

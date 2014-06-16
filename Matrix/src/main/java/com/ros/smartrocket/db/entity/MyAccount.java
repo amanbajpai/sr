@@ -13,6 +13,7 @@ public class MyAccount extends BaseEntity {
     private Integer ToNextLevel;
     private Integer LevelNumber;
     private String LevelName;
+    private String LevelDescription;
     private String LevelIconUrl;
 
     private Integer TermsAndConditionsVersion;
@@ -112,6 +113,14 @@ public class MyAccount extends BaseEntity {
 
     public void setTermsAndConditionsVersion(Integer termsAndConditionsVersion) {
         TermsAndConditionsVersion = termsAndConditionsVersion;
+    }
+
+    public String getLevelDescription() {
+        return LevelDescription;
+    }
+
+    public void setLevelDescription(String levelDescription) {
+        LevelDescription = levelDescription;
     }
 
 }
