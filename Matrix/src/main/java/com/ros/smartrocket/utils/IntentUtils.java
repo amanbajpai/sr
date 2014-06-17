@@ -17,10 +17,10 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.QuitQuestionActivity;
 import com.ros.smartrocket.activity.SetNewPasswordActivity;
-import com.ros.smartrocket.activity.WaveDetailsActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
 import com.ros.smartrocket.activity.TermsAndConditionActivity;
+import com.ros.smartrocket.activity.WaveDetailsActivity;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Wave;
 
@@ -36,9 +36,9 @@ public class IntentUtils {
     /**
      * Return intent for opening Questions screen
      *
-     * @param context  - context
-     * @param waveId - current waveId
-     * @param taskId   - current taskId
+     * @param context - context
+     * @param waveId  - current waveId
+     * @param taskId  - current taskId
      * @return Intent
      */
     public static Intent getQuestionsIntent(Context context, int waveId, int taskId) {
@@ -207,54 +207,100 @@ public class IntentUtils {
         return intent;
     }
 
+    /**
+     * Return intent for sharing through Facebook
+     *
+     * @return Intent
+     */
+
     public static Intent getShareFacebookIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.facebook.katana");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through Twitter
+     *
+     * @return Intent
+     */
     public static Intent getShareTwitterIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.twitter.android");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through LinkedIn
+     *
+     * @return Intent
+     */
     public static Intent getShareLinkedInIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.linkedin.android");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through WeChat
+     *
+     * @return Intent
+     */
     public static Intent getShareWeChatIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.tencent.mm");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through WhatsApp
+     *
+     * @return Intent
+     */
     public static Intent getShareWhatsAppIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.whatsapp");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through TencentWeibo
+     *
+     * @return Intent
+     */
     public static Intent getShareTencentWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.tencent.WBlog");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through SinaWeibo
+     *
+     * @return Intent
+     */
     public static Intent getShareSinaWeiboIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.sina.weibo");
         return intent;
     }
 
+    /**
+     * Return intent for sharing through QZone
+     *
+     * @return Intent
+     */
     public static Intent getShareQZoneIntent(String subject, String text) {
         Intent intent = getShareIntent(subject, text);
         intent.setPackage("com.qzone");
         return intent;
     }
 
+    /**
+     * Return intent for sharing
+     *
+     * @return Intent
+     */
     public static Intent getShareIntent(String subject, String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
 
@@ -266,6 +312,11 @@ public class IntentUtils {
         return intent;
     }
 
+    /**
+     * Open market
+     *
+     * @return Intent
+     */
     public static Intent getGooglePlayIntent(String packageName) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -275,12 +326,25 @@ public class IntentUtils {
         return intent;
     }
 
+    /**
+     * Open browser
+     *
+     * @param url - current url
+     * @return Intent
+     */
     public static Intent getBrowserIntent(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         return intent;
     }
 
+    /**
+     * Check if intent available
+     *
+     * @param context - current context
+     * @param intent  - current intent
+     * @return boolean
+     */
     public static boolean isIntentAvailable(Context context, Intent intent) {
         boolean isAvailable = false;
         try {
@@ -310,6 +374,8 @@ public class IntentUtils {
      * Return intent for opening activate account screen
      *
      * @param context - current context
+     * @param email   - current email
+     * @param token   - current token
      * @return Intent
      */
 
@@ -320,6 +386,15 @@ public class IntentUtils {
         return intent;
     }
 
+    /**
+     * Return intent for opening inserting new password screen
+     *
+     * @param context - current context
+     * @param email   - current email
+     * @param token   - current token
+     * @return Intent
+     */
+
     public static Intent getSetNewPasswordIntent(Context context, String email, String token) {
         Intent intent = new Intent(context, SetNewPasswordActivity.class);
         intent.putExtra(Keys.EMAIL, email);
@@ -327,6 +402,11 @@ public class IntentUtils {
         return intent;
     }
 
+    /**
+     * Send broadcast for refresh Main menu
+     *
+     * @param context - current context
+     */
     public static void refreshProfileAndMainMenu(Context context) {
         Intent intent = new Intent(Keys.REFRESH_MAIN_MENU);
         context.sendBroadcast(intent);

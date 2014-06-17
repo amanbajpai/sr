@@ -31,7 +31,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 
 public class SelectImageManager {
-    private static final String TAG = "SelectImageManager";
+    private static final String TAG = SelectImageManager.class.getSimpleName();
     public static final int GALLERY = 101;
     public static final int CAMERA = 102;
     public static final int CUSTOM_CAMERA = 103;

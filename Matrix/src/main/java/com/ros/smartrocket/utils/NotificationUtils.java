@@ -36,6 +36,14 @@ public class NotificationUtils {
     private static final String TAG = NotificationUtils.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
 
+    /**
+     * Start popup-notification about expired task
+     *
+     * @param context        - current context
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
     public static void startExpiredNotificationActivity(Context context, String missionName,
                                                         String locationName, String missionAddress) {
 
@@ -54,6 +62,15 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Start popup-notification about approved task
+     *
+     * @param context        - current context
+     * @param validationText - current validationText
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
     public static void startApprovedNotificationActivity(Context context, String validationText, String missionName,
                                                          String locationName, String missionAddress) {
 
@@ -72,6 +89,16 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Start popup-notification about redo task
+     *
+     * @param context        - current context
+     * @param waveId         - current waveId
+     * @param taskId         - current taskId
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
     public static void startRedoNotificationActivity(Context context, int waveId, int taskId, String missionName,
                                                      String locationName, String missionAddress) {
 
@@ -94,6 +121,15 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Start popup-notification about reject task
+     *
+     * @param context        - current context
+     * @param validationText - current validationText
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
     public static void startRejectNotificationActivity(Context context, String validationText, String missionName,
                                                        String locationName, String missionAddress) {
 
@@ -112,6 +148,17 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Start popup-notification about deadline task
+     *
+     * @param context        - current context
+     * @param deadlineTime   - current deadlineTime
+     * @param waveId         - current waveId
+     * @param taskId         - current taskId
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
     public static void startDeadlineNotificationActivity(Context context, long deadlineTime, int waveId, int taskId,
                                                          String missionName,
                                                          String locationName, String missionAddress) {
@@ -192,6 +239,15 @@ public class NotificationUtils {
         generateNotification(context, title, message, intent);
     }
 
+    /**
+     * Start default notification
+     *
+     * @param context - current context
+     * @param title   - current title
+     * @param message - current message
+     * @param intent  - current intent
+     * @return Boolean
+     */
     public static Boolean generateNotification(Context context, String title, String message, Intent intent) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.ic_launcher);
@@ -218,6 +274,15 @@ public class NotificationUtils {
 
         return true;
     }
+
+    /**
+     * Start overlay notification
+     *
+     * @param context     - current context
+     * @param name        - current name
+     * @param description - current description
+     * @param intent      - current intent
+     */
 
     public static void showOverlayNotification(final Context context, String name, String description,
                                                final Intent intent) {

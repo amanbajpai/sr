@@ -674,6 +674,13 @@ public class UIUtils {
         return iconResId;
     }
 
+    /**
+     * Return price in right format
+     *
+     * @param context - current context
+     * @param balance - current balance
+     * @return String
+     */
     public static String getBalanceOrPrice(Context context, Double balance) {
         return "$" + String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
     }
@@ -695,6 +702,12 @@ public class UIUtils {
         activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(backgroundRes));
     }
 
+    /**
+     * Return number of hours in millisecond
+     *
+     * @param hoursCount - current hoursCount
+     * @return long
+     */
     public static long getHoursAsMilliseconds(int hoursCount) {
         return hoursCount * DateUtils.HOUR_IN_MILLIS;
     }

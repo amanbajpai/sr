@@ -56,10 +56,10 @@
     <string name="level_0" >0</string >
     <string name="balance_0" >0$</string >
     <!-- CHECKING FAIL ACTIVITY -->
-    <string name="sorry" >Sorry! SmartRocket is not yet available in your area.</string >
-    <string name="we_dont_have_available_tasks" >Unfortunately, we do not currently have tasks available in your
-        area, but we are adding new locations all the time. If you would like to be notified when we launch in your
-        area, please submit your email address below.</string >
+    <string name="sorry" >Sorry! SmartRocket is not recruiting in your area.</string >
+    <string name="we_dont_have_available_tasks" >Unfortunately,  we are not currently recruiting new members in your
+        area, but we are adding new locations and members all the time. If you would like to be notified when we are
+        recruiting in your area, please submit your email address below.</string >
     <string name="subscribe" >SUBMIT</string >
     <!-- FIND TASK FRAGMENT-->
     <!-- WAVE LIST FRAGMENT-->
@@ -68,6 +68,8 @@
     <string name="distance_km" >km</string >
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >Mission due: %1$s</string >
+    <string name="no_mission_available" >There are currently no missions available in your area. \nPlease check back
+        later to claim and complete new missions.</string >
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission" >Re-do. Mission due: %1$s</string >
     <string name="send_latter_mission" >Unsubmitted. Mission due: %1$s</string >
@@ -123,10 +125,11 @@
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="hk" >HK$</string >
-    <string name="start_time" >START:</string >
-    <string name="deadline_time" >DEADLINE:</string >
-    <string name="duration_time" >EXPIRY:</string >
-    <string name="due_in" >DUE IN:</string >
+    <string name="start_time" >START: </string >
+    <string name="deadline_time" >DEADLINE: </string >
+    <string name="mission_due" >MISSION DUE: </string >
+    <string name="duration_time" >EXPIRY: </string >
+    <string name="due_in" >DUE IN: </string >
     <string name="mission_address" >MISSION ADDRESS</string >
     <string name="full_description" >MISSION DESCRIPTION</string >
     <string name="book_this_task" >CLAIM</string >
@@ -135,6 +138,7 @@
     <string name="show_task" >SHOW MISSION</string >
     <string name="withdraw_task" >WITHDRAW</string >
     <string name="continue_task" >CONTINUE</string >
+    <string name="welcome" >Welcome</string >
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="wave_missions_description" >FULL DESCRIPTION</string >
     <string name="show_missions" >SHOW MISSIONS</string >
@@ -169,11 +173,12 @@
     <!-- REGISTRATION SUCCESS DIALOG -->
     <string name="registration_success_dialog_title" >SmartRocket registration</string >
     <string name="registration_success_dialog_text0" >Thank you!</string >
-    <string name="registration_success_dialog_text1" >We have sent an email to <b >%1$s</b > with a link to activate
-        your SmartRocket account.</string >
-    <string name="registration_success_dialog_text2" >You must click this link in order to complete registration and
-        login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us at
-        registration@smart-rocket.com</string >
+    <string name="registration_success_dialog_text1" >We have sent an email to;</string >
+    <string name="registration_success_dialog_text2" >...with a link to activate your SmartRocket account.</string >
+    <string name="registration_success_dialog_text3" >You must click this link in order to complete registration and
+        login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us
+        at;</string >
+    <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >Mission claimed</string >
     <string name="book_task_success_dialog_text0" >This mission must be completed by &lt;b>%1$s&lt;/b>.</string >
@@ -253,13 +258,12 @@
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_big" >SUBMIT MISSION</string >
     <string name="recheck_my_answer" >BACK</string >
-    <string name="mission_due" >MISSION DUE: </string >
     <string name="task_data_size" >MISSION DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
-    <string name="task_has_not_yet_submitted" >Thank you! This mission must be submitted before the expiry time below
+    <string name="task_has_not_yet_submitted" >Thank you! This mission must be submitted before the MISSION DUE below
         and successfully validated to qualify for cash payment and Rocket Points. \n%1$s</string >
     <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \n\nIt must be
-        submitted before the expiry time below and successfully validated to qualify for cash payment and Rocket Points. </string >
+        submitted before the MISSION DUE below and successfully validated to qualify for cash payment and Rocket Points. </string >
     <string name="confirm_you_can_find_in_my_mission" >If you choose to SUBMIT LATER, you can find this mission in
         \"My Missions\" until it is SUBMITTED or it EXPIRES.</string >
     <string name="submit_now" >SUBMIT NOW</string >
@@ -309,9 +313,12 @@
         <item quantity="other" >days</item >
     </plurals >
     <!-- FORGOT PASSWORD ACTIVITY -->
-    <string name="send_password" >EMAIL MY PASSWORD</string >
-    <string name="we_sent_your_password" >Your password has been sent to %1$s. If you cannot find this message,
-        check your Junk/Spam folder.</string >
+    <string name="send_password" >RESET MY PASSWORD</string >
+    <string name="forgot_password_success_text0" >Thank you!</string >
+    <string name="forgot_password_success_text1" >We have sent an email to;</string >
+    <string name="forgot_password_success_text2" >...with a link to reset your SmartRocket password.</string >
+    <string name="forgot_password_success_text3" >If you cannot find our message, please check your Junk/Spam
+        folder.</string >
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >Age verification</string >
     <string name="age_verification_dialog_text1" >You must be <b >18 years or older</b > to join
@@ -369,4 +376,6 @@
     <!--notification button-->
     <string name="close_message" >Close Message</string >
     <string name="open_mission" >Open Mission</string >
+    <!-- MAX CLAIMS PER TASK -->
+    <string name="task_no_longer_available" >Task no longer available</string >
 </resources >

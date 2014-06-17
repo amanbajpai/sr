@@ -9,6 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 
+/**
+ * Check registration fields and return status
+ */
+
 public class RegistrationFieldTextWatcher implements TextWatcher {
 
     private Context context;
@@ -32,6 +36,9 @@ public class RegistrationFieldTextWatcher implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
 
+    /**
+     * Change UI elements by entered data
+     */
     public void afterTextChanged(Editable s) {
         switch (view.getId()) {
             case R.id.firstNameEditText:

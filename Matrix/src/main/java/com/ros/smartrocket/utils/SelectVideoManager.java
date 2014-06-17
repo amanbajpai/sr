@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.Calendar;
 
 public class SelectVideoManager {
-    private static final String TAG = "SelectImageManager";
+    private static final String TAG = SelectVideoManager.class.getSimpleName();
     public static final int GALLERY = 201;
     public static final int CAMERA = 202;
 
@@ -42,7 +42,7 @@ public class SelectVideoManager {
     }
 
     /**
-     *  Get video from Gallery
+     * Get video from Gallery
      */
 
     public void startGallery(Activity activity) {
@@ -57,7 +57,7 @@ public class SelectVideoManager {
     }
 
     /**
-     *  Use camera for getting video
+     * Use camera for getting video
      */
     public void startCamera(Activity activity) {
         this.activity = activity;
@@ -72,7 +72,7 @@ public class SelectVideoManager {
     }
 
     /**
-     *  Show dialog for selection
+     * Show dialog for selection
      */
     public Dialog showSelectVideoDialog(final Activity activity, final boolean showRemoveButton) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
