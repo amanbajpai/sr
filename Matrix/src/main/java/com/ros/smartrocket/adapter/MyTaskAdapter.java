@@ -112,7 +112,7 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.photoQuestionsCount.setText("0");
 
         long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
-        long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
+        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
         long missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
         long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
         //long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);

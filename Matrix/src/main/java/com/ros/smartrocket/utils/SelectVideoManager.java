@@ -72,7 +72,7 @@ public class SelectVideoManager {
     }
 
     /**
-     *  Show dialog for selection 
+     *  Show dialog for selection
      */
     public Dialog showSelectVideoDialog(final Activity activity, final boolean showRemoveButton) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

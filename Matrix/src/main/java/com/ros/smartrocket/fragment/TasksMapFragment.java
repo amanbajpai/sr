@@ -740,7 +740,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             if (restoreCameraByPins != null) {
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
-                        display.getHeight(), 150));
+                        display.getHeight(), 200));
             }
         } else {
             if (restoreCameraByPins != null) {

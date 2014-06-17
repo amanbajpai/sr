@@ -46,7 +46,7 @@ public class Task extends BaseEntity {
     private String EndDateTime;
     private Double ExperienceOffer;
 
-    private Integer ExpireTimeoutForClaimedTask;
+    private Long LongExpireTimeoutForClaimedTask;
     private Integer PreClaimedTaskExpireAfterStart;
     private String Claimed;
     private String RedoDate;
@@ -107,7 +107,7 @@ public class Task extends BaseEntity {
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
 
-            result.setExpireTimeoutForClaimedTask(c.getInt(TaskDbSchema.Query.All.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(TaskDbSchema.Query.All.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(TaskDbSchema.Query.All
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));
@@ -291,12 +291,12 @@ public class Task extends BaseEntity {
         PreClaimedTaskExpireAfterStart = preClaimedTaskExpireAfterStart;
     }
 
-    public Integer getExpireTimeoutForClaimedTask() {
-        return ExpireTimeoutForClaimedTask;
+    public Long getLongExpireTimeoutForClaimedTask() {
+        return LongExpireTimeoutForClaimedTask;
     }
 
-    public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {
-        ExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
+    public void setLongExpireTimeoutForClaimedTask(Long expireTimeoutForClaimedTask) {
+        LongExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
     }
 
     public String getCountryName() {

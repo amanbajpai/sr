@@ -188,7 +188,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void setTaskData(Task task) {
-        long timeoutInMillisecond = UIUtils.getHoursAsMilliseconds(task.getExpireTimeoutForClaimedTask());
+        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
 
         taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
                 .task_data_size_mb));

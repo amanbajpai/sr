@@ -7,17 +7,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
+import android.text.format.DateUtils;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Country;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class WavesBL {
@@ -50,6 +53,8 @@ public class WavesBL {
         Location currentLocation = App.getInstance().getLocationManager().getLocation();
         Location tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
 
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+
         for (Wave wave : waves.getWaves()) {
             contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
@@ -61,7 +66,7 @@ public class WavesBL {
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
                 task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
-                task.setExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask());
+                task.setLongExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS);
                 task.setPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart());
 
                 task.setIsMy(isMy);
