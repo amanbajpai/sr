@@ -27,7 +27,7 @@ public interface TaskDbSchema {
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
-        ID("id", DBType.NUMERIC),
+        ID("Id", DBType.NUMERIC),
         WAVE_ID("WaveId", DBType.NUMERIC),
         USER_ID("UserId", DBType.NUMERIC),
         NAME("Name", DBType.TEXT),

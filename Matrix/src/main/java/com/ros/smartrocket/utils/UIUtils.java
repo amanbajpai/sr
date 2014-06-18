@@ -40,14 +40,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 /**
  * Utils class for easy work with UI Views
  */
 public class UIUtils {
     private static final String TAG = "UIUtils";
-    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",
-            Locale.ENGLISH); //'Z'
+    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZZ");
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
@@ -378,7 +378,20 @@ public class UIUtils {
     public static long isoTimeToLong(String dateString) {
         long result = 0;
         if (!TextUtils.isEmpty(dateString)) {
+            dateString = dateString.substring(0, dateString.length() - 6) + "+00:00";
             try {
+                ISO_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+                /*Date date = ISO_DATE_FORMAT.parse(dateString);
+                long utcTimeInMillis = date.getTime();
+
+                Date resultDate = new Date(utcTimeInMillis);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeZone(TimeZone.getDefault());
+                calendar.setTimeInMillis(utcTimeInMillis);
+
+                Date resultDate2 = calendar.getTime();
+*/
                 result = ISO_DATE_FORMAT.parse(dateString).getTime();
             } catch (Exception e) {
                 L.e("isoTimeToLong", "Parse error" + e, e);
