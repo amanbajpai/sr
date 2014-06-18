@@ -188,8 +188,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                long currentTime = calendar.getTimeInMillis();
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                 task.setIsMy(true);
+                task.setClaimed(UIUtils.longToString(currentTime, 2));
+                task.setLongClaimDateTime(currentTime);
 
                 String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(wave.getEndDateTime()), 5);
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
@@ -342,8 +345,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     public void changeStatusToStartedAndOpenQuestion(boolean startedStatusSent) {
         task.setStatusId(Task.TaskStatusId.started.getStatusId());
-        task.setStarted(UIUtils.longToString(Calendar.getInstance().getTimeInMillis(), 2));
+        task.setStarted(UIUtils.longToString(calendar.getTimeInMillis(), 2));
         task.setStartedStatusSent(startedStatusSent);
+
         setButtonsSettings(task);
         TasksBL.updateTask(handler, task);
         startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getWaveId(),

@@ -225,15 +225,25 @@ public class APIFacade {
     public void getWaves(Activity activity, double latitude, double longitude, String countryName, String cityName,
                          int radius) {
         if (activity != null && activity instanceof BaseActivity) {
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude), countryName,
-                    cityName, String.valueOf(radius), preferencesManager.getLanguageCode());
-            operation.setTag(Keys.GET_WAVES_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.GET);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
+            try {
+                BaseOperation operation = new BaseOperation();
+                operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude),
+                        URLEncoder.encode(countryName, "UTF-8"),
+                        URLEncoder.encode(cityName, "UTF-8"), String.valueOf(radius),
+                        preferencesManager.getLanguageCode());
+                operation.setTag(Keys.GET_WAVES_OPERATION_TAG);
+                operation.setMethod(BaseOperation.Method.GET);
+                ((BaseActivity) activity).sendNetworkOperation(operation);
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else
+
+        {
             L.e(TAG, "getWaves with wrong activity");
         }
+
     }
 
     /**

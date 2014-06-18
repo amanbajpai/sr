@@ -39,6 +39,13 @@ public class AnswersBL {
         );
     }
 
+    /**
+     * Make request for update Answers
+     *
+     * @param handler - Handler for getting response from DB
+     * @param answers - answers array
+     */
+
     public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
         for (Answer answer : answers) {
             handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI,
@@ -46,6 +53,14 @@ public class AnswersBL {
                     new String[]{String.valueOf(answer.get_id())});
         }
     }
+
+    /**
+     * Return file's list to upload by task id
+     *
+     * @param taskId      - current task id
+     * @param endDateTime - task finish date
+     * @return List<NotUploadedFile>
+     */
 
     public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
@@ -76,6 +91,12 @@ public class AnswersBL {
         return notUploadedFiles;
     }
 
+    /**
+     * Make request for getting size of files in MB
+     *
+     * @param filesToUpload - files to upload
+     * @return Float
+     */
 
     public static float getTaskFilesSizeMb(List<NotUploadedFile> filesToUpload) {
         long resultSizeInB = 0;
@@ -86,6 +107,12 @@ public class AnswersBL {
         return resultSizeInB / (float) 1024;
     }
 
+    /**
+     * Return size of file as String in MB or KB
+     *
+     * @param size - file size
+     * @return String
+     */
     public String size(int size) {
         String hrSize;
         double m = size / 1024.0;

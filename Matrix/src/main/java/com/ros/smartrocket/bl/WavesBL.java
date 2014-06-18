@@ -16,11 +16,9 @@ import com.ros.smartrocket.db.entity.Country;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class WavesBL {
@@ -61,6 +59,9 @@ public class WavesBL {
                 task.setName(wave.getName());
                 task.setDescription(wave.getDescription());
                 task.setExperienceOffer(wave.getExperienceOffer());
+                task.setStartedStatusSent(task.getStatusId() != null
+                        && Task.TaskStatusId.none.getStatusId() != task.getStatusId()
+                        && Task.TaskStatusId.claimed.getStatusId() != task.getStatusId());
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
                 task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
