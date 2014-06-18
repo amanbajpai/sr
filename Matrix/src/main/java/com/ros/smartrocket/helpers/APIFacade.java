@@ -28,6 +28,8 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -75,14 +77,18 @@ public class APIFacade {
      * @param email    - current email
      */
     public void forgotPassword(Activity activity, String email) {
-        if (!TextUtils.isEmpty(email)) {
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.FORGOT_PASSWORD, email);
-            operation.setTag(Keys.FORGOT_PASSWORD_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.GET);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
+        try {
+            if (!TextUtils.isEmpty(email)) {
+                BaseOperation operation = new BaseOperation();
+                operation.setUrl(WSUrl.FORGOT_PASSWORD, URLEncoder.encode(email, "UTF-8"));
+                operation.setTag(Keys.FORGOT_PASSWORD_OPERATION_TAG);
+                operation.setMethod(BaseOperation.Method.GET);
+                ((BaseActivity) activity).sendNetworkOperation(operation);
+            } else {
+                UIUtils.showSimpleToast(activity, R.string.fill_in_field);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 
@@ -232,7 +238,7 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param waveId - current waveId
+     * @param waveId   - current waveId
      */
     public void getWaveTasks(Activity activity, Integer waveId) {
         BaseOperation operation = new BaseOperation();

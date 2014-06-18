@@ -15,6 +15,10 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
 
+/**
+ * Dialog for checking location and showing results
+ */
+
 public class DatePickerDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = DatePickerDialog.class.getSimpleName();
     private DatePicker datePicker;

@@ -22,7 +22,7 @@ public interface TaskDbSchema {
                     + "WHEN 7 THEN 8 "
                     + "WHEN 0 THEN 9 "
                     + "ELSE 10 END,  "
-                    + Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName() + " DESC";
+                    + Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName() + " DESC";
     String SORT_ORDER_END_DATE_ASC = Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName() + " ASC";
 
     public enum Columns {

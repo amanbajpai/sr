@@ -22,6 +22,10 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
+/**
+ * Dialog for checking location and showing results
+ */
+
 public class CheckLocationDialog extends Dialog {
     private static final String TAG = CheckLocationDialog.class.getSimpleName();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();

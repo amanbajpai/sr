@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
 
+/**
+ * Dialog for success result of claiming
+ */
+
 public class BookTaskSuccessDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
     private DialogButtonClickListener buttonClickListener;

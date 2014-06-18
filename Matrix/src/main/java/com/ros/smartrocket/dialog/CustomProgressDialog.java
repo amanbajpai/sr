@@ -12,6 +12,10 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
 
+/**
+ * Show custom dialog with progress bar
+ */
+
 public class CustomProgressDialog extends Dialog {
     private static final String TAG = CustomProgressDialog.class.getSimpleName();
     private static LayoutInflater inflater;

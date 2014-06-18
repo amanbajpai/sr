@@ -53,8 +53,6 @@ public class WavesBL {
         Location currentLocation = App.getInstance().getLocationManager().getLocation();
         Location tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
 
-        long currentTime = Calendar.getInstance().getTimeInMillis();
-
         for (Wave wave : waves.getWaves()) {
             contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
