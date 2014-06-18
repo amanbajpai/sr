@@ -23,8 +23,10 @@ public class FragmentHelper {
     }
 
     /**
-     * @param activity
-     * @param fragment
+     * Start activity from stack if exist else create new
+     *
+     * @param activity - current activity
+     * @param fragment - fragment to start
      */
 
     public void startFragmentFromStack(Activity activity, Fragment fragment) {
@@ -39,6 +41,14 @@ public class FragmentHelper {
 
         return fragment;
     }
+
+    /**
+     * Start activity from stack if exist else create new
+     *
+     * @param activity - current activity
+     * @param fragment - fragment to start
+     * @param layoutId - layout id to addition fragment
+     */
 
     public void startFragmentFromStack(Activity activity, Fragment fragment, int layoutId) {
         Log.i(TAG, "startFragmentFromStack() [" + fragment + "]");
@@ -78,8 +88,10 @@ public class FragmentHelper {
     }
 
     /**
-     * @param activity
-     * @param fragment
+     * Delete fragment from stack
+     *
+     * @param activity - current activity
+     * @param fragment - fragment to start
      */
     public void removeFragmentFromList(Activity activity, Fragment fragment) {
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
@@ -104,7 +116,9 @@ public class FragmentHelper {
     }
 
     /**
-     * @param activity
+     * Delete all fragment from stack
+     *
+     * @param activity - current activity
      */
     public void removeAllFragmentFromList(Activity activity) {
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
@@ -119,6 +133,11 @@ public class FragmentHelper {
         fragmentList.clear();
     }
 
+    /**
+     * Hide last fragment in stack
+     *
+     * @param activity - current activity
+     */
     public void hideLastFragment(Activity activity) {
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
         if (lastFragment != null) {
@@ -127,6 +146,11 @@ public class FragmentHelper {
         ft.commitAllowingStateLoss();
     }
 
+    /**
+     * Show last fragment in stack
+     *
+     * @param activity - current activity
+     */
     public void showLastFragment(Activity activity) {
         FragmentTransaction ft = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
         if (lastFragment != null) {
