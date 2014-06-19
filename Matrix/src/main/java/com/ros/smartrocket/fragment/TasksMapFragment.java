@@ -505,6 +505,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 break;
             case R.id.applyButton:
                 toggleFilterPanel();
+                loadData();
                 break;
             case R.id.btnFilter:
                 toggleFilterPanel();
