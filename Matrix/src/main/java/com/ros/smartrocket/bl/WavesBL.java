@@ -68,6 +68,9 @@ public class WavesBL {
                 task.setLongExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS);
                 task.setPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart());
 
+                task.setPhotoQuestionsCount(wave.getPhotoQuestionsCount());
+                task.setNoPhotoQuestionsCount(wave.getNoPhotoQuestionsCount());
+
                 task.setIsMy(isMy);
 
                 Country country = wave.getCountry();

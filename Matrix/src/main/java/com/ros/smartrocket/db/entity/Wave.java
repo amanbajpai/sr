@@ -37,6 +37,10 @@ public class Wave extends BaseEntity {
     private Double ExperienceOffer;
     private Integer ExpireTimeoutForClaimedTask;
     private Integer PreClaimedTaskExpireAfterStart;
+
+    private Integer PhotoQuestionsCount;
+    private Integer NoPhotoQuestionsCount;
+
     private transient Float Longitude;
 
     private transient Float Latitude;
@@ -94,6 +98,9 @@ public class Wave extends BaseEntity {
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+
+            result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.PHOTO_QUESTIONS_COUNT));
+            result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.NO_PHOTO_QUESTIONS_COUNT));
         }
         return result;
     }
@@ -130,9 +137,11 @@ public class Wave extends BaseEntity {
 
             result.setExperienceOffer(c.getDouble(WaveDbSchema.QueryWaveByDistance.EXPERIENCE_OFFER));
 
-            result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
-            result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
+            result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.QueryWaveByDistance.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.QueryWaveByDistance
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+            result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.PHOTO_QUESTIONS_COUNT));
+            result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.NO_PHOTO_QUESTIONS_COUNT));
 
         }
         return result;
@@ -336,6 +345,23 @@ public class Wave extends BaseEntity {
 
     public void setCountry(Country country) {
         Country = country;
+    }
+
+
+    public Integer getNoPhotoQuestionsCount() {
+        return NoPhotoQuestionsCount;
+    }
+
+    public void setNoPhotoQuestionsCount(Integer noPhotoQuestionsCount) {
+        NoPhotoQuestionsCount = noPhotoQuestionsCount;
+    }
+
+    public Integer getPhotoQuestionsCount() {
+        return PhotoQuestionsCount;
+    }
+
+    public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
+        PhotoQuestionsCount = photoQuestionsCount;
     }
 
 }

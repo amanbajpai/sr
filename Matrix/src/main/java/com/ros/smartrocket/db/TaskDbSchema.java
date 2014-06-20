@@ -60,6 +60,9 @@ public interface TaskDbSchema {
         LONG_REDO_DATE_TIME("LongRedoDateTime", DBType.NUMERIC),
         LONG_CLAIM_DATE_TIME("LongClaimDateTime", DBType.NUMERIC),
 
+        PHOTO_QUESTIONS_COUNT("PhotoQuestionsCount", DBType.INT),
+        NO_PHOTO_QUESTIONS_COUNT("NoPhotoQuestionsCount", DBType.INT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -126,7 +129,9 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName(),
                     Table.TASK.getName() + "." + Columns.COUNTRY_NAME.getName(),
                     Table.TASK.getName() + "." + Columns.LONG_REDO_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_CLAIM_DATE_TIME.getName()
+                    Table.TASK.getName() + "." + Columns.LONG_CLAIM_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
+                    Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName()
             };
 
             int _ID = 0;
@@ -159,6 +164,8 @@ public interface TaskDbSchema {
             int COUNTRY_NAME = 27;
             int LONG_REDO_DATE_TIME = 28;
             int LONG_CLAIM_DATE_TIME = 29;
+            int PHOTO_QUESTIONS_COUNT = 30;
+            int NO_PHOTO_QUESTIONS_COUNT = 31;
         }
     }
 }

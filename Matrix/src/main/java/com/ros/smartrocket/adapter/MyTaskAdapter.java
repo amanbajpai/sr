@@ -108,8 +108,8 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.locationNameAddressText.setText(task.getAddress());
         holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-        holder.textQuestionsCount.setText("0");
-        holder.photoQuestionsCount.setText("0");
+        holder.textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
+        holder.photoQuestionsCount.setText(String.valueOf(task.getPhotoQuestionsCount()));
 
         long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
         long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();

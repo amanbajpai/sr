@@ -90,8 +90,8 @@ public class WaveAdapter extends BaseAdapter {
         holder.distance.setText(Html.fromHtml(String.format(activity.getString(R.string.distance_to_nearest_location),
                 distance)));
 
-        holder.textQuestionsCount.setText("0");
-        holder.photoQuestionsCount.setText("0");
+        holder.textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
+        holder.photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
 
         return convertView;

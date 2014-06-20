@@ -45,11 +45,14 @@ public class Task extends BaseEntity {
     private String StartDateTime;
     private String EndDateTime;
     private Double ExperienceOffer;
-
     private Long LongExpireTimeoutForClaimedTask;
+
     private Integer PreClaimedTaskExpireAfterStart;
     private String Claimed;
     private String RedoDate;
+
+    private Integer PhotoQuestionsCount;
+    private Integer NoPhotoQuestionsCount;
 
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
@@ -116,6 +119,9 @@ public class Task extends BaseEntity {
 
             result.setLongRedoDateTime(c.getLong(TaskDbSchema.Query.All.LONG_REDO_DATE_TIME));
             result.setLongClaimDateTime(c.getLong(TaskDbSchema.Query.All.LONG_CLAIM_DATE_TIME));
+
+            result.setPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.PHOTO_QUESTIONS_COUNT));
+            result.setNoPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.NO_PHOTO_QUESTIONS_COUNT));
         }
         L.d("Task", result.toString());
         return result;
@@ -346,6 +352,22 @@ public class Task extends BaseEntity {
 
     public void setLongClaimDateTime(Long longClaimDateTime) {
         LongClaimDateTime = longClaimDateTime;
+    }
+
+    public Integer getNoPhotoQuestionsCount() {
+        return NoPhotoQuestionsCount;
+    }
+
+    public void setNoPhotoQuestionsCount(Integer noPhotoQuestionsCount) {
+        NoPhotoQuestionsCount = noPhotoQuestionsCount;
+    }
+
+    public Integer getPhotoQuestionsCount() {
+        return PhotoQuestionsCount;
+    }
+
+    public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
+        PhotoQuestionsCount = photoQuestionsCount;
     }
 
 

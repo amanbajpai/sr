@@ -37,6 +37,9 @@ public interface WaveDbSchema {
         PRE_CLAIMED_TASK_EXPIRE_AFTER_START("PreClaimedTaskExpireAfterStart", DBType.INT),
         CLAIMED("Claimed", DBType.TEXT),
 
+        PHOTO_QUESTIONS_COUNT("PhotoQuestionsCount", DBType.INT),
+        NO_PHOTO_QUESTIONS_COUNT("NoPhotoQuestionsCount", DBType.INT),
+
         DELETED("Deleted", DBType.INT);
 
         private String columnName;
@@ -86,7 +89,10 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
 
                 Table.WAVE.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
-                Table.WAVE.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName()
+                Table.WAVE.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
+
+                Table.WAVE.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
+                Table.WAVE.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName()
         };
 
         int _ID = 0;
@@ -110,6 +116,8 @@ public interface WaveDbSchema {
         int EXPERIENCE_OFFER = 18;
         int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 19;
         int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 20;
+        int PHOTO_QUESTIONS_COUNT = 21;
+        int NO_PHOTO_QUESTIONS_COUNT = 22;
     }
 
     public interface QueryWaveByDistance {
@@ -142,5 +150,7 @@ public interface WaveDbSchema {
         int EXPERIENCE_OFFER = 22;
         int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
         int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 24;
+        int PHOTO_QUESTIONS_COUNT = 25;
+        int NO_PHOTO_QUESTIONS_COUNT = 26;
     }
 }
