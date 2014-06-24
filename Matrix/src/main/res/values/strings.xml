@@ -378,4 +378,13 @@
     <string name="open_mission" >Open Mission</string >
     <!-- MAX CLAIMS PER TASK -->
     <string name="task_no_longer_available" >Task no longer available</string >
+    <!-- RESET PASSWORD ACTIVITY -->
+    <string name="reset_password_text1" >Reset password</string >
+    <string name="reset_password_text2" >Please enter a new password below.</string >
+    <string name="submit" >SUBMIT</string >
+
+    <!-- LEVEL UP DIALOG -->
+    <string name="congratulations" >Congratulations!</string >
+    <string name="you_have_been_promoted" >You have been promoted to the rank of %1$s (Level %2$s)</string >
+
 </resources >

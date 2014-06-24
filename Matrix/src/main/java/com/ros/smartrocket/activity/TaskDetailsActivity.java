@@ -241,7 +241,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
                 DialogUtils.showMaximumMissionDialog(this);
-            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
+            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
+                    && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
                 UIUtils.showSimpleToast(this, getString(R.string.task_no_longer_available));
             } else {

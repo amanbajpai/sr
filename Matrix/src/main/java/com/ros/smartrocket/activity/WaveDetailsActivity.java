@@ -16,8 +16,8 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
@@ -120,7 +120,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
 
-        projectPrice.setText(getString(R.string.hk) + String.format(Locale.US, "%.1f", wave.getNearTaskPrice()));
+        projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice()));
         projectExp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
         projectLocations.setText(String.valueOf(wave.getTaskCount()));
         textQuestionsCount.setText("0");

@@ -121,7 +121,7 @@
                     style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.05"
                     android:drawableLeft="@drawable/wallet_green"
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
@@ -129,7 +129,7 @@
                     style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.15"
                     android:drawableLeft="@drawable/rocket_green"
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
@@ -137,7 +137,7 @@
                     style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.16"
+                    android:layout_weight="1.05"
                     android:drawableLeft="@drawable/place_green"
                     custom:textStyle="bold" />
                 <View
@@ -150,7 +150,7 @@
                     style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.17"
                     android:drawableLeft="@drawable/quote_green"
                     custom:textStyle="bold" />
                 <com.ros.smartrocket.views.CustomTextView
@@ -158,7 +158,7 @@
                     style="@style/TaskAndWaveOptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.17"
                     android:drawableLeft="@drawable/camera_green"
                     custom:textStyle="bold" />
             </LinearLayout >

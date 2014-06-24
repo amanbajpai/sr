@@ -45,10 +45,10 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
         clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
         clusterPaintMedium.setTypeface(FontUtils.loadFontFromAsset(context.getAssets(),
                 FontUtils.getFontAssetPath(3)));
-        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_22sp));
+        clusterPaintMedium.setTextSize(res.getDimension(R.dimen.text_size_20sp));
 
         clusterPaintSmall = new Paint(clusterPaintMedium);
-        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_18sp));
+        clusterPaintSmall.setTextSize(res.getDimension(R.dimen.text_size_16sp));
 
         clusterPaintLarge = new Paint(clusterPaintMedium);
         clusterPaintLarge.setTextSize(res.getDimension(R.dimen.text_size_26sp));
@@ -120,17 +120,17 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
             case claimed:
             case started:
                 if (!task.getIsHide()) {
-                    if (task.getDistance() <= TasksMapFragment.taskRadius) {
+                    //if (task.getDistance() <= TasksMapFragment.taskRadius) {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
-                    } else {
+                    /*} else {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_light_green);
-                    }
+                    }*/
                 } else {
-                    if (task.getDistance() <= TasksMapFragment.taskRadius) {
+                    //if (task.getDistance() <= TasksMapFragment.taskRadius) {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green_hidden);
-                    } else {
+                    /*} else {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_light_green_hidden);
-                    }
+                    }*/
                 }
                 break;
             case scheduled:

@@ -36,7 +36,8 @@ public class LevelUpDialog extends Dialog implements View.OnClickListener {
 
         MyAccount account = App.getInstance().getMyAccount();
 
-        ((TextView) findViewById(R.id.levelTitle)).setText(account.getLevelName());
+        ((TextView) findViewById(R.id.rankDescription)).setText(activity.getString(R.string.you_have_been_promoted,
+                account.getLevelName(), String.valueOf(account.getLevelNumber())));
         ((TextView) findViewById(R.id.levelDescription)).setText(account.getLevelDescription());
 
         String levelIconUrl = account.getLevelIconUrl();

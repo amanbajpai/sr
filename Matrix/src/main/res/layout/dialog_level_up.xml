@@ -6,12 +6,12 @@
     style="@style/CustomDialog"
     android:orientation="vertical" >
     <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/levelTitle"
         android:layout_width="fill_parent"
         android:layout_height="64dp"
         android:drawableLeft="@drawable/badge_icon"
         android:drawablePadding="20dp"
         style="@style/DialogTitle"
+        android:text="@string/congratulations"
         android:background="@color/red"
         custom:textStyle="bold" />
     <ImageView
@@ -23,20 +23,21 @@
         android:adjustViewBounds="true"
         android:src="@drawable/badge" />
     <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/rankDescription"
         style="@style/DialogText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="@string/registration_success_dialog_text0" />
+        android:text="@string/you_have_been_promoted" />
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/levelDescription"
         style="@style/DialogText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:layout_margin="20dp" />
     <View
         android:layout_width="match_parent"

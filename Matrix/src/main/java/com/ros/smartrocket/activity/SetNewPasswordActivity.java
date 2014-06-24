@@ -1,12 +1,15 @@
 package com.ros.smartrocket.activity;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
@@ -15,12 +18,13 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class SetNewPasswordActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface {
+        NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
     private EditText passwordEditText;
@@ -45,6 +49,8 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
 
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         passwordValidationText = (TextView) findViewById(R.id.passwordValidationText);
+
+        ((ToggleButton) findViewById(R.id.showPasswordToggleButton)).setOnCheckedChangeListener(this);
 
         checkDeviceSettingsByOnResume(false);
 
@@ -110,6 +116,24 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
             }
         }
 
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.showPasswordToggleButton:
+                String text = passwordEditText.getText().toString().trim();
+                if (isChecked) {
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+                passwordEditText.setSelection(text.length());
+                passwordEditText.setTypeface(FontUtils.loadFontFromAsset(getAssets(), FontUtils.getFontAssetPath(2)));
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
