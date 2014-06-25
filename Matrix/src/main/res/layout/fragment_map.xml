@@ -40,6 +40,7 @@
         android:visibility="gone" />
     <LinearLayout
         android:id="@+id/hidden_panel"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/map_filter_bg"
