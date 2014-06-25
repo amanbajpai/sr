@@ -181,7 +181,7 @@
     <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >Mission claimed</string >
-    <string name="book_task_success_dialog_text0" >This mission must be completed by &lt;b>%1$s&lt;/b>.</string >
+    <string name="book_task_success_dialog_text0" >This mission must be completed by;</string >
     <string name="book_task_success_dialog_text1" >You can find this mission in \"My Missions\" until it is
         successfully completed.</string >
     <string name="start_later" >Start later</string >
@@ -261,8 +261,8 @@
     <string name="task_data_size" >MISSION DATA SIZE: </string >
     <string name="task_data_size_mb" >MB</string >
     <string name="task_has_not_yet_submitted" >Thank you! This mission must be submitted before the MISSION DUE below
-        and successfully validated to qualify for cash payment and Rocket Points. \n%1$s</string >
-    <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \n\nIt must be
+        and successfully validated to qualify for cash payment and Rocket Points. %1$s</string >
+    <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \nIt must be
         submitted before the MISSION DUE below and successfully validated to qualify for cash payment and Rocket Points. </string >
     <string name="confirm_you_can_find_in_my_mission" >If you choose to SUBMIT LATER, you can find this mission in
         \"My Missions\" until it is SUBMITTED or it EXPIRES.</string >

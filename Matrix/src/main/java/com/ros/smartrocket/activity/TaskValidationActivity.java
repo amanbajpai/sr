@@ -147,7 +147,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     if (!questions.isEmpty()) {
                         Question question = questions.get(0);
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted,
-                                question.getQuestion()));
+                                "\n"+question.getQuestion()));
 
                     } else {
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted, ""));

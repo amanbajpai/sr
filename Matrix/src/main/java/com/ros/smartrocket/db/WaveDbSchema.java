@@ -33,6 +33,7 @@ public interface WaveDbSchema {
         EXPECTED_START_DATE_TIME("ExpectedStartDateTime", DBType.TEXT),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
+        LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("LongExpireTimeoutForClaimedTask", DBType.INT),
         EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("ExpireTimeoutForClaimedTask", DBType.INT),
         PRE_CLAIMED_TASK_EXPIRE_AFTER_START("PreClaimedTaskExpireAfterStart", DBType.INT),
         CLAIMED("Claimed", DBType.TEXT),
@@ -88,6 +89,7 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
                 Table.WAVE.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
 
+                Table.TASK.getName() + "." + Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                 Table.WAVE.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                 Table.WAVE.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
 
@@ -114,10 +116,11 @@ public interface WaveDbSchema {
         int EXPECTED_END_DATE_TIME = 16;
         int EXPECTED_START_DATE_TIME = 17;
         int EXPERIENCE_OFFER = 18;
-        int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 19;
-        int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 20;
-        int PHOTO_QUESTIONS_COUNT = 21;
-        int NO_PHOTO_QUESTIONS_COUNT = 22;
+        int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 19;
+        int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 20;
+        int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 21;
+        int PHOTO_QUESTIONS_COUNT = 22;
+        int NO_PHOTO_QUESTIONS_COUNT = 23;
     }
 
     public interface QueryWaveByDistance {
@@ -148,9 +151,10 @@ public interface WaveDbSchema {
         int NEAR_TASK_PRICE = 20;
         int NEAR_TASK_ID = 21;
         int EXPERIENCE_OFFER = 22;
-        int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
-        int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 24;
-        int PHOTO_QUESTIONS_COUNT = 25;
-        int NO_PHOTO_QUESTIONS_COUNT = 26;
+        int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
+        int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 24;
+        int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 25;
+        int PHOTO_QUESTIONS_COUNT = 26;
+        int NO_PHOTO_QUESTIONS_COUNT = 27;
     }
 }

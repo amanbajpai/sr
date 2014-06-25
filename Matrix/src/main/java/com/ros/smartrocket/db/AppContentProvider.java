@@ -131,6 +131,8 @@ public class AppContentProvider extends ContentProvider {
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName(),
 
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPERIENCE_OFFER.getName(),
+                        Table.TASK.getName() + "." + WaveDbSchema.Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK
+                                .getName(),
                         Table.WAVE.getName() + "."
                                 + WaveDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                         Table.WAVE.getName() + "."

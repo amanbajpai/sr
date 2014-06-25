@@ -25,6 +25,17 @@
         android:layout_marginRight="20dp"
         android:text="@string/book_task_success_dialog_text0" />
     <com.ros.smartrocket.views.CustomTextView
+        style="@style/DialogText"
+        android:id="@+id/missionDueDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="@dimen/text_size_20sp"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/text1"
         android:layout_margin="20dp"
         android:layout_width="match_parent"

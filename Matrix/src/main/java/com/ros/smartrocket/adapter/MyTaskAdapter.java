@@ -22,7 +22,6 @@ public class MyTaskAdapter extends BaseAdapter {
     private Activity activity;
     private List<Task> items = new ArrayList<Task>();
     private LayoutInflater inflater;
-    private Calendar calendar = Calendar.getInstance();
 
     public static class ViewHolder {
         private LinearLayout listItem;
@@ -114,7 +113,7 @@ public class MyTaskAdapter extends BaseAdapter {
         long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
         long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
         long missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
-        long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
+        long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
         //long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);
 
 
@@ -203,7 +202,7 @@ public class MyTaskAdapter extends BaseAdapter {
             case reDoTask:
                 long reDoTimeInMillisecond = UIUtils.isoTimeToLong(task.getRedoDate());
                 long missionDueForReDoInMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
-                long dueInForReDoMillisecond = missionDueForReDoInMillisecond - calendar.getTimeInMillis();
+                long dueInForReDoMillisecond = missionDueForReDoInMillisecond - Calendar.getInstance().getTimeInMillis();
 
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);

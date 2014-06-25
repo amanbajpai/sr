@@ -37,6 +37,7 @@ public class Wave extends BaseEntity {
     private Double ExperienceOffer;
     private Integer ExpireTimeoutForClaimedTask;
     private Integer PreClaimedTaskExpireAfterStart;
+    private Long LongExpireTimeoutForClaimedTask;
 
     private Integer PhotoQuestionsCount;
     private Integer NoPhotoQuestionsCount;
@@ -95,6 +96,7 @@ public class Wave extends BaseEntity {
             result.setExpectedStartDateTime(c.getString(WaveDbSchema.Query.EXPECTED_START_DATE_TIME));
             result.setExperienceOffer(c.getDouble(WaveDbSchema.Query.EXPERIENCE_OFFER));
 
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
@@ -137,6 +139,7 @@ public class Wave extends BaseEntity {
 
             result.setExperienceOffer(c.getDouble(WaveDbSchema.QueryWaveByDistance.EXPERIENCE_OFFER));
 
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.QueryWaveByDistance.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.QueryWaveByDistance
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
@@ -362,6 +365,14 @@ public class Wave extends BaseEntity {
 
     public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
         PhotoQuestionsCount = photoQuestionsCount;
+    }
+
+    public Long getLongExpireTimeoutForClaimedTask() {
+        return LongExpireTimeoutForClaimedTask;
+    }
+
+    public void setLongExpireTimeoutForClaimedTask(Long longExpireTimeoutForClaimedTask) {
+        LongExpireTimeoutForClaimedTask = longExpireTimeoutForClaimedTask;
     }
 
 }

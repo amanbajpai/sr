@@ -65,6 +65,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView textQuestionsCount;
     private TextView photoQuestionsCount;
     private TextView taskDistance;
+    private TextView deadlineTimeText;
 
     private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
@@ -110,6 +111,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
         dueTextView = (TextView) findViewById(R.id.dueTextView);
+        deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
         expireText = (TextView) findViewById(R.id.expireText);
 
         taskPrice = (TextView) findViewById(R.id.taskPrice);
@@ -188,13 +190,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                long currentTime = calendar.getTimeInMillis();
+                long claimTimeInMillisecond = calendar.getTimeInMillis();
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                 task.setIsMy(true);
-                task.setClaimed(UIUtils.longToString(currentTime, 2));
-                task.setLongClaimDateTime(currentTime);
+                task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
+                task.setLongClaimDateTime(claimTimeInMillisecond);
 
-                String dateTime = UIUtils.longToString(UIUtils.isoTimeToLong(wave.getEndDateTime()), 5);
+
+                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+                String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
+
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
@@ -256,7 +261,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
 
-        deadlineTimeTextView.setText(task.getIsMy() ? R.string.mission_due : R.string.deadline_time);
+        deadlineTimeText.setText(task.getIsMy() ? R.string.mission_due : R.string.deadline_time);
         expireText.setText(task.getIsMy() ? R.string.due_in : R.string.duration_time);
 
         taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice()));
@@ -298,11 +303,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
-        deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
 
         if (task.getIsMy()) {
+            deadlineTimeTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
             dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
         } else {
+            deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
             dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         }
 

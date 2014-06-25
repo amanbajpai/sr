@@ -114,11 +114,11 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
-        long leftTimeInMillisecond = endTimeInMillisecond - calendar.getTimeInMillis();
+        long timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, leftTimeInMillisecond));
+        dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
 
         projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice()));
         projectExp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
