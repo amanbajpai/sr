@@ -7,17 +7,15 @@ buildscript {
         maven { url 'http://download.crashlytics.com/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
-        // load plugin for tests
         classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
-        //classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
 
     }
 }
 apply plugin: 'android'
 apply plugin: 'android-cq'
-apply plugin: 'android-test'
+//apply plugin: 'android-test'
 //apply plugin: 'robolectric'
 
 repositories {
@@ -30,8 +28,8 @@ dependencies {
 
     // Google Play Services
     compile 'com.google.android.gms:play-services:4.2.42'
-    compile 'com.android.support:appcompat-v7:19.0.1'
-    compile 'com.android.support:support-v4:19.0.1'
+    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.android.support:support-v4:19.0.+'
 
     compile 'com.google.code.gson:gson:2.2.4'
 	compile 'ch.acra:acra:4.5.0'
@@ -41,14 +39,14 @@ dependencies {
     compile project(':libs:clusterkraf')
 
     // test dependencies
-    testCompile 'junit:junit:4.11'
+    /*testCompile 'junit:junit:4.11'
     testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    testCompile 'com.squareup:fest-android:1.0.+'
+    testCompile 'com.squareup:fest-android:1.0.+'*/
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         minSdkVersion 9
@@ -76,6 +74,8 @@ android {
     }
 }
 
-
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.9'
+}
 
 
