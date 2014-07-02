@@ -123,8 +123,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice()));
         projectExp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
         projectLocations.setText(String.valueOf(wave.getTaskCount()));
-        textQuestionsCount.setText("0");
-        photoQuestionsCount.setText("0");
+        textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
+        photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
         //TODO Get wave type from server
         getSupportActionBar().setIcon(UIUtils.getWaveTypeActionBarIcon(1));

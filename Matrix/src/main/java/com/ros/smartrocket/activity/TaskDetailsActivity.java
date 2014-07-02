@@ -87,6 +87,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout deadlineTimeLayout;
     private LinearLayout expireTimeLayout;
 
+    private TextView titleTextView;
+
     public TaskDetailsActivity() {
     }
 
@@ -257,6 +259,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setTaskData(Task task) {
+        if (titleTextView != null) {
+            titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
+        }
         startTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
         deadlineTimeLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
@@ -453,9 +458,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         actionBarView = actionBar.getCustomView();
 
-        if (wave != null) {
-            TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        if (task != null) {
+            titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
+            titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
         }
         return true;
     }
