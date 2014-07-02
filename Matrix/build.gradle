@@ -28,8 +28,8 @@ dependencies {
 
     // Google Play Services
     compile 'com.google.android.gms:play-services:4.2.42'
-    compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.android.support:support-v4:19.0.+'
+    compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:support-v4:19.0.1'
 
     compile 'com.google.code.gson:gson:2.2.4'
 	compile 'ch.acra:acra:4.5.0'
