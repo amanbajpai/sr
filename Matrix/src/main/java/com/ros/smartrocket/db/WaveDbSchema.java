@@ -89,7 +89,7 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.EXPECTED_START_DATE_TIME.getName(),
                 Table.WAVE.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
 
-                Table.TASK.getName() + "." + Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                Table.WAVE.getName() + "." + Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                 Table.WAVE.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                 Table.WAVE.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
 

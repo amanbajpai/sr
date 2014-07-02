@@ -259,9 +259,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setTaskData(Task task) {
-        if (titleTextView != null) {
-            titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
-        }
         startTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
         deadlineTimeLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
@@ -270,8 +267,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         expireText.setText(task.getIsMy() ? R.string.due_in : R.string.duration_time);
 
         taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice()));
-        textQuestionsCount.setText("0");
-        photoQuestionsCount.setText("0");
+        textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
+        photoQuestionsCount.setText(String.valueOf(task.getPhotoQuestionsCount()));
         taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
 
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
@@ -299,6 +296,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setWaveData(Wave wave) {
+        if (titleTextView != null) {
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        }
+
         long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
 
@@ -458,9 +459,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         actionBarView = actionBar.getCustomView();
 
-        if (task != null) {
+        if (wave != null) {
             titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
         return true;
     }
