@@ -26,6 +26,8 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     private EditText countryEditText;
     private EditText cityEditText;
     private EditText emailEditText;
+    private Double latitude;
+    private Double longitude;
 
     public CheckLocationFailedActivity() {
     }
@@ -72,11 +74,12 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
                 UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
                 UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));
 
-                if (TextUtils.isEmpty(countryName) || TextUtils.isEmpty(cityName) || !UIUtils.isEmailValid(email)) {
+                if (TextUtils.isEmpty(countryName) || TextUtils.isEmpty(cityName) || !UIUtils.isEmailValid(email)
+                        || latitude == null || longitude == null) {
                     break;
                 }
 
-                apiFacade.subscribe(this, email, countryName, cityName);
+                apiFacade.subscribe(this, email, countryName, cityName, latitude, longitude);
                 break;
             case R.id.cancelButton:
                 startActivity(IntentUtils.getLoginIntentForLogout(this));
@@ -114,6 +117,9 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     private void setCurrentAddressByLocation() {
         Location location = lm.getLocation();
         if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
             lm.getAddress(location, new MatrixLocationManager.IAddress() {
                 @Override
                 public void onUpdate(Address address) {

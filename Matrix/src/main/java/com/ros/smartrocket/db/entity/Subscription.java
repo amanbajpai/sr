@@ -6,6 +6,8 @@ public class Subscription extends BaseEntity {
     private String Country;
     private String City;
     private String Email;
+    private Double Longitude;
+    private Double Latitude;
 
     public String getEmail() {
         return Email;
@@ -29,6 +31,22 @@ public class Subscription extends BaseEntity {
 
     public void setCity(String city) {
         City = city;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        Latitude = latitude;
     }
 
 }

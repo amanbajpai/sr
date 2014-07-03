@@ -408,11 +408,14 @@ public class APIFacade {
      * @param countryName
      * @param cityName
      */
-    public void subscribe(Activity activity, String email, String countryName, String cityName) {
+    public void subscribe(Activity activity, String email, String countryName, String cityName,
+                          Double latitude, Double longitude) {
         Subscription subscriptionEntity = new Subscription();
         subscriptionEntity.setEmail(email);
         subscriptionEntity.setCountry(countryName);
         subscriptionEntity.setCity(cityName);
+        subscriptionEntity.setLatitude(latitude);
+        subscriptionEntity.setLongitude(longitude);
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.SUBSCRIPTION);
