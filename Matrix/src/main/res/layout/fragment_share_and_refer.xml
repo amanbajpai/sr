@@ -51,7 +51,7 @@
                 android:drawableLeft="@drawable/share_icon_fb"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
-                android:id="@+id/linkedindButton"
+                android:id="@+id/linkedinButton"
                 style="@style/ShareButton"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

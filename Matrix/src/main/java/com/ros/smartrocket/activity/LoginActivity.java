@@ -99,6 +99,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+                if (loginResponse.getBitMaskSocialNetwork() != null) {
+                    preferencesManager.setBitMaskSocialNetwork(loginResponse.getBitMaskSocialNetwork());
+                }
 
                 //Generate Short url to share
                 googleUrlShortenManager.getShortUrl(this, loginResponse.getSharedLink(),

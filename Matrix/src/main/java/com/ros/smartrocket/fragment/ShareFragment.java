@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -50,18 +51,40 @@ public class ShareFragment extends Fragment implements OnClickListener {
         subject = getString(R.string.app_name);
         text = getString(R.string.app_name);
 
-        view.findViewById(R.id.emailButton).setOnClickListener(this);
-        view.findViewById(R.id.messageButton).setOnClickListener(this);
-        view.findViewById(R.id.twitterButton).setOnClickListener(this);
-        view.findViewById(R.id.facebookButton).setOnClickListener(this);
-        view.findViewById(R.id.linkedindButton).setOnClickListener(this);
-        view.findViewById(R.id.whatsappButton).setOnClickListener(this);
-        view.findViewById(R.id.wechatButton).setOnClickListener(this);
-        view.findViewById(R.id.tencentWeiboButton).setOnClickListener(this);
-        view.findViewById(R.id.sinaWeiboButton).setOnClickListener(this);
-        view.findViewById(R.id.qzoneButton).setOnClickListener(this);
+        Button emailButton = (Button) view.findViewById(R.id.emailButton);
+        Button messageButton = (Button) view.findViewById(R.id.messageButton);
+        Button twitterButton = (Button) view.findViewById(R.id.twitterButton);
+        Button facebookButton = (Button) view.findViewById(R.id.facebookButton);
+        Button linkedinButton = (Button) view.findViewById(R.id.linkedinButton);
+        Button whatsappButton = (Button) view.findViewById(R.id.whatsappButton);
+        Button wechatButton = (Button) view.findViewById(R.id.wechatButton);
+        Button tencentWeiboButton = (Button) view.findViewById(R.id.tencentWeiboButton);
+        Button sinaWeiboButton = (Button) view.findViewById(R.id.sinaWeiboButton);
+        Button qzoneButton = (Button) view.findViewById(R.id.qzoneButton);
+
+        int bitMask = preferencesManager.getBitMaskSocialNetwork();
+
+        showButtonIfNeed(emailButton, bitMask, SocialNetworks.Email.getId());
+        showButtonIfNeed(messageButton, bitMask, SocialNetworks.Message.getId());
+        showButtonIfNeed(twitterButton, bitMask, SocialNetworks.Twitter.getId());
+        showButtonIfNeed(facebookButton, bitMask, SocialNetworks.Facebook.getId());
+        showButtonIfNeed(linkedinButton, bitMask, SocialNetworks.LinkedIn.getId());
+        showButtonIfNeed(whatsappButton, bitMask, SocialNetworks.WhatsApp.getId());
+        showButtonIfNeed(wechatButton, bitMask, SocialNetworks.WeChat.getId());
+        showButtonIfNeed(tencentWeiboButton, bitMask, SocialNetworks.TencentWeibo.getId());
+        showButtonIfNeed(sinaWeiboButton, bitMask, SocialNetworks.SinaWeibo.getId());
+        showButtonIfNeed(qzoneButton, bitMask, SocialNetworks.Qzone.getId());
 
         return view;
+    }
+
+    public void showButtonIfNeed(Button button, int bitMask, int socialId) {
+        if ((bitMask & socialId) == socialId) {
+            button.setVisibility(View.VISIBLE);
+            button.setOnClickListener(this);
+        } else {
+            button.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -85,7 +108,7 @@ public class ShareFragment extends Fragment implements OnClickListener {
                 shareType = "Twitter";
                 intent = IntentUtils.getShareTwitterIntent(subject, text + " " + shortUrl);
                 break;
-            case R.id.linkedindButton:
+            case R.id.linkedinButton:
                 shareType = "LinkedIn";
                 intent = IntentUtils.getShareLinkedInIntent(subject, text + " " + shortUrl);
                 break;
@@ -139,5 +162,29 @@ public class ShareFragment extends Fragment implements OnClickListener {
         ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.share_title);
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public enum SocialNetworks {
+        Email(1),
+        Message(2),
+        Facebook(4),
+        Twitter(8),
+        LinkedIn(16),
+        WhatsApp(32),
+        WeChat(64),
+        TencentWeibo(128),
+        SinaWeibo(256),
+        Qzone(512);
+
+        private int bitMask;
+
+        private SocialNetworks(int bitMask) {
+            this.bitMask = bitMask;
+        }
+
+        public int getId() {
+            return bitMask;
+        }
+
     }
 }

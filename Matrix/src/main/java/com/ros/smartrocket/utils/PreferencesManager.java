@@ -187,6 +187,14 @@ public class PreferencesManager {
         setString(Keys.SHORT_URL_TO_SHARE, url);
     }
 
+    public int getBitMaskSocialNetwork() {
+        return getInt(Keys.BIT_MASK_SOCIAL_NETWORK, 0);
+    }
+
+    public void setBitMaskSocialNetwork(int bitMask) {
+        setInt(Keys.BIT_MASK_SOCIAL_NETWORK, bitMask);
+    }
+
     public void setLastLevelNumber(int levelNumber) {
         setInt(Keys.LAST_LEVEL_NUMBER, levelNumber);
     }

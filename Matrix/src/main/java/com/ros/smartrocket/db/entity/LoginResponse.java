@@ -5,6 +5,7 @@ public class LoginResponse extends BaseEntity {
 
     private String Token;
     private String SharedLink;
+    private Integer BitMaskSocialNetwork;
     private Boolean State = false;
 
     public String getToken() {
@@ -31,5 +32,11 @@ public class LoginResponse extends BaseEntity {
         SharedLink = sharedLink;
     }
 
+    public Integer getBitMaskSocialNetwork() {
+        return BitMaskSocialNetwork;
+    }
 
+    public void setBitMaskSocialNetwork(Integer bitMaskSocialNetwork) {
+        BitMaskSocialNetwork = bitMaskSocialNetwork;
+    }
 }
