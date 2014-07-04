@@ -30,6 +30,9 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onRegistered(Context context, String registrationId) {
         L.d(TAG, "Device registered: regId = " + registrationId);
         CommonUtilities.displayMessage(context, getString(R.string.gcm_registered));
+
+        APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId);
+        PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
     }
 
     @Override

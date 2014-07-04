@@ -49,7 +49,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private ImageView levelIcon;
     private TextView nameTextView;
     private TextView balanceTextView;
-    private TextView levelTextView;
+    private TextView rocketPointNumberTextView;
     private TextView levelName;
     private TextView minLevelExperience;
     private TextView maxLevelExperience;
@@ -67,7 +67,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
         nameTextView = (TextView) view.findViewById(R.id.nameTextView);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
-        levelTextView = (TextView) view.findViewById(R.id.levelNumberTextView);
+        rocketPointNumberTextView = (TextView) view.findViewById(R.id.rocketPointNumberTextView);
         levelName = (TextView) view.findViewById(R.id.levelName);
         minLevelExperience = (TextView) view.findViewById(R.id.minLevelExperience);
         maxLevelExperience = (TextView) view.findViewById(R.id.maxLevelExperience);
@@ -140,7 +140,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         nameTextView.setText(myAccount.getName());
         balanceTextView.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance()));
-        levelTextView.setText(String.valueOf(myAccount.getLevelNumber()));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
         minLevelExperience.setText(String.valueOf(myAccount.getMinLevelExperience()));
         maxLevelExperience.setText(String.valueOf(myAccount.getMaxLevelExperience()));
@@ -151,6 +150,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
             levelProgressBar.setMax(maxProgress);
             levelProgressBar.setProgress(currentProgress);
+            rocketPointNumberTextView.setText(String.valueOf(myAccount.getExperience()));
         }
 
 

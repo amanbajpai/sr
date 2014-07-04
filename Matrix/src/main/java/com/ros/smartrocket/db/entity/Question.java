@@ -42,6 +42,8 @@ public class Question extends BaseEntity implements Serializable {
 
     private String ValidationComment;
 
+    private Integer Routing;
+
     private transient Integer PreviousQuestionOrderId;
 
     @SkipFieldInContentValues
@@ -73,6 +75,8 @@ public class Question extends BaseEntity implements Serializable {
             result.setPatternType(c.getInt(QuestionDbSchema.Query.PATTERN_TYPE));
             result.setVideoSource(c.getInt(QuestionDbSchema.Query.VIDEO_SOURCE));
             result.setPhotoSource(c.getInt(QuestionDbSchema.Query.PHOTO_SOURCE));
+
+            result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
         }
 
         L.d("Question", result.toString());
@@ -226,6 +230,14 @@ public class Question extends BaseEntity implements Serializable {
 
     public void setPhotoSource(Integer photoSource) {
         PhotoSource = photoSource;
+    }
+
+    public Integer getRouting() {
+        return Routing;
+    }
+
+    public void setRouting(Integer routing) {
+        Routing = routing;
     }
 
 }

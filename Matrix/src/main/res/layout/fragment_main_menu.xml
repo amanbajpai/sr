@@ -121,7 +121,7 @@
                     android:textSize="@dimen/text_size_15sp"
                     android:text="@string/rocket_points" />
                 <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/levelNumberTextView"
+                    android:id="@+id/rocketPointNumberTextView"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:paddingTop="3dp"

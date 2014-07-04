@@ -181,18 +181,17 @@ public class AnswersBL {
      */
     public static int getNextQuestionOrderId(Question question) {
         int orderId = 0;
-        if (question.getAnswers() != null) {
+
+        if (question.getRouting() != null) {
+            orderId = question.getRouting();
+        } else if (question.getAnswers() != null) {
             for (Answer answer : question.getAnswers()) {
                 if (answer.isChecked()) {
                     orderId = answer.getRouting();
-                    if (orderId == 0) {
-                        orderId = question.getOrderId() + 1;
-                    }
                     break;
                 }
             }
-        }
-        if (orderId == 0) {
+        } else if (orderId == 0) {
             orderId = question.getOrderId() + 1;
         }
         return orderId;

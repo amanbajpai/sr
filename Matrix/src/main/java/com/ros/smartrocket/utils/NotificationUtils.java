@@ -51,6 +51,7 @@ public class NotificationUtils {
                 locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_expired.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
@@ -117,6 +118,7 @@ public class NotificationUtils {
                 validationText, missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_approved.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.green);
@@ -145,6 +147,7 @@ public class NotificationUtils {
                 missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
@@ -176,6 +179,7 @@ public class NotificationUtils {
                 validationText, missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_rejected.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
@@ -207,6 +211,7 @@ public class NotificationUtils {
                 deadlineDateText, missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);

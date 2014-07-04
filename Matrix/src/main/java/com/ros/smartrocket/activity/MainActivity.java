@@ -10,6 +10,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
+import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -37,6 +38,8 @@ public class MainActivity extends BaseSlidingMenuActivity {
         fragmentHelper.startFragmentFromStack(this, fragment);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
+
+        CommonUtilities.registerGCMInBackground();
 
         /*NotificationUtils.startExpiredNotificationActivity(this, "missionName", "locationName", "missionAddress");*/
         /*NotificationUtils.startApprovedNotificationActivity(this, "Validation Text", "missionName", "locationName",

@@ -32,6 +32,8 @@ public interface QuestionDbSchema {
         VIDEO_SOURCE("VideoSource", DBType.NUMERIC),
         PHOTO_SOURCE("PhotoSource", DBType.NUMERIC),
 
+        ROUTING("Routing", DBType.NUMERIC),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -89,7 +91,9 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.MAX_VALUES.getName(),
                 Table.QUESTION.getName() + "." + Columns.PATTERN_TYPE.getName(),
                 Table.QUESTION.getName() + "." + Columns.VIDEO_SOURCE.getName(),
-                Table.QUESTION.getName() + "." + Columns.PHOTO_SOURCE.getName()
+                Table.QUESTION.getName() + "." + Columns.PHOTO_SOURCE.getName(),
+
+                Table.QUESTION.getName() + "." + Columns.ROUTING.getName()
 
 
         };
@@ -114,5 +118,7 @@ public interface QuestionDbSchema {
         int PATTERN_TYPE = 16;
         int VIDEO_SOURCE = 17;
         int PHOTO_SOURCE = 18;
+
+        int ROUTING = 19;
     }
 }
