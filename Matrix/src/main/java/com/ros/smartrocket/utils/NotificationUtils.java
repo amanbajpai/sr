@@ -63,6 +63,45 @@ public class NotificationUtils {
     }
 
     /**
+     * Show notification about changed task status
+     *
+     * @param context    - current context
+     * @param jsonObject - message Json object
+     */
+    public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
+        try {
+            JSONObject messageObject = new JSONObject(jsonObject);
+            int statusType = messageObject.optInt("StatusType");
+            int waveId = messageObject.optInt("WaveId");
+            int taskId = messageObject.optInt("TaskId");
+            String taskName = messageObject.optString("TaskName");
+            String validationText = messageObject.optString("ValidationText");
+            String locationName = messageObject.optString("LocationName");
+            String missionAddress = messageObject.optString("MissionAddress");
+            //String endDateTime = messageObject.optString("endDateTime");
+
+            switch (TasksBL.getTaskStatusType(statusType)) {
+                case reDoTask:
+                    NotificationUtils.startRedoNotificationActivity(context, waveId, taskId, taskName,
+                            locationName, missionAddress);
+                    break;
+                case validated:
+                    NotificationUtils.startApprovedNotificationActivity(context, validationText, taskName, locationName,
+                            missionAddress);
+                    break;
+                case rejected:
+                    NotificationUtils.startRejectNotificationActivity(context, validationText, taskName, locationName,
+                            missionAddress);
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
+        }
+    }
+
+    /**
      * Start popup-notification about approved task
      *
      * @param context        - current context
@@ -181,43 +220,6 @@ public class NotificationUtils {
         intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.open_mission);
 
         context.startActivity(intent);
-    }
-
-    /**
-     * Show notification about changed task status
-     *
-     * @param context    - current context
-     * @param jsonObject - message Json object
-     */
-    public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
-        try {
-            JSONObject messageObject = new JSONObject(jsonObject);
-            int statusType = messageObject.optInt("StatusType");
-            int waveId = messageObject.optInt("WaveId");
-            int taskId = messageObject.optInt("TaskId");
-            String taskName = messageObject.optString("TaskName");
-            //String endDateTime = messageObject.optString("endDateTime");
-
-            //TODO
-            switch (TasksBL.getTaskStatusType(statusType)) {
-                case reDoTask:
-                    NotificationUtils.startRedoNotificationActivity(context, waveId, taskId, taskName,
-                            "locationName", "missionAddress");
-                    break;
-                case validated:
-                    NotificationUtils.startApprovedNotificationActivity(context, "Validation Text", taskName, "locationName",
-                            "missionAddress");
-                    break;
-                case rejected:
-                    NotificationUtils.startRejectNotificationActivity(context, "Validation Text", taskName, "locationName",
-                            "missionAddress");
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-            L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
-        }
     }
 
     /**
