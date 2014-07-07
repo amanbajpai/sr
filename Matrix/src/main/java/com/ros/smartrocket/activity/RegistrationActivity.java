@@ -357,13 +357,13 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (view.getId()) {
+        switch (parent.getId()) {
             case R.id.educationLevelSpinner:
                 int educationLevel = EDUCATION_LEVEL_CODE[educationLevelSpinner.getSelectedItemPosition()];
 
                 UIUtils.setSpinnerBackgroundByState(educationLevelSpinner, educationLevel != 0);
                 break;
-            case R.id.emailEditText:
+            case R.id.employmentStatusSpinner:
                 int employmentStatus = EMPLOYMENT_STATUS_CODE[employmentStatusSpinner.getSelectedItemPosition()];
 
                 UIUtils.setSpinnerBackgroundByState(employmentStatusSpinner, employmentStatus != 0);
