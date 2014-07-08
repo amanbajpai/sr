@@ -48,6 +48,7 @@ import java.util.TimeZone;
 public class UIUtils {
     private static final String TAG = "UIUtils";
     private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static final SimpleDateFormat ISO_DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ");
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
@@ -406,7 +407,10 @@ public class UIUtils {
                 result = DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
                 break;
             case 2:
-                result = ISO_DATE_FORMAT.format(new Date(dateLong));
+                ISO_DATE_FORMAT2.setTimeZone(TimeZone.getTimeZone("UTC"));
+                String utcDate = ISO_DATE_FORMAT2.format(new Date(dateLong));
+
+                result = utcDate.substring(0, utcDate.length() - 5) + "+00:00";
                 break;
             case 3:
                 result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));

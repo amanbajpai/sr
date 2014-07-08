@@ -198,6 +198,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
                 task.setLongClaimDateTime(claimTimeInMillisecond);
 
+                TasksBL.updateTask(handler, task);
 
                 long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
                 String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
@@ -225,7 +226,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
 
-                TasksBL.updateTask(handler, task);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId() + "_"
                         + task.getId());

@@ -169,7 +169,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
         mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
-        if (questionType != Question.QuestionType.photo.getTypeId() && questionType != Question.QuestionType.video.getTypeId()) {
+        if (questionType != Question.QuestionType.photo.getTypeId()
+                && questionType != Question.QuestionType.video.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
             questionOf.setText(getString(R.string.question_of, currentQuestionOrderId, questionsToAnswerCount));
         } else {
