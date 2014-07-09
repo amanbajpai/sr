@@ -28,6 +28,7 @@ public interface Keys {
     String LAST_LEVEL_NUMBER = "last_level_number";
     String DEFAULT_RADIUS = "default_radius";
     String SHOW_HIDDEN_TASKS = "show_hidden_tasks";
+    String SHOW_HIDDEN_PROJECT = "show_hidden_project";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";

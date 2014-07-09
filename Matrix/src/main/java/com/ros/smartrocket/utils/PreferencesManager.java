@@ -235,6 +235,14 @@ public class PreferencesManager {
         setBoolean(Keys.SHOW_HIDDEN_TASKS, use);
     }
 
+    public boolean getShowHiddenProject() {
+        return getBoolean(Keys.SHOW_HIDDEN_PROJECT, false);
+    }
+
+    public void setShowHiddenProject(boolean use) {
+        setBoolean(Keys.SHOW_HIDDEN_PROJECT, use);
+    }
+
     public int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
     }

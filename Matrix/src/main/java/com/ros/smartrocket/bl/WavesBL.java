@@ -106,7 +106,8 @@ public class WavesBL {
         ArrayList<Wave> result = new ArrayList<Wave>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                result.add(Wave.fromCursorByDistance(cursor));
+                Wave wave = Wave.fromCursorByDistance(cursor);
+                result.add(wave);
             }
             cursor.close();
         }

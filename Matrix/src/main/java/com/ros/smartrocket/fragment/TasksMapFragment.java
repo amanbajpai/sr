@@ -211,6 +211,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             setViewMode(getArguments());
             updateUI();
             loadData();
+
+            showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
         } else {
             if (isFilterShow) {
                 showFilterPanel(false);

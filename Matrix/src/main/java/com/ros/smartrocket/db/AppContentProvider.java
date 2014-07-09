@@ -140,7 +140,11 @@ public class AppContentProvider extends ContentProvider {
                         Table.WAVE.getName() + "."
                                 + WaveDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.PHOTO_QUESTIONS_COUNT.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.NO_PHOTO_QUESTIONS_COUNT.getName()
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
+                        "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
+                                + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
+                                + WaveDbSchema.Columns.ID.getName() + " AND " + TaskDbSchema.Columns.IS_HIDE.getName()
+                                + "=0) == 0",
 
                 };
 

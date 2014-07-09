@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
@@ -53,6 +55,9 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     private AsyncQueryHandler handler;
     private WaveAdapter adapter;
 
+    private LinearLayout showHideMissionLayout;
+    private Button showHideMissionButton;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -72,6 +77,13 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         waveList.setEmptyView(emptyListLTextView);
         waveList.setOnItemClickListener(this);
         waveList.setAdapter(adapter);
+
+        showHideMissionLayout = (LinearLayout) view.findViewById(R.id.showHideMissionLayout);
+
+        showHideMissionButton = (Button) view.findViewById(R.id.showHideMissionButton);
+        showHideMissionButton.setOnClickListener(this);
+
+        refreshHiddenStatus(preferencesManager.getShowHiddenTask());
         return view;
     }
 
@@ -88,6 +100,8 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
 
         if (!hidden) {
             getWaves();
+
+            refreshHiddenStatus(preferencesManager.getShowHiddenTask());
         }
     }
 
@@ -165,6 +179,14 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 getWaves();
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 break;
+            case R.id.showHideMissionButton:
+                preferencesManager.setShowHiddenTask(!preferencesManager.getShowHiddenTask());
+                refreshHiddenStatus(preferencesManager.getShowHiddenTask());
+
+                final int radius = TasksMapFragment.taskRadius;
+
+                WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
+                break;
             default:
                 break;
         }
@@ -188,6 +210,14 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
             } else {
                 refreshButton.clearAnimation();
             }
+        }
+    }
+
+    private void refreshHiddenStatus(boolean showHiddenProject) {
+        if (showHiddenProject) {
+            showHideMissionButton.setText(getString(R.string.hide_hidden_projects));
+        } else {
+            showHideMissionButton.setText(getString(R.string.show_hidden_projects));
         }
     }
 

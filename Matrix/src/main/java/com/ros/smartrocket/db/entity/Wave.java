@@ -63,6 +63,9 @@ public class Wave extends BaseEntity {
     @SkipFieldInContentValues
     private Country Country;
 
+    @SkipFieldInContentValues
+    private transient Boolean IsAllTaskHide = false;
+
     public Wave() {
     }
 
@@ -145,6 +148,7 @@ public class Wave extends BaseEntity {
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.NO_PHOTO_QUESTIONS_COUNT));
+            result.setIsAllTaskHide(c.getInt(WaveDbSchema.QueryWaveByDistance.IS_ALL_TASK_HIDE)==1);
 
         }
         return result;
@@ -375,4 +379,11 @@ public class Wave extends BaseEntity {
         LongExpireTimeoutForClaimedTask = longExpireTimeoutForClaimedTask;
     }
 
+    public Boolean getIsAllTaskHide() {
+        return IsAllTaskHide;
+    }
+
+    public void setIsAllTaskHide(Boolean isAllMissionHide) {
+        IsAllTaskHide = isAllMissionHide;
+    }
 }

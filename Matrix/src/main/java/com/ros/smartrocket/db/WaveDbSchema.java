@@ -156,5 +156,6 @@ public interface WaveDbSchema {
         int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 25;
         int PHOTO_QUESTIONS_COUNT = 26;
         int NO_PHOTO_QUESTIONS_COUNT = 27;
+        int IS_ALL_TASK_HIDE = 28;
     }
 }
