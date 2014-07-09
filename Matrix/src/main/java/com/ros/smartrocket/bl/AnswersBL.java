@@ -191,7 +191,9 @@ public class AnswersBL {
                     break;
                 }
             }
-        } else if (orderId == 0) {
+        }
+
+        if (orderId == 0) {
             orderId = question.getOrderId() + 1;
         }
         return orderId;
