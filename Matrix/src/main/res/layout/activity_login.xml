@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
+            android:paddingStart="15dp"
             android:textColor="@color/orange"
             android:layout_marginTop="20dp"
             android:text="@string/remember_me" />
