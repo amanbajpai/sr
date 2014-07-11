@@ -6,6 +6,7 @@ public class CheckLocationResponse extends BaseEntity {
     private Boolean Status = false;
     private Integer CountryId;
     private Integer CityId;
+    private Integer DistrictId;
 
     public Boolean getStatus() {
         return Status;
@@ -29,6 +30,14 @@ public class CheckLocationResponse extends BaseEntity {
 
     public void setCityId(Integer cityId) {
         CityId = cityId;
+    }
+
+    public Integer getDistrictId() {
+        return DistrictId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        DistrictId = districtId;
     }
 
 }

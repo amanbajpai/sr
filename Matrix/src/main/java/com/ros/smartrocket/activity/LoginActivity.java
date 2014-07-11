@@ -144,6 +144,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 if (checkLocationResponse.getStatus() && currentAddress != null) {
                     Intent intent = new Intent(this, ReferralCasesActivity.class);
+                    intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());

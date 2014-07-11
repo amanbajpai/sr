@@ -386,8 +386,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
                 break;
             case R.id.withdrawTaskButton:
-                String endDateTime = UIUtils.longToString(UIUtils.isoTimeToLong(wave.getEndDateTime()), 3);
-                new WithdrawTaskDialog(this, endDateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
+                long claimTimeInMillisecond = task.getLongClaimDateTime();
+                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+                String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
+
+                new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
                     @Override
                     public void onNoButtonPressed(Dialog dialog) {
                     }

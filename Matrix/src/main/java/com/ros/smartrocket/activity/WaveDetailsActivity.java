@@ -18,6 +18,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
@@ -136,6 +137,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
             case R.id.hideAllTasksButton:
                 nearTask.setIsHide(true);
                 TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), true);
+                startActivity(IntentUtils.getMainActivityIntent(this));
+                finish();
                 break;
             case R.id.showAllTasksButton:
                 TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);

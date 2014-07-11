@@ -11,6 +11,7 @@ public class Registration extends BaseEntity {
     private Integer EducationLevel;
     private Integer EmploymentStatus;
     private String Birthday;
+    private Integer DistrictId;
     private Integer CountryId;
     private Integer CityId;
     private Double Longitude;
@@ -142,4 +143,11 @@ public class Registration extends BaseEntity {
         TermsAndConditionsVersion = termsAndConditionsVersion;
     }
 
+    public Integer getDistrictId() {
+        return DistrictId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        DistrictId = districtId;
+    }
 }

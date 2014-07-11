@@ -105,6 +105,7 @@ public interface Keys {
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";
     String COUNTRY_ID = "country_id";
+    String DISTRICT_ID = "district_id";
     String COUNTRY_NAME = "country_name";
     String CITY_ID = "city_id";
     String CITY_NAME = "city_name";

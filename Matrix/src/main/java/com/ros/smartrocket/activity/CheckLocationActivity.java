@@ -59,6 +59,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                                     }
 
                                     intent.putExtra(Keys.COUNTRY_ID, serverResponse.getCountryId());
+                                    intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
                                     intent.putExtra(Keys.COUNTRY_NAME, address.getCountryName());
                                     intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
                                     intent.putExtra(Keys.CITY_NAME, address.getLocality());

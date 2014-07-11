@@ -63,6 +63,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private TextView passwordValidationText;
     private CheckBox agreeCheckBox;
     private Long selectedBirthDay = null;
+    private int districtId;
     private int countryId;
     private int cityId;
     private String countryName;
@@ -87,6 +88,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_registration);
 
         if (getIntent() != null) {
+            districtId = getIntent().getIntExtra(Keys.DISTRICT_ID, 0);
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
             cityId = getIntent().getIntExtra(Keys.CITY_ID, 0);
             countryName = getIntent().getStringExtra(Keys.COUNTRY_NAME);
@@ -267,6 +269,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setFirstName(firstName);
                 registrationEntity.setLastName(lastName);
                 registrationEntity.setBirthday(UIUtils.longToString(selectedBirthDay, 2));
+                registrationEntity.setDistrictId(districtId);
                 registrationEntity.setCountryId(countryId);
                 registrationEntity.setCityId(cityId);
                 registrationEntity.setLatitude(latitude);
