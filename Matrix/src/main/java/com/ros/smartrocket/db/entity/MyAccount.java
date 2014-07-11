@@ -15,6 +15,7 @@ public class MyAccount extends BaseEntity {
     private String LevelName;
     private String LevelDescription;
     private String LevelIconUrl;
+    private String CurrencySign;
 
     private Integer TermsAndConditionsVersion;
 
@@ -123,4 +124,11 @@ public class MyAccount extends BaseEntity {
         LevelDescription = levelDescription;
     }
 
+    public String getCurrencySign() {
+        return CurrencySign;
+    }
+
+    public void setCurrencySign(String currencySign) {
+        CurrencySign = currencySign;
+    }
 }

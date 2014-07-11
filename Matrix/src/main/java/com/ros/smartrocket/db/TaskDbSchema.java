@@ -63,6 +63,8 @@ public interface TaskDbSchema {
         PHOTO_QUESTIONS_COUNT("PhotoQuestionsCount", DBType.INT),
         NO_PHOTO_QUESTIONS_COUNT("NoPhotoQuestionsCount", DBType.INT),
 
+        CURRENCY_SIGN("CurrencySign", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -131,7 +133,8 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.LONG_REDO_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.LONG_CLAIM_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
-                    Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName()
+                    Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
+                    Table.TASK.getName() + "." + Columns.CURRENCY_SIGN.getName()
             };
 
             int _ID = 0;
@@ -166,6 +169,7 @@ public interface TaskDbSchema {
             int LONG_CLAIM_DATE_TIME = 29;
             int PHOTO_QUESTIONS_COUNT = 30;
             int NO_PHOTO_QUESTIONS_COUNT = 31;
+            int CURRENCY_SIGN = 32;
         }
     }
 }

@@ -35,7 +35,7 @@ public class Config {
     public static String PROFILE_PAGE_URL;
 
     public static boolean LOG_ENABLED;
-    public static final boolean CAN_USE_FAKE_LOCATION = false; //TODO Remove in production
+    public static final boolean CAN_USE_FAKE_LOCATION = true; //TODO Remove in production
 
     static {
         APP_VERSION = UIUtils.getAppVersion(App.getInstance());

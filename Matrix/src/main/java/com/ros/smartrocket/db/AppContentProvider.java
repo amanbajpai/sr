@@ -134,17 +134,18 @@ public class AppContentProvider extends ContentProvider {
 
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPERIENCE_OFFER.getName(),
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK
-                                .getName(),
+                        .getName(),
                         Table.WAVE.getName() + "."
-                                + WaveDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                        + WaveDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                         Table.WAVE.getName() + "."
-                                + WaveDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
+                        + WaveDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.PHOTO_QUESTIONS_COUNT.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
                         "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
-                                + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
-                                + WaveDbSchema.Columns.ID.getName() + " AND " + TaskDbSchema.Columns.IS_HIDE.getName()
-                                + "=0) == 0",
+                        + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
+                        + WaveDbSchema.Columns.ID.getName() + " AND " + TaskDbSchema.Columns.IS_HIDE.getName()
+                        + "=0) == 0",
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.CURRENCY_SIGN.getName()
 
                 };
 

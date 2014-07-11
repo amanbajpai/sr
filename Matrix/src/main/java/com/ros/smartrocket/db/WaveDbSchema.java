@@ -157,5 +157,6 @@ public interface WaveDbSchema {
         int PHOTO_QUESTIONS_COUNT = 26;
         int NO_PHOTO_QUESTIONS_COUNT = 27;
         int IS_ALL_TASK_HIDE = 28;
+        int NEAR_TASK_CURRENCY_SIGN = 29;
     }
 }

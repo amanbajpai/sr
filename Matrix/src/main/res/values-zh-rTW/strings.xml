@@ -66,6 +66,8 @@
     <string name="distance_to_nearest_location" >Distance to the nearest location &lt;b>%1$s &lt;/b></string >
     <string name="distance_m" >m</string >
     <string name="distance_km" >km</string >
+    <string name="show_hidden_projects" >SHOW HIDDEN PROJECTS</string >
+    <string name="hide_hidden_projects" >HIDE HIDDEN PROJECTS</string >
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >Mission due: %1$s</string >
     <string name="no_mission_available" >There are currently no missions available in your area. \nPlease check back

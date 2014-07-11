@@ -122,6 +122,7 @@ public class Task extends BaseEntity {
 
             result.setPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.NO_PHOTO_QUESTIONS_COUNT));
+            result.setCurrencySign(c.getString(TaskDbSchema.Query.All.CURRENCY_SIGN));
         }
         L.d("Task", result.toString());
         return result;
@@ -369,6 +370,16 @@ public class Task extends BaseEntity {
     public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
         PhotoQuestionsCount = photoQuestionsCount;
     }
+
+    public String getCurrencySign() {
+        return CurrencySign;
+    }
+
+    public void setCurrencySign(String currencySign) {
+        CurrencySign = currencySign;
+    }
+
+    private String CurrencySign;
 
 
     /**

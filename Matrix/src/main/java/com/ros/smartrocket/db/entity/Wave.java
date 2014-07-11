@@ -66,6 +66,10 @@ public class Wave extends BaseEntity {
     @SkipFieldInContentValues
     private transient Boolean IsAllTaskHide = false;
 
+    @SkipFieldInContentValues
+    private String NearTaskCurrencySign;
+
+
     public Wave() {
     }
 
@@ -148,7 +152,8 @@ public class Wave extends BaseEntity {
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.NO_PHOTO_QUESTIONS_COUNT));
-            result.setIsAllTaskHide(c.getInt(WaveDbSchema.QueryWaveByDistance.IS_ALL_TASK_HIDE)==1);
+            result.setIsAllTaskHide(c.getInt(WaveDbSchema.QueryWaveByDistance.IS_ALL_TASK_HIDE) == 1);
+            result.setNearTaskCurrencySign(c.getString(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_CURRENCY_SIGN));
 
         }
         return result;
@@ -385,5 +390,14 @@ public class Wave extends BaseEntity {
 
     public void setIsAllTaskHide(Boolean isAllMissionHide) {
         IsAllTaskHide = isAllMissionHide;
+    }
+
+
+    public String getNearTaskCurrencySign() {
+        return NearTaskCurrencySign;
+    }
+
+    public void setNearTaskCurrencySign(String nearTaskCurrencySign) {
+        NearTaskCurrencySign = nearTaskCurrencySign;
     }
 }

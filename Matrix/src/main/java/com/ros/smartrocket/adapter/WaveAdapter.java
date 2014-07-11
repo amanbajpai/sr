@@ -81,7 +81,8 @@ public class WaveAdapter extends BaseAdapter {
         holder.image.setImageResource(UIUtils.getWaveTypeListIcon(1));
 
         holder.locations.setText(String.valueOf(wave.getTaskCount()));
-        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice()));
+        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
+                wave.getNearTaskCurrencySign()));
         holder.exp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
 
         Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, wave.getNearTaskDistance(),

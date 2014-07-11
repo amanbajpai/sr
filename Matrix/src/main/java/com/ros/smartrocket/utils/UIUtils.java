@@ -687,8 +687,8 @@ public class UIUtils {
      * @param balance - current balance
      * @return String
      */
-    public static String getBalanceOrPrice(Context context, Double balance) {
-        return "$" + String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
+    public static String getBalanceOrPrice(Context context, Double balance, String symbol) {
+        return symbol + " " + String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
     }
 
     public static void setActionBarBackground(ActionBarActivity activity, int statusId) {
