@@ -95,8 +95,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
             <com.ros.smartrocket.views.CustomTextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"

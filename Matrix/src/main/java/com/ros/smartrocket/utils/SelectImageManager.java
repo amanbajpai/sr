@@ -35,8 +35,8 @@ public class SelectImageManager {
     public static final int GALLERY = 101;
     public static final int CAMERA = 102;
     public static final int CUSTOM_CAMERA = 103;
-
     private static final int NONE = 0;
+
     private static final int HORIZONTAL = 1;
     private static final int VERTICAL = 2;
     private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
@@ -46,6 +46,7 @@ public class SelectImageManager {
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
 
+    private final static PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private static SelectImageManager instance = null;
     private OnImageCompleteListener imageCompleteListener;
     private Activity activity;
@@ -154,6 +155,10 @@ public class SelectImageManager {
 
             } else if (requestCode == SelectImageManager.CAMERA || requestCode == SelectImageManager.CUSTOM_CAMERA) {
                 bitmap = getBitmapFromCamera(intent);
+
+                if (preferencesManager.getUseSaveImageToCameraRoll()) {
+                    MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "", "");
+                }
             }
 
             if (imageCompleteListener != null) {
@@ -193,25 +198,40 @@ public class SelectImageManager {
         InputStream is;
         File file = lastFile;
 
-        if (!file.exists()) {
-            try {
-                Uri u = intent.getData();
-                is = activity.getContentResolver().openInputStream(u);
-                FileOutputStream fos = new FileOutputStream(file, false);
-                OutputStream os = new BufferedOutputStream(fos);
-                byte[] buffer = new byte[1024];
-                int byteRead;
-                while ((byteRead = is.read(buffer)) != -1) {
-                    os.write(buffer, 0, byteRead);
+        if (intent != null && intent.getData() != null) {
+            if (!file.exists()) {
+                try {
+                    Uri u = intent.getData();
+                    is = activity.getContentResolver().openInputStream(u);
+                    FileOutputStream fos = new FileOutputStream(file, false);
+                    OutputStream os = new BufferedOutputStream(fos);
+                    byte[] buffer = new byte[1024];
+                    int byteRead;
+                    while ((byteRead = is.read(buffer)) != -1) {
+                        os.write(buffer, 0, byteRead);
+                    }
+                    fos.close();
+                } catch (Exception e) {
+                    L.e(TAG, "GetBitmapFromCamera error" + e.getMessage(), e);
                 }
-                fos.close();
-            } catch (Exception e) {
-                L.e(TAG, "GetBitmapFromCamera error" + e.getMessage(), e);
             }
         }
 
         return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
     }
+
+    /*public static File getPhotoFileFromContentURI(Context context, Uri contentUri) {
+        Cursor cursor = context.getContentResolver().query(contentUri, null, null, null, null);
+
+        String fileUri = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            int idx = cursor.getColumnIndex(ImageColumns.DATA);
+            if (idx != -1) {
+                fileUri = cursor.getString(idx);
+            }
+        }
+        return new File(fileUri);
+    }*/
 
     public static Bitmap prepareBitmap(File f) {
         return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, false);
