@@ -11,7 +11,7 @@ public class Question extends BaseEntity implements Serializable {
 
     public enum QuestionType {
         none(0), multiple_choice(1), photo(2), validation(3), reject(4), openComment(5), single_choice(6),
-        video(7), number(8);
+        video(7), number(8), instruction(9);
 
         private int typeId;
 

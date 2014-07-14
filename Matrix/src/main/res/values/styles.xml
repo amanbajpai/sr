@@ -125,6 +125,7 @@
         <item name="android:textSize" >@dimen/text_size_14sp</item >
         <item name="android:textColor" >@color/white</item >
         <item name="android:singleLine" >true</item >
+        <item name="android:ellipsize" >none</item >
     </style >
     <!-- Task List Styles -->
     <style name="TaskListTitle" parent="@android:style/Widget.TextView" >
@@ -355,6 +356,7 @@
         <item name="android:textSize" >@dimen/text_size_15sp</item >
         <item name="android:textColor" >@color/white</item >
         <item name="android:singleLine" >true</item >
+        <item name="android:ellipsize" >none</item >
     </style >
 
     <style name="TaskDetailButton" parent="Button" >

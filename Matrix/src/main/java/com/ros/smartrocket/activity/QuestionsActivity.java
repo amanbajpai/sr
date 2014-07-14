@@ -271,6 +271,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case number:
                     currentFragment = new QuestionType6Fragment();
                     break;
+                case instruction:
+                    //TODO Create new question's type
+                    //currentFragment = new QuestionType6Fragment();
+                    break;
                 default:
                     break;
             }
