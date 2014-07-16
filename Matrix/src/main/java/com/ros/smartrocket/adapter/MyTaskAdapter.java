@@ -32,7 +32,7 @@ public class MyTaskAdapter extends BaseAdapter {
         private TextView distance;
 
         private LinearLayout timeAndDistanceLayout;
-        private TextView locationNameAddressText;
+        private TextView locationName;
 
         private TextView statusText;
         private LinearLayout optionLayout;
@@ -81,7 +81,7 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.distance = (TextView) convertView.findViewById(R.id.distance);
 
             holder.timeAndDistanceLayout = (LinearLayout) convertView.findViewById(R.id.timeAndDistanceLayout);
-            holder.locationNameAddressText = (TextView) convertView.findViewById(R.id.locationNameAddressText);
+            holder.locationName = (TextView) convertView.findViewById(R.id.locationName);
 
             holder.statusText = (TextView) convertView.findViewById(R.id.statusText);
             holder.optionLayout = (LinearLayout) convertView.findViewById(R.id.optionLayout);
@@ -100,11 +100,11 @@ public class MyTaskAdapter extends BaseAdapter {
         Task task = items.get(position);
 
         holder.timeAndDistanceLayout.setVisibility(View.GONE);
-        holder.locationNameAddressText.setVisibility(View.GONE);
+        holder.locationName.setVisibility(View.GONE);
 
         holder.name.setText(task.getName());
         holder.image.setImageResource(UIUtils.getWaveTypeListIcon(2));
-        holder.locationNameAddressText.setText(task.getCountryName() + " " + task.getAddress());
+        holder.locationName.setText(String.valueOf(task.getLocationName()));
         holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
         holder.textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
@@ -167,7 +167,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
 
-                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+                holder.locationName.setVisibility(View.VISIBLE);
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
@@ -185,7 +185,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
 
-                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+                holder.locationName.setVisibility(View.VISIBLE);
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
@@ -229,7 +229,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
 
-                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+                holder.locationName.setVisibility(View.VISIBLE);
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.yellow));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
@@ -247,7 +247,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_dark_bg);
 
-                holder.locationNameAddressText.setVisibility(View.VISIBLE);
+                holder.locationName.setVisibility(View.VISIBLE);
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_dark));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));

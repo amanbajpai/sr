@@ -274,12 +274,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
         taskDescription.setText(task.getDescription());
 
-        if (TextUtils.isEmpty(task.getAddress()) && TextUtils.isEmpty(task.getCountryName())) {
+        if (TextUtils.isEmpty(task.getLocationName()) && TextUtils.isEmpty(task.getAddress())) {
             addressLayout.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(task.getCountryName())) {
-            locationName.setText(getString(R.string.welcome) + " " + task.getCountryName());
+        if (!TextUtils.isEmpty(task.getLocationName())) {
+            locationName.setText(task.getLocationName());
         } else {
             locationName.setVisibility(View.GONE);
         }

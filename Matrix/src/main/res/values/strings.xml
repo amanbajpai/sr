@@ -200,7 +200,7 @@
     <string name="looking_for_location" >Checking your current location&#8230;</string >
     <string name="current_location_not_defined" >Unable to confirm your current location. Please try again.</string >
     <!-- Select image dialog -->
-    <string name="take_picture" >Take picture</string >
+    <string name="take_picture" >Choose picture</string >
     <string name="choose_from_gallery" >Choose from gallery</string >
     <string name="take_from_camera" >Take from camera</string >
     <string name="remove_current_picture" >Remove current picture</string >

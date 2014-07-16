@@ -54,6 +54,9 @@ public class Task extends BaseEntity {
     private Integer PhotoQuestionsCount;
     private Integer NoPhotoQuestionsCount;
 
+    private String CurrencySign;
+    private String LocationName;
+
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
@@ -123,6 +126,7 @@ public class Task extends BaseEntity {
             result.setPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.NO_PHOTO_QUESTIONS_COUNT));
             result.setCurrencySign(c.getString(TaskDbSchema.Query.All.CURRENCY_SIGN));
+            result.setLocationName(c.getString(TaskDbSchema.Query.All.LOCATION_NAME));
         }
         L.d("Task", result.toString());
         return result;
@@ -379,7 +383,14 @@ public class Task extends BaseEntity {
         CurrencySign = currencySign;
     }
 
-    private String CurrencySign;
+    public String getLocationName() {
+        return LocationName;
+    }
+
+    public void setLocationName(String locationName) {
+        LocationName = locationName;
+    }
+
 
 
     /**
