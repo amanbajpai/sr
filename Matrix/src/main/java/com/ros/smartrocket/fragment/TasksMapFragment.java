@@ -477,17 +477,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
 
         if (mode == Keys.MapViewMode.ALL_TASKS) {
-            restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
+            restoreCameraPositionByRadius(location, taskRadius);
             addRadius(location);
 
         } else {
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (InputPoint point : inputPoints) {
-                builder.include(point.getMapPosition());
-            }
-            builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
-
-            restoreCameraByPins = !inputPoints.isEmpty() ? builder.build() : null;
+            restoreCameraPositionByPins(location, inputPoints);
         }
 
 
@@ -658,6 +652,18 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS;
     }
 
+    private void restoreCameraPositionByPins(Location location, ArrayList<InputPoint> inputPoints) {
+        if (location != null) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (InputPoint point : inputPoints) {
+                builder.include(point.getMapPosition());
+            }
+            builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
+
+            restoreCameraByPins = /*!inputPoints.isEmpty() ?*/ builder.build() /*: null*/;
+        }
+    }
+
     private void restoreCameraPositionByRadius(Location location, int radius) {
         if (location != null) {
             zoomLevel = getZoomForMetersWide(radius * 2, location.getLatitude());
@@ -743,7 +749,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             if (restoreCameraByPins != null) {
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
-                        display.getHeight(), 200));
+                        display.getHeight()-UIUtils.getPxFromDp(getActivity(), 150), 100));
             }
         } else {
             if (restoreCameraByPins != null) {

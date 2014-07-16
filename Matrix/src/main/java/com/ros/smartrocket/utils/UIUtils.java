@@ -688,7 +688,16 @@ public class UIUtils {
      * @return String
      */
     public static String getBalanceOrPrice(Context context, Double balance, String symbol) {
-        return symbol + " " + String.format(Locale.US, "%.2f", balance)/* + " " + context.getString(R.string.hk)*/;
+        String result = symbol + " ";
+        /*String balanceString = String.valueOf(balance);
+        int countAfterPoint = balanceString.substring(balanceString.lastIndexOf(".")+1,
+                balanceString.length()).length();
+        if (countAfterPoint > 0) {
+            result = result + String.format(Locale.US, "%.2f", balance);
+        } else {
+            result = result + String.format(Locale.US, "%.0f", balance);
+        }*/
+        return result + balance;
     }
 
     public static void setActionBarBackground(ActionBarActivity activity, int statusId) {

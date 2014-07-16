@@ -48,9 +48,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
     public static final int[] MISSION_LIMIT_MB_CODE = new int[]{10000, 10, 25, 50, 100};
     public static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "10", "25", "50", "100"};
-    public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS, DateUtils.MINUTE_IN_MILLIS * 2,
-            DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10, DateUtils.MINUTE_IN_MILLIS * 30,
-            DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
+    public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
+            DateUtils.MINUTE_IN_MILLIS * 30, DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
 
     private Spinner languageSpinner;
     private Spinner deadlineReminderSpinner;

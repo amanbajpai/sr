@@ -3,6 +3,7 @@ package com.ros.smartrocket.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -36,8 +37,9 @@ public class LevelUpDialog extends Dialog implements View.OnClickListener {
 
         MyAccount account = App.getInstance().getMyAccount();
 
-        ((TextView) findViewById(R.id.rankDescription)).setText(activity.getString(R.string.you_have_been_promoted,
-                account.getLevelName(), String.valueOf(account.getLevelNumber())));
+        ((TextView) findViewById(R.id.rankDescription)).setText(Html.fromHtml(activity.getString(R.string
+                        .you_have_been_promoted,
+                account.getLevelName(), String.valueOf(account.getLevelNumber()))));
         ((TextView) findViewById(R.id.levelDescription)).setText(account.getLevelDescription());
 
         String levelIconUrl = account.getLevelIconUrl();
