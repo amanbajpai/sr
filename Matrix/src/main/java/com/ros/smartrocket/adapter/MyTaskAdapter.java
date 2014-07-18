@@ -1,6 +1,7 @@
 package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +105,9 @@ public class MyTaskAdapter extends BaseAdapter {
 
         holder.name.setText(task.getName());
         holder.image.setImageResource(UIUtils.getWaveTypeListIcon(2));
-        holder.locationName.setText(String.valueOf(task.getLocationName()));
+        if(!TextUtils.isEmpty(task.getLocationName())){
+            holder.locationName.setText(String.valueOf(task.getLocationName()));
+        }
         holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
         holder.textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
