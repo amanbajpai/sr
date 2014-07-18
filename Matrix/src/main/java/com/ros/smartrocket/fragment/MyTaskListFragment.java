@@ -167,7 +167,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
         View view = actionBar.getCustomView();
         refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
-        refreshButton.setOnClickListener(this);
+        if (refreshButton != null) {
+            refreshButton.setOnClickListener(this);
+        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }

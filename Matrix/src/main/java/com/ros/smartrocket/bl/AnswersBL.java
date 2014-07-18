@@ -182,7 +182,7 @@ public class AnswersBL {
     public static int getNextQuestionOrderId(Question question) {
         int orderId = 0;
 
-        if (question.getRouting() != null) {
+        if (question.getRouting() != null && question.getRouting() != 0) {
             orderId = question.getRouting();
         } else if (question.getAnswers() != null) {
             for (Answer answer : question.getAnswers()) {

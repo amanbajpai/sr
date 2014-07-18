@@ -135,21 +135,27 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.hideAllTasksButton:
-                nearTask.setIsHide(true);
-                TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), true);
-                startActivity(IntentUtils.getMainActivityIntent(this));
-                finish();
+                if (nearTask != null) {
+                    nearTask.setIsHide(true);
+                    TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), true);
+                    startActivity(IntentUtils.getMainActivityIntent(this));
+                    finish();
+                }
                 break;
             case R.id.showAllTasksButton:
-                TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);
-                nearTask.setIsHide(false);
+                if (nearTask != null) {
+                    TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);
+                    nearTask.setIsHide(false);
+                }
             case R.id.mapImageView:
-                Bundle bundle = new Bundle();
-                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, nearTask.getWaveId());
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.WAVE_TASKS.toString());
-                Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (nearTask != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Keys.MAP_VIEW_ITEM_ID, nearTask.getWaveId());
+                    bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.WAVE_TASKS.toString());
+                    Intent intent = new Intent(this, MapActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;
