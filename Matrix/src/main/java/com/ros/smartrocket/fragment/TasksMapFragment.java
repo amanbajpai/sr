@@ -234,6 +234,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     uiSettings.setAllGesturesEnabled(false);
                     uiSettings.setScrollGesturesEnabled(true);
                     uiSettings.setZoomGesturesEnabled(true);
+                    uiSettings.setIndoorLevelPickerEnabled(false);
+                    map.setIndoorEnabled(false);
                     map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                         @Override
                         public void onCameraChange(CameraPosition pos) {
