@@ -51,6 +51,7 @@ import com.ros.smartrocket.map.TaskOptionsChooser;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;

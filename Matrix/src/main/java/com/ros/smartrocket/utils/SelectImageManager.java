@@ -52,7 +52,7 @@ public class SelectImageManager {
     private Activity activity;
 
     // Configuration
-    private static final int MAX_SIZE_IN_PX = 500;
+    private static final int MAX_SIZE_IN_PX = 700;
     public static final int SIZE_IN_PX_2_MP = 1600;
     private static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
 

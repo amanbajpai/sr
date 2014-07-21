@@ -726,4 +726,8 @@ public class UIUtils {
     public static long getHoursAsMilliseconds(int hoursCount) {
         return hoursCount * DateUtils.HOUR_IN_MILLIS;
     }
+
+    public static void transformLocation(){
+
+    }
 }

@@ -13,6 +13,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
 
 import java.io.IOException;
@@ -82,6 +83,8 @@ public class MatrixLocationManager implements LocationListener,
         if (lastLocation != null) {
             L.i(TAG, "getLocation[" + lastLocation + ", time=" + new Date(lastLocation.getTime()) + "]");
         }
+
+        ChinaTransformLocation.transformLocation(lastLocation);
         return lastLocation;
     }
 

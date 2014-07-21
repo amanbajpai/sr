@@ -92,14 +92,16 @@ public class TasksBL {
         long currentTime = Calendar.getInstance().getTimeInMillis();
 
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and (("
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
+                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.rejected.getStatusId() + " and (("
                         + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
                         + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
-                        .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") " +
-                        " or (" + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() +
-                        " and ("
+                        .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
+                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
                         + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
-                        .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + "))",
+                        .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validation.getStatusId()
+                        + "))",
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
     }
@@ -115,7 +117,9 @@ public class TasksBL {
                         " or (" + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() +
                         " and ("
                         + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
-                        .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ")) and "
+                        .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validation.getStatusId()
+                        + ")) and "
                         + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.completed.getStatusId()
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.validated.getStatusId()
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.rejected.getStatusId(),
