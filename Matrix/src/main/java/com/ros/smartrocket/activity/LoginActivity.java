@@ -240,6 +240,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     DialogUtils.showMockLocationDialog(this, true);
                 } else {
                     progressDialog = CustomProgressDialog.show(this);
+                    progressDialog.setCancelable(false);
                     registerButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
 

@@ -27,6 +27,7 @@ import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -89,6 +90,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private TextView titleTextView;
 
+    private CustomProgressDialog progressDialog;
+
     public TaskDetailsActivity() {
     }
 
@@ -103,6 +106,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
         }
+
+        progressDialog = CustomProgressDialog.show(this);
+        progressDialog.setCancelable(false);
+        progressDialog.hide();
 
         handler = new DbHandler(getContentResolver());
 
@@ -182,16 +189,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        setSupportProgressBarIndeterminateVisibility(false);
-
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
-                setSupportProgressBarIndeterminateVisibility(true);
 
                 Location location = lm.getLocation();
 
                 apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.hide();
+
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
                 task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
                 task.setIsMy(true);
@@ -206,7 +212,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
-                        setSupportProgressBarIndeterminateVisibility(true);
+                        progressDialog.show();
                         apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
                     }
 
@@ -219,7 +225,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onStartNowButtonPressed(Dialog dialog) {
-                        setSupportProgressBarIndeterminateVisibility(true);
+                        progressDialog.show();
                         setButtonsSettings(task);
                         apiFacade.startTask(TaskDetailsActivity.this, task.getId());
 
@@ -227,6 +233,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
 
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.hide();
+
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId() + "_"
                         + task.getId());
 
@@ -242,17 +250,22 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 startActivity(IntentUtils.getMainActivityIntent(this));
 
             } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.hide();
+
                 changeStatusToStartedAndOpenQuestion(true);
             }
         } else {
             if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
+                progressDialog.hide();
                 DialogUtils.showMaximumMissionDialog(this);
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
                     && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
+                progressDialog.hide();
                 UIUtils.showSimpleToast(this, getString(R.string.task_no_longer_available));
             } else {
+                progressDialog.hide();
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
         }
@@ -371,7 +384,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
-                setSupportProgressBarIndeterminateVisibility(true);
+                progressDialog.show();
 
                 apiFacade.getQuestions(this, task.getWaveId(), taskId);
                 break;
@@ -398,6 +411,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onYesButtonPressed(Dialog dialog) {
                         setSupportProgressBarIndeterminateVisibility(true);
+                        progressDialog.show();
                         apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
                     }
                 });
@@ -405,6 +419,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case R.id.startTaskButton:
                 if (UIUtils.isOnline(this)) {
                     setSupportProgressBarIndeterminateVisibility(true);
+                    progressDialog.show();
                     apiFacade.startTask(TaskDetailsActivity.this, task.getId());
                 } else {
                     changeStatusToStartedAndOpenQuestion(false);
