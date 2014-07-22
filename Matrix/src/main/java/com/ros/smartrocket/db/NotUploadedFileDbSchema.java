@@ -26,6 +26,8 @@ public interface NotUploadedFileDbSchema {
         FILE_CODE("FileCode", DBType.TEXT),
         FILE_NAME("FileName", DBType.TEXT),
 
+        TASK_NAME("TaskName", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -75,6 +77,8 @@ public interface NotUploadedFileDbSchema {
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.PORTION.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_CODE.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_NAME.getName(),
+
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_NAME.getName()
         };
 
         int _ID = 0;
@@ -91,5 +95,7 @@ public interface NotUploadedFileDbSchema {
         int PORTION = 10;
         int FILE_CODE = 11;
         int FILE_NAME = 12;
+
+        int TASK_NAME = 13;
     }
 }

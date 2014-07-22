@@ -186,8 +186,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         if (!notUploadedFileList.isEmpty()) {
                             for (NotUploadedFile notUploadedFile : notUploadedFileList) {
                                 if (needSendNotification(notUploadedFile)) {
-                                    NotificationUtils.sendNotUploadedFileNotification(UploadFileService.this,
-                                            notUploadedFile);
+                                    NotificationUtils.startFileNotUploadedNotificationActivity(UploadFileService.this,
+                                            notUploadedFile.getTaskName());
 
                                     FilesBL.updateShowNotificationStep(notUploadedFile);
                                 }

@@ -62,7 +62,7 @@ public class AnswersBL {
      * @return List<NotUploadedFile>
      */
 
-    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, long endDateTime) {
+    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, String taskName, long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=?",
@@ -76,6 +76,7 @@ public class AnswersBL {
                 NotUploadedFile fileToUpload = new NotUploadedFile();
                 fileToUpload.setRandomId();
                 fileToUpload.setTaskId(answer.getTaskId());
+                fileToUpload.setTaskName(taskName);
                 fileToUpload.setQuestionId(answer.getQuestionId());
                 fileToUpload.setFileUri(answer.getFileUri());
                 fileToUpload.setFileSizeB(answer.getFileSizeB());

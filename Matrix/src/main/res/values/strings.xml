@@ -349,6 +349,10 @@
     <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
         address.</string >
     <!-- NOTIFICATION ACTIVITY-->
+    <!--file not uploaded-->
+    <string name="not_uploaded_notification_title" >Attention</string >
+    <string name="not_uploaded_notification_text" >%1$s Mission submission has failed. Some files of this mission
+        didn\'t upload. Please change source of internet.</string >
     <!--expire-->
     <string name="expire_mission_notification_title" >Expired</string >
     <string name="expire_mission_notification_text" >The following mission has expired and has been removed from your

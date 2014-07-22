@@ -37,6 +37,29 @@ public class NotificationUtils {
     public static final int NOTIFICATION_ID = 1;
 
     /**
+     * Start popup-notification about not uploaded files
+     *
+     * @param context        - current context
+     * @param missionName    - current missionName
+     */
+    public static void startFileNotUploadedNotificationActivity(Context context, String missionName) {
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.not_uploaded_notification_text, missionName));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_expired.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.not_uploaded_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+
+        context.startActivity(intent);
+    }
+
+    /**
      * Start popup-notification about expired task
      *
      * @param context        - current context

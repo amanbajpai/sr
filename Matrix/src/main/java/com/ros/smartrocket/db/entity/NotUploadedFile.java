@@ -34,6 +34,7 @@ public class NotUploadedFile extends BaseEntity {
     }
 
     private Integer TaskId;
+    private String TaskName;
     private Integer QuestionId;
     private String FileUri;
     private Long AddedToUploadDateTime;
@@ -58,13 +59,15 @@ public class NotUploadedFile extends BaseEntity {
             result.setFileUri(c.getString(NotUploadedFileDbSchema.Query.FILE_URI));
             result.setAddedToUploadDateTime(c.getLong(NotUploadedFileDbSchema.Query.ADDED_TO_UPLOAD_DATE_TIME));
             result.setEndDateTime(c.getLong(NotUploadedFileDbSchema.Query.END_DATE_TIME));
-            result.setUse3G(c.getInt(NotUploadedFileDbSchema.Query.USE_3G) == 0 ? false : true);
+            result.setUse3G(c.getInt(NotUploadedFileDbSchema.Query.USE_3G) != 0);
             result.setFileSizeB(c.getLong(NotUploadedFileDbSchema.Query.FILE_SIZE_B));
             result.setShowNotificationStepId(c.getInt(NotUploadedFileDbSchema.Query.SHOW_NOTIFICATION_STEP_ID));
 
             result.setPortion(c.getInt(NotUploadedFileDbSchema.Query.PORTION));
             result.setFileCode(c.getString(NotUploadedFileDbSchema.Query.FILE_CODE));
             result.setFileName(c.getString(NotUploadedFileDbSchema.Query.FILE_NAME));
+
+            result.setTaskName(c.getString(NotUploadedFileDbSchema.Query.TASK_NAME));
         }
         L.d("NotUploadedFile", result.toString());
         return result;
@@ -161,5 +164,13 @@ public class NotUploadedFile extends BaseEntity {
 
     public void setFileName(String fileName) {
         FileName = fileName;
+    }
+
+    public String getTaskName() {
+        return TaskName;
+    }
+
+    public void setTaskName(String taskName) {
+        TaskName = taskName;
     }
 }

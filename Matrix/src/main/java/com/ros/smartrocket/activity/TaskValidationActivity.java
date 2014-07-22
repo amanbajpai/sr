@@ -126,7 +126,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     long endDateTime = UIUtils.isoTimeToLong(task.getEndDateTime());
 
                     answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
-                    notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), endDateTime);
+                    notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), endDateTime);
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                     setTaskData(task);
