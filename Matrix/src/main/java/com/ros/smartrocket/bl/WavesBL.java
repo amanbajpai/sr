@@ -38,7 +38,14 @@ public class WavesBL {
         String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
         handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
-                WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, " and " + Table.TASK.getName()
+                WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, " AND (SELECT "
+                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
+                        .getName() + " WHERE " + TaskDbSchema.Columns.WAVE_ID.getName()
+                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND " + Table
+                        .TASK.getName() + "."
+                        + TaskDbSchema.Columns.IS_MY.getName() + "=0 " + withHiddenTaskWhere + " ORDER BY "
+                        + TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "."
+                        + TaskDbSchema.Columns.ID.getName() + " and " + Table.TASK.getName()
                         + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + withHiddenTaskWhere, null, null
         );
     }

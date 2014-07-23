@@ -95,14 +95,7 @@ public class AppContentProvider extends ContentProvider {
             case WAVE_BY_DISTANCE:
                 table = Table.WAVE.getName() + " JOIN " + Table.TASK.getName() + " ON ("
                         + Table.TASK.getName() + "." + TaskDbSchema.Columns.WAVE_ID.getName()
-                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND (SELECT "
-                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
-                        .getName() + " WHERE " + TaskDbSchema.Columns.WAVE_ID.getName()
-                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND " + Table
-                        .TASK.getName() + "."
-                        + TaskDbSchema.Columns.IS_MY.getName() + "=0 ORDER BY "
-                        + TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "."
-                        + TaskDbSchema.Columns.ID.getName() + selection + ")";
+                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + selection + ")";
 
                 colums = new String[]{Table.WAVE.getName() + "." + WaveDbSchema.Columns._ID.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName(),
