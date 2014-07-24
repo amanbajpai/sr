@@ -105,8 +105,8 @@ public class MyTaskAdapter extends BaseAdapter {
 
         holder.name.setText(task.getName());
         holder.image.setImageResource(UIUtils.getWaveTypeListIcon(2));
-        if(!TextUtils.isEmpty(task.getLocationName())){
-            holder.locationName.setText(String.valueOf(task.getLocationName()));
+        if (!TextUtils.isEmpty(task.getLocationName()) || !TextUtils.isEmpty(task.getAddress())) {
+            holder.locationName.setText(task.getLocationName() + " " + task.getAddress());
         }
         holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign()));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
