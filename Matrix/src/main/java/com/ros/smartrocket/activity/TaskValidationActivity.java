@@ -147,7 +147,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     if (!questions.isEmpty()) {
                         Question question = questions.get(0);
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted,
-                                "\n"+question.getQuestion()));
+                                "\n" + question.getQuestion()));
 
                     } else {
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted, ""));
@@ -195,7 +195,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         long missionDueMillisecond;
 
-        if(isRedo){
+        if (isRedo) {
             long reDoTimeInMillisecond = UIUtils.isoTimeToLong(task.getRedoDate());
             missionDueMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
         } else {
@@ -242,7 +242,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
 
         if (filesSizeB > 0) {
-            if (UIUtils.is3G(this) && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
+            if (UIUtils.is3G(this) && preferencesManager.get3GUploadTaskLimit() != 0
+                    && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
                 DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
                     @Override
                     public void onLeftButtonPressed(Dialog dialog) {

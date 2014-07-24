@@ -293,7 +293,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     public static boolean canUploadNextFile(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        return (preferencesManager.getUsed3GUploadMonthlySize() < preferencesManager.get3GUploadMonthLimit() &&
+        return ((preferencesManager.getUsed3GUploadMonthlySize() < preferencesManager.get3GUploadMonthLimit() ||
+                preferencesManager.get3GUploadMonthLimit() == 0) &&
                 UIUtils.is3G(context) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(context);
     }
 

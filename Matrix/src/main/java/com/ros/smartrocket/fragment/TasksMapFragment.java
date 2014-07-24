@@ -343,7 +343,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void loadTasksFromLocalDb() {
         if (mode == Keys.MapViewMode.ALL_TASKS) {
-            TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked());
+            TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             TasksBL.getMyTasksForMapFromDB(handler);
         } else if (mode == Keys.MapViewMode.WAVE_TASKS) {

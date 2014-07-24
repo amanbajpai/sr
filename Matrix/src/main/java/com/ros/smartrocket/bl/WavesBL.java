@@ -43,7 +43,9 @@ public class WavesBL {
                         .getName() + " WHERE " + TaskDbSchema.Columns.WAVE_ID.getName()
                         + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND " + Table
                         .TASK.getName() + "."
-                        + TaskDbSchema.Columns.IS_MY.getName() + "=0 " + withHiddenTaskWhere + " ORDER BY "
+                        + TaskDbSchema.Columns.IS_MY.getName() + "=0 " /*+ " AND " + Table
+                        .TASK.getName() + "."
+                        + TaskDbSchema.Columns.DISTANCE.getName() + "<" + radius*/ + withHiddenTaskWhere + " ORDER BY "
                         + TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "."
                         + TaskDbSchema.Columns.ID.getName() + " and " + Table.TASK.getName()
                         + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + withHiddenTaskWhere, null, null

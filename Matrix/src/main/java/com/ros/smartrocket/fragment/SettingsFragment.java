@@ -44,9 +44,9 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
     public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Chinese (Simplified)",
             "Chinese (Traditional)"};
-    public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{10000, 50, 100, 250, 500};
+    public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
     public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
-    public static final int[] MISSION_LIMIT_MB_CODE = new int[]{10000, 10, 25, 50, 100};
+    public static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 10, 25, 50, 100};
     public static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "10", "25", "50", "100"};
     public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
             DateUtils.MINUTE_IN_MILLIS * 30, DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
