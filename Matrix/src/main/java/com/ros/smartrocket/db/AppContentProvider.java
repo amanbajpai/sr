@@ -95,7 +95,17 @@ public class AppContentProvider extends ContentProvider {
             case WAVE_BY_DISTANCE:
                 table = Table.WAVE.getName() + " JOIN " + Table.TASK.getName() + " ON ("
                         + Table.TASK.getName() + "." + TaskDbSchema.Columns.WAVE_ID.getName()
-                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + selection + ")";
+                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND (SELECT "
+                        + Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName() + " FROM " + Table.TASK
+                        .getName() + " WHERE " + TaskDbSchema.Columns.WAVE_ID.getName()
+                        + " = " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + " AND " + Table
+                        .TASK.getName() + "."
+                        + TaskDbSchema.Columns.IS_MY.getName() + "=0 " /*+ " AND " + Table
+                        .TASK.getName() + "."
+                        + TaskDbSchema.Columns.DISTANCE.getName() + "<" + radius*/ + selection + " ORDER BY "
+                        + TaskDbSchema.Columns.DISTANCE.getName() + " ASC LIMIT 1) = " + Table.TASK.getName() + "."
+                        + TaskDbSchema.Columns.ID.getName() + " and " + Table.TASK.getName()
+                        + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + selection + ")";
 
                 colums = new String[]{Table.WAVE.getName() + "." + WaveDbSchema.Columns._ID.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName(),
@@ -121,7 +131,8 @@ public class AppContentProvider extends ContentProvider {
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName(),
                         "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
                                 + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
-                                + WaveDbSchema.Columns.ID.getName() + selection + ")",
+                                + WaveDbSchema.Columns.ID.getName() + " and " + Table.TASK.getName()
+                                + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + selection + ")",
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.PRICE.getName(),
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName(),
 
