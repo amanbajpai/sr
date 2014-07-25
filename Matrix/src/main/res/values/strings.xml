@@ -98,16 +98,8 @@
     <string name="deadline_warning" >Mission deadline warning</string >
     <string name="app_version" >Application version</string >
     <string name="confirm_and_save_big" >APPLY</string >
-    <!-- //TODO SUPPORT FRAGMENT-->
-    <string name="support_title" >Support</string >
-    <string name="support_text1" >Project description Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Phasellus eget feugiat justo. Integer eget ligula porta, commodo magna at, porta purus. Sed non placerat nisi. Aenean tempor nibh in purus egestas porta.</string >
-    <string name="support_text2" >Project description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string >
-    <string name="support_text3" >Phasellus eget feugiat justo. Integer eget ligula porta, commodo magna at, porta
-        purus. Sed non placerat nisi. Aenean tempor nibh in purus egestas porta.</string >
+    <string name="unlimited" >Unlimited</string >
     <string name="term_and_conditions" ><u >TERMS &amp; CONDITIONS</u ></string >
-    <string name="knowledge_base" >KNOWLEDGE BASE</string >
-    <string name="send_message" >SEND MESSAGE</string >
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title" >Share</string >
     <string name="tell_your_friends_about" >Tell your friends about \n SmartRocket!</string >
@@ -242,10 +234,7 @@
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
-    <!--<string name="write_your_opinion_about_this" >WRITE YOUR OPINION ABOUT THIS</string >-->
     <string name="write_your_number" >WRITE A NUMBER BETWEEN %1$s AND %2$s</string >
-    <!--<string name="take_photo_big" >TAKE PHOTO</string >
-    <string name="take_video_big" >TAKE VIDEO</string >-->
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quit mission</string >
     <string name="quite_task_dialog_text1" >Warning!</string >

@@ -42,8 +42,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
-    public static final String[] SUPPORTED_LANGUAGE = new String[]{"English", "Chinese (Simplified)",
-            "Chinese (Traditional)"};
+    public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "中文 （簡體）",
+            "中文 （繁體）"};
     public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
     public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
     public static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 10, 25, 50, 100};
@@ -74,6 +74,9 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
+
+        MONTHLY_LIMIT_MB[0] = getString(R.string.unlimited);
+        MISSION_LIMIT_MB[0] = getString(R.string.unlimited);
 
         languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
         deadlineReminderSpinner = (Spinner) view.findViewById(R.id.deadlineReminderSpinner);
@@ -213,7 +216,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirmAndSaveButton:
-                preferencesManager.setLanguageCode(SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()]);
+                String selectedLanguageCode = SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
+                boolean languageChanged = !preferencesManager.getLanguageCode().equals(selectedLanguageCode);
+
+                preferencesManager.setLanguageCode(selectedLanguageCode);
                 setDefaultLanguage(getActivity(), preferencesManager.getLanguageCode());
 
                 preferencesManager.setUseLocationServices(locationServicesToggleButton.isChecked());
@@ -243,7 +249,11 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 }
 
                 UIUtils.showSimpleToast(getActivity(), R.string.success);
-                moveToFindTaskFragment();
+                if (languageChanged) {
+                    getActivity().finish();
+                } else {
+                    moveToFindTaskFragment();
+                }
                 break;
             case R.id.cancelButton:
                 setData();
