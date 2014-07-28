@@ -77,7 +77,6 @@
     <string name="send_latter_mission" >Unsubmitted. Mission due: %1$s</string >
     <string name="mission_in_validation" >Mission in validation.</string >
     <string name="mission_rejected" >Mission rejected.</string >
-    <string name="mission_completed" >Mission completed.</string >
     <string name="mission_validated" >Congratulations! Mission approved!</string >
     <string name="time_left" >left</string >
     <string name="you_have_no_tasks" >You have no current missions. \nGo to \"New Missions\" to claim and complete
@@ -118,7 +117,6 @@
     <string name="task_detail_title" >%1$s</string >
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
-    <string name="hk" >HK$</string >
     <string name="start_time" >START: </string >
     <string name="deadline_time" >DEADLINE: </string >
     <string name="mission_due" >MISSION DUE: </string >
@@ -132,7 +130,6 @@
     <string name="show_task" >SHOW MISSION</string >
     <string name="withdraw_task" >WITHDRAW</string >
     <string name="continue_task" >CONTINUE</string >
-    <string name="welcome" >Welcome</string >
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="wave_missions_description" >FULL DESCRIPTION</string >
     <string name="show_missions" >SHOW MISSIONS</string >
@@ -173,13 +170,15 @@
         login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us
         at;</string >
     <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
-    <!-- BOOK TASK SUCCESS DIALOG -->
+    <!-- CLAIM TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >Mission claimed</string >
     <string name="book_task_success_dialog_text0" >This mission must be completed by;</string >
     <string name="book_task_success_dialog_text1" >You can find this mission in \"My Missions\" until it is
         successfully completed.</string >
     <string name="start_later" >Start later</string >
     <string name="start_now" >Start now</string >
+    <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
+    <string name="pre_claim_task_success_dialog_title" >Mission pre-claimed</string >
     <!-- GCM -->
     <string name="gcm_registered" >From GCM: device successfully registered!</string >
     <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >
@@ -229,7 +228,6 @@
     <string name="next" >NEXT</string >
     <string name="enter_here" >Enter here</string >
     <string name="please_write_in" >Other – please write in</string >
-    <!--<string name="from_till" >From %1$s till %2$s</string >-->
     <string name="quite_mission" >QUIT MISSION</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
@@ -243,7 +241,6 @@
     <!-- MAP FRAGMENT -->
     <string name="zoom_to_this_radius" >Set default zoom radius</string >
     <string name="show_hidden_tasks_on_map" >Show all hidden missions</string >
-    <!--<string name="show" >Show</string >-->
     <string name="min_distance" >0 km</string >
     <string name="max_distance" >20 km</string >
     <!-- TASK VALIDATION ACTIVITY -->
@@ -339,7 +336,7 @@
         address.</string >
     <!-- NOTIFICATION ACTIVITY-->
     <!--file not uploaded-->
-    <string name="not_uploaded_notification_title" >Attention</string >
+    <string name="not_uploaded_notification_title" >Attention!</string >
     <string name="not_uploaded_notification_text" >%1$s Mission submission has failed. Some files of this mission
         didn\'t upload. Please change source of internet.</string >
     <!--expire-->

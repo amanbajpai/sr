@@ -67,7 +67,7 @@
     <string name="show_hidden_projects" >SHOW HIDDEN PROJECTS</string >
     <string name="hide_hidden_projects" >HIDE HIDDEN PROJECTS</string >
     <!-- WAVES TASK LIST ACTIVITY -->
-    <string name="mission_expires_at" >Mission due: %1$s</string >
+    <string name="mission_expires_at" >任務到期： %1$s</string >
     <string name="no_mission_available" >There are currently no missions available in your area. \nPlease check back
         later to claim and complete new missions.</string >
     <!-- MY TASK FRAGMENT-->
@@ -75,7 +75,6 @@
     <string name="send_latter_mission" >未提交。任務到期於： %1$s</string >
     <string name="mission_in_validation" >任務認證中。</string >
     <string name="mission_rejected" >任務被拒絕。</string >
-    <string name="mission_completed" >Mission completed.</string >
     <string name="mission_validated" >恭喜！任務已獲批核！</string >
     <string name="time_left" >剩餘</string >
     <string name="you_have_no_tasks" >你目前沒有任何任務。\n請前往[新的任務]認領及完成新的任務。</string >
@@ -110,12 +109,11 @@
     <string name="share_via_tencent_weibo" >騰訊微博</string >
     <string name="share_via_sina_weibo" >新浪微博</string >
     <string name="share_via_qzone" >QQ空間</string >
-    <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
+    <string name="toast_sharing_disable_in_settings" >對不起，設定内的社交分享設定為關閉。</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >%1$s</string >
     <string name="task_distance_away" >%1$s %2$s 外</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
-    <string name="hk" >HK$</string >
     <string name="start_time" >開始：</string >
     <string name="deadline_time" >期限：</string >
     <string name="mission_due" >任務到期：</string >
@@ -129,7 +127,6 @@
     <string name="show_task" >顯示任務</string >
     <string name="withdraw_task" >退出</string >
     <string name="continue_task" >繼續</string >
-    <string name="welcome" >Welcome</string >
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="wave_missions_description" >任務簡介</string >
     <string name="show_missions" >SHOW MISSIONS</string >
@@ -138,7 +135,6 @@
     <string name="task_location_title" >任務地點</string >
     <!-- CHECK LOCATION ACTIVITY -->
     <string name="since_jobs" >註冊之前，我們需要查證你所在的地點是否有可選的任務。你必須保持連綫及開啓定位服務。</string >
-    <!--<string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >-->
     <string name="check_my_location" >檢視我的位置</string >
     <!-- ERROR STRINGS -->
     <string name="error" >錯誤</string >
@@ -171,6 +167,8 @@
     <string name="book_task_success_dialog_text1" >你可以於[我的任務]找到這個任務的資料，直到成功完成。</string >
     <string name="start_later" >稍後開始</string >
     <string name="start_now" >現在開始</string >
+    <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
+    <string name="pre_claim_task_success_dialog_title" >成功預先認領任務</string >
     <!-- GCM -->
     <string name="gcm_registered" >GCM發出：設備成功註冊！</string >
     <string name="gcm_unregistered" >GCM發出：設備成功取消註冊！</string >
@@ -218,7 +216,6 @@
     <string name="next" >下頁</string >
     <string name="enter_here" >請在此輸入</string >
     <string name="please_write_in" >Other – please write in</string >
-    <!--<string name="from_till" >From %1$s till %2$s</string >-->
     <string name="quite_mission" >放棄任務</string >
     <string name="question_of" >%2$s條問題之第%1$s條</string >
     <string name="choose_one_answer" >請選擇一個答案</string >
@@ -232,7 +229,6 @@
     <!-- MAP FRAGMENT -->
     <string name="zoom_to_this_radius" >設定預設瀏覽半徑</string >
     <string name="show_hidden_tasks_on_map" >顯示所有隱藏的任務</string >
-    <!--<string name="show" >Show</string >-->
     <string name="min_distance" >0公里</string >
     <string name="max_distance" >20公里</string >
     <!-- TASK VALIDATION ACTIVITY -->
@@ -278,16 +274,16 @@
     <string name="go_to_mission" >前往任務</string >
     <string name="deadline_reminder_dialog_text" >%1$s %2$s 過期於: %3$s</string >
     <plurals name="minute" >
-        <item quantity="one" >minute</item >
-        <item quantity="other" >minutes</item >
+        <item quantity="one" >分鐘</item >
+        <item quantity="other" >分鐘</item >
     </plurals >
     <plurals name="hour" >
-        <item quantity="one" >hour</item >
-        <item quantity="other" >hours</item >
+        <item quantity="one" >小時</item >
+        <item quantity="other" >小時</item >
     </plurals >
     <plurals name="day" >
-        <item quantity="one" >day</item >
-        <item quantity="other" >days</item >
+        <item quantity="one" >日</item >
+        <item quantity="other" >日</item >
     </plurals >
     <!-- FORGOT PASSWORD ACTIVITY -->
     <string name="send_password" >重設我的密碼</string >
@@ -341,7 +337,6 @@
     <!--reject-->
     <string name="reject_mission_notification_title" >注意!</string >
     <string name="reject_mission_notification_text" >對不起。以下的任務被拒絕了。&lt;br>&lt;br>%1$s
-        &lt;br>&lt;br>任務: &lt;b >%2$s&lt;/b > &lt;br>地點: &lt;b >%3$s&lt;/b >
         &lt;br> 地址: &lt;b >%4$s&lt;/b ></string >
     <!--deadline-->
     <string name="deadline_mission_notification_title" >注意!</string >
