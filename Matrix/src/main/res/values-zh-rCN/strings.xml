@@ -382,4 +382,5 @@
     <!-- LEVEL UP DIALOG -->
     <string name="congratulations" >Congratulations!</string >
     <string name="you_have_been_promoted" >You have been promoted to the rank of &lt;b >%1$s (Level %2$s)&lt;/b ></string >
+    <string name="you_have_been_promoted_ok" >OK</string >
 </resources >
