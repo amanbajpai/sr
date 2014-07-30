@@ -41,8 +41,6 @@
     <string name="fill_in_all_fields" >Please, complete all items</string >
     <string name="registration_form" >SmartRocket registration</string >
     <!-- MAIN MENU ACTIVITY -->
-    <string name="drawer_open" >Open menu drawer</string >
-    <string name="drawer_close" >Close menu drawer</string >
     <string name="find_mission" >New missions</string >
     <string name="my_missions" >My missions</string >
     <string name="my_portal" >MyPortal</string >
@@ -170,6 +168,7 @@
         login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us
         at;</string >
     <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
+    <string name="registration_success_dialog_ok" >OK</string >
     <!-- CLAIM TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >Mission claimed</string >
     <string name="book_task_success_dialog_text0" >This mission must be completed by;</string >
@@ -177,6 +176,7 @@
         successfully completed.</string >
     <string name="start_later" >Start later</string >
     <string name="start_now" >Start now</string >
+    <string name="book_task_success_dialog_cancel" >Cancel</string >
     <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
     <string name="pre_claim_task_success_dialog_title" >Mission pre-claimed</string >
     <!-- GCM -->
@@ -229,6 +229,7 @@
     <string name="enter_here" >Enter here</string >
     <string name="please_write_in" >Other – please write in</string >
     <string name="quite_mission" >QUIT MISSION</string >
+    <string name="quite_mission_cancel" >CANCEL</string >
     <string name="question_of" >QUESTION %1$s OF %2$s</string >
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
@@ -243,6 +244,7 @@
     <string name="show_hidden_tasks_on_map" >Show all hidden missions</string >
     <string name="min_distance" >0 km</string >
     <string name="max_distance" >20 km</string >
+    <string name="map_fragment_ok" >OK</string >
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_big" >SUBMIT MISSION</string >
     <string name="recheck_my_answer" >BACK</string >
@@ -280,6 +282,7 @@
     <string name="toast_application_not_found" >Application not found.</string >
     <!-- Date picker dialog -->
     <string name="date_picker_dialog_title_birthday" >Birthday</string >
+    <string name="date_picker_dialog_ok" >OK</string >
     <!-- LOGIN ACTIVITY -->
     <string name="maximum_mission_dialog_title" >Mission claim limit reached</string >
     <string name="maximum_mission_dialog_text" >You have claimed the maximum number of missions for this Project. To
@@ -334,11 +337,13 @@
     <string name="user_already_exists_dialog_title" >Invalid username.</string >
     <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
         address.</string >
+    <string name="user_already_exists_dialog_ok" >OK</string >
     <!-- NOTIFICATION ACTIVITY-->
     <!--file not uploaded-->
-    <string name="not_uploaded_notification_title" >Attention!</string >
-    <string name="not_uploaded_notification_text" >%1$s Mission submission has failed. Some files of this mission
-        didn\'t upload. Please change source of internet.</string >
+    <string name="not_uploaded_notification_title" >Attention - Submission Failed</string >
+    <string name="not_uploaded_notification_text" >Mission: %1$s \n\nThis mission upload has failed.
+        Please try again when your internet connection is stable. This mission will remain in My Missions
+        as a unsubmitted mission and must still be successfully submitted before the deadline.</string >
     <!--expire-->
     <string name="expire_mission_notification_title" >Expired</string >
     <string name="expire_mission_notification_text" >The following mission has expired and has been removed from your
@@ -374,9 +379,7 @@
     <string name="reset_password_text1" >Reset password</string >
     <string name="reset_password_text2" >Please enter a new password below.</string >
     <string name="submit" >SUBMIT</string >
-
     <!-- LEVEL UP DIALOG -->
     <string name="congratulations" >Congratulations!</string >
     <string name="you_have_been_promoted" >You have been promoted to the rank of &lt;b >%1$s (Level %2$s)&lt;/b ></string >
-
 </resources >

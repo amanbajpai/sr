@@ -89,7 +89,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/red"
-                android:text="@string/ok"
+                android:text="@string/registration_success_dialog_ok"
                 custom:textStyle="bold" />
         </LinearLayout >
     </ScrollView >

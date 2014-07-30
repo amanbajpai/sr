@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
     <string name="app_name" >SmartRocket</string >
-    <string name="click_back_again_to_exit" >請再次點擊[返回]退出此頁。</string >
+    <string name="click_back_again_to_exit" >請再次點擊[返回]完全退出。</string >
     <!-- LOGIN ACTIVITY -->
     <string name="your_email_hint" >你的電郵</string >
     <string name="your_password_hint" >密碼</string >
@@ -9,8 +9,7 @@
     <string name="login_big" >登入</string >
     <string name="i_new_user" >註冊新賬戶</string >
     <string name="login_fail_dialog_title" >SmartRocket 登入</string >
-    <string name="internet_connection_is_bad" >Your internet connection is unstable, please change source of
-        internet.</string >
+    <string name="internet_connection_is_bad" >你的網絡連綫不夠穩定，請嘗試重新連綫。</string >
     <string name="credentials_wrong" >你輸入的電郵或密碼不正確。請重新輸入。</string >
     <string name="account_not_activated" >你的SmartRocket賬戶尚未激活。使用SmartRocket之前，請檢查電郵，
         並點擊激活連結。如果你找不到我們的電郵，請檢查垃圾郵件夾或向我們要求新的激活連結。</string >
@@ -40,8 +39,6 @@
     <string name="fill_in_all_fields" >請填寫所有欄目。</string >
     <string name="registration_form" >SmartRocket註冊</string >
     <!-- MAIN MENU ACTIVITY -->
-    <string name="drawer_open" >開啓清單</string >
-    <string name="drawer_close" >關閉清單</string >
     <string name="find_mission" >新的任務</string >
     <string name="my_missions" >我的任務</string >
     <string name="my_portal" >我的網站</string >
@@ -50,7 +47,7 @@
     <string name="share" >分享</string >
     <string name="rocket_points" >飛船里數</string >
     <string name="level_name" >等級</string >
-    <string name="earnings" >收入</string >
+    <string name="earnings" >總收入</string >
     <string name="logout" >離開</string >
     <string name="level_0" >0</string >
     <string name="balance_0" >0$</string >
@@ -64,12 +61,11 @@
     <string name="distance_to_nearest_location" >離最近地點的距離 &lt;b>%1$s &lt;/b></string >
     <string name="distance_m" >米</string >
     <string name="distance_km" >公里</string >
-    <string name="show_hidden_projects" >SHOW HIDDEN PROJECTS</string >
-    <string name="hide_hidden_projects" >HIDE HIDDEN PROJECTS</string >
+    <string name="show_hidden_projects" >顯示隱藏項目</string >
+    <string name="hide_hidden_projects" >隱藏隱藏項目</string >
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >任務到期： %1$s</string >
-    <string name="no_mission_available" >There are currently no missions available in your area. \nPlease check back
-        later to claim and complete new missions.</string >
+    <string name="no_mission_available" >你所在的地區暫時沒有任務。請稍后再回來。</string >
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission" >重做。任務到期於： %1$s</string >
     <string name="send_latter_mission" >未提交。任務到期於： %1$s</string >
@@ -77,25 +73,25 @@
     <string name="mission_rejected" >任務被拒絕。</string >
     <string name="mission_validated" >恭喜！任務已獲批核！</string >
     <string name="time_left" >剩餘</string >
-    <string name="you_have_no_tasks" >你目前沒有任何任務。\n請前往[新的任務]認領及完成新的任務。</string >
+    <string name="you_have_no_tasks" >你目前未有認領任何任務。\n請前往[新的任務]找尋及認領任務。</string >
     <!-- SETTINGS FRAGMENT-->
     <string name="app_settings_title" >SmartRocket設定</string >
     <string name="application_settings" >應用程式設定</string >
     <string name="language" >語言</string >
-    <string name="location_services" >定位服務</string >
-    <string name="push_messages" >信息推送</string >
+    <string name="location_services" >允許定位服務</string >
+    <string name="push_messages" >允許信息推送</string >
     <string name="tree_g_upload_task_limit" >每次任務的3G上載上限 (MB)</string >
     <string name="tree_g_upload_month_limit" >每個月的3G總上載上限 (MB)</string >
-    <string name="social_sharing" >社交分享</string >
+    <string name="social_sharing" >允許社交分享</string >
     <string name="save_images_to_camera_roll" >將圖片存到相簿</string >
     <string name="send_only_by_wifi" >只在有WiFi時傳送信息</string >
     <string name="notification_settings" >通知設定</string >
     <string name="reminder" >提示</string >
-    <string name="deadline_warning" >任務到期警告</string >
+    <string name="deadline_warning" >任務到期提示</string >
     <string name="app_version" >應用程式版本</string >
     <string name="confirm_and_save_big" >應用</string >
     <string name="unlimited" >無限</string >
-    <string name="term_and_conditions" ><u >TERMS &amp; CONDITIONS</u ></string >
+    <string name="term_and_conditions" ><u >使用協議及條款</u ></string >
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title" >分享</string >
     <string name="tell_your_friends_about" >將SmartRocket公告於天下好友！</string >
@@ -109,16 +105,16 @@
     <string name="share_via_tencent_weibo" >騰訊微博</string >
     <string name="share_via_sina_weibo" >新浪微博</string >
     <string name="share_via_qzone" >QQ空間</string >
-    <string name="toast_sharing_disable_in_settings" >對不起，設定内的社交分享設定為關閉。</string >
+    <string name="toast_sharing_disable_in_settings" >對不起，設備内的社交分享設定為關閉。</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >%1$s</string >
-    <string name="task_distance_away" >%1$s %2$s 外</string >
+    <string name="task_distance_away" >%1$s %2$s外</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="start_time" >開始：</string >
     <string name="deadline_time" >期限：</string >
     <string name="mission_due" >任務到期：</string >
     <string name="duration_time" >到期：</string >
-    <string name="due_in" >任務剩餘時間：</string >
+    <string name="due_in" >剩餘時間：</string >
     <string name="mission_address" >任務地址</string >
     <string name="full_description" >任務簡介</string >
     <string name="book_this_task" >認領任務</string >
@@ -128,9 +124,9 @@
     <string name="withdraw_task" >退出</string >
     <string name="continue_task" >繼續</string >
     <!-- PROJECT DETAIL ACTIVITY-->
-    <string name="wave_missions_description" >任務簡介</string >
-    <string name="show_missions" >SHOW MISSIONS</string >
-    <string name="hide_missions" >HIDE MISSIONS</string >
+    <string name="wave_missions_description" >項目簡介</string >
+    <string name="show_missions" >顯示任務</string >
+    <string name="hide_missions" >隱藏項目</string >
     <!-- MAP ACTIVITY-->
     <string name="task_location_title" >任務地點</string >
     <!-- CHECK LOCATION ACTIVITY -->
@@ -147,26 +143,27 @@
     <string name="turn_on_network_dialog_title" >網絡服務</string >
     <string name="turn_on_network_dialog_text" >要使用SmartRocket，你必須開啓智能電話設定内的網絡服務。</string >
     <!-- TURN ON GOOGLE SDK DIALOG -->
-    <string name="turn_on_google_sdk_dialog_title" >Google SDK services</string >
-    <string name="turn_on_google_sdk_dialog_text" >To use SmartRocket, you must INSTALL Google SDK Services in your
-        smartphone settings.</string >
+    <string name="turn_on_google_sdk_dialog_title" >Google SDK 服務</string >
+    <string name="turn_on_google_sdk_dialog_text" >要使用SmartRocket，你必須於智能電話内安裝Google SDK服務。</string >
     <!-- TURN OFF MOCK LOCATION DIALOG -->
-    <string name="turn_of_mock_location_dialog_title" >GPS偽裝位置</string >
-    <string name="turn_of_mock_location_dialog_text" >要使用SmartRocket，你必須關閉智能電話設定内的GPS偽裝位置。</string >
+    <string name="turn_of_mock_location_dialog_title" >GPS模擬位置</string >
+    <string name="turn_of_mock_location_dialog_text" >要使用SmartRocket，你必須關閉智能電話設定内的GPS模擬位置。</string >
     <!-- REGISTRATION SUCCESS DIALOG -->
     <string name="registration_success_dialog_title" >SmartRocket註冊</string >
     <string name="registration_success_dialog_text0" >感謝你的註冊！</string >
     <string name="registration_success_dialog_text1" >我們已經將激活SmartRocket賬戶的連結發送到以下電郵：</string >
-    <string name="registration_success_dialog_text2" >.</string >
+    <string name="registration_success_dialog_text2" > </string >
     <string name="registration_success_dialog_text3" >要完成註冊和登入SmartRocket，你必須點擊連結。如果你找不到我們的郵件，
-        請檢查你的垃圾郵件夾，或與我們聯絡</string >
+        請檢查你的垃圾郵件夾，或與我們聯絡：</string >
     <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
+    <string name="registration_success_dialog_ok" >繼續</string >
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >成功認領任務</string >
-    <string name="book_task_success_dialog_text0" >這個任務必須於以下時間前完成：</string >
-    <string name="book_task_success_dialog_text1" >你可以於[我的任務]找到這個任務的資料，直到成功完成。</string >
+    <string name="book_task_success_dialog_text0" >這個任務必須於以下時間之前完成：</string >
+    <string name="book_task_success_dialog_text1" >你可以於[我的任務]頁面找到這個任務的詳細資料，直到任務成功完成爲止。</string >
     <string name="start_later" >稍後開始</string >
     <string name="start_now" >現在開始</string >
+    <string name="book_task_success_dialog_cancel" >取消認領</string >
     <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
     <string name="pre_claim_task_success_dialog_title" >成功預先認領任務</string >
     <!-- GCM -->
@@ -188,7 +185,7 @@
     <string name="cancel_set_image" >取消</string >
     <!-- EDUCATION_LEVEL -->
     <string name="education_level" >教育程度</string >
-    <string name="no_schooling" >沒有接受教育</string >
+    <string name="no_schooling" >沒有入學</string >
     <string name="primary_school" >小學</string >
     <string name="junior_secondary_school" >初中 （中一至中三）</string >
     <string name="senior_secondary_school" >高中 （中四至中六）</string >
@@ -205,7 +202,7 @@
     <string name="retired" >已退休</string >
     <!-- WITHDRAW DIALOG -->
     <string name="withdraw_task_dialog_title" >退出任務</string >
-    <string name="withdraw_task_dialog_text1" >以下限定時間前未能完成任務，才選擇退出任務：</string >
+    <string name="withdraw_task_dialog_text1" >如果在以下限定時間前未能完成任務，才選擇退出任務：</string >
     <string name="withdraw_task_dialog_text2" >退出任務後不能返回，而且會影響你的聲譽。</string >
     <string name="withdraw_task_dialog_text3" >請問你是否想退出這個任務？</string >
     <string name="no_button" >否</string >
@@ -215,15 +212,16 @@
     <string name="previous" >上頁</string >
     <string name="next" >下頁</string >
     <string name="enter_here" >請在此輸入</string >
-    <string name="please_write_in" >Other – please write in</string >
+    <string name="please_write_in" >其他（請注明）</string >
     <string name="quite_mission" >放棄任務</string >
+    <string name="quite_mission_cancel" >返回</string >
     <string name="question_of" >%2$s條問題之第%1$s條</string >
     <string name="choose_one_answer" >請選擇一個答案</string >
     <string name="choose_one_or_more_answers" >請選擇一個或多個答案</string >
     <string name="write_your_number" >請填寫一個%1$s至%2$s之間的數字</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >放棄任務</string >
-    <string name="quite_task_dialog_text1" >警告！</string >
+    <string name="quite_task_dialog_text1" >注意！</string >
     <string name="quite_task_dialog_text2" >如果現在放棄任務，你將會失去所有關於這個任務的數據。
         你將必須稍後重新進行或退出這次任務。請問是否放棄這個任務？</string >
     <!-- MAP FRAGMENT -->
@@ -231,6 +229,7 @@
     <string name="show_hidden_tasks_on_map" >顯示所有隱藏的任務</string >
     <string name="min_distance" >0公里</string >
     <string name="max_distance" >20公里</string >
+    <string name="map_fragment_ok" >儲存</string >
     <!-- TASK VALIDATION ACTIVITY -->
     <string name="validation_big" >提交任務</string >
     <string name="recheck_my_answer" >返回</string >
@@ -265,6 +264,7 @@
     <string name="toast_application_not_found" >找不到應用程式。</string >
     <!-- Date picker dialog -->
     <string name="date_picker_dialog_title_birthday" >出生日期</string >
+    <string name="date_picker_dialog_ok" >確認</string >
     <!-- LOGIN ACTIVITY -->
     <string name="maximum_mission_dialog_title" >達到任務認領上限</string >
     <string name="maximum_mission_dialog_text" >你所認領的任務數目已經達到這個項目的上限。如果想認領更多任務，
@@ -289,7 +289,7 @@
     <string name="send_password" >重設我的密碼</string >
     <string name="forgot_password_success_text0" >感謝。</string >
     <string name="forgot_password_success_text1" >我們已經將SmartRocket密碼的重設連結郵件發送到以下電郵：</string >
-    <string name="forgot_password_success_text2" >.</string >
+    <string name="forgot_password_success_text2" > </string >
     <string name="forgot_password_success_text3" >如果你找不到這個電郵，請檢查你的垃圾郵件夾。</string >
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >年齡驗證</string >
@@ -312,12 +312,13 @@
         你隨時可以通過SmartRocket應用程式主頁内的[支援]獲得任何援助、瀏覽常見問題及培訓。 \n\n歡迎你成爲我們的隊員！</string >
     <!-- USER ALREADY EXISTS DIALOG -->
     <string name="user_already_exists_dialog_title" >用戶名字無效</string >
-    <string name="user_already_exists_dialog_text1" >用戶已經存在。請輸入另外的電郵。</string >
+    <string name="user_already_exists_dialog_text1" >用戶已經存在。請輸入其他電郵。</string >
+    <string name="user_already_exists_dialog_ok" >返回</string >
     <!-- NOTIFICATION ACTIVITY-->
     <!--file not uploaded-->
-    <string name="not_uploaded_notification_title" >注意!</string >
-    <string name="not_uploaded_notification_text" >%1$s Mission submission has failed. Some files of this mission
-        didn\'t upload. Please change source of internet.</string >
+    <string name="not_uploaded_notification_title" >注意！任務提交失敗</string >
+    <string name="not_uploaded_notification_text" >任務:%1$s \n\n任務提交失敗。請於網絡穩定時再上載提交。
+        任務仍可以在我的任務内找到，請謹記於到期前要成功提交任務。</string >
     <!--expire-->
     <string name="expire_mission_notification_title" >過期</string >
     <string name="expire_mission_notification_text" >以下的任務已經過期，並已經從你的任務列表内刪除。
@@ -344,15 +345,15 @@
         &lt;br>&lt;br>任務: &lt;b >%2$s&lt;/b > &lt;br>地點: &lt;b >%3$s&lt;/b >
     &lt;br> Address: &lt;b >%4$s&lt;/b ></string >
     <!--notification button-->
-    <string name="close_message" >Close Message</string >
-    <string name="open_mission" >Open Mission</string >
+    <string name="close_message" >關閉訊息</string >
+    <string name="open_mission" >開啓任務</string >
     <!-- MAX CLAIMS PER TASK -->
-    <string name="task_no_longer_available" >Task no longer available</string >
+    <string name="task_no_longer_available" >任務不再存在</string >
     <!-- RESET PASSWORD ACTIVITY -->
-    <string name="reset_password_text1" >Reset password</string >
-    <string name="reset_password_text2" >Please enter a new password below.</string >
-    <string name="submit" >SUBMIT</string >
+    <string name="reset_password_text1" >重設密碼</string >
+    <string name="reset_password_text2" >請輸入新密碼</string >
+    <string name="submit" >提交</string >
     <!-- LEVEL UP DIALOG -->
     <string name="congratulations" >恭喜！</string >
-    <string name="you_have_been_promoted" >You have been promoted to the rank of &lt;b >%1$s (Level %2$s)&lt;/b ></string >
+    <string name="you_have_been_promoted" >你已獲晉升為&lt;b >%1$s（第%2$s級）&lt;/b ></string >
 </resources >

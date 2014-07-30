@@ -51,7 +51,6 @@ import com.ros.smartrocket.map.TaskOptionsChooser;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -736,7 +735,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private void setRadiusText() {
         String distance = String.format(Locale.US, "%.1f", (float) taskRadius / METERS_IN_KM);
-        txtRadius.setText(distance + " km");
+        txtRadius.setText(distance + " " + getString(R.string.distance_km));
     }
 
     /**
@@ -752,7 +751,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             if (restoreCameraByPins != null) {
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
-                        display.getHeight()-UIUtils.getPxFromDp(getActivity(), 150), 100));
+                        display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150), 100));
             }
         } else {
             if (restoreCameraByPins != null) {

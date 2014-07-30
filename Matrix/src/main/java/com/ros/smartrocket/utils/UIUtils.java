@@ -54,6 +54,8 @@ public class UIUtils {
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM"
             + " yy  HH:mm a", Locale.ENGLISH);
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE = new SimpleDateFormat("yyyy年MM月"
+            + " dd日  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd MMM"
             + " yyyy  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM"
@@ -413,7 +415,11 @@ public class UIUtils {
                 result = utcDate.substring(0, utcDate.length() - 5) + "+00:00";
                 break;
             case 3:
-                result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                if (isChineLanguage()) {
+                    result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
+                } else {
+                    result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                }
                 break;
             case 4:
                 result = DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
@@ -727,7 +733,12 @@ public class UIUtils {
         return hoursCount * DateUtils.HOUR_IN_MILLIS;
     }
 
-    public static void transformLocation(){
+    public static void transformLocation() {
 
+    }
+
+    public static boolean isChineLanguage(){
+        String code = PreferencesManager.getInstance().getLanguageCode();
+        return code.contains("zh");
     }
 }

@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/green"
-                android:text="@string/ok"
+                android:text="@string/date_picker_dialog_ok"
                 custom:textStyle="bold" />
             <View
                 android:layout_width="1dp"

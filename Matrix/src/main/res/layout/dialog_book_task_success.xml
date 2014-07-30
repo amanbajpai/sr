@@ -61,7 +61,7 @@
             android:layout_marginRight="5dp"
             android:textColor="@color/red"
             custom:textStyle="bold"
-            android:text="@string/cancel" />
+            android:text="@string/book_task_success_dialog_cancel" />
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"

@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
             android:layout_marginTop="20dp"
-            android:text="@string/ok"
+            android:text="@string/map_fragment_ok"
             custom:textStyle="bold" />
     </LinearLayout >
 </RelativeLayout >

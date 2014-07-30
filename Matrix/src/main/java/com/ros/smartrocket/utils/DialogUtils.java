@@ -427,7 +427,7 @@ public class DialogUtils {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
                 context.getText(R.string.user_already_exists_dialog_title),
                 context.getText(R.string.user_already_exists_dialog_text1),
-                0, R.string.ok);
+                0, R.string.user_already_exists_dialog_ok);
         dialog.hideLeftButton();
         dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
