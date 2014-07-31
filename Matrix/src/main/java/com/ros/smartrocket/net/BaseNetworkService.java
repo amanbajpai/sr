@@ -54,6 +54,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int USER_ALREADY_EXISTS_ERROR_CODE = 10006;
     public static final int TASK_NOT_FOUND_ERROR_CODE = 10014;
     public static final int FILE_ALREADY_UPLOADED_ERROR_CODE = 10053;
+    public static final int USER_NOT_FOUND_ERROR_CODE = 10004;
     public static final int SUCCESS = 200;
 
     public BaseNetworkService(String name) {

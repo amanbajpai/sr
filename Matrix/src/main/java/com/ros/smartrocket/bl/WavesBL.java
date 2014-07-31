@@ -12,6 +12,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Country;
+import com.ros.smartrocket.db.entity.Project;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
@@ -50,6 +51,12 @@ public class WavesBL {
         Location tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
 
         for (Wave wave : waves.getWaves()) {
+            Project project = wave.getProject();
+
+            if (project != null) {
+                wave.setIcon(project.getIcon());
+            }
+
             contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
             List<ContentValues> vals = new ArrayList<ContentValues>();
@@ -70,6 +77,10 @@ public class WavesBL {
                 task.setNoPhotoQuestionsCount(wave.getNoPhotoQuestionsCount());
 
                 task.setIsMy(isMy);
+
+                if (project != null) {
+                    task.setIcon(project.getIcon());
+                }
 
                 Country country = wave.getCountry();
                 if (country != null) {

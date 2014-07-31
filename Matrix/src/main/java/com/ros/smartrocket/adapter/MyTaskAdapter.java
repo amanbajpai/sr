@@ -104,7 +104,7 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.locationName.setVisibility(View.GONE);
 
         holder.name.setText(task.getName());
-        holder.image.setImageResource(UIUtils.getWaveTypeListIcon(2));
+        UIUtils.showWaveTypeIcon(activity, holder.image, task.getIcon());
         if (!TextUtils.isEmpty(task.getLocationName()) || !TextUtils.isEmpty(task.getAddress())) {
             holder.locationName.setText(task.getLocationName() + " " + task.getAddress());
         }

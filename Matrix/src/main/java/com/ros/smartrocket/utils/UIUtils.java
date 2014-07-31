@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,8 +31,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.images.ImageLoader;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -611,79 +615,25 @@ public class UIUtils {
         return daysText + hoursText + minutesText;
     }
 
-    public static int getWaveTypeListIcon(int typeId) {
-        int iconResId;
-        switch (WavesBL.getWaveType(typeId)) {
-            case type1:
-                iconResId = R.drawable.project_type_1_grey;
-                break;
-            case type2:
-                iconResId = R.drawable.project_type_2_grey;
-                break;
-            case type3:
-                iconResId = R.drawable.project_type_3_grey;
-                break;
-            case type4:
-                iconResId = R.drawable.project_type_4_grey;
-                break;
-            case type5:
-                iconResId = R.drawable.project_type_5_grey;
-                break;
-            default:
-                iconResId = R.drawable.ic_launcher;
-                break;
-        }
-        return iconResId;
+    public static void showWaveTypeActionBarIcon(final BaseActivity activity, String url) {
+        ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
+            @Override
+            public void onFetchComplete(Bitmap bitmap) {
+                if (activity != null) {
+                    Drawable drawable = new BitmapDrawable(activity.getResources(), bitmap);
+                    activity.getSupportActionBar().setIcon(drawable);
+                }
+            }
+        });
     }
 
-    public static int getWaveTypeActionBarIcon(int waveType) {
-        int iconResId;
-        switch (WavesBL.getWaveType(waveType)) {
-            case type1:
-                iconResId = R.drawable.project_type_1;
-                break;
-            case type2:
-                iconResId = R.drawable.project_type_2;
-                break;
-            case type3:
-                iconResId = R.drawable.project_type_3;
-                break;
-            case type4:
-                iconResId = R.drawable.project_type_4;
-                break;
-            case type5:
-                iconResId = R.drawable.project_type_5;
-                break;
-            default:
-                iconResId = R.drawable.ic_launcher;
-                break;
-        }
-        return iconResId;
-    }
-
-    public static int getWaveTypePopupIcon(int waveType) {
-        int iconResId;
-        switch (WavesBL.getWaveType(waveType)) {
-            case type1:
-                iconResId = R.drawable.project_type_1_popup;
-                break;
-            case type2:
-                iconResId = R.drawable.project_type_2_popup;
-                break;
-            case type3:
-                iconResId = R.drawable.project_type_3_popup;
-                break;
-            case type4:
-                iconResId = R.drawable.project_type_4_popup;
-                break;
-            case type5:
-                iconResId = R.drawable.project_type_5_popup;
-                break;
-            default:
-                iconResId = R.drawable.ic_launcher;
-                break;
-        }
-        return iconResId;
+    public static void showWaveTypeIcon(final Activity activity, final ImageView iconImageView, String url) {
+        ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
+            @Override
+            public void onFetchComplete(Bitmap bitmap) {
+                iconImageView.setImageBitmap(bitmap);
+            }
+        });
     }
 
     /**
@@ -737,7 +687,7 @@ public class UIUtils {
 
     }
 
-    public static boolean isChineLanguage(){
+    public static boolean isChineLanguage() {
         String code = PreferencesManager.getInstance().getLanguageCode();
         return code.contains("zh");
     }

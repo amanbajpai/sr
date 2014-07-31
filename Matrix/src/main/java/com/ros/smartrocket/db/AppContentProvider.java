@@ -149,7 +149,8 @@ public class AppContentProvider extends ContentProvider {
                         + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
                         + WaveDbSchema.Columns.ID.getName() + " AND " + TaskDbSchema.Columns.IS_HIDE.getName()
                         + "=0) == 0",
-                        Table.TASK.getName() + "." + TaskDbSchema.Columns.CURRENCY_SIGN.getName()
+                        Table.TASK.getName() + "." + TaskDbSchema.Columns.CURRENCY_SIGN.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.ICON.getName()
 
                 };
 

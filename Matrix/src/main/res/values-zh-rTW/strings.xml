@@ -14,6 +14,7 @@
     <string name="account_not_activated" >你的SmartRocket賬戶尚未激活。使用SmartRocket之前，請檢查電郵，
         並點擊激活連結。如果你找不到我們的電郵，請檢查垃圾郵件夾或向我們要求新的激活連結。</string >
     <string name="request_new_activation_link" >要求激活連結</string >
+    <string name="user_not_found_error_text" >此用戶不存在</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >繼續</string >
     <string name="welcome_to_smart_rocket" >歡迎來到SmartRocket註冊頁面！</string >

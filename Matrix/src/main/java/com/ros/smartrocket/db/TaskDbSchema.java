@@ -66,6 +66,8 @@ public interface TaskDbSchema {
         CURRENCY_SIGN("CurrencySign", DBType.TEXT),
         LOCATION_NAME("LocationName", DBType.TEXT),
 
+        ICON("Icon", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -136,7 +138,8 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
                     Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
                     Table.TASK.getName() + "." + Columns.CURRENCY_SIGN.getName(),
-                    Table.TASK.getName() + "." + Columns.LOCATION_NAME.getName()
+                    Table.TASK.getName() + "." + Columns.LOCATION_NAME.getName(),
+                    Table.TASK.getName() + "." + Columns.ICON.getName()
             };
 
             int _ID = 0;
@@ -173,6 +176,7 @@ public interface TaskDbSchema {
             int NO_PHOTO_QUESTIONS_COUNT = 31;
             int CURRENCY_SIGN = 32;
             int LOCATION_NAME = 33;
+            int ICON = 34;
         }
     }
 }

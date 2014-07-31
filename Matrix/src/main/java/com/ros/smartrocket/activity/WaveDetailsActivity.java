@@ -127,8 +127,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
         photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
-        //TODO Get wave type from server
-        getSupportActionBar().setIcon(UIUtils.getWaveTypeActionBarIcon(1));
+        UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
     @Override

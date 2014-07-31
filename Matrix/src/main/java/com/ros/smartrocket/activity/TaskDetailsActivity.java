@@ -335,8 +335,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
             titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
-        //TODO Get wave type from server
-        getSupportActionBar().setIcon(UIUtils.getWaveTypeActionBarIcon(1));
+
+        UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
     public void setButtonsSettings(Task task) {

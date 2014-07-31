@@ -16,6 +16,7 @@
         please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
         folder or request a new Activiation Link.</string >
     <string name="request_new_activation_link" >Request New Activiation Link</string >
+    <string name="user_not_found_error_text" >User Not Found</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >CONTINUE</string >
     <string name="welcome_to_smart_rocket" >Welcome to SmartRocket registration!</string >

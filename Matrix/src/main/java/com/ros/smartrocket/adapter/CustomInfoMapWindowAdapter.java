@@ -51,8 +51,8 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
             TextView pointText = (TextView) view.findViewById(R.id.point_value);
             TextView distanceText = (TextView) view.findViewById(R.id.distance_value);
 
-            //TODO Get wave type from server
-            typeIcon.setImageResource(UIUtils.getWaveTypePopupIcon(1));
+            UIUtils.showWaveTypeIcon(activity, typeIcon, task.getIcon());
+
             title.setText(task.getName());
             priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign()));
             pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));

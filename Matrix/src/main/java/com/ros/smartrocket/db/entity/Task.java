@@ -57,6 +57,8 @@ public class Task extends BaseEntity {
     private String CurrencySign;
     private String LocationName;
 
+    private String Icon;
+
     private transient Boolean IsMy = false;
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
@@ -127,6 +129,8 @@ public class Task extends BaseEntity {
             result.setNoPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.NO_PHOTO_QUESTIONS_COUNT));
             result.setCurrencySign(c.getString(TaskDbSchema.Query.All.CURRENCY_SIGN));
             result.setLocationName(c.getString(TaskDbSchema.Query.All.LOCATION_NAME));
+
+            result.setIcon(c.getString(TaskDbSchema.Query.All.ICON));
         }
         L.d("Task", result.toString());
         return result;
@@ -391,7 +395,13 @@ public class Task extends BaseEntity {
         LocationName = locationName;
     }
 
+    public String getIcon() {
+        return Icon;
+    }
 
+    public void setIcon(String icon) {
+        Icon = icon;
+    }
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link Task}

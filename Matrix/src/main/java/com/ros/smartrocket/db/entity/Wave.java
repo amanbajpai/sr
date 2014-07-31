@@ -38,13 +38,14 @@ public class Wave extends BaseEntity {
     private Integer ExpireTimeoutForClaimedTask;
     private Integer PreClaimedTaskExpireAfterStart;
     private Long LongExpireTimeoutForClaimedTask;
-
     private Integer PhotoQuestionsCount;
+
     private Integer NoPhotoQuestionsCount;
+    private String Icon;
 
     private transient Float Longitude;
-
     private transient Float Latitude;
+
     @SkipFieldInContentValues
     private Task[] Tasks;
 
@@ -62,6 +63,9 @@ public class Wave extends BaseEntity {
 
     @SkipFieldInContentValues
     private Country Country;
+
+    @SkipFieldInContentValues
+    private Project Project;
 
     @SkipFieldInContentValues
     private transient Boolean IsAllTaskHide = false;
@@ -110,6 +114,8 @@ public class Wave extends BaseEntity {
 
             result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.NO_PHOTO_QUESTIONS_COUNT));
+
+            result.setIcon(c.getString(WaveDbSchema.Query.ICON));
         }
         return result;
     }
@@ -154,6 +160,7 @@ public class Wave extends BaseEntity {
             result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.NO_PHOTO_QUESTIONS_COUNT));
             result.setIsAllTaskHide(c.getInt(WaveDbSchema.QueryWaveByDistance.IS_ALL_TASK_HIDE) == 1);
             result.setNearTaskCurrencySign(c.getString(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_CURRENCY_SIGN));
+            result.setIcon(c.getString(WaveDbSchema.QueryWaveByDistance.ICON));
 
         }
         return result;
@@ -400,4 +407,22 @@ public class Wave extends BaseEntity {
     public void setNearTaskCurrencySign(String nearTaskCurrencySign) {
         NearTaskCurrencySign = nearTaskCurrencySign;
     }
+
+
+    public String getIcon() {
+        return Icon;
+    }
+
+    public void setIcon(String icon) {
+        Icon = icon;
+    }
+
+    public Project getProject() {
+        return Project;
+    }
+
+    public void setProject(Project project) {
+        Project = project;
+    }
+
 }
