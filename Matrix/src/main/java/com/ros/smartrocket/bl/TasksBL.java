@@ -129,8 +129,8 @@ public class TasksBL {
     public static void getTaskToRemindFromDB(AsyncQueryHandler handler, int coockie, long fromTime, long tillTime) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, coockie, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
-                        + TaskDbSchema.Columns.END_DATE_TIME
-                        + ">" + fromTime + " and " + TaskDbSchema.Columns.END_DATE_TIME
+                        + TaskDbSchema.Columns.LONG_END_DATE_TIME
+                        + ">" + fromTime + " and " + TaskDbSchema.Columns.LONG_END_DATE_TIME
                         + "<" + tillTime + " and ("
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or "
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or "
