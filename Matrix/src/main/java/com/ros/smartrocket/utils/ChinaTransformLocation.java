@@ -3,7 +3,7 @@ package com.ros.smartrocket.utils;
 import android.location.Location;
 
 public class ChinaTransformLocation {
-
+    private static final String TAG = ChinaTransformLocation.class.getSimpleName();
     private final static double PI = 3.14159265358979323;
     private final static double a = 6378245.0;
     private final static double ee = 0.00669342162296594323;
@@ -43,6 +43,20 @@ public class ChinaTransformLocation {
         if (lat < 0.8293 || lat > 55.8271) {
             outOfChina = true;
         }
+
+        if (
+            //Hong-Kong
+            (lon > 113.994141 && lon < 114.399261 && lat > 22.436715 && lat < 22.510317)
+            || (lon > 113.841705 && lon < 114.399261 && lat > 22.127925 && lat <= 22.436715)
+
+            //Macau
+            || (lon > 113.528595 && lon < 113.569107 && lat > 22.173809 && lat <= 22.213768)
+            || (lon > 113.545074 && lon < 113.601379 && lat > 22.105343 && lat <= 22.173809)) {
+            outOfChina = true;
+        }
+
+        L.i(TAG, "outOfChina = " + outOfChina);
+
         return outOfChina;
     }
 
