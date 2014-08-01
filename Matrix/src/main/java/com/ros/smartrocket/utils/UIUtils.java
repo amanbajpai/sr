@@ -618,10 +618,15 @@ public class UIUtils {
     public static void showWaveTypeActionBarIcon(final BaseActivity activity, String url) {
         ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
             @Override
-            public void onFetchComplete(Bitmap bitmap) {
+            public void onFetchComplete(final Bitmap bitmap) {
                 if (activity != null) {
-                    Drawable drawable = new BitmapDrawable(activity.getResources(), bitmap);
-                    activity.getSupportActionBar().setIcon(drawable);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Drawable drawable = new BitmapDrawable(activity.getResources(), bitmap);
+                            activity.getSupportActionBar().setIcon(drawable);
+                        }
+                    });
                 }
             }
         });
@@ -630,8 +635,13 @@ public class UIUtils {
     public static void showWaveTypeIcon(final Activity activity, final ImageView iconImageView, String url) {
         ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
             @Override
-            public void onFetchComplete(Bitmap bitmap) {
-                iconImageView.setImageBitmap(bitmap);
+            public void onFetchComplete(final Bitmap bitmap) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        iconImageView.setImageBitmap(bitmap);
+                    }
+                });
             }
         });
     }
