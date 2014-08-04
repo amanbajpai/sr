@@ -411,4 +411,14 @@ public class IntentUtils {
         Intent intent = new Intent(Keys.REFRESH_MAIN_MENU);
         context.sendBroadcast(intent);
     }
+
+    /**
+     * Send broadcast for refresh Main menu
+     *
+     * @param context - current context
+     */
+    public static void refreshMainMenuMyTaskCount(Context context) {
+        Intent intent = new Intent(Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT);
+        context.sendBroadcast(intent);
+    }
 }

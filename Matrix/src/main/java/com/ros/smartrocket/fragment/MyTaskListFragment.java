@@ -33,8 +33,6 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.List;
-
 /**
  * Fragment - display my tasks in {@link android.widget.ListView}
  */
@@ -108,8 +106,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
-                    adapter.setData(tasks);
+                    adapter.setData(TasksBL.convertCursorToTasksList(cursor));
                     break;
                 default:
                     break;
@@ -122,6 +119,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
                 TasksBL.getMyTasksFromDB(handler);
+                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
             }
         } else {
             L.i(TAG, operation.getResponseError());
@@ -155,6 +153,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
             case R.id.refreshButton:
                 getMyTasks();
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
+                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
             default:
                 break;

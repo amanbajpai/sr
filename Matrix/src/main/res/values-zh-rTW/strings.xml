@@ -15,6 +15,7 @@
         並點擊激活連結。如果你找不到我們的電郵，請檢查垃圾郵件夾或向我們要求新的激活連結。</string >
     <string name="request_new_activation_link" >要求激活連結</string >
     <string name="user_not_found_error_text" >此用戶不存在</string >
+    <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >繼續</string >
     <string name="welcome_to_smart_rocket" >歡迎來到SmartRocket註冊頁面！</string >
@@ -356,6 +357,6 @@
     <string name="submit" >提交</string >
     <!-- LEVEL UP DIALOG -->
     <string name="congratulations" >恭喜！</string >
-    <string name="you_have_been_promoted" >你已獲晉升為&lt;b >%1$s（第%2$s級）&lt;/b ></string >
+    <string name="you_have_been_promoted" >你已獲晉升為\n&lt;b >%1$s（第%2$s級）&lt;/b ></string >
     <string name="you_have_been_promoted_ok" >繼續</string >
 </resources >

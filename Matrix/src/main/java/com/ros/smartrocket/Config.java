@@ -20,8 +20,8 @@ public class Config {
             (CACHE_PREFIX_DIR).getPath();
     public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/";
 
-    public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 10;
-    public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 50;
+    public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 0;
+    public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 0;
 
     public static final int CHECK_NOT_UPLOADED_FILE_MILLISECONDS = 1000 * 60 * 10;
     public static final int SHOW_NOTIFICATION_FOR_NOT_UPLOADED_FILE_MILLISECONDS = 1000 * 60 * 5;

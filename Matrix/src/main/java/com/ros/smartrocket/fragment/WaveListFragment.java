@@ -178,6 +178,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
             case R.id.refreshButton:
                 getWaves();
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
+                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
             case R.id.showHideMissionButton:
                 preferencesManager.setShowHiddenTask(!preferencesManager.getShowHiddenTask());

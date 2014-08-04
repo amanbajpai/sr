@@ -32,6 +32,7 @@ public interface Keys {
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
+    String REFRESH_MAIN_MENU_MY_TASK_COUNT = "refresh_main_menu_my_task_count";
 
     // Operation tags - Using for cache response from NetworkService
     String GET_WAVES_OPERATION_TAG = "get_waves_operation_tag";

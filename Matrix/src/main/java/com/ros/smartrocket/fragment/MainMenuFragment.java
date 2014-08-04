@@ -1,9 +1,12 @@
 package com.ros.smartrocket.fragment;
 
+import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +27,8 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.UploadPhoto;
 import com.ros.smartrocket.dialog.LevelUpDialog;
@@ -44,9 +49,11 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private ResponseReceiver localReceiver;
+    private AsyncQueryHandler handler;
     private ImageView photoImageView;
     private ImageView uploadPhotoProgressImage;
     private ImageView levelIcon;
+    private TextView myTasksCount;
     private TextView nameTextView;
     private TextView balanceTextView;
     private TextView rocketPointNumberTextView;
@@ -62,9 +69,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
 
+        handler = new DbHandler(getActivity().getContentResolver());
+
         photoImageView = (ImageView) view.findViewById(R.id.photoImageView);
         uploadPhotoProgressImage = (ImageView) view.findViewById(R.id.uploadPhotoProgressImage);
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
+        myTasksCount = (TextView) view.findViewById(R.id.myTasksCount);
         nameTextView = (TextView) view.findViewById(R.id.nameTextView);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
         rocketPointNumberTextView = (TextView) view.findViewById(R.id.rocketPointNumberTextView);
@@ -90,11 +100,14 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.REFRESH_MAIN_MENU);
+        intentFilter.addAction(Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT);
 
         getActivity().registerReceiver(localReceiver, intentFilter);
 
         setData(App.getInstance().getMyAccount());
         apiFacade.getMyAccount(getActivity());
+
+        TasksBL.getMyTasksForMapFromDB(handler);
 
         return view;
     }
@@ -177,6 +190,26 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
             if (Keys.REFRESH_MAIN_MENU.equals(action)) {
                 apiFacade.getMyAccount(getActivity());
+            } else if (Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT.equals(action)) {
+                TasksBL.getMyTasksForMapFromDB(handler);
+            }
+        }
+    }
+
+    class DbHandler extends AsyncQueryHandler {
+        public DbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
+                    int tasksCount = TasksBL.convertCursorToTasksCount(cursor);
+                    myTasksCount.setText(String.valueOf(tasksCount));
+                    break;
+                default:
+                    break;
             }
         }
     }

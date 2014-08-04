@@ -17,6 +17,7 @@
         folder or request a new Activiation Link.</string >
     <string name="request_new_activation_link" >Request New Activiation Link</string >
     <string name="user_not_found_error_text" >User Not Found</string >
+    <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >CONTINUE</string >
     <string name="welcome_to_smart_rocket" >Welcome to SmartRocket registration!</string >
@@ -382,6 +383,6 @@
     <string name="submit" >SUBMIT</string >
     <!-- LEVEL UP DIALOG -->
     <string name="congratulations" >Congratulations!</string >
-    <string name="you_have_been_promoted" >You have been promoted to the rank of &lt;b >%1$s (Level %2$s)&lt;/b ></string >
+    <string name="you_have_been_promoted" >You have been promoted to the rank of \n&lt;b >%1$s (Level %2$s)&lt;/b ></string >
     <string name="you_have_been_promoted_ok" >OK</string >
 </resources >

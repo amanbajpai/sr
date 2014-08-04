@@ -57,14 +57,29 @@
             style="@style/mainMenuDividerStyle"
             android:layout_height="1dp"
             android:layout_width="match_parent" />
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/myTasksButton"
-            style="@style/MainMenuButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/my_missions"
-            android:drawableLeft="@drawable/menu_point"
-            custom:textStyle="bold" />
+            android:paddingLeft="10dp"
+            android:orientation="horizontal" >
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/myTasksCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_red_selector"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="1dp"
+                android:textColor="@color/white"
+                android:text="@string/zero" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/myTasksButton"
+                style="@style/MainMenuButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_missions"
+                custom:textStyle="bold" />
+        </LinearLayout >
         <View
             style="@style/mainMenuDividerStyle"
             android:layout_height="1dp"

@@ -511,6 +511,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             case R.id.refreshButton:
                 loadData();
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
+                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
             default:
                 break;

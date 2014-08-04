@@ -243,6 +243,21 @@ public class TasksBL {
         return result;
     }
 
+    /**
+     * Convert cursor to Tasks count
+     *
+     * @param cursor - all fields cursor
+     * @return int
+     */
+    public static int convertCursorToTasksCount(Cursor cursor) {
+        int result = 0;
+        if (cursor != null) {
+            result = cursor.getCount();
+        }
+
+        return result;
+    }
+
     public static Task convertCursorToTaskOrNull(Cursor cursor) {
         Task result = null;
         if (cursor != null) {
