@@ -250,7 +250,7 @@
 
     <style name="profileSectionTextStyle" >
         <item name="android:textColor" >@color/grey</item >
-        <item name="android:textSize" >@dimen/text_size_14sp</item >
+        <item name="android:textSize" >@dimen/text_size_17sp</item >
         <item name="android:paddingTop" >10dp</item >
         <item name="android:paddingLeft" >5dp</item >
         <item name="android:paddingRight" >5dp</item >
@@ -259,7 +259,7 @@
 
     <style name="settingsTextStyle" >
         <item name="android:textColor" >@color/grey</item >
-        <item name="android:textSize" >@dimen/text_size_14sp</item >
+        <item name="android:textSize" >@dimen/text_size_17sp</item >
         <item name="android:layout_weight" >1</item >
     </style >
 
@@ -329,7 +329,7 @@
     </style >
 
     <style name="QuestionValidationComment" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_12sp</item >
+        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
         <item name="android:textColor" >@color/red</item >
         <item name="android:textStyle" >normal</item >
         <item name="android:visibility" >gone</item >
