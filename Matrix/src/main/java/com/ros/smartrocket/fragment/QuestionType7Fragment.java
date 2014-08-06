@@ -130,7 +130,19 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     public void selectGalleryPhoto(int position) {
         currentSelectedPhoto = position;
+
         Answer answer = question.getAnswers()[position];
+
+        for (int i = 0; i < galleryLayout.getChildCount(); i++) {
+            View convertView = galleryLayout.getChildAt(i);
+            ImageView imageFrame = (ImageView) convertView.findViewById(R.id.imageFrame);
+
+            if (i == currentSelectedPhoto) {
+                imageFrame.setVisibility(View.VISIBLE);
+            } else {
+                imageFrame.setVisibility(View.GONE);
+            }
+        }
 
         if (answer.isChecked() && answer.getFileUri() != null) {
             isBitmapAdded = true;
@@ -234,6 +246,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
                 answer.setFileSizeB(resultImageFile.length());
                 answer.setFileName(resultImageFile.getName());
+                answer.setValue(resultImageFile.getName());
 
                 if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
                     question.setAnswers(addEmptyAnswer(question.getAnswers()));

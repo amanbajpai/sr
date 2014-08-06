@@ -28,5 +28,7 @@
     <!-- Photo Question gallery -->
     <dimen name="item_width">65dp</dimen>
     <dimen name="item_height">65dp</dimen>
+    <dimen name="item_frame_width">55dp</dimen>
+    <dimen name="item_frame_height">55dp</dimen>
     <dimen name="spacing">10dp</dimen>
 </resources>

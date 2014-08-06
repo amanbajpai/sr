@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/item_width"
-    android:layout_height="@dimen/item_height"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
-    <ImageView
-        android:id="@+id/imageFrame"
-        android:contentDescription="@string/app_name"
-        android:layout_height="@dimen/item_width"
-        android:layout_width="@dimen/item_width"
-        android:background="@color/green" />
     <ImageView
         android:id="@+id/image"
         android:contentDescription="@string/app_name"
         android:layout_height="@dimen/item_width"
         android:layout_width="@dimen/item_width"
         android:adjustViewBounds="true"
+        android:src="@drawable/camera_icon"
         android:scaleType="centerCrop"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="5dp" />
+    <ImageView
+        android:id="@+id/imageFrame"
+        android:contentDescription="@string/app_name"
+        android:layout_height="@dimen/item_width"
+        android:layout_width="@dimen/item_width"
+        android:scaleType="fitXY"
+        android:background="@drawable/photo_gallery_select_state"
+        android:visibility="gone" />
 </FrameLayout >

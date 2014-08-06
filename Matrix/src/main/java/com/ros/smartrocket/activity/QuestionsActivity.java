@@ -261,8 +261,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType2Fragment();
                     break;
                 case photo:
-                    //TODO Change 3 to 7 for multiple photo question
-                    currentFragment = new QuestionType3Fragment();
+                    currentFragment = new QuestionType7Fragment();
                     break;
                 case openComment:
                     currentFragment = new QuestionType4Fragment();

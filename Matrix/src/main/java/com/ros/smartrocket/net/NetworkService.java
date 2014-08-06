@@ -11,8 +11,8 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -25,8 +25,10 @@ import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
+import com.ros.smartrocket.db.entity.Waves;
+import com.ros.smartrocket.helpers.WriteDataHelper;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
@@ -202,6 +204,12 @@ public class NetworkService extends BaseNetworkService {
         } else if (responseCode == NO_INTERNET) {
             operation.setResponseError(getString(R.string.no_internet));
             operation.setResponseErrorCode(responseCode);
+        } else if (responseCode == AUTORIZATION_ERROR) {
+            operation.setResponseError(getString(R.string.no_internet));
+            operation.setResponseErrorCode(responseCode);
+
+            WriteDataHelper.prepareLogout(this);
+            startActivity(IntentUtils.getLoginIntentForLogout(this));
         } else {
             try {
                 ResponseError error = gson.fromJson(responseString, ResponseError.class);

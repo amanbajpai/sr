@@ -21,7 +21,7 @@ public class Answer extends BaseEntity implements Serializable {
     private transient String FileUri;
     private transient Long FileSizeB;
 
-    private String FileName;
+    private transient String FileName;
 
     public Answer() {
     }
