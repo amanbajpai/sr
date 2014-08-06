@@ -201,6 +201,11 @@ public class AnswersBL {
     }
 
     public static void clearTaskUserAnswers(Activity activity, int taskId) {
+        activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf(taskId)}
+        );
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
         contentValues.putNull(AnswerDbSchema.Columns.FILE_URI.getName());

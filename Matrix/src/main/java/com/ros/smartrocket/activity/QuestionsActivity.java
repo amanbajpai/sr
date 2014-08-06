@@ -32,6 +32,7 @@ import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.fragment.QuestionType5Fragment;
 import com.ros.smartrocket.fragment.QuestionType6Fragment;
+import com.ros.smartrocket.fragment.QuestionType7Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
@@ -260,6 +261,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType2Fragment();
                     break;
                 case photo:
+                    //TODO Change 3 to 7 for multiple photo question
                     currentFragment = new QuestionType3Fragment();
                     break;
                 case openComment:

@@ -57,6 +57,7 @@ public interface AnswerDbSchema {
 
     public interface Query {
         int TOKEN_QUERY = 31;
+        int TOKEN_INSERT = 32;
         int TOKEN_UPDATE = 33;
 
         String[] PROJECTION = {Table.ANSWER.getName() + "." + Columns._ID.getName(),

@@ -24,4 +24,9 @@
     <dimen name="big_image_size">400px</dimen>
     <dimen name="normal_image_size">200px</dimen>
     <dimen name="small_image_size">100px</dimen>
+
+    <!-- Photo Question gallery -->
+    <dimen name="item_width">65dp</dimen>
+    <dimen name="item_height">65dp</dimen>
+    <dimen name="spacing">10dp</dimen>
 </resources>

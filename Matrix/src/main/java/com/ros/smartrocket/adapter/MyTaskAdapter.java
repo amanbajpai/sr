@@ -229,6 +229,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_red, 0, 0, 0);
                 break;
             case validated:
+            case inPaymentProcess:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
 

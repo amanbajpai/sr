@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/questionText"
+        style="@style/QuestionText"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/validationComment"
+        style="@style/QuestionValidationComment"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingBottom="20dp" />
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:layout_marginBottom="5dp"
+        android:scrollbars="none" >
+        <LinearLayout
+            android:id="@+id/galleryLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_light" >
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/app_name"
+            android:adjustViewBounds="true"
+            android:background="@drawable/camera_icon" />
+        <ImageButton
+            android:id="@+id/rePhotoButton"
+            android:layout_gravity="top|left"
+            android:padding="10dp"
+            android:src="@drawable/refresh_square_red"
+            android:contentDescription="@string/app_name"
+            android:layout_width="42dp"
+            android:background="@drawable/btn_square_active"
+            android:layout_margin="10dp"
+            android:layout_height="42dp"
+            android:visibility="gone" />
+        <ImageButton
+            android:id="@+id/confirmButton"
+            android:src="@drawable/check_square_green"
+            android:contentDescription="@string/app_name"
+            android:layout_width="42dp"
+            android:background="@drawable/btn_square_active"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:layout_gravity="top|right"
+            android:layout_height="42dp"
+            android:visibility="gone" />
+    </FrameLayout >
+</LinearLayout >

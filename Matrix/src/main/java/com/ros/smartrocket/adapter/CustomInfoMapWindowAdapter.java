@@ -88,12 +88,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
                     distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_red, 0, 0, 0);
                     break;
-
                 default:
-                    mainLayout.setBackgroundResource(R.drawable.popup_green);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
                     break;
             }
 
