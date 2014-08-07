@@ -55,6 +55,18 @@ public class AnswersBL {
     }
 
     /**
+     * Make request for delete Answer
+     *
+     * @param handler - Handler for getting response from DB
+     * @param answer  - answer to delete
+     */
+
+    public static void deleteAnswerFromDB(AsyncQueryHandler handler, Answer answer) {
+        handler.startDelete(AnswerDbSchema.Query.TOKEN_DELETE, null, AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Columns._ID + "=?", new String[]{String.valueOf(answer.get_id())});
+    }
+
+    /**
      * Return file's list to upload by task id
      *
      * @param taskId      - current task id

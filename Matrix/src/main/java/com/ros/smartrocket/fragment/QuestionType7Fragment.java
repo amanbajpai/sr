@@ -40,6 +40,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private LayoutInflater localInflater;
     private ImageButton rePhotoButton;
+    private ImageButton deletePhotoButton;
     private ImageButton confirmButton;
     private ImageView photoImageView;
     private LinearLayout galleryLayout;
@@ -79,6 +80,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
         rePhotoButton = (ImageButton) view.findViewById(R.id.rePhotoButton);
         rePhotoButton.setOnClickListener(this);
+
+        deletePhotoButton = (ImageButton) view.findViewById(R.id.deletePhotoButton);
+        deletePhotoButton.setOnClickListener(this);
 
         confirmButton = (ImageButton) view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
@@ -126,6 +130,21 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     break;
             }
         }
+
+        @Override
+        protected void onDeleteComplete(int token, Object cookie, int result) {
+            switch (token) {
+                case AnswerDbSchema.Query.TOKEN_DELETE:
+                    if (question.getAnswers().length == question.getMaximumPhotos()) {
+                        question.setAnswers(addEmptyAnswer(question.getAnswers()));
+                    }
+
+                    AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void selectGalleryPhoto(int position) {
@@ -159,6 +178,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         }
 
         refreshRePhotoButton();
+        refreshDeletePhotoButton();
         refreshConfirmButton();
         refreshNextButton();
     }
@@ -200,6 +220,15 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     }
 
+    public void refreshDeletePhotoButton() {
+        if (isBitmapAdded) {
+            deletePhotoButton.setVisibility(View.VISIBLE);
+        } else {
+            deletePhotoButton.setVisibility(View.GONE);
+        }
+
+    }
+
     @Override
     public void saveQuestion() {
         //AnswersBL.updateAnswersToDB(handler, question.getAnswers());
@@ -231,6 +260,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 }
 
                 selectImageManager.setImageCompleteListener(imageCompleteListener);
+                break;
+            case R.id.deletePhotoButton:
+                AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
                 break;
             case R.id.confirmButton:
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
@@ -300,6 +332,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             }
 
             refreshRePhotoButton();
+            refreshDeletePhotoButton();
             refreshConfirmButton();
             refreshNextButton();
         }
