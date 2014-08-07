@@ -242,8 +242,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
 
         if (filesSizeB > 0) {
-            if (UIUtils.is3G(this) && preferencesManager.get3GUploadTaskLimit() != 0
-                    && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit()) {
+            if (UIUtils.is3G(this)
+                    && (preferencesManager.get3GUploadTaskLimit() != 0 && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit())
+                    || (preferencesManager.get3GUploadMonthLimit() != 0 && preferencesManager.getUsed3GUploadMonthlySize
+                    () + filesSizeB / 1024 > preferencesManager.get3GUploadMonthLimit())) {
                 DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
                     @Override
                     public void onLeftButtonPressed(Dialog dialog) {

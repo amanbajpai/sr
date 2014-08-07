@@ -290,7 +290,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     answer.setFileSizeB(sourceImageFile.length());
                     answer.setFileName(sourceImageFile.getName());
 
-                    AnswersBL.setAnswersToDB(handler, question.getAnswers());
+                    AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 
                     isVideoConfirmed = true;
 

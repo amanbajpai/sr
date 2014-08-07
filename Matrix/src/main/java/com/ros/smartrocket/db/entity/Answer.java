@@ -42,7 +42,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.setFileName(c.getString(AnswerDbSchema.Query.FILE_NAME));
         }
 
-        L.d("Answer", result.toString());
+        L.d("Answer", "Answer:" + result.toString());
         return result;
     }
 

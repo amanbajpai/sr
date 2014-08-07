@@ -202,7 +202,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     @Override
     public void saveQuestion() {
-        AnswersBL.setAnswersToDB(handler, question.getAnswers());
+        //AnswersBL.updateAnswersToDB(handler, question.getAnswers());
     }
 
     @Override
@@ -247,6 +247,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 answer.setFileSizeB(resultImageFile.length());
                 answer.setFileName(resultImageFile.getName());
                 answer.setValue(resultImageFile.getName());
+
+                AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 
                 if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
                     question.setAnswers(addEmptyAnswer(question.getAnswers()));

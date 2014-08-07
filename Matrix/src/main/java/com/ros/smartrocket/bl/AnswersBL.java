@@ -46,7 +46,7 @@ public class AnswersBL {
      * @param answers - answers array
      */
 
-    public static void setAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
+    public static void updateAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
         for (Answer answer : answers) {
             handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI,
                     answer.toContentValues(), AnswerDbSchema.Columns._ID + "=?",

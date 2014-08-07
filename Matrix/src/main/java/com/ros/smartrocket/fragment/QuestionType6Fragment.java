@@ -140,7 +140,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         answer.setValue(answerEditText.getText().toString());
         answer.setChecked(true);
 
-        AnswersBL.setAnswersToDB(handler, question.getAnswers());
+        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
     }
 
     @Override

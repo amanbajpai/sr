@@ -210,7 +210,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 answer.setFileSizeB(resultImageFile.length());
                 answer.setFileName(resultImageFile.getName());
 
-                AnswersBL.setAnswersToDB(handler, question.getAnswers());
+                AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 
                 isBitmapConfirmed = true;
 
