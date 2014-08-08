@@ -135,7 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     preferencesManager.setLastEmail("");
                     preferencesManager.setLastPassword("");
                 }
-                progressDialog.dismiss();
+                dissmisDialog();
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
@@ -156,12 +156,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     startActivity(new Intent(this, CheckLocationActivity.class));
                 }
                 registerButton.setEnabled(true);
-                progressDialog.dismiss();
+                dissmisDialog();
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
                 .ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
+                dissmisDialog();
                 loginButton.setEnabled(true);
                 DialogUtils.showAccountNotActivatedDialog(this);
             }
@@ -169,22 +169,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 .NO_INTERNET) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())
                     || Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
+                dissmisDialog();
                 loginButton.setEnabled(true);
                 DialogUtils.showBadOrNoInternetDialog(this);
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
+                dissmisDialog();
                 loginButton.setEnabled(true);
                 DialogUtils.showLoginFailedDialog(this);
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 startActivity(new Intent(this, CheckLocationActivity.class));
                 registerButton.setEnabled(true);
-                progressDialog.dismiss();
+                dissmisDialog();
             }
         }
+    }
 
+    public void dissmisDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override
