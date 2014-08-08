@@ -106,32 +106,36 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     }
 
     private void getWaves() {
-        refreshIconState(true);
-        final Location location = lm.getLocation();
-        if (location != null) {
-            final int radius = TasksMapFragment.taskRadius;
-            L.i(TAG, "Radius: " + radius);
+        if (preferencesManager.getUseLocationServices()) {
+            refreshIconState(true);
+            final Location location = lm.getLocation();
+            if (location != null) {
+                final int radius = TasksMapFragment.taskRadius;
+                L.i(TAG, "Radius: " + radius);
 
-            WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
+                WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
 
-            if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
-                lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                    @Override
-                    public void onUpdate(Address address) {
-                        if (address != null) {
-                            apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
-                                    address.getCountryName(), address.getLocality(), radius);
-                        } else if (UIUtils.isOnline(getActivity())) {
-                            UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
+                    lm.getAddress(location, new MatrixLocationManager.IAddress() {
+                        @Override
+                        public void onUpdate(Address address) {
+                            if (address != null) {
+                                apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
+                                        address.getCountryName(), address.getLocality(), radius);
+                            } else if (UIUtils.isOnline(getActivity())) {
+                                UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                            }
                         }
+                    });
+                } else {
+                    refreshIconState(false);
+                    if (!UIUtils.isOnline(getActivity())) {
+                        UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
                     }
-                });
-            } else {
-                refreshIconState(false);
-                if (!UIUtils.isOnline(getActivity())) {
-                    UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
                 }
             }
+        } else {
+            adapter.setData(new ArrayList<Wave>());
         }
     }
 
@@ -144,8 +148,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
-                    ArrayList<Wave> waves = WavesBL.convertCursorToWaveListByDistance(cursor);
-                    adapter.setData(waves);
+                    adapter.setData(WavesBL.convertCursorToWaveListByDistance(cursor));
                     break;
                 default:
                     break;

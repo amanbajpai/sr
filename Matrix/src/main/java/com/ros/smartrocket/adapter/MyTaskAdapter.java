@@ -230,6 +230,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 break;
             case validated:
             case inPaymentProcess:
+            case paid:
                 holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
 

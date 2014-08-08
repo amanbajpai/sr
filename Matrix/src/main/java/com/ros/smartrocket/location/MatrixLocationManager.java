@@ -115,6 +115,12 @@ public class MatrixLocationManager implements LocationListener,
         }
     }
 
+    public void disconnect() {
+        if (locationClient != null) {
+            locationClient.disconnect();
+        }
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;

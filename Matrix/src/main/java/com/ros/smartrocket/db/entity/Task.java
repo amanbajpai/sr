@@ -13,7 +13,7 @@ public class Task extends BaseEntity {
 
     public enum TaskStatusId {
         none(0), claimed(1), started(2), validation(3), reDoTask(4), pending(5), validated(6), completed(7),
-        scheduled(8), rejected(9), inPaymentProcess(11);
+        scheduled(8), rejected(9), inPaymentProcess(11), paid(12);
 
         private int statusId;
 

@@ -14,8 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -25,7 +25,6 @@ import android.widget.ToggleButton;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -38,7 +37,8 @@ import java.util.Locale;
 /**
  * Setting fragment with all application related settings
  */
-public class SettingsFragment extends Fragment implements OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener,
+        AdapterView.OnItemSelectedListener {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
@@ -91,10 +91,6 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         saveImageToggleButton = (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
         useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
-        deadlineReminderToggleButton.setOnCheckedChangeListener(this);
-
-        view.findViewById(R.id.confirmAndSaveButton).setOnClickListener(this);
-        view.findViewById(R.id.cancelButton).setOnClickListener(this);
 
         ((TextView) view.findViewById(R.id.currentVersion)).setText(UIUtils.getAppVersion(getActivity()));
 
@@ -114,6 +110,18 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         saveImageToggleButton.setChecked(preferencesManager.getUseSaveImageToCameraRoll());
         pushMessagesToggleButton.setChecked(preferencesManager.getUsePushMessages());
         deadlineReminderToggleButton.setChecked(preferencesManager.getUseDeadlineReminder());
+
+        languageSpinner.setOnItemSelectedListener(this);
+        deadlineReminderSpinner.setOnItemSelectedListener(this);
+        taskLimitSpinner.setOnItemSelectedListener(this);
+        monthLimitSpinner.setOnItemSelectedListener(this);
+
+        locationServicesToggleButton.setOnCheckedChangeListener(this);
+        pushMessagesToggleButton.setOnCheckedChangeListener(this);
+        socialSharingToggleButton.setOnCheckedChangeListener(this);
+        saveImageToggleButton.setOnCheckedChangeListener(this);
+        useOnlyWifiToggleButton.setOnCheckedChangeListener(this);
+        deadlineReminderToggleButton.setOnCheckedChangeListener(this);
     }
 
     public void setLanguageSpinner() {
@@ -208,70 +216,75 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
         switch (v.getId()) {
             case R.id.deadlineReminderToggleButton:
                 deadlineReminderLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                preferencesManager.setUseDeadlineReminder(isChecked);
+
+                changeTaskReminderServiceStatus(isChecked);
+                break;
+
+            case R.id.locationServicesToggleButton:
+                preferencesManager.setUseLocationServices(isChecked);
+
+                if (!UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
+                    DialogUtils.showLocationDialog(getActivity(), false);
+                }
+                break;
+            case R.id.pushMessagesToggleButton:
+                preferencesManager.setUsePushMessages(isChecked);
+                changeTaskReminderServiceStatus(isChecked);
+                break;
+            case R.id.socialSharingToggleButton:
+                preferencesManager.setUseSocialSharing(isChecked);
+                break;
+            case R.id.saveImageToggleButton:
+                preferencesManager.setUseSaveImageToCameraRoll(isChecked);
+                break;
+            case R.id.useOnlyWifiToggleButton:
+                preferencesManager.setUseOnlyWiFiConnaction(isChecked);
                 break;
         }
     }
 
+    public void changeTaskReminderServiceStatus(boolean start) {
+        if (start) {
+            getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
+                    .ACTION_START_REMINDER_TIMER));
+        } else {
+            getActivity().stopService(new Intent(getActivity(), TaskReminderService.class));
+        }
+    }
+
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.confirmAndSaveButton:
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.languageSpinner:
                 String selectedLanguageCode = SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
                 boolean languageChanged = !preferencesManager.getLanguageCode().equals(selectedLanguageCode);
 
                 preferencesManager.setLanguageCode(selectedLanguageCode);
                 setDefaultLanguage(getActivity(), preferencesManager.getLanguageCode());
 
-                preferencesManager.setUseLocationServices(locationServicesToggleButton.isChecked());
-                preferencesManager.setUseSocialSharing(socialSharingToggleButton.isChecked());
-                preferencesManager.setUseOnlyWiFiConnaction(useOnlyWifiToggleButton.isChecked());
-                preferencesManager.setUseSaveImageToCameraRoll(saveImageToggleButton.isChecked());
-                preferencesManager.setUsePushMessages(pushMessagesToggleButton.isChecked());
-                preferencesManager.setUseDeadlineReminder(deadlineReminderToggleButton.isChecked());
-
-                preferencesManager.set3GUploadTaskLimit(
-                        MISSION_LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
-                preferencesManager.set3GUploadMonthLimit(
-                        MONTHLY_LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
-
+                if (languageChanged) {
+                    UIUtils.showSimpleToast(getActivity(), R.string.success);
+                    getActivity().finish();
+                }
+                break;
+            case R.id.deadlineReminderSpinner:
                 preferencesManager.setDeadlineReminderMillisecond(TIME_IN_MILLIS[deadlineReminderSpinner
                         .getSelectedItemPosition()]);
-
-                if (pushMessagesToggleButton.isChecked() || deadlineReminderToggleButton.isChecked()) {
-                    getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
-                            .ACTION_START_REMINDER_TIMER));
-                } else {
-                    getActivity().stopService(new Intent(getActivity(), TaskReminderService.class));
-                }
-
-                if (!UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
-                    DialogUtils.showLocationDialog(getActivity(), false);
-                }
-
-                UIUtils.showSimpleToast(getActivity(), R.string.success);
-                if (languageChanged) {
-                    getActivity().finish();
-                } else {
-                    moveToFindTaskFragment();
-                }
                 break;
-            case R.id.cancelButton:
-                setData();
-
-                moveToFindTaskFragment();
+            case R.id.taskLimitSpinner:
+                preferencesManager.set3GUploadTaskLimit(
+                        MISSION_LIMIT_MB_CODE[taskLimitSpinner.getSelectedItemPosition()]);
                 break;
-            default:
+            case R.id.monthLimitSpinner:
+                preferencesManager.set3GUploadMonthLimit(
+                        MONTHLY_LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
                 break;
         }
     }
 
-    public void moveToFindTaskFragment() {
-        Bundle bundle = new Bundle();
-        bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
-
-        Fragment fragment = new AllTaskFragment();
-        fragment.setArguments(bundle);
-        ((MainActivity) getActivity()).startFragment(fragment);
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     public static String getLanguageCodeFromSupported() {
@@ -339,4 +352,6 @@ public class SettingsFragment extends Fragment implements OnClickListener, Compo
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

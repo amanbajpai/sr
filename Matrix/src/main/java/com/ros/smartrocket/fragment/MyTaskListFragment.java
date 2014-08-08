@@ -31,6 +31,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
@@ -39,6 +40,7 @@ import com.ros.smartrocket.utils.UIUtils;
 public class MyTaskListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface,
         View.OnClickListener {
     private static final String TAG = MyTaskListFragment.class.getSimpleName();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ImageView refreshButton;
     private AsyncQueryHandler handler;

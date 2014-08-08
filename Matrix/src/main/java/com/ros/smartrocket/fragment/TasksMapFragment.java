@@ -315,40 +315,39 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     private void loadData() {
-        refreshIconState(true);
         clearMap();
+
         Location location = lm.getLocation();
-        if (location != null) {
-            loadTasksFromLocalDb();
+        if (location != null && preferencesManager.getUseLocationServices()) {
+            refreshIconState(true);
             updateDataFromServer(location);
-        } else if (UIUtils.isGpsEnabled(getActivity())) {
+
+        } else if (UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
+            refreshIconState(true);
             UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
-                    L.i(TAG, "Location Updated!");
-                    loadTasksFromLocalDb();
                     updateDataFromServer(location);
                 }
             });
-        } else {
-            refreshIconState(false);
-            loadTasksFromLocalDb();
         }
+
+        loadTasksFromLocalDb();
     }
 
     /**
      * Get Tasks from local db
      */
     private void loadTasksFromLocalDb() {
-        if (mode == Keys.MapViewMode.ALL_TASKS) {
+        if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
             TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             TasksBL.getMyTasksForMapFromDB(handler);
-        } else if (mode == Keys.MapViewMode.WAVE_TASKS) {
+        } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices()) {
             TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
             Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
-        } else if (mode == Keys.MapViewMode.SINGLE_TASK) {
+        } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices()) {
             TasksBL.getTaskFromDBbyID(handler, viewItemId);
             Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
         }
@@ -492,7 +491,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             isFirstStart = false;
         }
 
-        addMyLocation(location);
+        if (preferencesManager.getUseLocationServices()) {
+            addMyLocation(location);
+        }
     }
 
     @Override

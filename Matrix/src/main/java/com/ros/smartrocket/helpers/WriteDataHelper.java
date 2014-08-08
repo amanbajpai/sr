@@ -22,6 +22,7 @@ public class WriteDataHelper {
         int taskRadius = preferencesManager.getDefaultRadius();
         String lastEmail = preferencesManager.getLastEmail();
         String lastPassword = preferencesManager.getLastPassword();
+        boolean useLocationServices = preferencesManager.getUseLocationServices();
 
         preferencesManager.clearAll();
 
@@ -29,6 +30,7 @@ public class WriteDataHelper {
         preferencesManager.setDefaultRadius(taskRadius);
         preferencesManager.setLastEmail(lastEmail);
         preferencesManager.setLastPassword(lastPassword);
+        preferencesManager.setUseLocationServices(useLocationServices);
 
         WavesBL.removeAllWavesFromDB(context);
         TasksBL.removeAllTasksFromDB(context);

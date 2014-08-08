@@ -122,6 +122,7 @@ public class TasksBL {
                         + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.completed.getStatusId()
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.validated.getStatusId()
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.inPaymentProcess.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.paid.getStatusId()
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.rejected.getStatusId(),
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
