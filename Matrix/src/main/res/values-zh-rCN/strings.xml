@@ -289,6 +289,7 @@
     <string name="maximum_mission_dialog_title" >Mission claim limit reached</string >
     <string name="maximum_mission_dialog_text" >You have claimed the maximum number of missions for this Project. To
         claim more missions on this Project, you must first complete existing missions.</string >
+    <string name="login_ok" >OK</string >
     <!-- DEADLINE REMINDER DIALOG -->
     <string name="deadline_reminder_dialog_title" >Mission deadline reminder</string >
     <string name="go_to_mission" >GO TO MISSION</string >
@@ -312,6 +313,7 @@
     <string name="forgot_password_success_text2" >...with a link to reset your SmartRocket password.</string >
     <string name="forgot_password_success_text3" >If you cannot find our message, please check your Junk/Spam
         folder.</string >
+    <string name="forgot_password_ok" >OK</string >
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >Age verification</string >
     <string name="age_verification_dialog_text1" >You must be <b >18 years or older</b > to join

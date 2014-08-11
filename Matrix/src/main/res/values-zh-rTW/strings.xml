@@ -67,7 +67,7 @@
     <string name="hide_hidden_projects" >隱藏隱藏項目</string >
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >任務到期： %1$s</string >
-    <string name="no_mission_available" >你所在的地區暫時沒有任務。請稍后再回來。</string >
+    <string name="no_mission_available" >你所在的地區暫時沒有任務。\n請稍后再回來。</string >
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission" >重做。任務到期於： %1$s</string >
     <string name="send_latter_mission" >未提交。任務到期於： %1$s</string >
@@ -86,7 +86,7 @@
     <string name="tree_g_upload_month_limit" >每個月的3G總上載上限 (MB)</string >
     <string name="social_sharing" >允許社交分享</string >
     <string name="save_images_to_camera_roll" >將圖片存到相簿</string >
-    <string name="send_only_by_wifi" >只在有WiFi時傳送信息</string >
+    <string name="send_only_by_wifi" >只透過WiFi傳送數據</string >
     <string name="notification_settings" >通知設定</string >
     <string name="reminder" >提示</string >
     <string name="deadline_warning" >任務到期提示</string >
@@ -271,6 +271,7 @@
     <string name="maximum_mission_dialog_title" >達到任務認領上限</string >
     <string name="maximum_mission_dialog_text" >你所認領的任務數目已經達到這個項目的上限。如果想認領更多任務，
         你必須先完成已認領的任務。</string >
+    <string name="login_ok" >返回</string >
     <!-- DEADLINE REMINDER DIALOG -->
     <string name="deadline_reminder_dialog_title" >任務限期提示</string >
     <string name="go_to_mission" >前往任務</string >
@@ -293,6 +294,7 @@
     <string name="forgot_password_success_text1" >我們已經將SmartRocket密碼的重設連結郵件發送到以下電郵：</string >
     <string name="forgot_password_success_text2" > </string >
     <string name="forgot_password_success_text3" >如果你找不到這個電郵，請檢查你的垃圾郵件夾。</string >
+    <string name="forgot_password_ok" >返回</string >
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >年齡驗證</string >
     <string name="age_verification_dialog_text1" >要成爲SmartRocket的一份子，你的年齡必須為<b >18嵗或以上</b >。</string >

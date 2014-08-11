@@ -153,7 +153,7 @@
                 <com.ros.smartrocket.views.CustomTextView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="@dimen/text_size_12sp"
+                    android:textSize="@dimen/text_size_13p6sp"
                     android:textColor="@color/grey"
                     android:text="@string/mission_address"
                     custom:textStyle="bold" />
@@ -198,7 +198,7 @@
                 <com.ros.smartrocket.views.CustomTextView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="@dimen/text_size_12sp"
+                    android:textSize="@dimen/text_size_13p6sp"
                     android:textColor="@color/grey"
                     android:text="@string/full_description"
                     custom:textStyle="bold" />

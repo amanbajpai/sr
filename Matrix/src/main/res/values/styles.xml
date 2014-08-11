@@ -231,7 +231,7 @@
         <item name="android:paddingRight" >2dp</item >
         <item name="android:gravity" >left|center_vertical</item >
         <item name="android:textColor" >@color/black</item >
-        <item name="android:textSize" >@dimen/text_size_14sp</item >
+        <item name="android:textSize" >@dimen/text_size_15sp</item >
         <item name="android:drawablePadding" >10dp</item >
     </style >
 
@@ -318,7 +318,7 @@
     </style >
 
     <style name="QuestionText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
+        <item name="android:textSize" >@dimen/text_size_17sp</item >
         <item name="android:textColor" >@color/black</item >
         <item name="android:lineSpacingExtra" >5dp</item >
     </style >
@@ -329,7 +329,7 @@
     </style >
 
     <style name="QuestionValidationComment" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
+        <item name="android:textSize" >@dimen/text_size_17sp</item >
         <item name="android:textColor" >@color/red</item >
         <item name="android:textStyle" >normal</item >
         <item name="android:visibility" >gone</item >
@@ -338,7 +338,7 @@
     <!-- Detail screen -->
     <style name="detailScreenTimeTypeTextStyle" >
         <item name="android:textColor" >@color/grey</item >
-        <item name="android:minWidth" >180dp</item >
+        <item name="android:minWidth" >175dp</item >
         <item name="android:textSize" >@dimen/text_size_13p6sp</item >
         <item name="android:layout_weight" >1</item >
         <item name="android:gravity" >left</item >

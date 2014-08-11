@@ -49,7 +49,7 @@
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:textColor="@color/red"
-            android:text="@string/cancel_big"
+            android:text="@string/quite_mission_cancel"
             custom:textStyle="bold" />
         <View
             android:layout_width="1dp"

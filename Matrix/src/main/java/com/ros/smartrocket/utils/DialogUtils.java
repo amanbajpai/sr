@@ -172,7 +172,7 @@ public class DialogUtils {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context,
                 context.getText(R.string.login_fail_dialog_title),
                 context.getText(R.string.credentials_wrong),
-                0, android.R.string.ok);
+                0, R.string.login_ok);
         dialog.hideLeftButton();
         dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override

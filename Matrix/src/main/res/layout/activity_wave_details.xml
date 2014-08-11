@@ -78,7 +78,7 @@
                     </LinearLayout >
                 </LinearLayout >
                 <LinearLayout
-                    android:layout_width="75dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
@@ -173,7 +173,7 @@
                 <com.ros.smartrocket.views.CustomTextView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="@dimen/text_size_12sp"
+                    android:textSize="@dimen/text_size_13p6sp"
                     android:textColor="@color/grey"
                     android:text="@string/wave_missions_description"
                     custom:textStyle="bold" />

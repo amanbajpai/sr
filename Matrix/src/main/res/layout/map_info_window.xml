@@ -57,7 +57,7 @@
             style="@style/MapTaskValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.9"
             android:drawableLeft="@drawable/wallet_blue"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomTextView
@@ -65,7 +65,7 @@
             style="@style/MapTaskValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.1"
             android:drawableLeft="@drawable/rocket_blue"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomTextView
