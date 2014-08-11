@@ -22,63 +22,62 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="horizontal" >
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="vertical" >
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:text="@string/start_time"
                             custom:textStyle="bold" />
                         <com.ros.smartrocket.views.CustomTextView
-                            android:id="@+id/startTimeTextView"
-                            style="@style/detailScreenTimeTextStyle"
-                            android:layout_width="match_parent"
+                            style="@style/detailScreenTimeTypeTextStyle"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/deadline_time"
+                            custom:textStyle="bold" />
+                        <com.ros.smartrocket.views.CustomTextView
+                            style="@style/detailScreenTimeTypeTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/duration_time"
                             custom:textStyle="bold" />
                     </LinearLayout >
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal" >
+                        android:orientation="vertical" >
                         <com.ros.smartrocket.views.CustomTextView
-                            style="@style/detailScreenTimeTypeTextStyle"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/startTimeTextView"
+                            style="@style/detailScreenTimeTextStyle"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/deadline_time"
+                            android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
                         <com.ros.smartrocket.views.CustomTextView
                             android:id="@+id/deadlineTimeTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            custom:textStyle="bold" />
-                    </LinearLayout >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal" >
-                        <com.ros.smartrocket.views.CustomTextView
-                            style="@style/detailScreenTimeTypeTextStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/duration_time"
+                            android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
                         <com.ros.smartrocket.views.CustomTextView
                             android:id="@+id/dueTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
                     </LinearLayout >
                 </LinearLayout >
                 <LinearLayout
-                    android:layout_width="70dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"

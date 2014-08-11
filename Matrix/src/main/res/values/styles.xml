@@ -338,9 +338,7 @@
     <!-- Detail screen -->
     <style name="detailScreenTimeTypeTextStyle" >
         <item name="android:textColor" >@color/grey</item >
-        <item name="android:minWidth" >175dp</item >
         <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:layout_weight" >1</item >
         <item name="android:gravity" >left</item >
     </style >
 
@@ -349,6 +347,8 @@
         <item name="android:textSize" >@dimen/text_size_13p6sp</item >
         <item name="android:layout_weight" >1</item >
         <item name="android:gravity" >left</item >
+        <item name="android:layout_marginLeft" >5dp</item >
+
     </style >
 
     <style name="TaskAndWaveOptionStyle" parent="@android:style/Widget.TextView" >
