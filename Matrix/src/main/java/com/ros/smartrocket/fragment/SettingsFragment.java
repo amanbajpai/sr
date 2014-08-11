@@ -218,7 +218,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 deadlineReminderLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
                 preferencesManager.setUseDeadlineReminder(isChecked);
 
-                changeTaskReminderServiceStatus(isChecked);
+                changeTaskReminderServiceStatus();
                 break;
 
             case R.id.locationServicesToggleButton:
@@ -230,7 +230,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 break;
             case R.id.pushMessagesToggleButton:
                 preferencesManager.setUsePushMessages(isChecked);
-                changeTaskReminderServiceStatus(isChecked);
+                changeTaskReminderServiceStatus();
                 break;
             case R.id.socialSharingToggleButton:
                 preferencesManager.setUseSocialSharing(isChecked);
@@ -244,8 +244,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
     }
 
-    public void changeTaskReminderServiceStatus(boolean start) {
-        if (start) {
+    public void changeTaskReminderServiceStatus() {
+        if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
             getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
                     .ACTION_START_REMINDER_TIMER));
         } else {

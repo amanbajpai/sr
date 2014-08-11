@@ -36,6 +36,8 @@ public class GlobalReceiver extends BroadcastReceiver {
         if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
             context.startService(new Intent(context, TaskReminderService.class).setAction(Keys
                     .ACTION_START_REMINDER_TIMER));
+        } else {
+            context.stopService(new Intent(context, TaskReminderService.class));
         }
     }
 
