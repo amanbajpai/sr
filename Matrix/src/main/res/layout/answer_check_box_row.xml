@@ -22,7 +22,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_17sp"
+        android:textSize="@dimen/text_size_15sp"
         custom:textStyle="bold" />
     <com.ros.smartrocket.views.CustomEditTextView
         android:id="@+id/otherAnswerEditText"

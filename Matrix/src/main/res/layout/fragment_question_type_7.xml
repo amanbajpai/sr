@@ -53,7 +53,7 @@
             android:id="@+id/deletePhotoButton"
             android:layout_gravity="top|left"
             android:padding="10dp"
-            android:src="@drawable/error_progress"
+            android:src="@drawable/delete_square_red"
             android:contentDescription="@string/app_name"
             android:layout_width="42dp"
             android:background="@drawable/btn_square_active"

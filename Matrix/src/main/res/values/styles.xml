@@ -318,7 +318,7 @@
     </style >
 
     <style name="QuestionText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
+        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
         <item name="android:textColor" >@color/black</item >
         <item name="android:lineSpacingExtra" >5dp</item >
     </style >
@@ -329,7 +329,7 @@
     </style >
 
     <style name="QuestionValidationComment" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
+        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
         <item name="android:textColor" >@color/red</item >
         <item name="android:textStyle" >normal</item >
         <item name="android:visibility" >gone</item >
@@ -348,7 +348,6 @@
         <item name="android:layout_weight" >1</item >
         <item name="android:gravity" >left</item >
         <item name="android:layout_marginLeft" >5dp</item >
-
     </style >
 
     <style name="TaskAndWaveOptionStyle" parent="@android:style/Widget.TextView" >
