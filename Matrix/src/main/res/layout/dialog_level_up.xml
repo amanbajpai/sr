@@ -20,8 +20,7 @@
         android:layout_width="match_parent"
         android:contentDescription="@string/app_name"
         android:layout_margin="30dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/badge" />
+        android:adjustViewBounds="true" />
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/rankDescription"
         style="@style/DialogText"

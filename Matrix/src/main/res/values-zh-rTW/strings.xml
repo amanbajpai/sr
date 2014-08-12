@@ -347,7 +347,7 @@
     <string name="deadline_mission_notification_title" >注意!</string >
     <string name="deadline_mission_notification_text" >以下的任務將於 %1$s 過期。
         &lt;br>&lt;br>任務: &lt;b >%2$s&lt;/b > &lt;br>地點: &lt;b >%3$s&lt;/b >
-    &lt;br> Address: &lt;b >%4$s&lt;/b ></string >
+    &lt;br> 地址: &lt;b >%4$s&lt;/b ></string >
     <!--notification button-->
     <string name="close_message" >關閉訊息</string >
     <string name="open_mission" >開啓任務</string >

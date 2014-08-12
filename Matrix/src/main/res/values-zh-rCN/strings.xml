@@ -268,7 +268,7 @@
     <string name="registration_subscribe_dialog_text2" >We will send you an email letting you know when we have
         missions available in your area. For more information on SmartRocket and the locations we are active, please
         visit: <b >www.smart-rocket.com/about</b ></string >
-    <!-- SUBSCRIBE CONFIRMATION DIALOG -->
+    <!-- TREE G LIMIT DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G upload limit warning</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >Attention! \n\nThis mission exceeds your current 3G upload per
         mission limit. Do you wish to continue? If you choose WI-FI only, you can find this mission in \"My Missions\"
@@ -314,6 +314,7 @@
     <string name="forgot_password_success_text3" >If you cannot find our message, please check your Junk/Spam
         folder.</string >
     <string name="forgot_password_ok" >OK</string >
+
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >Age verification</string >
     <string name="age_verification_dialog_text1" >You must be <b >18 years or older</b > to join
@@ -385,6 +386,7 @@
     <string name="submit" >SUBMIT</string >
     <!-- LEVEL UP DIALOG -->
     <string name="congratulations" >Congratulations!</string >
-    <string name="you_have_been_promoted" >You have been promoted to the rank of \n&lt;b >%1$s (Level %2$s)&lt;/b ></string >
+    <string name="you_have_been_promoted" >You have been promoted to the rank of \n&lt;b >%1$s (Level %2$s)&lt;/b
+        ></string >
     <string name="you_have_been_promoted_ok" >OK</string >
 </resources >

@@ -120,8 +120,13 @@ public class MyTaskAdapter extends BaseAdapter {
         //long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);
 
 
-        holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond)
-                + " " + activity.getString(R.string.time_left));
+        if (UIUtils.isChineLanguage()) {
+            holder.timeLeft.setText(activity.getString(R.string.time_left) + " "
+                    + UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
+        } else {
+            holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond)
+                    + " " + activity.getString(R.string.time_left));
+        }
         holder.distance.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.m_to_km_with_text_mask, true));
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
