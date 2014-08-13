@@ -236,6 +236,7 @@
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
     <string name="write_your_number" >WRITE A NUMBER BETWEEN %1$s AND %2$s</string >
+    <string name="maximum_photo" >\nYOU MAY ADD A MAXIMUM OF %1$s PHOTOS</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quit mission</string >
     <string name="quite_task_dialog_text1" >Warning!</string >

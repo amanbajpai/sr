@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.ActivateAccountActivity;
 import com.ros.smartrocket.activity.ForgotPasswordSuccessActivity;
+import com.ros.smartrocket.activity.FullScreenImageActivity;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
@@ -399,6 +400,20 @@ public class IntentUtils {
         Intent intent = new Intent(context, SetNewPasswordActivity.class);
         intent.putExtra(Keys.EMAIL, email);
         intent.putExtra(Keys.TOKEN, token);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening inserting new password screen
+     *
+     * @param context - current context
+     * @param bitmap   - bitmap to open
+     * @return Intent
+     */
+
+    public static Intent getFullScreenImageIntent(Context context, String filePath) {
+        Intent intent = new Intent(context, FullScreenImageActivity.class);
+        intent.putExtra(Keys.BITMAP_FILE_PATH, filePath);
         return intent;
     }
 

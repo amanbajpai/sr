@@ -28,6 +28,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
 
 import java.io.File;
@@ -87,7 +88,11 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         confirmButton = (ImageButton) view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
 
-        questionText.setText(question.getQuestion());
+        if (question.getMaximumPhotos() > 1) {
+            questionText.setText(question.getQuestion() + getString(R.string.maximum_photo, question.getMaximumPhotos()));
+        } else {
+            questionText.setText(question.getQuestion());
+        }
         AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
 
         return view;
@@ -248,6 +253,15 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         switch (v.getId()) {
             case R.id.photo:
                 if (isBitmapAdded) {
+                    String filePath;
+                    if (!isBitmapConfirmed) {
+                        filePath = Uri.fromFile(selectImageManager.getLastFile()).getPath();
+                    } else {
+                        Answer answer = question.getAnswers()[currentSelectedPhoto];
+                        filePath = answer.getFileUri();
+                    }
+
+                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath));
                     break;
                 }
             case R.id.rePhotoButton:

@@ -11,6 +11,7 @@ public interface Keys {
     String T_AND_C_VERSION = "t_and_c_version";
     String ACTIVATE_ACCOUNT = "activate_account";
     String FORGOT_PASS = "forgot_pass";
+    String BITMAP_FILE_PATH = "bitmap_file_path";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
