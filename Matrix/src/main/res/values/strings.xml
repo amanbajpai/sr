@@ -236,7 +236,7 @@
     <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
     <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
     <string name="write_your_number" >WRITE A NUMBER BETWEEN %1$s AND %2$s</string >
-    <string name="maximum_photo" >\nYOU MAY ADD A MAXIMUM OF %1$s PHOTOS</string >
+    <string name="maximum_photo" >\n(YOU MAY ADD A MAXIMUM OF %1$s PHOTOS)</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >Quit mission</string >
     <string name="quite_task_dialog_text1" >Warning!</string >
@@ -267,8 +267,8 @@
     <string name="registration_subscribe_dialog_title" >Confirmation</string >
     <string name="registration_subscribe_dialog_text1" >Thank you for your interest in SmartRocket.</string >
     <string name="registration_subscribe_dialog_text2" >We will send you an email letting you know when we have
-        missions available in your area. For more information on SmartRocket and the locations we are active, please
-        visit: <b >www.smart-rocket.com/about</b ></string >
+        missions available in your area. For more information on SmartRocket, please visit:
+        <b >www.smart-rocket.com/about</b ></string >
     <!-- TREE G LIMIT DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G upload limit warning</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >Attention! \n\nThis mission exceeds your current 3G upload per
@@ -315,7 +315,6 @@
     <string name="forgot_password_success_text3" >If you cannot find our message, please check your Junk/Spam
         folder.</string >
     <string name="forgot_password_ok" >OK</string >
-
     <!-- AGE VERIFICATION DIALOG -->
     <string name="age_verification_dialog_title" >Age verification</string >
     <string name="age_verification_dialog_text1" >You must be <b >18 years or older</b > to join

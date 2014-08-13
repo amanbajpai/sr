@@ -15,6 +15,7 @@ import java.io.File;
 
 public class FullScreenImageActivity extends ActionBarActivity {
     //private static final String TAG = FullScreenImageActivity.class.getSimpleName();
+    private Bitmap bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class FullScreenImageActivity extends ActionBarActivity {
         String photoUri = getIntent().getStringExtra(Keys.BITMAP_FILE_PATH);
 
         File photoFile = new File(photoUri);
-        Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+        bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
 
         ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
         photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));
@@ -50,4 +51,11 @@ public class FullScreenImageActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (bitmap != null) {
+            bitmap.recycle();
+        }
+        super.onDestroy();
+    }
 }

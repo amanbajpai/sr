@@ -221,7 +221,7 @@
     <string name="choose_one_answer" >請選擇一個答案</string >
     <string name="choose_one_or_more_answers" >請選擇一個或多個答案</string >
     <string name="write_your_number" >請填寫一個%1$s至%2$s之間的數字</string >
-    <string name="maximum_photo" >\nYOU MAY ADD A MAXIMUM OF %1$s PHOTOS</string >
+    <string name="maximum_photo" >\n(YOU MAY ADD A MAXIMUM OF %1$s PHOTOS)</string >
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title" >放棄任務</string >
     <string name="quite_task_dialog_text1" >注意！</string >
@@ -250,8 +250,8 @@
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
     <string name="registration_subscribe_dialog_title" >確認</string >
     <string name="registration_subscribe_dialog_text1" >感謝你對SmartRocket感興趣。</string >
-    <string name="registration_subscribe_dialog_text2" >當你所在的地區有可選擇任務的時候，我們將會以電郵通知你。
-        欲知更多關於SmartRocket的資料及我們活躍的地點，請瀏覽以下網頁: <b >www.smart-rocket.com/about</b ></string >
+    <string name="registration_subscribe_dialog_text2" >當你所在的地區有可選擇任務的時候,我們將會以電郵通知你。欲知更多
+        關於SmartRocket的資料,請瀏覽以下網頁: <b >www.smart-rocket.com/about</b ></string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G上載上限警告</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >注意！ \n\n這個任務超越你目前所設定的每次任務3G上載上限。
