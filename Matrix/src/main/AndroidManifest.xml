@@ -200,7 +200,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDbenpp_65I1QGBbF8wJK8blokzFYKKhwI" />
+            android:value="AIzaSyCYvxgzDYHQqH3pUBAH3XXPOJMprRYGwfU" />
         <!-- Upload file services -->
         <service
             android:name="com.ros.smartrocket.net.UploadFileService"

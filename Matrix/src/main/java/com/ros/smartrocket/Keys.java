@@ -143,7 +143,7 @@ public interface Keys {
 
 
     /* ------------ GCM parameters -----------------------*/
-    String GCM_ID = "145199350695";
+    String GCM_ID = "491677884618";
 
     String GCM_PROPERTY_REG_ID = "gcm_registration_id";
     String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";

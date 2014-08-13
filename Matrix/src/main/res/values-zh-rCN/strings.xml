@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
-    <string name="app_name" >SmartRocket</string >
-    <string name="click_back_again_to_exit" >Please click BACK again to exit</string >
+    <string name="app_name" >智慧飞船</string >
+    <string name="click_back_again_to_exit" >请再次点击[返回]完全退出。</string >
     <!-- LOGIN ACTIVITY -->
-    <string name="your_email_hint" >Your e-mail</string >
-    <string name="your_password_hint" >Your password</string >
-    <string name="forgot_your_password" >Forgot your password?</string >
-    <string name="login_big" >LOGIN</string >
-    <string name="i_new_user" >NEW USER</string >
-    <string name="login_fail_dialog_title" >SmartRocket login</string >
-    <string name="internet_connection_is_bad" >Your internet connection is unstable, please change source of
-        internet.</string >
-    <string name="credentials_wrong" >The email or password you entered is incorrect. Please try again.</string >
-    <string name="account_not_activated" >Your SmartRocket account has not yet been activated. To use SmartRocket,
-        please check your email and click the Activation Link. If you cannot find our message, check your junk/spam
-        folder or request a new Activiation Link.</string >
-    <string name="request_new_activation_link" >Request New Activiation Link</string >
+    <string name="your_email_hint" >您的邮箱</string >
+    <string name="your_password_hint" >密码</string >
+    <string name="forgot_your_password" >忘了密码？</string >
+    <string name="login_big" >登录</string >
+    <string name="i_new_user" >注册新账号</string >
+    <string name="login_fail_dialog_title" >登录智慧飞船</string >
+    <string name="internet_connection_is_bad" >您的网路连接不够稳定，请尝试重新连线。</string >
+    <string name="credentials_wrong" >您输入的邮箱或密码不正确。请重新输入。</string >
+    <string name="account_not_activated" >您的智慧飞船账号尚未激活。使用智慧飞船之前，请查看邮箱，并点击激活链接。
+        如果您找不到我们的电邮，请查看垃圾邮件夹或向我们要求新的激活链接。</string >
+    <string name="request_new_activation_link" >要求激活链接</string >
     <string name="user_not_found_error_text" >User Not Found</string >
     <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
-    <string name="continue_register" >CONTINUE</string >
-    <string name="welcome_to_smart_rocket" >Welcome to SmartRocket registration!</string >
-    <string name="how_did_you_hear_about_us" >How did you first hear about SmartRocket?</string >
+    <string name="continue_register" >继续</string >
+    <string name="welcome_to_smart_rocket" >欢迎来到智慧飞船注册页面！</string >
+    <string name="how_did_you_hear_about_us" >您透过哪个渠道认识智慧飞船？</string >
     <!-- REGISTRATION ACTIVITY -->
-    <string name="first_name" >First name</string >
-    <string name="last_name" >Last name</string >
-    <string name="password" >Password</string >
-    <string name="your_birthday" >Your birthday</string >
-    <string name="your_country_hint" >Your Country</string >
-    <string name="your_city_hint" >Your City</string >
-    <string name="remember_me" >Remember me</string >
-    <string name="i_agree_with_matrix_term" >I agree with SmartRocket Terms &amp; Conditions</string >
-    <string name="confirm_and_register" >REGISTER</string >
-    <string name="cancel" >Cancel</string >
-    <string name="cancel_big" >CANCEL</string >
-    <string name="ok" >OK</string >
-    <string name="show_password" >Show password</string >
-    <string name="password_validation_text" >Your password must be 8-16 characters long with at least one upper-case
-        letter, one lower-case letter, one number and one special character (!, @, #, $, etc).</string >
+    <string name="first_name" >姓氏</string >
+    <string name="last_name" >名字</string >
+    <string name="password" >密码</string >
+    <string name="your_birthday" >您的出生日期</string >
+    <string name="your_country_hint" >您的国家</string >
+    <string name="your_city_hint" >您的城市</string >
+    <string name="remember_me" >下次自动登录</string >
+    <string name="i_agree_with_matrix_term" >我接受智慧飞船的使用协议和条款</string >
+    <string name="confirm_and_register" >注册</string >
+    <string name="cancel" >取消</string >
+    <string name="cancel_big" >取消</string >
+    <string name="ok" >可以</string >
+    <string name="show_password" >显示密码</string >
+    <string name="password_validation_text" >您的密码必须由8到16个字符所组成，并至少包括一个大写的字母，一个小写的字母，
+        一个数字和一个特殊字符（！、@、#、￥等等）</string >
     <string name="user_already_exist" >User already exists. Please enter a different email address.</string >
     <string name="fill_in_field" >Please, fill in field</string >
     <string name="fill_in_all_fields" >Please, complete all items</string >
@@ -98,7 +96,7 @@
     <string name="app_version" >Application version</string >
     <string name="confirm_and_save_big" >APPLY</string >
     <string name="unlimited" >Unlimited</string >
-    <string name="term_and_conditions" ><u >TERMS &amp; CONDITIONS</u ></string >
+    <string name="term_and_conditions" ><u >使用协议和条款</u ></string >
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title" >Share</string >
     <string name="tell_your_friends_about" >Tell your friends about \n SmartRocket!</string >
