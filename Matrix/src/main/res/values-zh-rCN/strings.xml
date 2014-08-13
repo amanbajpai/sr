@@ -36,356 +36,334 @@
     <string name="show_password" >显示密码</string >
     <string name="password_validation_text" >您的密码必须由8到16个字符所组成，并至少包括一个大写的字母，一个小写的字母，
         一个数字和一个特殊字符（！、@、#、￥等等）</string >
-    <string name="user_already_exist" >User already exists. Please enter a different email address.</string >
-    <string name="fill_in_field" >Please, fill in field</string >
-    <string name="fill_in_all_fields" >Please, complete all items</string >
-    <string name="registration_form" >SmartRocket registration</string >
+    <string name="user_already_exist" >用户已经存在。请输入另外的邮箱。</string >
+    <string name="fill_in_field" >请填写栏目。</string >
+    <string name="fill_in_all_fields" >请完整填写表格。</string >
+    <string name="registration_form" >智慧飞船注册</string >
     <!-- MAIN MENU ACTIVITY -->
-    <string name="find_mission" >New missions</string >
-    <string name="my_missions" >My missions</string >
-    <string name="my_portal" >MyPortal</string >
-    <string name="settings" >Settings</string >
-    <string name="support" >Support</string >
-    <string name="share" >Share</string >
-    <string name="rocket_points" >Rocket Points</string >
-    <string name="level_name" >Rank</string >
-    <string name="earnings" >Earnings</string >
-    <string name="logout" >Logout</string >
+    <string name="find_mission" >新的任务</string >
+    <string name="my_missions" >我的任务</string >
+    <string name="my_portal" >我的网站</string >
+    <string name="settings" >设定</string >
+    <string name="support" >支援</string >
+    <string name="share" >分享</string >
+    <string name="rocket_points" >飞船里数</string >
+    <string name="level_name" >等级</string >
+    <string name="earnings" >縂收入</string >
+    <string name="logout" >离开</string >
     <string name="level_0" >0</string >
     <string name="balance_0" >0$</string >
     <!-- CHECKING FAIL ACTIVITY -->
-    <string name="sorry" >Sorry! SmartRocket is not recruiting in your area.</string >
-    <string name="we_dont_have_available_tasks" >Unfortunately,  we are not currently recruiting new members in your
-        area, but we are adding new locations and members all the time. If you would like to be notified when we are
-        recruiting in your area, please submit your email address below.</string >
-    <string name="subscribe" >SUBMIT</string >
+    <string name="sorry" >对不起！智慧飞船暂时不在您所在的地区进行招聘。</string >
+    <string name="we_dont_have_available_tasks" >不好意思，我们目前没有在您所在的地区进行招聘。我们无时无刻增加新的地点和成员。
+        如果您想得知我们在您所在地区最新的招聘信息，请于下方提供您的邮箱。</string >
+    <string name="subscribe" >提交</string >
     <!-- FIND TASK FRAGMENT-->
     <!-- WAVE LIST FRAGMENT-->
-    <string name="distance_to_nearest_location" >Distance to the nearest location &lt;b>%1$s &lt;/b></string >
-    <string name="distance_m" >m</string >
-    <string name="distance_km" >km</string >
-    <string name="show_hidden_projects" >SHOW HIDDEN PROJECTS</string >
-    <string name="hide_hidden_projects" >HIDE HIDDEN PROJECTS</string >
+    <string name="distance_to_nearest_location" >离最近地点的距离 &lt;b>%1$s &lt;/b></string >
+    <string name="distance_m" >米</string >
+    <string name="distance_km" >公里</string >
+    <string name="show_hidden_projects" >显示隐藏项目</string >
+    <string name="hide_hidden_projects" >隐藏隐藏项目</string >
     <!-- WAVES TASK LIST ACTIVITY -->
-    <string name="mission_expires_at" >Mission due: %1$s</string >
-    <string name="no_mission_available" >There are currently no missions available in your area. \nPlease check back
-        later to claim and complete new missions.</string >
+    <string name="mission_expires_at" >任务到期于： %1$s</string >
+    <string name="no_mission_available" >您所在的地区暂时没有任务。\n请稍后再回来。</string >
     <!-- MY TASK FRAGMENT-->
-    <string name="redo_mission" >Re-do. Mission due: %1$s</string >
-    <string name="send_latter_mission" >Unsubmitted. Mission due: %1$s</string >
-    <string name="mission_in_validation" >Mission in validation.</string >
-    <string name="mission_rejected" >Mission rejected.</string >
-    <string name="mission_validated" >Congratulations! Mission approved!</string >
-    <string name="time_left" >left</string >
-    <string name="you_have_no_tasks" >You have no current missions. \nGo to \"New Missions\" to claim and complete
-        new missions.</string >
+    <string name="redo_mission" >重做。任务到期于： %1$s</string >
+    <string name="send_latter_mission" >未提交。任务到期于： %1$s</string >
+    <string name="mission_in_validation" >任务验证中。</string >
+    <string name="mission_rejected" >任务被拒绝。</string >
+    <string name="mission_validated" >恭喜！任务已获批核！</string >
+    <string name="time_left" >剩余</string >
+    <string name="you_have_no_tasks" >您目前没有任何任务。\n请前往[新的任务]寻找和认领任务。</string >
     <!-- SETTINGS FRAGMENT-->
-    <string name="app_settings_title" >SmartRocket Settings</string >
-    <string name="application_settings" >APPLICATION SETTINGS</string >
-    <string name="language" >Language</string >
-    <string name="location_services" >Location services</string >
-    <string name="push_messages" >Push messages</string >
-    <string name="tree_g_upload_task_limit" >3G upload limit per mission (MB)</string >
-    <string name="tree_g_upload_month_limit" >3G total monthly upload limit (MB)</string >
-    <string name="social_sharing" >Social sharing</string >
-    <string name="save_images_to_camera_roll" >Save images to Gallery</string >
-    <string name="send_only_by_wifi" >Send information only by WiFi</string >
-    <string name="notification_settings" >NOTIFICATION SETTINGS</string >
-    <string name="reminder" >Reminder</string >
-    <string name="deadline_warning" >Mission deadline warning</string >
-    <string name="app_version" >Application version</string >
-    <string name="confirm_and_save_big" >APPLY</string >
-    <string name="unlimited" >Unlimited</string >
+    <string name="app_settings_title" >智慧飞船设定</string >
+    <string name="application_settings" >应用程序设定</string >
+    <string name="language" >语言</string >
+    <string name="location_services" >允許定位服务</string >
+    <string name="push_messages" >允許信息推送</string >
+    <string name="tree_g_upload_task_limit" >每次任务的3G上载上限 (MB)</string >
+    <string name="tree_g_upload_month_limit" >每个月的3G总上载上限 (MB)</string >
+    <string name="social_sharing" >允許社交共享</string >
+    <string name="save_images_to_camera_roll" >将照片存到相册</string >
+    <string name="send_only_by_wifi" >必须使用无线上网传送数据</string >
+    <string name="notification_settings" >通知设定</string >
+    <string name="reminder" >提示</string >
+    <string name="deadline_warning" >任务到期提示</string >
+    <string name="app_version" >应用程序版本</string >
+    <string name="confirm_and_save_big" >应用</string >
+    <string name="unlimited" >无限</string >
     <string name="term_and_conditions" ><u >使用协议和条款</u ></string >
     <!-- SHARE AND REFER FRAGMENT-->
-    <string name="share_title" >Share</string >
-    <string name="tell_your_friends_about" >Tell your friends about \n SmartRocket!</string >
-    <string name="share_via_email" >E-MAIL</string >
-    <string name="share_via_message" >MESSAGE</string >
-    <string name="share_via_twitter" >TWITTER</string >
-    <string name="share_via_facebook" >FACEBOOK</string >
-    <string name="share_via_linkedin" >LinkedIn</string >
+    <string name="share_title" >分享</string >
+    <string name="tell_your_friends_about" >将智慧飞船\n公告于天下好友！</string >
+    <string name="share_via_email" >电子邮件</string >
+    <string name="share_via_message" >短信</string >
+    <string name="share_via_twitter" >推特</string >
+    <string name="share_via_facebook" >脸书</string >
+    <string name="share_via_linkedin" >领英</string >
     <string name="share_via_whatsapp" >WhatsApp</string >
-    <string name="share_via_wechat" >We Chat</string >
-    <string name="share_via_tencent_weibo" >Tencent Weibo</string >
-    <string name="share_via_sina_weibo" >Sina Weibo</string >
-    <string name="share_via_qzone" >QZone</string >
-    <string name="toast_sharing_disable_in_settings" >Sorry, Social Sharing disabled in the settings.</string >
+    <string name="share_via_wechat" >微信</string >
+    <string name="share_via_tencent_weibo" >腾讯微博</string >
+    <string name="share_via_sina_weibo" >新浪微博</string >
+    <string name="share_via_qzone" >QQ空间</string >
+    <string name="toast_sharing_disable_in_settings" >对不起，您的智能设备内的社交分享设定为关闭。</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >%1$s</string >
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
-    <string name="start_time" >START: </string >
-    <string name="deadline_time" >DEADLINE: </string >
-    <string name="mission_due" >MISSION DUE: </string >
-    <string name="duration_time" >EXPIRY: </string >
-    <string name="due_in" >DUE IN: </string >
-    <string name="mission_address" >MISSION ADDRESS</string >
-    <string name="full_description" >MISSION DESCRIPTION</string >
-    <string name="book_this_task" >CLAIM</string >
-    <string name="start_this_task" >START NOW</string >
-    <string name="hide_task" >HIDE MISSION</string >
-    <string name="show_task" >SHOW MISSION</string >
-    <string name="withdraw_task" >WITHDRAW</string >
-    <string name="continue_task" >CONTINUE</string >
+    <string name="start_time" >开始： </string >
+    <string name="deadline_time" >期限：</string >
+    <string name="mission_due" >任务到期： </string >
+    <string name="duration_time" >到期： </string >
+    <string name="due_in" >任务剩余时间： </string >
+    <string name="mission_address" >任务地址</string >
+    <string name="full_description" >任务简介</string >
+    <string name="book_this_task" >认领任务</string >
+    <string name="start_this_task" >现在开始</string >
+    <string name="hide_task" >隐藏任务</string >
+    <string name="show_task" >显示任务</string >
+    <string name="withdraw_task" >退出</string >
+    <string name="continue_task" >继续</string >
     <!-- PROJECT DETAIL ACTIVITY-->
-    <string name="wave_missions_description" >FULL DESCRIPTION</string >
-    <string name="show_missions" >SHOW MISSIONS</string >
-    <string name="hide_missions" >HIDE MISSIONS</string >
+    <string name="wave_missions_description" >项目简介</string >
+    <string name="show_missions" >显示任务</string >
+    <string name="hide_missions" >隐藏项目</string >
     <!-- MAP ACTIVITY-->
-    <string name="task_location_title" >Mission location</string >
+    <string name="task_location_title" >任务地点</string >
     <!-- CHECK LOCATION ACTIVITY -->
-    <string name="since_jobs" >Before registration, we need to check if there are tasks available in your location.
-        You will need to be connected to the internet and have Location Services enabled.</string >
+    <string name="since_jobs" >注册之前，我们需要查证您所在的地点是否有可选的任务。您必须保持上线和允许定位服务。</string >
     <!--<string name="before_start_using" >Before you can start using MATRIX app we need to check your location</string >-->
-    <string name="check_my_location" >CHECK MY LOCATION</string >
+    <string name="check_my_location" >查证我的位置</string >
     <!-- ERROR STRINGS -->
-    <string name="error" >Error.</string >
-    <string name="success" >Success.</string >
-    <string name="no_internet" >Please turn ON internet connection.</string >
+    <string name="error" >错误</string >
+    <string name="success" >成功</string >
+    <string name="no_internet" >请开启互联网连接</string >
     <!-- TURN ON LOCATION DIALOG -->
-    <string name="turn_on_location_dialog_title" >Location services</string >
-    <string name="turn_on_location_dialog_text" >To use SmartRocket, you must TURN ON Location Services in your
-        smartphone settings.</string >
+    <string name="turn_on_location_dialog_title" >定位服务</string >
+    <string name="turn_on_location_dialog_text" >要使用智慧飞船，您必须允许智能电话设定内的定位服务。</string >
     <!-- TURN ON NETWORK DIALOG -->
-    <string name="turn_on_network_dialog_title" >Network services</string >
-    <string name="turn_on_network_dialog_text" >To use SmartRocket, you must TURN ON Network Services in your
-        smartphone settings.</string >
+    <string name="turn_on_network_dialog_title" >网络服务</string >
+    <string name="turn_on_network_dialog_text" >要使用智慧飞船，您必须允许智能电话设定内的网络服务。</string >
     <!-- TURN ON GOOGLE SDK DIALOG -->
-    <string name="turn_on_google_sdk_dialog_title" >Google SDK services</string >
-    <string name="turn_on_google_sdk_dialog_text" >To use SmartRocket, you must INSTALL Google SDK Services in your
-        smartphone settings.</string >
+    <string name="turn_on_google_sdk_dialog_title" >谷歌软件开发环境模拟软件服务</string >
+    <string name="turn_on_google_sdk_dialog_text" >要使用智慧飞船，您必须于智能电话内安装谷歌软件开发环境模拟软件服务。</string >
     <!-- TURN OFF MOCK LOCATION DIALOG -->
-    <string name="turn_of_mock_location_dialog_title" >GPS mock location</string >
-    <string name="turn_of_mock_location_dialog_text" >To use SmartRocket, you must TURN OFF GPS mock location in your
-        smartphone settings.</string >
+    <string name="turn_of_mock_location_dialog_title" >全球定位系统模拟位置</string >
+    <string name="turn_of_mock_location_dialog_text" >要使用智慧飞船，您必须关闭智能电话设定内的全球定位系统模拟位置。</string >
     <!-- REGISTRATION SUCCESS DIALOG -->
-    <string name="registration_success_dialog_title" >SmartRocket registration</string >
-    <string name="registration_success_dialog_text0" >Thank you!</string >
-    <string name="registration_success_dialog_text1" >We have sent an email to;</string >
-    <string name="registration_success_dialog_text2" >...with a link to activate your SmartRocket account.</string >
-    <string name="registration_success_dialog_text3" >You must click this link in order to complete registration and
-        login to SmartRocket. If you cannot find our message, please check your junk/ spam folder or contact us
-        at;</string >
+    <string name="registration_success_dialog_title" >智慧飞船注册</string >
+    <string name="registration_success_dialog_text0" >感谢您的注册！</string >
+    <string name="registration_success_dialog_text1" >我们已经将激活智慧飞船账户的链接电邮发送到以下邮箱：</string >
+    <string name="registration_success_dialog_text2" ></string >
+    <string name="registration_success_dialog_text3" >要完成注册和登录到智慧飞船，您必须点击链接。如果您找不到这个邮件，
+        请检查您的垃圾邮件夹，或与我们联系：</string >
     <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
     <string name="registration_success_dialog_ok" >OK</string >
     <!-- CLAIM TASK SUCCESS DIALOG -->
-    <string name="book_task_success_dialog_title" >Mission claimed</string >
-    <string name="book_task_success_dialog_text0" >This mission must be completed by;</string >
-    <string name="book_task_success_dialog_text1" >You can find this mission in \"My Missions\" until it is
-        successfully completed.</string >
-    <string name="start_later" >Start later</string >
-    <string name="start_now" >Start now</string >
-    <string name="book_task_success_dialog_cancel" >Cancel</string >
+    <string name="book_task_success_dialog_title" >成功认领任务</string >
+    <string name="book_task_success_dialog_text0" >这个任务必须在以下时间前完成：</string >
+    <string name="book_task_success_dialog_text1" >您可以在[我的任务]页面找到这个任务的详细信息，直到任务成功完成为止。</string >
+    <string name="start_later" >稍后开始</string >
+    <string name="start_now" >现在开始</string >
+    <string name="book_task_success_dialog_cancel" >取消认领</string >
     <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
-    <string name="pre_claim_task_success_dialog_title" >Mission pre-claimed</string >
+    <string name="pre_claim_task_success_dialog_title" >成功预先认领任务</string >
     <!-- GCM -->
-    <string name="gcm_registered" >From GCM: device successfully registered!</string >
-    <string name="gcm_unregistered" >From GCM: device successfully unregistered!</string >
-    <string name="gcm_error" >From GCM: error (%1$s).</string >
-    <string name="gcm_recoverable_error" >From GCM: recoverable error (%1$s).</string >
-    <string name="gcm_deleted" >From GCM: server deleted %1$d pending messages!</string >
+    <string name="gcm_registered" >GCM发出：设备成功注册！</string >
+    <string name="gcm_unregistered" >GCM发出：设备成功取消注册！</string >
+    <string name="gcm_error" >GCM发出：错误 (%1$s)。</string >
+    <string name="gcm_recoverable_error" >GCM发出：可回复的错误 (%1$s)。</string >
+    <string name="gcm_deleted" >GCM发出：伺服器删除％1$ d个未看信息！</string >
     <!-- Google Map Fragment -->
     <string name="map_popup_distance" >%1$s %2$s</string >
     <!-- Current Location -->
-    <string name="looking_for_location" >Checking your current location&#8230;</string >
-    <string name="current_location_not_defined" >Unable to confirm your current location. Please try again.</string >
+    <string name="looking_for_location" >查看您目前的地点&#8230;</string >
+    <string name="current_location_not_defined" >无法确认您目前的位置。请再试一次。</string >
     <!-- Select image dialog -->
-    <string name="take_picture" >Choose picture</string >
-    <string name="choose_from_gallery" >Choose from gallery</string >
-    <string name="take_from_camera" >Take from camera</string >
-    <string name="remove_current_picture" >Remove current picture</string >
-    <string name="cancel_set_image" >Cancel</string >
+    <string name="take_picture" >头像拍摄</string >
+    <string name="choose_from_gallery" >从相册选择</string >
+    <string name="take_from_camera" >相机拍摄</string >
+    <string name="remove_current_picture" >删除当前头像</string >
+    <string name="cancel_set_image" >取消</string >
     <!-- EDUCATION_LEVEL -->
-    <string name="education_level" >Education level</string >
-    <string name="no_schooling" >No schooling</string >
-    <string name="primary_school" >Primary school</string >
-    <string name="junior_secondary_school" >Junior Secondary School</string >
-    <string name="senior_secondary_school" >Senior Secondary School</string >
-    <string name="vocational_collage" >Technical/ Vocational College</string >
-    <string name="bachelors_degree" >Bachelors Degree</string >
-    <string name="master_degree_or_higher" >Masters Degree or higher</string >
+    <string name="education_level" >教育程度</string >
+    <string name="no_schooling" >没有入学</string >
+    <string name="primary_school" >小学</string >
+    <string name="junior_secondary_school" >初中</string >
+    <string name="senior_secondary_school" >高中</string >
+    <string name="vocational_collage" >技术/职业学院 （专科）</string >
+    <string name="bachelors_degree" >学士</string >
+    <string name="master_degree_or_higher" >硕士或以上</string >
     <!-- EMPLOYMENT_STATUS -->
-    <string name="employment_status" >Employment Status</string >
-    <string name="student" >Student</string >
-    <string name="employed_part_time" >Employed - Part Time</string >
-    <string name="employed_full_time" >Employed - Full Time</string >
-    <string name="not_employed_looking_for_work" >Not Employed - looking for work</string >
-    <string name="not_employed_not_looking_for_work" >Not Employed - not looking for work</string >
-    <string name="retired" >Retired</string >
+    <string name="employment_status" >就业状态</string >
+    <string name="student" >学生</string >
+    <string name="employed_part_time" >兼职工作</string >
+    <string name="employed_full_time" >全职工作</string >
+    <string name="not_employed_looking_for_work" >无业 - 持续面试中</string >
+    <string name="not_employed_not_looking_for_work" >无业 - 没找工作</string >
+    <string name="retired" >已退休</string >
     <!-- WITHDRAW DIALOG -->
-    <string name="withdraw_task_dialog_title" >Withdraw from mission</string >
-    <string name="withdraw_task_dialog_text1" >Withdraw from this mission only if you cannot complete it by this
-        deadline;</string >
-    <string name="withdraw_task_dialog_text2" >Withdrawing from the mission cannot be undone and affects your
-        reputation.</string >
-    <string name="withdraw_task_dialog_text3" >Do you want withdraw from mission?</string >
-    <string name="no_button" >NO</string >
-    <string name="withdraw_button" >WITHDRAW</string >
+    <string name="withdraw_task_dialog_title" >退出任务</string >
+    <string name="withdraw_task_dialog_text1" >如果在以下限定时间前未能完成任务，才选择退出任务：</string >
+    <string name="withdraw_task_dialog_text2" >退出任务后不能返回，而且会影响您的声誉。</string >
+    <string name="withdraw_task_dialog_text3" >请问您是否想退出这个任务？</string >
+    <string name="no_button" >否</string >
+    <string name="withdraw_button" >退出</string >
     <!-- QUESTION ACTIVITY-->
-    <string name="question_title" >Mission</string >
-    <string name="previous" >PREVIOUS</string >
-    <string name="next" >NEXT</string >
-    <string name="enter_here" >Enter here</string >
-    <string name="please_write_in" >Other – please write in</string >
-    <string name="quite_mission" >QUIT MISSION</string >
+    <string name="question_title" >任务</string >
+    <string name="previous" >上页</string >
+    <string name="next" >下页</string >
+    <string name="enter_here" >请在此输入</string >
+    <string name="please_write_in" >其他（请注明）</string >
+    <string name="quite_mission" >放弃任务</string >
     <string name="quite_mission_cancel" >CANCEL</string >
-    <string name="question_of" >QUESTION %1$s OF %2$s</string >
-    <string name="choose_one_answer" >CHOOSE ONE ANSWER</string >
-    <string name="choose_one_or_more_answers" >CHOOSE ONE OR MORE ANSWERS</string >
-    <string name="write_your_number" >WRITE A NUMBER BETWEEN %1$s AND %2$s</string >
+    <string name="question_of" >%2$s条问题之第%1$s条</string >
+    <string name="choose_one_answer" >请选择一个答案</string >
+    <string name="choose_one_or_more_answers" >请选择一个或多个答案</string >
+    <string name="write_your_number" >请填写一个%1$s和%2$s之间的数字</string >
     <string name="maximum_photo" >\n(YOU MAY ADD A MAXIMUM OF %1$s PHOTOS)</string >
     <!-- QUITE TASK DIALOG -->
-    <string name="quite_task_dialog_title" >Quit mission</string >
-    <string name="quite_task_dialog_text1" >Warning!</string >
-    <string name="quite_task_dialog_text2" >If you quit now, you will lose all data from this mission. You will need
-        to either restart this mission later or withdraw. Do you really want to quit?</string >
+    <string name="quite_task_dialog_title" >放弃任务</string >
+    <string name="quite_task_dialog_text1" >注意！</string >
+    <string name="quite_task_dialog_text2" >如果现在放弃任务，您将会失去所有关于这个任务的数据。
+        您将必须稍后重新进行或退出这个任务。请问是否放弃这个任务？</string >
     <!-- MAP FRAGMENT -->
-    <string name="zoom_to_this_radius" >Set default zoom radius</string >
-    <string name="show_hidden_tasks_on_map" >Show all hidden missions</string >
-    <string name="min_distance" >0 km</string >
-    <string name="max_distance" >20 km</string >
-    <string name="map_fragment_ok" >OK</string >
+    <string name="zoom_to_this_radius" >设定预设浏览半径</string >
+    <string name="show_hidden_tasks_on_map" >显示所有隐藏任务</string >
+    <string name="min_distance" >0 公里</string >
+    <string name="max_distance" >20 公里</string >
+    <string name="map_fragment_ok" >储存</string >
     <!-- TASK VALIDATION ACTIVITY -->
-    <string name="validation_big" >SUBMIT MISSION</string >
-    <string name="recheck_my_answer" >BACK</string >
-    <string name="task_data_size" >MISSION DATA SIZE: </string >
+    <string name="validation_big" >提交任务</string >
+    <string name="recheck_my_answer" >返回</string >
+    <string name="task_data_size" >任务数据量： </string >
     <string name="task_data_size_mb" >MB</string >
-    <string name="task_has_not_yet_submitted" >Thank you! This mission must be submitted before the MISSION DUE below
-        and successfully validated to qualify for cash payment and Rocket Points. %1$s</string >
-    <string name="task_has_not_yet_submitted2" ><b >THIS MISSION HAS NOT YET BEEN SUBMITTED.</b > \nIt must be
-        submitted before the MISSION DUE below and successfully validated to qualify for cash payment and Rocket Points. </string >
-    <string name="confirm_you_can_find_in_my_mission" >If you choose to SUBMIT LATER, you can find this mission in
-        \"My Missions\" until it is SUBMITTED or it EXPIRES.</string >
-    <string name="submit_now" >SUBMIT NOW</string >
-    <string name="submit_later" >SUBMIT LATER</string >
+    <string name="task_has_not_yet_submitted" >感谢！这个任务必须于任务到期前提交，并成功获得认证才可以领取现金报酬和飞船里数。
+        %1$s</string >
+    <string name="task_has_not_yet_submitted2" ><b >这个任务尚未提交。</b > \n这个任务必须于任务到期之前提交，
+        并成功获得认证才可以领取现金薪酬和飞船里数。 </string >
+    <string name="confirm_you_can_find_in_my_mission" >如果您选择稍后提交，您可以在[我的任务]里找到这个任务，
+        直到任务成功提交或过期。</string >
+    <string name="submit_now" >现在提交</string >
+    <string name="submit_later" >稍后提交</string >
     <!-- QUIT QUESTION ACTIVITY -->
-    <string name="quit_question_title" >Quit</string >
+    <string name="quit_question_title" >放弃</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
-    <string name="registration_subscribe_dialog_title" >Confirmation</string >
-    <string name="registration_subscribe_dialog_text1" >Thank you for your interest in SmartRocket.</string >
-    <string name="registration_subscribe_dialog_text2" >We will send you an email letting you know when we have
-        missions available in your area. For more information on SmartRocket, please visit:
-        <b >www.smart-rocket.com/about</b ></string >
+    <string name="registration_subscribe_dialog_title" >确认</string >
+    <string name="registration_subscribe_dialog_text1" >感谢您对智慧飞船感兴趣。</string >
+    <string name="registration_subscribe_dialog_text2" >当您所在的地区有可选的任务的时候，我们将会向您发送通知邮件。
+        欲知更多关于智慧飞船的信息和我们活跃的地点，请访问以下网页： <b >www.smart-rocket.com/about</b ></string >
     <!-- TREE G LIMIT DIALOG -->
-    <string name="tree_g_limit_exceeded_dialog_title" >3G upload limit warning</string >
-    <string name="tree_g_limit_exceeded_dialog_text1" >Attention! \n\nThis mission exceeds your current 3G upload per
-        mission limit. Do you wish to continue? If you choose WI-FI only, you can find this mission in \"My Missions\"
-        until it is SUBMITTED or it EXPIRES.</string >
-    <string name="tree_g_limit_exceeded_dialog_yes" >SUBMIT 3G NOW</string >
-    <string name="tree_g_limit_exceeded_dialog_only_wifi" >SUBMIT LATER</string >
+    <string name="tree_g_limit_exceeded_dialog_title" >3G上载上限警告</string >
+    <string name="tree_g_limit_exceeded_dialog_text1" >注意！ \n\n这个任务将超越您所目前设定的每次任务3G上载上限。您选择继续吗？
+        如果您只使用无线上网(WI-FI)，您可以在“我的任务”里找到这个任务，直到任务成功提交或过期。</string >
+    <string name="tree_g_limit_exceeded_dialog_yes" >现在以3G提交</string >
+    <string name="tree_g_limit_exceeded_dialog_only_wifi" >稍后提交</string >
     <!-- Not uploaded file notification-->
-    <string name="file_waiting_to_upload" >File is waiting to upload</string >
+    <string name="file_waiting_to_upload" >档案正在等候上载。</string >
     <!-- NOTIFICATION STATUS TEXT -->
     <!-- Photo can not be added -->
-    <string name="add_photo_error_title" >Add photo error.</string >
-    <string name="add_photo_error_text" >Photo can not be added from this source.</string >
-    <string name="toast_application_not_found" >Application not found.</string >
+    <string name="add_photo_error_title" >上载照片错误。</string >
+    <string name="add_photo_error_text" >照片不能从这个来源上载。</string >
+    <string name="toast_application_not_found" >找不到应用程序。</string >
     <!-- Date picker dialog -->
-    <string name="date_picker_dialog_title_birthday" >Birthday</string >
-    <string name="date_picker_dialog_ok" >OK</string >
+    <string name="date_picker_dialog_title_birthday" >出生日期</string >
+    <string name="date_picker_dialog_ok" >确认</string >
     <!-- LOGIN ACTIVITY -->
-    <string name="maximum_mission_dialog_title" >Mission claim limit reached</string >
-    <string name="maximum_mission_dialog_text" >You have claimed the maximum number of missions for this Project. To
-        claim more missions on this Project, you must first complete existing missions.</string >
-    <string name="login_ok" >OK</string >
+    <string name="maximum_mission_dialog_title" >达到任务认领上限</string >
+    <string name="maximum_mission_dialog_text" >您所认领的任务数量已经达到这个项目的上限。如果想认领更多任务，
+        您必须先完成已认领的任务。</string >
+    <string name="login_ok" >返回</string >
     <!-- DEADLINE REMINDER DIALOG -->
-    <string name="deadline_reminder_dialog_title" >Mission deadline reminder</string >
-    <string name="go_to_mission" >GO TO MISSION</string >
-    <string name="deadline_reminder_dialog_text" >%1$s %2$s expires: %3$s</string >
+    <string name="deadline_reminder_dialog_title" >任务限期提示</string >
+    <string name="go_to_mission" >前往任务</string >
+    <string name="deadline_reminder_dialog_text" >%1$s %2$s 过期于： %3$s</string >
     <plurals name="minute" >
-        <item quantity="one" >minute</item >
-        <item quantity="other" >minutes</item >
+        <item quantity="one" >分钟</item >
+        <item quantity="other" >分钟</item >
     </plurals >
     <plurals name="hour" >
-        <item quantity="one" >hour</item >
-        <item quantity="other" >hours</item >
+        <item quantity="one" >小时</item >
+        <item quantity="other" >小时</item >
     </plurals >
     <plurals name="day" >
-        <item quantity="one" >day</item >
-        <item quantity="other" >days</item >
+        <item quantity="one" >日</item >
+        <item quantity="other" >日</item >
     </plurals >
     <!-- FORGOT PASSWORD ACTIVITY -->
-    <string name="send_password" >RESET MY PASSWORD</string >
-    <string name="forgot_password_success_text0" >Thank you!</string >
-    <string name="forgot_password_success_text1" >We have sent an email to;</string >
-    <string name="forgot_password_success_text2" >...with a link to reset your SmartRocket password.</string >
-    <string name="forgot_password_success_text3" >If you cannot find our message, please check your Junk/Spam
-        folder.</string >
-    <string name="forgot_password_ok" >OK</string >
-
+    <string name="send_password" >重设我的密码</string >
+    <string name="forgot_password_success_text0" >感谢。</string >
+    <string name="forgot_password_success_text1" >我们已经将智慧飞船密码的重设链接电邮发送到以下邮箱：</string >
+    <string name="forgot_password_success_text2" ></string >
+    <string name="forgot_password_success_text3" >如果您找不到这个邮件，请检查您的垃圾邮件夹。</string >
+    <string name="forgot_password_ok" >返回</string >
     <!-- AGE VERIFICATION DIALOG -->
-    <string name="age_verification_dialog_title" >Age verification</string >
-    <string name="age_verification_dialog_text1" >You must be <b >18 years or older</b > to join
-        SmartRocket.</string >
-    <string name="age_verification_dialog_redo" >REDO</string >
-    <string name="age_verification_dialog_under" >UNDER 18</string >
+    <string name="age_verification_dialog_title" >年龄验证</string >
+    <string name="age_verification_dialog_text1" >要成为智慧飞船的队员，您的年龄必须 <b >超过18岁</b >。</string >
+    <string name="age_verification_dialog_redo" >修改</string >
+    <string name="age_verification_dialog_under" >18岁以下</string >
     <!-- CHECK LOCATION SUCCESS DIALOG -->
-    <string name="check_location_dialog_title" >Location check</string >
-    <string name="check_location_dialog_text1" >Checking your location...</string >
-    <string name="check_location_dialog_text2" >Location check complete.</string >
-    <string name="check_location_dialog_text3" >Location check complete.</string >
+    <string name="check_location_dialog_title" >查看地点</string >
+    <string name="check_location_dialog_text1" >检视地点中...</string >
+    <string name="check_location_dialog_text2" >检视地点完毕。</string >
+    <string name="check_location_dialog_text3" >检视地点完毕。</string >
     <!-- ACTIVATE ACCOUNT ACTIVITY -->
-    <string name="activate_account_text1" >Registration complete</string >
-    <string name="activate_account_text2" >Thank you for completing registration!\n\nPlease activate your
-        SmartRocket Account to begin using SmartRocket.</string >
-    <string name="activate_account" >ACTIVATE ACCOUNT</string >
+    <string name="activate_account_text1" >注册程序完成</string >
+    <string name="activate_account_text2" >感谢您完成注册！\n\n请立即激活您的智慧飞船账号，开始使用智慧飞船。</string >
+    <string name="activate_account" >激活账号</string >
     <!-- ACCOUNT CONFIRMED DIALOG -->
-    <string name="account_confirmed_dialog_title" >Account activation</string >
-    <string name="account_confirmed_dialog_text1" >Your SmartRocket account has now been activated! \n\nFirst, you
-        will need to complete a short series of training missions to help you navigate the App and qualify you as a
-        crew member. After which, you can start claiming missions for real cash and Rocket Points. At any time you
-        can get help, access FAQs and training through the \"Support\" button in the SmartRocket App Menu. \n\nWelcome
-        aboard!</string >
+    <string name="account_confirmed_dialog_title" >账号激活</string >
+    <string name="account_confirmed_dialog_text1" >您的智慧飞船账号已经激活！ \n\n首先，您必须完成一系列简短的培训任务，
+        以帮助您了解如何使用这个应用程序，并达到符合成为我们队员的资格。然后，就可以立即认领任务，赚取现金和飞船里数。
+        您随时可以透过智慧飞船应用程序菜单里的[支援]获得任何帮助、到访常见问题和培训。 \n\n欢迎您成为我们的队员！</string >
     <!-- USER ALREADY EXISTS DIALOG -->
-    <string name="user_already_exists_dialog_title" >Invalid username.</string >
-    <string name="user_already_exists_dialog_text1" >User already exists. Please enter a different email
-        address.</string >
-    <string name="user_already_exists_dialog_ok" >OK</string >
+    <string name="user_already_exists_dialog_title" >用户名字无效</string >
+    <string name="user_already_exists_dialog_text1" >用户已经存在。请输入其他邮箱。</string >
+    <string name="user_already_exists_dialog_ok" >返回</string >
     <!-- NOTIFICATION ACTIVITY-->
     <!--file not uploaded-->
-    <string name="not_uploaded_notification_title" >Attention - Submission Failed</string >
-    <string name="not_uploaded_notification_text" >Mission: %1$s \n\nThis mission upload has failed.
-        Please try again when your internet connection is stable. This mission will remain in My Missions
-        as a unsubmitted mission and must still be successfully submitted before the deadline.</string >
+    <string name="not_uploaded_notification_title" >注意！任务提交失败</string >
+    <string name="not_uploaded_notification_text" >任务: %1$s \n\n任务提交失败。请于网路稳定时再上载提交。
+        任务仍可以在[我的任务]里找到。请记得于到期前要成功提交任务。</string >
     <!--expire-->
-    <string name="expire_mission_notification_title" >Expired</string >
-    <string name="expire_mission_notification_text" >The following mission has expired and has been removed from your
-    list of Missions &lt;br>&lt;br>Mission: &lt;b >%1$s&lt;/b > &lt;br>Location: &lt;b >%2$s&lt;/b >
-    &lt;br> Address: &lt;b >%3$s&lt;/b ></string >
+    <string name="expire_mission_notification_title" >过期</string >
+    <string name="expire_mission_notification_text" >以下的任务已经过期，并已从您的任务清单内删除。
+        &lt;br>&lt;br>任务: &lt;b >%1$s&lt;/b > &lt;br>地点: &lt;b >%2$s&lt;/b >
+    &lt;br> 地址: &lt;b >%3$s&lt;/b ></string >
     <!--approved-->
-    <string name="approved_mission_notification_title" >Congratulations!</string >
-    <string name="approved_mission_notification_text" >The following Mission has been approved.&lt;br>&lt;br>%1$s
-        &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
-        &lt;br> Address: &lt;b >%4$s&lt;/b >
+    <string name="approved_mission_notification_title" >恭喜！</string >
+    <string name="approved_mission_notification_text" >以下的任务已经获得验证。&lt;br>&lt;br>%1$s
+        &lt;br>&lt;br>任务: &lt;b >%2$s&lt;/b > &lt;br>地点: &lt;b >%3$s&lt;/b >
+        &lt;br> 地址: &lt;b >%4$s&lt;/b >
     </string >
     <!--redo-->
-    <string name="redo_mission_notification_title" >Attention!</string >
-    <string name="redo_mission_notification_text" >The following Mission requires some rework and has not yet been
-        approved. &lt;br>&lt;br>Mission: &lt;b >%1$s&lt;/b > &lt;br>Location: &lt;b >%2$s&lt;/b >
-    &lt;br> Address: &lt;b >%3$s&lt;/b ></string >
+    <string name="redo_mission_notification_title" >注意！</string >
+    <string name="redo_mission_notification_text" >以下的任务需要一些修改，因此还未获得认证。
+        &lt;br>&lt;br>任务: &lt;b >%1$s&lt;/b > &lt;br>地点: &lt;b >%2$s&lt;/b >
+    &lt;br> 地址: &lt;b >%3$s&lt;/b ></string >
     <!--reject-->
-    <string name="reject_mission_notification_title" >Attention!</string >
-    <string name="reject_mission_notification_text" >Sorry. The following Mission has been rejected.&lt;br>&lt;br>%1$s
-        &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
-        &lt;br> Address: &lt;b >%4$s&lt;/b ></string >
+    <string name="reject_mission_notification_title" >注意!</string >
+    <string name="reject_mission_notification_text" >对不起。以下的任务被拒绝了。
+        &lt;br>&lt;br>%1$s&lt;br>&lt;br>任务: &lt;b >%2$s&lt;/b > &lt;br>地点: &lt;b >%3$s&lt;/b >
+        &lt;br> 地址: &lt;b >%4$s&lt;/b ></string >
     <!--deadline-->
-    <string name="deadline_mission_notification_title" >Attention!</string >
-    <string name="deadline_mission_notification_text" >The following Mission is about to expire at %1$s
-        &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
-    &lt;br> Address: &lt;b >%4$s&lt;/b ></string >
+    <string name="deadline_mission_notification_title" >注意！</string >
+    <string name="deadline_mission_notification_text" >以下的任务将于 %1$s 过期。
+        &lt;br>&lt;br>任务: &lt;b >%2$s&lt;/b > &lt;br>地点: &lt;b >%3$s&lt;/b >
+    &lt;br> 地址: &lt;b >%4$s&lt;/b ></string >
     <!--notification button-->
-    <string name="close_message" >Close Message</string >
-    <string name="open_mission" >Open Mission</string >
+    <string name="close_message" >关闭信息</string >
+    <string name="open_mission" >开启任务</string >
     <!-- MAX CLAIMS PER TASK -->
-    <string name="task_no_longer_available" >Task no longer available</string >
+    <string name="task_no_longer_available" >任务不再存在</string >
     <!-- RESET PASSWORD ACTIVITY -->
-    <string name="reset_password_text1" >Reset password</string >
-    <string name="reset_password_text2" >Please enter a new password below.</string >
-    <string name="submit" >SUBMIT</string >
+    <string name="reset_password_text1" >重设密码</string >
+    <string name="reset_password_text2" >请输入新密码</string >
+    <string name="submit" >提交</string >
     <!-- LEVEL UP DIALOG -->
-    <string name="congratulations" >Congratulations!</string >
-    <string name="you_have_been_promoted" >You have been promoted to the rank of \n&lt;b >%1$s (Level %2$s)&lt;/b
+    <string name="congratulations" >恭喜！</string >
+    <string name="you_have_been_promoted" >您已获晉升为 \n&lt;b >%1$s (第%2$s级)&lt;/b
         ></string >
-    <string name="you_have_been_promoted_ok" >OK</string >
+    <string name="you_have_been_promoted_ok" >继续</string >
 </resources >

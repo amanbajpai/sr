@@ -407,13 +407,14 @@ public class IntentUtils {
      * Return intent for opening inserting new password screen
      *
      * @param context - current context
-     * @param bitmap   - bitmap to open
+     * @param filePath - file path to open
      * @return Intent
      */
 
-    public static Intent getFullScreenImageIntent(Context context, String filePath) {
+    public static Intent getFullScreenImageIntent(Context context, String filePath, boolean rotateFromExif) {
         Intent intent = new Intent(context, FullScreenImageActivity.class);
         intent.putExtra(Keys.BITMAP_FILE_PATH, filePath);
+        intent.putExtra(Keys.ROTATE_BY_EXIF, rotateFromExif);
         return intent;
     }
 

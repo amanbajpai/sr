@@ -444,6 +444,10 @@ public class SelectImageManager {
         return lastFile;
     }
 
+    public Boolean isLastFileFromGallery() {
+        return lastFileFromGallery;
+    }
+
     public interface OnImageCompleteListener {
         void onImageComplete(Bitmap bitmap);
 

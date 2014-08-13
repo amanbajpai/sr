@@ -254,14 +254,17 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             case R.id.photo:
                 if (isBitmapAdded) {
                     String filePath;
+                    boolean rotateByExif;
                     if (!isBitmapConfirmed) {
                         filePath = Uri.fromFile(selectImageManager.getLastFile()).getPath();
+                        rotateByExif = !selectImageManager.isLastFileFromGallery();
                     } else {
                         Answer answer = question.getAnswers()[currentSelectedPhoto];
                         filePath = answer.getFileUri();
+                        rotateByExif = false;
                     }
 
-                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath));
+                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif));
                     break;
                 }
             case R.id.rePhotoButton:

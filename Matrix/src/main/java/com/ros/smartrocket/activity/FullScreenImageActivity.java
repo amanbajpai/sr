@@ -30,8 +30,9 @@ public class FullScreenImageActivity extends ActionBarActivity {
         Display display = getWindowManager().getDefaultDisplay();
 
         String photoUri = getIntent().getStringExtra(Keys.BITMAP_FILE_PATH);
+        boolean rotateByExif = getIntent().getBooleanExtra(Keys.ROTATE_BY_EXIF, false);
 
-        bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
+        bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, rotateByExif);
 
         ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
         photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));

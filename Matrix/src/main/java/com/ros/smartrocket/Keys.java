@@ -12,6 +12,7 @@ public interface Keys {
     String ACTIVATE_ACCOUNT = "activate_account";
     String FORGOT_PASS = "forgot_pass";
     String BITMAP_FILE_PATH = "bitmap_file_path";
+    String ROTATE_BY_EXIF = "rotate_by_exif";
 
     //Settings
     String LANGUAGE_CODE = "language_code";

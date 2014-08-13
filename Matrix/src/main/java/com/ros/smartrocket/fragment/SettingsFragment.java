@@ -42,7 +42,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
-    public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "中文（簡體）",
+    public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "中文（简体）",
             "中文（繁體）"};
     public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
     public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
