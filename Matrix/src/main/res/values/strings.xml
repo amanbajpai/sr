@@ -276,9 +276,6 @@
         until it is SUBMITTED or it EXPIRES.</string >
     <string name="tree_g_limit_exceeded_dialog_yes" >SUBMIT 3G NOW</string >
     <string name="tree_g_limit_exceeded_dialog_only_wifi" >SUBMIT LATER</string >
-    <!-- Not uploaded file notification-->
-    <string name="file_waiting_to_upload" >File is waiting to upload</string >
-    <!-- NOTIFICATION STATUS TEXT -->
     <!-- Photo can not be added -->
     <string name="add_photo_error_title" >Add photo error.</string >
     <string name="add_photo_error_text" >Photo can not be added from this source.</string >
@@ -349,6 +346,7 @@
     <string name="not_uploaded_notification_text" >Mission: %1$s \n\nThis mission upload has failed.
         Please try again when your internet connection is stable. This mission will remain in My Missions
         as a unsubmitted mission and must still be successfully submitted before the deadline.</string >
+    <string name="not_uploaded_notification_ok" >OK</string >
     <!--expire-->
     <string name="expire_mission_notification_title" >Expired</string >
     <string name="expire_mission_notification_text" >The following mission has expired and has been removed from your

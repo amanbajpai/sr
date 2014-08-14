@@ -119,14 +119,7 @@ public class MyTaskAdapter extends BaseAdapter {
         long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
         //long leftTimeInMillisecond = timeoutInMillisecond - (calendar.getTimeInMillis() - claimTimeInMillisecond);
 
-
-        if (UIUtils.isChineLanguage()) {
-            holder.timeLeft.setText(activity.getString(R.string.time_left) + " "
-                    + UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
-        } else {
-            holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond)
-                    + " " + activity.getString(R.string.time_left));
-        }
+        setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
         holder.distance.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.m_to_km_with_text_mask, true));
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
@@ -217,8 +210,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
 
-                holder.timeLeft.setText(UIUtils.getTimeInDayHoursMinutes(activity, dueInForReDoMillisecond)
-                        + " " + activity.getString(R.string.time_left));
+                setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInForReDoMillisecond));
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
@@ -276,5 +268,13 @@ public class MyTaskAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    private void setTimeLeft(TextView timeLeftTextView, String timeLeft) {
+        if (UIUtils.isChineLanguage()) {
+            timeLeftTextView.setText(activity.getString(R.string.time_left) + " " + timeLeft);
+        } else {
+            timeLeftTextView.setText(timeLeft + " " + activity.getString(R.string.time_left));
+        }
     }
 }

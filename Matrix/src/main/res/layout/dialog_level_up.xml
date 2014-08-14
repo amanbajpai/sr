@@ -50,6 +50,6 @@
         android:layout_weight="1"
         android:layout_marginRight="5dp"
         android:textColor="@color/red"
-        android:text="@string/ok"
+        android:text="@string/you_have_been_promoted_ok"
         custom:textStyle="bold" />
 </LinearLayout >

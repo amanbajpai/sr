@@ -24,10 +24,9 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.NotificationActivity;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.util.Iterator;
 
 /**
  * Utils class for easy work with UI Views
@@ -39,8 +38,8 @@ public class NotificationUtils {
     /**
      * Start popup-notification about not uploaded files
      *
-     * @param context        - current context
-     * @param missionName    - current missionName
+     * @param context     - current context
+     * @param missionName - current missionName
      */
     public static void startFileNotUploadedNotificationActivity(Context context, String missionName) {
 
@@ -54,7 +53,7 @@ public class NotificationUtils {
         intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
         intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.not_uploaded_notification_title));
         intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
-        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.not_uploaded_notification_ok);
 
         context.startActivity(intent);
     }
@@ -93,12 +92,28 @@ public class NotificationUtils {
      * @param jsonObject - message Json object
      */
     public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
+
         try {
             JSONObject messageObject = new JSONObject(jsonObject);
             int statusType = messageObject.optInt("StatusType");
             int waveId = messageObject.optInt("WaveId");
             int taskId = messageObject.optInt("TaskId");
-            String taskName = messageObject.optString("TaskName");
+
+            String taskName = "";
+            try {
+                JSONObject taskNameObject = messageObject.optJSONObject("TaskName");
+                String languageCode = PreferencesManager.getInstance().getLanguageCode();
+
+                if (taskNameObject.has(languageCode)) {
+                    taskName = taskNameObject.optString(languageCode);
+                } else {
+                    Iterator<String> iter = taskNameObject.keys();
+                    taskName = taskNameObject.optString(iter.next());
+                }
+            } catch (Exception e) {
+                L.e(TAG, "Parse TaskName Error: " + e.getMessage(), e);
+            }
+
             String validationText = messageObject.optString("ValidationText");
             String locationName = messageObject.optString("LocationName");
             String missionAddress = messageObject.optString("MissionAddress");
@@ -248,25 +263,6 @@ public class NotificationUtils {
         intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.open_mission);
 
         context.startActivity(intent);
-    }
-
-    /**
-     * Show notification about not uploaded file
-     *
-     * @param context         - current context
-     * @param notUploadedFile - info about file to upload
-     */
-    public static void sendNotUploadedFileNotification(final Context context, NotUploadedFile notUploadedFile) {
-        File file = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-        String message = "File: " + file.getName() + " from task Id: " + notUploadedFile.getTaskId() + " is "
-                + "waiting to upload";
-        String title = context.getString(R.string.file_waiting_to_upload);
-
-
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        generateNotification(context, title, message, intent);
     }
 
     /**
