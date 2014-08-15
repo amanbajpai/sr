@@ -631,7 +631,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false, false));
                     break;
                 case reDoTask:
-                    startActivity(IntentUtils.getQuestionsIntent(getActivity(), waveId, taskId));
+                    startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
                     break;
                 default:
                     return true;

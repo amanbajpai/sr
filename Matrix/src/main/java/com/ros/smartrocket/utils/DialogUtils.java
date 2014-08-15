@@ -331,7 +331,7 @@ public class DialogUtils {
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
                 dialog.dismiss();
 
-                activity.startActivity(IntentUtils.getQuestionsIntent(activity, waveId, taskId));
+                activity.startActivity(IntentUtils.getQuestionsIntent(activity, taskId));
                 activity.finish();
             }
         });

@@ -40,13 +40,11 @@ public class IntentUtils {
      * Return intent for opening Questions screen
      *
      * @param context - context
-     * @param waveId  - current waveId
      * @param taskId  - current taskId
      * @return Intent
      */
-    public static Intent getQuestionsIntent(Context context, int waveId, int taskId) {
+    public static Intent getQuestionsIntent(Context context, int taskId) {
         Intent intent = new Intent(context, QuestionsActivity.class);
-        intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
         return intent;
     }
@@ -408,7 +406,7 @@ public class IntentUtils {
     /**
      * Return intent for opening inserting new password screen
      *
-     * @param context - current context
+     * @param context  - current context
      * @param filePath - file path to open
      * @return Intent
      */

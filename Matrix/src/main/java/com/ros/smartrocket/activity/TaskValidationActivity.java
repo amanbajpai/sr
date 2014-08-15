@@ -287,7 +287,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             case R.id.recheckTaskButton:
                 TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
 
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getWaveId(), taskId));
+                startActivity(IntentUtils.getQuestionsIntent(this, taskId));
                 finish();
                 break;
             case R.id.sendNowButton:

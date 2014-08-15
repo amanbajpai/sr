@@ -518,8 +518,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         setButtonsSettings(task);
         TasksBL.updateTask(handler, task);
-        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getWaveId(),
-                task.getId()));
+        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getId()));
     }
 
     @Override
@@ -571,7 +570,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 switch (TasksBL.getTaskStatusType(task.getStatusId())) {
                     case claimed:
                     case started:
-                        startActivity(IntentUtils.getQuestionsIntent(this, task.getWaveId(), task.getId()));
+                        startActivity(IntentUtils.getQuestionsIntent(this, task.getId()));
                         break;
                     case scheduled:
                         startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false, false));

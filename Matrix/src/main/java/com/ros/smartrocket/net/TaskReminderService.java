@@ -127,7 +127,7 @@ public class TaskReminderService extends Service {
                             NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
                                     endDateTimeInMilliseconds,
                                     task.getWaveId(), task.getId(),
-                                    task.getName(), task.getCountryName(), task.getAddress());
+                                    task.getName(), task.getCountryName(), task.getAddress(), task.getStatusId());
 
                         } else if (COOKIE_EXPIRED_TASK == type) {
                             L.i(TAG, "Show Expire task dialog");

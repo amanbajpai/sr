@@ -242,7 +242,7 @@ public class NotificationUtils {
      */
     public static void startDeadlineNotificationActivity(Context context, long deadlineTime, int waveId, int taskId,
                                                          String missionName,
-                                                         String locationName, String missionAddress) {
+                                                         String locationName, String missionAddress, int taskStatusId) {
         String deadlineDateText = UIUtils.longToString(deadlineTime, 3);
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.deadline_mission_notification_text,
@@ -255,6 +255,7 @@ public class NotificationUtils {
         intent.putExtra(Keys.TASK_ID, taskId);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_deadline.getId());
+        intent.putExtra(Keys.TASK_STATUS_ID, taskStatusId);
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.orange_dark);
         intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
         intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.deadline_mission_notification_title));

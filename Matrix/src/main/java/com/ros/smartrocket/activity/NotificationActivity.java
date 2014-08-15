@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.utils.IntentUtils;
 
 public class NotificationActivity extends Activity implements OnClickListener {
@@ -16,8 +17,8 @@ public class NotificationActivity extends Activity implements OnClickListener {
     private CharSequence text;
 
     private int taskId;
-    private int waveId;
     private int notificationTypeId;
+    private int taskStatusId;
     private int titleBackgroundColorResId;
     private int titleIconResId;
 
@@ -47,8 +48,8 @@ public class NotificationActivity extends Activity implements OnClickListener {
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
-            waveId = getIntent().getIntExtra(Keys.WAVE_ID, 0);
             notificationTypeId = getIntent().getIntExtra(Keys.NOTIFICATION_TYPE_ID, 0);
+            taskStatusId = getIntent().getIntExtra(Keys.TASK_STATUS_ID, 0);
             titleBackgroundColorResId = getIntent().getIntExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, 0);
             titleIconResId = getIntent().getIntExtra(Keys.TITLE_ICON_RES_ID, 0);
             title = getIntent().getStringExtra(Keys.NOTIFICATION_TITLE);
@@ -111,11 +112,21 @@ public class NotificationActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case mission_redo:
-                startActivity(IntentUtils.getQuestionsIntent(this, waveId, taskId));
+                startActivity(IntentUtils.getQuestionsIntent(this, taskId));
                 finish();
                 break;
             case mission_deadline:
-                startActivity(IntentUtils.getTaskDetailIntent(this, taskId));
+                switch (TasksBL.getTaskStatusType(taskStatusId)) {
+                    case scheduled:
+                        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, false, false));
+                        break;
+                    case reDoTask:
+                        startActivity(IntentUtils.getQuestionsIntent(this, taskId));
+                        break;
+                    default:
+                        startActivity(IntentUtils.getTaskDetailIntent(this, taskId));
+                        break;
+                }
                 finish();
                 break;
             default:

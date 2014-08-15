@@ -82,6 +82,7 @@ public interface Keys {
     String NOTIFICATION_TITLE = "notification_title";
     String NOTIFICATION_TEXT = "notification_text";
     String NOTIFICATION_TYPE_ID = "notification_type_id";
+    String TASK_STATUS_ID = "task_status_id";
     String LEFT_BUTTON_RES_ID = "left_button_res_id";
     String RIGHT_BUTTON_RES_ID = "right_button_res_id";
     String SHOW_LEFT_BUTTON = "show_left_button";

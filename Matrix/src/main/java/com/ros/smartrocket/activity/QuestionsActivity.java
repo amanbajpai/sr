@@ -53,7 +53,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
-    private Integer waveId;
     private Integer taskId;
     private Task task = new Task();
 
@@ -87,7 +86,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
-            waveId = getIntent().getIntExtra(Keys.WAVE_ID, 0);
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
         }
 
@@ -141,9 +139,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         previousButton.setPadding(padding, padding, padding, padding);
                         validationButton.setPadding(padding, padding, padding, padding);
 
-                        apiFacade.getReDoQuestions(QuestionsActivity.this, waveId, taskId);
+                        apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
                     } else {
-                        QuestionsBL.getQuestionsListFromDB(handler, waveId, taskId);
+                        QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId);
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
@@ -151,14 +149,14 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     if (!questions.isEmpty()) {
                         questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
-                        int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(waveId,
+                        int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                                 taskId);
 
                         Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
                         startFragment(question);
                     } else {
                         setSupportProgressBarIndeterminateVisibility(true);
-                        apiFacade.getQuestions(QuestionsActivity.this, waveId, taskId);
+                        apiFacade.getQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
                     }
 
                     break;
@@ -189,7 +187,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
             if (question != null) {
-                preferencesManager.setLastNotAnsweredQuestionOrderId(waveId, taskId, nextQuestionOrderId);
+                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, nextQuestionOrderId);
                 question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
                 QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
@@ -206,7 +204,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
                     .getPreviousQuestionOrderId() : 1;
-            preferencesManager.setLastNotAnsweredQuestionOrderId(waveId, taskId, previousQuestionOrderId);
+            preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, previousQuestionOrderId);
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, previousQuestionOrderId);
 
@@ -298,9 +296,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
-                QuestionsBL.getQuestionsListFromDB(handler, waveId, taskId);
+                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId);
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(waveId,
+                int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                         taskId);
                 Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
 
