@@ -67,6 +67,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView photoQuestionsCount;
     private TextView taskDistance;
     private TextView deadlineTimeText;
+    private TextView statusTextView;
+    private TextView statusTimeText;
+    private TextView statusTimeTextView;
 
     private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
@@ -89,6 +92,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout startTimeLayout;
     private LinearLayout deadlineTimeLayout;
     private LinearLayout expireTimeLayout;
+    private LinearLayout statusLayout;
+    private LinearLayout statusTimeLayout;
 
     private LinearLayout taskOptionsLayout;
 
@@ -120,6 +125,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         startTimeLayout = (LinearLayout) findViewById(R.id.startTimeLayout);
         deadlineTimeLayout = (LinearLayout) findViewById(R.id.deadlineTimeLayout);
         expireTimeLayout = (LinearLayout) findViewById(R.id.expireTimeLayout);
+        statusLayout = (LinearLayout) findViewById(R.id.statusLayout);
+        statusTimeLayout = (LinearLayout) findViewById(R.id.statusTimeLayout);
 
         taskOptionsLayout = (LinearLayout) findViewById(R.id.taskOptionsLayout);
 
@@ -128,6 +135,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         dueTextView = (TextView) findViewById(R.id.dueTextView);
         deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
         expireText = (TextView) findViewById(R.id.expireText);
+        statusTextView = (TextView) findViewById(R.id.statusTextView);
+        statusTimeText = (TextView) findViewById(R.id.statusTimeText);
+        statusTimeTextView = (TextView) findViewById(R.id.statusTimeTextView);
 
         taskPrice = (TextView) findViewById(R.id.taskPrice);
         taskExp = (TextView) findViewById(R.id.taskExp);
@@ -313,6 +323,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
 
+        setTaskDataByType(task);
         setColorTheme(task);
         setButtonsSettings(task);
     }
@@ -346,6 +357,53 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
+    }
+
+    public void setTaskDataByType(Task task) {
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case completed:
+            case validation:
+                startTimeLayout.setVisibility(View.GONE);
+                deadlineTimeLayout.setVisibility(View.GONE);
+                expireTimeLayout.setVisibility(View.GONE);
+
+                statusLayout.setVisibility(View.VISIBLE);
+                statusTextView.setText(getString(R.string.in_validation_task));
+
+                statusTimeLayout.setVisibility(View.VISIBLE);
+                statusTimeText.setText(getString(R.string.submitted_at));
+                //statusTimeTextView.setText(UIUtils.longToString(task.get, 3));
+
+                break;
+            case validated:
+            case inPaymentProcess:
+            case paid:
+                startTimeLayout.setVisibility(View.GONE);
+                deadlineTimeLayout.setVisibility(View.GONE);
+                expireTimeLayout.setVisibility(View.GONE);
+
+                statusLayout.setVisibility(View.VISIBLE);
+                statusTextView.setText(getString(R.string.approved_task));
+
+                statusTimeLayout.setVisibility(View.VISIBLE);
+                statusTimeText.setText(getString(R.string.approved_at));
+                //statusTimeTextView.setText(UIUtils.longToString(task.get, 3));
+                break;
+            case rejected:
+                startTimeLayout.setVisibility(View.GONE);
+                deadlineTimeLayout.setVisibility(View.GONE);
+                expireTimeLayout.setVisibility(View.GONE);
+
+                statusLayout.setVisibility(View.VISIBLE);
+                statusTextView.setText(getString(R.string.rejected_task));
+
+                statusTimeLayout.setVisibility(View.VISIBLE);
+                statusTimeText.setText(getString(R.string.rejected_at));
+                //statusTimeTextView.setText(UIUtils.longToString(task.get, 3));
+                break;
+            default:
+                break;
+        }
     }
 
     public void setColorTheme(Task task) {

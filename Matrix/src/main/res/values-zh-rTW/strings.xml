@@ -113,6 +113,7 @@
     <string name="task_distance_away" >%1$s %2$s外</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="start_time" >開始：</string >
+    <string name="status" >狀況： </string >
     <string name="deadline_time" >期限：</string >
     <string name="mission_due" >任務到期：</string >
     <string name="duration_time" >到期：</string >
@@ -125,6 +126,12 @@
     <string name="show_task" >顯示任務</string >
     <string name="withdraw_task" >退出</string >
     <string name="continue_task" >繼續</string >
+    <string name="approved_task" >已認證</string >
+    <string name="rejected_task" >拒絕</string >
+    <string name="in_validation_task" >認證中</string >
+    <string name="approved_at" >認證於：</string >
+    <string name="rejected_at" >拒絕於：</string >
+    <string name="submitted_at" >提交於：</string >
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="wave_missions_description" >項目簡介</string >
     <string name="show_missions" >顯示任務</string >

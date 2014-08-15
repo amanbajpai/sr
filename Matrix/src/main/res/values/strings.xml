@@ -118,6 +118,7 @@
     <string name="task_distance_away" >%1$s %2$s away</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="start_time" >START: </string >
+    <string name="status" >STATUS: </string >
     <string name="deadline_time" >DEADLINE: </string >
     <string name="mission_due" >MISSION DUE: </string >
     <string name="duration_time" >EXPIRY: </string >
@@ -130,6 +131,12 @@
     <string name="show_task" >SHOW MISSION</string >
     <string name="withdraw_task" >WITHDRAW</string >
     <string name="continue_task" >CONTINUE</string >
+    <string name="approved_task" >Approved</string >
+    <string name="rejected_task" >Rejected</string >
+    <string name="in_validation_task" >In Validation</string >
+    <string name="approved_at" >Approved at:</string >
+    <string name="rejected_at" >Rejected at:</string >
+    <string name="submitted_at" >Submitted at:</string >
     <!-- PROJECT DETAIL ACTIVITY-->
     <string name="wave_missions_description" >FULL DESCRIPTION</string >
     <string name="show_missions" >SHOW MISSIONS</string >
