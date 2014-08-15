@@ -13,6 +13,7 @@ public interface Keys {
     String FORGOT_PASS = "forgot_pass";
     String BITMAP_FILE_PATH = "bitmap_file_path";
     String ROTATE_BY_EXIF = "rotate_by_exif";
+    String FINISH_MAIN_ACTIVITY = "finish_main_activity";
 
     //Settings
     String LANGUAGE_CODE = "language_code";

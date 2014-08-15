@@ -107,6 +107,12 @@
                 android:value="com.ros.smartrocket.activity.MainActivity" />
         </activity >
         <activity
+            android:name="com.ros.smartrocket.activity.SettingsActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.ShareActivity"
+            android:configChanges="locale" />
+        <activity
             android:name="com.ros.smartrocket.activity.CheckLocationActivity"
             android:configChanges="locale" />
         <activity

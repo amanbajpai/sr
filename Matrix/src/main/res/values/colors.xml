@@ -13,10 +13,12 @@
     <color name="red">#cb333a</color>
     <color name="red_dark">#a8232a</color>
     <color name="blue">#0157b4</color>
-    <color name="yellow">#ffc73c</color>
     <color name="blue_light">#3495ff</color>
+    <color name="blue_light2">#ff1577ff</color>
+    <color name="yellow">#ffc73c</color>
     <color name="orange">#fbae42</color>
     <color name="orange_dark">#ffbf00</color>
+    <color name="orange_light">#ffffe253</color>
 
     <color name="map_radius_stroke">#ca1f1f</color>
     <color name="map_radius_fill">#07ff0033</color>

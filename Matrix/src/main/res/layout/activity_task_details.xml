@@ -94,6 +94,7 @@
                     android:scaleType="centerCrop" />
             </LinearLayout >
             <LinearLayout
+                android:id="@+id/taskOptionsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/green_light"

@@ -134,10 +134,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         Task task = adapter.getItem(position);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case claimed:
-            case started:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
-                break;
             case scheduled:
                 startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId(), false, false));
                 break;
@@ -145,6 +141,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
                 startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getWaveId(), task.getId()));
                 break;
             default:
+                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
                 break;
         }
     }

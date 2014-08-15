@@ -10,7 +10,7 @@ import java.util.Map;
 public class FontUtils {
     private final static String TAG = "FontUtils";
     private final static Map<String, Typeface> LOADED_TYPEFACES_MAP = new HashMap<String, Typeface>();
-    private final static PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
+    //private final static PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
 
 
     /**
@@ -19,53 +19,53 @@ public class FontUtils {
 
     public static String getFontAssetPath(int textStyle) {
         String fontAssetPath;
-        String languageCode = PREFERENCES_MANAGER.getLanguageCode();
+        //String languageCode = PREFERENCES_MANAGER.getLanguageCode();
 
         switch (textStyle) {
             case 0:
-                if ("zh_TW".equals(languageCode)) {
+                /*if ("zh_TW".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKMedium.otf";
                 } else if ("zh_CN".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKSMedium.otf";
-                } else {
+                } else {*/
                     fontAssetPath = "fonts/LatinoMagallanesRegular.otf";
-                }
+                //}
                 break;
             case 1:
-                if ("zh_TW".equals(languageCode)) {
+                /*if ("zh_TW".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKLight.otf";
                 } else if ("zh_CN".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKLight.otf";
-                } else {
+                } else {*/
                     fontAssetPath = "fonts/LatinoMagallanesLight.otf";
-                }
+                //}
                 break;
             case 2:
-                if ("zh_TW".equals(languageCode)) {
+                /*if ("zh_TW".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKMedium.otf";
                 } else if ("zh_CN".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKSMedium.otf";
-                } else {
+                } else {*/
                     fontAssetPath = "fonts/LatinoMagallanesMedium.otf";
-                }
+                //}
                 break;
             case 3:
-                if ("zh_TW".equals(languageCode)) {
+                /*if ("zh_TW".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKBold.otf";
                 } else if ("zh_CN".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKSBold.otf";
-                } else {
+                } else {*/
                     fontAssetPath = "fonts/LatinoMagallanesBold.otf";
-                }
+                //}
                 break;
             default:
-                if ("zh_TW".equals(languageCode)) {
+                /*if ("zh_TW".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKMedium.otf";
                 } else if ("zh_CN".equals(languageCode)) {
                     fontAssetPath = "fonts/MHeiHKSMedium.otf";
-                } else {
+                } else {*/
                     fontAssetPath = "fonts/LatinoMagallanesMedium.otf";
-                }
+                //}
                 break;
         }
 

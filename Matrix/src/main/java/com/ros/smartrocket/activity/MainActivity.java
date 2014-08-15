@@ -1,7 +1,10 @@
 package com.ros.smartrocket.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -11,15 +14,13 @@ import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
-import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.UIUtils;
-
-import java.util.Calendar;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private boolean doubleBackToExitPressedOnce = false;
     private static final int DOUBLE_PRESS_INTERVAL_MILLISECONDS = 2000;
+    private ResponseReceiver localReceiver;
 
     public MainActivity() {
     }
@@ -41,6 +42,12 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
         CommonUtilities.registerGCMInBackground();
 
+        localReceiver = new ResponseReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Keys.FINISH_MAIN_ACTIVITY);
+
+        registerReceiver(localReceiver, intentFilter);
+
         /*NotificationUtils.startExpiredNotificationActivity(this, "missionName", "locationName", "missionAddress");*/
         /*NotificationUtils.startApprovedNotificationActivity(this, "Validation Text", "missionName", "locationName",
                 "missionAddress");*/
@@ -51,6 +58,17 @@ public class MainActivity extends BaseSlidingMenuActivity {
         /*long deadlineTime = Calendar.getInstance().getTimeInMillis();
         NotificationUtils.startDeadlineNotificationActivity(this, deadlineTime, 18, 100, "missionName", "locationName",
                 "missionAddress");*/
+    }
+
+    public class ResponseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equals(Keys.FINISH_MAIN_ACTIVITY)) {
+                finish();
+            }
+        }
     }
 
     public void startFragment(Fragment fragment) {
@@ -82,5 +100,11 @@ public class MainActivity extends BaseSlidingMenuActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, DOUBLE_PRESS_INTERVAL_MILLISECONDS);
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(localReceiver);
+        super.onDestroy();
     }
 }

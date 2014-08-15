@@ -178,13 +178,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 Location location = lm.getLocation();
 
-                if (location != null && UIUtils.isGpsEnabled(getActivity())) {
+                if (location != null && UIUtils.isGpsEnabled(getActivity())
+                        && preferencesManager.getUseLocationServices()) {
                     map.clear();
                     addMyLocation(location);
                     addRadius(location);
                 }
 
-                if (location == null && UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
+                if (location == null && UIUtils.isOnline(getActivity())
+                        && UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
                     UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                 }
             }

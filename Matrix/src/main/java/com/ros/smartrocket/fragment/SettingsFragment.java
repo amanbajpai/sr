@@ -266,6 +266,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 if (languageChanged) {
                     UIUtils.showSimpleToast(getActivity(), R.string.success);
                     getActivity().finish();
+                    getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
                 }
                 break;
             case R.id.deadlineReminderSpinner:
@@ -347,6 +348,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
                 getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
                 getActivity().finish();
+                getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

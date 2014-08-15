@@ -293,14 +293,16 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
                 break;
             case R.id.shareButton:
-                ((MainActivity) getActivity()).startFragment(new ShareFragment());
+                //((MainActivity) getActivity()).startFragment(new ShareFragment());
+                getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.KNOWLEDGE_BASE_URL));
                 break;
             case R.id.settingsButton:
-                ((MainActivity) getActivity()).startFragment(new SettingsFragment());
+                //((MainActivity) getActivity()).startFragment(new SettingsFragment());
+                getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             default:

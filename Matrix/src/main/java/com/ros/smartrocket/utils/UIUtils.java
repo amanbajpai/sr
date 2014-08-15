@@ -674,12 +674,31 @@ public class UIUtils {
     public static void setActionBarBackground(ActionBarActivity activity, int statusId) {
         int backgroundRes;
         switch (TasksBL.getTaskStatusType(statusId)) {
+            case none:
+            case claimed:
+            case started:
+                backgroundRes = R.drawable.action_bar_green;
+                break;
             case scheduled:
             case pending:
                 backgroundRes = R.drawable.action_bar_blue;
                 break;
+            case completed:
+                backgroundRes = R.drawable.action_bar_grey;
+                break;
+            case validation:
+                backgroundRes = R.drawable.action_bar_grey;
+                break;
             case reDoTask:
                 backgroundRes = R.drawable.action_bar_red;
+                break;
+            case validated:
+            case inPaymentProcess:
+            case paid:
+                backgroundRes = R.drawable.action_bar_gold;
+                break;
+            case rejected:
+                backgroundRes = R.drawable.action_bar_black;
                 break;
             default:
                 backgroundRes = R.drawable.action_bar_green;

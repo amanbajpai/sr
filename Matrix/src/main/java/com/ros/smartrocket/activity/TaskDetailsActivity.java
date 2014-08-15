@@ -70,10 +70,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
-
     private TextView taskAddress;
+
     private TextView locationName;
     private TextView taskDescription;
+
+    private LinearLayout buttonsLayout;
 
     private Button bookTaskButton;
     private Button startTaskButton;
@@ -87,6 +89,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout startTimeLayout;
     private LinearLayout deadlineTimeLayout;
     private LinearLayout expireTimeLayout;
+
+    private LinearLayout taskOptionsLayout;
 
     private TextView titleTextView;
 
@@ -117,6 +121,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeLayout = (LinearLayout) findViewById(R.id.deadlineTimeLayout);
         expireTimeLayout = (LinearLayout) findViewById(R.id.expireTimeLayout);
 
+        taskOptionsLayout = (LinearLayout) findViewById(R.id.taskOptionsLayout);
+
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
         dueTextView = (TextView) findViewById(R.id.dueTextView);
@@ -135,6 +141,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         taskDescription = (TextView) findViewById(R.id.taskDescription);
         locationName = (TextView) findViewById(R.id.locationName);
         taskAddress = (TextView) findViewById(R.id.taskAddress);
+
+        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
 
         bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
         bookTaskButton.setOnClickListener(this);
@@ -305,6 +313,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
 
+        setColorTheme(task);
         setButtonsSettings(task);
     }
 
@@ -339,7 +348,79 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
+    public void setColorTheme(Task task) {
+        UIUtils.setActionBarBackground(this, task.getStatusId());
+
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case none:
+            case claimed:
+            case started:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                break;
+            case pending:
+            case scheduled:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.blue_light2));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_blue, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_blue, 0, 0, 0);
+                break;
+            case completed:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
+                break;
+            case validation:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_lightgrey, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_lightgrey, 0, 0, 0);
+
+                break;
+            case reDoTask:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.red));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_red, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_red, 0, 0, 0);
+                break;
+            case validated:
+            case inPaymentProcess:
+            case paid:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.orange));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_gold, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_gold, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_gold, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
+                break;
+            case rejected:
+                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.black_light));
+
+                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
+                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
+                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
+                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
+                break;
+            default:
+                break;
+        }
+    }
+
     public void setButtonsSettings(Task task) {
+        buttonsLayout.setVisibility(View.GONE);
         bookTaskButton.setVisibility(View.GONE);
         startTaskButton.setVisibility(View.GONE);
         hideTaskButton.setVisibility(View.GONE);
@@ -349,6 +430,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case none:
+                buttonsLayout.setVisibility(View.VISIBLE);
                 bookTaskButton.setVisibility(View.VISIBLE);
                 if (UIUtils.isTrue(task.getIsHide())) {
                     showTaskButton.setVisibility(View.VISIBLE);
@@ -357,10 +439,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case claimed:
+                buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 startTaskButton.setVisibility(View.VISIBLE);
                 break;
             case started:
+                buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 continueTaskButton.setVisibility(View.VISIBLE);
                 break;

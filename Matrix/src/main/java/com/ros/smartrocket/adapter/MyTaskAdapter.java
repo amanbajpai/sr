@@ -126,7 +126,7 @@ public class MyTaskAdapter extends BaseAdapter {
             case none:
             case claimed:
             case started:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
 
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
@@ -146,7 +146,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 break;
             case scheduled:
             case pending:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_blue_bg);
 
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
@@ -165,7 +165,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_blue, 0, 0, 0);
                 break;
             case completed:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
 
                 holder.locationName.setVisibility(View.VISIBLE);
@@ -183,7 +183,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
                 break;
             case validation:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
 
                 holder.locationName.setVisibility(View.VISIBLE);
@@ -205,7 +205,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 long missionDueForReDoInMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
                 long dueInForReDoMillisecond = missionDueForReDoInMillisecond - Calendar.getInstance().getTimeInMillis();
 
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_grey_big, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);
 
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
@@ -228,7 +228,7 @@ public class MyTaskAdapter extends BaseAdapter {
             case validated:
             case inPaymentProcess:
             case paid:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_gold_bg);
 
                 holder.locationName.setVisibility(View.VISIBLE);
@@ -246,7 +246,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
                 break;
             case rejected:
-                holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                //holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.listItem.setBackgroundResource(R.drawable.mission_dark_bg);
 
                 holder.locationName.setVisibility(View.VISIBLE);

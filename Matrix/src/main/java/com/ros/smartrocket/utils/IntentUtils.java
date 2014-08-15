@@ -18,6 +18,8 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.QuitQuestionActivity;
 import com.ros.smartrocket.activity.SetNewPasswordActivity;
+import com.ros.smartrocket.activity.SettingsActivity;
+import com.ros.smartrocket.activity.ShareActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
 import com.ros.smartrocket.activity.TermsAndConditionActivity;
@@ -416,6 +418,26 @@ public class IntentUtils {
         intent.putExtra(Keys.BITMAP_FILE_PATH, filePath);
         intent.putExtra(Keys.ROTATE_BY_EXIF, rotateFromExif);
         return intent;
+    }
+
+    /**
+     * Return intent for opening Settings screen
+     *
+     * @return Intent
+     */
+
+    public static Intent getSettingIntent(Context context) {
+        return new Intent(context, SettingsActivity.class);
+    }
+
+    /**
+     * Return intent for opening Share screen
+     *
+     * @return Intent
+     */
+
+    public static Intent getShareIntent(Context context) {
+        return new Intent(context, ShareActivity.class);
     }
 
     /**
