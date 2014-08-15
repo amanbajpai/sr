@@ -209,6 +209,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                 answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
                 answer.setFileSizeB(resultImageFile.length());
                 answer.setFileName(resultImageFile.getName());
+                answer.setValue(resultImageFile.getName());
 
                 AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 

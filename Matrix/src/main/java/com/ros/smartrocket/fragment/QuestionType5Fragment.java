@@ -289,6 +289,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     answer.setFileUri(videoPath);
                     answer.setFileSizeB(sourceImageFile.length());
                     answer.setFileName(sourceImageFile.getName());
+                    answer.setValue(sourceImageFile.getName());
 
                     AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 
