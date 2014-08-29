@@ -50,6 +50,9 @@ public class Task extends BaseEntity {
     private Integer PreClaimedTaskExpireAfterStart;
     private String Claimed;
     private String RedoDate;
+    private String ApprovedAt;
+    private String RejectedAt;
+    private String SubmittedAt;
 
     private Integer PhotoQuestionsCount;
     private Integer NoPhotoQuestionsCount;
@@ -120,6 +123,9 @@ public class Task extends BaseEntity {
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));
             result.setRedoDate(c.getString(TaskDbSchema.Query.All.REDO_DATE));
+            result.setApprovedAt(c.getString(TaskDbSchema.Query.All.APPROVED_AT));
+            result.setRejectedAt(c.getString(TaskDbSchema.Query.All.REJECTED_AT));
+            result.setSubmittedAt(c.getString(TaskDbSchema.Query.All.SUBMITTED_AT));
             result.setCountryName(c.getString(TaskDbSchema.Query.All.COUNTRY_NAME));
 
             result.setLongRedoDateTime(c.getLong(TaskDbSchema.Query.All.LONG_REDO_DATE_TIME));
@@ -401,6 +407,30 @@ public class Task extends BaseEntity {
 
     public void setIcon(String icon) {
         Icon = icon;
+    }
+
+    public String getApprovedAt() {
+        return ApprovedAt;
+    }
+
+    public void setApprovedAt(String approvedAt) {
+        ApprovedAt = approvedAt;
+    }
+
+    public String getRejectedAt() {
+        return RejectedAt;
+    }
+
+    public void setRejectedAt(String rejectedAt) {
+        RejectedAt = rejectedAt;
+    }
+
+    public String getSubmittedAt() {
+        return SubmittedAt;
+    }
+
+    public void setSubmittedAt(String submittedAt) {
+        SubmittedAt = submittedAt;
     }
 
     /**

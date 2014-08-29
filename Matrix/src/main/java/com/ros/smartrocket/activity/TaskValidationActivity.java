@@ -176,8 +176,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 sendAnswerTextsSuccess();
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
+                task.setStatusId(Task.TaskStatusId.validation.getStatusId());
+                TasksBL.updateTask(handler, task);
+
                 QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId());
-                TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.validation.getStatusId());
 
                 finishActivity();
             }

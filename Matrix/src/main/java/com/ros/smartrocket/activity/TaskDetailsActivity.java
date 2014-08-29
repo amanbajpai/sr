@@ -370,9 +370,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 statusLayout.setVisibility(View.VISIBLE);
                 statusTextView.setText(getString(R.string.in_validation_task));
 
-                statusTimeLayout.setVisibility(View.VISIBLE);
-                statusTimeText.setText(getString(R.string.submitted_at));
-                //statusTimeTextView.setText(UIUtils.longToString(task.get, 3));
+                if (!TextUtils.isEmpty(task.getSubmittedAt())) {
+                    statusTimeLayout.setVisibility(View.VISIBLE);
+                    statusTimeText.setText(getString(R.string.submitted_at));
+
+                    long submittedTime = UIUtils.isoTimeToLong(task.getSubmittedAt());
+                    statusTimeTextView.setText(UIUtils.longToString(submittedTime, 3));
+                }
 
                 break;
             case validated:
@@ -385,9 +389,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 statusLayout.setVisibility(View.VISIBLE);
                 statusTextView.setText(getString(R.string.approved_task));
 
-                statusTimeLayout.setVisibility(View.VISIBLE);
-                statusTimeText.setText(getString(R.string.approved_at));
-                //statusTimeTextView.setText(UIUtils.longToString(task.get, 3));
+                if (!TextUtils.isEmpty(task.getApprovedAt())) {
+                    statusTimeLayout.setVisibility(View.VISIBLE);
+                    statusTimeText.setText(getString(R.string.approved_at));
+
+                    long approvedTime = UIUtils.isoTimeToLong(task.getApprovedAt());
+                    statusTimeTextView.setText(UIUtils.longToString(approvedTime, 3));
+                }
                 break;
             case rejected:
                 startTimeLayout.setVisibility(View.GONE);
@@ -397,9 +405,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 statusLayout.setVisibility(View.VISIBLE);
                 statusTextView.setText(getString(R.string.rejected_task));
 
-                statusTimeLayout.setVisibility(View.VISIBLE);
-                statusTimeText.setText(getString(R.string.rejected_at));
-                //statusTimeTextView.setText(UIUtils.longToString(task.get, 3));
+                if (!TextUtils.isEmpty(task.getRejectedAt())) {
+                    statusTimeLayout.setVisibility(View.VISIBLE);
+                    statusTimeText.setText(getString(R.string.rejected_at));
+
+                    long rejectedTime = UIUtils.isoTimeToLong(task.getRejectedAt());
+                    statusTimeTextView.setText(UIUtils.longToString(rejectedTime, 3));
+                }
                 break;
             default:
                 break;
