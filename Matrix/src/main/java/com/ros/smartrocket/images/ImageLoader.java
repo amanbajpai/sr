@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -171,7 +172,30 @@ public class ImageLoader {
                 return null;
             }
         }
+    }
 
+    public void getFileByUrlAsync(final String fileUrl, final OnFileLoadCompleteListener loadFileListener) {
+        new GetFileAsyncTask(fileUrl, loadFileListener).execute();
+    }
+
+    public class GetFileAsyncTask extends AsyncTask<Void, Integer, File> {
+        String fileUrl;
+        OnFileLoadCompleteListener loadFileListener;
+
+        public GetFileAsyncTask(final String fileUrl, final OnFileLoadCompleteListener loadFileListener) {
+            this.fileUrl = fileUrl;
+            this.loadFileListener = loadFileListener;
+        }
+
+        protected File doInBackground(Void... params) {
+            return getFileByUrl(fileUrl);
+        }
+
+        protected void onPostExecute(File responseFile) {
+            if (responseFile != null && loadFileListener != null) {
+                loadFileListener.onFileLoadComplete(responseFile);
+            }
+        }
     }
 
     public Bitmap getStageBitmap(String[] urlList, int sizeType) {
@@ -507,5 +531,9 @@ public class ImageLoader {
 
     public interface OnFetchCompleteListener {
         void onFetchComplete(Bitmap result);
+    }
+
+    public interface OnFileLoadCompleteListener {
+        void onFileLoadComplete(File result);
     }
 }

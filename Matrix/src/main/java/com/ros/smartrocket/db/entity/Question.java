@@ -39,6 +39,8 @@ public class Question extends BaseEntity implements Serializable {
     private Integer PatternType;
     private Integer VideoSource;
     private Integer PhotoSource;
+    private String VideoUrl;
+    private String PhotoUrl;
 
     private String ValidationComment;
 
@@ -75,6 +77,8 @@ public class Question extends BaseEntity implements Serializable {
             result.setPatternType(c.getInt(QuestionDbSchema.Query.PATTERN_TYPE));
             result.setVideoSource(c.getInt(QuestionDbSchema.Query.VIDEO_SOURCE));
             result.setPhotoSource(c.getInt(QuestionDbSchema.Query.PHOTO_SOURCE));
+            result.setVideoUrl(c.getString(QuestionDbSchema.Query.VIDEO_URL));
+            result.setPhotoUrl(c.getString(QuestionDbSchema.Query.PHOTO_URL));
 
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
         }
@@ -240,4 +244,19 @@ public class Question extends BaseEntity implements Serializable {
         Routing = routing;
     }
 
+    public String getVideoUrl() {
+        return VideoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        VideoUrl = videoUrl;
+    }
+
+    public String getPhotoUrl() {
+        return PhotoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        PhotoUrl = photoUrl;
+    }
 }

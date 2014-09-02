@@ -28,11 +28,11 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.fragment.QuestionType1Fragment;
 import com.ros.smartrocket.fragment.QuestionType2Fragment;
-import com.ros.smartrocket.fragment.QuestionType3Fragment;
 import com.ros.smartrocket.fragment.QuestionType4Fragment;
 import com.ros.smartrocket.fragment.QuestionType5Fragment;
 import com.ros.smartrocket.fragment.QuestionType6Fragment;
 import com.ros.smartrocket.fragment.QuestionType7Fragment;
+import com.ros.smartrocket.fragment.QuestionType8Fragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
@@ -271,8 +271,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType6Fragment();
                     break;
                 case instruction:
-                    //TODO Create new question's type
-                    //currentFragment = new QuestionType6Fragment();
+                    currentFragment = new QuestionType8Fragment();
                     break;
                 default:
                     break;

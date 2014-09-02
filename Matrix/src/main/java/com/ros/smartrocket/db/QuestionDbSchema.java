@@ -31,6 +31,8 @@ public interface QuestionDbSchema {
         PATTERN_TYPE("PatternType", DBType.NUMERIC),
         VIDEO_SOURCE("VideoSource", DBType.NUMERIC),
         PHOTO_SOURCE("PhotoSource", DBType.NUMERIC),
+        VIDEO_URL("VideoUrl", DBType.TEXT),
+        PHOTO_URL("PhotoUrl", DBType.TEXT),
 
         ROUTING("Routing", DBType.NUMERIC),
 
@@ -92,6 +94,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.PATTERN_TYPE.getName(),
                 Table.QUESTION.getName() + "." + Columns.VIDEO_SOURCE.getName(),
                 Table.QUESTION.getName() + "." + Columns.PHOTO_SOURCE.getName(),
+                Table.QUESTION.getName() + "." + Columns.VIDEO_URL.getName(),
+                Table.QUESTION.getName() + "." + Columns.PHOTO_URL.getName(),
 
                 Table.QUESTION.getName() + "." + Columns.ROUTING.getName()
 
@@ -118,7 +122,9 @@ public interface QuestionDbSchema {
         int PATTERN_TYPE = 16;
         int VIDEO_SOURCE = 17;
         int PHOTO_SOURCE = 18;
+        int VIDEO_URL = 19;
+        int PHOTO_URL = 20;
 
-        int ROUTING = 19;
+        int ROUTING = 21;
     }
 }
