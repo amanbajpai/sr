@@ -55,6 +55,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private ImageView levelIcon;
     private TextView myTasksCount;
     private TextView nameTextView;
+    private TextView cashingOutTextView;
     private TextView balanceTextView;
     private TextView rocketPointNumberTextView;
     private TextView levelName;
@@ -76,6 +77,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
         myTasksCount = (TextView) view.findViewById(R.id.myTasksCount);
         nameTextView = (TextView) view.findViewById(R.id.nameTextView);
+        cashingOutTextView = (TextView) view.findViewById(R.id.cashingOutTextView);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
         rocketPointNumberTextView = (TextView) view.findViewById(R.id.rocketPointNumberTextView);
         levelName = (TextView) view.findViewById(R.id.levelName);
@@ -96,6 +98,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
+        //view.findViewById(R.id.cashingOutTextView).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -295,6 +298,11 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.shareButton:
                 //((MainActivity) getActivity()).startFragment(new ShareFragment());
                 getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.cashingOutTextView:
+                //((MainActivity) getActivity()).startFragment(new CashingOutFragment());
+                getActivity().startActivity(IntentUtils.getCashOutIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:

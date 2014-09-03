@@ -153,6 +153,15 @@
         <activity
             android:name="com.ros.smartrocket.activity.QuitQuestionActivity"
             android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.CashingOutActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.CashingOutConfirmationActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name="com.ros.smartrocket.activity.CashingOutSuccessActivity"
+            android:configChanges="locale" />
 
         <service
             android:name="com.ros.smartrocket.net.NetworkService"

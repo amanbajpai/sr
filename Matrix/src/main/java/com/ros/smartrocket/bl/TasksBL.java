@@ -129,11 +129,25 @@ public class TasksBL {
     }
 
     public static void getTaskToRemindFromDB(AsyncQueryHandler handler, int coockie, long fromTime, long tillTime) {
+        String betweenClaimedTime = "("
+                + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
+                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + fromTime + " and ("
+                + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
+                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") < " + tillTime + ") ";
+
+        String betweenReDoTime = "("
+                + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
+                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + fromTime + " and ("
+                + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
+                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") < " + tillTime + ") ";
+
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, coockie, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
-                        + TaskDbSchema.Columns.LONG_END_DATE_TIME
-                        + ">" + fromTime + " and " + TaskDbSchema.Columns.LONG_END_DATE_TIME
-                        + "<" + tillTime + " and ("
+                        + betweenClaimedTime + " and "
+                        + betweenReDoTime + " and "
+                        + " ("
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or "
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or "
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.reDoTask.getStatusId() + " or "

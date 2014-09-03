@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_18sp"
+        android:text="@string/cashing_out_current_balance"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/currentBalance"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_26sp"
+        android:text="@string/zero"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/cashOutButton"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@drawable/button_cash_out_selector"
+        android:text="@string/cashing_out_cash_out"
+        android:textSize="@dimen/text_size_26sp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/minBalance"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_14sp"
+        android:text="@string/cashing_out_minimum_balance"
+        custom:textStyle="bold"
+        android:visibility="gone" />
+</LinearLayout >

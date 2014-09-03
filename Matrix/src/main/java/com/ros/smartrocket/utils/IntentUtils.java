@@ -11,6 +11,9 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.ActivateAccountActivity;
+import com.ros.smartrocket.activity.CashingOutActivity;
+import com.ros.smartrocket.activity.CashingOutConfirmationActivity;
+import com.ros.smartrocket.activity.CashingOutSuccessActivity;
 import com.ros.smartrocket.activity.ForgotPasswordSuccessActivity;
 import com.ros.smartrocket.activity.FullScreenImageActivity;
 import com.ros.smartrocket.activity.LoginActivity;
@@ -456,5 +459,36 @@ public class IntentUtils {
     public static void refreshMainMenuMyTaskCount(Context context) {
         Intent intent = new Intent(Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT);
         context.sendBroadcast(intent);
+    }
+
+    /**
+     * Return intent for opening Cash Out screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getCashOutIntent(Context context) {
+        Intent intent = new Intent(context, CashingOutActivity.class);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Cash Out Confirmation screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getCashOutConfirmationIntent(Context context) {
+        return new Intent(context, CashingOutConfirmationActivity.class);
+    }
+
+    /**
+     * Return intent for opening Cash Out Success screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getCashOutSuccessIntent(Context context) {
+        return new Intent(context, CashingOutSuccessActivity.class);
     }
 }

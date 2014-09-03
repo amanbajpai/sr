@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
                 <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/cashingOutTextView"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"

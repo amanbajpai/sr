@@ -65,6 +65,7 @@ public interface Keys {
     String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
     String ACTIVATE_ACCOUNT_OPERATION_TAG = "activate_account_operation_tag";
     String SET_PASSWORD_OPERATION_TAG = "set_password_operation_tag";
+    String CASHING_OUT_OPERATION_TAG = "cashing_out_operation_tag";
 
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";
