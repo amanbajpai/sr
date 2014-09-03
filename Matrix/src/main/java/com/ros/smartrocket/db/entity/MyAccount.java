@@ -7,6 +7,7 @@ public class MyAccount extends BaseEntity {
     private String PhotoUrl;
     private Double TotalEarnings;
     private Double Balance;
+    private Double MinimalWithdrawAmount;
     private Integer Experience;
     private Integer MinLevelExperience;
     private Integer MaxLevelExperience;
@@ -131,4 +132,13 @@ public class MyAccount extends BaseEntity {
     public void setCurrencySign(String currencySign) {
         CurrencySign = currencySign;
     }
+
+    public Double getMinimalWithdrawAmount() {
+        return MinimalWithdrawAmount;
+    }
+
+    public void setMinimalWithdrawAmount(Double minimalWithdrawAmount) {
+        MinimalWithdrawAmount = minimalWithdrawAmount;
+    }
+
 }

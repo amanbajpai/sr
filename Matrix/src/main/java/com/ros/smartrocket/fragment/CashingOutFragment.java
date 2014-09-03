@@ -45,16 +45,15 @@ public class CashingOutFragment extends Fragment implements OnClickListener {
         TextView currentBalance = (TextView) view.findViewById(R.id.currentBalance);
         TextView minBalance = (TextView) view.findViewById(R.id.minBalance);
 
-        /*if (myAccount.getBalance() > myAccount.getMinBalance()) {
-            cashOutButton.setEnabled(false);*/
-        minBalance.setVisibility(View.VISIBLE);
+        if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
+            cashOutButton.setEnabled(false);
+            minBalance.setVisibility(View.VISIBLE);
 
-        //TODO Set min balance
-        minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance/*,
-                minBalance.getLevelName()*/));
-        //} else {
-        cashOutButton.setOnClickListener(this);
-        // }
+            minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
+                    myAccount.getMinimalWithdrawAmount()));
+        } else {
+            cashOutButton.setOnClickListener(this);
+        }
 
         currentBalance.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
                 myAccount.getCurrencySign()));
