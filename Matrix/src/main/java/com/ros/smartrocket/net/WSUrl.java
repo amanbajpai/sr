@@ -36,7 +36,7 @@ public final class WSUrl {
     public static final String GET_REFERRAL_CASES = Config.WEB_SERVICE_URL
             + "api/Authorize/ReferralCases?countryId=%s&language=%s";
     public static final String SAVE_REFERRAL_CASE = Config.WEB_SERVICE_URL + "api/Authorize/ReferralCase";
-    public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "api/CashingOut"; //TODO;
+    public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "WithdrawMoney"; //TODO;
 
     public static final int LOGIN_ID = 1;
     public static final int GET_WAVES_ID = 2;

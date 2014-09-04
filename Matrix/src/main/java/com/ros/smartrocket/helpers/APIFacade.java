@@ -500,15 +500,11 @@ public class APIFacade {
      * @param activity
      */
     public void cashingOut(Activity activity) {
-        /*SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(taskId);
-
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.CASHING_OUT);
         operation.setTag(Keys.CASHING_OUT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(sendTaskId);
-        ((BaseActivity) activity).sendNetworkOperation(operation);*/
+        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     public void sendRequest(Context context, BaseOperation operation) {
