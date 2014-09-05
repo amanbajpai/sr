@@ -19,6 +19,8 @@
     <dimen name="text_size_20sp">20sp</dimen>
     <dimen name="text_size_22sp">22sp</dimen>
     <dimen name="text_size_26sp">26sp</dimen>
+    <dimen name="text_size_34sp">34sp</dimen>
+    <dimen name="text_size_44sp">44sp</dimen>
 
     <!-- Image size -->
     <dimen name="big_image_size">400px</dimen>

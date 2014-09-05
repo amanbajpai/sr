@@ -50,4 +50,10 @@ public class CashingOutSuccessActivity extends BaseActivity implements View.OnCl
         ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_title);
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(IntentUtils.getMainActivityIntent(this));
+    }
 }

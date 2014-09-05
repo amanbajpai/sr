@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
@@ -55,7 +56,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private ImageView levelIcon;
     private TextView myTasksCount;
     private TextView nameTextView;
-    private TextView cashingOutTextView;
+    private LinearLayout cashingOutLayout;
     private TextView balanceTextView;
     private TextView rocketPointNumberTextView;
     private TextView levelName;
@@ -77,7 +78,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
         myTasksCount = (TextView) view.findViewById(R.id.myTasksCount);
         nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-        cashingOutTextView = (TextView) view.findViewById(R.id.cashingOutTextView);
+        cashingOutLayout = (LinearLayout) view.findViewById(R.id.cashingOutLayout);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
         rocketPointNumberTextView = (TextView) view.findViewById(R.id.rocketPointNumberTextView);
         levelName = (TextView) view.findViewById(R.id.levelName);
@@ -98,7 +99,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
-        //view.findViewById(R.id.cashingOutTextView).setOnClickListener(this);
+        //view.findViewById(R.id.cashingOutLayout).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -300,7 +301,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;
-            case R.id.cashingOutTextView:
+            case R.id.cashingOutLayout:
                 //((MainActivity) getActivity()).startFragment(new CashingOutFragment());
                 getActivity().startActivity(IntentUtils.getCashOutIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();

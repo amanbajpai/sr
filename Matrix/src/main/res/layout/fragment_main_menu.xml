@@ -85,6 +85,48 @@
             android:layout_height="1dp"
             android:layout_width="match_parent" />
         <LinearLayout
+            android:id="@+id/cashingOutLayout"
+            android:layout_width="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <com.ros.smartrocket.views.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_red_selector"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="1dp"
+                android:textColor="@color/white"
+                android:text="@string/zero" />
+            <com.ros.smartrocket.views.CustomTextView
+                style="@style/MainMenuButton"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/cashing_out_title"
+                custom:textStyle="bold" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/balanceTextView"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                custom:textStyle="bold"
+                android:gravity="right"
+                android:background="@color/grey_light"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_size_15sp"
+                android:text="@string/balance_0" />
+        </LinearLayout >
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_height="1dp"
+            android:layout_width="match_parent" />
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -93,38 +135,7 @@
             android:orientation="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/cashingOutTextView"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_size_15sp"
-                    custom:textStyle="bold"
-                    android:text="@string/earnings" />
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/balanceTextView"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    custom:textStyle="bold"
-                    android:gravity="right"
-                    android:background="@color/grey_light"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/text_size_15sp"
-                    android:text="@string/balance_0" />
-            </LinearLayout >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:orientation="horizontal" >
@@ -151,17 +162,12 @@
                     android:textSize="@dimen/text_size_15sp"
                     android:text="@string/level_0" />
             </LinearLayout >
-            <View
-                style="@style/mainMenuDividerStyle"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent" />
             <LinearLayout
                 android:id="@+id/levelLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:orientation="horizontal" >

@@ -43,6 +43,7 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.CASHING_OUT_OPERATION_TAG.equals(operation.getTag())) {
+                finish();
                 startActivity(IntentUtils.getCashOutSuccessIntent(this));
             }
         } else {
@@ -61,7 +62,6 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
                 //MyAccount myAccount = App.getInstance().getMyAccount();
 
                 setSupportProgressBarIndeterminateVisibility(true);
-                //TODO Edit request to server
                 apiFacade.cashingOut(this);
                 break;
             default:
