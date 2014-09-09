@@ -16,6 +16,7 @@ import com.ros.smartrocket.activity.CashingOutConfirmationActivity;
 import com.ros.smartrocket.activity.CashingOutSuccessActivity;
 import com.ros.smartrocket.activity.ForgotPasswordSuccessActivity;
 import com.ros.smartrocket.activity.FullScreenImageActivity;
+import com.ros.smartrocket.activity.FullScreenVideoActivity;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
@@ -407,10 +408,11 @@ public class IntentUtils {
     }
 
     /**
-     * Return intent for opening inserting new password screen
+     * Return intent for opening images in full size
      *
      * @param context  - current context
      * @param filePath - file path to open
+     * @param rotateFromExif - need to rotate by exif flag
      * @return Intent
      */
 
@@ -418,6 +420,20 @@ public class IntentUtils {
         Intent intent = new Intent(context, FullScreenImageActivity.class);
         intent.putExtra(Keys.BITMAP_FILE_PATH, filePath);
         intent.putExtra(Keys.ROTATE_BY_EXIF, rotateFromExif);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening video in full size
+     *
+     * @param context  - current context
+     * @param filePath - file path to open
+     * @return Intent
+     */
+
+    public static Intent getFullScreenVideoIntent(Context context, String filePath) {
+        Intent intent = new Intent(context, FullScreenVideoActivity.class);
+        intent.putExtra(Keys.VIDEO_FILE_PATH, filePath);
         return intent;
     }
 

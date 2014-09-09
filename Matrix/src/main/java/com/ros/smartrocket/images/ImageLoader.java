@@ -271,6 +271,23 @@ public class ImageLoader {
         return bitmapToCanvas;
     }
 
+    public static Bitmap getScaledBitmap(Bitmap source, double resultWidth, double resultHeight) {
+        double coefficient;
+        double sourceWidth = source.getWidth();
+        double sourceHeight = source.getHeight();
+
+        if (sourceHeight - resultHeight > sourceWidth - resultWidth) {
+            coefficient = resultWidth / sourceWidth;
+        } else {
+            coefficient = resultHeight / sourceHeight;
+        }
+
+        sourceWidth = (coefficient * sourceWidth);
+        sourceHeight = (coefficient * sourceHeight);
+
+        return Bitmap.createScaledBitmap(source, (int) sourceWidth, (int) sourceHeight, false);
+    }
+
     // decodes photoMask and scales it to reduce memory consumption
     private Bitmap decodeFile(File f, int sizeType) {
         int bitmapSize = NORMAL_SIZE;

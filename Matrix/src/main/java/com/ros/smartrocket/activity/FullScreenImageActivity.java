@@ -7,6 +7,7 @@ import android.view.Display;
 import android.view.MenuItem;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.ImageEditorView;
@@ -21,10 +22,6 @@ public class FullScreenImageActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
-
         setContentView(R.layout.activity_full_screen_image);
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -33,6 +30,8 @@ public class FullScreenImageActivity extends ActionBarActivity {
         boolean rotateByExif = getIntent().getBooleanExtra(Keys.ROTATE_BY_EXIF, false);
 
         bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, rotateByExif);
+        bitmap = ImageLoader.getScaledBitmap(bitmap, display.getWidth(), display.getHeight() - UIUtils.getPxFromDp
+                (this, 70));
 
         ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
         photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));

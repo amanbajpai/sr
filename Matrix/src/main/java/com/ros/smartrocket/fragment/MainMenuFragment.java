@@ -99,7 +99,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
-        //view.findViewById(R.id.cashingOutLayout).setOnClickListener(this);
+        view.findViewById(R.id.cashingOutLayout).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();

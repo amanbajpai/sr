@@ -1,11 +1,10 @@
 package com.ros.smartrocket.fragment;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -22,20 +21,19 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.IntentUtils;
 
 import java.io.File;
 
 /**
  * Fragment for display About information
  */
-public class QuestionType8Fragment extends BaseQuestionFragment implements
-        MediaPlayer.OnCompletionListener {
+public class QuestionType8Fragment extends BaseQuestionFragment {
     private Question question;
     private ImageView photoImageView;
     private VideoView videoView;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
-    private int stopPosition = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,22 +56,6 @@ public class QuestionType8Fragment extends BaseQuestionFragment implements
         photoImageView = (ImageView) view.findViewById(R.id.photo);
 
         videoView = (VideoView) view.findViewById(R.id.video);
-        videoView.setOnCompletionListener(this);
-
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (videoView.isPlaying()) {
-                        pauseVideo();
-                    } else {
-                        playVideo();
-                    }
-                }
-
-                return false;
-            }
-        });
 
         questionText.setText(question.getQuestion());
 
@@ -81,24 +63,41 @@ public class QuestionType8Fragment extends BaseQuestionFragment implements
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
             photoImageView.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().loadBitmap(question.getPhotoUrl(), new ImageLoader.OnFetchCompleteListener() {
-                @Override
-                public void onFetchComplete(Bitmap result) {
-                    photoImageView.setImageBitmap(result);
+            ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
+                    new ImageLoader.OnFileLoadCompleteListener() {
+                        @Override
+                        public void onFileLoadComplete(final File file) {
+                            photoImageView.setImageURI(Uri.fromFile(file));
+                            photoImageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), file.getPath(), false));
+                                }
+                            });
 
-                    if (getActivity() != null) {
-                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            if (getActivity() != null) {
+                                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            }
+                        }
                     }
-                }
-            });
+            );
         } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
             ImageLoader.getInstance().getFileByUrlAsync(question.getVideoUrl(),
                     new ImageLoader.OnFileLoadCompleteListener() {
                         @Override
-                        public void onFileLoadComplete(File file) {
-                            playPauseVideo(file.getPath());
+                        public void onFileLoadComplete(final File file) {
+                            //videoView.setMediaController(new CustomMediaController(getActivity()));
+                            videoView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    startActivity(IntentUtils.getFullScreenVideoIntent(getActivity(), file.getPath()));
+                                    return false;
+                                }
+                            });
+
+                            playVideo(file.getPath());
                         }
                     }
             );
@@ -119,40 +118,20 @@ public class QuestionType8Fragment extends BaseQuestionFragment implements
         }
     }
 
-    public void playVideo() {
-        videoView.seekTo(stopPosition);
-        videoView.start();
-        videoView.setBackgroundColor(Color.TRANSPARENT);
-    }
-
-    public void pauseVideo() {
-        stopPosition = videoView.getCurrentPosition();
-        videoView.pause();
-    }
-
-    public void playPauseVideo(String videoPath) {
+    public void playVideo(String videoPath) {
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
                 videoView.start();
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        if (getActivity() != null) {
-                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                        }
-                        videoView.setBackgroundColor(Color.TRANSPARENT);
-                        videoView.pause();
-                    }
-                }, 700);
+                videoView.setBackgroundColor(Color.TRANSPARENT);
+                if (getActivity() != null) {
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                }
             }
         });
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        stopPosition = 0;
     }
 
     @Override
