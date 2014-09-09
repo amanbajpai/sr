@@ -235,12 +235,10 @@ public class APIFacade {
                 operation.setMethod(BaseOperation.Method.GET);
                 ((BaseActivity) activity).sendNetworkOperation(operation);
 
-            } catch (UnsupportedEncodingException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else
-
-        {
+        } else {
             L.e(TAG, "getWaves with wrong activity");
         }
 
