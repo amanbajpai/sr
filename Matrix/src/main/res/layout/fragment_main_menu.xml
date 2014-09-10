@@ -99,7 +99,7 @@
                 android:paddingRight="4dp"
                 android:paddingBottom="1dp"
                 android:textColor="@color/white"
-                android:text="@string/zero" />
+                android:text="@string/dollar_symbol" />
             <com.ros.smartrocket.views.CustomTextView
                 style="@style/MainMenuButton"
                 android:layout_height="wrap_content"

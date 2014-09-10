@@ -19,8 +19,7 @@
         android:paddingBottom="20dp" />
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grey_light" >
+        android:layout_height="match_parent" >
         <ImageView
             android:id="@+id/photo"
             android:layout_width="match_parent"
