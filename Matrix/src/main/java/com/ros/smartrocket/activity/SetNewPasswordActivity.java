@@ -101,21 +101,17 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         setSupportProgressBarIndeterminateVisibility(false);
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
+        if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
+            progressDialog.dismiss();
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 UIUtils.showSimpleToast(this, R.string.success);
                 startActivity(IntentUtils.getLoginIntentForLogout(this));
-            }
 
-        } else {
-            if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
+            } else {
                 setPasswordButton.setEnabled(true);
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
         }
-
     }
 
     @Override

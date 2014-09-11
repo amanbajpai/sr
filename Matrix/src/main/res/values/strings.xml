@@ -17,6 +17,7 @@
         folder or request a new Activiation Link.</string >
     <string name="request_new_activation_link" >Request New Activiation Link</string >
     <string name="user_not_found_error_text" >User Not Found</string >
+    <string name="password_token_not_valid_error_text" >Password token not valid</string >
     <string name="zero" >0</string >
     <string name="dollar_symbol" >$</string >
     <!-- WHERE YOU KNOW ABOUT US -->

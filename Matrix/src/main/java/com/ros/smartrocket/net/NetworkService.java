@@ -210,6 +210,14 @@ public class NetworkService extends BaseNetworkService {
 
             WriteDataHelper.prepareLogout(this);
             startActivity(IntentUtils.getLoginIntentForLogout(this));
+        } else if (responseCode == PASSWORD_TOKEN_NOT_VALID_ERROR_CODE) {
+            operation.setResponseError(getString(R.string.password_token_not_valid_error_text));
+            operation.setResponseErrorCode(responseCode);
+
+        } else if (responseCode == USER_NOT_FOUND_ERROR_CODE) {
+            operation.setResponseError(getString(R.string.user_not_found_error_text));
+            operation.setResponseErrorCode(responseCode);
+
         } else {
             try {
                 ResponseError error = gson.fromJson(responseString, ResponseError.class);

@@ -14,7 +14,8 @@
     <string name="account_not_activated" >您的智慧飞船账号尚未激活。使用智慧飞船之前，请查看邮箱，并点击激活链接。
         如果您找不到我们的电邮，请查看垃圾邮件夹或向我们要求新的激活链接。</string >
     <string name="request_new_activation_link" >要求激活链接</string >
-    <string name="user_not_found_error_text" >User Not Found</string >
+    <string name="user_not_found_error_text" >此用户不存在</string >
+    <string name="password_token_not_valid_error_text" >Password token not valid</string >
     <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >继续</string >
@@ -32,7 +33,7 @@
     <string name="confirm_and_register" >注册</string >
     <string name="cancel" >取消</string >
     <string name="cancel_big" >取消</string >
-    <string name="ok" >可以</string >
+    <string name="ok" >返回</string >
     <string name="show_password" >显示密码</string >
     <string name="password_validation_text" >您的密码必须由8到16个字符所组成，并至少包括一个大写的字母，一个小写的字母，
         一个数字和一个特殊字符（！、@、#、￥等等）</string >
@@ -110,7 +111,7 @@
     <string name="toast_sharing_disable_in_settings" >对不起，您的智能设备内的社交分享设定为关闭。</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >%1$s</string >
-    <string name="task_distance_away" >%1$s %2$s away</string >
+    <string name="task_distance_away" >%1$s %2$s 外</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="start_time" >开始： </string >
     <string name="status" >状况： </string >
@@ -166,7 +167,7 @@
     <string name="registration_success_dialog_text3" >要完成注册和登录到智慧飞船，您必须点击链接。如果您找不到这个邮件，
         请检查您的垃圾邮件夹，或与我们联系：</string >
     <string name="registration_success_dialog_text4" >registration@smart-rocket.com</string >
-    <string name="registration_success_dialog_ok" >OK</string >
+    <string name="registration_success_dialog_ok" >继续</string >
     <!-- CLAIM TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title" >成功认领任务</string >
     <string name="book_task_success_dialog_text0" >这个任务必须在以下时间前完成：</string >
@@ -224,7 +225,7 @@
     <string name="enter_here" >请在此输入</string >
     <string name="please_write_in" >其他（请注明）</string >
     <string name="quite_mission" >放弃任务</string >
-    <string name="quite_mission_cancel" >CANCEL</string >
+    <string name="quite_mission_cancel" >继续任务</string >
     <string name="question_of" >%2$s条问题之第%1$s条</string >
     <string name="choose_one_answer" >请选择一个答案</string >
     <string name="choose_one_or_more_answers" >请选择一个或多个答案</string >
@@ -257,10 +258,10 @@
     <!-- QUIT QUESTION ACTIVITY -->
     <string name="quit_question_title" >放弃</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
-    <string name="registration_subscribe_dialog_title" >确认</string >
+    <string name="registration_subscribe_dialog_title" >注册确认</string >
     <string name="registration_subscribe_dialog_text1" >感谢您对智慧飞船感兴趣。</string >
     <string name="registration_subscribe_dialog_text2" >当您所在的地区有可选的任务的时候，我们将会向您发送通知邮件。
-        欲知更多关于智慧飞船的信息和我们活跃的地点，请访问以下网页： <b >www.smart-rocket.com/about</b ></string >
+        欲知更多关于智慧飞船的信息，请访问以下网页： <b >www.smart-rocket.com/about</b ></string >
     <!-- TREE G LIMIT DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G上载上限警告</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >注意！ \n\n这个任务将超越您所目前设定的每次任务3G上载上限。您选择继续吗？

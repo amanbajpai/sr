@@ -65,11 +65,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
                 sendButton.setEnabled(true);
 
-                if (operation.getResponseErrorCode() == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
-                    UIUtils.showSimpleToast(this, getString(R.string.user_not_found_error_text));
-                } else {
-                    UIUtils.showSimpleToast(this, operation.getResponseError());
-                }
+                UIUtils.showSimpleToast(this, operation.getResponseError());
             }
         }
 

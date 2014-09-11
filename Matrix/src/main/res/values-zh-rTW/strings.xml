@@ -15,6 +15,7 @@
         並點擊激活連結。如果你找不到我們的電郵，請檢查垃圾郵件夾或向我們要求新的激活連結。</string >
     <string name="request_new_activation_link" >要求激活連結</string >
     <string name="user_not_found_error_text" >此用戶不存在</string >
+    <string name="password_token_not_valid_error_text" >Password token not valid</string >
     <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >繼續</string >
@@ -110,7 +111,7 @@
     <string name="toast_sharing_disable_in_settings" >對不起，設備内的社交分享設定為關閉。</string >
     <!-- TASK DETAIL ACTIVITY-->
     <string name="task_detail_title" >%1$s</string >
-    <string name="task_distance_away" >%1$s %2$s外</string >
+    <string name="task_distance_away" >%1$s %2$s 外</string >
     <string name="m_to_km_with_text_mask" >%1$s %2$s</string >
     <string name="start_time" >開始：</string >
     <string name="status" >狀況： </string >
