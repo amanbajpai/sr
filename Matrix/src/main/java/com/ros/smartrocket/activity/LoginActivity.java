@@ -45,6 +45,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private Location currentLocation;
     private Address currentAddress;
     private CustomProgressDialog progressDialog;
+    private String countryName = "";
+    private String cityName = "";
 
     public LoginActivity() {
     }
@@ -142,13 +144,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 CheckLocationResponse checkLocationResponse =
                         (CheckLocationResponse) operation.getResponseEntities().get(0);
 
-                if (checkLocationResponse.getStatus() && currentAddress != null) {
+                if (checkLocationResponse.getStatus()) {
                     Intent intent = new Intent(this, ReferralCasesActivity.class);
                     intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
-                    intent.putExtra(Keys.COUNTRY_NAME, currentAddress.getCountryName());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
-                    intent.putExtra(Keys.CITY_NAME, currentAddress.getLocality());
+                    intent.putExtra(Keys.COUNTRY_NAME, countryName);
+                    intent.putExtra(Keys.CITY_NAME, cityName);
                     intent.putExtra(Keys.LATITUDE, currentLocation.getLatitude());
                     intent.putExtra(Keys.LONGITUDE, currentLocation.getLongitude());
                     startActivity(intent);
@@ -276,15 +278,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         lm.getAddress(location, new MatrixLocationManager.IAddress() {
             @Override
             public void onUpdate(Address address) {
+                countryName = "";
+                cityName = "";
+
                 if (address != null) {
-                    L.e(TAG, "CountryCode " + address.getCountryCode());
                     currentAddress = address;
-                    apiFacade.checkLocationForRegistration(LoginActivity.this,
-                            address.getCountryName(), address.getLocality(),
-                            address.getLatitude(), address.getLongitude());
-                } else {
-                    startActivity(new Intent(LoginActivity.this, CheckLocationActivity.class));
+
+                    countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
+                    cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
+
+                    L.e(TAG, "CountryCode " + address.getCountryCode());
                 }
+
+                apiFacade.checkLocationForRegistration(LoginActivity.this, countryName, cityName,
+                        currentLocation.getLatitude(), currentLocation.getLongitude());
             }
         });
     }

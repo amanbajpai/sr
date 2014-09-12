@@ -223,7 +223,7 @@ public class APIFacade {
         if (activity != null && activity instanceof BaseActivity) {
             try {
                 String resultCountryName = !TextUtils.isEmpty(countryName) ? URLEncoder.encode(countryName, "UTF-8") : "";
-                String resultCityName = !TextUtils.isEmpty(countryName) ? URLEncoder.encode(cityName, "UTF-8") : "";
+                String resultCityName = !TextUtils.isEmpty(cityName) ? URLEncoder.encode(cityName, "UTF-8") : "";
 
                 BaseOperation operation = new BaseOperation();
                 operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude),

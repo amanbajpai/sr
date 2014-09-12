@@ -3,6 +3,7 @@ package com.ros.smartrocket.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.ros.smartrocket.fragment.CashingOutFragment;
+import com.ros.smartrocket.helpers.APIFacade;
 
 /**
  * Activity for view Settings

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.location.Address;
 import android.location.Location;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -20,7 +21,6 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Dialog for checking location and showing results
@@ -80,22 +80,22 @@ public class CheckLocationDialog extends Dialog {
         }
     }
 
-    public void getAddressByLocation(Location location) {
+    public void getAddressByLocation(final Location location) {
         lm.getAddress(location, new MatrixLocationManager.IAddress() {
             @Override
             public void onUpdate(Address address) {
+                String countryName = "";
+                String cityName = "";
+
                 if (address != null) {
                     currentAddress = address;
-                    apiFacade.checkLocationForRegistration(activity,
-                            address.getCountryName(), address.getLocality(),
-                            address.getLatitude(), address.getLongitude());
 
-                } else if (UIUtils.isOnline(activity)) {
-                    apiFacade.checkLocationForRegistration(activity, "", "",
-                            address.getLatitude(), address.getLongitude());
-                    //UIUtils.showSimpleToast(activity, R.string.current_location_not_defined);
-                    //dismiss();
+                    countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
+                    cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
                 }
+
+                apiFacade.checkLocationForRegistration(activity, countryName, cityName,
+                        location.getLatitude(), location.getLongitude());
             }
         });
     }

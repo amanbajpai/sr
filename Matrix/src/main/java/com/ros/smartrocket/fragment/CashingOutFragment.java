@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -27,6 +28,7 @@ import java.util.Locale;
  */
 public class CashingOutFragment extends Fragment implements OnClickListener {
     //private static final String TAG = CashingOutFragment.class.getSimpleName();
+    private APIFacade apiFacade = APIFacade.getInstance();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class CashingOutFragment extends Fragment implements OnClickListener {
 
         currentBalance.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
                 myAccount.getCurrencySign()));
+
+        //apiFacade.getMyAccount(getActivity());
 
         return view;
     }
