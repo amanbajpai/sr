@@ -17,6 +17,7 @@ public class MyAccount extends BaseEntity {
     private String LevelDescription;
     private String LevelIconUrl;
     private String CurrencySign;
+    private Boolean CashoutRequested;
 
     private Integer TermsAndConditionsVersion;
 
@@ -141,4 +142,11 @@ public class MyAccount extends BaseEntity {
         MinimalWithdrawAmount = minimalWithdrawAmount;
     }
 
+    public Boolean getCashoutRequested() {
+        return CashoutRequested;
+    }
+
+    public void setCashoutRequested(Boolean cashoutRequested) {
+        CashoutRequested = cashoutRequested;
+    }
 }

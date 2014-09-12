@@ -15,9 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.activity.CashingOutActivity;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -26,9 +32,10 @@ import java.util.Locale;
 /**
  * Share app info fragment
  */
-public class CashingOutFragment extends Fragment implements OnClickListener {
+public class CashingOutFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     //private static final String TAG = CashingOutFragment.class.getSimpleName();
     private APIFacade apiFacade = APIFacade.getInstance();
+    private ViewGroup view;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -41,30 +48,51 @@ public class CashingOutFragment extends Fragment implements OnClickListener {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_cashing_out, null);
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_cashing_out, null);
 
+        ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
+        apiFacade.getMyAccount(getActivity());
+
+
+        return view;
+    }
+
+    public void updateData() {
         MyAccount myAccount = App.getInstance().getMyAccount();
 
         Button cashOutButton = (Button) view.findViewById(R.id.cashOutButton);
         TextView currentBalance = (TextView) view.findViewById(R.id.currentBalance);
         TextView minBalance = (TextView) view.findViewById(R.id.minBalance);
 
-        if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
-            cashOutButton.setEnabled(false);
-            minBalance.setVisibility(View.VISIBLE);
-
-            minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
-                    String.format(Locale.getDefault(), "%.0f", myAccount.getMinimalWithdrawAmount())));
+        if (myAccount.getBalance() >= myAccount.getMinimalWithdrawAmount()
+                && !myAccount.getCashoutRequested()) {
+            cashOutButton.setEnabled(true);
         } else {
             cashOutButton.setOnClickListener(this);
         }
 
+        if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
+            minBalance.setVisibility(View.VISIBLE);
+            minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
+                    String.format(Locale.getDefault(), "%.0f", myAccount.getMinimalWithdrawAmount())));
+        }
+
         currentBalance.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
                 myAccount.getCurrencySign()));
+    }
 
-        //apiFacade.getMyAccount(getActivity());
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
 
-        return view;
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                updateData();
+            } else {
+                UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+            }
+        }
     }
 
     @Override
@@ -91,5 +119,17 @@ public class CashingOutFragment extends Fragment implements OnClickListener {
         ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_title);
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        super.onStop();
     }
 }
