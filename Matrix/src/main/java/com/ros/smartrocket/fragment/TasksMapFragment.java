@@ -396,7 +396,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                         APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
                                 location.getLongitude(), address.getCountryName(), address.getLocality(), radius);
                     } else if (UIUtils.isOnline(getActivity())) {
-                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                        APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
+                                location.getLongitude(), "", "", radius);
+                        //UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                     }
                 }
             });

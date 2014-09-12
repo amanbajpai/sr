@@ -20,6 +20,8 @@ import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.util.Locale;
+
 /**
  * Share app info fragment
  */
@@ -50,7 +52,7 @@ public class CashingOutFragment extends Fragment implements OnClickListener {
             minBalance.setVisibility(View.VISIBLE);
 
             minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
-                    myAccount.getMinimalWithdrawAmount()));
+                    String.format(Locale.getDefault(), "%.0f", myAccount.getMinimalWithdrawAmount())));
         } else {
             cashOutButton.setOnClickListener(this);
         }

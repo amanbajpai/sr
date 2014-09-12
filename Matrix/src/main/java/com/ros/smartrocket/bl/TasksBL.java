@@ -99,7 +99,8 @@ public class TasksBL {
                         + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
                         + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
                         .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
-                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validation.getStatusId()
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validation.getStatusId() + ") or ("
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validated.getStatusId()
                         + "))",
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );

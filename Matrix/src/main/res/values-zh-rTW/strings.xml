@@ -33,7 +33,7 @@
     <string name="confirm_and_register" >註冊</string >
     <string name="cancel" >取消</string >
     <string name="cancel_big" >取消</string >
-    <string name="ok" >可以</string >
+    <string name="ok" >返回</string >
     <string name="show_password" >顯示密碼</string >
     <string name="password_validation_text" >你的密碼必須由8至16個字元所組成，並至少含有一個大寫的字母、一個小寫的字母、
         一個數字及一個特殊符號 （！、@、#、$等等）</string >
@@ -68,7 +68,7 @@
     <string name="hide_hidden_projects" >隱藏隱藏項目</string >
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at" >任務到期： %1$s</string >
-    <string name="no_mission_available" >你所在的地區暫時沒有任務。\n請稍后再回來。</string >
+    <string name="no_mission_available" >你所在的地區暫時沒有任務。\n請稍後再回來。</string >
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission" >重做。任務到期於： %1$s</string >
     <string name="send_latter_mission" >未提交。任務到期於： %1$s</string >
@@ -256,10 +256,10 @@
     <!-- QUIT QUESTION ACTIVITY -->
     <string name="quit_question_title" >放棄</string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
-    <string name="registration_subscribe_dialog_title" >確認</string >
-    <string name="registration_subscribe_dialog_text1" >感謝你對SmartRocket感興趣。</string >
-    <string name="registration_subscribe_dialog_text2" >當你所在的地區有可選擇任務的時候,我們將會以電郵通知你。欲知更多
-        關於SmartRocket的資料,請瀏覽以下網頁: <b >www.smart-rocket.com/about</b ></string >
+    <string name="registration_subscribe_dialog_title" >註冊確認</string >
+    <string name="registration_subscribe_dialog_text1" >感謝你對SmartRocket的支持。</string >
+    <string name="registration_subscribe_dialog_text2" >當你所在的地區有可選擇任務的時候，我們將會以電郵通知你。
+    欲知更多關於SmartRocket的資料，請瀏覽以下網頁： <b >www.smart-rocket.com/about</b ></string >
     <!-- SUBSCRIBE CONFIRMATION DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G上載上限警告</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >注意！ \n\n這個任務超越你目前所設定的每次任務3G上載上限。
@@ -368,4 +368,13 @@
     <string name="congratulations" >恭喜！</string >
     <string name="you_have_been_promoted" >你已獲晉升為\n&lt;b >%1$s（第%2$s級）&lt;/b ></string >
     <string name="you_have_been_promoted_ok" >繼續</string >
+
+    <!-- CASHING OUT FRAGMENT-->
+    <string name="cashing_out_title" >戶口餘額</string >
+    <string name="cashing_out_current_balance" >目前戶口餘額 -</string >
+    <string name="cashing_out_cash_out" >提款</string >
+    <string name="cashing_out_minimum_balance" >戶口餘額必須超過%1$s才能進行提款</string >
+    <string name="cashing_out_are_you_sure" >確定進行餘額提款？</string >
+    <string name="cashing_out_continue" >繼續</string >
+    <string name="cashing_out_success" >提款處理中</string >
 </resources >

@@ -375,4 +375,13 @@
     <string name="you_have_been_promoted" >您已获晉升为 \n&lt;b >%1$s (第%2$s级)&lt;/b
         ></string >
     <string name="you_have_been_promoted_ok" >继续</string >
+
+    <!-- CASHING OUT FRAGMENT-->
+    <string name="cashing_out_title" >账户余额</string >
+    <string name="cashing_out_current_balance" >您目前账户余额是 -</string >
+    <string name="cashing_out_cash_out" >提款</string >
+    <string name="cashing_out_minimum_balance" >您的账户余额必须超过 %1$s 才能进行提款</string >
+    <string name="cashing_out_are_you_sure" >您是否肯定进行余额提款？</string >
+    <string name="cashing_out_continue" >继续</string >
+    <string name="cashing_out_success" >您的提款正在处理</string >
 </resources >

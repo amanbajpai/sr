@@ -123,7 +123,9 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                                 apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
                                         address.getCountryName(), address.getLocality(), radius);
                             } else if (UIUtils.isOnline(getActivity())) {
-                                UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                                apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
+                                        "", "", radius);
+                                //UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
                             }
                         }
                     });

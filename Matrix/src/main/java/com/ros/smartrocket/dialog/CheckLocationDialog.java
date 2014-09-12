@@ -91,8 +91,10 @@ public class CheckLocationDialog extends Dialog {
                             address.getLatitude(), address.getLongitude());
 
                 } else if (UIUtils.isOnline(activity)) {
-                    UIUtils.showSimpleToast(activity, R.string.current_location_not_defined);
-                    dismiss();
+                    apiFacade.checkLocationForRegistration(activity, "", "",
+                            address.getLatitude(), address.getLongitude());
+                    //UIUtils.showSimpleToast(activity, R.string.current_location_not_defined);
+                    //dismiss();
                 }
             }
         });

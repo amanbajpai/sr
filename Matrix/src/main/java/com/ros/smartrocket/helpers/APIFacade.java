@@ -169,22 +169,18 @@ public class APIFacade {
 
     public void checkLocationForRegistration(Activity activity, String country, String city, double latitude,
                                              double longitude) {
-        if (!TextUtils.isEmpty(country) && !TextUtils.isEmpty(city)) {
-            CheckLocation checkLocationEntity = new CheckLocation();
-            checkLocationEntity.setCountry(country);
-            checkLocationEntity.setCity(city);
-            checkLocationEntity.setLatitude(latitude);
-            checkLocationEntity.setLongitude(longitude);
+        CheckLocation checkLocationEntity = new CheckLocation();
+        checkLocationEntity.setCountry(country);
+        checkLocationEntity.setCity(city);
+        checkLocationEntity.setLatitude(latitude);
+        checkLocationEntity.setLongitude(longitude);
 
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.CHECK_LOCATION);
-            operation.setTag(Keys.CHECK_LOCATION_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(checkLocationEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.current_location_not_defined);
-        }
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.CHECK_LOCATION);
+        operation.setTag(Keys.CHECK_LOCATION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(checkLocationEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     /**
@@ -226,11 +222,12 @@ public class APIFacade {
                          int radius) {
         if (activity != null && activity instanceof BaseActivity) {
             try {
+                String resultCountryName = !TextUtils.isEmpty(countryName) ? URLEncoder.encode(countryName, "UTF-8") : "";
+                String resultCityName = !TextUtils.isEmpty(countryName) ? URLEncoder.encode(cityName, "UTF-8") : "";
+
                 BaseOperation operation = new BaseOperation();
                 operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude),
-                        URLEncoder.encode(countryName, "UTF-8"),
-                        URLEncoder.encode(cityName, "UTF-8"), String.valueOf(radius),
-                        preferencesManager.getLanguageCode());
+                        resultCountryName, resultCityName, String.valueOf(radius), preferencesManager.getLanguageCode());
                 operation.setTag(Keys.GET_WAVES_OPERATION_TAG);
                 operation.setMethod(BaseOperation.Method.GET);
                 ((BaseActivity) activity).sendNetworkOperation(operation);
