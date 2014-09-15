@@ -7,6 +7,8 @@ public class CheckLocationResponse extends BaseEntity {
     private Integer CountryId;
     private Integer CityId;
     private Integer DistrictId;
+    private String Country;
+    private String City;
 
     public Boolean getStatus() {
         return Status;
@@ -38,6 +40,23 @@ public class CheckLocationResponse extends BaseEntity {
 
     public void setDistrictId(Integer districtId) {
         DistrictId = districtId;
+    }
+
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String country) {
+        Country = country;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
     }
 
 }

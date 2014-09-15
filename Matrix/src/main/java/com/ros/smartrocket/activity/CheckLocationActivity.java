@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import com.ros.smartrocket.Keys;
@@ -51,7 +52,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     checkLocationDialog = new CheckLocationDialog(this,
                             new CheckLocationDialog.CheckLocationListener() {
                                 @Override
-                                public void onLocationChecked(Dialog dialog, Address address,
+                                public void onLocationChecked(Dialog dialog, String countryName, String cityName,
                                                               CheckLocationResponse serverResponse) {
                                     Intent intent = new Intent(CheckLocationActivity.this, RegistrationActivity.class);
                                     if (getIntent().getExtras() != null) {
@@ -60,9 +61,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
 
                                     intent.putExtra(Keys.COUNTRY_ID, serverResponse.getCountryId());
                                     intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
-                                    intent.putExtra(Keys.COUNTRY_NAME, address.getCountryName());
+                                    intent.putExtra(Keys.COUNTRY_NAME, countryName);
+                                    intent.putExtra(Keys.CITY_NAME, cityName);
                                     intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
-                                    intent.putExtra(Keys.CITY_NAME, address.getLocality());
                                     startActivity(intent);
                                 }
 

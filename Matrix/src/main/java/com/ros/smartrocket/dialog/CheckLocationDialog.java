@@ -31,12 +31,13 @@ public class CheckLocationDialog extends Dialog {
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Activity activity;
-    private Address currentAddress;
     private ImageView statusImage;
     private TextView statusText;
     private boolean locationChecked = false;
     private CheckLocationResponse checkLocationResponse;
     private CheckLocationListener checkLocationListener;
+    private String countryName = "";
+    private String cityName = "";
 
     public CheckLocationDialog(final Activity activity, final CheckLocationListener checkLocationListener) {
         super(activity);
@@ -84,12 +85,7 @@ public class CheckLocationDialog extends Dialog {
         lm.getAddress(location, new MatrixLocationManager.IAddress() {
             @Override
             public void onUpdate(Address address) {
-                String countryName = "";
-                String cityName = "";
-
                 if (address != null) {
-                    currentAddress = address;
-
                     countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
                     cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
                 }
@@ -132,8 +128,13 @@ public class CheckLocationDialog extends Dialog {
                         @Override
                         public void run() {
                             if (locationChecked) {
+                                countryName = !TextUtils.isEmpty(checkLocationResponse.getCountry()) ?
+                                        checkLocationResponse.getCountry() : countryName;
+                                cityName = !TextUtils.isEmpty(checkLocationResponse.getCity()) ?
+                                        checkLocationResponse.getCity() : cityName;
+
                                 checkLocationListener.onLocationChecked(CheckLocationDialog.this,
-                                        currentAddress, checkLocationResponse);
+                                        countryName, cityName, checkLocationResponse);
                             } else {
                                 checkLocationListener.onCheckLocationFailed(CheckLocationDialog.this);
                             }
@@ -147,7 +148,8 @@ public class CheckLocationDialog extends Dialog {
     }
 
     public interface CheckLocationListener {
-        void onLocationChecked(Dialog dialog, Address address, CheckLocationResponse serverResponse);
+        void onLocationChecked(Dialog dialog, String countryName, String cityName,
+                               CheckLocationResponse serverResponse);
 
         void onCheckLocationFailed(Dialog dialog);
     }

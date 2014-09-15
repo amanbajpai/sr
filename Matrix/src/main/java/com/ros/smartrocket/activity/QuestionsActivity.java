@@ -63,7 +63,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private LinearLayout buttonsLayout;
     private Button previousButton;
     private Button nextButton;
-    private Button validationButton;
 
     private AsyncQueryHandler handler;
     private List<Question> questions;
@@ -103,9 +102,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
 
-        validationButton = (Button) findViewById(R.id.validationButton);
-        validationButton.setOnClickListener(this);
-
         TasksBL.getTaskFromDBbyID(handler, taskId);
 
         L.i(TAG, "Task id: " + taskId);
@@ -132,12 +128,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     if (isRedo) {
                         nextButton.setBackgroundResource(R.drawable.button_red_selector);
                         previousButton.setBackgroundResource(R.drawable.button_red_selector);
-                        validationButton.setBackgroundResource(R.drawable.button_red_selector);
 
                         int padding = UIUtils.getPxFromDp(QuestionsActivity.this, 10);
                         nextButton.setPadding(padding, padding, padding, padding);
                         previousButton.setPadding(padding, padding, padding, padding);
-                        validationButton.setPadding(padding, padding, padding, padding);
 
                         apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
                     } else {
@@ -186,13 +180,15 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
-            if (question != null) {
+            if (question != null && question.getType() != Question.QuestionType.validation.getTypeId()) {
                 preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, nextQuestionOrderId);
                 question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
                 QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
                 startFragment(question);
+            } else {
+                startValidationActivity();
             }
         }
     }
@@ -210,6 +206,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             startFragment(question);
         }
+    }
+
+    public void startValidationActivity() {
+        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
+
+        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true, isRedo));
+        finish();
     }
 
     public void startFragment(Question question) {
@@ -233,12 +236,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     UIUtils.showSimpleToast(this, getString(R.string.no_internet));
                 }
                 return;
-            } else if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.validation.getTypeId()) {
-                nextButton.setVisibility(View.GONE);
-                validationButton.setVisibility(View.VISIBLE);
-            } else {
-                nextButton.setVisibility(View.VISIBLE);
-                validationButton.setVisibility(View.GONE);
             }
 
             if (question.getShowBackButton() && question.getPreviousQuestionOrderId() != 0) {
@@ -321,26 +318,18 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 currentFragment.saveQuestion();
                 startNextQuestionFragment();
                 break;
-            case R.id.validationButton:
+           /* case R.id.validationButton:
                 currentFragment.saveQuestion();
                 startValidationActivity();
-                break;
+                break;*/
             default:
                 break;
         }
     }
 
-    public void startValidationActivity() {
-        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
-
-        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true, isRedo));
-        finish();
-    }
-
     @Override
     public void onAnswerSelected(Boolean selected) {
         nextButton.setEnabled(selected);
-        validationButton.setEnabled(selected);
     }
 
     @Override

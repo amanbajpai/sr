@@ -43,7 +43,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private Button loginButton;
     private Button registerButton;
     private Location currentLocation;
-    private Address currentAddress;
     private CustomProgressDialog progressDialog;
     private String countryName = "";
     private String cityName = "";
@@ -282,8 +281,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 cityName = "";
 
                 if (address != null) {
-                    currentAddress = address;
-
                     countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
                     cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
 
