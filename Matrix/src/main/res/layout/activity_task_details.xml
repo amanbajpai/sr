@@ -162,6 +162,7 @@
                     android:drawableLeft="@drawable/rocket_green"
                     custom:textStyle="bold" />
                 <View
+                    android:id="@+id/optionDivider"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"

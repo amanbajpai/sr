@@ -74,6 +74,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
     private TextView taskAddress;
+    private View optionDivider;
 
     private TextView locationName;
     private TextView taskDescription;
@@ -144,6 +145,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         textQuestionsCount = (TextView) findViewById(R.id.textQuestionsCount);
         photoQuestionsCount = (TextView) findViewById(R.id.photoQuestionsCount);
         taskDistance = (TextView) findViewById(R.id.taskDistance);
+        optionDivider = findViewById(R.id.optionDivider);
 
         descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
         addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
@@ -426,6 +428,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case claimed:
             case started:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
@@ -435,6 +438,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case pending:
             case scheduled:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.blue_light2));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.blue));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
@@ -443,6 +447,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case completed:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.grey_dark));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
@@ -451,6 +456,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case validation:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.grey_dark));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
@@ -460,6 +466,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case reDoTask:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.red));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.red_dark));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
@@ -470,6 +477,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case inPaymentProcess:
             case paid:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.orange));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.orange_dark));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_gold, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_gold, 0, 0, 0);
@@ -478,6 +486,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case rejected:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.black_light));
+                optionDivider.setBackgroundColor(getResources().getColor(R.color.black));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);

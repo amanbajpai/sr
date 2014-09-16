@@ -68,7 +68,6 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         if (myAccount.getBalance() >= myAccount.getMinimalWithdrawAmount()
                 && !myAccount.getCashoutRequested()) {
             cashOutButton.setEnabled(true);
-        } else {
             cashOutButton.setOnClickListener(this);
         }
 
