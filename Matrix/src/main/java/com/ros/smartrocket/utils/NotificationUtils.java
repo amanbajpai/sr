@@ -104,14 +104,14 @@ public class NotificationUtils {
 
             String presetValidationText = getStringForCurrentLang(messageObject.optJSONObject("PresetValidationText"));
             if (!TextUtils.isEmpty(presetValidationText)) {
-                presetValidationText = "&lt;br>&lt;br>" + presetValidationText;
+                presetValidationText = "<br><br>" + presetValidationText;
             } else {
                 presetValidationText = "";
             }
 
             String validationText = messageObject.optString("ValidationText");
             if (!TextUtils.isEmpty(validationText)) {
-                validationText = "&lt;br>&lt;br>" + validationText;
+                validationText = "<br><br>" + validationText;
             } else {
                 validationText = "";
             }
