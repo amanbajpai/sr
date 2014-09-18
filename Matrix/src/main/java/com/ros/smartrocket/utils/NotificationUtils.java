@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,22 +115,36 @@ public class NotificationUtils {
                 L.e(TAG, "Parse TaskName Error: " + e.getMessage(), e);
             }
 
+            String presetValidationText = messageObject.optString("PresetValidationText");
+            if (!TextUtils.isEmpty(presetValidationText)) {
+                presetValidationText = "&lt;br>&lt;br>" + presetValidationText;
+            } else {
+                presetValidationText = "";
+            }
+
             String validationText = messageObject.optString("ValidationText");
+            if (!TextUtils.isEmpty(validationText)) {
+                validationText = "&lt;br>&lt;br>" + validationText;
+            } else {
+                validationText = "";
+            }
+
             String locationName = messageObject.optString("LocationName");
             String missionAddress = messageObject.optString("MissionAddress");
             //String endDateTime = messageObject.optString("endDateTime");
 
             switch (TasksBL.getTaskStatusType(statusType)) {
                 case reDoTask:
-                    NotificationUtils.startRedoNotificationActivity(context, waveId, taskId, taskName,
-                            locationName, missionAddress);
+                    NotificationUtils.startRedoNotificationActivity(context, presetValidationText, validationText,
+                            waveId, taskId, taskName, locationName, missionAddress);
                     break;
                 case validated:
-                    NotificationUtils.startApprovedNotificationActivity(context, validationText, taskName, locationName,
-                            missionAddress);
+                    NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText,
+                            taskName, locationName, missionAddress);
                     break;
                 case rejected:
-                    NotificationUtils.startRejectNotificationActivity(context, validationText, taskName, locationName,
+                    NotificationUtils.startRejectNotificationActivity(context, presetValidationText, validationText,
+                            taskName, locationName,
                             missionAddress);
                     break;
                 default:
@@ -138,34 +153,6 @@ public class NotificationUtils {
         } catch (Exception e) {
             L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
         }
-    }
-
-    /**
-     * Start popup-notification about approved task
-     *
-     * @param context        - current context
-     * @param validationText - current validationText
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
-     */
-    public static void startApprovedNotificationActivity(Context context, String validationText, String missionName,
-                                                         String locationName, String missionAddress) {
-
-        Spanned notificationText = Html.fromHtml(context.getString(R.string.approved_mission_notification_text,
-                validationText, missionName, locationName, missionAddress));
-
-        Intent intent = new Intent(context, NotificationActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_approved.getId());
-        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.green);
-        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.confirm_icon);
-        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.approved_mission_notification_title));
-        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
-        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
-
-        context.startActivity(intent);
     }
 
     /**
@@ -178,11 +165,12 @@ public class NotificationUtils {
      * @param locationName   - current locationName
      * @param missionAddress - current missionAddress
      */
-    public static void startRedoNotificationActivity(Context context, int waveId, int taskId, String missionName,
+    public static void startRedoNotificationActivity(Context context, String presetValidationText,
+                                                     String validationText, int waveId, int taskId, String missionName,
                                                      String locationName, String missionAddress) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
-                missionName, locationName, missionAddress));
+                presetValidationText, validationText, missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -202,6 +190,35 @@ public class NotificationUtils {
     }
 
     /**
+     * Start popup-notification about approved task
+     *
+     * @param context        - current context
+     * @param validationText - current validationText
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
+    public static void startApprovedNotificationActivity(Context context, String presetValidationText,
+                                                         String validationText, String missionName,
+                                                         String locationName, String missionAddress) {
+
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.approved_mission_notification_text,
+                presetValidationText, validationText, missionName, locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_approved.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.green);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.confirm_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.approved_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+
+        context.startActivity(intent);
+    }
+
+    /**
      * Start popup-notification about reject task
      *
      * @param context        - current context
@@ -210,11 +227,12 @@ public class NotificationUtils {
      * @param locationName   - current locationName
      * @param missionAddress - current missionAddress
      */
-    public static void startRejectNotificationActivity(Context context, String validationText, String missionName,
+    public static void startRejectNotificationActivity(Context context, String presetValidationText,
+                                                       String validationText, String missionName,
                                                        String locationName, String missionAddress) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.reject_mission_notification_text,
-                validationText, missionName, locationName, missionAddress));
+                presetValidationText, validationText, missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

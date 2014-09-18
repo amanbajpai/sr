@@ -15,7 +15,8 @@
         如果您找不到我们的电邮，请查看垃圾邮件夹或向我们要求新的激活链接。</string >
     <string name="request_new_activation_link" >要求激活链接</string >
     <string name="user_not_found_error_text" >此用户不存在</string >
-    <string name="password_token_not_valid_error_text" >Password token not valid</string >
+    <string name="user_already_exists_error_text" >用户已经存在</string >
+    <string name="password_token_not_valid_error_text" >密码重设链接失效。 请重新重设密码。</string >
     <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >继续</string >
@@ -342,20 +343,20 @@
     &lt;br> 地址: &lt;b >%3$s&lt;/b ></string >
     <!--approved-->
     <string name="approved_mission_notification_title" >恭喜！</string >
-    <string name="approved_mission_notification_text" >以下的任务已经获得验证。&lt;br>&lt;br>%1$s
-        &lt;br>&lt;br>任务: &lt;b >%2$s&lt;/b > &lt;br>地点: &lt;b >%3$s&lt;/b >
-        &lt;br> 地址: &lt;b >%4$s&lt;/b >
+    <string name="approved_mission_notification_text" >以下的任务已经获得验证。%1$s%2$s
+        &lt;br>&lt;br>任务: &lt;b >%3$s&lt;/b > &lt;br>地点: &lt;b >%4$s&lt;/b >
+        &lt;br> 地址: &lt;b >%5$s&lt;/b >
     </string >
     <!--redo-->
     <string name="redo_mission_notification_title" >注意！</string >
-    <string name="redo_mission_notification_text" >以下的任务需要一些修改，因此还未获得认证。
-        &lt;br>&lt;br>任务: &lt;b >%1$s&lt;/b > &lt;br>地点: &lt;b >%2$s&lt;/b >
-    &lt;br> 地址: &lt;b >%3$s&lt;/b ></string >
+    <string name="redo_mission_notification_text" >以下的任务需要一些修改，因此还未获得认证。 %1$s%2$s
+        &lt;br>&lt;br>任务: &lt;b >%3$s&lt;/b > &lt;br>地点: &lt;b >%4$s&lt;/b >
+    &lt;br> 地址: &lt;b >%5$s&lt;/b ></string >
     <!--reject-->
     <string name="reject_mission_notification_title" >注意!</string >
     <string name="reject_mission_notification_text" >对不起。以下的任务被拒绝了。
-        &lt;br>&lt;br>%1$s&lt;br>&lt;br>任务: &lt;b >%2$s&lt;/b > &lt;br>地点: &lt;b >%3$s&lt;/b >
-        &lt;br> 地址: &lt;b >%4$s&lt;/b ></string >
+        %1$s%2$s&lt;br>&lt;br>任务: &lt;b >%3$s&lt;/b > &lt;br>地点: &lt;b >%4$s&lt;/b >
+        &lt;br> 地址: &lt;b >%5$s&lt;/b ></string >
     <!--deadline-->
     <string name="deadline_mission_notification_title" >注意！</string >
     <string name="deadline_mission_notification_text" >以下的任务将于 %1$s 过期。
@@ -375,7 +376,6 @@
     <string name="you_have_been_promoted" >您已获晉升为 \n&lt;b >%1$s (第%2$s级)&lt;/b
         ></string >
     <string name="you_have_been_promoted_ok" >继续</string >
-
     <!-- CASHING OUT FRAGMENT-->
     <string name="cashing_out_title" >账户余额</string >
     <string name="cashing_out_current_balance" >您目前账户余额是 -</string >

@@ -312,7 +312,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public static void setDefaultLanguage(Context context, String languageCode) {
         Configuration config = context.getResources().getConfiguration();
 
-        if (languageCode.equals("zh_CN")) {
+        if (languageCode.equals("zh_CN") || languageCode.equals("en_SG")) {
             config.locale = Locale.SIMPLIFIED_CHINESE;
         } else if (languageCode.equals("zh_TW")) {
             config.locale = Locale.TRADITIONAL_CHINESE;

@@ -3,7 +3,6 @@ package com.ros.smartrocket.activity;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -74,8 +73,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
                 UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
                 UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));
 
-                if (TextUtils.isEmpty(countryName) || TextUtils.isEmpty(cityName) || !UIUtils.isEmailValid(email)
-                        || latitude == null || longitude == null) {
+                if (!UIUtils.isEmailValid(email) || latitude == null || longitude == null) {
                     break;
                 }
 
