@@ -100,22 +100,9 @@ public class NotificationUtils {
             int waveId = messageObject.optInt("WaveId");
             int taskId = messageObject.optInt("TaskId");
 
-            String taskName = "";
-            try {
-                JSONObject taskNameObject = messageObject.optJSONObject("TaskName");
-                String languageCode = PreferencesManager.getInstance().getLanguageCode();
+            String taskName = getStringForCurrentLang(messageObject.optJSONObject("TaskName"));
 
-                if (taskNameObject.has(languageCode)) {
-                    taskName = taskNameObject.optString(languageCode);
-                } else {
-                    Iterator<String> iter = taskNameObject.keys();
-                    taskName = taskNameObject.optString(iter.next());
-                }
-            } catch (Exception e) {
-                L.e(TAG, "Parse TaskName Error: " + e.getMessage(), e);
-            }
-
-            String presetValidationText = messageObject.optString("PresetValidationText");
+            String presetValidationText = getStringForCurrentLang(messageObject.optJSONObject("PresetValidationText"));
             if (!TextUtils.isEmpty(presetValidationText)) {
                 presetValidationText = "&lt;br>&lt;br>" + presetValidationText;
             } else {
@@ -153,6 +140,30 @@ public class NotificationUtils {
         } catch (Exception e) {
             L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Get localized string
+     *
+     * @param stringJsonObject - json object to separate
+     */
+
+    public static String getStringForCurrentLang(JSONObject stringJsonObject) {
+        String resultString = "";
+        try {
+            String languageCode = PreferencesManager.getInstance().getLanguageCode();
+
+            if (stringJsonObject.has(languageCode)) {
+                resultString = stringJsonObject.optString(languageCode);
+            } else {
+                Iterator<String> iter = stringJsonObject.keys();
+                resultString = stringJsonObject.optString(iter.next());
+            }
+        } catch (Exception e) {
+            L.e(TAG, "Parse object Error: " + e.getMessage(), e);
+        }
+
+        return resultString;
     }
 
     /**
