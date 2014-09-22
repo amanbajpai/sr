@@ -184,7 +184,7 @@ public class SelectImageManager {
                         lastFile = copyFileToTempFolder(activity, new File(fileUri));
                         lastFileFromGallery = true;
 
-                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, false);
+                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
                     }
                 }
             }
