@@ -16,7 +16,7 @@
     <string name="request_new_activation_link" >要求激活链接</string >
     <string name="user_not_found_error_text" >此用户不存在</string >
     <string name="user_already_exists_error_text" >用户已经存在</string >
-    <string name="password_token_not_valid_error_text" >密码重设链接失效。 请重新重设密码。</string >
+    <string name="password_token_not_valid_error_text" >请使用最新建立的密码重設链接</string >
     <string name="zero" >0</string >
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register" >继续</string >

@@ -15,7 +15,6 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
 import java.util.Timer;
@@ -122,10 +121,18 @@ public class TaskReminderService extends Service {
                         int type = (Integer) cookie;
                         if (COOKIE_DEADLINE_REMINDER == type) {
                             L.i(TAG, "Show Deadline reminder dialog");
-                            long endDateTimeInMilliseconds = UIUtils.isoTimeToLong(task.getEndDateTime());
+
+                            long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+                            long missionDueMillisecond;
+
+                            if (task.getStatusId() == Task.TaskStatusId.reDoTask.getStatusId()) {
+                                missionDueMillisecond = task.getLongRedoDateTime() + timeoutInMillisecond;
+                            } else {
+                                missionDueMillisecond = task.getLongClaimDateTime() + timeoutInMillisecond;
+                            }
 
                             NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
-                                    endDateTimeInMilliseconds,
+                                    missionDueMillisecond,
                                     task.getWaveId(), task.getId(),
                                     task.getName(), task.getCountryName(), task.getAddress(), task.getStatusId());
 

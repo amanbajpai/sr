@@ -620,15 +620,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
             String[] taskData = marker.getSnippet().split("_");
             int taskId = Integer.valueOf(taskData[0]);
-            int waveId = Integer.valueOf(taskData[1]);
+            //int waveId = Integer.valueOf(taskData[1]);
             int taskStatusId = Integer.valueOf(taskData[2]);
 
             switch (TasksBL.getTaskStatusType(taskStatusId)) {
-                case none:
-                case claimed:
-                case started:
-                    startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
-                    break;
                 case scheduled:
                     startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false, false));
                     break;
@@ -636,6 +631,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
                     break;
                 default:
+                    startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
                     return true;
             }
 
