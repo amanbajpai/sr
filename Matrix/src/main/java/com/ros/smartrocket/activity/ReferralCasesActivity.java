@@ -81,16 +81,23 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                         R.id.name, referralCasesStringArray);
                 referralCasesSpinner.setAdapter(educationLevelAdapter);
                 continueButton.setEnabled(true);
+
             } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-                startCheckLocationActivity();
+                startCheckLocationActivity(referralCaseArray[referralCasesSpinner
+                        .getSelectedItemPosition()].getId());
             }
         } else {
-            startCheckLocationActivity();
+            startCheckLocationActivity(-1);
         }
     }
 
-    public void startCheckLocationActivity() {
+    public void startCheckLocationActivity(int referralCasesId) {
         Intent intent = new Intent(this, CheckLocationActivity.class);
+
+        if (referralCasesId != -1) {
+            intent.putExtra(Keys.REFERRAL_CASES_ID, referralCasesId);
+        }
+
         if (getIntent().getExtras() != null) {
             intent.putExtras(getIntent().getExtras());
         }

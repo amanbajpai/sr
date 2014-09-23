@@ -135,12 +135,12 @@ public class UIUtils {
     /**
      * Hide soft keyboard
      *
-     * @param activity - current activity
+     * @param context - current activity
      * @param editText
      */
 
-    public static void hideSoftKeyboard(Activity activity, EditText editText) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+    public static void hideSoftKeyboard(Context context, EditText editText) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 

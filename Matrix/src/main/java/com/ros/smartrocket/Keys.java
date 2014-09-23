@@ -109,6 +109,7 @@ public interface Keys {
     String WAVE_ID = "wave_id";
 
     //Location
+    String REFERRAL_CASES_ID = "referral_cases_id";
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";
     String COUNTRY_ID = "country_id";

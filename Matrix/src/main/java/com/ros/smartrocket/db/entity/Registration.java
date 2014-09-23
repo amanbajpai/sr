@@ -10,6 +10,7 @@ public class Registration extends BaseEntity {
     private Integer Gender;
     private Integer EducationLevel;
     private Integer EmploymentStatus;
+    private Integer ReferralId;
     private String Birthday;
     private Integer DistrictId;
     private Integer CountryId;
@@ -150,4 +151,14 @@ public class Registration extends BaseEntity {
     public void setDistrictId(Integer districtId) {
         DistrictId = districtId;
     }
+
+
+    public Integer getReferralId() {
+        return ReferralId;
+    }
+
+    public void setReferralId(Integer referralId) {
+        ReferralId = referralId;
+    }
+
 }

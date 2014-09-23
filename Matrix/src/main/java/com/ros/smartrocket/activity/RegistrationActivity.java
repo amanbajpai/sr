@@ -63,6 +63,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private TextView passwordValidationText;
     private CheckBox agreeCheckBox;
     private Long selectedBirthDay = null;
+    private int referralCasesId;
     private int districtId;
     private int countryId;
     private int cityId;
@@ -96,6 +97,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             groupCode = getIntent().getStringExtra(Keys.GROUP_CODE);
             latitude = getIntent().getDoubleExtra(Keys.LATITUDE, 0);
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
+            referralCasesId = getIntent().getIntExtra(Keys.REFERRAL_CASES_ID, 0);
         }
 
         String[] educationLevel = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
@@ -278,6 +280,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setEducationLevel(educationLevel);
                 registrationEntity.setEmploymentStatus(employmentStatus);
                 registrationEntity.setTermsAndConditionsVersion(currentTermsAndConditionsVersion);
+                registrationEntity.setReferralId(referralCasesId);
 
                 if (photoBitmap != null) {
                     registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));

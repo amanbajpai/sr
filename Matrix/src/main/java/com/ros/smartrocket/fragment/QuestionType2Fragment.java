@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.ros.smartrocket.Keys;
@@ -22,6 +23,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Fragment for display About information
@@ -135,6 +137,11 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         Answer answer = adapter.getItem(position);
         answer.toggleChecked();
         adapter.notifyDataSetChanged();
+
+        if (Integer.valueOf(answer.getValue()) < 1000) {
+            EditText editText = (EditText) item.findViewById(R.id.otherAnswerEditText);
+            UIUtils.hideSoftKeyboard(getActivity(), editText);
+        }
 
         refreshNextButton();
     }

@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.utils.UIUtils;
 
 public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter {
     private Answer[] answers;
