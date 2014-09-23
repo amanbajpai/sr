@@ -133,21 +133,21 @@ public class TasksBL {
         String betweenClaimedTime = "("
                 + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
                 + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
-                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + fromTime + " and ("
+                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") >= " + fromTime + " and ("
                 + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
                 .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") < " + tillTime + ") ";
 
         String betweenReDoTime = "("
                 + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
                 + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
-                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + fromTime + " and ("
+                .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") >= " + fromTime + " and ("
                 + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
                 .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") < " + tillTime + ") ";
 
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, coockie, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and "
-                        + betweenClaimedTime + " and "
-                        + betweenReDoTime + " and "
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and ("
+                        + betweenClaimedTime + " or "
+                        + betweenReDoTime + ") and "
                         + " ("
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or "
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or "
