@@ -442,4 +442,29 @@ public class DialogUtils {
 
         return dialog;
     }
+
+    /**
+     * Turn on Wi-Fi or change settings dialog
+     *
+     * @param context - current context
+     */
+    public static Dialog showTurnOnWifiDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
+                context.getText(R.string.turn_on_wifi_dialog_title),
+                context.getText(R.string.turn_on_wifi_dialog_text1),
+                0, R.string.turn_on_wifi_dialog_ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+
+        return dialog;
+    }
 }

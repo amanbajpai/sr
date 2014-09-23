@@ -378,4 +378,9 @@
     <string name="cashing_out_are_you_sure" >確定進行餘額提款？</string >
     <string name="cashing_out_continue" >繼續</string >
     <string name="cashing_out_success" >提款處理中</string >
+    <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
+    <string name="turn_on_wifi_dialog_title" >注意！</string >
+    <string name="turn_on_wifi_dialog_text1" >任務暫時未能提交。請回到有Wifi覆蓋的範圍，或於設定内取消“只透過WiFi傳送數據”，
+        然後於“我的任務”再次提交這個任務。</string >
+    <string name="turn_on_wifi_dialog_ok" >繼續</string >
 </resources >

@@ -384,4 +384,9 @@
     <string name="cashing_out_are_you_sure" >您是否肯定进行余额提款？</string >
     <string name="cashing_out_continue" >继续</string >
     <string name="cashing_out_success" >您的提款正在处理</string >
+    <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
+    <string name="turn_on_wifi_dialog_title" >注意！</string >
+    <string name="turn_on_wifi_dialog_text1" >任务暂时未能提交。请回到有无线上网(Wifi)覆盖的范围，
+        或前往设定取消“必须使用无线上网传送数据”，然后前往“我的任务”再次尝试提交这个任务。</string >
+    <string name="turn_on_wifi_dialog_ok" >继续</string >
 </resources >

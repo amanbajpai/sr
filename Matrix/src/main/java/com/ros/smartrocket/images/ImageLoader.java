@@ -127,11 +127,13 @@ public class ImageLoader {
     }
 
     public void loadBitmap(String url, int sizeType, OnFetchCompleteListener onFetchCompleteListener) {
-        Bitmap bitmap = memoryCache.get(url);
-        if (bitmap != null) {
-            onFetchCompleteListener.onFetchComplete(bitmap);
-        } else {
-            executorService.submit(new BitmapLoader(url, sizeType, onFetchCompleteListener));
+        if (!TextUtils.isEmpty(url)) {
+            Bitmap bitmap = memoryCache.get(url);
+            if (bitmap != null) {
+                onFetchCompleteListener.onFetchComplete(bitmap);
+            } else {
+                executorService.submit(new BitmapLoader(url, sizeType, onFetchCompleteListener));
+            }
         }
     }
 
@@ -175,7 +177,9 @@ public class ImageLoader {
     }
 
     public void getFileByUrlAsync(final String fileUrl, final OnFileLoadCompleteListener loadFileListener) {
-        new GetFileAsyncTask(fileUrl, loadFileListener).execute();
+        if (!TextUtils.isEmpty(fileUrl)) {
+            new GetFileAsyncTask(fileUrl, loadFileListener).execute();
+        }
     }
 
     public class GetFileAsyncTask extends AsyncTask<Void, Integer, File> {

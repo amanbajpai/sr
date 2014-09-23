@@ -165,12 +165,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                setSupportProgressBarIndeterminateVisibility(true);
-
                 task.setStartedStatusSent(true);
                 TasksBL.updateTask(handler, task);
 
-                apiFacade.sendAnswers(this, answerListToSend);
+                sendTextAnswers();
 
             } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
                 sendAnswerTextsSuccess();
@@ -238,7 +236,16 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 }
             });
         }
+    }
 
+    public void sendTextAnswers() {
+        if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
+            setSupportProgressBarIndeterminateVisibility(true);
+
+            apiFacade.sendAnswers(this, answerListToSend);
+        } else {
+            DialogUtils.showTurnOnWifiDialog(this);
+        }
     }
 
     private void sendAnswerTextsSuccess() {
@@ -294,11 +301,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.sendNowButton:
-                setSupportProgressBarIndeterminateVisibility(true);
 
                 if (task.getStartedStatusSent()) {
-                    apiFacade.sendAnswers(this, answerListToSend);
+                    sendTextAnswers();
                 } else {
+                    setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.startTask(this, task.getId());
                 }
                 break;
