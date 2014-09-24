@@ -20,7 +20,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -32,12 +32,6 @@ import java.io.IOException;
  * app.
  */
 public final class CommonUtilities {
-
-    /**
-     * Google API project id registered to use GCM.
-     */
-    public static final String SENDER_ID = Keys.GCM_ID;
-
     /**
      * Intent used to display a message in the screen.
      */
@@ -82,7 +76,7 @@ public final class CommonUtilities {
             protected String doInBackground(Void... params) {
                 try {
                     GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(App.getInstance());
-                    String regId = gcm.register(CommonUtilities.SENDER_ID);
+                    String regId = gcm.register(Config.GCM_SENDER_ID);
                     L.i(TAG, "Device registered, registration ID=" + regId);
 
                     // You should send the registration ID to your server over HTTP,

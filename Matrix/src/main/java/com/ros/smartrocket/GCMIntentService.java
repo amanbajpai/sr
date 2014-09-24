@@ -23,7 +23,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     private APIFacade apiFacade = APIFacade.getInstance();
 
     public GCMIntentService() {
-        super(CommonUtilities.SENDER_ID);
+        super(Config.GCM_SENDER_ID);
     }
 
     @Override

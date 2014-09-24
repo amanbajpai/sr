@@ -10,7 +10,9 @@ public class Config {
     }
 
     public static final Environment ENV = Environment.DEVELOPMENT;
-    public static final String GOOGLE_API_KEY = "AIzaSyCYvxgzDYHQqH3pUBAH3XXPOJMprRYGwfU";
+    public static final String ANDROID_API_KEY = "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI";
+    public static final String SERVER_API_KEY = "AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM";
+    public static final String GCM_SENDER_ID = "318949058113";
     public static final String CACHE_PREFIX_DIR = "/Android/data/com.ros.smartrocket/cache/";
 
     public static final String APP_VERSION;

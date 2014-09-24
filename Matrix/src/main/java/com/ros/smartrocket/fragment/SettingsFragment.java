@@ -314,7 +314,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         if (languageCode.equals("zh_CN") || languageCode.equals("en_SG")) {
             config.locale = Locale.SIMPLIFIED_CHINESE;
-        } else if (languageCode.equals("zh_TW")) {
+        } else if (languageCode.equals("zh_TW") || languageCode.equals("zh_HK")) {
             config.locale = Locale.TRADITIONAL_CHINESE;
         } else {
             config.locale = new Locale(languageCode);
