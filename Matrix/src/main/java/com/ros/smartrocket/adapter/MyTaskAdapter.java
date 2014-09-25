@@ -108,7 +108,8 @@ public class MyTaskAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(task.getLocationName()) || !TextUtils.isEmpty(task.getAddress())) {
             holder.locationName.setText(task.getLocationName() + " " + task.getAddress());
         }
-        holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign()));
+        holder.taskPrice.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign(),
+                null, null));
         holder.taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
         holder.textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
         holder.photoQuestionsCount.setText(String.valueOf(task.getPhotoQuestionsCount()));

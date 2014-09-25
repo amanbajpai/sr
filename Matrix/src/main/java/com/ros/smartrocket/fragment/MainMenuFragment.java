@@ -45,6 +45,8 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.math.BigDecimal;
+
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -157,7 +159,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         nameTextView.setText(myAccount.getName());
         balanceTextView.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
-                myAccount.getCurrencySign()));
+                myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
         minLevelExperience.setText(String.valueOf(myAccount.getMinLevelExperience()));
         maxLevelExperience.setText(String.valueOf(myAccount.getMaxLevelExperience()));

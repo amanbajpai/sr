@@ -135,7 +135,7 @@ public class UIUtils {
     /**
      * Hide soft keyboard
      *
-     * @param context - current activity
+     * @param context  - current activity
      * @param editText
      */
 
@@ -659,8 +659,15 @@ public class UIUtils {
      * @param balance - current balance
      * @return String
      */
-    public static String getBalanceOrPrice(Context context, Double balance, String symbol) {
+    public static String getBalanceOrPrice(Context context, Double balance, String symbol, Integer precision,
+                                           Integer roundingMode) {
         String result = symbol + " ";
+        if (precision != null && roundingMode != null) {
+            result = result + String.format(Locale.getDefault(), "%." + precision + "f",
+                    round(balance, precision, roundingMode));
+        } else {
+            result = result + balance;
+        }
         /*String balanceString = String.valueOf(balance);
         int countAfterPoint = balanceString.substring(balanceString.lastIndexOf(".")+1,
                 balanceString.length()).length();
@@ -669,7 +676,7 @@ public class UIUtils {
         } else {
             result = result + String.format(Locale.US, "%.0f", balance);
         }*/
-        return result + balance;
+        return result;
     }
 
     public static void setActionBarBackground(ActionBarActivity activity, int statusId) {

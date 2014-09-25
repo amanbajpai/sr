@@ -121,7 +121,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
 
-        projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice(), wave.getNearTaskCurrencySign()));
+        projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice(), wave.getNearTaskCurrencySign(),
+                null, null));
         projectExp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
         projectLocations.setText(String.valueOf(wave.getTaskCount()));
         textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));

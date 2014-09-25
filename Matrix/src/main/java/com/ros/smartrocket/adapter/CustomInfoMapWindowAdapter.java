@@ -54,7 +54,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
             UIUtils.showWaveTypeIcon(activity, typeIcon, task.getIcon());
 
             title.setText(task.getName());
-            priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign()));
+            priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign(), null, null));
             pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
             distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(),
                     R.string.map_popup_distance, false));

@@ -299,7 +299,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeText.setText(task.getIsMy() ? R.string.mission_due : R.string.deadline_time);
         expireText.setText(task.getIsMy() ? R.string.due_in : R.string.duration_time);
 
-        taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice(), task.getCurrencySign()));
+        taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice(), task.getCurrencySign(), null, null));
         textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
         photoQuestionsCount.setText(String.valueOf(task.getPhotoQuestionsCount()));
         taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));

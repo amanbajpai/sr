@@ -27,7 +27,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.Locale;
+import java.math.BigDecimal;
 
 /**
  * Share app info fragment
@@ -74,11 +74,13 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
             minBalance.setVisibility(View.VISIBLE);
             minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
-                    String.format(Locale.getDefault(), "%.0f", myAccount.getMinimalWithdrawAmount())));
+                    UIUtils.getBalanceOrPrice(getActivity(), myAccount.getMinimalWithdrawAmount(),
+                            myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN)
+            ));
         }
 
         currentBalance.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
-                myAccount.getCurrencySign()));
+                myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
     }
 
     @Override
