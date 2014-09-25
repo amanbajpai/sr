@@ -262,7 +262,7 @@
     <string name="registration_subscribe_dialog_title" >注册确认</string >
     <string name="registration_subscribe_dialog_text1" >感谢您对智慧飞船感兴趣。</string >
     <string name="registration_subscribe_dialog_text2" >当您所在的地区有可选择任务的时候，我们将会向您发送通知邮件。
-        欲知更多关于智慧飞船的信息，请访问以下网页： <b >www.smart-rocket.com/about</b ></string >
+        欲知更多关于智慧飞船的信息，请访问以下网页： <b >www.smart-rocket.com</b ></string >
     <!-- TREE G LIMIT DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G上载上限警告</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >注意！ \n\n这个任务将超越您所目前设定的每次任务3G上载上限。您选择继续吗？

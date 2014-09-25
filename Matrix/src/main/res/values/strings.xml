@@ -278,7 +278,7 @@
     <string name="registration_subscribe_dialog_text1" >Thank you for your interest in SmartRocket.</string >
     <string name="registration_subscribe_dialog_text2" >We will send you an email letting you know when we have
         missions available in your area. For more information on SmartRocket, please visit:
-        <b >www.smart-rocket.com/about</b ></string >
+        <b >www.smart-rocket.com</b ></string >
     <!-- TREE G LIMIT DIALOG -->
     <string name="tree_g_limit_exceeded_dialog_title" >3G upload limit warning</string >
     <string name="tree_g_limit_exceeded_dialog_text1" >Attention! \n\nThis mission exceeds your current 3G upload per
