@@ -661,13 +661,16 @@ public class UIUtils {
      */
     public static String getBalanceOrPrice(Context context, Double balance, String symbol, Integer precision,
                                            Integer roundingMode) {
-        String result = symbol + " ";
-        if (precision != null && roundingMode != null) {
-            result = result + String.format(Locale.getDefault(), "%." + precision + "f",
-                    round(balance, precision, roundingMode));
-        } else {
-            result = result + balance;
+        String result = null;
+        if (balance != null && precision != null && roundingMode != null) {
+            balance = round(balance, precision, roundingMode);
+            result = symbol + " " + String.format(Locale.getDefault(), "%." + precision + "f", balance);
         }
+
+        if (TextUtils.isEmpty(result)) {
+            result = symbol + " " + balance;
+        }
+
         /*String balanceString = String.valueOf(balance);
         int countAfterPoint = balanceString.substring(balanceString.lastIndexOf(".")+1,
                 balanceString.length()).length();
