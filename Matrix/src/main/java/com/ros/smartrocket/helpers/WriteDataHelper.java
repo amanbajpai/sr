@@ -37,7 +37,6 @@ public class WriteDataHelper {
 
         preferencesManager.clearAll();
 
-        SettingsFragment.setCurrentLanguage();
         preferencesManager.setDefaultRadius(taskRadius);
         preferencesManager.setLastEmail(lastEmail);
         preferencesManager.setLastPassword(lastPassword);
@@ -53,6 +52,8 @@ public class WriteDataHelper {
         preferencesManager.setDeadlineReminderMillisecond(deadlineReminderMillisecond);
         preferencesManager.set3GUploadTaskLimit(uploadTaskLimit);
         preferencesManager.set3GUploadMonthLimit(uploadMonthLimit);
+
+        SettingsFragment.setCurrentLanguage();
 
         WavesBL.removeAllWavesFromDB(context);
         TasksBL.removeAllTasksFromDB(context);

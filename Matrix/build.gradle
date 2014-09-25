@@ -63,12 +63,14 @@ android {
             applicationIdSuffix ""
             zipAlign false
             runProguard false
+            debuggable true
             proguardFile file('configs/proguard-project-debug.txt')
         }
 
         release {
             zipAlign false
             runProguard false
+            debuggable false
             proguardFile 'configs/proguard-project-release.txt'
         }
     }
