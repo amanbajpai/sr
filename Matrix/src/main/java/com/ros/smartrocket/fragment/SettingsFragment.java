@@ -42,8 +42,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK"};
-    public static String[] SUPPORTED_LANGUAGE = new String[]{"English", "中文（简体）",
-            "中文（繁體）"};
+    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
+    public static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）"};
     public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
     public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
     public static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
@@ -131,12 +131,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
 
         ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.list_item_single_line_spinner, R.id.name, SUPPORTED_LANGUAGE);
+                R.layout.list_item_single_line_spinner, R.id.name, VISIBLE_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
         int selectedItemPosition = 0;
-        for (int i = 0; i < SUPPORTED_LANGS_CODE.length; i++) {
-            if (SUPPORTED_LANGS_CODE[i].equals(currentLanguageCode)) {
+        for (int i = 0; i < VISIBLE_LANGS_CODE.length; i++) {
+            if (VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
                 selectedItemPosition = i;
                 break;
             }
@@ -257,7 +257,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.languageSpinner:
-                String selectedLanguageCode = SUPPORTED_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
+                String selectedLanguageCode = VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
                 boolean languageChanged = !preferencesManager.getLanguageCode().equals(selectedLanguageCode);
 
                 preferencesManager.setLanguageCode(selectedLanguageCode);
@@ -314,7 +314,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         if (languageCode.equals("zh_CN") || languageCode.equals("en_SG")) {
             config.locale = Locale.SIMPLIFIED_CHINESE;
-        } else if (languageCode.equals("zh_TW") || languageCode.equals("zh_HK")) {
+        } else if (languageCode.equals("zh") || languageCode.equals("zh_TW") || languageCode.equals("zh_HK")) {
             config.locale = Locale.TRADITIONAL_CHINESE;
         } else {
             config.locale = new Locale(languageCode);
