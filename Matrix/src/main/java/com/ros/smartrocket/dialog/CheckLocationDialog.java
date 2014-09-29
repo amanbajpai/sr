@@ -128,10 +128,10 @@ public class CheckLocationDialog extends Dialog {
                         @Override
                         public void run() {
                             if (locationChecked) {
-                                countryName = !TextUtils.isEmpty(checkLocationResponse.getCountry()) ?
-                                        checkLocationResponse.getCountry() : countryName;
-                                cityName = !TextUtils.isEmpty(checkLocationResponse.getCity()) ?
-                                        checkLocationResponse.getCity() : cityName;
+                                countryName = !TextUtils.isEmpty(checkLocationResponse.getCountryName()) ?
+                                        checkLocationResponse.getCountryName() : countryName;
+                                cityName = !TextUtils.isEmpty(checkLocationResponse.getCityName()) ?
+                                        checkLocationResponse.getCityName() : cityName;
 
                                 checkLocationListener.onLocationChecked(CheckLocationDialog.this,
                                         countryName, cityName, checkLocationResponse);
