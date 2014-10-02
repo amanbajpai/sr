@@ -172,7 +172,7 @@ public class QuestionsBL {
      * @return QuestionType
      */
     public static Question.QuestionType getQuestionType(int typeId) {
-        Question.QuestionType result = Question.QuestionType.none;
+        Question.QuestionType result = Question.QuestionType.NONE;
         for (Question.QuestionType type : Question.QuestionType.values()) {
             if (type.getTypeId() == typeId) {
                 result = type;

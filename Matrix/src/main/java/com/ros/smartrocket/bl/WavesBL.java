@@ -65,8 +65,8 @@ public class WavesBL {
                 task.setDescription(wave.getDescription());
                 task.setExperienceOffer(wave.getExperienceOffer());
                 task.setStartedStatusSent(task.getStatusId() != null
-                        && Task.TaskStatusId.none.getStatusId() != task.getStatusId()
-                        && Task.TaskStatusId.claimed.getStatusId() != task.getStatusId());
+                        && Task.TaskStatusId.NONE.getStatusId() != task.getStatusId()
+                        && Task.TaskStatusId.CLAIMED.getStatusId() != task.getStatusId());
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
                 task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
@@ -142,7 +142,7 @@ public class WavesBL {
     }
 
     public static Wave.WaveTypes getWaveType(int typeId) {
-        Wave.WaveTypes result = Wave.WaveTypes.none;
+        Wave.WaveTypes result = Wave.WaveTypes.NONE;
         for (Wave.WaveTypes type : Wave.WaveTypes.values()) {
             if (type.getId() == typeId) {
                 result = type;

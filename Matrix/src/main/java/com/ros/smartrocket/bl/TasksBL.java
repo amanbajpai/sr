@@ -93,14 +93,14 @@ public class TasksBL {
 
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and (("
-                        + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                        + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("
                         + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
                         .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
-                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("
                         + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
                         .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
-                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validation.getStatusId() + ") or ("
-                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validated.getStatusId()
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATION.getStatusId() + ") or ("
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATED.getStatusId()
                         + "))",
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
@@ -111,34 +111,34 @@ public class TasksBL {
 
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and (("
-                        + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                        + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("
                         + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
                         .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") " +
-                        " or (" + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() +
+                        " or (" + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.RE_DO_TASK.getStatusId() +
                         " and ("
                         + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
                         .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") > " + currentTime + ") or ("
-                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.validation.getStatusId()
+                        + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATION.getStatusId()
                         + ")) and "
-                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.completed.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.validated.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.inPaymentProcess.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.paid.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.rejected.getStatusId(),
+                        + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.COMPLETED.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.VALIDATED.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.IN_PAYMENT_PROCESS.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.PAID.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.REJECTED.getStatusId(),
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
     }
 
     public static void getTaskToRemindFromDB(AsyncQueryHandler handler, int coockie, long fromTime, long tillTime) {
         String betweenClaimedTime = "("
-                + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("
                 + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
                 .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") >= " + fromTime + " and ("
                 + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
                 .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") < " + tillTime + ") ";
 
         String betweenReDoTime = "("
-                + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.reDoTask.getStatusId() + " and ("
+                + TaskDbSchema.Columns.STATUS_ID + " = " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("
                 + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
                 .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") >= " + fromTime + " and ("
                 + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
@@ -149,10 +149,10 @@ public class TasksBL {
                         + betweenClaimedTime + " or "
                         + betweenReDoTime + ") and "
                         + " ("
-                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.claimed.getStatusId() + " or "
-                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.started.getStatusId() + " or "
-                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.reDoTask.getStatusId() + " or "
-                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.scheduled.getStatusId() + ") ",
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.CLAIMED.getStatusId() + " or "
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.STARTED.getStatusId() + " or "
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " or "
+                        + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.SCHEDULED.getStatusId() + ") ",
                 null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1
         );
     }
@@ -288,7 +288,7 @@ public class TasksBL {
     }
 
     public static Task.TaskStatusId getTaskStatusType(int statusId) {
-        Task.TaskStatusId result = Task.TaskStatusId.none;
+        Task.TaskStatusId result = Task.TaskStatusId.NONE;
         for (Task.TaskStatusId status : Task.TaskStatusId.values()) {
             if (status.getStatusId() == statusId) {
                 result = status;
@@ -303,7 +303,7 @@ public class TasksBL {
         String[] projection = {Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName()};
 
         Cursor scheduledTasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
-                TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.scheduled.getStatusId(),
+                TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.SCHEDULED.getStatusId(),
                 null, null);
 
         //Get tasks with 'scheduled' status id
@@ -312,7 +312,7 @@ public class TasksBL {
             while (scheduledTasksCursor.moveToNext()) {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(TaskDbSchema.Columns.STATUS_ID.getName(),
-                        Task.TaskStatusId.scheduled.getStatusId());
+                        Task.TaskStatusId.SCHEDULED.getStatusId());
 
                 scheduledContentValuesMap.put(scheduledTasksCursor.getInt(0), contentValues);
             }

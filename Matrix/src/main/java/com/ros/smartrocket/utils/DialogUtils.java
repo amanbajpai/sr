@@ -323,7 +323,7 @@ public class DialogUtils {
 
             @Override
             public void onQuiteTaskButtonPressed(Dialog dialog) {
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.STARTED.getStatusId());
 
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);

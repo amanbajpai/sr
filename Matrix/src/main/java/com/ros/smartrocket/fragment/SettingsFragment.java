@@ -40,15 +40,15 @@ import java.util.Locale;
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener,
         AdapterView.OnItemSelectedListener {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    public static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK"};
-    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
-    public static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）"};
-    public static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
-    public static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
-    public static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
-    public static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "5", "10", "25", "50"};
-    public static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
+    private static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
+    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK"};
+    private static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
+    private static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）"};
+    private static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
+    private static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
+    private static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
+    private static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "5", "10", "25", "50"};
+    private static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
             DateUtils.MINUTE_IN_MILLIS * 30, DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
 
     private Spinner languageSpinner;
@@ -149,8 +149,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         String[] refreshTimeArray = new String[TIME_IN_MILLIS.length];
         for (int i = 0; i < TIME_IN_MILLIS.length; i++) {
-            int hours = (int) ((TIME_IN_MILLIS[i] / (1000 * 60 * 60)) % 24);
-            int minutes = (int) ((TIME_IN_MILLIS[i] / (1000 * 60)) % 60);
+            int hours = (int) ((TIME_IN_MILLIS[i] / (DateUtils.HOUR_IN_MILLIS)) % 24);
+            int minutes = (int) ((TIME_IN_MILLIS[i] / (DateUtils.MINUTE_IN_MILLIS)) % 60);
 
             if (hours != 0) {
                 refreshTimeArray[i] = hours + " " + getResources().getQuantityString(R.plurals.hour, hours);
@@ -281,6 +281,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 preferencesManager.set3GUploadMonthLimit(
                         MONTHLY_LIMIT_MB_CODE[monthLimitSpinner.getSelectedItemPosition()]);
                 break;
+            default:
+                break;
         }
     }
 
@@ -312,9 +314,9 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public static void setDefaultLanguage(Context context, String languageCode) {
         Configuration config = context.getResources().getConfiguration();
 
-        if (languageCode.equals("zh_CN") || languageCode.equals("en_SG")) {
+        if ("zh_CN".equals(languageCode) || "en_SG".equals(languageCode)) {
             config.locale = Locale.SIMPLIFIED_CHINESE;
-        } else if (languageCode.equals("zh") || languageCode.equals("zh_TW") || languageCode.equals("zh_HK")) {
+        } else if ("zh".equals(languageCode) || "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode)) {
             config.locale = Locale.TRADITIONAL_CHINESE;
         } else {
             config.locale = new Locale(languageCode);
@@ -342,6 +344,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
         switch (item.getItemId()) {
             case R.id.logout:
                 WriteDataHelper.prepareLogout(getActivity());
@@ -349,11 +352,13 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
                 getActivity().finish();
                 getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
-                return true;
+
+                result = true;
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                result = super.onOptionsItemSelected(item);
         }
+
+        return result;
     }
-
-
 }

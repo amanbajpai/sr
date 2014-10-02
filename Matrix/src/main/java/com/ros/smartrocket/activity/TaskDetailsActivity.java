@@ -219,7 +219,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 progressDialog.hide();
 
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
-                task.setStatusId(Task.TaskStatusId.claimed.getStatusId());
+                task.setStatusId(Task.TaskStatusId.CLAIMED.getStatusId());
                 task.setIsMy(true);
                 task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
                 task.setLongClaimDateTime(claimTimeInMillisecond);
@@ -258,7 +258,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId() + "_"
                         + task.getId());
 
-                task.setStatusId(Task.TaskStatusId.none.getStatusId());
+                task.setStatusId(Task.TaskStatusId.NONE.getStatusId());
                 task.setStarted("");
                 task.setIsMy(false);
                 setButtonsSettings(task);
@@ -353,18 +353,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         }
 
-        if (actionBarView != null) {
-            TextView titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
-        }
-
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
     public void setTaskDataByType(Task task) {
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case completed:
-            case validation:
+            case COMPLETED:
+            case VALIDATION:
                 startTimeLayout.setVisibility(View.GONE);
                 deadlineTimeLayout.setVisibility(View.GONE);
                 expireTimeLayout.setVisibility(View.GONE);
@@ -381,9 +376,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 break;
-            case validated:
-            case inPaymentProcess:
-            case paid:
+            case VALIDATED:
+            case IN_PAYMENT_PROCESS:
+            case PAID:
                 startTimeLayout.setVisibility(View.GONE);
                 deadlineTimeLayout.setVisibility(View.GONE);
                 expireTimeLayout.setVisibility(View.GONE);
@@ -399,7 +394,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     statusTimeTextView.setText(UIUtils.longToString(approvedTime, 3));
                 }
                 break;
-            case rejected:
+            case REJECTED:
                 startTimeLayout.setVisibility(View.GONE);
                 deadlineTimeLayout.setVisibility(View.GONE);
                 expireTimeLayout.setVisibility(View.GONE);
@@ -424,9 +419,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         UIUtils.setActionBarBackground(this, task.getStatusId());
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case none:
-            case claimed:
-            case started:
+            case NONE:
+            case CLAIMED:
+            case STARTED:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
 
@@ -435,8 +430,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
                 break;
-            case pending:
-            case scheduled:
+            case PENDING:
+            case SCHEDULED:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.blue_light2));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.blue));
 
@@ -445,7 +440,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_blue, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_blue, 0, 0, 0);
                 break;
-            case completed:
+            case COMPLETED:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.grey_dark));
 
@@ -454,7 +449,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
                 break;
-            case validation:
+            case VALIDATION:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.grey_dark));
 
@@ -464,7 +459,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_lightgrey, 0, 0, 0);
 
                 break;
-            case reDoTask:
+            case RE_DO_TASK:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.red));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.red_dark));
 
@@ -473,9 +468,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_red, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_red, 0, 0, 0);
                 break;
-            case validated:
-            case inPaymentProcess:
-            case paid:
+            case VALIDATED:
+            case IN_PAYMENT_PROCESS:
+            case PAID:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.orange));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.orange_dark));
 
@@ -484,7 +479,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_gold, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
                 break;
-            case rejected:
+            case REJECTED:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.black_light));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.black));
 
@@ -508,7 +503,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         continueTaskButton.setVisibility(View.GONE);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case none:
+            case NONE:
                 buttonsLayout.setVisibility(View.VISIBLE);
                 bookTaskButton.setVisibility(View.VISIBLE);
                 if (UIUtils.isTrue(task.getIsHide())) {
@@ -517,12 +512,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     hideTaskButton.setVisibility(View.VISIBLE);
                 }
                 break;
-            case claimed:
+            case CLAIMED:
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 startTaskButton.setVisibility(View.VISIBLE);
                 break;
-            case started:
+            case STARTED:
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 continueTaskButton.setVisibility(View.VISIBLE);
@@ -533,7 +528,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void changeStatusToStartedAndOpenQuestion(boolean startedStatusSent) {
-        task.setStatusId(Task.TaskStatusId.started.getStatusId());
+        task.setStatusId(Task.TaskStatusId.STARTED.getStatusId());
         task.setStarted(UIUtils.longToString(calendar.getTimeInMillis(), 2));
         task.setStartedStatusSent(startedStatusSent);
 
@@ -546,73 +541,99 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
-                progressDialog.show();
-
-                apiFacade.getQuestions(this, task.getWaveId(), taskId);
+                bookTaskButtonClick();
                 break;
             case R.id.hideTaskButton:
-                task.setIsHide(true);
-                setButtonsSettings(task);
-                TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
+                hideTaskButtonClick();
                 break;
             case R.id.showTaskButton:
-                task.setIsHide(false);
-                setButtonsSettings(task);
-                TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
+                showTaskButtonClick();
                 break;
             case R.id.withdrawTaskButton:
-                long claimTimeInMillisecond = task.getLongClaimDateTime();
-                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-                String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
-
-                new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
-                    @Override
-                    public void onNoButtonPressed(Dialog dialog) {
-                    }
-
-                    @Override
-                    public void onYesButtonPressed(Dialog dialog) {
-                        setSupportProgressBarIndeterminateVisibility(true);
-                        progressDialog.show();
-                        apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
-                    }
-                });
+                withdrawTaskButtonClick();
                 break;
             case R.id.startTaskButton:
-                if (UIUtils.isOnline(this)) {
-                    setSupportProgressBarIndeterminateVisibility(true);
-                    progressDialog.show();
-                    apiFacade.startTask(TaskDetailsActivity.this, task.getId());
-                } else {
-                    changeStatusToStartedAndOpenQuestion(false);
-                }
+                startTaskButtonClick();
                 break;
             case R.id.continueTaskButton:
-                switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-                    case claimed:
-                    case started:
-                        startActivity(IntentUtils.getQuestionsIntent(this, task.getId()));
-                        break;
-                    case scheduled:
-                        startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false, false));
-                        break;
-                    default:
-                        break;
-                }
+                continueTaskButtonClick();
                 break;
-
             case R.id.mapImageView:
-                Bundle bundle = new Bundle();
-                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
-
-                Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                mapImageViewClick();
                 break;
             default:
                 break;
         }
+    }
+
+    public void bookTaskButtonClick() {
+        progressDialog.show();
+        apiFacade.getQuestions(this, task.getWaveId(), taskId);
+    }
+
+    public void hideTaskButtonClick() {
+        task.setIsHide(true);
+        setButtonsSettings(task);
+        TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
+    }
+
+    public void showTaskButtonClick() {
+        task.setIsHide(false);
+        setButtonsSettings(task);
+        TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
+    }
+
+    public void withdrawTaskButtonClick() {
+        long claimTimeInMillisecond = task.getLongClaimDateTime();
+        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+        String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
+
+        new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
+            @Override
+            public void onNoButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onYesButtonPressed(Dialog dialog) {
+                setSupportProgressBarIndeterminateVisibility(true);
+                progressDialog.show();
+                apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
+            }
+        });
+    }
+
+    public void startTaskButtonClick() {
+        if (UIUtils.isOnline(this)) {
+            setSupportProgressBarIndeterminateVisibility(true);
+            progressDialog.show();
+            apiFacade.startTask(TaskDetailsActivity.this, task.getId());
+        } else {
+            changeStatusToStartedAndOpenQuestion(false);
+        }
+    }
+
+    public void continueTaskButtonClick() {
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case CLAIMED:
+            case STARTED:
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getId()));
+                break;
+            case SCHEDULED:
+                startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false, false));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void mapImageViewClick() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
+        bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
+
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

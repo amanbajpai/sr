@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.fragment.TasksMapFragment;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.L;
 import com.twotoasters.clusterkraf.ClusterPoint;
@@ -116,9 +115,9 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
     private BitmapDescriptor getPinBitmap(Task task) {
         BitmapDescriptor icon;
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case none:
-            case claimed:
-            case started:
+            case NONE:
+            case CLAIMED:
+            case STARTED:
                 if (!task.getIsHide()) {
                     //if (task.getDistance() <= TasksMapFragment.taskRadius) {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
@@ -133,15 +132,15 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
                     }*/
                 }
                 break;
-            case scheduled:
-            case pending:
+            case SCHEDULED:
+            case PENDING:
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_blue);
                 break;
-            case completed:
-            case validation:
+            case COMPLETED:
+            case VALIDATION:
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_grey);
                 break;
-            case reDoTask:
+            case RE_DO_TASK:
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
                 break;
 

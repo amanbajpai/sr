@@ -7,7 +7,7 @@ public class Wave extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum WaveTypes {
-        none(0), type1(1), type2(2), type3(3), type4(4), type5(5);
+        NONE(0), TYPE_1(1), TYPE_2(2), TYPE_3(3), TYPE_4(4), TYPE_5(5);
 
         private int id;
 
@@ -107,7 +107,8 @@ public class Wave extends BaseEntity {
             result.setExpectedStartDateTime(c.getString(WaveDbSchema.Query.EXPECTED_START_DATE_TIME));
             result.setExperienceOffer(c.getDouble(WaveDbSchema.Query.EXPERIENCE_OFFER));
 
-            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query
+                    .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
@@ -152,8 +153,10 @@ public class Wave extends BaseEntity {
 
             result.setExperienceOffer(c.getDouble(WaveDbSchema.QueryWaveByDistance.EXPERIENCE_OFFER));
 
-            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
-            result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.QueryWaveByDistance.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.QueryWaveByDistance
+                    .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.QueryWaveByDistance
+                    .EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.QueryWaveByDistance
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.PHOTO_QUESTIONS_COUNT));

@@ -175,7 +175,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
-                task.setStatusId(Task.TaskStatusId.validation.getStatusId());
+                task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
                 TasksBL.updateTask(handler, task);
 
                 QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId());
@@ -249,7 +249,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     private void sendAnswerTextsSuccess() {
-        TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.completed.getStatusId());
+        TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.COMPLETED.getStatusId());
 
         if (filesSizeB > 0) {
             if (UIUtils.is3G(this)
@@ -295,7 +295,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.started.getStatusId());
+                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.STARTED.getStatusId());
 
                 startActivity(IntentUtils.getQuestionsIntent(this, taskId));
                 finish();

@@ -42,7 +42,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
-    private List<NetworkOperationListenerInterface> networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
+    private List<NetworkOperationListenerInterface>
+            networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
     private AsyncQueryHandler dbHandler;
     private BroadcastReceiver receiver;
 
@@ -168,12 +169,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                         if (notUploadedFile != null) {
                             L.i(TAG, "Upload file");
-                            //if (Calendar.getInstance().getTimeInMillis() <= notUploadedFile.getEndDateTime()) {
                             uploadingFiles = true;
                             apiFacade.sendFile(UploadFileService.this, notUploadedFile);
-                            /*} else {
-                                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
-                            }*/
                         } else {
                             uploadingFiles = false;
                             FilesBL.getNotUploadedFilesCountFromDB(dbHandler, COOKIE_CHECK_NOT_UPLOAD_FILE_COUNT);
@@ -205,6 +202,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                             stopUploadedFilesTimer();
                         }
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -275,17 +274,19 @@ public class UploadFileService extends Service implements NetworkOperationListen
         long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
 
         switch (NotUploadedFile.NotificationStepId.getStep(notUploadedFile.getShowNotificationStepId())) {
-            case none:
+            case NONE:
                 result = currentTimeInMillis > notUploadedFile.getAddedToUploadDateTime() + MINUTE_IN_MILLISECONDS_15;
                 break;
-            case min_15:
+            case MIN_15:
                 result = currentTimeInMillis >= notUploadedFile.getAddedToUploadDateTime() + MINUTE_IN_MILLISECONDS_30;
                 break;
-            case min_30:
+            case MIN_30:
                 result = currentTimeInMillis >= notUploadedFile.getAddedToUploadDateTime() + MINUTE_IN_MILLISECONDS_60;
                 break;
-            case min_60:
+            case MIN_60:
                 result = false;
+                break;
+            default:
                 break;
         }
         return result;
@@ -330,7 +331,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
     @Override
     public IBinder onBind(Intent intent) {
-        L.i(TAG, "onBind");
         return null;
     }
 

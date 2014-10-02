@@ -31,7 +31,6 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
@@ -133,10 +132,10 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         Task task = adapter.getItem(position);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case scheduled:
+            case SCHEDULED:
                 startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId(), false, false));
                 break;
-            case reDoTask:
+            case RE_DO_TASK:
                 startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getId()));
                 break;
             default:

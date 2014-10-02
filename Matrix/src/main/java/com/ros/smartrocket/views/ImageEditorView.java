@@ -15,33 +15,31 @@ import android.view.View;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class ImageEditorView extends View {
-    // private static final String TAG = ImageEditorView.class.getSimpleName();
-    private int layerId = 0;
-    //private BitmapProcessingManager bitmapProcessingManager = BitmapProcessingManager.getInstance();
     private Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-    private Bitmap cropedBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+    private Bitmap croppedBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
 
     private Paint bitmapPaint = new Paint();
-    private boolean isSelectedLayer = true;
-    private boolean isCropedBitmapChanged = true;
+    private boolean isCroppedBitmapChanged = true;
 
     private Paint eraserPaint = new Paint();
 
+    private final int MATRIX_POINT_AMOUNT = 9;
+    private final int EVENT_POINT_AMOUNT = 4;
     private Matrix matrix = new Matrix();
     private Matrix savedMatrix = new Matrix();
-    float[] matrixValues = new float[9];
+    float[] matrixValues = new float[MATRIX_POINT_AMOUNT];
     private PointF startPoint = new PointF();
     private PointF endPoint = new PointF();
     private PointF midPoint = new PointF();
 
     private float oldDist = 1.0f;
-    private final int NONE = 0;
-    private final int DRAG = 1;
-    private final int ZOOM = 2;
+    private static final int NONE = 0;
+    private static final int DRAG = 1;
+    private static final int ZOOM = 2;
+    private static final double MN_10 = 10.0;
+
     private int mode = NONE;
-    private float maxZoom = 3.0f;
-    private float minZoom = 0.2f;
-    private float angle, fangle;
+    private float fangle;
     float[] lastEvent = null;
     private int viewWidth, viewHeight;
     private boolean isEmpty = true;
@@ -49,9 +47,8 @@ public class ImageEditorView extends View {
 
     private OnImageChangeListener onImageChangeListener;
 
-    public ImageEditorView(Context context, int layerId) {
+    public ImageEditorView(Context context) {
         super(context);
-        this.setLayerId(layerId);
 
         setEraserSettings();
     }
@@ -63,18 +60,15 @@ public class ImageEditorView extends View {
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         this.isEmpty = false;
-        this.isCropedBitmapChanged = true;
+        this.isCroppedBitmapChanged = true;
 
-        // bitmapPaint.setAlpha(50);
-        // selectedLayerPaint.setAlpha(100);
         invalidate();
-        // requestLayout();
     }
 
     public void setOldBitmap(Bitmap bitmap) {
         this.bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         this.isEmpty = false;
-        this.isCropedBitmapChanged = false;
+        this.isCroppedBitmapChanged = false;
 
         invalidate();
     }
@@ -117,13 +111,13 @@ public class ImageEditorView extends View {
                 endPoint.set(event.getX(), event.getY());
                 oldDist = spacing(event);
 
-                if (oldDist > 10f) {
+                if (oldDist > MN_10) {
                     savedMatrix.set(matrix);
                     matrix.getValues(matrixValues);
-                    midPoint(midPoint, event);
+                    setMidPoint(midPoint, event);
                     mode = ZOOM;
                 }
-                lastEvent = new float[4];
+                lastEvent = new float[EVENT_POINT_AMOUNT];
                 lastEvent[0] = event.getX(0);
                 lastEvent[1] = event.getX(1);
                 lastEvent[2] = event.getY(0);
@@ -136,7 +130,7 @@ public class ImageEditorView extends View {
                 this.fangle = 0;
                 lastEvent = null;
 
-                isCropedBitmapChanged = true;
+                isCroppedBitmapChanged = true;
                 if (onImageChangeListener != null) {
                     onImageChangeListener.onImageChange();
                 }
@@ -157,15 +151,13 @@ public class ImageEditorView extends View {
                     float newDist = spacing(event);
                     // float angle = rotation(event);
 
-                    if (newDist > 10f) {
+                    if (newDist > MN_10) {
 
                         matrix.set(savedMatrix);
                         matrix.getValues(matrixValues);
-                        // float currentScale = matrixValues[Matrix.MSCALE_X];
 
                         float scale = newDist / oldDist;
 
-                        // TODO limit zoom
                         matrix.postScale(scale, scale, midPoint.x, midPoint.y);
                         matrix.getValues(matrixValues);
 
@@ -173,8 +165,7 @@ public class ImageEditorView extends View {
 
                     if (lastEvent != null) {
                         float newRot = rotation(event);
-                        this.angle = (newRot - fangle);
-                        matrix.postRotate(this.angle, midPoint.x, midPoint.y);
+                        matrix.postRotate(newRot - fangle, midPoint.x, midPoint.y);
                     }
                 }
                 break;
@@ -207,7 +198,7 @@ public class ImageEditorView extends View {
     /**
      * Calculate the mid point of the first two fingers
      */
-    private void midPoint(PointF point, MotionEvent event) {
+    private void setMidPoint(PointF point, MotionEvent event) {
         float x = event.getX(0) + event.getX(1);
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
@@ -228,22 +219,22 @@ public class ImageEditorView extends View {
     }
 
     public Bitmap getScaledCropedBitmap(int width, int height) {
-        return Bitmap.createScaledBitmap(getCropedBitmap(), width, height, false);
+        return Bitmap.createScaledBitmap(getCroppedBitmap(), width, height, false);
     }
 
-    public Bitmap getCropedBitmap() {
-        if (isCropedBitmapChanged) {
+    public Bitmap getCroppedBitmap() {
+        if (isCroppedBitmapChanged) {
             Bitmap croppedImage = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
 
             Canvas canvas = new Canvas(croppedImage);
             canvas.drawBitmap(bitmap, matrix, null);
             canvas.drawCircle(0, 0, 1, eraserPaint);
 
-            cropedBitmap = croppedImage;
-            isCropedBitmapChanged = false;
+            croppedBitmap = croppedImage;
+            isCroppedBitmapChanged = false;
         }
 
-        return cropedBitmap;
+        return croppedBitmap;
     }
 
     public float[] getMatrixValues() {
@@ -252,37 +243,17 @@ public class ImageEditorView extends View {
     }
 
     public void setMatrixValues(float[] matrixValues) {
-        if (matrixValues != null && matrixValues.length == 9) {
+        if (matrixValues != null && matrixValues.length == MATRIX_POINT_AMOUNT) {
             matrix.setValues(matrixValues);
         }
-    }
-
-    public void selectedLayer(boolean isSelected) {
-        isSelectedLayer = isSelected;
-        invalidate();
-    }
-
-    public void clearLayer() {
-        this.bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        this.isEmpty = true;
-        this.isCropedBitmapChanged = true;
-        invalidate();
     }
 
     public boolean isEmpty() {
         return isEmpty;
     }
 
-    public boolean isCropedBitmapChanged() {
-        return isCropedBitmapChanged;
-    }
-
-    public int getLayerId() {
-        return layerId;
-    }
-
-    public void setLayerId(int layerId) {
-        this.layerId = layerId;
+    public boolean isCroppedBitmapChanged() {
+        return isCroppedBitmapChanged;
     }
 
     public void setEraserSettings() {

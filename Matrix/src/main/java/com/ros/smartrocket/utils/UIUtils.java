@@ -68,10 +68,9 @@ public class UIUtils {
             + ".yyyy / HH:mm", Locale.ENGLISH);
 
     private static final long METERS_IN_KM = 1000;
-    private static final Random random = new Random();
-
-    public UIUtils() {
-    }
+    private static final int MIN_PASSWORD_LANDTH = 8;
+    private static final int MAX_PASSWORD_LANDTH = 16;
+    private static final Random RANDOM = new Random();
 
     /**
      * Show simple Toast message
@@ -482,7 +481,7 @@ public class UIUtils {
         boolean containLowerLetter = false;
         boolean containNumber = false;
         boolean containSpecialSymbol = false;
-        boolean availableLength = password.length() >= 8 && password.length() <= 16;
+        boolean availableLength = password.length() >= MIN_PASSWORD_LANDTH && password.length() <= MAX_PASSWORD_LANDTH;
 
         char[] charArray = password.toCharArray();
         for (int i = 0; i < charArray.length; i++) {
@@ -516,7 +515,8 @@ public class UIUtils {
     public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {
         String result;
         String format = "%.1f";
-        float convertedDistance = distance < METERS_IN_KM && useMetersIfLessThanOne ? distance : distance / METERS_IN_KM;
+        float convertedDistance
+                = distance < METERS_IN_KM && useMetersIfLessThanOne ? distance : distance / METERS_IN_KM;
         String mOrKm = context.getString(distance < METERS_IN_KM && useMetersIfLessThanOne ? R.string.distance_m : R.string
                 .distance_km);
 
@@ -538,11 +538,11 @@ public class UIUtils {
     }
 
     public static int getRandomInt(int max) {
-        return random.nextInt(max);
+        return RANDOM.nextInt(max);
     }
 
     public static int getRandomInt(int min, int max) {
-        return random.nextInt(max - min + 1) + min;
+        return RANDOM.nextInt(max - min + 1) + min;
     }
 
     public static void setEditTextColorByState(Context context, EditText editText, boolean isValidState) {
@@ -663,8 +663,8 @@ public class UIUtils {
                                            Integer roundingMode) {
         String result = null;
         if (balance != null && precision != null && roundingMode != null) {
-            balance = round(balance, precision, roundingMode);
-            result = symbol + " " + String.format(Locale.getDefault(), "%." + precision + "f", balance);
+            Double roundedBalance = round(balance, precision, roundingMode);
+            result = symbol + " " + String.format(Locale.getDefault(), "%." + precision + "f", roundedBalance);
         }
 
         if (TextUtils.isEmpty(result)) {
@@ -685,30 +685,30 @@ public class UIUtils {
     public static void setActionBarBackground(ActionBarActivity activity, int statusId) {
         int backgroundRes;
         switch (TasksBL.getTaskStatusType(statusId)) {
-            case none:
-            case claimed:
-            case started:
+            case NONE:
+            case CLAIMED:
+            case STARTED:
                 backgroundRes = R.drawable.action_bar_green;
                 break;
-            case scheduled:
-            case pending:
+            case SCHEDULED:
+            case PENDING:
                 backgroundRes = R.drawable.action_bar_blue;
                 break;
-            case completed:
+            case COMPLETED:
                 backgroundRes = R.drawable.action_bar_grey;
                 break;
-            case validation:
+            case VALIDATION:
                 backgroundRes = R.drawable.action_bar_grey;
                 break;
-            case reDoTask:
+            case RE_DO_TASK:
                 backgroundRes = R.drawable.action_bar_red;
                 break;
-            case validated:
-            case inPaymentProcess:
-            case paid:
+            case VALIDATED:
+            case IN_PAYMENT_PROCESS:
+            case PAID:
                 backgroundRes = R.drawable.action_bar_gold;
                 break;
-            case rejected:
+            case REJECTED:
                 backgroundRes = R.drawable.action_bar_black;
                 break;
             default:

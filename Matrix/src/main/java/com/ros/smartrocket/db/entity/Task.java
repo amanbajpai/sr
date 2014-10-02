@@ -12,8 +12,8 @@ public class Task extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum TaskStatusId {
-        none(0), claimed(1), started(2), validation(3), reDoTask(4), pending(5), validated(6), completed(7),
-        scheduled(8), rejected(9), inPaymentProcess(11), paid(12);
+        NONE(0), CLAIMED(1), STARTED(2), VALIDATION(3), RE_DO_TASK(4), PENDING(5), VALIDATED(6), COMPLETED(7),
+        SCHEDULED(8), REJECTED(9), IN_PAYMENT_PROCESS(11), PAID(12);
 
         private int statusId;
 
@@ -118,7 +118,8 @@ public class Task extends BaseEntity {
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
 
-            result.setLongExpireTimeoutForClaimedTask(c.getLong(TaskDbSchema.Query.All.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(TaskDbSchema.Query.All
+                    .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(TaskDbSchema.Query.All
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));

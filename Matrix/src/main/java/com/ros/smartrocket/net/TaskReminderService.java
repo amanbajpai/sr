@@ -125,7 +125,7 @@ public class TaskReminderService extends Service {
                             long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
                             long missionDueMillisecond;
 
-                            if (task.getStatusId() == Task.TaskStatusId.reDoTask.getStatusId()) {
+                            if (task.getStatusId() == Task.TaskStatusId.RE_DO_TASK.getStatusId()) {
                                 missionDueMillisecond = task.getLongRedoDateTime() + timeoutInMillisecond;
                             } else {
                                 missionDueMillisecond = task.getLongClaimDateTime() + timeoutInMillisecond;

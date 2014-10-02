@@ -11,7 +11,7 @@ public class NotUploadedFile extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum NotificationStepId {
-        none(0), min_15(1), min_30(2), min_60(3);
+        NONE(0), MIN_15(1), MIN_30(2), MIN_60(3);
 
         private int stepId;
 

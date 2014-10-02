@@ -121,15 +121,15 @@ public class NotificationUtils {
             //String endDateTime = messageObject.optString("endDateTime");
 
             switch (TasksBL.getTaskStatusType(statusType)) {
-                case reDoTask:
+                case RE_DO_TASK:
                     NotificationUtils.startRedoNotificationActivity(context, presetValidationText, validationText,
                             waveId, taskId, taskName, locationName, missionAddress);
                     break;
-                case validated:
+                case VALIDATED:
                     NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText,
                             taskName, locationName, missionAddress);
                     break;
-                case rejected:
+                case REJECTED:
                     NotificationUtils.startRejectNotificationActivity(context, presetValidationText, validationText,
                             taskName, locationName,
                             missionAddress);

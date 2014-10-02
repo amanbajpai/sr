@@ -624,10 +624,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             int taskStatusId = Integer.valueOf(taskData[2]);
 
             switch (TasksBL.getTaskStatusType(taskStatusId)) {
-                case scheduled:
+                case SCHEDULED:
                     startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false, false));
                     break;
-                case reDoTask:
+                case RE_DO_TASK:
                     startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
                     break;
                 default:

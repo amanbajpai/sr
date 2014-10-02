@@ -60,29 +60,29 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
                     R.string.map_popup_distance, false));
 
             switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-                case none:
-                case claimed:
-                case started:
+                case NONE:
+                case CLAIMED:
+                case STARTED:
                     mainLayout.setBackgroundResource(R.drawable.popup_green);
                     priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
                     distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
                     break;
-                case scheduled:
-                case pending:
+                case SCHEDULED:
+                case PENDING:
                     mainLayout.setBackgroundResource(R.drawable.popup_blue);
                     priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
                     distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_blue, 0, 0, 0);
                     break;
-                case completed:
-                case validation:
+                case COMPLETED:
+                case VALIDATION:
                     mainLayout.setBackgroundResource(R.drawable.popup_grey);
                     priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
                     distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_lightgrey, 0, 0, 0);
                     break;
-                case reDoTask:
+                case RE_DO_TASK:
                     mainLayout.setBackgroundResource(R.drawable.popup_red);
                     priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
                     pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);

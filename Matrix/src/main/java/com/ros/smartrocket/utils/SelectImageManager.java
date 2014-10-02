@@ -55,6 +55,7 @@ public class SelectImageManager {
     private static final int MAX_SIZE_IN_PX = 700;
     public static final int SIZE_IN_PX_2_MP = 1600;
     private static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
+    private static final int ONE_KB_IN_B = 1024;
 
     private Dialog selectImageDialog;
     private File lastFile;
@@ -198,22 +199,20 @@ public class SelectImageManager {
         InputStream is;
         File file = lastFile;
 
-        if (intent != null && intent.getData() != null) {
-            if (!file.exists()) {
-                try {
-                    Uri u = intent.getData();
-                    is = activity.getContentResolver().openInputStream(u);
-                    FileOutputStream fos = new FileOutputStream(file, false);
-                    OutputStream os = new BufferedOutputStream(fos);
-                    byte[] buffer = new byte[1024];
-                    int byteRead;
-                    while ((byteRead = is.read(buffer)) != -1) {
-                        os.write(buffer, 0, byteRead);
-                    }
-                    fos.close();
-                } catch (Exception e) {
-                    L.e(TAG, "GetBitmapFromCamera error" + e.getMessage(), e);
+        if (intent != null && intent.getData() != null && !file.exists()) {
+            try {
+                Uri u = intent.getData();
+                is = activity.getContentResolver().openInputStream(u);
+                FileOutputStream fos = new FileOutputStream(file, false);
+                OutputStream os = new BufferedOutputStream(fos);
+                byte[] buffer = new byte[ONE_KB_IN_B];
+                int byteRead;
+                while ((byteRead = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, byteRead);
                 }
+                fos.close();
+            } catch (Exception e) {
+                L.e(TAG, "GetBitmapFromCamera error" + e.getMessage(), e);
             }
         }
 
@@ -360,7 +359,7 @@ public class SelectImageManager {
             OutputStream out = new FileOutputStream(resultFile);
 
             // Transfer bytes from in to out
-            byte[] buf = new byte[1024];
+            byte[] buf = new byte[ONE_KB_IN_B];
             int len;
             while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);

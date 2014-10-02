@@ -19,7 +19,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.ros.smartrocket.App;
@@ -58,7 +57,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private ImageView levelIcon;
     private TextView myTasksCount;
     private TextView nameTextView;
-    private LinearLayout cashingOutLayout;
     private TextView balanceTextView;
     private TextView rocketPointNumberTextView;
     private TextView levelName;
@@ -80,7 +78,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
         myTasksCount = (TextView) view.findViewById(R.id.myTasksCount);
         nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-        cashingOutLayout = (LinearLayout) view.findViewById(R.id.cashingOutLayout);
         balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
         rocketPointNumberTextView = (TextView) view.findViewById(R.id.rocketPointNumberTextView);
         levelName = (TextView) view.findViewById(R.id.levelName);

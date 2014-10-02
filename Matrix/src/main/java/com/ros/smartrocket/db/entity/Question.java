@@ -10,8 +10,8 @@ public class Question extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
     public enum QuestionType {
-        none(0), multiple_choice(1), photo(2), validation(3), reject(4), openComment(5), single_choice(6),
-        video(7), number(8), instruction(9);
+        NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
+        VIDEO(7), NUMBER(8), INSTRUCTION(9);
 
         private int typeId;
 

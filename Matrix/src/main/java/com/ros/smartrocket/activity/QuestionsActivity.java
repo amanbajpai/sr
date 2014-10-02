@@ -123,7 +123,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId());
 
-                    isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.reDoTask;
+                    isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
 
                     if (isRedo) {
                         nextButton.setBackgroundResource(R.drawable.button_red_selector);
@@ -162,8 +162,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
         mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
-        if (questionType != Question.QuestionType.photo.getTypeId()
-                && questionType != Question.QuestionType.video.getTypeId()) {
+        if (questionType != Question.QuestionType.PHOTO.getTypeId()
+                && questionType != Question.QuestionType.VIDEO.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
             questionOf.setText(getString(R.string.question_of, currentQuestionOrderId, questionsToAnswerCount));
         } else {
@@ -180,7 +180,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
 
             Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
-            if (question != null && question.getType() != Question.QuestionType.validation.getTypeId()) {
+            if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
                 preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, nextQuestionOrderId);
                 question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
@@ -209,7 +209,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startValidationActivity() {
-        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.scheduled.getStatusId());
+        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.SCHEDULED.getStatusId());
 
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true, isRedo));
         finish();
@@ -224,11 +224,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
             Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
-            if (question.getType() == Question.QuestionType.validation.getTypeId()) {
+            if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
                 startValidationActivity();
                 return;
 
-            } else if (question.getType() == Question.QuestionType.reject.getTypeId()) {
+            } else if (question.getType() == Question.QuestionType.REJECT.getTypeId()) {
                 if (UIUtils.isOnline(this)) {
                     setSupportProgressBarIndeterminateVisibility(true);
                     apiFacade.rejectTask(this, question.getTaskId());
@@ -249,25 +249,25 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             switch (QuestionsBL.getQuestionType(question.getType())) {
-                case multiple_choice:
+                case MULTIPLE_CHOICE:
                     currentFragment = new QuestionType1Fragment();
                     break;
-                case single_choice:
+                case SINGLE_CHOICE:
                     currentFragment = new QuestionType2Fragment();
                     break;
-                case photo:
+                case PHOTO:
                     currentFragment = new QuestionType7Fragment();
                     break;
-                case openComment:
+                case OPEN_COMMENT:
                     currentFragment = new QuestionType4Fragment();
                     break;
-                case video:
+                case VIDEO:
                     currentFragment = new QuestionType5Fragment();
                     break;
-                case number:
+                case NUMBER:
                     currentFragment = new QuestionType6Fragment();
                     break;
-                case instruction:
+                case INSTRUCTION:
                     currentFragment = new QuestionType8Fragment();
                     break;
                 default:
