@@ -6,7 +6,8 @@
     android:orientation="vertical" >
     <ScrollView
         android:layout_height="match_parent"
-        android:layout_width="match_parent" >
+        android:layout_width="match_parent"
+        android:layout_above="@+id/buttonsLayout" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -219,7 +220,7 @@
                     android:gravity="left"
                     android:lineSpacingExtra="5dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="@dimen/text_size_13p6sp"/>
+                    android:textSize="@dimen/text_size_13p6sp" />
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/taskDistance"
                     android:layout_width="match_parent"
