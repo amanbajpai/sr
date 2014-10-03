@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -18,7 +19,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface {
+        NetworkOperationListenerInterface, AdapterView.OnItemSelectedListener {
     private APIFacade apiFacade = APIFacade.getInstance();
     private int countryId;
     private Spinner referralCasesSpinner;
@@ -56,8 +57,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.continueButton:
                 continueButton.setEnabled(false);
-                apiFacade.saveReferralCases(this, countryId, referralCaseArray[referralCasesSpinner
-                        .getSelectedItemPosition()].getId());
+                apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
                 break;
             default:
                 break;
@@ -72,23 +72,27 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                 ReferralCases referralCases = (ReferralCases) operation.getResponseEntities().get(0);
                 referralCaseArray = referralCases.getCases();
 
-                String[] referralCasesStringArray = new String[referralCaseArray.length];
+                String[] referralCasesStringArray = new String[referralCaseArray.length + 1];
+                referralCasesStringArray[0] = "";
                 for (int i = 0; i < referralCaseArray.length; i++) {
-                    referralCasesStringArray[i] = referralCaseArray[i].getCase();
+                    referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
                 }
 
                 ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner,
                         R.id.name, referralCasesStringArray);
                 referralCasesSpinner.setAdapter(educationLevelAdapter);
-                continueButton.setEnabled(true);
+                referralCasesSpinner.setOnItemSelectedListener(this);
 
             } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-                startCheckLocationActivity(referralCaseArray[referralCasesSpinner
-                        .getSelectedItemPosition()].getId());
+                startCheckLocationActivity(getCurrentReferralCaseId());
             }
         } else {
             startCheckLocationActivity(-1);
         }
+    }
+
+    public int getCurrentReferralCaseId() {
+        return referralCaseArray[referralCasesSpinner.getSelectedItemPosition() - 1].getId();
     }
 
     public void startCheckLocationActivity(int referralCasesId) {
@@ -129,5 +133,17 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.referralCasesSpinner) {
+            continueButton.setEnabled(position != 0);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
