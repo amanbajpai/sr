@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -122,9 +123,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 // Check if we are registered on Server side our GCM Id
                 /*if (!preferencesManager.isGCMIdRegisteredOnServer()) {
                     String regId = preferencesManager.getGCMRegistrationId();
-                    if ("".equals(regId)) {*/
-                CommonUtilities.registerGCMInBackground();
-                    /*} else {
+                    if ("".equals(regId)) {
+                        CommonUtilities.registerGCMInBackground();
+                   } else {
                         APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
                     }
                 }*/

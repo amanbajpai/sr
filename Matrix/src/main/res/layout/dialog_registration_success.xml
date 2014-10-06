@@ -1,96 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    style="@style/CustomDialog"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    style="@style/CustomDialog"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <com.ros.smartrocket.views.CustomTextView
+        style="@style/DialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="64dp"
-        android:text="@string/registration_success_dialog_title"
+        android:background="@color/red"
         android:drawableLeft="@drawable/mail_popup"
         android:drawablePadding="20dp"
-        style="@style/DialogTitle"
-        android:background="@color/red"
+        android:text="@string/registration_success_dialog_title"
         custom:textStyle="bold" />
+
     <ScrollView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
+
             <com.ros.smartrocket.views.CustomTextView
-                style="@style/DialogText"
                 android:id="@+id/text0"
+                style="@style/DialogText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="left"
                 android:text="@string/registration_success_dialog_text0" />
+
             <com.ros.smartrocket.views.CustomTextView
-                style="@style/DialogText"
                 android:id="@+id/text1"
+                style="@style/DialogText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:gravity="left"
                 android:text="@string/registration_success_dialog_text1" />
+
             <com.ros.smartrocket.views.CustomTextView
-                style="@style/DialogText"
                 android:id="@+id/email"
+                style="@style/DialogText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomTextView
-                style="@style/DialogText"
                 android:id="@+id/text2"
+                style="@style/DialogText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/registration_success_dialog_text2" />
-            <com.ros.smartrocket.views.CustomTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:gravity="left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
-                style="@style/DialogText"
-                android:text="@string/registration_success_dialog_text3" />
+                android:text="@string/registration_success_dialog_text2" />
+
             <com.ros.smartrocket.views.CustomTextView
                 style="@style/DialogText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                custom:textStyle="bold"
                 android:layout_marginBottom="20dp"
-                android:text="@string/registration_success_dialog_text4" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="left"
+                android:text="@string/registration_success_dialog_text3" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey" />
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/okButton"
                 style="@style/DialogButton"
-                android:layout_height="0dp"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_height="0dp"
                 android:layout_marginRight="5dp"
-                android:textColor="@color/red"
+                android:layout_weight="1"
                 android:text="@string/registration_success_dialog_ok"
+                android:textColor="@color/red"
                 custom:textStyle="bold" />
-        </LinearLayout >
-    </ScrollView >
-</LinearLayout >
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

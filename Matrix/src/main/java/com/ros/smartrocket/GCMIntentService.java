@@ -3,6 +3,7 @@ package com.ros.smartrocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.activity.MainActivity;
@@ -31,6 +32,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         L.d(TAG, "Device registered: regId = " + registrationId);
         CommonUtilities.displayMessage(context, getString(R.string.gcm_registered));
 
+        L.d(TAG, "Send registered to server: regId = " + registrationId);
         APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId);
         PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
     }

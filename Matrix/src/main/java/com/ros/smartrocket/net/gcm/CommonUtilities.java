@@ -18,6 +18,7 @@ package com.ros.smartrocket.net.gcm;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -83,10 +84,10 @@ public final class CommonUtilities {
                     // so it can use GCM/HTTP or CCS to send messages to your app.
                     // The request to your server should be authenticated if your app
                     // is using accounts.
-                    APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
+                    //APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
 
                     // Persist the regID - no need to register again.
-                    PreferencesManager.getInstance().setGCMRegistrationId(regId);
+                    //PreferencesManager.getInstance().setGCMRegistrationId(regId);
 
                     return regId;
                 } catch (IOException e) {
