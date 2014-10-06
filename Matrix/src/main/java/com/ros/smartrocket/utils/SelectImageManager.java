@@ -308,7 +308,7 @@ public class SelectImageManager {
 
             Matrix matrix = new Matrix();
 
-            if (imageWidth <= 1600 || index == 8) {
+            if (index == 8) {
                 float[] mirrorY = {-1, 0, 0, 0, 1, 0, 0, 0, 1};
                 matrix = new Matrix();
 

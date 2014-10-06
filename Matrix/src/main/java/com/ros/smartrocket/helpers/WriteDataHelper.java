@@ -1,12 +1,18 @@
 package com.ros.smartrocket.helpers;
 
 import android.content.Context;
+
+import com.google.android.gcm.GCMRegistrar;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.utils.PreferencesManager;
+
+import java.io.IOException;
 
 public class WriteDataHelper {
     public WriteDataHelper() {
@@ -59,5 +65,7 @@ public class WriteDataHelper {
         TasksBL.removeAllTasksFromDB(context);
         QuestionsBL.removeAllQuestionsFromDB(context);
         AnswersBL.removeAllAnswers(context);
+
+        GCMRegistrar.unregister(context);
     }
 }
