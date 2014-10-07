@@ -369,8 +369,8 @@
     <!--redo-->
     <string name="redo_mission_notification_title">Attention!</string>
     <string name="redo_mission_notification_text">The following Mission requires some rework and has not yet been
-        approved. %1$s%2$s &lt;br>&lt;br>Mission: &lt;b >%3$s&lt;/b > &lt;br>Location: &lt;b >%4$s&lt;/b >
-    &lt;br> Address: &lt;b >%5$s&lt;/b ></string>
+        approved. %1$s &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
+    &lt;br> Address: &lt;b >%4$s&lt;/b ></string>
     <!--reject-->
     <string name="reject_mission_notification_title">Attention!</string>
     <string name="reject_mission_notification_text">Sorry. The following Mission has been rejected.%1$s

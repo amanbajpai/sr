@@ -4,37 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/questionText"
         style="@style/QuestionText"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/presetValidationComment"
+        style="@style/QuestionValidationComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp" />
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/validationComment"
         style="@style/QuestionValidationComment"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="20dp" />
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/writeNumberFromTillText"
         style="@style/QuestionConditionText"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="@string/write_your_number"
         custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomEditTextView
         android:id="@+id/answerEditText"
         style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/enter_here"
         android:inputType="numberDecimal|numberSigned"
         android:padding="10dp"
         android:singleLine="true"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:hint="@string/enter_here"
-        android:layout_marginBottom="10dp"
         android:textSize="@dimen/text_size_15sp" />
-</LinearLayout >
+</LinearLayout>

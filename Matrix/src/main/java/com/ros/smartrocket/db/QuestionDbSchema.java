@@ -24,7 +24,8 @@ public interface QuestionDbSchema {
         ALLOW_MULTIPLY_PHOTOS("AllowMultiplyPhotos", DBType.NUMERIC),
         ASK_IF("AskIf", DBType.TEXT),
         PREVIOUS_QUESTION_ORDER_ID("PreviousQuestionOrderId", DBType.NUMERIC),
-        VALIDATION_COMMENT("ValidationComment", DBType.NUMERIC),
+        VALIDATION_COMMENT("ValidationComment", DBType.TEXT),
+        PRESENT_VALIDATION_TEXT("PresetValidationText", DBType.TEXT),
 
         MIN_VALUES("MinValue", DBType.NUMERIC),
         MAX_VALUES("MaxValue", DBType.NUMERIC),
@@ -88,6 +89,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.ASK_IF.getName(),
                 Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName(),
+                Table.QUESTION.getName() + "." + Columns.PRESENT_VALIDATION_TEXT.getName(),
 
                 Table.QUESTION.getName() + "." + Columns.MIN_VALUES.getName(),
                 Table.QUESTION.getName() + "." + Columns.MAX_VALUES.getName(),
@@ -116,15 +118,16 @@ public interface QuestionDbSchema {
         int ASK_IF = 11;
         int PREVIOUS_QUESTION_ORDER_ID = 12;
         int VALIDATION_COMMENT = 13;
+        int PRESENT_VALIDATION_TEXT = 14;
 
-        int MIN_VALUES = 14;
-        int MAX_VALUES = 15;
-        int PATTERN_TYPE = 16;
-        int VIDEO_SOURCE = 17;
-        int PHOTO_SOURCE = 18;
-        int VIDEO_URL = 19;
-        int PHOTO_URL = 20;
+        int MIN_VALUES = 15;
+        int MAX_VALUES = 16;
+        int PATTERN_TYPE = 17;
+        int VIDEO_SOURCE = 18;
+        int PHOTO_SOURCE = 19;
+        int VIDEO_URL = 20;
+        int PHOTO_URL = 21;
 
-        int ROUTING = 21;
+        int ROUTING = 22;
     }
 }

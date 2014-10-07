@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -51,6 +52,11 @@ public class QuestionType4Fragment extends BaseQuestionFragment {
         handler = new DbHandler(getActivity().getContentResolver());
 
         questionText = (TextView) view.findViewById(R.id.questionText);
+        if (!TextUtils.isEmpty(question.getPresetValidationText())) {
+            TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
+            presetValidationComment.setText(question.getPresetValidationText());
+            presetValidationComment.setVisibility(View.VISIBLE);
+        }
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());

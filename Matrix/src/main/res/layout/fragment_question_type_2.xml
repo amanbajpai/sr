@@ -2,29 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_weight="1"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_weight="1"
+    android:orientation="vertical">
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/questionText"
         style="@style/QuestionText"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/presetValidationComment"
+        style="@style/QuestionValidationComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp" />
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/validationComment"
         style="@style/QuestionValidationComment"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="20dp" />
+
     <com.ros.smartrocket.views.CustomTextView
         style="@style/QuestionConditionText"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="@string/choose_one_answer"
         custom:textStyle="bold" />
+
     <ListView
         android:id="@+id/answerList"
         android:layout_width="match_parent"
@@ -32,4 +43,4 @@
         android:cacheColorHint="@android:color/transparent"
         android:divider="@color/grey_light"
         android:dividerHeight="1dp" />
-</LinearLayout >
+</LinearLayout>

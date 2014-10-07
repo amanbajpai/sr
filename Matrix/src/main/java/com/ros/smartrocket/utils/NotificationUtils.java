@@ -122,7 +122,7 @@ public class NotificationUtils {
 
             switch (TasksBL.getTaskStatusType(statusType)) {
                 case RE_DO_TASK:
-                    NotificationUtils.startRedoNotificationActivity(context, presetValidationText, validationText,
+                    NotificationUtils.startRedoNotificationActivity(context, validationText,
                             waveId, taskId, taskName, locationName, missionAddress);
                     break;
                 case VALIDATED:
@@ -176,12 +176,12 @@ public class NotificationUtils {
      * @param locationName   - current locationName
      * @param missionAddress - current missionAddress
      */
-    public static void startRedoNotificationActivity(Context context, String presetValidationText,
-                                                     String validationText, int waveId, int taskId, String missionName,
+    public static void startRedoNotificationActivity(Context context, String validationText,
+                                                     int waveId, int taskId, String missionName,
                                                      String locationName, String missionAddress) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
-                presetValidationText, validationText, missionName, locationName, missionAddress));
+                validationText, missionName, locationName, missionAddress));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -3,6 +3,7 @@ package com.ros.smartrocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
@@ -59,7 +60,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         if (preferencesManager.getUsePushMessages()) {
             NotificationUtils.showTaskStatusChangedNotification(context, message);
         }
-        apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
+        if (!TextUtils.isEmpty(preferencesManager.getToken())) {
+            apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
+        }
 
     }
 

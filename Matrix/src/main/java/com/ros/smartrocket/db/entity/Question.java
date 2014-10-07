@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.utils.L;
 
@@ -42,9 +43,10 @@ public class Question extends BaseEntity implements Serializable {
     private String VideoUrl;
     private String PhotoUrl;
 
-    private String ValidationComment;
-
     private Integer Routing;
+
+    private String ValidationComment;
+    private String PresetValidationText;
 
     private transient Integer PreviousQuestionOrderId;
 
@@ -71,6 +73,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setAskIf(c.getString(QuestionDbSchema.Query.ASK_IF));
             result.setPreviousQuestionOrderId(c.getInt(QuestionDbSchema.Query.PREVIOUS_QUESTION_ORDER_ID));
             result.setValidationComment(c.getString(QuestionDbSchema.Query.VALIDATION_COMMENT));
+            result.setPresetValidationText(c.getString(QuestionDbSchema.Query.PRESENT_VALIDATION_TEXT));
 
             result.setMinValue(c.getInt(QuestionDbSchema.Query.MIN_VALUES));
             result.setMaxValue(c.getInt(QuestionDbSchema.Query.MAX_VALUES));
@@ -259,4 +262,13 @@ public class Question extends BaseEntity implements Serializable {
     public void setPhotoUrl(String photoUrl) {
         PhotoUrl = photoUrl;
     }
+
+    public String getPresetValidationText() {
+        return PresetValidationText;
+    }
+
+    public void setPresetValidationText(String presetValidationText) {
+        PresetValidationText = presetValidationText;
+    }
+
 }

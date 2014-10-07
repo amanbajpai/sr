@@ -51,6 +51,12 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         list.setOnItemClickListener(this);
 
         TextView questionText = (TextView) view.findViewById(R.id.questionText);
+        if (!TextUtils.isEmpty(question.getPresetValidationText())) {
+            TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
+            presetValidationComment.setText(question.getPresetValidationText());
+            presetValidationComment.setVisibility(View.VISIBLE);
+        }
+
         if (!TextUtils.isEmpty(question.getValidationComment())) {
             TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
