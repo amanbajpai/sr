@@ -60,7 +60,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
             validationComment.setVisibility(View.VISIBLE);
         }
 
-        TextView writeNumberFromTillText = (TextView) view.findViewById(R.id.writeNumberFromTillText);
+        TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
         answerEditText = (EditText) view.findViewById(R.id.answerEditText);
 
         if (question.getPatternType() != 1) {
@@ -69,7 +69,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         setEditTextWatcher(answerEditText);
 
         questionText.setText(question.getQuestion());
-        writeNumberFromTillText.setText(getString(R.string.write_your_number, question.getMinValue(),
+        conditionText.setText(getString(R.string.write_your_number, question.getMinValue(),
                 question.getMaxValue()));
         AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
 

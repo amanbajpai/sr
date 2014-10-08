@@ -23,13 +23,15 @@ public class EmailRedirectActivity extends Activity {
             if (data != null) {
                 List<String> params = data.getPathSegments();
 
-                String email = params.get(1);
-                String token = params.get(2);
+                if (params.size() >= 3) {
+                    String email = params.get(1);
+                    String token = params.get(2);
 
-                if (Keys.ACTIVATE_ACCOUNT.equals(params.get(0))) {
-                    startActivity(IntentUtils.getActivateAccountIntent(this, email, token));
-                } else if (Keys.FORGOT_PASS.equals(params.get(0))) {
-                    startActivity(IntentUtils.getSetNewPasswordIntent(this, email, token));
+                    if (Keys.ACTIVATE_ACCOUNT.equals(params.get(0))) {
+                        startActivity(IntentUtils.getActivateAccountIntent(this, email, token));
+                    } else if (Keys.FORGOT_PASS.equals(params.get(0))) {
+                        startActivity(IntentUtils.getSetNewPasswordIntent(this, email, token));
+                    }
                 }
             }
         }

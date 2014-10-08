@@ -45,16 +45,14 @@ public class Config {
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
-                TERMS_AND_CONDITION_URL = "http://matrix.red-ocean.net/" +
-                        "TermsAndConditions?withoutMenu=true&language=%s&version=%s";
+                TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
-                TERMS_AND_CONDITION_URL = "http://web.staging.redoceansolutions" +
-                        ".com/TermsAndConditions?withoutMenu=true&language=%s&version=%s";
+                TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://web.staging.redoceansolutions.com/Account/Manage";
                 break;
             case DEVELOPMENT:
@@ -62,8 +60,7 @@ public class Config {
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
-                TERMS_AND_CONDITION_URL = "http://dev.web.matrix.osiris.pp.ciklum" +
-                        ".com/TermsAndConditions?withoutMenu=true&language=%s&version=%s";
+                TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";
                 break;
         }

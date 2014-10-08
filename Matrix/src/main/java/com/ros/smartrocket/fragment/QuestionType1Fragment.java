@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
@@ -47,7 +48,10 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
         handler = new DbHandler(getActivity().getContentResolver());
 
+        ViewGroup headerView = (ViewGroup) localInflater.inflate(R.layout.question_header, null);
+
         ListView list = (ListView) view.findViewById(R.id.answerList);
+        list.addHeaderView(headerView);
         list.setOnItemClickListener(this);
 
         TextView questionText = (TextView) view.findViewById(R.id.questionText);
@@ -62,6 +66,9 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
+
+        TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
+        conditionText.setText(R.string.choose_one_or_more_answers);
 
         adapter = new AnswerCheckBoxAdapter(getActivity());
         list.setAdapter(adapter);
@@ -124,7 +131,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
-        Answer answer = adapter.getItem(position);
+        Answer answer = adapter.getItem(position - 1);
         answer.toggleChecked();
 
         AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();

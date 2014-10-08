@@ -27,8 +27,7 @@ public class TermsAndConditionActivity extends BaseActivity {
         }
 
         WebView webView = (WebView) findViewById(R.id.webView);
-        webView.loadUrl(String.format(Config.TERMS_AND_CONDITION_URL, preferencesManager.getLanguageCode(),
-                String.valueOf(versionId)));
+        webView.loadUrl(Config.TERMS_AND_CONDITION_URL);
     }
 
     @Override
