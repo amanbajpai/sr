@@ -5,12 +5,17 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import com.ros.smartrocket.utils.L;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = CameraPreview.class.getSimpleName();
     private SurfaceHolder holder;
     private Camera camera;
+
+    public CameraPreview(Context context) {
+        super(context);
+    }
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
