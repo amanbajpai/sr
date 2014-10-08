@@ -44,9 +44,10 @@ public class Config {
             case PRODUCTION:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
-                WEB_SERVICE_URL = "";
-                TERMS_AND_CONDITION_URL = "";
-                PROFILE_PAGE_URL = "";
+                WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
+                TERMS_AND_CONDITION_URL = "http://matrix.red-ocean.net/" +
+                        "TermsAndConditions?withoutMenu=true&language=%s&version=%s";
+                PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;

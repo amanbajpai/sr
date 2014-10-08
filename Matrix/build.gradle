@@ -53,6 +53,15 @@ android {
         targetSdkVersion 19
     }
 
+    signingConfigs {
+        release {
+            storeFile file('matrix_app_key.jks')
+            storePassword 'RocketStore852'
+            keyAlias 'SmartRocketKey'
+            keyPassword 'RocketMan852'
+        }
+    }
+
     lintOptions {
         // if true, stop the gradle build if errors are found
         abortOnError false
@@ -68,9 +77,10 @@ android {
         }
 
         release {
-            zipAlign false
-            runProguard false
+            zipAlign true
+            runProguard true
             debuggable false
+            signingConfig signingConfigs.release
             proguardFile 'configs/proguard-project-release.txt'
         }
     }
