@@ -104,6 +104,8 @@
     <string name="term_and_conditions"><u>TERMS &amp; CONDITIONS</u></string>
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title">Share</string>
+    <string name="share_text">I\'ve been having fun (and making money) with SmartRocket app
+        for Android Smartphones. \n\nIf you want to join me, you can learn more here</string>
     <string name="tell_your_friends_about">Tell your friends about \n SmartRocket!</string>
     <string name="share_via_email">E-MAIL</string>
     <string name="share_via_message">MESSAGE</string>

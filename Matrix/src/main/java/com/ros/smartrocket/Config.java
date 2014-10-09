@@ -20,6 +20,7 @@ public class Config {
     public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory
             (CACHE_PREFIX_DIR).getPath();
     public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/";
+    public static final String SHARE_URL = "http://smart-rocket.com/crew/";
 
     public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 0;
     public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 0;

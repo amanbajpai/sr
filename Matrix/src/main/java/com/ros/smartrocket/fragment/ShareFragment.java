@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -47,9 +48,9 @@ public class ShareFragment extends Fragment implements OnClickListener {
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
         easyTracker = EasyTracker.getInstance(getActivity());
 
-        shortUrl = preferencesManager.getShortUrlToShare();
+        shortUrl = Config.SHARE_URL;
         subject = getString(R.string.app_name);
-        text = getString(R.string.app_name);
+        text = getString(R.string.share_text);
 
         Button emailButton = (Button) view.findViewById(R.id.emailButton);
         Button messageButton = (Button) view.findViewById(R.id.messageButton);
@@ -102,7 +103,7 @@ public class ShareFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.facebookButton:
                 shareType = "Facebook";
-                intent = IntentUtils.getShareFacebookIntent(subject, text + " " + shortUrl);
+                intent = IntentUtils.getShareFacebookIntent(subject, shortUrl);
                 break;
             case R.id.twitterButton:
                 shareType = "Twitter";

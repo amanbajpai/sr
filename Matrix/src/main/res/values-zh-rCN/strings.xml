@@ -98,6 +98,8 @@
     <string name="term_and_conditions"><u>使用协议和条款</u></string>
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title">分享</string>
+    <string name="share_text">I\'ve been having fun (and making money) with SmartRocket app
+        for Android Smartphones. \n\nIf you want to join me, you can learn more here</string>
     <string name="tell_your_friends_about">将智慧飞船\n公告于天下好友！</string>
     <string name="share_via_email">电子邮件</string>
     <string name="share_via_message">短信</string>
