@@ -118,25 +118,29 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    task = TasksBL.convertCursorToTask(cursor);
+                    task = TasksBL.convertCursorToTaskOrNull(cursor);
 
-                    setTitle(task.getName());
+                    if (task != null) {
+                        setTitle(task.getName());
 
-                    UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId());
+                        UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId());
 
-                    isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
+                        isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
 
-                    if (isRedo) {
-                        nextButton.setBackgroundResource(R.drawable.button_red_selector);
-                        previousButton.setBackgroundResource(R.drawable.button_red_selector);
+                        if (isRedo) {
+                            nextButton.setBackgroundResource(R.drawable.button_red_selector);
+                            previousButton.setBackgroundResource(R.drawable.button_red_selector);
 
-                        int padding = UIUtils.getPxFromDp(QuestionsActivity.this, 10);
-                        nextButton.setPadding(padding, padding, padding, padding);
-                        previousButton.setPadding(padding, padding, padding, padding);
+                            int padding = UIUtils.getPxFromDp(QuestionsActivity.this, 10);
+                            nextButton.setPadding(padding, padding, padding, padding);
+                            previousButton.setPadding(padding, padding, padding, padding);
 
-                        apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
+                            apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
+                        } else {
+                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId);
+                        }
                     } else {
-                        QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId);
+                        finish();
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
