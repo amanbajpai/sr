@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.model.Marker;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
@@ -18,7 +18,6 @@ import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
 import java.util.Locale;
 
 public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
-    private static final String TAG = CustomInfoMapWindowAdapter.class.getSimpleName();
     private static final String MY_LOCATION = "MyLoc";
     private final View mWindow;
     private final View mContents;
@@ -35,9 +34,6 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
 
     private boolean render(Marker marker, View view, ClusterPoint clusterPoint) {
         boolean result = false;
-        L.d(TAG, "render() [marker=" + marker + ", clusterPoint=" + clusterPoint + "]");
-        L.d(TAG, "render() [title=" + marker.getTitle() + ", ID=" + marker.getId() + ", "
-                + "snipped=" + marker.getSnippet() + ", offset=" + clusterPoint.getPointAtOffset(0) + "]");
 
         if (clusterPoint.getPointAtOffset(0) != null) {
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();

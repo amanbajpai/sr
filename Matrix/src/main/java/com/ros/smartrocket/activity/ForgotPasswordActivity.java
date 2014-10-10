@@ -17,9 +17,6 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
-/**
- * Activity for Agents login into system
- */
 public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -52,12 +49,14 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
                 finish();
-                startActivity(IntentUtils.getForgotPasswordSuccessIntent(this, emailEditText.getText().toString()
-                        .trim()));
+                startActivity(IntentUtils.getForgotPasswordSuccessIntent(this,
+                        emailEditText.getText().toString().trim()));
             }
         } else {
             if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {

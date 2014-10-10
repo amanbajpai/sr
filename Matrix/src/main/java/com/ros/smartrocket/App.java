@@ -3,12 +3,14 @@ package com.ros.smartrocket;
 import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.text.format.DateUtils;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.TaskReminderService;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import org.acra.ACRA;
@@ -25,6 +27,7 @@ import java.util.Calendar;
         ReportField.SHARED_PREFERENCES})
 
 public class App extends Application {
+    private static final String TAG = App.class.getSimpleName();
     private static App instance;
 
     private String deviceId;
@@ -46,6 +49,7 @@ public class App extends Application {
         locationManager = new MatrixLocationManager(getApplicationContext());
         preferencesManager = PreferencesManager.getInstance();
 
+        requestToCurrentLocation();
         SettingsFragment.setCurrentLanguage();
         clearMonthLimitIfNeed();
     }
@@ -82,6 +86,17 @@ public class App extends Application {
             preferencesManager.setUsed3GUploadMonthlySize(0);
             preferencesManager.setLastRefreshMonthLimitDate(calendar.getTimeInMillis());
         }
+    }
+
+    public void requestToCurrentLocation(){
+        Location loc = locationManager.getLocation();
+        L.i(TAG, "[LOC = " + loc + "]");
+        locationManager.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+            @Override
+            public void onUpdate(Location location) {
+                L.i(TAG, "[NEW LOC = " + location + "]");
+            }
+        });
     }
 
     @Override

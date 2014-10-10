@@ -167,11 +167,12 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void checkLocationForRegistration(Activity activity, String country, String city, double latitude,
+    public void checkLocationForRegistration(Activity activity, String country, String city, String district, double latitude,
                                              double longitude) {
         CheckLocation checkLocationEntity = new CheckLocation();
         checkLocationEntity.setCountry(country);
         checkLocationEntity.setCity(city);
+        checkLocationEntity.setDistrict(district);
         checkLocationEntity.setLatitude(latitude);
         checkLocationEntity.setLongitude(longitude);
 

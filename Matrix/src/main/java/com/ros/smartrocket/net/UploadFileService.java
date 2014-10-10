@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -253,20 +254,21 @@ public class UploadFileService extends Service implements NetworkOperationListen
     }
 
     private void validateTask(final int taskId) {
-        Location location = lm.getLocation();
-        if (location != null) {
-            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
-                    location.getLongitude()));
-        } else {
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                @Override
-                public void onUpdate(Location location) {
-                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
-                            location.getLongitude()));
-                }
-            });
-        }
+        MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+            @Override
+            public void getLocationStart() {
+            }
 
+            @Override
+            public void getLocationInProcess() {
+            }
+
+            @Override
+            public void getLocationSuccess(Location location) {
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
+                        location.getLongitude()));
+            }
+        });
     }
 
     private boolean needSendNotification(NotUploadedFile notUploadedFile) {

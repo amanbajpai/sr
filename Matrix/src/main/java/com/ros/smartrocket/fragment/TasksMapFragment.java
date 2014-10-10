@@ -4,7 +4,6 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +26,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
@@ -319,17 +319,20 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void loadData() {
         clearMap();
 
-        Location location = lm.getLocation();
-        if (location != null && preferencesManager.getUseLocationServices()) {
-            refreshIconState(true);
-            updateDataFromServer(location);
-
-        } else if (UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
-            refreshIconState(true);
-            UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+        if (preferencesManager.getUseLocationServices() && UIUtils.isGpsEnabled(getActivity())) {
+            MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
                 @Override
-                public void onUpdate(Location location) {
+                public void getLocationStart() {
+                    refreshIconState(true);
+                }
+
+                @Override
+                public void getLocationInProcess() {
+                    UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
+                }
+
+                @Override
+                public void getLocationSuccess(Location location) {
                     updateDataFromServer(location);
                 }
             });
@@ -388,21 +391,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @param radius - selected radius
      */
     private void getWavesFromServer(final Location location, final int radius) {
-        if (location != null) {
-            lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                @Override
-                public void onUpdate(Address address) {
-                    if (address != null) {
-                        APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
-                                location.getLongitude(), address.getCountryName(), address.getLocality(), radius);
-                    } else if (UIUtils.isOnline(getActivity())) {
-                        APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
-                                location.getLongitude(), "", "", radius);
-                        //UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
-                    }
-                }
-            });
-        }
+        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+            @Override
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
+                        location.getLongitude(), countryName, cityName, radius);
+            }
+        });
     }
 
     /**

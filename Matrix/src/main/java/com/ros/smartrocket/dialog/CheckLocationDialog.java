@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -28,7 +29,6 @@ import com.ros.smartrocket.utils.L;
 
 public class CheckLocationDialog extends Dialog {
     private static final String TAG = CheckLocationDialog.class.getSimpleName();
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Activity activity;
     private ImageView statusImage;
@@ -68,32 +68,17 @@ public class CheckLocationDialog extends Dialog {
     }
 
     public void getLocation() {
-        Location location = lm.getLocation();
-        if (location != null) {
-            getAddressByLocation(location);
-        } else {
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                @Override
-                public void onUpdate(Location location) {
-                    getAddressByLocation(location);
-                }
-            });
-        }
-    }
-
-    public void getAddressByLocation(final Location location) {
-        lm.getAddress(location, new MatrixLocationManager.IAddress() {
+        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
             @Override
-            public void onUpdate(Address address) {
-                if (address != null) {
-                    countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
-                    cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
-                }
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                CheckLocationDialog.this.countryName = countryName;
+                CheckLocationDialog.this.cityName = cityName;
 
                 apiFacade.checkLocationForRegistration(activity, countryName, cityName,
-                        location.getLatitude(), location.getLongitude());
+                        districtName, location.getLatitude(), location.getLongitude());
             }
         });
+
     }
 
     public void onNetworkOperation(BaseOperation operation) {

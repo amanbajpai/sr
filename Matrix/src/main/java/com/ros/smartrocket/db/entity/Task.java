@@ -1,9 +1,9 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.utils.L;
 
 /**
  * Data model of Task entity
@@ -139,7 +139,6 @@ public class Task extends BaseEntity {
 
             result.setIcon(c.getString(TaskDbSchema.Query.All.ICON));
         }
-        L.d("Task", result.toString());
         return result;
     }
 

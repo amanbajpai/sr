@@ -224,19 +224,21 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private void validateTask(final int taskId) {
         setSupportProgressBarIndeterminateVisibility(true);
 
-        Location location = lm.getLocation();
-        if (location != null) {
-            sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
-                    location.getLongitude()));
-        } else {
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                @Override
-                public void onUpdate(Location location) {
-                    sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
-                            location.getLongitude()));
-                }
-            });
-        }
+        MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+            @Override
+            public void getLocationStart() {
+            }
+
+            @Override
+            public void getLocationInProcess() {
+            }
+
+            @Override
+            public void getLocationSuccess(Location location) {
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId,
+                        location.getLatitude(), location.getLongitude()));
+            }
+        });
     }
 
     public void sendTextAnswers() {

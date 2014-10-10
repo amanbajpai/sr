@@ -1,13 +1,11 @@
 package com.ros.smartrocket.activity;
 
-import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.dialog.RegistrationSubscribeSuccessDialog;
@@ -22,7 +20,6 @@ import com.ros.smartrocket.utils.UIUtils;
 public class CheckLocationFailedActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private EditText countryEditText;
     private EditText cityEditText;
     private EditText emailEditText;
@@ -114,20 +111,15 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     }
 
     private void setCurrentAddressByLocation() {
-        Location location = lm.getLocation();
-        if (location != null) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+            @Override
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
 
-            lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                @Override
-                public void onUpdate(Address address) {
-                    if (address != null) {
-                        countryEditText.setText(address.getCountryName());
-                        cityEditText.setText(address.getLocality());
-                    }
-                }
-            });
-        }
+                countryEditText.setText(countryName);
+                cityEditText.setText(cityName);
+            }
+        });
     }
 }

@@ -2,9 +2,7 @@ package com.ros.smartrocket.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.location.Address;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -61,10 +59,10 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                                     }
 
                                     intent.putExtra(Keys.COUNTRY_ID, serverResponse.getCountryId());
+                                    intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
                                     intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
                                     intent.putExtra(Keys.COUNTRY_NAME, countryName);
                                     intent.putExtra(Keys.CITY_NAME, cityName);
-                                    intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
                                     startActivity(intent);
                                 }
 

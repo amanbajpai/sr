@@ -1,7 +1,6 @@
 package com.ros.smartrocket.activity;
 
 import android.content.Intent;
-import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,10 +9,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.LoginBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
@@ -22,31 +19,25 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.GoogleUrlShortenManager;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Activity for Agents login into system
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener, NetworkOperationListenerInterface {
-    private static final String TAG = LoginActivity.class.getSimpleName();
+public class LoginActivity extends BaseActivity implements View.OnClickListener,
+        NetworkOperationListenerInterface {
     private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
     private EditText passwordEditText;
     private CheckBox rememberMeCheckBox;
     private Button loginButton;
     private Button registerButton;
-    private Location currentLocation;
     private CustomProgressDialog progressDialog;
-    private String countryName = "";
-    private String cityName = "";
 
     public LoginActivity() {
     }
@@ -58,16 +49,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setContentView(R.layout.activity_login);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
-
-        final MatrixLocationManager lm = new MatrixLocationManager(getApplicationContext());
-        Location loc = lm.getLocation();
-        L.i(TAG, "[LOC = " + loc + "]");
-        lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-            @Override
-            public void onUpdate(Location location) {
-                L.i(TAG, "[NEW LOC = " + location + "]");
-            }
-        });
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -120,16 +101,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         }
                 );
 
-                // Check if we are registered on Server side our GCM Id
-                /*if (!preferencesManager.isGCMIdRegisteredOnServer()) {
-                    String regId = preferencesManager.getGCMRegistrationId();
-                    if ("".equals(regId)) {
-                        CommonUtilities.registerGCMInBackground();
-                   } else {
-                        APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
-                    }
-                }*/
-
                 if (rememberMeCheckBox.isChecked()) {
                     preferencesManager.setLastEmail(emailEditText.getText().toString().trim());
                     preferencesManager.setLastPassword(passwordEditText.getText().toString().trim());
@@ -137,7 +108,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     preferencesManager.setLastEmail("");
                     preferencesManager.setLastPassword("");
                 }
-                dissmisDialog();
+                dismissProgressDialog();
                 finish();
                 startActivity(new Intent(this, MainActivity.class));
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
@@ -149,46 +120,42 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
-                    intent.putExtra(Keys.COUNTRY_NAME, countryName);
-                    intent.putExtra(Keys.CITY_NAME, cityName);
-                    intent.putExtra(Keys.LATITUDE, currentLocation.getLatitude());
-                    intent.putExtra(Keys.LONGITUDE, currentLocation.getLongitude());
                     startActivity(intent);
                 } else {
                     startActivity(new Intent(this, CheckLocationActivity.class));
                 }
                 registerButton.setEnabled(true);
-                dissmisDialog();
+                dismissProgressDialog();
             }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
-                .ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                dissmisDialog();
+                dismissProgressDialog();
                 loginButton.setEnabled(true);
                 DialogUtils.showAccountNotActivatedDialog(this);
             }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
-                .NO_INTERNET) {
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                == BaseNetworkService.NO_INTERNET) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())
                     || Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                dissmisDialog();
+                dismissProgressDialog();
                 loginButton.setEnabled(true);
                 DialogUtils.showBadOrNoInternetDialog(this);
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                dissmisDialog();
+                dismissProgressDialog();
                 loginButton.setEnabled(true);
                 DialogUtils.showLoginFailedDialog(this);
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 startActivity(new Intent(this, CheckLocationActivity.class));
                 registerButton.setEnabled(true);
-                dissmisDialog();
+                dismissProgressDialog();
             }
         }
     }
 
-    public void dissmisDialog() {
+    public void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
@@ -201,68 +168,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-                /*String result1 = "";
-                String result2 = "";
-                String result3 = "";
-                try {
-                    result1 = new String(email.getBytes("UTF-8"));
-                    result2 = new String(email.getBytes("UTF-8"), "UTF-8");
-                    result3 = new String(email.getBytes("UTF-16"), "UTF-16");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                L.e(TAG, "Result 1: " + result1);
-                L.e(TAG, "Result 2: " + result2);
-                L.e(TAG, "Result 3: " + result3);*/
-
-                LoginBL lBL = new LoginBL();
-                LoginBL.PreLoginErrors error = lBL.login(this, email, password);
-
-                if (error == LoginBL.PreLoginErrors.SUCCESS) {
+                if (deviceIsReady()) {
                     progressDialog = CustomProgressDialog.show(this);
                     loginButton.setEnabled(false);
                     apiFacade.login(this, email, password);
-                } else if (error == LoginBL.PreLoginErrors.NOCONNECTION) {
-                    DialogUtils.showNetworkDialog(this);
-                } else if (error == LoginBL.PreLoginErrors.GPSOFF) {
-                    DialogUtils.showLocationDialog(this, true);
-                } else if (error == LoginBL.PreLoginErrors.GOOGLEPSNOTWALID) {
-                    DialogUtils.showGoogleSdkDialog(this);
-                } else if (error == LoginBL.PreLoginErrors.MOCKON) {
-                    DialogUtils.showMockLocationDialog(this, true);
-                } else if (error == LoginBL.PreLoginErrors.NOPASSWORDOREMAIL) {
-                    DialogUtils.showLoginFailedDialog(this);
                 }
 
                 break;
             case R.id.registerButton:
-                if (!UIUtils.isOnline(this)) {
-                    DialogUtils.showNetworkDialog(this);
-                } else if (!UIUtils.isGpsEnabled(this)) {
-                    DialogUtils.showLocationDialog(this, true);
-                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
-                    DialogUtils.showGoogleSdkDialog(this);
-                } else if (UIUtils.isMockLocationEnabled(this)) {
-                    DialogUtils.showMockLocationDialog(this, true);
-                } else {
+                if (deviceIsReady()) {
                     progressDialog = CustomProgressDialog.show(this);
                     progressDialog.setCancelable(false);
                     registerButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
 
-                    Location location = lm.getLocation();
-                    if (location != null) {
-                        getAddressByLocation(location);
-                    } else {
-                        lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                            @Override
-                            public void onUpdate(Location location) {
-                                L.i(TAG, "Location Updated!");
-                                getAddressByLocation(location);
-                            }
-                        });
-                    }
+                    MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+                        @Override
+                        public void onGetAddressSuccess(Location location, String countryName,
+                                                        String cityName, String districtName) {
+                            apiFacade.checkLocationForRegistration(LoginActivity.this, countryName, cityName,
+                                    districtName, location.getLatitude(), location.getLongitude());
+
+                        }
+                    });
                 }
                 break;
             case R.id.forgotPasswordButton:
@@ -273,25 +201,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    public void getAddressByLocation(Location location) {
-        this.currentLocation = location;
-        lm.getAddress(location, new MatrixLocationManager.IAddress() {
-            @Override
-            public void onUpdate(Address address) {
-                countryName = "";
-                cityName = "";
+    public boolean deviceIsReady() {
+        boolean result = UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this)
+                && UIUtils.isGooglePlayServicesEnabled(this) && !UIUtils.isMockLocationEnabled(this);
+        if (!UIUtils.isOnline(this)) {
+            DialogUtils.showNetworkDialog(this);
+        } else if (!UIUtils.isGpsEnabled(this)) {
+            DialogUtils.showLocationDialog(this, true);
+        } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
+            DialogUtils.showGoogleSdkDialog(this);
+        } else if (UIUtils.isMockLocationEnabled(this)) {
+            DialogUtils.showMockLocationDialog(this, true);
+        }
 
-                if (address != null) {
-                    countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
-                    cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
-
-                    L.e(TAG, "CountryCode " + address.getCountryCode());
-                }
-
-                apiFacade.checkLocationForRegistration(LoginActivity.this, countryName, cityName,
-                        currentLocation.getLatitude(), currentLocation.getLongitude());
-            }
-        });
+        return result;
     }
 
     @Override

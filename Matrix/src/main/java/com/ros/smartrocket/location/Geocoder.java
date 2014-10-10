@@ -63,17 +63,15 @@ public final class Geocoder {
      * guaranteed to be meaningful or correct. It may be useful to call this method from a thread separate from your
      * primary UI thread.
      *
-     * @param latitude   the latitude a point for the search
-     * @param longitude  the longitude a point for the search
-     * @param maxResults max number of addresses to return. Smaller numbers (1 to 5) are recommended
+     * @param latitude  the latitude a point for the search
+     * @param longitude the longitude a point for the search
      * @return a list of Address objects. Returns null or empty list if no matches were found or there is no backend
      * service available.
      * @throws IllegalArgumentException if latitude is less than -90 or greater than 90
      * @throws IllegalArgumentException if longitude is less than -180 or greater than 180
      * @throws java.io.IOException      if the network is unavailable or any other I/O problem occurs
      */
-    public List<Address> getFromLocation(double latitude, double longitude, int maxResults)
-            throws IOException, LimitExceededException {
+    public Address getFromLocation(double latitude, double longitude) {
         client = AndroidHttpClient.newInstance(TAG, context);
 
         if (latitude < -90.0 || latitude > 90.0) {
@@ -83,8 +81,6 @@ public final class Geocoder {
             throw new IllegalArgumentException("longitude == " + longitude);
         }
 
-        List<Address> results = new ArrayList<Address>();
-
         StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=");
         url.append(latitude);
         url.append(',');
@@ -93,13 +89,10 @@ public final class Geocoder {
         url.append(locale.getLanguage());
 
         String json = sendGetRequest(url.toString());
-        if (json != null) {
-            parseJson(results, json);
-        }
 
         client.close();
 
-        return results;
+        return getAddress(json);
     }
 
     /**
@@ -128,20 +121,15 @@ public final class Geocoder {
 
         client = AndroidHttpClient.newInstance(TAG, context);
 
-        List<Address> results = new ArrayList<Address>();
-
         StringBuilder request = new StringBuilder("http://maps.googleapis.com/maps/api/geocode/json?sensor=false");
         request.append("&language=").append(locale.getLanguage());
         request.append("&address=").append(URLEncoder.encode(locationName, "UTF-8"));
 
         String json = sendGetRequest(request.toString());
-        if (json != null) {
-            parseJson(results, json);
-        }
 
         client.close();
 
-        return results;
+        return getAddressList(json);
     }
 
     public String sendGetRequest(final String url) {
@@ -163,56 +151,100 @@ public final class Geocoder {
         return result;
     }
 
-    private void parseJson(List<Address> address, String json) throws LimitExceededException {
+    private List<Address> getAddressList(String json) {
+        List<Address> addressList = new ArrayList<Address>();
+
         try {
             JSONObject o = new JSONObject(json);
             String status = o.getString("status");
             if (status.equals(STATUS_OK)) {
-
                 JSONArray a = o.getJSONArray("results");
 
                 for (int i = 0; i < a.length(); i++) {
-                    Address current = new Address(locale);
+                    Address address = new Address(locale);
                     JSONObject item = a.getJSONObject(i);
 
-                    JSONArray typeJSONArray = item.getJSONArray("types");
-                    String typeName = typeJSONArray.getString(0);
-
-                    if (typeJSONArray.length() > 0 && typeName.equals("locality")) {
-                        current.setFeatureName(item.getString("formatted_address"));
-
-                        JSONObject location = item.getJSONObject("geometry").getJSONObject("location");
-                        current.setLatitude(location.getDouble("lat"));
-                        current.setLongitude(location.getDouble("lng"));
-
-                        JSONArray areaArray = item.getJSONArray("address_components");
-                        for (int j = 0; j < areaArray.length(); j++) {
-                            JSONObject areaObject = (JSONObject) areaArray.get(j);
-                            String longName = areaObject.getString("long_name");
-
-                            JSONArray addressTypeJSONArray = areaObject.getJSONArray("types");
-
-                            if (addressTypeJSONArray.length() > 0) {
-                                String addressTypeName = addressTypeJSONArray.getString(0);
-
-                                if (addressTypeName.equals("country")) {
-                                    current.setCountryName(longName);
-                                } else if (addressTypeName.equals("administrative_area_level_1")) {
-                                    current.setAdminArea(longName);
-                                } else if (addressTypeName.equals("locality")) {
-                                    current.setLocality(longName);
-                                }
-                            }
-                        }
-                        address.add(current);
-                    }
+                    fillInAddress(address, item);
+                    addressList.add(address);
                 }
 
             } else if (status.equals(STATUS_OVER_QUERY_LIMIT)) {
                 throw new LimitExceededException();
             }
         } catch (LimitExceededException e) {
-            throw e;
+            L.e(TAG, "Error getAddressList ", e);
+        } catch (Exception e) {
+            L.e(TAG, "parseJson error: " + e.getMessage(), e);
+        }
+
+        return addressList;
+    }
+
+    private Address getAddress(String json) {
+        Address address = new Address(locale);
+
+        try {
+            JSONObject o = new JSONObject(json);
+            String status = o.getString("status");
+            if (status.equals(STATUS_OK)) {
+                JSONArray a = o.getJSONArray("results");
+
+                for (int i = 0; i < a.length(); i++) {
+                    JSONObject item = a.getJSONObject(i);
+
+                    fillInAddress(address, item);
+                }
+
+            } else if (status.equals(STATUS_OVER_QUERY_LIMIT)) {
+                throw new LimitExceededException();
+            }
+        } catch (LimitExceededException e) {
+            L.e(TAG, "Error getAddress ", e);
+        } catch (Exception e) {
+            L.e(TAG, "parseJson error: " + e.getMessage(), e);
+        }
+
+        return address;
+    }
+
+    public void fillInAddress(Address address, JSONObject item) {
+        try {
+            JSONArray typeJSONArray = item.getJSONArray("types");
+            String typeName = typeJSONArray.getString(0);
+
+            if (typeJSONArray.length() > 0 && (typeName.equals("locality")
+                    || typeName.equals("administrative_area_level_2")
+                    || typeName.equals("sublocality_level_1"))) {
+                address.setFeatureName(item.getString("formatted_address"));
+
+                JSONObject location = item.getJSONObject("geometry").getJSONObject("location");
+                address.setLatitude(location.getDouble("lat"));
+                address.setLongitude(location.getDouble("lng"));
+
+                JSONArray areaArray = item.getJSONArray("address_components");
+                for (int j = 0; j < areaArray.length(); j++) {
+                    JSONObject areaObject = (JSONObject) areaArray.get(j);
+                    String longName = areaObject.getString("long_name");
+
+                    JSONArray addressTypeJSONArray = areaObject.getJSONArray("types");
+
+                    if (addressTypeJSONArray.length() > 0) {
+                        String addressTypeName = addressTypeJSONArray.getString(0);
+
+                        if (addressTypeName.equals("country")) {
+                            address.setCountryName(longName);
+                        } else if (addressTypeName.equals("administrative_area_level_1")) {
+                            address.setAdminArea(longName);
+                        } else if (addressTypeName.equals("administrative_area_level_2")) {
+                            address.setSubLocality(longName);
+                        } else if (addressTypeName.equals("sublocality_level_1")) {
+                            address.setSubLocality(longName);
+                        } else if (addressTypeName.equals("locality")) {
+                            address.setLocality(longName);
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             L.e(TAG, "parseJson error: " + e.getMessage(), e);
         }

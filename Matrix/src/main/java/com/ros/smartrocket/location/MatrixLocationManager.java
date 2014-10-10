@@ -5,21 +5,22 @@ import android.location.Address;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 
@@ -165,21 +166,6 @@ public class MatrixLocationManager implements LocationListener,
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
-        /*
-         * Google Play services can resolve some errors it detects.
-         * If the error has a resolution, try sending an Intent to
-         * start a Google Play services activity that can resolve
-         * error.
-         */
-//        if (connectionResult.hasResolution()) {
-//
-//        } else {
-//            /*
-//             * If no resolution is available, display a dialog to the
-//             * user with the error.
-//             */
-//            // TODO: showErrorDialog(connectionResult.getErrorCode());
-//        }
     }
 
     /**
@@ -200,44 +186,12 @@ public class MatrixLocationManager implements LocationListener,
             this.callback = callback;
         }
 
-
-        /**
-         * Get a Geocoder instance, get the latitude and longitude
-         * look up the address, and return it
-         *
-         * @return A string containing the address of the current
-         * location, or an empty string if no address can be found,
-         * or an error message
-         * @params params One or more Location objects
-         */
         @Override
         protected Address doInBackground(Location... params) {
             Geocoder geocoder = new Geocoder(сontext, Locale.ENGLISH);
-            // Get the current location from the input parameter list
             Location loc = params[0];
-            // Create a list to contain the result address
-            List<Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
-            } catch (IOException e1) {
-                L.e(TAG, "IO Exception in getFromLocation()", e1);
-                return null;
-            } catch (IllegalArgumentException e2) {
-                // Error message to post in the log
-                String errorString = "Illegal arguments " + Double.toString(loc.getLatitude())
-                        + " , " + Double.toString(loc.getLongitude()) + " passed to address service";
-                L.e(TAG, errorString, e2);
-                return null;
-            } catch (Geocoder.LimitExceededException e) {
-                L.e(TAG, "GetAddressTask Error ", e);
-            }
-            Address address = null;
-            // If the reverse geocode returned an address
-            if (addresses != null && !addresses.isEmpty()) {
-                // Get the first address
-                address = addresses.get(0);
-            }
-            return address;
+
+            return geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude());
         }
 
         @Override
@@ -246,11 +200,77 @@ public class MatrixLocationManager implements LocationListener,
         }
     }
 
+    public static void getCurrentLocation(final GetCurrentLocationListener getCurrentLocationListener) {
+        MatrixLocationManager lm = App.getInstance().getLocationManager();
+
+        getCurrentLocationListener.getLocationStart();
+
+        Location location = lm.getLocation();
+        if (location != null) {
+            getCurrentLocationListener.getLocationSuccess(location);
+        } else {
+            getCurrentLocationListener.getLocationInProcess();
+            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
+                @Override
+                public void onUpdate(Location location) {
+                    getCurrentLocationListener.getLocationSuccess(location);
+                }
+            });
+        }
+    }
+
+    public static void getAddressByCurrentLocation(final GetAddressListener getAddressListener) {
+        MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+            @Override
+            public void getLocationStart() {
+            }
+
+            @Override
+            public void getLocationInProcess() {
+            }
+
+            @Override
+            public void getLocationSuccess(Location location) {
+                getAddressByLocation(location, getAddressListener);
+            }
+        });
+    }
+
+    public static void getAddressByLocation(final Location location, final GetAddressListener getAddressListener) {
+        MatrixLocationManager lm = App.getInstance().getLocationManager();
+        lm.getAddress(location, new MatrixLocationManager.IAddress() {
+            @Override
+            public void onUpdate(Address address) {
+                String countryName = "";
+                String cityName = "";
+                String districtName = "";
+
+                if (address != null) {
+                    countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
+                    cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
+                    districtName = !TextUtils.isEmpty(address.getSubLocality()) ? address.getSubLocality() : "";
+                }
+
+                getAddressListener.onGetAddressSuccess(location, countryName, cityName, districtName);
+            }
+        });
+    }
+
     public interface ILocationUpdate {
         void onUpdate(Location location);
     }
 
     public interface IAddress {
         void onUpdate(Address address);
+    }
+
+    public interface GetAddressListener {
+        void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName);
+    }
+
+    public interface GetCurrentLocationListener {
+        void getLocationStart();
+        void getLocationInProcess();
+        void getLocationSuccess(Location location);
     }
 }
