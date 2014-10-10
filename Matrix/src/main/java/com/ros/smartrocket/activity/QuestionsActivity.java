@@ -279,8 +279,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 currentFragment.setAnswerPageLoadingFinishedListener(this);
                 currentFragment.setAnswerSelectedListener(this);
                 currentFragment.setArguments(fragmentBundle);
-                t.replace(R.id.contentLayout, currentFragment).commit();
 
+                try {
+                    t.replace(R.id.contentLayout, currentFragment).commit();
+                } catch (Exception e) {
+                    L.e(TAG, "Error replace question type fragment", e);
+                    finish();
+                }
             }
         } else {
             startValidationActivity();

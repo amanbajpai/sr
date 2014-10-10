@@ -3,7 +3,9 @@ package com.ros.smartrocket.location;
 import android.content.Context;
 import android.location.Address;
 import android.net.http.AndroidHttpClient;
+
 import com.ros.smartrocket.utils.L;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.params.HttpConnectionParams;
@@ -92,7 +94,7 @@ public final class Geocoder {
 
         String json = sendGetRequest(url.toString());
         if (json != null) {
-            parseJson(results, maxResults, json);
+            parseJson(results, json);
         }
 
         client.close();
@@ -134,7 +136,7 @@ public final class Geocoder {
 
         String json = sendGetRequest(request.toString());
         if (json != null) {
-            parseJson(results, maxResults, json);
+            parseJson(results, json);
         }
 
         client.close();
@@ -161,7 +163,7 @@ public final class Geocoder {
         return result;
     }
 
-    private void parseJson(List<Address> address, int maxResults, String json) throws LimitExceededException {
+    private void parseJson(List<Address> address, String json) throws LimitExceededException {
         try {
             JSONObject o = new JSONObject(json);
             String status = o.getString("status");
@@ -169,34 +171,45 @@ public final class Geocoder {
 
                 JSONArray a = o.getJSONArray("results");
 
-                for (int i = 0; i < maxResults && i < a.length(); i++) {
+                for (int i = 0; i < a.length(); i++) {
                     Address current = new Address(locale);
                     JSONObject item = a.getJSONObject(i);
 
-                    current.setFeatureName(item.getString("formatted_address"));
-                    JSONObject location = item.getJSONObject("geometry").getJSONObject("location");
-                    current.setLatitude(location.getDouble("lat"));
-                    current.setLongitude(location.getDouble("lng"));
+                    JSONArray typeJSONArray = item.getJSONArray("types");
+                    String typeName = typeJSONArray.getString(0);
 
-                    JSONArray areaArray = item.getJSONArray("address_components");
-                    for (int j = 0; j < areaArray.length(); j++) {
-                        JSONObject areaObject = (JSONObject) areaArray.get(j);
-                        if (areaObject.getString("types").contains("\"country\"")) {
-                            current.setCountryName(areaObject.getString("long_name"));
-                        } else if (areaObject.getString("types").contains("\"administrative_area_level_1\"")) {
-                            current.setAdminArea(areaObject.getString("long_name"));
-                        } else if (areaObject.getString("types").contains("\"locality\"")) {
-                            current.setLocality(areaObject.getString("long_name"));
+                    if (typeJSONArray.length() > 0 && typeName.equals("locality")) {
+                        current.setFeatureName(item.getString("formatted_address"));
+
+                        JSONObject location = item.getJSONObject("geometry").getJSONObject("location");
+                        current.setLatitude(location.getDouble("lat"));
+                        current.setLongitude(location.getDouble("lng"));
+
+                        JSONArray areaArray = item.getJSONArray("address_components");
+                        for (int j = 0; j < areaArray.length(); j++) {
+                            JSONObject areaObject = (JSONObject) areaArray.get(j);
+                            String longName = areaObject.getString("long_name");
+
+                            JSONArray addressTypeJSONArray = areaObject.getJSONArray("types");
+
+                            if (addressTypeJSONArray.length() > 0) {
+                                String addressTypeName = addressTypeJSONArray.getString(0);
+
+                                if (addressTypeName.equals("country")) {
+                                    current.setCountryName(longName);
+                                } else if (addressTypeName.equals("administrative_area_level_1")) {
+                                    current.setAdminArea(longName);
+                                } else if (addressTypeName.equals("locality")) {
+                                    current.setLocality(longName);
+                                }
+                            }
                         }
+                        address.add(current);
                     }
-
-                    address.add(current);
                 }
 
             } else if (status.equals(STATUS_OVER_QUERY_LIMIT)) {
-
                 throw new LimitExceededException();
-
             }
         } catch (LimitExceededException e) {
             throw e;
