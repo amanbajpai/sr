@@ -69,9 +69,10 @@ public class WavesBL {
                         && Task.TaskStatusId.CLAIMED.getStatusId() != task.getStatusId());
                 task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
                 task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
+                task.setLongStartDateTime(UIUtils.isoTimeToLong(task.getStartDateTime()));
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
                 task.setLongExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS);
-                task.setPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart());
+                task.setLongPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart() * DateUtils.HOUR_IN_MILLIS);
 
                 task.setPhotoQuestionsCount(wave.getPhotoQuestionsCount());
                 task.setNoPhotoQuestionsCount(wave.getNoPhotoQuestionsCount());

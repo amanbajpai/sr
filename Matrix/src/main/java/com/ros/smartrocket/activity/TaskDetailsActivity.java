@@ -340,7 +340,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
 
         long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-        long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
+        long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
+        long claimTimeInMillisecond = task.getLongClaimDateTime();
+
         long missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
         long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
 

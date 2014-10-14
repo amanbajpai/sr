@@ -46,8 +46,7 @@ public class Task extends BaseEntity {
     private String EndDateTime;
     private Double ExperienceOffer;
     private Long LongExpireTimeoutForClaimedTask;
-
-    private Integer PreClaimedTaskExpireAfterStart;
+    private Long LongPreClaimedTaskExpireAfterStart;
     private String Claimed;
     private String RedoDate;
     private String ApprovedAt;
@@ -66,6 +65,7 @@ public class Task extends BaseEntity {
     private transient Boolean IsHide = false;
     private transient Long LongEndDateTime;
     private transient Long LongRedoDateTime;
+    private transient Long LongStartDateTime;
     private transient Long LongClaimDateTime;
     private transient Boolean StartedStatusSent = false;
     private transient String CountryName;
@@ -120,8 +120,8 @@ public class Task extends BaseEntity {
 
             result.setLongExpireTimeoutForClaimedTask(c.getLong(TaskDbSchema.Query.All
                     .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
-            result.setPreClaimedTaskExpireAfterStart(c.getInt(TaskDbSchema.Query.All
-                    .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(TaskDbSchema.Query.All
+                    .LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
             result.setClaimed(c.getString(TaskDbSchema.Query.All.CLAIMED));
             result.setRedoDate(c.getString(TaskDbSchema.Query.All.REDO_DATE));
             result.setApprovedAt(c.getString(TaskDbSchema.Query.All.APPROVED_AT));
@@ -304,14 +304,6 @@ public class Task extends BaseEntity {
         LongEndDateTime = longEndDateTime;
     }
 
-    public Integer getPreClaimedTaskExpireAfterStart() {
-        return PreClaimedTaskExpireAfterStart;
-    }
-
-    public void setPreClaimedTaskExpireAfterStart(Integer preClaimedTaskExpireAfterStart) {
-        PreClaimedTaskExpireAfterStart = preClaimedTaskExpireAfterStart;
-    }
-
     public Long getLongExpireTimeoutForClaimedTask() {
         return LongExpireTimeoutForClaimedTask;
     }
@@ -432,6 +424,23 @@ public class Task extends BaseEntity {
     public void setSubmittedAt(String submittedAt) {
         SubmittedAt = submittedAt;
     }
+
+    public Long getLongStartDateTime() {
+        return LongStartDateTime;
+    }
+
+    public void setLongStartDateTime(Long longStartDateTime) {
+        LongStartDateTime = longStartDateTime;
+    }
+
+    public Long getLongPreClaimedTaskExpireAfterStart() {
+        return LongPreClaimedTaskExpireAfterStart;
+    }
+
+    public void setLongPreClaimedTaskExpireAfterStart(Long longPreClaimedTaskExpireAfterStart) {
+        LongPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
+    }
+
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link Task}
