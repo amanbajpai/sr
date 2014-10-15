@@ -138,6 +138,7 @@ public class Task extends BaseEntity {
             result.setLocationName(c.getString(TaskDbSchema.Query.All.LOCATION_NAME));
 
             result.setIcon(c.getString(TaskDbSchema.Query.All.ICON));
+            result.setLongStartDateTime(c.getLong(TaskDbSchema.Query.All.LONG_START_DATE_TIME));
         }
         return result;
     }

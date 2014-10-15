@@ -47,6 +47,7 @@ public interface TaskDbSchema {
         IS_MY("IsMy", DBType.INT),
         IS_HIDE("IsHide", DBType.INT),
         STARTED_STATUS_SENT("StartedStatusSent", DBType.INT),
+        LONG_START_DATE_TIME("LongStartDateTime", DBType.NUMERIC),
         LONG_END_DATE_TIME("LongEndDateTime", DBType.NUMERIC),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
@@ -129,6 +130,7 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.IS_MY.getName(),
                     Table.TASK.getName() + "." + Columns.IS_HIDE.getName(),
                     Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
                     Table.TASK.getName() + "." + Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                     Table.TASK.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
@@ -169,23 +171,24 @@ public interface TaskDbSchema {
             int IS_MY = 18;
             int IS_HIDE = 19;
             int LONG_END_DATE_TIME = 20;
-            int EXPERIENCE_OFFER = 21;
-            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 22;
-            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 23;
-            int CLAIMED = 24;
-            int REDO_DATE = 25;
-            int APPROVED_AT = 26;
-            int REJECTED_AT = 27;
-            int SUBMITTED_AT = 28;
-            int STARTED_STATUS_SENT = 29;
-            int COUNTRY_NAME = 30;
-            int LONG_REDO_DATE_TIME = 31;
-            int LONG_CLAIM_DATE_TIME = 32;
-            int PHOTO_QUESTIONS_COUNT = 33;
-            int NO_PHOTO_QUESTIONS_COUNT = 34;
-            int CURRENCY_SIGN = 35;
-            int LOCATION_NAME = 36;
-            int ICON = 37;
+            int LONG_START_DATE_TIME = 21;
+            int EXPERIENCE_OFFER = 22;
+            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
+            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 24;
+            int CLAIMED = 25;
+            int REDO_DATE = 26;
+            int APPROVED_AT = 27;
+            int REJECTED_AT = 28;
+            int SUBMITTED_AT = 29;
+            int STARTED_STATUS_SENT = 30;
+            int COUNTRY_NAME = 31;
+            int LONG_REDO_DATE_TIME = 32;
+            int LONG_CLAIM_DATE_TIME = 33;
+            int PHOTO_QUESTIONS_COUNT = 34;
+            int NO_PHOTO_QUESTIONS_COUNT = 35;
+            int CURRENCY_SIGN = 36;
+            int LOCATION_NAME = 37;
+            int ICON = 38;
         }
     }
 }
