@@ -70,6 +70,9 @@ public class Task extends BaseEntity {
     private transient Boolean StartedStatusSent = false;
     private transient String CountryName;
 
+    private transient Double LongitudeToValidation;
+    private transient Double LatitudeToValidation;
+
     public Task() {
     }
 
@@ -139,6 +142,9 @@ public class Task extends BaseEntity {
 
             result.setIcon(c.getString(TaskDbSchema.Query.All.ICON));
             result.setLongStartDateTime(c.getLong(TaskDbSchema.Query.All.LONG_START_DATE_TIME));
+
+            result.setLatitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LATITUDE_TO_VALIDATION));
+            result.setLongitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LONGITUDE_TO_VALIDATION));
         }
         return result;
     }
@@ -442,6 +448,21 @@ public class Task extends BaseEntity {
         LongPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
     }
 
+    public Double getLongitudeToValidation() {
+        return LongitudeToValidation;
+    }
+
+    public void setLongitudeToValidation(Double longitudeToValidation) {
+        LongitudeToValidation = longitudeToValidation;
+    }
+
+    public Double getLatitudeToValidation() {
+        return LatitudeToValidation;
+    }
+
+    public void setLatitudeToValidation(Double latitudeToValidation) {
+        LatitudeToValidation = latitudeToValidation;
+    }
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link Task}
@@ -460,4 +481,6 @@ public class Task extends BaseEntity {
                 + ", Latitude='" + Latitude + '\'' + ", Longitude='" + Longitude + '\''
                 + ", Price='" + Price + '\'' + ", Address=" + Address + '}';
     }
+
+
 }

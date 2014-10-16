@@ -201,7 +201,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         initMap();
 
         setViewMode(getArguments());
-        updateUI();
         loadData();
     }
 
@@ -211,7 +210,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         if (!hidden) {
             setViewMode(getArguments());
-            updateUI();
             loadData();
 
             showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
@@ -277,12 +275,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void setViewMode(Bundle bundle) {
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
-        }
-        Log.i(TAG, "setViewMode() [mode  =  " + mode + "]");
-        btnFilter.setVisibility(mode == Keys.MapViewMode.ALL_TASKS ? View.VISIBLE : View.INVISIBLE);
 
-        if (bundle != null && (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK)) {
-            viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
+            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS
+                    /*|| mode == Keys.MapViewMode.WAVE_TASKS*/;
+            btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
+
+            if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
+                viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
+            }
         }
     }
 
@@ -301,18 +301,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_down);
             rlFilterPanel.startAnimation(bottomDown);
             rlFilterPanel.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /**
-     * Update All UI elements when view mode change
-     */
-    private void updateUI() {
-        if (mode == Keys.MapViewMode.MY_TASKS
-                || mode == Keys.MapViewMode.WAVE_TASKS) {
-            btnFilter.setEnabled(false);
-        } else {
-            btnFilter.setEnabled(true);
         }
     }
 
@@ -753,7 +741,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         } else {
             if (restoreCameraByPins != null) {
                 map.moveCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
-                        display.getHeight(), 150));
+                        display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150), 100));
             }
         }
     }

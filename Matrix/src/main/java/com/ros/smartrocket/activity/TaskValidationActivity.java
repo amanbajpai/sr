@@ -5,7 +5,6 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -130,6 +129,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), endDateTime);
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
+                    if (task.getLatitudeToValidation() == null || task.getLongitudeToValidation() == null) {
+                        AnswersBL.saveValidationLocation(task, answerListToSend, filesSizeB > 0);
+                    }
+
                     setTaskData(task);
                     if (firstlySelection) {
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -186,7 +189,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
-
     }
 
     public void setTaskData(Task task) {
@@ -224,21 +226,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private void validateTask(final int taskId) {
         setSupportProgressBarIndeterminateVisibility(true);
 
-        MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
-            @Override
-            public void getLocationStart() {
-            }
-
-            @Override
-            public void getLocationInProcess() {
-            }
-
-            @Override
-            public void getLocationSuccess(Location location) {
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId,
-                        location.getLatitude(), location.getLongitude()));
-            }
-        });
+        sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId,
+                task.getLatitudeToValidation(), task.getLongitudeToValidation()));
     }
 
     public void sendTextAnswers() {

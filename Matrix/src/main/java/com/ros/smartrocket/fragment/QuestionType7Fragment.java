@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -27,6 +29,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
@@ -35,7 +38,7 @@ import java.io.File;
 import java.util.Arrays;
 
 /**
- * Fragment for display About information
+ * Multiple photo question type
  */
 public class QuestionType7Fragment extends BaseQuestionFragment implements View.OnClickListener {
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
@@ -286,40 +289,57 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
                 break;
             case R.id.confirmButton:
-                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                    @Override
+                    public void getLocationStart() {
+                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                    }
 
-                File sourceImageFile = selectImageManager.getLastFile();
-                File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
-                        SelectImageManager.SIZE_IN_PX_2_MP, 0);
+                    @Override
+                    public void getLocationInProcess() {
+                    }
 
-                Answer answer = question.getAnswers()[currentSelectedPhoto];
-                boolean needAddEmptyAnswer = !answer.isChecked();
-
-                answer.setChecked(true);
-                answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
-                answer.setFileSizeB(resultImageFile.length());
-                answer.setFileName(resultImageFile.getName());
-                answer.setValue(resultImageFile.getName());
-
-                AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-
-                if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
-                    question.setAnswers(addEmptyAnswer(question.getAnswers()));
-                }
-
-                refreshPhotoGallery(question.getAnswers());
-
-                isBitmapConfirmed = true;
-
-                refreshRePhotoButton();
-                refreshConfirmButton();
-                refreshNextButton();
-
-                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    @Override
+                    public void getLocationSuccess(Location location) {
+                        confirmButtonPressAction(location);
+                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    }
+                });
                 break;
             default:
                 break;
         }
+    }
+
+    public void confirmButtonPressAction(Location location) {
+        File sourceImageFile = selectImageManager.getLastFile();
+        File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
+                SelectImageManager.SIZE_IN_PX_2_MP, 0);
+
+        Answer answer = question.getAnswers()[currentSelectedPhoto];
+        boolean needAddEmptyAnswer = !answer.isChecked();
+
+        answer.setChecked(true);
+        answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
+        answer.setFileSizeB(resultImageFile.length());
+        answer.setFileName(resultImageFile.getName());
+        answer.setValue(resultImageFile.getName());
+        answer.setLatitude(location.getLatitude());
+        answer.setLongitude(location.getLongitude());
+
+        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+
+        if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
+            question.setAnswers(addEmptyAnswer(question.getAnswers()));
+        }
+
+        refreshPhotoGallery(question.getAnswers());
+
+        isBitmapConfirmed = true;
+
+        refreshRePhotoButton();
+        refreshConfirmButton();
+        refreshNextButton();
     }
 
     public Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {

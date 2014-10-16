@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -241,6 +242,14 @@ public class PreferencesManager {
 
     public void setShowHiddenProject(boolean use) {
         setBoolean(Keys.SHOW_HIDDEN_PROJECT, use);
+    }
+
+    public boolean getIsFirstLogin() {
+        return getBoolean(Keys.IS_FIRST_LOGIN, true);
+    }
+
+    public void setIsFirstLogin(boolean isFirstLogin) {
+        setBoolean(Keys.IS_FIRST_LOGIN, isFirstLogin);
     }
 
     public int getInt(String key, int defaultValue) {

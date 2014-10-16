@@ -6,12 +6,17 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.text.DecimalFormat;
@@ -147,6 +152,71 @@ public class AnswersBL {
                 new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
 
         return convertCursorToAnswerList(cursor);
+    }
+
+    public static void saveValidationLocation(final Task task, final List<Answer> answerList, boolean hasFile) {
+        if (hasFile) {
+            savePhotoVideoAnswersAverageLocation(task, answerList);
+        } else {
+            MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                @Override
+                public void getLocationStart() {
+                }
+
+                @Override
+                public void getLocationInProcess() {
+                }
+
+                @Override
+                public void getLocationSuccess(Location location) {
+                    task.setLatitudeToValidation(location.getLatitude());
+                    task.setLongitudeToValidation(location.getLongitude());
+
+                    TasksBL.updateTask(task);
+                }
+            });
+        }
+    }
+
+    public static void savePhotoVideoAnswersAverageLocation(final Task task, final List<Answer> answerList) {
+        int photoVideoAnswerCount = 0;
+
+        double x = 0;
+        double y = 0;
+        double z = 0;
+
+        for (Answer answer : answerList) {
+            if (!TextUtils.isEmpty(answer.getFileUri())) {
+                photoVideoAnswerCount++;
+            }
+
+            double lat = answer.getLatitude() * Math.PI / 180;
+            double lon = answer.getLongitude() * Math.PI / 180;
+
+            double tempX = Math.cos(lat) * Math.cos(lon);
+            double tempY = Math.cos(lat) * Math.sin(lon);
+            double tempZ = Math.sin(lat);
+
+            x += tempX;
+            y += tempY;
+            z += tempZ;
+        }
+
+        x = x / photoVideoAnswerCount;
+        y = y / photoVideoAnswerCount;
+        z = z / photoVideoAnswerCount;
+
+        double lon = Math.atan2(y, x);
+        double hyp = Math.sqrt(x * x + y * y);
+        double lat = Math.atan2(z, hyp);
+
+        L.e("AnswerBL", "Latitude: " + lat * 180 / Math.PI);
+        L.e("AnswerBL", "Longitude: " + lon * 180 / Math.PI);
+
+        task.setLatitudeToValidation(lat * 180 / Math.PI);
+        task.setLongitudeToValidation(lon * 180 / Math.PI);
+
+        TasksBL.updateTask(task);
     }
 
     /**

@@ -25,7 +25,7 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 /**
- * Fragment for display About information
+ * Multiple choose question type
  */
 public class QuestionType1Fragment extends BaseQuestionFragment implements AdapterView.OnItemClickListener {
     private AnswerCheckBoxAdapter adapter;

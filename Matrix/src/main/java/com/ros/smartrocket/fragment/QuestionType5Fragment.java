@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,11 +29,15 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.SelectVideoManager;
 
 import java.io.File;
 
+/**
+ * Video question type
+ */
 public class QuestionType5Fragment extends BaseQuestionFragment implements View.OnClickListener,
         MediaPlayer.OnCompletionListener {
     private SelectVideoManager selectVideoManager = SelectVideoManager.getInstance();
@@ -284,29 +289,48 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                 break;
             case R.id.confirmButton:
                 if (!isVideoConfirmed) {
-                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                    MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                        @Override
+                        public void getLocationStart() {
+                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                        }
 
-                    File sourceImageFile = new File(videoPath);
+                        @Override
+                        public void getLocationInProcess() {
+                        }
 
-                    Answer answer = question.getAnswers()[0];
-                    answer.setChecked(true);
-                    answer.setFileUri(videoPath);
-                    answer.setFileSizeB(sourceImageFile.length());
-                    answer.setFileName(sourceImageFile.getName());
-                    answer.setValue(sourceImageFile.getName());
-
-                    AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-
-                    isVideoConfirmed = true;
-
-                    refreshRePhotoButton();
-                    refreshConfirmButton();
-                    refreshNextButton();
+                        @Override
+                        public void getLocationSuccess(Location location) {
+                            confirmButtonPressAction(location);
+                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                        }
+                    });
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    public void confirmButtonPressAction(Location location) {
+        File sourceImageFile = new File(videoPath);
+
+        Answer answer = question.getAnswers()[0];
+        answer.setChecked(true);
+        answer.setFileUri(videoPath);
+        answer.setFileSizeB(sourceImageFile.length());
+        answer.setFileName(sourceImageFile.getName());
+        answer.setValue(sourceImageFile.getName());
+        answer.setLatitude(location.getLatitude());
+        answer.setLongitude(location.getLongitude());
+
+        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+
+        isVideoConfirmed = true;
+
+        refreshRePhotoButton();
+        refreshConfirmButton();
+        refreshNextButton();
     }
 
     @Override

@@ -5,6 +5,8 @@ public class Login extends BaseEntity {
 
     private String Email;
     private String Password;
+    private String DeviceName;
+    private String AppVersion;
 
     public String getEmail() {
         return Email;
@@ -20,6 +22,22 @@ public class Login extends BaseEntity {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public String getDeviceName() {
+        return DeviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        DeviceName = deviceName;
+    }
+
+    public String getAppVersion() {
+        return AppVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        AppVersion = appVersion;
     }
 
 

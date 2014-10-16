@@ -32,7 +32,7 @@ import com.ros.smartrocket.utils.SelectImageManager;
 import java.io.File;
 
 /**
- * Fragment for display About information
+ * Single photo question type
  */
 public class QuestionType3Fragment extends BaseQuestionFragment implements View.OnClickListener {
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();

@@ -13,15 +13,18 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.helpers.FragmentHelper;
+import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
  * Share app info fragment
  */
 public class AllTaskFragment extends Fragment implements OnClickListener {
     private static final String TAG = AllTaskFragment.class.getSimpleName();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private ViewGroup view;
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
@@ -79,7 +82,12 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
 
     public void showDefaultFragment() {
         if (Keys.FIND_TASK.equals(contentType)) {
-            showMap();
+            if (preferencesManager.getIsFirstLogin()) {
+                preferencesManager.setIsFirstLogin(false);
+                showList();
+            } else {
+                showMap();
+            }
         } else if (Keys.MY_TASK.equals(contentType)) {
             showList();
         }

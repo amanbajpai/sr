@@ -54,16 +54,15 @@ public class GCMIntentService extends GCMBaseIntentService {
     @Override
     protected void onMessage(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
-        String message = extras.getString("message");
-        L.d(TAG, "Received message [message=" + message + "]");
+        String messageJsonObject = extras.getString("message");
+        L.d(TAG, "Received message [message=" + messageJsonObject + "]");
 
-        if (preferencesManager.getUsePushMessages()) {
-            NotificationUtils.showTaskStatusChangedNotification(context, message);
-        }
         if (!TextUtils.isEmpty(preferencesManager.getToken())) {
+            if (preferencesManager.getUsePushMessages()) {
+                NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
+            }
             apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
         }
-
     }
 
     @Override

@@ -1,401 +1,402 @@
-<resources >
+<resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
-        <item name="android:actionBarStyle" >@style/ActionBarRed</item >
-        <item name="actionBarStyle" >@style/ActionBarRed</item >
-        <item name="android:buttonStyle" >@style/Button</item >
-        <item name="android:buttonStyleToggle" >@style/Toggle</item >
-        <item name="android:editTextStyle" >@style/EditText</item >
-        <item name="android:checkboxStyle" >@style/CheckBox</item >
-        <item name="android:spinnerStyle" >@style/Spinner</item >
-        <item name="android:homeAsUpIndicator" >@drawable/button_action_bar_back</item >
-        <item name="homeAsUpIndicator" >@drawable/button_action_bar_back</item >
-        <item name="android:radioButtonStyle" >@style/RadioButton</item >
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBarRed</item>
+        <item name="actionBarStyle">@style/ActionBarRed</item>
+        <item name="android:buttonStyle">@style/Button</item>
+        <item name="android:buttonStyleToggle">@style/Toggle</item>
+        <item name="android:editTextStyle">@style/EditText</item>
+        <item name="android:checkboxStyle">@style/CheckBox</item>
+        <item name="android:spinnerStyle">@style/Spinner</item>
+        <item name="android:homeAsUpIndicator">@drawable/button_action_bar_back</item>
+        <item name="homeAsUpIndicator">@drawable/button_action_bar_back</item>
+        <item name="android:radioButtonStyle">@style/RadioButton</item>
         <!--<item name="android:background">@color/white</item>-->
-    </style >
+    </style>
 
-    <style name="CustomNotification.Theme" parent="@android:style/Theme.Dialog" >
-        <item name="android:windowNoTitle" >true</item >
-        <item name="android:windowBackground" >@android:color/transparent</item >
-    </style >
+    <style name="CustomNotification.Theme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
-    <style name="AppThemeGreen" parent="AppTheme" >
-        <item name="android:actionBarStyle" >@style/ActionBarGreen</item >
-        <item name="actionBarStyle" >@style/ActionBarGreen</item >
-    </style >
+    <style name="AppThemeGreen" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/ActionBarGreen</item>
+        <item name="actionBarStyle">@style/ActionBarGreen</item>
+    </style>
 
-    <style name="ActionBarRed" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse" >
-        <item name="android:background" >@drawable/action_bar_red</item >
-        <item name="background" >@drawable/action_bar_red</item >
-        <item name="android:icon" >@drawable/action_bar_icon</item >
-    </style >
+    <style name="ActionBarRed" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/action_bar_red</item>
+        <item name="background">@drawable/action_bar_red</item>
+        <item name="android:icon">@drawable/action_bar_icon</item>
+    </style>
 
-    <style name="ActionBarGreen" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse" >
-        <item name="android:background" >@drawable/action_bar_green</item >
-        <item name="background" >@drawable/action_bar_green</item >
-        <item name="android:icon" >@drawable/action_bar_icon</item >
-    </style >
+    <style name="ActionBarGreen" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/action_bar_green</item>
+        <item name="background">@drawable/action_bar_green</item>
+        <item name="android:icon">@drawable/action_bar_icon</item>
+    </style>
 
-    <style name="FragmentTheme" >
-        <item name="android:background" >@color/white</item >
-    </style >
+    <style name="FragmentTheme">
+        <item name="android:background">@color/white</item>
+    </style>
 
-    <style name="DialogTheme" >
-        <item name="android:background" >@drawable/dialog_bg</item >
-    </style >
+    <style name="DialogTheme">
+        <item name="android:background">@drawable/dialog_bg</item>
+    </style>
 
-    <style name="MapWindowTheme" >
-        <item name="android:background" >@drawable/popup_blue</item >
-    </style >
+    <style name="MapWindowTheme">
+        <item name="android:background">@drawable/popup_blue</item>
+    </style>
 
-    <style name="EditText" parent="android:Widget.EditText" >
-        <item name="android:minHeight" >48dp</item >
-        <item name="android:paddingLeft" >10dp</item >
-        <item name="android:paddingRight" >10dp</item >
-        <item name="android:background" >@drawable/edit_text</item >
-        <item name="android:textColor" >@color/grey</item >
-    </style >
+    <style name="EditText" parent="android:Widget.EditText">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:background">@drawable/edit_text</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
 
-    <style name="RadioButton" parent="android:Widget.CompoundButton.RadioButton" >
-        <item name="android:button" >@drawable/radio_button_selector</item >
-    </style >
+    <style name="RadioButton" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/radio_button_selector</item>
+    </style>
 
-    <style name="MaleRadioButton" parent="android:Widget.CompoundButton.RadioButton" >
-        <item name="android:minWidth" >48dp</item >
-        <item name="android:button" >@drawable/radio_button_male_normal_selector</item >
-    </style >
+    <style name="MaleRadioButton" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:button">@drawable/radio_button_male_normal_selector</item>
+    </style>
 
-    <style name="FemaleRadioButton" parent="android:Widget.CompoundButton.RadioButton" >
-        <item name="android:minWidth" >48dp</item >
-        <item name="android:button" >@drawable/radio_button_female_normal_selector</item >
-    </style >
+    <style name="FemaleRadioButton" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:button">@drawable/radio_button_female_normal_selector</item>
+    </style>
 
-    <style name="CheckBox" parent="android:Widget.CompoundButton.CheckBox" >
-        <item name="android:button" >@drawable/check_box</item >
-        <item name="android:gravity" >center_vertical</item >
-        <item name="android:textColor" >@color/grey</item >
-        <item name="android:textSize" >@dimen/text_size_small</item >
+    <style name="CheckBox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_box</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
         <!-- <item name="android:childIndicatorLeft">20dp</item> -->
-    </style >
+    </style>
 
-    <style name="Spinner" parent="android:Widget.Spinner" >
-        <item name="android:background" >@drawable/spinner_selector</item >
-        <item name="android:textColor" >@color/grey</item >
+    <style name="Spinner" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/spinner_selector</item>
+        <item name="android:textColor">@color/grey</item>
         <!--<item name="android:spinnerMode" >dropdown</item >-->
-        <item name="android:popupBackground" >@android:color/transparent</item >
-    </style >
+        <item name="android:popupBackground">@android:color/transparent</item>
+    </style>
 
-    <style name="Toggle" parent="android:Widget.Button.Toggle" >
-        <item name="android:background" >@drawable/btn_toggle</item >
-        <item name="android:minHeight" >28dip</item >
-        <item name="android:textOff" ></item >
-        <item name="android:textOn" ></item >
-    </style >
+    <style name="Toggle" parent="android:Widget.Button.Toggle">
+        <item name="android:background">@drawable/btn_toggle</item>
+        <item name="android:minHeight">28dip</item>
+        <item name="android:textOff"></item>
+        <item name="android:textOn"></item>
+    </style>
 
-    <style name="SeekBarRed" parent="android:Widget.SeekBar" >
-        <item name="android:progressDrawable" >@drawable/seekbar</item >
-        <item name="android:indeterminateDrawable" >@drawable/seekbar</item >
-        <item name="android:thumb" >@drawable/seekbar_control_selector</item >
-        <item name="android:thumbOffset" >10dip</item >
-    </style >
+    <style name="SeekBarRed" parent="android:Widget.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar</item>
+        <item name="android:indeterminateDrawable">@drawable/seekbar</item>
+        <item name="android:thumb">@drawable/seekbar_control_selector</item>
+        <item name="android:thumbOffset">10dip</item>
+    </style>
 
-    <style name="ProgressBarGreen" parent="android:Widget.ProgressBar.Horizontal" >
-        <item name="android:progressDrawable" >@drawable/progressbar_green</item >
-        <item name="android:indeterminateDrawable" >@drawable/progressbar_green</item >
-    </style >
+    <style name="ProgressBarGreen" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progressbar_green</item>
+        <item name="android:indeterminateDrawable">@drawable/progressbar_green</item>
+    </style>
 
-    <style name="CustomDialog" >
-        <item name="android:background" >@color/white</item >
+    <style name="CustomDialog">
+        <item name="android:background">@color/white</item>
         <!--<item name="android:spinnerMode" >dropdown</item >-->
-    </style >
+    </style>
     <!-- MAP - Task POPUP Styles -->
-    <style name="MapTaskTitle" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:lineSpacingExtra" >5dp</item >
-        <item name="android:gravity" >center_vertical</item >
-    </style >
+    <style name="MapTaskTitle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 
-    <style name="MapTaskValue" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:gravity" >center_vertical</item >
-        <item name="android:drawablePadding" >5dp</item >
-        <item name="android:layout_marginLeft" >5dp</item >
-        <item name="android:textSize" >@dimen/text_size_14sp</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:singleLine" >true</item >
-        <item name="android:ellipsize" >none</item >
-    </style >
+    <style name="MapTaskValue" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">none</item>
+    </style>
     <!-- Task List Styles -->
-    <style name="TaskListTitle" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
-        <item name="android:textColor" >@color/black</item >
-    </style >
+    <style name="TaskListTitle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
-    <style name="TaskListDescription" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_small</item >
-        <item name="android:textColor" >@color/grey</item >
-    </style >
+    <style name="TaskListDescription" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
 
-    <style name="TaskListTime" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:textColor" >@color/grey</item >
-    </style >
+    <style name="TaskListTime" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
 
-    <style name="TaskListDistance" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:textColor" >@color/grey</item >
-    </style >
+    <style name="TaskListDistance" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
 
-    <style name="WaveListTitle" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_16sp</item >
-        <item name="android:textColor" >@color/black</item >
-    </style >
+    <style name="WaveListTitle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
-    <style name="WaveListDescription" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_9sp</item >
-        <item name="android:textColor" >@color/black</item >
-    </style >
+    <style name="WaveListDescription" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size_9sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
-    <style name="WaveListTime" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >normal</item >
-        <item name="android:textSize" >@dimen/text_size_small</item >
-        <item name="android:textColor" >@color/red</item >
-    </style >
+    <style name="WaveListTime" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
 
-    <style name="WaveListDate" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_small</item >
-        <item name="android:textColor" >@color/grey</item >
-    </style >
+    <style name="WaveListDate" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
 
-    <style name="Button" parent="android:Widget.Button" >
-        <item name="android:minHeight" >48dp</item >
-        <item name="android:minWidth" >64dp</item >
-        <item name="android:paddingLeft" >2dp</item >
-        <item name="android:paddingRight" >2dp</item >
-        <item name="android:gravity" >center</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_16sp</item >
-        <item name="android:shadowColor" >@color/grey</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >1</item >
-        <item name="android:shadowRadius" >1</item >
-    </style >
+    <style name="Button" parent="android:Widget.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:shadowColor">@color/grey</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
 
-    <style name="ShareButton" parent="android:Widget.Button" >
-        <item name="android:minHeight" >48dp</item >
-        <item name="android:minWidth" >64dp</item >
-        <item name="android:layout_marginTop" >10dp</item >
-        <item name="android:paddingLeft" >10dp</item >
-        <item name="android:paddingRight" >10dp</item >
-        <item name="android:paddingTop" >10dp</item >
-        <item name="android:paddingBottom" >10dp</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
-        <item name="android:drawableRight" >@drawable/arrow_icon_right</item >
-        <item name="android:drawablePadding" >20dp</item >
-        <item name="android:shadowColor" >@color/grey</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >1</item >
-        <item name="android:shadowRadius" >1</item >
-    </style >
+    <style name="ShareButton" parent="android:Widget.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:drawableRight">@drawable/arrow_icon_right</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:shadowColor">@color/grey</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:visibility">gone</item>
+    </style>
 
-    <style name="MainMenuButton" >
-        <item name="android:minHeight" >44dp</item >
-        <item name="android:minWidth" >64dp</item >
-        <item name="android:paddingLeft" >10dp</item >
-        <item name="android:paddingRight" >2dp</item >
-        <item name="android:paddingTop" >10dp</item >
-        <item name="android:paddingBottom" >10dp</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:textSize" >@dimen/text_size_16sp</item >
-        <item name="android:drawablePadding" >10dp</item >
-    </style >
+    <style name="MainMenuButton">
+        <item name="android:minHeight">44dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
 
-    <style name="MainMenuButton2" >
-        <item name="android:minHeight" >40dp</item >
-        <item name="android:minWidth" >64dp</item >
-        <item name="android:paddingLeft" >10dp</item >
-        <item name="android:paddingRight" >2dp</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:textSize" >@dimen/text_size_15sp</item >
-        <item name="android:drawablePadding" >10dp</item >
-    </style >
+    <style name="MainMenuButton2">
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
 
-    <style name="DialogButton" parent="android:Widget.TextView" >
-        <item name="android:minHeight" >54dp</item >
-        <item name="android:minWidth" >64dp</item >
-        <item name="android:paddingLeft" >2dp</item >
-        <item name="android:paddingRight" >2dp</item >
-        <item name="android:paddingTop" >10dp</item >
-        <item name="android:paddingBottom" >10dp</item >
-        <item name="android:gravity" >center</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:textSize" >@dimen/text_size_14sp</item >
-    </style >
+    <style name="DialogButton" parent="android:Widget.TextView">
+        <item name="android:minHeight">54dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
 
-    <style name="profileSectionTextStyle" >
-        <item name="android:textColor" >@color/grey</item >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
-        <item name="android:paddingTop" >10dp</item >
-        <item name="android:paddingLeft" >5dp</item >
-        <item name="android:paddingRight" >5dp</item >
-        <item name="android:paddingBottom" >5dp</item >
-    </style >
+    <style name="profileSectionTextStyle">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
 
-    <style name="settingsTextStyle" >
-        <item name="android:textColor" >@color/grey</item >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
-        <item name="android:layout_weight" >1</item >
-    </style >
+    <style name="settingsTextStyle">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
-    <style name="supportTextStyle" >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:textSize" >@dimen/text_size_14sp</item >
-        <item name="android:layout_marginBottom" >20dp</item >
-        <item name="android:lineSpacingExtra" >5dp</item >
-    </style >
+    <style name="supportTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
 
-    <style name="profileSectionDividerStyle" >
-        <item name="android:background" >@color/grey</item >
-    </style >
+    <style name="profileSectionDividerStyle">
+        <item name="android:background">@color/grey</item>
+    </style>
 
-    <style name="mainMenuDividerStyle" >
-        <item name="android:background" >@color/grey_light</item >
-    </style >
+    <style name="mainMenuDividerStyle">
+        <item name="android:background">@color/grey_light</item>
+    </style>
 
-    <style name="DialogTitle" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_18sp</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:minHeight" >64dp</item >
-        <item name="android:paddingLeft" >20dp</item >
-        <item name="android:paddingRight" >20dp</item >
-    </style >
+    <style name="DialogTitle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
 
-    <style name="SelectImageDialogItem" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_18sp</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:drawablePadding" >20dp</item >
-        <item name="android:minHeight" >70dp</item >
-        <item name="android:paddingLeft" >20dp</item >
-        <item name="android:paddingRight" >20dp</item >
-    </style >
+    <style name="SelectImageDialogItem" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:minHeight">70dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
 
-    <style name="ActionBarText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_17sp</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:layout_weight" >1</item >
-        <item name="android:gravity" >left|center_vertical</item >
-        <item name="android:paddingLeft" >5dp</item >
-        <item name="android:paddingRight" >5dp</item >
-        <item name="android:shadowColor" >@color/grey</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >1</item >
-        <item name="android:shadowRadius" >1</item >
-        <item name="android:singleLine" >true</item >
-    </style >
+    <style name="ActionBarText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:shadowColor">@color/grey</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
 
-    <style name="DialogText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_15sp</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:lineSpacingExtra" >5dp</item >
-    </style >
+    <style name="DialogText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
 
-    <style name="QuestionText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:lineSpacingExtra" >5dp</item >
-    </style >
+    <style name="QuestionText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
 
-    <style name="QuestionConditionText" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_12sp</item >
-        <item name="android:textColor" >@color/grey</item >
-    </style >
+    <style name="QuestionConditionText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
 
-    <style name="QuestionValidationComment" parent="@android:style/Widget.TextView" >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:textColor" >@color/red</item >
-        <item name="android:textStyle" >normal</item >
-        <item name="android:visibility" >gone</item >
-        <item name="android:lineSpacingExtra" >5dp</item >
-    </style >
+    <style name="QuestionValidationComment" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
     <!-- Detail screen -->
-    <style name="detailScreenTimeTypeTextStyle" >
-        <item name="android:textColor" >@color/grey</item >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:gravity" >left</item >
-    </style >
+    <style name="detailScreenTimeTypeTextStyle">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:gravity">left</item>
+    </style>
 
-    <style name="detailScreenTimeTextStyle" >
-        <item name="android:textColor" >@color/black</item >
-        <item name="android:textSize" >@dimen/text_size_13p6sp</item >
-        <item name="android:layout_weight" >1</item >
-        <item name="android:gravity" >left</item >
-        <item name="android:layout_marginLeft" >5dp</item >
-    </style >
+    <style name="detailScreenTimeTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
 
-    <style name="TaskAndWaveOptionStyle" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:gravity" >center_vertical</item >
-        <item name="android:drawablePadding" >5dp</item >
-        <item name="android:textSize" >@dimen/text_size_15sp</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:singleLine" >true</item >
-        <item name="android:ellipsize" >none</item >
-    </style >
+    <style name="TaskAndWaveOptionStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">none</item>
+    </style>
 
-    <style name="TaskDetailButton" parent="Button" >
-        <item name="android:visibility" >gone</item >
-        <item name="android:layout_margin" >5dp</item >
-        <item name="android:layout_weight" >1</item >
-    </style >
+    <style name="TaskDetailButton" parent="Button">
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
-    <style name="WaveDetailButton" parent="Button" >
-        <item name="android:layout_margin" >5dp</item >
-        <item name="android:layout_weight" >1</item >
-    </style >
+    <style name="WaveDetailButton" parent="Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
-    <style name="TaskAndWaveListOptionStyle" parent="@android:style/Widget.TextView" >
-        <item name="android:textStyle" >bold</item >
-        <item name="android:gravity" >center_vertical</item >
-        <item name="android:drawablePadding" >5dp</item >
-        <item name="android:textSize" >@dimen/text_size_11sp</item >
-        <item name="android:textColor" >@color/white</item >
-        <item name="android:singleLine" >true</item >
-        <item name="android:layout_weight" >1</item >
-    </style >
+    <style name="TaskAndWaveListOptionStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:textSize">@dimen/text_size_11sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
-    <style name="customProgressDialog" parent="android:Theme.Dialog" >
-        <item name="android:windowFrame" >@null</item >
-        <item name="android:windowBackground" >@android:color/transparent</item >
-        <item name="android:windowIsFloating" >true</item >
-        <item name="android:windowContentOverlay" >@null</item >
-        <item name="android:windowTitleStyle" >@null</item >
-        <item name="android:windowAnimationStyle" >@android:style/Animation.Dialog</item >
-        <item name="android:windowSoftInputMode" >stateUnspecified|adjustPan</item >
-        <item name="android:backgroundDimEnabled" >false</item >
-        <item name="android:background" >@android:color/transparent</item >
-        <item name="android:gravity" >center_vertical|center_horizontal</item >
-    </style >
+    <style name="customProgressDialog" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
 
-    <style name="CustomNotificationStyle" >
-        <item name="android:windowEnterAnimation" >@anim/show_from_top_to_bottom</item >
-        <item name="android:windowExitAnimation" >@anim/hide_from_bottom_to_top</item >
-    </style >
-</resources >
+    <style name="CustomNotificationStyle">
+        <item name="android:windowEnterAnimation">@anim/show_from_top_to_bottom</item>
+        <item name="android:windowExitAnimation">@anim/hide_from_bottom_to_top</item>
+    </style>
+</resources>

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.SparseArray;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -176,6 +177,19 @@ public class TasksBL {
     public static void updateTask(AsyncQueryHandler handler, Task task) {
         handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
                 task.toContentValues(), TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});
+    }
+
+    /**
+     * Update task
+     *
+     * @param task - task to update
+     */
+    public static void updateTask(Task task) {
+        String where = TaskDbSchema.Columns.ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(task.getId())};
+
+        App.getInstance().getContentResolver().update(TaskDbSchema.CONTENT_URI,
+                task.toContentValues(), where, whereArgs);
     }
 
     /**

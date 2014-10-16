@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,10 +16,19 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.Config;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.activity.ShareActivity;
+import com.ros.smartrocket.db.entity.Sharing;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -26,9 +36,11 @@ import com.ros.smartrocket.utils.UIUtils;
 /**
  * Share app info fragment
  */
-public class ShareFragment extends Fragment implements OnClickListener {
+public class ShareFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = ShareFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private ViewGroup view;
     private String shortUrl;
     private String subject;
     private String text;
@@ -45,13 +57,20 @@ public class ShareFragment extends Fragment implements OnClickListener {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
+        view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
         easyTracker = EasyTracker.getInstance(getActivity());
 
         shortUrl = Config.SHARE_URL;
         subject = getString(R.string.app_name);
         text = getString(R.string.share_text);
 
+        ((ShareActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        apiFacade.getSharingData(getActivity());
+
+        return view;
+    }
+
+    public void showButtons(int bitMask) {
         Button emailButton = (Button) view.findViewById(R.id.emailButton);
         Button messageButton = (Button) view.findViewById(R.id.messageButton);
         Button twitterButton = (Button) view.findViewById(R.id.twitterButton);
@@ -63,8 +82,6 @@ public class ShareFragment extends Fragment implements OnClickListener {
         Button sinaWeiboButton = (Button) view.findViewById(R.id.sinaWeiboButton);
         Button qzoneButton = (Button) view.findViewById(R.id.qzoneButton);
 
-        int bitMask = preferencesManager.getBitMaskSocialNetwork();
-
         showButtonIfNeed(emailButton, bitMask, SocialNetworks.Email.getId());
         showButtonIfNeed(messageButton, bitMask, SocialNetworks.Message.getId());
         showButtonIfNeed(twitterButton, bitMask, SocialNetworks.Twitter.getId());
@@ -75,8 +92,6 @@ public class ShareFragment extends Fragment implements OnClickListener {
         showButtonIfNeed(tencentWeiboButton, bitMask, SocialNetworks.TencentWeibo.getId());
         showButtonIfNeed(sinaWeiboButton, bitMask, SocialNetworks.SinaWeibo.getId());
         showButtonIfNeed(qzoneButton, bitMask, SocialNetworks.Qzone.getId());
-
-        return view;
     }
 
     public void showButtonIfNeed(Button button, int bitMask, int socialId) {
@@ -85,6 +100,28 @@ public class ShareFragment extends Fragment implements OnClickListener {
             button.setOnClickListener(this);
         } else {
             button.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (Keys.GET_SHARING_DATA_OPERATION_TAG.equals(operation.getTag())) {
+            ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                Sharing sharing = (Sharing) operation.getEntities().get(0);
+                if (sharing != null) {
+                    if (!TextUtils.isEmpty(sharing.getLink())) {
+                        shortUrl = sharing.getLink();
+                    }
+                    if (!TextUtils.isEmpty(sharing.getText())) {
+                        text = sharing.getText();
+                    }
+                    showButtons(sharing.getBitMaskSocialNetwork());
+                }
+            } else {
+                UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+            }
         }
     }
 
@@ -186,6 +223,18 @@ public class ShareFragment extends Fragment implements OnClickListener {
         public int getId() {
             return bitMask;
         }
+    }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        super.onStop();
     }
 }

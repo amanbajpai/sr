@@ -23,6 +23,9 @@ public interface AnswerDbSchema {
         FILE_SIZE_B("FileSizeB", DBType.NUMERIC),
         FILE_NAME("FileName", DBType.TEXT),
 
+        LONGITUDE("Longitude", DBType.TEXT),
+        LATITUDE("Latitude", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -70,7 +73,9 @@ public interface AnswerDbSchema {
                 Table.ANSWER.getName() + "." + Columns.CHECKED.getName(),
                 Table.ANSWER.getName() + "." + Columns.FILE_URI.getName(),
                 Table.ANSWER.getName() + "." + Columns.FILE_SIZE_B.getName(),
-                Table.ANSWER.getName() + "." + Columns.FILE_NAME.getName()
+                Table.ANSWER.getName() + "." + Columns.FILE_NAME.getName(),
+                Table.ANSWER.getName() + "." + Columns.LONGITUDE.getName(),
+                Table.ANSWER.getName() + "." + Columns.LATITUDE.getName()
         };
 
         int _ID = 0;
@@ -84,5 +89,7 @@ public interface AnswerDbSchema {
         int FILE_URI = 8;
         int FILE_SIZE_B = 9;
         int FILE_NAME = 10;
+        int LONGITUDE = 11;
+        int LATITUDE = 12;
     }
 }

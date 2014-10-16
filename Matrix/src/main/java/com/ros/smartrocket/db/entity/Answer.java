@@ -1,7 +1,9 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.utils.L;
 
 import java.io.Serializable;
@@ -23,6 +25,9 @@ public class Answer extends BaseEntity implements Serializable {
 
     private transient String FileName;
 
+    private transient Double Longitude;
+    private transient Double Latitude;
+
     public Answer() {
     }
 
@@ -40,6 +45,8 @@ public class Answer extends BaseEntity implements Serializable {
             result.setFileUri(c.getString(AnswerDbSchema.Query.FILE_URI));
             result.setFileSizeB(c.getLong(AnswerDbSchema.Query.FILE_SIZE_B));
             result.setFileName(c.getString(AnswerDbSchema.Query.FILE_NAME));
+            result.setLongitude(c.getDouble(AnswerDbSchema.Query.LONGITUDE));
+            result.setLatitude(c.getDouble(AnswerDbSchema.Query.LATITUDE));
         }
 
         L.d("Answer", "Answer:" + result.toString());
@@ -123,6 +130,22 @@ public class Answer extends BaseEntity implements Serializable {
 
     public void setFileName(String fileName) {
         FileName = fileName;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        Latitude = latitude;
     }
 
 }

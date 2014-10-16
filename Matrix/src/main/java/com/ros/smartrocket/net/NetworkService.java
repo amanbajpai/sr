@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.util.SparseArray;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -25,6 +26,7 @@ import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
+import com.ros.smartrocket.db.entity.Sharing;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -195,6 +197,10 @@ public class NetworkService extends BaseNetworkService {
                             i++;
                         }
                         break;
+                    case WSUrl.GET_SHARING_DATA_ID:
+                        Sharing sharing = gson.fromJson(responseString, Sharing.class);
+                        operation.responseEntities.add(sharing);
+                        break;
                     default:
                         break;
                 }
@@ -216,21 +222,22 @@ public class NetworkService extends BaseNetworkService {
                 if (error != null) {
                     operation.setResponseError(error.getErrorMessage());
                     operation.setResponseErrorCode(error.getErrorCode());
+
+                    if (operation.getResponseErrorCode() == PASSWORD_TOKEN_NOT_VALID_ERROR_CODE) {
+                        operation.setResponseError(getString(R.string.password_token_not_valid_error_text));
+
+                    } else if (operation.getResponseErrorCode() == USER_NOT_FOUND_ERROR_CODE) {
+                        operation.setResponseError(getString(R.string.user_not_found_error_text));
+
+                    } else if (operation.getResponseErrorCode() == USER_ALREADY_EXIST_ERROR_CODE) {
+                        operation.setResponseError(getString(R.string.user_already_exists_error_text));
+
+                    }
                 }
-            } catch (JsonSyntaxException e) {
+            } catch (Exception e) {
                 L.e(TAG, "ProcessResponse error: " + e.getMessage(), e);
                 operation.setResponseError(getString(R.string.error));
-            }
-
-            if (operation.getResponseErrorCode() == PASSWORD_TOKEN_NOT_VALID_ERROR_CODE) {
-                operation.setResponseError(getString(R.string.password_token_not_valid_error_text));
-
-            } else if (operation.getResponseErrorCode() == USER_NOT_FOUND_ERROR_CODE) {
-                operation.setResponseError(getString(R.string.user_not_found_error_text));
-
-            } else if (operation.getResponseErrorCode() == USER_ALREADY_EXIST_ERROR_CODE) {
-                operation.setResponseError(getString(R.string.user_already_exists_error_text));
-
+                operation.setResponseErrorCode(SERVER_INTEERNAL_ERROR);
             }
         }
 

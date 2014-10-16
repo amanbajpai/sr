@@ -33,6 +33,7 @@ public interface Keys {
     String DEFAULT_RADIUS = "default_radius";
     String SHOW_HIDDEN_TASKS = "show_hidden_tasks";
     String SHOW_HIDDEN_PROJECT = "show_hidden_project";
+    String IS_FIRST_LOGIN = "is_first_login";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
@@ -67,6 +68,7 @@ public interface Keys {
     String ACTIVATE_ACCOUNT_OPERATION_TAG = "activate_account_operation_tag";
     String SET_PASSWORD_OPERATION_TAG = "set_password_operation_tag";
     String CASHING_OUT_OPERATION_TAG = "cashing_out_operation_tag";
+    String GET_SHARING_DATA_OPERATION_TAG = "get_sharing_data_operation_tag";
 
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";

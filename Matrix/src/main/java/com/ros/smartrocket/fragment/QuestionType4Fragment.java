@@ -26,7 +26,7 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 /**
- * Fragment for display About information
+ * Open comment question type
  */
 public class QuestionType4Fragment extends BaseQuestionFragment {
     private ViewGroup view;

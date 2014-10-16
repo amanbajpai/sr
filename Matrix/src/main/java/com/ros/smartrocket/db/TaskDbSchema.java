@@ -72,6 +72,9 @@ public interface TaskDbSchema {
 
         ICON("Icon", DBType.TEXT),
 
+        LATITUDE_TO_VALIDATION("LatitudeToValidation", DBType.TEXT),
+        LONGITUDE_TO_VALIDATION("LongitudeToValidation", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -147,7 +150,9 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
                     Table.TASK.getName() + "." + Columns.CURRENCY_SIGN.getName(),
                     Table.TASK.getName() + "." + Columns.LOCATION_NAME.getName(),
-                    Table.TASK.getName() + "." + Columns.ICON.getName()
+                    Table.TASK.getName() + "." + Columns.ICON.getName(),
+                    Table.TASK.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
+                    Table.TASK.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName()
             };
 
             int _ID = 0;
@@ -189,6 +194,8 @@ public interface TaskDbSchema {
             int CURRENCY_SIGN = 36;
             int LOCATION_NAME = 37;
             int ICON = 38;
+            int LATITUDE_TO_VALIDATION = 39;
+            int LONGITUDE_TO_VALIDATION = 40;
         }
     }
 }

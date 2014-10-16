@@ -56,12 +56,14 @@ public class APIFacade {
      * @param email    - current email
      * @param password - current password
      */
-    public void login(Activity activity, String email, String password) {
+    public void login(Activity activity, String email, String password, String deviceName, String appVersion) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             Login loginEntity = new Login();
             loginEntity.setEmail(email);
             loginEntity.setPassword(password);
+            loginEntity.setDeviceName(deviceName);
+            loginEntity.setAppVersion(appVersion);
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.LOGIN);
@@ -500,6 +502,17 @@ public class APIFacade {
         operation.setUrl(WSUrl.CASHING_OUT);
         operation.setTag(Keys.CASHING_OUT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     */
+    public void getSharingData(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_SHARING_DATA);
+        operation.setTag(Keys.GET_SHARING_DATA_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

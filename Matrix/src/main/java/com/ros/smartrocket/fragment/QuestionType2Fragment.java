@@ -27,7 +27,7 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
- * Fragment for display About information
+ * Single choose question type
  */
 public class QuestionType2Fragment extends BaseQuestionFragment implements AdapterView.OnItemClickListener {
     private AnswerRadioButtonAdapter adapter;

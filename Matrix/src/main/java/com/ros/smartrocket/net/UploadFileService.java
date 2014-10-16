@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.location.Location;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -16,8 +15,11 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
+import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
@@ -204,6 +206,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         }
                     }
                     break;
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
+                    Task task = TasksBL.convertCursorToTask(cursor);
+                    sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getId(),
+                            task.getLatitudeToValidation(), task.getLongitudeToValidation()));
+                    break;
                 default:
                     break;
             }
@@ -254,21 +261,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     }
 
     private void validateTask(final int taskId) {
-        MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
-            @Override
-            public void getLocationStart() {
-            }
-
-            @Override
-            public void getLocationInProcess() {
-            }
-
-            @Override
-            public void getLocationSuccess(Location location) {
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, location.getLatitude(),
-                        location.getLongitude()));
-            }
-        });
+        TasksBL.getTaskFromDBbyID(dbHandler, taskId); //TODO
     }
 
     private boolean needSendNotification(NotUploadedFile notUploadedFile) {

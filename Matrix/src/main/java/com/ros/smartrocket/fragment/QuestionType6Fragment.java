@@ -25,7 +25,7 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 /**
- * Fragment for display About information
+ * Numeric question type
  */
 public class QuestionType6Fragment extends BaseQuestionFragment {
     private EditText answerEditText;

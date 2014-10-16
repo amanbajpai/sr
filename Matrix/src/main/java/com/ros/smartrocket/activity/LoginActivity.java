@@ -171,7 +171,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (deviceIsReady()) {
                     progressDialog = CustomProgressDialog.show(this);
                     loginButton.setEnabled(false);
-                    apiFacade.login(this, email, password);
+                    apiFacade.login(this, email, password, UIUtils.getDeviceName(), UIUtils.getAppVersion(this));
                 }
 
                 break;

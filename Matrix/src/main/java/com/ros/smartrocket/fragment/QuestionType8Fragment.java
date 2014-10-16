@@ -26,7 +26,7 @@ import com.ros.smartrocket.utils.IntentUtils;
 import java.io.File;
 
 /**
- * Fragment for display About information
+ * Instraction question type
  */
 public class QuestionType8Fragment extends BaseQuestionFragment {
     private Question question;
