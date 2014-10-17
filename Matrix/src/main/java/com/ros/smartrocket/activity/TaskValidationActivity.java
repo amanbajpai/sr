@@ -129,7 +129,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), endDateTime);
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
-                    if (task.getLatitudeToValidation() == null || task.getLongitudeToValidation() == null) {
+                    if (task.getLatitudeToValidation() == 0 || task.getLongitudeToValidation() == 0) {
                         AnswersBL.saveValidationLocation(task, answerListToSend, filesSizeB > 0);
                     }
 
