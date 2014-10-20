@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -35,6 +36,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private EditText emailEditText;
     private EditText passwordEditText;
     private CheckBox rememberMeCheckBox;
+    private TextView currentVersion;
     private Button loginButton;
     private Button registerButton;
     private CustomProgressDialog progressDialog;
@@ -53,6 +55,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
+        currentVersion = (TextView) findViewById(R.id.currentVersion);
+        currentVersion.setText("v." + UIUtils.getAppVersionCode(this));
 
         String lastEmail = preferencesManager.getLastEmail();
         String lastPassword = preferencesManager.getLastPassword();

@@ -391,4 +391,8 @@ public class TasksBL {
     public static void removeAllTasksFromDB(Context context) {
         context.getContentResolver().delete(TaskDbSchema.CONTENT_URI, null, null);
     }
+
+    public static boolean isPreClaimTask(Task task) {
+        return task.getLongStartDateTime() > Calendar.getInstance().getTimeInMillis();
+    }
 }

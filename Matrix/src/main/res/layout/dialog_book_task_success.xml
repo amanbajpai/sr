@@ -6,6 +6,7 @@
     style="@style/CustomDialog"
     android:orientation="vertical" >
     <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/titleTextView"
         android:layout_width="fill_parent"
         android:layout_height="64dp"
         android:text="@string/book_task_success_dialog_title"

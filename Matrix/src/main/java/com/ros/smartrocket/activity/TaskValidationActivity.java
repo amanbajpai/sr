@@ -142,7 +142,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
                         sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
 
-                        UIUtils.setActionBarBackground(TaskValidationActivity.this, task.getStatusId());
+                        UIUtils.setActionBarBackground(TaskValidationActivity.this, task);
                         closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
                     }
                     break;
@@ -272,6 +272,24 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    public boolean isReadyToSend() {
+        boolean result = UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this)
+                && UIUtils.isGooglePlayServicesEnabled(this)
+                && preferencesManager.getUseLocationServices()
+                && !UIUtils.isMockLocationEnabled(this);
+        if (!UIUtils.isOnline(this)) {
+            DialogUtils.showNetworkDialog(this);
+        } else if (!UIUtils.isGpsEnabled(this) || !preferencesManager.getUseLocationServices()) {
+            DialogUtils.showLocationDialog(this, true);
+        } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
+            DialogUtils.showGoogleSdkDialog(this);
+        } else if (UIUtils.isMockLocationEnabled(this)) {
+            DialogUtils.showMockLocationDialog(this, true);
+        }
+
+        return result;
+    }
+
     public void finishActivity() {
         if (firstlySelection) {
             PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -293,12 +311,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.sendNowButton:
-
-                if (task.getStartedStatusSent()) {
-                    sendTextAnswers();
-                } else {
-                    setSupportProgressBarIndeterminateVisibility(true);
-                    apiFacade.startTask(this, task.getId());
+                if (isReadyToSend()) {
+                    if (task.getStartedStatusSent()) {
+                        sendTextAnswers();
+                    } else {
+                        setSupportProgressBarIndeterminateVisibility(true);
+                        apiFacade.startTask(this, task.getId());
+                    }
                 }
                 break;
             case R.id.sendLaterButton:

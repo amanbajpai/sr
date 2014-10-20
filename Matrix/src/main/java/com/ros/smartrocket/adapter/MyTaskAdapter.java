@@ -126,22 +126,41 @@ public class MyTaskAdapter extends BaseAdapter {
             case NONE:
             case CLAIMED:
             case STARTED:
-                holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
+                if (TasksBL.isPreClaimTask(task)) {
+                    holder.listItem.setBackgroundResource(R.drawable.mission_violet_bg);
 
-                holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
+                    holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
 
-                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
-                holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-                holder.statusText.setText(activity.getString(R.string.mission_expires_at,
-                        UIUtils.longToString(missionDueMillisecond, 3)));
+                    holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
+                    holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
+                    holder.statusText.setText(activity.getString(R.string.mission_expires_at,
+                            UIUtils.longToString(missionDueMillisecond, 3)));
 
-                holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
-                holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
+                    holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.violet));
+                    holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.violet_light));
 
-                holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-                holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                    holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                    holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
+                    holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                } else {
+                    holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
+
+                    holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
+
+                    holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
+                    holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
+                    holder.statusText.setText(activity.getString(R.string.mission_expires_at,
+                            UIUtils.longToString(missionDueMillisecond, 3)));
+
+                    holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
+                    holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
+
+                    holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                    holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
+                    holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                }
                 break;
             case SCHEDULED:
             case PENDING:

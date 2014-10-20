@@ -71,6 +71,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView statusTextView;
     private TextView statusTimeText;
     private TextView statusTimeTextView;
+    private TextView statusText;
+    private TextView startTimeText;
 
     private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
@@ -97,6 +99,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout statusLayout;
     private LinearLayout statusTimeLayout;
 
+    private LinearLayout timeLayout;
     private LinearLayout taskOptionsLayout;
 
     private TextView titleTextView;
@@ -130,16 +133,20 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         statusLayout = (LinearLayout) findViewById(R.id.statusLayout);
         statusTimeLayout = (LinearLayout) findViewById(R.id.statusTimeLayout);
 
+        timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
         taskOptionsLayout = (LinearLayout) findViewById(R.id.taskOptionsLayout);
 
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
         dueTextView = (TextView) findViewById(R.id.dueTextView);
+        statusTextView = (TextView) findViewById(R.id.statusTextView);
+        statusTimeTextView = (TextView) findViewById(R.id.statusTimeTextView);
+
+        statusText = (TextView) findViewById(R.id.statusText);
+        startTimeText = (TextView) findViewById(R.id.startTimeText);
         deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
         expireText = (TextView) findViewById(R.id.expireText);
-        statusTextView = (TextView) findViewById(R.id.statusTextView);
         statusTimeText = (TextView) findViewById(R.id.statusTimeText);
-        statusTimeTextView = (TextView) findViewById(R.id.statusTimeTextView);
 
         taskPrice = (TextView) findViewById(R.id.taskPrice);
         taskExp = (TextView) findViewById(R.id.taskExp);
@@ -230,7 +237,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
                 String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
 
-                new BookTaskSuccessDialog(this, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
+                new BookTaskSuccessDialog(this, task, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
                         progressDialog.show();
@@ -419,19 +426,38 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setColorTheme(Task task) {
-        UIUtils.setActionBarBackground(this, task.getStatusId());
+        UIUtils.setActionBarBackground(this, task);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case NONE:
             case CLAIMED:
             case STARTED:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
+                if (TasksBL.isPreClaimTask(task)) {
+                    //TODO Change text color
+                    //statusText
+                    //startTimeText
+                    //deadlineTimeText
+                    //expireText
+                    //statusTimeText
 
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                    taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.violet_dark));
+                    timeLayout.setBackgroundColor(getResources().getColor(R.color.violet));
+                    optionDivider.setBackgroundColor(getResources().getColor(R.color.violet_light));
+                    buttonsLayout.setBackgroundColor(getResources().getColor(R.color.violet_dark));
+
+                    taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                    taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
+                    photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                } else {
+                    taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
+                    optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
+
+                    taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                    taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                    textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
+                    photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                }
                 break;
             case PENDING:
             case SCHEDULED:

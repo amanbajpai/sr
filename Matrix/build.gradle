@@ -45,12 +45,16 @@ dependencies {
 }
 
 android {
+    ext.env = System.getenv()
+    ext.buildNumber = env.BUILD_NUMBER ?: '9999'
+    ext.buildNumber = buildNumber.toInteger()
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
 
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 19
+        versionCode buildNumber
     }
 
     signingConfigs {

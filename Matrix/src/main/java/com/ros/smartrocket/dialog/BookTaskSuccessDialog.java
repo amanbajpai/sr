@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
 
 /**
@@ -18,7 +21,7 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
     private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
     private DialogButtonClickListener buttonClickListener;
 
-    public BookTaskSuccessDialog(Activity activity, String dateTime, DialogButtonClickListener buttonClickListener) {
+    public BookTaskSuccessDialog(Activity activity, Task task, String dateTime, DialogButtonClickListener buttonClickListener) {
         super(activity);
         this.buttonClickListener = buttonClickListener;
 
@@ -39,7 +42,21 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
 
         findViewById(R.id.cancelButton).setOnClickListener(this);
         findViewById(R.id.startLaterButton).setOnClickListener(this);
-        findViewById(R.id.startNowButton).setOnClickListener(this);
+
+        if (TasksBL.isPreClaimTask(task)) {
+            findViewById(R.id.startNowButton).setEnabled(false);
+        } else {
+            findViewById(R.id.startNowButton).setOnClickListener(this);
+        }
+
+        if (TasksBL.isPreClaimTask(task)) {
+            int violetLightColorId = getContext().getResources().getColor(R.color.violet_light);
+            int greyColorId = getContext().getResources().getColor(R.color.grey);
+            findViewById(R.id.titleTextView).setBackgroundColor(violetLightColorId);
+            ((TextView) findViewById(R.id.cancelButton)).setTextColor(violetLightColorId);
+            ((TextView) findViewById(R.id.startLaterButton)).setTextColor(violetLightColorId);
+            ((TextView) findViewById(R.id.startNowButton)).setTextColor(greyColorId);
+        }
     }
 
     @Override

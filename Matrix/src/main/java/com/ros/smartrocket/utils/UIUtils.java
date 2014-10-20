@@ -35,6 +35,7 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.images.ImageLoader;
 
 import java.math.BigDecimal;
@@ -684,13 +685,17 @@ public class UIUtils {
         return result;
     }
 
-    public static void setActionBarBackground(ActionBarActivity activity, int statusId) {
+    public static void setActionBarBackground(ActionBarActivity activity, Task task) {
         int backgroundRes;
-        switch (TasksBL.getTaskStatusType(statusId)) {
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case NONE:
             case CLAIMED:
             case STARTED:
-                backgroundRes = R.drawable.action_bar_green;
+                if (TasksBL.isPreClaimTask(task)) {
+                    backgroundRes = R.drawable.action_bar_violet;
+                } else {
+                    backgroundRes = R.drawable.action_bar_green;
+                }
                 break;
             case SCHEDULED:
             case PENDING:
