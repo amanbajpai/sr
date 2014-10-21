@@ -67,7 +67,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        dueTextView = (TextView) findViewById(R.id.dueTextView);
+        dueTextView = (TextView) findViewById(R.id.expireTextView);
 
         projectPrice = (TextView) findViewById(R.id.projectPrice);
         projectExp = (TextView) findViewById(R.id.projectExp);

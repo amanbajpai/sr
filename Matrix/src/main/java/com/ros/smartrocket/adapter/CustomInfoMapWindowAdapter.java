@@ -59,10 +59,17 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
                 case NONE:
                 case CLAIMED:
                 case STARTED:
-                    mainLayout.setBackgroundResource(R.drawable.popup_green);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
+                    if (TasksBL.isPreClaimTask(task)) {
+                        mainLayout.setBackgroundResource(R.drawable.popup_violet);
+                        priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+                        pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
+                        distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_violet, 0, 0, 0);
+                    } else {
+                        mainLayout.setBackgroundResource(R.drawable.popup_green);
+                        priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                        pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+                        distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
+                    }
                     break;
                 case SCHEDULED:
                 case PENDING:

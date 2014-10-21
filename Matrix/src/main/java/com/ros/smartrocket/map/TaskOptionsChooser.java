@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
+
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -118,18 +119,18 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
             case NONE:
             case CLAIMED:
             case STARTED:
-                if (!task.getIsHide()) {
-                    //if (task.getDistance() <= TasksMapFragment.taskRadius) {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
-                    /*} else {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_light_green);
-                    }*/
+                if (TasksBL.isPreClaimTask(task)) {
+                    if (!task.getIsHide()) {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet);
+                    } else {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet_hidden);
+                    }
                 } else {
-                    //if (task.getDistance() <= TasksMapFragment.taskRadius) {
+                    if (!task.getIsHide()) {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
+                    } else {
                         icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green_hidden);
-                    /*} else {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_light_green_hidden);
-                    }*/
+                    }
                 }
                 break;
             case SCHEDULED:

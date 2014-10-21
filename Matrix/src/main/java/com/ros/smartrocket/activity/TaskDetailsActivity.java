@@ -60,7 +60,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
-    private TextView dueTextView;
+    private TextView expireTextView;
     private TextView expireText;
     private TextView taskPrice;
     private TextView taskExp;
@@ -138,7 +138,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        dueTextView = (TextView) findViewById(R.id.dueTextView);
+        expireTextView = (TextView) findViewById(R.id.expireTextView);
         statusTextView = (TextView) findViewById(R.id.statusTextView);
         statusTimeTextView = (TextView) findViewById(R.id.statusTimeTextView);
 
@@ -357,10 +357,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (task.getIsMy()) {
             deadlineTimeTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
-            dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+            expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
         } else {
             deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-            dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
+            expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         }
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
@@ -433,22 +433,39 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case CLAIMED:
             case STARTED:
                 if (TasksBL.isPreClaimTask(task)) {
-                    //TODO Change text color
-                    //statusText
-                    //startTimeText
-                    //deadlineTimeText
-                    //expireText
-                    //statusTimeText
+                    int violetLightColorResId = getResources().getColor(R.color.violet_light);
+                    int violetDarkColorResId = getResources().getColor(R.color.violet_dark);
+                    int violetColorResId = getResources().getColor(R.color.violet);
+                    int whiteColorResId = getResources().getColor(R.color.white);
 
-                    taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.violet_dark));
-                    timeLayout.setBackgroundColor(getResources().getColor(R.color.violet));
-                    optionDivider.setBackgroundColor(getResources().getColor(R.color.violet_light));
-                    buttonsLayout.setBackgroundColor(getResources().getColor(R.color.violet_dark));
+                    statusText.setTextColor(violetLightColorResId);
+                    startTimeText.setTextColor(violetLightColorResId);
+                    deadlineTimeText.setTextColor(violetLightColorResId);
+                    expireText.setTextColor(violetLightColorResId);
+                    statusTimeText.setTextColor(violetLightColorResId);
 
-                    taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                    taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-                    photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                    statusTextView.setTextColor(whiteColorResId);
+                    startTimeTextView.setTextColor(whiteColorResId);
+                    deadlineTimeTextView.setTextColor(whiteColorResId);
+                    expireTextView.setTextColor(whiteColorResId);
+                    statusTimeTextView.setTextColor(whiteColorResId);
+
+                    taskOptionsLayout.setBackgroundColor(violetDarkColorResId);
+                    optionDivider.setBackgroundColor(violetLightColorResId);
+                    timeLayout.setBackgroundColor(violetColorResId);
+                    buttonsLayout.setBackgroundColor(violetDarkColorResId);
+
+                    taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+                    taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
+                    textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
+                    photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_violet, 0, 0, 0);
+
+                    bookTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
+                    startTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
+                    hideTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
+                    showTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
+                    withdrawTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
+                    continueTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
                 } else {
                     taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
                     optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
@@ -545,6 +562,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 startTaskButton.setVisibility(View.VISIBLE);
+                if (TasksBL.isPreClaimTask(task)) {
+                    startTaskButton.setEnabled(false);
+                } else {
+                    startTaskButton.setEnabled(true);
+                }
                 break;
             case STARTED:
                 buttonsLayout.setVisibility(View.VISIBLE);

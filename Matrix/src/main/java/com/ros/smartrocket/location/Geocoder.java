@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Address;
 import android.net.http.AndroidHttpClient;
 
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.utils.L;
 
 import org.apache.http.HttpResponse;
@@ -81,7 +82,7 @@ public final class Geocoder {
             throw new IllegalArgumentException("longitude == " + longitude);
         }
 
-        StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=");
+        StringBuilder url = new StringBuilder(Config.GEOCODER_URL + "/maps/api/geocode/json?sensor=true&latlng=");
         url.append(latitude);
         url.append(',');
         url.append(longitude);

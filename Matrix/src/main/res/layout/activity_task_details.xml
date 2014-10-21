@@ -101,7 +101,7 @@
                             android:text="@string/duration_time"
                             custom:textStyle="bold" />
                         <com.ros.smartrocket.views.CustomTextView
-                            android:id="@+id/dueTextView"
+                            android:id="@+id/expireTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

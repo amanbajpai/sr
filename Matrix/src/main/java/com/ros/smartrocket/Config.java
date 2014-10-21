@@ -6,7 +6,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class Config {
     public enum Environment {
-        DEVELOPMENT, PRODUCTION, STAGING
+        DEVELOPMENT, CHINA_PRODUCTION, PRODUCTION, STAGING
     }
 
     public static final Environment ENV = Environment.DEVELOPMENT;
@@ -35,6 +35,7 @@ public class Config {
 
     public static String TERMS_AND_CONDITION_URL;
     public static String PROFILE_PAGE_URL;
+    public static String GEOCODER_URL;
 
     public static boolean LOG_ENABLED;
     public static final boolean CAN_USE_FAKE_LOCATION = true; //TODO Remove in production
@@ -42,12 +43,21 @@ public class Config {
     static {
         APP_VERSION = UIUtils.getAppVersion(App.getInstance());
         switch (ENV) {
+            case CHINA_PRODUCTION:
+                ACRA_ENABLED = false;
+                LOG_ENABLED = false;
+                WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
+                TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
+                PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
+                GEOCODER_URL = "http://ditu.google.cn";
+                break;
             case PRODUCTION:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
+                GEOCODER_URL = "http://maps.googleapis.com";
                 break;
             case STAGING:
                 ACRA_ENABLED = true;
@@ -55,6 +65,7 @@ public class Config {
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://web.staging.redoceansolutions.com/Account/Manage";
+                GEOCODER_URL = "http://maps.googleapis.com";
                 break;
             case DEVELOPMENT:
             default:
@@ -63,6 +74,7 @@ public class Config {
                 WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";
+                GEOCODER_URL = "http://maps.googleapis.com";
                 break;
         }
     }
