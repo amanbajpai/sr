@@ -21,8 +21,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.VideoView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -216,7 +218,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     }
 
     public void playPauseVideo(String videoPath) {
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        ((QuestionsActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -226,7 +228,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         if (getActivity() != null) {
-                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            ((QuestionsActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                         }
                         videoView.setBackgroundColor(Color.TRANSPARENT);
                         videoView.pause();

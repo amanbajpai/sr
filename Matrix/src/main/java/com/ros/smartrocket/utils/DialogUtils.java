@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.text.TextUtils;
+
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -59,7 +61,14 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                if (!TextUtils.isEmpty(preferencesManager.getToken())
+                        && !preferencesManager.getUseLocationServices()) {
+                    activity.startActivity(IntentUtils.getSettingIntent(activity));
+                } else {
+                    activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
             }
         });
 
