@@ -378,7 +378,7 @@
     <string name="cashing_out_minimum_balance">戶口餘額必須超過%1$s才能進行提款</string>
     <string name="cashing_out_are_you_sure">確定進行餘額提款？</string>
     <string name="cashing_out_continue">繼續</string>
-    <string name="cashing_out_success">提款處理中</string>
+    <string name="cashing_out_success">提款處理中，款項將會於今日完結的時候轉賬到你所提名的網上賬戶。</string>
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">注意！</string>
     <string name="turn_on_wifi_dialog_text1">任務暫時未能提交。請回到有Wifi覆蓋的範圍，或於設定内取消“只透過WiFi傳送數據”，

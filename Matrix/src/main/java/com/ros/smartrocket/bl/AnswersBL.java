@@ -186,9 +186,10 @@ public class AnswersBL {
         double z = 0;
 
         for (Answer answer : answerList) {
-            if (!TextUtils.isEmpty(answer.getFileUri())) {
-                photoVideoAnswerCount++;
+            if (answer.getLatitude() == 0 || answer.getLongitude() == 0) {
+                continue;
             }
+            photoVideoAnswerCount++;
 
             double lat = answer.getLatitude() * Math.PI / 180;
             double lon = answer.getLongitude() * Math.PI / 180;
