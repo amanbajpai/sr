@@ -183,6 +183,7 @@
     <string name="registration_success_dialog_ok">OK</string>
     <!-- CLAIM TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title">Mission claimed</string>
+    <string name="book_task_success_dialog_title2">Mission pre-claimed</string>
     <string name="book_task_success_dialog_text0">This mission must be completed by;</string>
     <string name="book_task_success_dialog_text1">You can find this mission in \"My Missions\" until it is
         successfully completed.</string>

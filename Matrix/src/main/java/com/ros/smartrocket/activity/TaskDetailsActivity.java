@@ -239,7 +239,18 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 progressDialog.hide();
 
+                long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
+                long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
+                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+
+                long missionDueMillisecond;
+                if(TasksBL.isPreClaimTask(task)){
+                    missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
+                } else {
+                    missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+                }
+
                 task.setStatusId(Task.TaskStatusId.CLAIMED.getStatusId());
                 task.setIsMy(true);
                 task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
@@ -247,8 +258,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 TasksBL.updateTask(handler, task);
 
-                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-                String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
+                String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
 
                 new BookTaskSuccessDialog(this, task, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
                     @Override
@@ -363,7 +373,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
         long claimTimeInMillisecond = task.getLongClaimDateTime();
 
-        long missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+        long missionDueMillisecond;
+        if(TasksBL.isPreClaimTask(task)){
+            missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
+        } else {
+            missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+        }
         long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));

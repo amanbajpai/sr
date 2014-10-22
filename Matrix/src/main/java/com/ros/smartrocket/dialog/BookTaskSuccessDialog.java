@@ -52,7 +52,11 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
         if (TasksBL.isPreClaimTask(task)) {
             int violetLightColorId = getContext().getResources().getColor(R.color.violet_light);
             int greyColorId = getContext().getResources().getColor(R.color.grey);
-            findViewById(R.id.titleTextView).setBackgroundColor(violetLightColorId);
+
+            TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
+            titleTextView.setBackgroundColor(violetLightColorId);
+            titleTextView.setText(R.string.book_task_success_dialog_title2);
+
             ((TextView) findViewById(R.id.cancelButton)).setTextColor(violetLightColorId);
             ((TextView) findViewById(R.id.startLaterButton)).setTextColor(violetLightColorId);
             ((TextView) findViewById(R.id.startNowButton)).setTextColor(greyColorId);

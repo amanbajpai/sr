@@ -114,9 +114,18 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
         holder.photoQuestionsCount.setText(String.valueOf(task.getPhotoQuestionsCount()));
 
-        long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
+        long startTimeInMillisecond = task.getLongStartDateTime();
+        long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
+        long claimTimeInMillisecond = task.getLongClaimDateTime();
         long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-        long missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+
+        long missionDueMillisecond;
+        if(TasksBL.isPreClaimTask(task)){
+            missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
+        } else {
+            missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+        }
+
         long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
 
         setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
@@ -139,10 +148,10 @@ public class MyTaskAdapter extends BaseAdapter {
                     holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.violet));
                     holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.violet_light));
 
-                    holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                    holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-                    holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+                    holder.taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+                    holder.taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
+                    holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
+                    holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_violet, 0, 0, 0);
                 } else {
                     holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
 
