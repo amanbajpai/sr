@@ -3,7 +3,7 @@
     package="com.ros.smartrocket"
     android:installLocation="auto"
     android:versionCode="4"
-    android:versionName="1.2" >
+    android:versionName="1.2">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -44,16 +44,16 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" >
-            <intent-filter >
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter >
-        </activity >
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ros.smartrocket.activity.ReferralCasesActivity"
             android:configChanges="locale"
@@ -82,16 +82,16 @@
         <activity
             android:name="com.ros.smartrocket.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
-            android:theme="@style/AppThemeGreen"
-            android:configChanges="locale" />
+            android:configChanges="locale|orientation"
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".activity.WaveDetailsActivity"
-            android:theme="@style/AppThemeGreen"
-            android:configChanges="locale" />
+            android:configChanges="locale"
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name="com.ros.smartrocket.activity.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
@@ -99,15 +99,15 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.ros.smartrocket.activity.MapActivity"
-            android:theme="@style/AppThemeGreen"
             android:configChanges="locale"
             android:launchMode="singleTop"
-            android:parentActivityName="com.ros.smartrocket.activity.MainActivity" >
+            android:parentActivityName="com.ros.smartrocket.activity.MainActivity"
+            android:theme="@style/AppThemeGreen">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ros.smartrocket.activity.MainActivity" />
-        </activity >
+        </activity>
         <activity
             android:name="com.ros.smartrocket.activity.SettingsActivity"
             android:configChanges="locale" />
@@ -119,18 +119,18 @@
             android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.EmailRedirectActivity"
-            android:configChanges="locale" >
-            <intent-filter >
+            android:configChanges="locale">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--<data android:host="www.youtube.com" android:scheme="http"></data>-->
                 <data
-                    android:scheme="http"
-                    android:host="smart-rocket.com" />
-            </intent-filter >
-        </activity >
+                    android:host="smart-rocket.com"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ros.smartrocket.activity.CheckLocationFailedActivity"
             android:configChanges="locale" />
@@ -142,13 +142,13 @@
             android:configChanges="locale" />
         <activity
             android:name="com.ros.smartrocket.activity.QuestionsActivity"
+            android:configChanges="locale|orientation"
             android:theme="@style/AppThemeGreen"
-            android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.ros.smartrocket.activity.TaskValidationActivity"
-            android:theme="@style/AppThemeGreen"
-            android:configChanges="locale" />
+            android:configChanges="locale"
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name="com.ros.smartrocket.activity.TermsAndConditionActivity"
             android:configChanges="locale" />
@@ -176,36 +176,36 @@
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
         <receiver
             android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
-            android:exported="false" >
-            <intent-filter >
+            android:exported="false">
+            <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
         <!-- GCM -->
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter >
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category android:name="com.ros.smartrocket" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="com.ros.smartrocket.net.GlobalReceiver"
-            android:exported="true" >
-            <intent-filter android:priority="1000" >
+            android:exported="true">
+            <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <data
                     android:path="com.ua.makeev.contactwidgetpaid"
                     android:scheme="package" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.ros.smartrocket.GCMIntentService" />
         <service
@@ -225,5 +225,5 @@
         <service
             android:name="com.ros.smartrocket.net.UploadFileNetworkService"
             android:exported="false" />
-    </application >
-</manifest >
+    </application>
+</manifest>

@@ -104,8 +104,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         nextButton.setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
-
-        L.i(TAG, "Task id: " + taskId);
     }
 
     class DbHandler extends AsyncQueryHandler {
