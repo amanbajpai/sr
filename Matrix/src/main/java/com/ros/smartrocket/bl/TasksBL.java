@@ -357,6 +357,32 @@ public class TasksBL {
         return contentValuesMap;
     }
 
+    @SuppressWarnings("unchecked")
+    public static SparseArray<ContentValues> getValidLocationTaskHashMap(ContentResolver contentResolver) {
+        String[] projection = {Table.TASK.getName() + "." + TaskDbSchema.Columns.ID.getName(),
+                Table.TASK.getName() + "." + TaskDbSchema.Columns.LATITUDE_TO_VALIDATION.getName(),
+                Table.TASK.getName() + "." + TaskDbSchema.Columns.LONGITUDE_TO_VALIDATION.getName()};
+
+        Cursor tasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
+                TaskDbSchema.Columns.LATITUDE_TO_VALIDATION + " IS NOT NULL and "
+                        + TaskDbSchema.Columns.LONGITUDE_TO_VALIDATION + " IS NOT NULL", null, null
+        );
+
+        SparseArray<ContentValues> contentValuesMap = new SparseArray<ContentValues>();
+        if (tasksCursor != null) {
+            while (tasksCursor.moveToNext()) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(TaskDbSchema.Columns.LATITUDE_TO_VALIDATION.getName(), tasksCursor.getDouble(1));
+                contentValues.put(TaskDbSchema.Columns.LONGITUDE_TO_VALIDATION.getName(), tasksCursor.getDouble(2));
+
+                contentValuesMap.put(tasksCursor.getInt(0), contentValues);
+            }
+            tasksCursor.close();
+        }
+
+        return contentValuesMap;
+    }
+
     public static void updateTasksByContentValues(ContentResolver contentResolver,
                                                   SparseArray<ContentValues> contentValuesMap) {
         for (int i = 0; i < contentValuesMap.size(); i++) {

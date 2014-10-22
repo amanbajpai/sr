@@ -81,6 +81,7 @@ public class NetworkService extends BaseNetworkService {
                 ContentResolver contentResolver = getContentResolver();
                 SparseArray<ContentValues> scheduledTaskContentValuesMap;
                 SparseArray<ContentValues> hiddenTaskContentValuesMap;
+                SparseArray<ContentValues> validLocationTaskContentValuesMap;
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
                     case WSUrl.GET_WAVES_ID:
@@ -104,6 +105,7 @@ public class NetworkService extends BaseNetworkService {
                         //Get tasks with 'scheduled' status id
                         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
                         hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
+                        validLocationTaskContentValuesMap = TasksBL.getValidLocationTaskHashMap(contentResolver);
 
                         TasksBL.removeAllMyTask(contentResolver);
                         WavesBL.saveWaveAndTaskFromServer(contentResolver, myTasksWaves, true);
@@ -111,6 +113,7 @@ public class NetworkService extends BaseNetworkService {
                         //Update task status id
                         TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
                         TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
+                        TasksBL.updateTasksByContentValues(contentResolver, validLocationTaskContentValuesMap);
                         break;
 
                     case WSUrl.CLAIM_TASKS_ID:

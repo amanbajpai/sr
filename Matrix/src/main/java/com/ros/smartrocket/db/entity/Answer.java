@@ -49,7 +49,6 @@ public class Answer extends BaseEntity implements Serializable {
             result.setLatitude(c.getDouble(AnswerDbSchema.Query.LATITUDE));
         }
 
-        L.d("Answer", "Answer:" + result.toString());
         return result;
     }
 

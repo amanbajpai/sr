@@ -220,9 +220,22 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
 
-                Location location = lm.getLocation();
+                MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                    @Override
+                    public void getLocationStart() {
+                        setSupportProgressBarIndeterminateVisibility(true);
+                    }
 
-                apiFacade.claimTask(this, taskId, location.getLatitude(), location.getLongitude());
+                    @Override
+                    public void getLocationInProcess() {
+                    }
+
+                    @Override
+                    public void getLocationSuccess(Location location) {
+                        apiFacade.claimTask(TaskDetailsActivity.this, taskId, location.getLatitude(), location.getLongitude());
+                        setSupportProgressBarIndeterminateVisibility(false);
+                    }
+                });
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 progressDialog.hide();
 

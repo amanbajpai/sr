@@ -35,7 +35,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private boolean render(Marker marker, View view, ClusterPoint clusterPoint) {
         boolean result = false;
 
-        if (clusterPoint.getPointAtOffset(0) != null) {
+        if (clusterPoint != null && clusterPoint.getPointAtOffset(0) != null) {
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
             LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);

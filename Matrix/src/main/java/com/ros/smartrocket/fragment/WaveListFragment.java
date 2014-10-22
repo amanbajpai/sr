@@ -3,7 +3,6 @@ package com.ros.smartrocket.fragment;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -108,34 +108,41 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     private void getWaves() {
         if (preferencesManager.getUseLocationServices()) {
             refreshIconState(true);
-            final Location location = lm.getLocation();
-            if (location != null) {
-                final int radius = TasksMapFragment.taskRadius;
-                L.i(TAG, "Radius: " + radius);
 
-                WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
+            MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                @Override
+                public void getLocationStart() {
+                    ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                }
 
-                if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
-                    lm.getAddress(location, new MatrixLocationManager.IAddress() {
-                        @Override
-                        public void onUpdate(Address address) {
-                            if (address != null) {
+                @Override
+                public void getLocationInProcess() {
+                }
+
+                @Override
+                public void getLocationSuccess(final Location location) {
+                    ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+
+                    final int radius = TasksMapFragment.taskRadius;
+
+                    WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
+
+                    if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
+                        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+                            @Override
+                            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
                                 apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
-                                        address.getCountryName(), address.getLocality(), radius);
-                            } else if (UIUtils.isOnline(getActivity())) {
-                                apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
-                                        "", "", radius);
-                                //UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                                        countryName, cityName, radius);
                             }
+                        });
+                    } else {
+                        refreshIconState(false);
+                        if (!UIUtils.isOnline(getActivity())) {
+                            UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
                         }
-                    });
-                } else {
-                    refreshIconState(false);
-                    if (!UIUtils.isOnline(getActivity())) {
-                        UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
                     }
                 }
-            }
+            });
         } else {
             adapter.setData(new ArrayList<Wave>());
         }
