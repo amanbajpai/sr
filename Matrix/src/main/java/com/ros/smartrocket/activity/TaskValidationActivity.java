@@ -5,6 +5,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -311,20 +312,59 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.sendNowButton:
-                if (isReadyToSend()) {
-                    if (task.getStartedStatusSent()) {
-                        sendTextAnswers();
-                    } else {
-                        setSupportProgressBarIndeterminateVisibility(true);
-                        apiFacade.startTask(this, task.getId());
-                    }
-                }
+                sendNowButtonClick();
                 break;
             case R.id.sendLaterButton:
                 finishActivity();
                 break;
             default:
                 break;
+        }
+    }
+
+    public void sendNowButtonClick() {
+        if (isReadyToSend()) {
+            if (task.getLatitudeToValidation() == 0 || task.getLongitudeToValidation() == 0) {
+                if (filesSizeB > 0) {
+                    AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
+
+                    sendAnswers();
+                } else {
+                    MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                        @Override
+                        public void getLocationStart() {
+                            setSupportProgressBarIndeterminateVisibility(true);
+                        }
+
+                        @Override
+                        public void getLocationInProcess() {
+                        }
+
+                        @Override
+                        public void getLocationSuccess(Location location) {
+                            task.setLatitudeToValidation(location.getLatitude());
+                            task.setLongitudeToValidation(location.getLongitude());
+
+                            TasksBL.updateTask(task);
+
+                            setSupportProgressBarIndeterminateVisibility(false);
+
+                            sendAnswers();
+                        }
+                    });
+                }
+            } else {
+                sendAnswers();
+            }
+        }
+    }
+
+    public void sendAnswers() {
+        if (task.getStartedStatusSent()) {
+            sendTextAnswers();
+        } else {
+            setSupportProgressBarIndeterminateVisibility(true);
+            apiFacade.startTask(this, task.getId());
         }
     }
 
