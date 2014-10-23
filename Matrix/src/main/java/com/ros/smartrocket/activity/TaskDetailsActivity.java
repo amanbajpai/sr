@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Task task;
     private Wave wave = new Wave();
 
+    private ImageView mapImageView;
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
     private TextView expireTextView;
@@ -177,7 +179,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         continueTaskButton = (Button) findViewById(R.id.continueTaskButton);
         continueTaskButton.setOnClickListener(this);
 
-        findViewById(R.id.mapImageView).setOnClickListener(this);
+        mapImageView = (ImageView) findViewById(R.id.mapImageView);
+        mapImageView.setOnClickListener(this);
     }
 
     @Override
@@ -245,7 +248,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
 
                 long missionDueMillisecond;
-                if(TasksBL.isPreClaimTask(task)){
+                if (TasksBL.isPreClaimTask(task)) {
                     missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
                 } else {
                     missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
@@ -327,8 +330,18 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
 
-        deadlineTimeText.setText(task.getIsMy() ? R.string.mission_due : R.string.deadline_time);
-        expireText.setText(task.getIsMy() ? R.string.due_in : R.string.duration_time);
+        int missionDueResId;
+        int dueInResId;
+        if (TasksBL.isPreClaimTask(task)) {
+            missionDueResId = R.string.mission_due_pre_claim;
+            dueInResId = R.string.due_in_pre_claim;
+        } else {
+            missionDueResId = R.string.mission_due;
+            dueInResId = R.string.due_in;
+        }
+
+        deadlineTimeText.setText(task.getIsMy() ? missionDueResId : R.string.deadline_time);
+        expireText.setText(task.getIsMy() ? dueInResId : R.string.duration_time);
 
         taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice(), task.getCurrencySign(), null, null));
         textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
@@ -374,7 +387,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         long claimTimeInMillisecond = task.getLongClaimDateTime();
 
         long missionDueMillisecond;
-        if(TasksBL.isPreClaimTask(task)){
+        if (TasksBL.isPreClaimTask(task)) {
             missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
         } else {
             missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
@@ -494,6 +507,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     showTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
                     withdrawTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
                     continueTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
+
+                    mapImageView.setImageResource(R.drawable.map_piece_violet);
                 } else {
                     taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
                     optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));

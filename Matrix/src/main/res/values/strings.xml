@@ -126,8 +126,10 @@
     <string name="status">STATUS: </string>
     <string name="deadline_time">DEADLINE: </string>
     <string name="mission_due">MISSION DUE: </string>
+    <string name="mission_due_pre_claim">(Pre-claim) DUE: </string>
     <string name="duration_time">EXPIRY: </string>
     <string name="due_in">DUE IN: </string>
+    <string name="due_in_pre_claim"> (Pre-claim) DUE IN: </string>
     <string name="mission_address">MISSION ADDRESS</string>
     <string name="full_description">MISSION DESCRIPTION</string>
     <string name="book_this_task">CLAIM</string>

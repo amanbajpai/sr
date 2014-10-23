@@ -120,8 +120,10 @@
     <string name="status">狀況： </string>
     <string name="deadline_time">期限：</string>
     <string name="mission_due">任務到期：</string>
+    <string name="mission_due_pre_claim">（優先認領）任務到期： </string>
     <string name="duration_time">到期：</string>
     <string name="due_in">剩餘時間：</string>
+    <string name="due_in_pre_claim">（優先認領）剩餘時間： </string>
     <string name="mission_address">任務地址</string>
     <string name="full_description">任務簡介</string>
     <string name="book_this_task">認領任務</string>
@@ -171,6 +173,7 @@
     <string name="registration_success_dialog_ok">繼續</string>
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title">成功認領任務</string>
+    <string name="book_task_success_dialog_title2">成功優先認領任務</string>
     <string name="book_task_success_dialog_text0">這個任務必須於以下時間之前完成：</string>
     <string name="book_task_success_dialog_text1">你可以於[我的任務]頁面找到這個任務的詳細資料，直到任務成功完成爲止。</string>
     <string name="start_later">稍後開始</string>

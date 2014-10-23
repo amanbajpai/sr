@@ -134,7 +134,7 @@
                     android:contentDescription="@string/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/map_piece"
+                    android:src="@drawable/map_piece_green"
                     android:scaleType="centerCrop" />
             </LinearLayout >
             <LinearLayout
