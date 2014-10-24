@@ -131,6 +131,7 @@
     <string name="due_in">DUE IN: </string>
     <string name="due_in_pre_claim"> (Pre-claim) DUE IN: </string>
     <string name="mission_address">MISSION ADDRESS</string>
+    <string name="no_mission_address">This mission has not preset location</string>
     <string name="full_description">MISSION DESCRIPTION</string>
     <string name="book_this_task">CLAIM</string>
     <string name="start_this_task">START NOW</string>

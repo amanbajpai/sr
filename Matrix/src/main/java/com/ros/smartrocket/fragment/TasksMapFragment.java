@@ -610,9 +610,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 case SCHEDULED:
                     startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false, false));
                     break;
-                case RE_DO_TASK:
+                /*case RE_DO_TASK:
                     startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
-                    break;
+                    break;*/
                 default:
                     startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
                     return true;

@@ -51,7 +51,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private Calendar calendar = Calendar.getInstance();
     private AsyncQueryHandler handler;
 
@@ -92,6 +91,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Button showTaskButton;
     private Button withdrawTaskButton;
     private Button continueTaskButton;
+    private Button redoTaskButton;
 
     private View actionBarView;
 
@@ -178,6 +178,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         withdrawTaskButton.setOnClickListener(this);
         continueTaskButton = (Button) findViewById(R.id.continueTaskButton);
         continueTaskButton.setOnClickListener(this);
+        redoTaskButton = (Button) findViewById(R.id.redoTaskButton);
+        redoTaskButton.setOnClickListener(this);
 
         mapImageView = (ImageView) findViewById(R.id.mapImageView);
         mapImageView.setOnClickListener(this);
@@ -242,7 +244,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 progressDialog.hide();
 
-                long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
+                long startTimeInMillisecond = task.getLongStartDateTime();
                 long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
                 long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
@@ -332,6 +334,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         int missionDueResId;
         int dueInResId;
+
         if (TasksBL.isPreClaimTask(task)) {
             missionDueResId = R.string.mission_due_pre_claim;
             dueInResId = R.string.due_in_pre_claim;
@@ -351,10 +354,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
         taskDescription.setText(task.getDescription());
 
-        if (TextUtils.isEmpty(task.getLocationName()) && TextUtils.isEmpty(task.getAddress())) {
-            addressLayout.setVisibility(View.GONE);
-        }
-
         if (!TextUtils.isEmpty(task.getLocationName())) {
             locationName.setText(task.getLocationName());
         } else {
@@ -363,24 +362,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (!TextUtils.isEmpty(task.getAddress())) {
             taskAddress.setText(task.getAddress());
+            taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
         } else {
-            taskAddress.setVisibility(View.GONE);
+            //taskAddress.setVisibility(View.GONE);
+            taskAddress.setText(R.string.no_mission_address);
+            taskDistance.setVisibility(View.GONE);
         }
 
-        taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
-
-        setTaskDataByType(task);
-        setColorTheme(task);
-        setButtonsSettings(task);
-    }
-
-    public void setWaveData(Wave wave) {
-        if (titleTextView != null) {
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
-        }
-
-        long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
-        long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
+        long startTimeInMillisecond = task.getLongStartDateTime();
+        long endTimeInMillisecond = task.getLongEndDateTime();
 
         long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
         long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
@@ -404,6 +394,16 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         }
 
+        setTaskDataByType(task);
+        setColorTheme(task);
+        setButtonsSettings(task);
+    }
+
+    public void setWaveData(Wave wave) {
+        if (titleTextView != null) {
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        }
+
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
@@ -425,7 +425,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     long submittedTime = UIUtils.isoTimeToLong(task.getSubmittedAt());
                     statusTimeTextView.setText(UIUtils.longToString(submittedTime, 3));
                 }
-
                 break;
             case VALIDATED:
             case IN_PAYMENT_PROCESS:
@@ -460,6 +459,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     long rejectedTime = UIUtils.isoTimeToLong(task.getRejectedAt());
                     statusTimeTextView.setText(UIUtils.longToString(rejectedTime, 3));
                 }
+                break;
+            case RE_DO_TASK:
+                long missionDueMillisecond = task.getLongRedoDateTime() + task.getLongExpireTimeoutForClaimedTask();
+                long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
+
+                deadlineTimeTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
+                expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
                 break;
             default:
                 break;
@@ -551,6 +557,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case RE_DO_TASK:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.red));
                 optionDivider.setBackgroundColor(getResources().getColor(R.color.red_dark));
+                buttonsLayout.setBackgroundColor(getResources().getColor(R.color.red_dark));
 
                 taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
@@ -590,6 +597,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         showTaskButton.setVisibility(View.GONE);
         withdrawTaskButton.setVisibility(View.GONE);
         continueTaskButton.setVisibility(View.GONE);
+        redoTaskButton.setVisibility(View.GONE);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case NONE:
@@ -615,6 +623,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 continueTaskButton.setVisibility(View.VISIBLE);
+                break;
+            case RE_DO_TASK:
+                buttonsLayout.setVisibility(View.VISIBLE);
+                withdrawTaskButton.setVisibility(View.INVISIBLE);
+                redoTaskButton.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
@@ -651,6 +664,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.continueTaskButton:
                 continueTaskButtonClick();
+                break;
+            case R.id.redoTaskButton:
+                redoTaskButtonClick();
                 break;
             case R.id.mapImageView:
                 mapImageViewClick();
@@ -718,6 +734,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    public void redoTaskButtonClick() {
+        startActivity(IntentUtils.getQuestionsIntent(this, taskId));
     }
 
     public void mapImageViewClick() {

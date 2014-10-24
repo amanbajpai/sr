@@ -3,31 +3,37 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <ScrollView
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_above="@+id/buttonsLayout" >
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttonsLayout">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
+
             <LinearLayout
-                android:baselineAligned="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
                 android:background="@color/grey_light"
-                android:orientation="horizontal" >
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:orientation="vertical">
+
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -35,6 +41,7 @@
                             android:layout_marginTop="5dp"
                             android:text="@string/start_time"
                             custom:textStyle="bold" />
+
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -42,6 +49,7 @@
                             android:layout_marginTop="5dp"
                             android:text="@string/deadline_time"
                             custom:textStyle="bold" />
+
                         <com.ros.smartrocket.views.CustomTextView
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -49,11 +57,13 @@
                             android:layout_marginTop="5dp"
                             android:text="@string/duration_time"
                             custom:textStyle="bold" />
-                    </LinearLayout >
+                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:orientation="vertical">
+
                         <com.ros.smartrocket.views.CustomTextView
                             android:id="@+id/startTimeTextView"
                             style="@style/detailScreenTimeTextStyle"
@@ -61,6 +71,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
+
                         <com.ros.smartrocket.views.CustomTextView
                             android:id="@+id/deadlineTimeTextView"
                             style="@style/detailScreenTimeTextStyle"
@@ -68,6 +79,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
+
                         <com.ros.smartrocket.views.CustomTextView
                             android:id="@+id/expireTextView"
                             style="@style/detailScreenTimeTextStyle"
@@ -75,21 +87,23 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
-                    </LinearLayout >
-                </LinearLayout >
+                    </LinearLayout>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
+
                     <ImageView
                         android:id="@+id/mapImageView"
-                        android:contentDescription="@string/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/map_piece_green"
-                        android:scaleType="centerCrop" />
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/map_piece_green" />
                     <!--<fragment
                         android:id="@+id/mapImageView"
                         android:layout_width="68dp"
@@ -99,23 +113,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:textSize="@dimen/text_size_8sp"
                         android:text="@string/show_missions"
                         android:textColor="@color/green"
+                        android:textSize="@dimen/text_size_8sp"
                         custom:textStyle="bold" />
-                </LinearLayout >
-            </LinearLayout >
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:background="@color/green_light"
                 android:gravity="center_vertical"
-                android:paddingTop="10dp"
+                android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal" >
+                android:paddingTop="10dp">
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectPrice"
                     style="@style/TaskAndWaveOptionStyle"
@@ -124,6 +140,7 @@
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/wallet_green"
                     custom:textStyle="bold" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectExp"
                     style="@style/TaskAndWaveOptionStyle"
@@ -132,6 +149,7 @@
                     android:layout_weight="1.15"
                     android:drawableLeft="@drawable/rocket_green"
                     custom:textStyle="bold" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectLocations"
                     style="@style/TaskAndWaveOptionStyle"
@@ -140,11 +158,13 @@
                     android:layout_weight="1.15"
                     android:drawableLeft="@drawable/pin"
                     custom:textStyle="bold" />
+
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="15dp"
                     android:background="@color/green_dark" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/textQuestionsCount"
                     style="@style/TaskAndWaveOptionStyle"
@@ -153,6 +173,7 @@
                     android:layout_weight="1.17"
                     android:drawableLeft="@drawable/quote_green"
                     custom:textStyle="bold" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/photoQuestionsCount"
                     style="@style/TaskAndWaveOptionStyle"
@@ -161,61 +182,90 @@
                     android:layout_weight="1.17"
                     android:drawableLeft="@drawable/camera_green"
                     custom:textStyle="bold" />
-            </LinearLayout >
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/descriptionLayout"
                 android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
                 <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/noTaskAddressText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="left"
+                    android:lineSpacingExtra="5dp"
+                    android:text="@string/no_mission_address"
                     android:textSize="@dimen/text_size_13p6sp"
-                    android:textColor="@color/grey"
-                    android:text="@string/wave_missions_description"
-                    custom:textStyle="bold" />
-                <View
-                    android:layout_height="1px"
+                    android:visibility="gone" />
+
+                <com.ros.smartrocket.views.CustomTextView
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_missions_description"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_13p6sp"
+                    custom:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
                     android:background="@color/black" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/projectDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:gravity="left"
                     android:lineSpacingExtra="5dp"
-                    android:layout_marginTop="10dp"
                     android:textSize="@dimen/text_size_13p6sp" />
-            </LinearLayout >
-        </LinearLayout >
-    </ScrollView >
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
     <LinearLayout
         android:id="@+id/buttonsLayout"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/black_transparence"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/claimNearTasksButton"
+            style="@style/WaveDetailButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/book_this_task"
+            custom:textStyle="bold"
+            android:visibility="gone"/>
+
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/showAllTasksButton"
             style="@style/WaveDetailButton"
-            android:layout_height="40dp"
             android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:background="@drawable/button_green_selector"
             android:text="@string/show_missions"
             custom:textStyle="bold" />
+
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/hideAllTasksButton"
             style="@style/WaveDetailButton"
-            android:layout_height="40dp"
             android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:background="@drawable/button_red_selector"
             android:text="@string/hide_missions"
             custom:textStyle="bold" />
-    </LinearLayout >
-</RelativeLayout >
+    </LinearLayout>
+</RelativeLayout>

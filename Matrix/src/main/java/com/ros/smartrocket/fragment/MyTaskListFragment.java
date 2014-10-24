@@ -135,9 +135,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
             case SCHEDULED:
                 startActivity(IntentUtils.getTaskValidationIntent(getActivity(), task.getId(), false, false));
                 break;
-            case RE_DO_TASK:
+            /*case RE_DO_TASK:
                 startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getId()));
-                break;
+                break;*/
             default:
                 startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
                 break;

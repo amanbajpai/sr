@@ -125,6 +125,7 @@
     <string name="due_in">剩餘時間：</string>
     <string name="due_in_pre_claim">（優先認領）剩餘時間： </string>
     <string name="mission_address">任務地址</string>
+    <string name="no_mission_address">這項任務沒有預設位置</string>
     <string name="full_description">任務簡介</string>
     <string name="book_this_task">認領任務</string>
     <string name="start_this_task">現在開始</string>
