@@ -121,7 +121,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         setWaveData(wave);
 
         TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
-
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -133,9 +132,13 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    nearTask = TasksBL.convertCursorToTask(cursor);
+                    if(cursor.getCount()>0){
+                        nearTask = TasksBL.convertCursorToTask(cursor);
 
-                    setNearTaskData(nearTask);
+                        setNearTaskData(nearTask);
+                    } else {
+                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
+                    }
                     break;
                 default:
                     break;
