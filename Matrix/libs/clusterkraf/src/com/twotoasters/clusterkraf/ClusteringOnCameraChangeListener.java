@@ -2,9 +2,6 @@ package com.twotoasters.clusterkraf;
 
 import java.lang.ref.WeakReference;
 
-import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
-import com.google.android.gms.maps.model.CameraPosition;
-
 /**
  * An OnCameraChangeListener that calls back to its host only when appropriate
  */

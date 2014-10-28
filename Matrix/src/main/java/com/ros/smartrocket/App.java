@@ -1,18 +1,19 @@
 package com.ros.smartrocket;
 
 import android.app.Application;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.text.format.DateUtils;
+
+import com.baidu.mapapi.SDKInitializer;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
-import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
@@ -41,6 +42,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         initACRA();
+        SDKInitializer.initialize(getApplicationContext());
         instance = this;
 
         deviceId = UIUtils.getDeviceId(this);
@@ -88,7 +90,7 @@ public class App extends Application {
         }
     }
 
-    public void requestToCurrentLocation(){
+    public void requestToCurrentLocation() {
         Location loc = locationManager.getLocation();
         L.i(TAG, "[LOC = " + loc + "]");
         locationManager.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {

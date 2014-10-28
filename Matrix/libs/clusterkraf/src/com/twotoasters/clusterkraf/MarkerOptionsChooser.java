@@ -4,9 +4,6 @@ import java.lang.ref.WeakReference;
 
 import android.graphics.Bitmap;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 /**
  * Implementations specify the icon and any other options to use on a
  * MarkerOptions object.

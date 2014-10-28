@@ -3,8 +3,6 @@ package com.twotoasters.clusterkraf;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import com.twotoasters.clusterkraf.Clusterkraf.ProcessingListener;
-
 /**
  * Specify options for the Clusterkraf instance here
  */
@@ -116,7 +114,7 @@ public class Options {
 	/**
 	 * 
 	 */
-	private ProcessingListener processingListener;
+	private Clusterkraf.ProcessingListener processingListener;
 
 	/**
 	 * @return the transitionDuration
@@ -359,11 +357,11 @@ public class Options {
 		this.clusteringOnCameraChangeListenerDirtyLifetimeMillis = clusteringOnCameraChangeListenerDirtyLifetimeMillis;
 	}
 
-	ProcessingListener getProcessingListener() {
+	Clusterkraf.ProcessingListener getProcessingListener() {
 		return processingListener;
 	}
 
-	public void setProcessingListener(ProcessingListener processingListener) {
+	public void setProcessingListener(Clusterkraf.ProcessingListener processingListener) {
 		this.processingListener = processingListener;
 	}
 

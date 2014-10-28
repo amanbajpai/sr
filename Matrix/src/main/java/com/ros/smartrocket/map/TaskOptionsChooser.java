@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Build;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -16,8 +15,6 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.L;
-import com.twotoasters.clusterkraf.ClusterPoint;
-import com.twotoasters.clusterkraf.MarkerOptionsChooser;
 
 import java.lang.ref.WeakReference;
 

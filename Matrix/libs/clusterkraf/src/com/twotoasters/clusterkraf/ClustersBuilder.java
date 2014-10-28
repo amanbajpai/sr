@@ -1,13 +1,6 @@
 package com.twotoasters.clusterkraf;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import com.google.android.gms.maps.Projection;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.VisibleRegion;
 
 class ClustersBuilder {
 

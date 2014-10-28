@@ -38,6 +38,7 @@ public class Config {
     public static String GEOCODER_URL;
 
     public static boolean LOG_ENABLED;
+    public static boolean USE_BAIDU;
     public static final boolean CAN_USE_FAKE_LOCATION = true; //TODO Remove in production
 
     static {
@@ -46,6 +47,7 @@ public class Config {
             case CHINA_PRODUCTION:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
+                USE_BAIDU = true;
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
@@ -54,6 +56,7 @@ public class Config {
             case PRODUCTION:
                 ACRA_ENABLED = false;
                 LOG_ENABLED = false;
+                USE_BAIDU = false;
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
@@ -62,6 +65,7 @@ public class Config {
             case STAGING:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
+                USE_BAIDU = false;
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://web.staging.redoceansolutions.com/Account/Manage";
@@ -71,6 +75,7 @@ public class Config {
             default:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
+                USE_BAIDU = true;
                 WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";

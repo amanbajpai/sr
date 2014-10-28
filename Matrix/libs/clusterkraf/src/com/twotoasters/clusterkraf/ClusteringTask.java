@@ -1,14 +1,5 @@
 package com.twotoasters.clusterkraf;
 
-import java.util.ArrayList;
-
-import android.os.AsyncTask;
-import android.os.Process;
-
-import com.google.android.gms.maps.Projection;
-import com.twotoasters.clusterkraf.ClusteringTask.Argument;
-import com.twotoasters.clusterkraf.ClusteringTask.Result;
-
 /**
  *
  */

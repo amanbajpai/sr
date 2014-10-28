@@ -1,9 +1,6 @@
 package com.twotoasters.clusterkraf;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-
-import com.google.android.gms.maps.Projection;
 
 class ClusterTransitions {
 
