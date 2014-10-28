@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -543,6 +542,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
+
+                mapImageView.setImageResource(R.drawable.map_piece_grey);
                 break;
             case VALIDATION:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -553,6 +554,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_lightgrey, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_lightgrey, 0, 0, 0);
 
+                mapImageView.setImageResource(R.drawable.map_piece_grey);
                 break;
             case RE_DO_TASK:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.red));
@@ -563,6 +565,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_red, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_red, 0, 0, 0);
+
+                mapImageView.setImageResource(R.drawable.map_piece_red);
                 break;
             case VALIDATED:
             case IN_PAYMENT_PROCESS:
@@ -574,6 +578,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_gold, 0, 0, 0);
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_gold, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
+
+                mapImageView.setImageResource(R.drawable.map_piece_yellow);
                 break;
             case REJECTED:
                 taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.black_light));
@@ -583,6 +589,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
                 textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
                 photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
+
+                mapImageView.setImageResource(R.drawable.map_piece_black);
                 break;
             default:
                 break;
