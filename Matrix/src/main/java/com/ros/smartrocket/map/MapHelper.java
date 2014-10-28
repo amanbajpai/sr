@@ -1,13 +1,14 @@
 package com.ros.smartrocket.map;
 
-import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.SupportMapFragment;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.ros.smartrocket.Config;
@@ -26,10 +27,16 @@ public class MapHelper {
         uiSettings.compassEnabled(false);
         uiSettings.zoomControlsEnabled(false);
 
-        SupportMapFragment mapFragment = new TransparentSupportBaiduMapFragment().newInstance(uiSettings);
+        /*SupportMapFragment mapFragment = SupportMapFragment.newInstance(uiSettings);
 
         FragmentManager manager = activity.getSupportFragmentManager();
-        manager.beginTransaction().add(R.id.map, mapFragment, "map_fragment").commit();
+        manager.beginTransaction().add(R.id.map, mapFragment, "map").commit();*/
+
+        /*SupportMapFragment mapFragment = (SupportMapFragment) (activity.getSupportFragmentManager()
+                .findFragmentById(R.id.map));*/
+
+        TransparentSupportBaiduMapFragment mapFragment = (TransparentSupportBaiduMapFragment) activity
+                .getSupportFragmentManager().findFragmentById(R.id.map);
 
         if (mapFragment != null) {
             baiduMap = mapFragment.getBaiduMap();
@@ -39,6 +46,10 @@ public class MapHelper {
                             zoomLevel = pos.zoom;
                         }
                     });*/
+
+            BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.location_icon);
+            baiduMap.setMyLocationConfigeration(new MyLocationConfiguration(LocationMode.NORMAL, true, mCurrentMarker));
+            baiduMap.setMyLocationEnabled(true);
         }
 
         return baiduMap;
@@ -75,8 +86,8 @@ public class MapHelper {
         return result;
     }
 
-    public static void mapChooser(GoogleMap googleMap, BaiduMap baiduMap, SelectMapInterface selectMapInterface){
-        if(isMapNotNull(googleMap, baiduMap)){
+    public static void mapChooser(GoogleMap googleMap, BaiduMap baiduMap, SelectMapInterface selectMapInterface) {
+        if (isMapNotNull(googleMap, baiduMap)) {
             if (Config.USE_BAIDU) {
                 selectMapInterface.useBaiduMap(baiduMap);
             } else {

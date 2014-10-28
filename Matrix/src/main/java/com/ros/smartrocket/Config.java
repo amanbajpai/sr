@@ -75,7 +75,7 @@ public class Config {
             default:
                 ACRA_ENABLED = true;
                 LOG_ENABLED = true;
-                USE_BAIDU = true;
+                USE_BAIDU = false;
                 WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";

@@ -28,6 +28,11 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -58,13 +63,17 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
+import com.twotoasters.clusterkraf.Clusterkraf;
 import com.twotoasters.clusterkraf.InputPoint;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener,
         CompoundButton.OnCheckedChangeListener {
@@ -120,6 +129,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
+
+        LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
+
+        if (Config.USE_BAIDU) {
+            mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
+        } else {
+            mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
+        }
 
         display = getActivity().getWindowManager().getDefaultDisplay();
         mapWidth = UIUtils.getDpFromPx(getActivity(), display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
@@ -179,7 +196,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 if (location != null && UIUtils.isGpsEnabled(getActivity())
                         && preferencesManager.getUseLocationServices()) {
-                    googleMap.clear();
+                    clearMap();
                     addMyLocation(location);
                     addRadius(location);
                 }
@@ -237,23 +254,39 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
-    /**
-     * Inirialize Cluster library and add pins
-     */
-    private void initClusterkraf(ArrayList<InputPoint> inputPoints) {
-        if (this.googleMap != null && inputPoints != null && !inputPoints.isEmpty()) {
-            com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
-            applyemoApplicationOptionsToClusterkrafOptions(options);
-            // customize the options before you construct a Clusterkraf instance
-            this.clusterkraf = new Clusterkraf(this.googleMap, options, inputPoints);
+    public void addPins(final ArrayList<InputPoint> inputPoints) {
+        if (inputPoints.size() > 0) {
+            MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
+                @Override
+                public void useGoogleMap(GoogleMap googleMap) {
+                    if (clusterkraf == null) {
+                        com.twotoasters.clusterkraf.Options options = new com.twotoasters.clusterkraf.Options();
+                        applyemoApplicationOptionsToClusterkrafOptions(options);
+
+                        clusterkraf = new Clusterkraf(googleMap, options, inputPoints);
+                    } else {
+                        clusterkraf.replace(inputPoints);
+                    }
+                }
+
+                @Override
+                public void useBaiduMap(BaiduMap baiduMap) {
+                    /*for (InputPoint point : inputPoints) {
+                    BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.icon_marka);
+
+                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(point.getLatitude(), point.getLongitude());
+
+                        OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions().position().icon(bdA)
+                                .zIndex(9).draggable(true);
+                        baiduMap.addOverlay(ooA);
+
+                    }*/
+                }
+            });
         }
     }
 
     public void clearMap() {
-        if (clusterkraf != null) {
-            clusterkraf.clear();
-        }
-
         MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
             @Override
             public void useGoogleMap(GoogleMap googleMap) {
@@ -265,6 +298,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 baiduMap.clear();
             }
         });
+    }
+
+    public void clearPins() {
+        if (clusterkraf != null) {
+            clusterkraf.clear();
+        }
     }
 
     /**
@@ -305,6 +344,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     private void loadData() {
+        clearPins();
         clearMap();
 
         if (preferencesManager.getUseLocationServices() && UIUtils.isGpsEnabled(getActivity())) {
@@ -456,13 +496,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
 
-        if (inputPoints.size() > 0) {
-            if (clusterkraf == null) {
-                initClusterkraf(inputPoints);
-            } else {
-                clusterkraf.replace(inputPoints);
-            }
-        }
+        addPins(inputPoints);
 
         if (mode == Keys.MapViewMode.ALL_TASKS) {
             restoreCameraPositionByRadius(location, taskRadius);
@@ -688,7 +722,14 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
+                MyLocationData locData = new MyLocationData.Builder()
+                        .latitude(location.getLatitude())
+                        .longitude(location.getLongitude()).build();
+                baiduMap.setMyLocationData(locData);
 
+                com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(location.getLatitude(), location.getLongitude());
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+                baiduMap.animateMapStatus(u);
             }
         });
     }
@@ -701,26 +742,25 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     private void addRadius(Location location) {
         if (location != null && getActivity() != null) {
-            LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
             Resources r = getActivity().getResources();
-            addCircle(coordinate, taskRadius, r.getColor(R.color.map_radius_stroke),
+            addCircle(location.getLatitude(), location.getLongitude(), taskRadius, r.getColor(R.color.map_radius_stroke),
                     r.getColor(R.color.map_radius_fill));
-                /*addCircle(coordinate, (int) location.getAccuracy(), r.getColor(R.color.map_accuracy_stroke),
-                        r.getColor(R.color.map_accuracy_fill));*/
-
         }
     }
 
     /**
      * Draw circle on the map
      *
-     * @param coordinates - center coordinates
-     * @param radius      - current radius
+     * @param latitude  - current latitude
+     * @param longitude - current longitude
+     * @param radius    - current radius
      */
-    private void addCircle(final LatLng coordinates, final int radius, final int strokeColor, final int fillColor) {
+    private void addCircle(final double latitude, final double longitude, final int radius, final int strokeColor, final int fillColor) {
         MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
             @Override
             public void useGoogleMap(GoogleMap googleMap) {
+                LatLng coordinates = new LatLng(latitude, longitude);
+
                 googleMap.addCircle(new CircleOptions()
                                 .center(coordinates)
                                 .radius(radius)
@@ -732,7 +772,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-
+                com.baidu.mapapi.model.LatLng coordinates = new com.baidu.mapapi.model.LatLng(latitude, longitude);
+                OverlayOptions circle = new com.baidu.mapapi.map.CircleOptions()
+                        .center(coordinates)
+                        .fillColor(fillColor)
+                        .stroke(new Stroke(6, strokeColor))
+                        .radius(radius);
+                baiduMap.addOverlay(circle);
             }
         });
     }
@@ -756,7 +802,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                     @Override
                     public void useBaiduMap(BaiduMap baiduMap) {
-
+                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(lm.getLocation().getLatitude(), lm.getLocation().getLongitude());
+                        MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+                        baiduMap.animateMapStatus(u);
                     }
                 });
 

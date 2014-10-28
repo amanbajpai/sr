@@ -1,5 +1,7 @@
 package com.twotoasters.clusterkraf;
 
+import com.google.android.gms.maps.model.Marker;
+
 /**
  * Because Clusterkraf must set its own OnInfoWindowClickListener on the
  * GoogleMap it is managing, and because the GoogleMap can only have one
