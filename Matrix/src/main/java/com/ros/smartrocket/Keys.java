@@ -74,6 +74,7 @@ public interface Keys {
     String CONTENT_TYPE = "content_type";
     String FIND_TASK = "find_task";
     String MY_TASK = "my_task";
+    String TASK = "task";
 
     String MAP_MODE_VIEWTYPE = "map_mode_viewtype";
     String MAP_VIEW_ITEM_ID = "map_view_item_id";

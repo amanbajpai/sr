@@ -55,8 +55,8 @@ public abstract class BaseEntity implements Serializable {
             String fieldName = field.getName();
             try {
                 if (field.isAnnotationPresent(SkipFieldInContentValues.class)) {
-                    L.d("BaseEntity.toContentValues", "Field: \"" + fieldName + "\" from entity: \""
-                            + this.getClass().getSimpleName() + "\" skipped by annotation");
+                    /*L.d("BaseEntity.toContentValues", "Field: \"" + fieldName + "\" from entity: \""
+                            + this.getClass().getSimpleName() + "\" skipped by annotation");*/
                     continue;
                 }
                 Class<?> cls;

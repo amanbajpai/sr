@@ -6,10 +6,10 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class Config {
     public enum Environment {
-        DEVELOPMENT, CHINA_PRODUCTION, PRODUCTION, STAGING
+        CHINA_DEVELOPMENT, CHINA_STAGING, CHINA_PRODUCTION, PRODUCTION, STAGING, DEVELOPMENT
     }
 
-    public static final Environment ENV = Environment.DEVELOPMENT;
+    public static final Environment ENV = Environment.CHINA_DEVELOPMENT;
     public static final String ANDROID_API_KEY = "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI";
     public static final String SERVER_API_KEY = "AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM";
     public static final String GCM_SENDER_ID = "318949058113";
@@ -51,6 +51,24 @@ public class Config {
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
                 TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
                 PROFILE_PAGE_URL = "http://matrix.red-ocean.net/Account/Manage";
+                GEOCODER_URL = "http://ditu.google.cn";
+                break;
+            case CHINA_STAGING:
+                ACRA_ENABLED = true;
+                LOG_ENABLED = true;
+                USE_BAIDU = true;
+                WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
+                TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
+                PROFILE_PAGE_URL = "http://web.staging.redoceansolutions.com/Account/Manage";
+                GEOCODER_URL = "http://ditu.google.cn";
+                break;
+            case CHINA_DEVELOPMENT:
+                ACRA_ENABLED = true;
+                LOG_ENABLED = true;
+                USE_BAIDU = true;
+                WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
+                TERMS_AND_CONDITION_URL = "http://smart-rocket.com/terms-of-service/";
+                PROFILE_PAGE_URL = "http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage";
                 GEOCODER_URL = "http://ditu.google.cn";
                 break;
             case PRODUCTION:

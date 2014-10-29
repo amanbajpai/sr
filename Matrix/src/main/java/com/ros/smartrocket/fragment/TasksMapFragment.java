@@ -4,6 +4,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,11 +29,11 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -270,17 +271,52 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 }
 
                 @Override
-                public void useBaiduMap(BaiduMap baiduMap) {
-                    /*for (InputPoint point : inputPoints) {
-                    BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.icon_marka);
+                public void useBaiduMap(final BaiduMap baiduMap) {
+                    for (InputPoint point : inputPoints) {
+                        Task task = (Task) point.getTag();
+                        com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
+                        LatLng latLng = point.getMapPosition();
 
-                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(point.getLatitude(), point.getLongitude());
+                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(latLng.latitude, latLng.longitude);
 
-                        OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions().position().icon(bdA)
-                                .zIndex(9).draggable(true);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(Keys.TASK, task);
+
+                        OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions()
+                                .position(ll)
+                                .icon(icon)
+                                .zIndex(task.getId())
+                                .extraInfo(bundle)
+                                .draggable(true);
                         baiduMap.addOverlay(ooA);
+                    }
 
-                    }*/
+                    baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+                        public boolean onMarkerClick(final com.baidu.mapapi.map.Marker marker) {
+                            final Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
+                            View overlayView = LayoutInflater.from(getActivity()).inflate(R.layout.map_info_window, null);
+
+                            MapHelper.setMapOverlayView(getActivity(), overlayView, task);
+
+                            InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
+                                public void onInfoWindowClick() {
+
+                                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getStatusId());
+                                    baiduMap.hideInfoWindow();
+                                }
+                            };
+
+                            final com.baidu.mapapi.model.LatLng ll = marker.getPosition();
+                            Point p = baiduMap.getProjection().toScreenLocation(ll);
+                            p.y -= 47;
+
+                            com.baidu.mapapi.model.LatLng llInfo = baiduMap.getProjection().fromScreenLocation(p);
+                            InfoWindow mInfoWindow = new InfoWindow(overlayView, llInfo, listener);
+                            baiduMap.showInfoWindow(mInfoWindow);
+
+                            return true;
+                        }
+                    });
                 }
             });
         }
@@ -306,6 +342,20 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    public void clearCircle() {
+        MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
+            @Override
+            public void useGoogleMap(GoogleMap googleMap) {
+                googleMap.clear();
+            }
+
+            @Override
+            public void useBaiduMap(BaiduMap baiduMap) {
+                baiduMap.clear();
+            }
+        });
+    }
+
     /**
      * Get View mode type from Intent
      *
@@ -315,7 +365,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
 
-            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS
+            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS && !Config.USE_BAIDU
                     /*|| mode == Keys.MapViewMode.WAVE_TASKS*/;
             btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
 
@@ -640,17 +690,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             //int waveId = Integer.valueOf(taskData[1]);
             int taskStatusId = Integer.valueOf(taskData[2]);
 
-            switch (TasksBL.getTaskStatusType(taskStatusId)) {
-                case SCHEDULED:
-                    startActivity(IntentUtils.getTaskValidationIntent(getActivity(), taskId, false, false));
-                    break;
-                /*case RE_DO_TASK:
-                    startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
-                    break;*/
-                default:
-                    startActivity(IntentUtils.getTaskDetailIntent(getActivity(), taskId));
-                    return true;
-            }
+            MapHelper.mapOverlayClickResult(getActivity(), taskId, taskStatusId);
 
             return false;
         }
@@ -724,7 +764,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             public void useBaiduMap(BaiduMap baiduMap) {
                 MyLocationData locData = new MyLocationData.Builder()
                         .latitude(location.getLatitude())
-                        .longitude(location.getLongitude()).build();
+                        .longitude(location.getLongitude())
+                        .build();
                 baiduMap.setMyLocationData(locData);
 
                 com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(location.getLatitude(), location.getLongitude());
@@ -772,13 +813,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-                com.baidu.mapapi.model.LatLng coordinates = new com.baidu.mapapi.model.LatLng(latitude, longitude);
+                /*com.baidu.mapapi.model.LatLng coordinates = new com.baidu.mapapi.model.LatLng(latitude, longitude);
                 OverlayOptions circle = new com.baidu.mapapi.map.CircleOptions()
                         .center(coordinates)
                         .fillColor(fillColor)
-                        .stroke(new Stroke(6, strokeColor))
+                        .stroke(new Stroke(3, strokeColor))
                         .radius(radius);
-                baiduMap.addOverlay(circle);
+                baiduMap.addOverlay(circle);*/
             }
         });
     }
@@ -803,8 +844,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     @Override
                     public void useBaiduMap(BaiduMap baiduMap) {
                         com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(lm.getLocation().getLatitude(), lm.getLocation().getLongitude());
-                        MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-                        baiduMap.animateMapStatus(u);
+                        baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(ll));
+                        baiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(zoomLevel + 1.4f));
                     }
                 });
 
@@ -837,7 +878,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                     @Override
                     public void useBaiduMap(BaiduMap baiduMap) {
-
+                        //restoreCameraByPins.
                     }
                 });
             }
