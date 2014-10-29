@@ -9,7 +9,7 @@ public class Config {
         CHINA_DEVELOPMENT, CHINA_STAGING, CHINA_PRODUCTION, PRODUCTION, STAGING, DEVELOPMENT
     }
 
-    public static final Environment ENV = Environment.CHINA_DEVELOPMENT;
+    public static final Environment ENV = Environment.CHINA_STAGING;
     public static final String ANDROID_API_KEY = "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI";
     public static final String SERVER_API_KEY = "AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM";
     public static final String GCM_SENDER_ID = "318949058113";
