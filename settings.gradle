@@ -1,2 +1,2 @@
 include ':Matrix'
-include ':Matrix:libs:clusterkraf'
+include ':libs:clusterkraf'

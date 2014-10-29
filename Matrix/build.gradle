@@ -31,9 +31,9 @@ dependencies {
     compile 'com.android.support:support-v4:19.1.+'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'ch.acra:acra:4.5.0'
-    compile fileTree(include: '*.jar', dir: 'libs')
+    compile fileTree(include: '*.jar', dir: '../libs')
     // Cluster map's pins
-    compile project(':Matrix:libs:clusterkraf')
+    compile project(':libs:clusterkraf')
     // test dependencies
     /*testCompile 'junit:junit:4.11'
         testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
