@@ -30,7 +30,6 @@ import com.ros.smartrocket.utils.UIUtils;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
@@ -85,25 +84,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
-                if (loginResponse.getBitMaskSocialNetwork() != null) {
-                    preferencesManager.setBitMaskSocialNetwork(loginResponse.getBitMaskSocialNetwork());
-                }
-
-                //Generate Short url to share
-                googleUrlShortenManager.getShortUrl(this, loginResponse.getSharedLink(),
-                        new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
-                            @Override
-                            public void onShortUrlReady(String shortUrl) {
-                                preferencesManager.setShortUrlToShare(shortUrl);
-                            }
-
-                            @Override
-                            public void onGetShortUrlError(String errorString) {
-
-                            }
-                        }
-                );
+                //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
                 if (rememberMeCheckBox.isChecked()) {
                     preferencesManager.setLastEmail(emailEditText.getText().toString().trim());

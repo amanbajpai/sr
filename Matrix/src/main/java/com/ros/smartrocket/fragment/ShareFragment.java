@@ -29,6 +29,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.GoogleUrlShortenManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -39,11 +40,13 @@ import com.ros.smartrocket.utils.UIUtils;
 public class ShareFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = ShareFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
     private String shortUrl;
     private String subject;
     private String text;
+    private Sharing sharing;
     private EasyTracker easyTracker;
 
     @Override
@@ -109,20 +112,38 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
             ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
 
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                Sharing sharing = (Sharing) operation.getEntities().get(0);
+                sharing = (Sharing) operation.getResponseEntities().get(0);
                 if (sharing != null) {
-                    if (!TextUtils.isEmpty(sharing.getLink())) {
-                        shortUrl = sharing.getLink();
+                    if (!TextUtils.isEmpty(sharing.getSharedText())) {
+                        text = sharing.getSharedText();
                     }
-                    if (!TextUtils.isEmpty(sharing.getText())) {
-                        text = sharing.getText();
+                    if (!TextUtils.isEmpty(sharing.getSharedLink())) {
+                        getShortUrl(sharing.getSharedLink());
                     }
-                    showButtons(sharing.getBitMaskSocialNetwork());
+
                 }
             } else {
                 UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
             }
         }
+    }
+
+    public void getShortUrl(String longUrl){
+        //Generate Short url to share
+        googleUrlShortenManager.getShortUrl(getActivity(), longUrl,
+                new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
+                    @Override
+                    public void onShortUrlReady(String url) {
+                        shortUrl = url;
+                        showButtons(sharing.getBitMaskSocialNetwork());
+                    }
+
+                    @Override
+                    public void onGetShortUrlError(String errorString) {
+
+                    }
+                }
+        );
     }
 
     @Override

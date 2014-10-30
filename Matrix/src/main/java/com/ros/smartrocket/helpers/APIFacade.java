@@ -510,7 +510,7 @@ public class APIFacade {
      */
     public void getSharingData(Activity activity) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_SHARING_DATA);
+        operation.setUrl(WSUrl.GET_SHARING_DATA, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_SHARING_DATA_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

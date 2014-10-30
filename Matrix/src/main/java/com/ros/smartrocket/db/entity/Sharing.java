@@ -3,25 +3,24 @@ package com.ros.smartrocket.db.entity;
 public class Sharing extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Text;
-    private String Link;
-
+    private String SharedText;
+    private String SharedLink;
     private Integer BitMaskSocialNetwork;
 
-    public String getText() {
-        return Text;
+    public String getSharedText() {
+        return SharedText;
     }
 
-    public void setText(String text) {
-        Text = text;
+    public void setSharedText(String sharedText) {
+        SharedText = sharedText;
     }
 
-    public String getLink() {
-        return Link;
+    public String getSharedLink() {
+        return SharedLink;
     }
 
-    public void setLink(String link) {
-        Link = link;
+    public void setSharedLink(String sharedLink) {
+        SharedLink = sharedLink;
     }
 
     public Integer getBitMaskSocialNetwork() {
