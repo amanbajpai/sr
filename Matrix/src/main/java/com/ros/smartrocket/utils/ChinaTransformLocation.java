@@ -52,7 +52,7 @@ public class ChinaTransformLocation {
 
     }
 
-    public static void transformLocation(Location location) {
+    public static void transformFromChinaLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -72,6 +72,33 @@ public class ChinaTransformLocation {
 
                 latitude = latitude + dLat;
                 longitude = longitude + dLon;
+
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+            }
+        }
+    }
+
+    public static void transformToChinaLocation(Location location) {
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+
+            if (!outOfChina(latitude, longitude)) {
+                double dLat = transformLat(longitude - MN_105, latitude - MN_35);
+                double dLon = transformLon(longitude - MN_105, latitude - MN_35);
+                double radLat = latitude / OPEN_ANGLE * PI;
+                double magic = Math.sin(radLat);
+
+                magic = 1 - EE * magic * magic;
+
+                double sqrtMagic = Math.sqrt(magic);
+
+                dLat = (dLat * OPEN_ANGLE) / ((A * (1 - EE)) / (magic * sqrtMagic) * PI);
+                dLon = (dLon * OPEN_ANGLE) / (A / sqrtMagic * Math.cos(radLat) * PI);
+
+                latitude = latitude - dLat;
+                longitude = longitude - dLon;
 
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
