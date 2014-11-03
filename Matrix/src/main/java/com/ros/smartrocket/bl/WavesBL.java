@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.text.format.DateUtils;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Country;
@@ -16,6 +17,7 @@ import com.ros.smartrocket.db.entity.Project;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
+import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -91,6 +93,13 @@ public class WavesBL {
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     tampLocation.setLatitude(task.getLatitude());
                     tampLocation.setLongitude(task.getLongitude());
+
+                    if(Config.USE_BAIDU){
+                        ChinaTransformLocation.transformLocation(tampLocation);
+
+                        task.setLatitude(tampLocation.getLatitude());
+                        task.setLongitude(tampLocation.getLongitude());
+                    }
 
                     if (currentLocation != null) {
                         task.setDistance(currentLocation.distanceTo(tampLocation));
