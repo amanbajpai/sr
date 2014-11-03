@@ -15,6 +15,14 @@
     <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Baidu -->
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
     <!-- Global receiver -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Cloud to Device Messaging permissions -->
@@ -218,6 +226,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="hc5VEmGKRDw7ls2ZpGz18n6g" />
         <!-- Upload file services -->
         <service
             android:name="com.ros.smartrocket.net.UploadFileService"
@@ -225,5 +237,10 @@
         <service
             android:name="com.ros.smartrocket.net.UploadFileNetworkService"
             android:exported="false" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
     </application>
 </manifest>

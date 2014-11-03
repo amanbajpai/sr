@@ -12,10 +12,10 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.MarkerOptionsChooser;
 
@@ -70,7 +70,7 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
             } else {
                 Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-                icon = getPinBitmap(data);
+                icon = BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(data));
                 title = data.getName();
                 markerOptions.snippet(data.getId() + "_" + data.getWaveId() + "_" + data.getStatusId());
             }
@@ -111,45 +111,5 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
 
         canvas.drawText(String.valueOf(clusterSize), bitmap.getWidth() * 0.5f, originY, paint);
         return bitmap;
-    }
-
-    private BitmapDescriptor getPinBitmap(Task task) {
-        BitmapDescriptor icon;
-        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case NONE:
-            case CLAIMED:
-            case STARTED:
-                if (TasksBL.isPreClaimTask(task)) {
-                    if (!task.getIsHide()) {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet);
-                    } else {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet_hidden);
-                    }
-                } else {
-                    if (!task.getIsHide()) {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
-                    } else {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green_hidden);
-                    }
-                }
-                break;
-            case SCHEDULED:
-            case PENDING:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_blue);
-                break;
-            case COMPLETED:
-            case VALIDATION:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_grey);
-                break;
-            case RE_DO_TASK:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
-                break;
-
-            default:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
-                break;
-        }
-
-        return icon;
     }
 }

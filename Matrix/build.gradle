@@ -25,23 +25,19 @@ repositories {
 }
 
 dependencies {
-
     // Google Play Services
     compile 'com.google.android.gms:play-services:5.0.+'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.+'
-
     compile 'com.google.code.gson:gson:2.2.4'
-	compile 'ch.acra:acra:4.5.0'
-
-	compile fileTree(dir: '../libs', include: '*.jar')
+    compile 'ch.acra:acra:4.5.0'
+    compile fileTree(include: '*.jar', dir: '../libs')
     // Cluster map's pins
     compile project(':libs:clusterkraf')
-
     // test dependencies
     /*testCompile 'junit:junit:4.11'
-    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    testCompile 'com.squareup:fest-android:1.0.+'*/
+        testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+        testCompile 'com.squareup:fest-android:1.0.+'*/
 }
 
 android {

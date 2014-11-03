@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -725,6 +727,85 @@ public class UIUtils {
         activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(backgroundRes));
     }
 
+    public static BitmapDescriptor getPinBitmap(Task task) {
+        BitmapDescriptor icon;
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case NONE:
+            case CLAIMED:
+            case STARTED:
+                if (TasksBL.isPreClaimTask(task)) {
+                    if (!task.getIsHide()) {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet);
+                    } else {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet_hidden);
+                    }
+                } else {
+                    if (!task.getIsHide()) {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
+                    } else {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green_hidden);
+                    }
+                }
+                break;
+            case SCHEDULED:
+            case PENDING:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_blue);
+                break;
+            case COMPLETED:
+            case VALIDATION:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_grey);
+                break;
+            case RE_DO_TASK:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
+                break;
+
+            default:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
+                break;
+        }
+
+        return icon;
+    }
+
+    public static int getPinResId(Task task) {
+        int iconResId;
+        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+            case NONE:
+            case CLAIMED:
+            case STARTED:
+                if (TasksBL.isPreClaimTask(task)) {
+                    if (!task.getIsHide()) {
+                        iconResId = R.drawable.pin_violet;
+                    } else {
+                        iconResId = R.drawable.pin_violet_hidden;
+                    }
+                } else {
+                    if (!task.getIsHide()) {
+                        iconResId = R.drawable.pin_green;
+                    } else {
+                        iconResId = R.drawable.pin_green_hidden;
+                    }
+                }
+                break;
+            case SCHEDULED:
+            case PENDING:
+                iconResId = R.drawable.pin_blue;
+                break;
+            case COMPLETED:
+            case VALIDATION:
+                iconResId = R.drawable.pin_grey;
+                break;
+            case RE_DO_TASK:
+                iconResId = R.drawable.pin_red;
+                break;
+
+            default:
+                iconResId = R.drawable.ic_map_pin;
+                break;
+        }
+
+        return iconResId;
+    }
     /**
      * Return number of hours in millisecond
      *

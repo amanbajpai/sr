@@ -11,6 +11,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.map.MapHelper;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
@@ -38,62 +39,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         if (clusterPoint != null && clusterPoint.getPointAtOffset(0) != null) {
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-            LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);
-
-            ImageView typeIcon = (ImageView) view.findViewById(R.id.typeIcon);
-
-            TextView title = (TextView) view.findViewById(R.id.title);
-            TextView priceText = (TextView) view.findViewById(R.id.price_value);
-            TextView pointText = (TextView) view.findViewById(R.id.point_value);
-            TextView distanceText = (TextView) view.findViewById(R.id.distance_value);
-
-            UIUtils.showWaveTypeIcon(activity, typeIcon, task.getIcon());
-
-            title.setText(task.getName());
-            priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign(), null, null));
-            pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-            distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(),
-                    R.string.map_popup_distance, false));
-
-            switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-                case NONE:
-                case CLAIMED:
-                case STARTED:
-                    if (TasksBL.isPreClaimTask(task)) {
-                        mainLayout.setBackgroundResource(R.drawable.popup_violet);
-                        priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
-                        pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
-                        distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_violet, 0, 0, 0);
-                    } else {
-                        mainLayout.setBackgroundResource(R.drawable.popup_green);
-                        priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                        pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                        distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
-                    }
-                    break;
-                case SCHEDULED:
-                case PENDING:
-                    mainLayout.setBackgroundResource(R.drawable.popup_blue);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_blue, 0, 0, 0);
-                    break;
-                case COMPLETED:
-                case VALIDATION:
-                    mainLayout.setBackgroundResource(R.drawable.popup_grey);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_lightgrey, 0, 0, 0);
-                    break;
-                case RE_DO_TASK:
-                    mainLayout.setBackgroundResource(R.drawable.popup_red);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_red, 0, 0, 0);
-                    break;
-                default:
-                    break;
-            }
+            MapHelper.setMapOverlayView(activity, view, task);
 
             result = true;
         }
