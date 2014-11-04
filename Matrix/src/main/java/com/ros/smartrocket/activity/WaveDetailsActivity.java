@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
@@ -51,10 +53,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     private Task nearTask = new Task();
     private Wave wave = new Wave();
 
-    private TextView startTimeTextView;
-    private TextView deadlineTimeTextView;
-    private TextView dueTextView;
-
     private TextView projectPrice;
     private TextView projectExp;
     private TextView projectLocations;
@@ -70,6 +68,21 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     private Button showAllTasksButton;
 
     private CustomProgressDialog progressDialog;
+
+    private View optionDivider;
+    private ImageView mapImageView;
+
+    private LinearLayout timeLayout;
+    private LinearLayout taskOptionsLayout;
+    private LinearLayout buttonsLayout;
+
+    private TextView startTimeTextView;
+    private TextView deadlineTimeTextView;
+    private TextView expireTextView;
+
+    private TextView startTimeText;
+    private TextView deadlineTimeText;
+    private TextView expireText;
 
     public WaveDetailsActivity() {
     }
@@ -92,9 +105,18 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         handler = new DbHandler(getContentResolver());
 
+        timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
+        taskOptionsLayout = (LinearLayout) findViewById(R.id.optionsLayout);
+        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
+        optionDivider = findViewById(R.id.optionDivider);
+
+        startTimeText = (TextView) findViewById(R.id.startTimeText);
+        deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
+        expireText = (TextView) findViewById(R.id.expireText);
+
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        dueTextView = (TextView) findViewById(R.id.expireTextView);
+        expireTextView = (TextView) findViewById(R.id.expireTextView);
 
         projectPrice = (TextView) findViewById(R.id.projectPrice);
         projectExp = (TextView) findViewById(R.id.projectExp);
@@ -112,7 +134,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         hideAllTasksButton.setOnClickListener(this);
         showAllTasksButton = (Button) findViewById(R.id.showAllTasksButton);
         showAllTasksButton.setOnClickListener(this);
-        findViewById(R.id.mapImageView).setOnClickListener(this);
+        mapImageView = (ImageView) findViewById(R.id.mapImageView);
+        mapImageView.setOnClickListener(this);
     }
 
     @Override
@@ -132,7 +155,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    if(cursor.getCount()>0){
+                    if (cursor.getCount() > 0) {
                         nearTask = TasksBL.convertCursorToTask(cursor);
 
                         setNearTaskData(nearTask);
@@ -263,7 +286,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        dueTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
+        expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
 
         projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice(), wave.getNearTaskCurrencySign(),
                 null, null));
@@ -273,9 +296,13 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
+
+        setColorTheme(wave);
     }
 
     public void setNearTaskData(Task task) {
+        UIUtils.setActionBarBackground(this, task);
+
         if (!TextUtils.isEmpty(task.getAddress())) {
             noTaskAddressText.setVisibility(View.GONE);
         } else {
@@ -308,6 +335,48 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         finish();
         startActivity(IntentUtils.getTaskDetailIntent(this, nearTask.getId()));
         startActivity(IntentUtils.getQuestionsIntent(this, nearTask.getId()));
+    }
+
+    public void setColorTheme(Wave wave) {
+        if (WavesBL.isPreClaimWave(wave)) {
+            int violetLightColorResId = getResources().getColor(R.color.violet_light);
+            int violetDarkColorResId = getResources().getColor(R.color.violet_dark);
+            int violetColorResId = getResources().getColor(R.color.violet);
+            int whiteColorResId = getResources().getColor(R.color.white);
+
+            startTimeText.setTextColor(violetLightColorResId);
+            deadlineTimeText.setTextColor(violetLightColorResId);
+            expireText.setTextColor(violetLightColorResId);
+
+            startTimeTextView.setTextColor(whiteColorResId);
+            deadlineTimeTextView.setTextColor(whiteColorResId);
+            expireTextView.setTextColor(whiteColorResId);
+
+            taskOptionsLayout.setBackgroundColor(violetDarkColorResId);
+            optionDivider.setBackgroundColor(violetLightColorResId);
+            timeLayout.setBackgroundColor(violetColorResId);
+            buttonsLayout.setBackgroundColor(violetDarkColorResId);
+
+            projectPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+            projectExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
+            textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
+            photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_violet, 0, 0, 0);
+
+            claimNearTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
+            hideAllTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
+            showAllTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
+
+            mapImageView.setImageResource(R.drawable.map_piece_violet);
+        } else {
+            taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
+            optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
+
+            projectPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+            projectExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
+            textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
+            photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+        }
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.ros.smartrocket.db.WaveDbSchema;
 
 public class Wave extends BaseEntity {
@@ -39,12 +40,14 @@ public class Wave extends BaseEntity {
     private Integer PreClaimedTaskExpireAfterStart;
     private Long LongExpireTimeoutForClaimedTask;
     private Integer PhotoQuestionsCount;
-
     private Integer NoPhotoQuestionsCount;
+
     private String Icon;
 
     private transient Float Longitude;
     private transient Float Latitude;
+    private transient Long LongPreClaimedTaskExpireAfterStart;
+    private transient Long LongStartDateTime;
 
     @SkipFieldInContentValues
     private Task[] Tasks;
@@ -107,16 +110,17 @@ public class Wave extends BaseEntity {
             result.setExpectedStartDateTime(c.getString(WaveDbSchema.Query.EXPECTED_START_DATE_TIME));
             result.setExperienceOffer(c.getDouble(WaveDbSchema.Query.EXPERIENCE_OFFER));
 
-            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query
-                    .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
-            result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query
-                    .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+            result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query.PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
             result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.NO_PHOTO_QUESTIONS_COUNT));
 
             result.setIcon(c.getString(WaveDbSchema.Query.ICON));
+
+            result.setLongStartDateTime(c.getLong(WaveDbSchema.Query.LONG_START_DATE_TIME));
+            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.Query.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
         }
         return result;
     }
@@ -164,6 +168,9 @@ public class Wave extends BaseEntity {
             result.setIsAllTaskHide(c.getInt(WaveDbSchema.QueryWaveByDistance.IS_ALL_TASK_HIDE) == 1);
             result.setNearTaskCurrencySign(c.getString(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_CURRENCY_SIGN));
             result.setIcon(c.getString(WaveDbSchema.QueryWaveByDistance.ICON));
+
+            result.setLongStartDateTime(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_START_DATE_TIME));
+            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
         }
         return result;
@@ -428,4 +435,19 @@ public class Wave extends BaseEntity {
         Project = project;
     }
 
+    public Long getLongStartDateTime() {
+        return LongStartDateTime;
+    }
+
+    public void setLongStartDateTime(Long longStartDateTime) {
+        LongStartDateTime = longStartDateTime;
+    }
+
+    public Long getLongPreClaimedTaskExpireAfterStart() {
+        return LongPreClaimedTaskExpireAfterStart;
+    }
+
+    public void setLongPreClaimedTaskExpireAfterStart(Long longPreClaimedTaskExpireAfterStart) {
+        LongPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
+    }
 }

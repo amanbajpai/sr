@@ -58,21 +58,23 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Wave wave = new Wave();
 
     private ImageView mapImageView;
-    private TextView startTimeTextView;
-    private TextView deadlineTimeTextView;
-    private TextView expireTextView;
-    private TextView expireText;
     private TextView taskPrice;
     private TextView taskExp;
     private TextView textQuestionsCount;
     private TextView photoQuestionsCount;
     private TextView taskDistance;
-    private TextView deadlineTimeText;
+
     private TextView statusTextView;
-    private TextView statusTimeText;
+    private TextView startTimeTextView;
+    private TextView deadlineTimeTextView;
+    private TextView expireTextView;
     private TextView statusTimeTextView;
+
     private TextView statusText;
     private TextView startTimeText;
+    private TextView deadlineTimeText;
+    private TextView expireText;
+    private TextView statusTimeText;
 
     private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
@@ -135,7 +137,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         statusTimeLayout = (LinearLayout) findViewById(R.id.statusTimeLayout);
 
         timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
-        taskOptionsLayout = (LinearLayout) findViewById(R.id.taskOptionsLayout);
+        taskOptionsLayout = (LinearLayout) findViewById(R.id.optionsLayout);
 
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);

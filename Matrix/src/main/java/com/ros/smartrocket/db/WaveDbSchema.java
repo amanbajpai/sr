@@ -43,6 +43,9 @@ public interface WaveDbSchema {
 
         ICON("Icon", DBType.TEXT),
 
+        LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START("LongPreClaimedTaskExpireAfterStart", DBType.NUMERIC),
+        LONG_START_DATE_TIME("LongStartDateTime", DBType.NUMERIC),
+
         DELETED("Deleted", DBType.INT);
 
         private String columnName;
@@ -98,7 +101,10 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
                 Table.WAVE.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
 
-                Table.WAVE.getName() + "." + Columns.ICON.getName()
+                Table.WAVE.getName() + "." + Columns.ICON.getName(),
+
+                Table.WAVE.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
+                Table.WAVE.getName() + "." + Columns.LONG_START_DATE_TIME.getName()
         };
 
         int _ID = 0;
@@ -126,6 +132,8 @@ public interface WaveDbSchema {
         int PHOTO_QUESTIONS_COUNT = 22;
         int NO_PHOTO_QUESTIONS_COUNT = 23;
         int ICON = 24;
+        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 25;
+        int LONG_START_DATE_TIME = 26;
     }
 
     public interface QueryWaveByDistance {
@@ -164,5 +172,7 @@ public interface WaveDbSchema {
         int IS_ALL_TASK_HIDE = 28;
         int NEAR_TASK_CURRENCY_SIGN = 29;
         int ICON = 30;
+        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 31;
+        int LONG_START_DATE_TIME = 32;
     }
 }

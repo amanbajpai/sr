@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.text.format.DateUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -21,6 +22,7 @@ import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class WavesBL {
@@ -59,6 +61,10 @@ public class WavesBL {
                 wave.setIcon(project.getIcon());
             }
 
+            long longPreClaimedTaskExpireAfterStart = wave.getPreClaimedTaskExpireAfterStart() * DateUtils.HOUR_IN_MILLIS;
+
+            wave.setLongPreClaimedTaskExpireAfterStart(longPreClaimedTaskExpireAfterStart);
+            wave.setLongStartDateTime(UIUtils.isoTimeToLong(wave.getStartDateTime()));
             contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
             List<ContentValues> vals = new ArrayList<ContentValues>();
@@ -74,7 +80,7 @@ public class WavesBL {
                 task.setLongStartDateTime(UIUtils.isoTimeToLong(task.getStartDateTime()));
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
                 task.setLongExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS);
-                task.setLongPreClaimedTaskExpireAfterStart(wave.getPreClaimedTaskExpireAfterStart() * DateUtils.HOUR_IN_MILLIS);
+                task.setLongPreClaimedTaskExpireAfterStart(longPreClaimedTaskExpireAfterStart);
 
                 task.setPhotoQuestionsCount(wave.getPhotoQuestionsCount());
                 task.setNoPhotoQuestionsCount(wave.getNoPhotoQuestionsCount());
@@ -94,7 +100,7 @@ public class WavesBL {
                     tampLocation.setLatitude(task.getLatitude());
                     tampLocation.setLongitude(task.getLongitude());
 
-                    if(Config.USE_BAIDU){
+                    if (Config.USE_BAIDU) {
                         ChinaTransformLocation.transformToChinaLocation(tampLocation);
 
                         task.setLatitude(tampLocation.getLatitude());
@@ -160,5 +166,9 @@ public class WavesBL {
             }
         }
         return result;
+    }
+
+    public static boolean isPreClaimWave(Wave wave) {
+        return wave.getLongStartDateTime() > Calendar.getInstance().getTimeInMillis();
     }
 }
