@@ -1,11 +1,9 @@
 package com.ros.smartrocket.activity;
 
-import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -19,25 +17,14 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
-import com.ros.smartrocket.dialog.WithdrawTaskDialog;
-import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.location.MatrixLocationManager;
-import com.ros.smartrocket.net.BaseNetworkService;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
@@ -47,11 +34,9 @@ import java.util.Locale;
  * Activity for view Task detail information
  */
 public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface {
-    private APIFacade apiFacade = APIFacade.getInstance();
-    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private Calendar calendar = Calendar.getInstance();
+        ClaimTaskManager.ClaimTaskListener {
     private AsyncQueryHandler handler;
+    private ClaimTaskManager claimTaskManager;
 
     private Integer taskId;
     private Task task;
@@ -107,8 +92,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private TextView titleTextView;
 
-    private CustomProgressDialog progressDialog;
-
     public TaskDetailsActivity() {
     }
 
@@ -123,10 +106,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
         }
-
-        progressDialog = CustomProgressDialog.show(this);
-        progressDialog.setCancelable(false);
-        progressDialog.hide();
 
         handler = new DbHandler(getContentResolver());
 
@@ -204,6 +183,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         task = TasksBL.convertCursorToTask(cursor);
+                        claimTaskManager = new ClaimTaskManager(TaskDetailsActivity.this, task, TaskDetailsActivity.this);
 
                         setTaskData(task);
                         WavesBL.getWaveFromDB(handler, task.getWaveId());
@@ -214,117 +194,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 case WaveDbSchema.Query.TOKEN_QUERY:
                     wave = WavesBL.convertCursorToWave(cursor);
 
+                    bookTaskButton.setEnabled(!TasksBL.isPreClaimTask(task) || wave.getIsCanBePreClaimed());
+
                     setWaveData(wave);
                     break;
                 default:
                     break;
-            }
-        }
-    }
-
-    @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
-
-                MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
-                    @Override
-                    public void getLocationStart() {
-                        setSupportProgressBarIndeterminateVisibility(true);
-                    }
-
-                    @Override
-                    public void getLocationInProcess() {
-                    }
-
-                    @Override
-                    public void getLocationSuccess(Location location) {
-                        apiFacade.claimTask(TaskDetailsActivity.this, taskId, location.getLatitude(), location.getLongitude());
-                        setSupportProgressBarIndeterminateVisibility(false);
-                    }
-                });
-            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.hide();
-
-                long startTimeInMillisecond = task.getLongStartDateTime();
-                long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
-                long claimTimeInMillisecond = calendar.getTimeInMillis();
-                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-
-                long missionDueMillisecond;
-                if (TasksBL.isPreClaimTask(task)) {
-                    missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
-                } else {
-                    missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
-                }
-
-                task.setStatusId(Task.TaskStatusId.CLAIMED.getStatusId());
-                task.setIsMy(true);
-                task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
-                task.setLongClaimDateTime(claimTimeInMillisecond);
-
-                TasksBL.updateTask(handler, task);
-
-                String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
-
-                new BookTaskSuccessDialog(this, task, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
-                    @Override
-                    public void onCancelButtonPressed(Dialog dialog) {
-                        progressDialog.show();
-                        apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
-                    }
-
-                    @Override
-                    public void onStartLaterButtonPressed(Dialog dialog) {
-                        setButtonsSettings(task);
-                        startActivity(IntentUtils.getMainActivityIntent(TaskDetailsActivity.this));
-                        finish();
-                    }
-
-                    @Override
-                    public void onStartNowButtonPressed(Dialog dialog) {
-                        progressDialog.show();
-                        setButtonsSettings(task);
-                        apiFacade.startTask(TaskDetailsActivity.this, task.getId());
-
-                    }
-                });
-
-            } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.hide();
-
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId() + "_"
-                        + task.getId());
-
-                task.setStatusId(Task.TaskStatusId.NONE.getStatusId());
-                task.setStarted("");
-                task.setIsMy(false);
-                setButtonsSettings(task);
-                TasksBL.updateTask(handler, task);
-
-                QuestionsBL.removeQuestionsFromDB(TaskDetailsActivity.this, wave.getId(), task.getId());
-                AnswersBL.removeAnswersByTaskId(TaskDetailsActivity.this, task.getId());
-
-                startActivity(IntentUtils.getMainActivityIntent(this));
-
-            } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.hide();
-
-                changeStatusToStartedAndOpenQuestion(true);
-            }
-        } else {
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
-                progressDialog.hide();
-                DialogUtils.showMaximumMissionDialog(this);
-            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
-                    && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
-                progressDialog.hide();
-                UIUtils.showSimpleToast(this, getString(R.string.task_no_longer_available));
-            } else {
-                progressDialog.hide();
-                UIUtils.showSimpleToast(this, operation.getResponseError());
             }
         }
     }
@@ -341,8 +216,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             missionDueResId = R.string.mission_due_pre_claim;
             dueInResId = R.string.due_in_pre_claim;
         } else {*/
-            missionDueResId = R.string.mission_due;
-            dueInResId = R.string.due_in;
+        missionDueResId = R.string.mission_due;
+        dueInResId = R.string.due_in;
         //}
 
         startTimeText.setText(task.getIsMy() ? R.string.available : R.string.start_time);
@@ -385,7 +260,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         } else {
             missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
         }
-        long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
+        long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
 
@@ -406,8 +281,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (titleTextView != null) {
             titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
-
-        bookTaskButton.setEnabled(wave.getIsCanBePreClaimed());
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
@@ -648,13 +521,26 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void changeStatusToStartedAndOpenQuestion(boolean startedStatusSent) {
-        task.setStatusId(Task.TaskStatusId.STARTED.getStatusId());
-        task.setStarted(UIUtils.longToString(calendar.getTimeInMillis(), 2));
-        task.setStartedStatusSent(startedStatusSent);
+    @Override
+    public void onClaimed(Task task) {
 
+    }
+
+    @Override
+    public void onUnClaimed(Task task) {
+        startActivity(IntentUtils.getMainActivityIntent(this));
+    }
+
+    @Override
+    public void onStartLater(Task task) {
         setButtonsSettings(task);
-        TasksBL.updateTask(handler, task);
+        startActivity(IntentUtils.getMainActivityIntent(TaskDetailsActivity.this));
+        finish();
+    }
+
+    @Override
+    public void onStarted(Task task) {
+        setButtonsSettings(task);
         startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getId()));
     }
 
@@ -662,7 +548,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bookTaskButton:
-                bookTaskButtonClick();
+                claimTaskManager.claimTask();
                 break;
             case R.id.hideTaskButton:
                 hideTaskButtonClick();
@@ -671,10 +557,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 showTaskButtonClick();
                 break;
             case R.id.withdrawTaskButton:
-                withdrawTaskButtonClick();
+                claimTaskManager.unClaimTask();
                 break;
             case R.id.startTaskButton:
-                startTaskButtonClick();
+                claimTaskManager.startTask();
                 break;
             case R.id.continueTaskButton:
                 continueTaskButtonClick();
@@ -690,11 +576,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void bookTaskButtonClick() {
-        progressDialog.show();
-        apiFacade.getQuestions(this, task.getWaveId(), taskId);
-    }
-
     public void hideTaskButtonClick() {
         task.setIsHide(true);
         setButtonsSettings(task);
@@ -705,35 +586,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         task.setIsHide(false);
         setButtonsSettings(task);
         TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
-    }
-
-    public void withdrawTaskButtonClick() {
-        long claimTimeInMillisecond = task.getLongClaimDateTime();
-        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-        String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
-
-        new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
-            @Override
-            public void onNoButtonPressed(Dialog dialog) {
-            }
-
-            @Override
-            public void onYesButtonPressed(Dialog dialog) {
-                setSupportProgressBarIndeterminateVisibility(true);
-                progressDialog.show();
-                apiFacade.unclaimTask(TaskDetailsActivity.this, task.getId());
-            }
-        });
-    }
-
-    public void startTaskButtonClick() {
-        if (UIUtils.isOnline(this)) {
-            setSupportProgressBarIndeterminateVisibility(true);
-            progressDialog.show();
-            apiFacade.startTask(TaskDetailsActivity.this, task.getId());
-        } else {
-            changeStatusToStartedAndOpenQuestion(false);
-        }
     }
 
     public void continueTaskButtonClick() {
@@ -796,14 +648,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
     protected void onStop() {
-        removeNetworkOperationListener(this);
+        if (claimTaskManager != null) {
+            claimTaskManager.onStop();
+        }
         super.onStop();
     }
 }

@@ -1,6 +1,5 @@
 package com.ros.smartrocket.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -8,6 +7,7 @@ import android.location.Location;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
@@ -28,8 +28,7 @@ import javax.annotation.Nonnull;
 public class ClaimTaskManager implements NetworkOperationListenerInterface {
     private static final String TAG = "ClaimTaskManager";
 
-    private Activity activity;
-    private static ClaimTaskManager instance = null;
+    private BaseActivity activity;
     private APIFacade apiFacade = APIFacade.getInstance();
     private AsyncQueryHandler handler;
     private ClaimTaskListener claimTaskListener;
@@ -41,12 +40,14 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
     private Task task;
 
-    public ClaimTaskManager(@Nonnull Activity activity, @Nonnull Task task, ClaimTaskListener claimTaskListener) {
+    public ClaimTaskManager(@Nonnull BaseActivity activity, @Nonnull Task task, ClaimTaskListener claimTaskListener) {
         this.activity = activity;
         this.task = task;
         this.claimTaskListener = claimTaskListener;
 
         handler = new DbHandler(activity.getContentResolver());
+
+        activity.addNetworkOperationListener(this);
     }
 
     public void claimTask() {
@@ -216,6 +217,10 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    public void onStop() {
+        activity.addNetworkOperationListener(this);
     }
 
     public interface ClaimTaskListener {
