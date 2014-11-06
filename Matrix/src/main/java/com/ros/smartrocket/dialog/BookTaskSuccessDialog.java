@@ -12,6 +12,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Dialog for success result of claiming
@@ -52,6 +53,13 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
         if (TasksBL.isPreClaimTask(task)) {
             int violetLightColorId = getContext().getResources().getColor(R.color.violet_light);
             int greyColorId = getContext().getResources().getColor(R.color.grey);
+
+            TextView missionAvailebleAtText = (TextView) findViewById(R.id.missionAvailebleAtText);
+            missionAvailebleAtText.setVisibility(View.VISIBLE);
+
+            TextView missionAvailebleAtDateTime = (TextView) findViewById(R.id.missionAvailebleAtDateTime);
+            missionAvailebleAtDateTime.setVisibility(View.VISIBLE);
+            missionAvailebleAtDateTime.setText(UIUtils.longToString(task.getLongStartDateTime(), 3));
 
             TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
             titleTextView.setBackgroundColor(violetLightColorId);

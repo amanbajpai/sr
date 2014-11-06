@@ -1,93 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    style="@style/CustomDialog"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    style="@style/CustomDialog"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/titleTextView"
+        style="@style/DialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="64dp"
-        android:text="@string/book_task_success_dialog_title"
+        android:background="@color/green"
         android:drawableLeft="@drawable/sandclock"
         android:drawablePadding="20dp"
-        style="@style/DialogTitle"
-        android:background="@color/green"
+        android:text="@string/book_task_success_dialog_title"
         custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/missionAvailebleAtText"
         style="@style/DialogText"
-        android:id="@+id/text0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="left"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/book_task_success_dialog_text0" />
+        android:text="@string/book_task_success_dialog_text0"
+        android:visibility="gone" />
+
     <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/missionAvailebleAtDateTime"
         style="@style/DialogText"
-        android:id="@+id/missionDueDateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:textSize="@dimen/text_size_20sp"
+        android:visibility="gone"
         custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/text1"
-        android:layout_margin="20dp"
+        style="@style/DialogText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="left"
-        style="@style/DialogText"
         android:text="@string/book_task_success_dialog_text1" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/missionDueDateTime"
+        style="@style/DialogText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_20sp"
+        custom:textStyle="bold" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/text2"
+        style="@style/DialogText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="left"
+        android:text="@string/book_task_success_dialog_text2" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="54dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/cancelButton"
             style="@style/DialogButton"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="@string/book_task_success_dialog_cancel"
             android:textColor="@color/red"
-            custom:textStyle="bold"
-            android:text="@string/book_task_success_dialog_cancel" />
+            custom:textStyle="bold" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/grey" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/startLaterButton"
             style="@style/DialogButton"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:textColor="@color/green"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            custom:textStyle="bold"
-            android:text="@string/start_later" />
+            android:text="@string/start_later"
+            android:textColor="@color/green"
+            custom:textStyle="bold" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/grey" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/startNowButton"
             style="@style/DialogButton"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:textColor="@color/green"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            custom:textStyle="bold"
-            android:text="@string/start_now" />
-    </LinearLayout >
-</LinearLayout >
+            android:text="@string/start_now"
+            android:textColor="@color/green"
+            custom:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

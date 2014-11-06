@@ -117,6 +117,8 @@
     <string name="task_distance_away">%1$s %2$s 外</string>
     <string name="m_to_km_with_text_mask">%1$s %2$s</string>
     <string name="start_time">開始：</string>
+    <string name="available">AVAILABLE: </string>
+    <string name="mission_available">任務開始於： %1$s</string>
     <string name="status">狀況： </string>
     <string name="deadline_time">期限：</string>
     <string name="mission_due">任務到期：</string>
@@ -175,8 +177,9 @@
     <!-- BOOK TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title">成功認領任務</string>
     <string name="book_task_success_dialog_title2">成功優先認領任務</string>
-    <string name="book_task_success_dialog_text0">這個任務必須於以下時間之前完成：</string>
-    <string name="book_task_success_dialog_text1">你可以於[我的任務]頁面找到這個任務的詳細資料，直到任務成功完成爲止。</string>
+    <string name="book_task_success_dialog_text0">這個任務將於以下時間開始：</string>
+    <string name="book_task_success_dialog_text1">這個任務必須於以下時間之前完成：</string>
+    <string name="book_task_success_dialog_text2">你可以於[我的任務]頁面找到這個任務的詳細資料，直到任務成功完成爲止。</string>
     <string name="start_later">稍後開始</string>
     <string name="start_now">現在開始</string>
     <string name="book_task_success_dialog_cancel">取消認領</string>

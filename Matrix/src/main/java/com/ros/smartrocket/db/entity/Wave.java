@@ -22,6 +22,7 @@ public class Wave extends BaseEntity {
     }
 
     private Boolean ClaimableBeforeLive;
+    private Boolean IsCanBePreClaimed;
     private Integer ConcurrentClaimsPerAgent;
     private String Description;
     private String EndDateTime;
@@ -96,6 +97,7 @@ public class Wave extends BaseEntity {
             result.setLatitude(c.getFloat(WaveDbSchema.Query.LATITUDE));
 
             result.setClaimableBeforeLive(c.getInt(WaveDbSchema.Query.CLAIMABLE_BEFORE_LIVE) == 1);
+            result.setIsCanBePreClaimed(c.getInt(WaveDbSchema.Query.CAN_BE_PRE_CLAIMED) == 1);
             result.setViewableBeforeLive(c.getInt(WaveDbSchema.Query.VIEWABLE_BEFORE_LIVE) == 1);
             result.setConcurrentClaimsPerAgent(c.getInt(WaveDbSchema.Query.CONCURRENT_CLAIMS_PER_AGENT));
             result.setExternalWaveId(c.getString(WaveDbSchema.Query.EXTERNAL_WAVE_ID));
@@ -136,6 +138,7 @@ public class Wave extends BaseEntity {
             result.setLatitude(c.getFloat(WaveDbSchema.QueryWaveByDistance.LATITUDE));
 
             result.setClaimableBeforeLive(c.getInt(WaveDbSchema.QueryWaveByDistance.CLAIMABLE_BEFORE_LIVE) == 1);
+            result.setIsCanBePreClaimed(c.getInt(WaveDbSchema.QueryWaveByDistance.CAN_BE_PRE_CLAIMED) == 1);
             result.setViewableBeforeLive(c.getInt(WaveDbSchema.QueryWaveByDistance.VIEWABLE_BEFORE_LIVE) == 1);
             result.setConcurrentClaimsPerAgent(c.getInt(WaveDbSchema.QueryWaveByDistance
                     .CONCURRENT_CLAIMS_PER_AGENT));
@@ -450,4 +453,13 @@ public class Wave extends BaseEntity {
     public void setLongPreClaimedTaskExpireAfterStart(Long longPreClaimedTaskExpireAfterStart) {
         LongPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
     }
+
+    public Boolean getIsCanBePreClaimed() {
+        return IsCanBePreClaimed;
+    }
+
+    public void setIsCanBePreClaimed(Boolean isCanBePreClaimed) {
+        IsCanBePreClaimed = isCanBePreClaimed;
+    }
+
 }

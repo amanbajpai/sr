@@ -83,6 +83,14 @@
                 </LinearLayout>
 
                 <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/missionAvaileble"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/text_size_13p6sp"
+                    custom:textStyle="bold" />
+
+                <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/locationName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

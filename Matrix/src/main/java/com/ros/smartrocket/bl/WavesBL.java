@@ -169,6 +169,6 @@ public class WavesBL {
     }
 
     public static boolean isPreClaimWave(Wave wave) {
-        return wave.getLongStartDateTime() > Calendar.getInstance().getTimeInMillis();
+        return UIUtils.isoTimeToLong(wave.getStartDateTime()) > Calendar.getInstance().getTimeInMillis();
     }
 }

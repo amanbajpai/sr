@@ -20,6 +20,7 @@ public interface WaveDbSchema {
         LONGITUDE("Longitude", DBType.FLOAT),
         LATITUDE("Latitude", DBType.FLOAT),
         CLAIMABLE_BEFORE_LIVE("ClaimableBeforeLive", DBType.INT),
+        CAN_BE_PRE_CLAIMED("IsCanBePreClaimed", DBType.INT),
         VIEWABLE_BEFORE_LIVE("ViewableBeforeLive", DBType.INT),
         CONCURRENT_CLAIMS_PER_AGENT("ConcurrentClaimsPerAgent", DBType.TEXT),
         EXTERNAL_WAVE_ID("ExternalWaveId", DBType.TEXT),
@@ -43,8 +44,8 @@ public interface WaveDbSchema {
 
         ICON("Icon", DBType.TEXT),
 
-        LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START("LongPreClaimedTaskExpireAfterStart", DBType.NUMERIC),
         LONG_START_DATE_TIME("LongStartDateTime", DBType.NUMERIC),
+        LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START("LongPreClaimedTaskExpireAfterStart", DBType.NUMERIC),
 
         DELETED("Deleted", DBType.INT);
 
@@ -103,8 +104,9 @@ public interface WaveDbSchema {
 
                 Table.WAVE.getName() + "." + Columns.ICON.getName(),
 
+                Table.WAVE.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
                 Table.WAVE.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
-                Table.WAVE.getName() + "." + Columns.LONG_START_DATE_TIME.getName()
+                Table.WAVE.getName() + "." + Columns.CAN_BE_PRE_CLAIMED.getName()
         };
 
         int _ID = 0;
@@ -132,8 +134,9 @@ public interface WaveDbSchema {
         int PHOTO_QUESTIONS_COUNT = 22;
         int NO_PHOTO_QUESTIONS_COUNT = 23;
         int ICON = 24;
-        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 25;
-        int LONG_START_DATE_TIME = 26;
+        int LONG_START_DATE_TIME = 25;
+        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 26;
+        int CAN_BE_PRE_CLAIMED = 27;
     }
 
     public interface QueryWaveByDistance {
@@ -172,7 +175,8 @@ public interface WaveDbSchema {
         int IS_ALL_TASK_HIDE = 28;
         int NEAR_TASK_CURRENCY_SIGN = 29;
         int ICON = 30;
-        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 31;
-        int LONG_START_DATE_TIME = 32;
+        int LONG_START_DATE_TIME = 31;
+        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 32;
+        int CAN_BE_PRE_CLAIMED = 33;
     }
 }

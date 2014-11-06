@@ -130,6 +130,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         claimNearTasksButton = (Button) findViewById(R.id.claimNearTasksButton);
         claimNearTasksButton.setOnClickListener(this);
+        claimNearTasksButton.setEnabled(false);
         hideAllTasksButton = (Button) findViewById(R.id.hideAllTasksButton);
         hideAllTasksButton.setOnClickListener(this);
         showAllTasksButton = (Button) findViewById(R.id.showAllTasksButton);
@@ -157,6 +158,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor.getCount() > 0) {
                         nearTask = TasksBL.convertCursorToTask(cursor);
+
+                        claimNearTasksButton.setEnabled(wave.getIsCanBePreClaimed());
 
                         setNearTaskData(nearTask);
                     } else {

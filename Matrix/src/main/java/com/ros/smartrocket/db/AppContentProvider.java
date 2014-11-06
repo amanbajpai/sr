@@ -151,8 +151,9 @@ public class AppContentProvider extends ContentProvider {
                                 + "=0) == 0",
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.CURRENCY_SIGN.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.ICON.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_START_DATE_TIME.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_START_DATE_TIME.getName()
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CAN_BE_PRE_CLAIMED.getName()
 
                 };
 

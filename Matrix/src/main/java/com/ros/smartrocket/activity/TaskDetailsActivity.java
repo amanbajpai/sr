@@ -169,6 +169,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
         bookTaskButton.setOnClickListener(this);
+        bookTaskButton.setEnabled(false);
         startTaskButton = (Button) findViewById(R.id.startTaskButton);
         startTaskButton.setOnClickListener(this);
         hideTaskButton = (Button) findViewById(R.id.hideTaskButton);
@@ -329,7 +330,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setTaskData(Task task) {
-        startTimeLayout.setVisibility(task.getIsMy() ? View.GONE : View.VISIBLE);
+        startTimeLayout.setVisibility(task.getIsMy() && !TasksBL.isPreClaimTask(task) ? View.GONE : View.VISIBLE);
         deadlineTimeLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
 
@@ -344,6 +345,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             dueInResId = R.string.due_in;
         }
 
+        startTimeText.setText(task.getIsMy() ? R.string.available : R.string.start_time);
         deadlineTimeText.setText(task.getIsMy() ? missionDueResId : R.string.deadline_time);
         expireText.setText(task.getIsMy() ? dueInResId : R.string.duration_time);
 
@@ -404,6 +406,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (titleTextView != null) {
             titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
+
+        bookTaskButton.setEnabled(wave.getIsCanBePreClaimed());
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
