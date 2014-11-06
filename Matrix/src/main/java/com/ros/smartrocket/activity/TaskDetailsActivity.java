@@ -337,13 +337,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         int missionDueResId;
         int dueInResId;
 
-        if (TasksBL.isPreClaimTask(task)) {
+        /*if (TasksBL.isPreClaimTask(task)) {
             missionDueResId = R.string.mission_due_pre_claim;
             dueInResId = R.string.due_in_pre_claim;
-        } else {
+        } else {*/
             missionDueResId = R.string.mission_due;
             dueInResId = R.string.due_in;
-        }
+        //}
 
         startTimeText.setText(task.getIsMy() ? R.string.available : R.string.start_time);
         deadlineTimeText.setText(task.getIsMy() ? missionDueResId : R.string.deadline_time);

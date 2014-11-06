@@ -33,7 +33,7 @@ public class BookTaskSuccessDialog extends Dialog implements View.OnClickListene
             L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_book_task_success);
-        setCancelable(true);
+        setCancelable(false);
 
         getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         getWindow().setGravity(Gravity.CENTER);
