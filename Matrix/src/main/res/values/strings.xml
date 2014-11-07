@@ -406,7 +406,7 @@
     <string name="you_have_been_promoted_ok">OK</string>
     <!-- CASHING OUT FRAGMENT-->
     <string name="cashing_out_title">Balance</string>
-    <string name="cashing_out_current_balance">You\'re current balance is -</string>
+    <string name="cashing_out_current_balance">Your current balance is -</string>
     <string name="cashing_out_cash_out">Cash Out</string>
     <string name="cashing_out_minimum_balance">You require a minimum balance of %1$s in order to cash out</string>
     <string name="cashing_out_are_you_sure">Are you sure you want to cash out your balance?</string>
