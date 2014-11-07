@@ -308,11 +308,12 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public BaseOperation getValidateTaskOperation(Integer taskId, double latitude, double longitude) {
+    public BaseOperation getValidateTaskOperation(Integer taskId, double latitude, double longitude, String cityName) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
         sendTaskId.setLatitude(latitude);
         sendTaskId.setLongitude(longitude);
+        sendTaskId.setCityName(cityName);
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.VALIDATE_TASK);

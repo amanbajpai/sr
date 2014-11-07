@@ -6,6 +6,7 @@ public class SendTaskId extends BaseEntity {
     private Integer TaskId;
     private Double Longitude;
     private Double Latitude;
+    private String CityName;
 
     public Integer getTaskId() {
         return TaskId;
@@ -29,5 +30,13 @@ public class SendTaskId extends BaseEntity {
 
     public void setLatitude(Double latitude) {
         Latitude = latitude;
+    }
+
+    public String getCityName() {
+        return CityName;
+    }
+
+    public void setCityName(String cityName) {
+        CityName = cityName;
     }
 }

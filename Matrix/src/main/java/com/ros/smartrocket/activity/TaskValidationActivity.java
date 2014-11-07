@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -227,8 +228,19 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private void validateTask(final int taskId) {
         setSupportProgressBarIndeterminateVisibility(true);
 
-        sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId,
-                task.getLatitudeToValidation(), task.getLongitudeToValidation()));
+        Location location = new Location(LocationManager.NETWORK_PROVIDER);
+        location.setLatitude(task.getLatitudeToValidation());
+        location.setLongitude(task.getLongitudeToValidation());
+
+        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+            @Override
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId,
+                        task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
+            }
+        });
+
     }
 
     public void sendTextAnswers() {

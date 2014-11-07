@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -207,9 +209,20 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     }
                     break;
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    Task task = TasksBL.convertCursorToTask(cursor);
-                    sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getId(),
-                            task.getLatitudeToValidation(), task.getLongitudeToValidation()));
+                    final Task task = TasksBL.convertCursorToTask(cursor);
+
+                    Location location = new Location(LocationManager.NETWORK_PROVIDER);
+                    location.setLatitude(task.getLatitudeToValidation());
+                    location.setLongitude(task.getLongitudeToValidation());
+
+                    MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+                        @Override
+                        public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+
+                            sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getId(),
+                                    task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
+                        }
+                    });
                     break;
                 default:
                     break;
