@@ -93,7 +93,7 @@ public final class Geocoder {
 
         client.close();
 
-        return getAddress(json);
+        return getAddress(json, latitude, longitude);
     }
 
     /**
@@ -122,7 +122,7 @@ public final class Geocoder {
 
         client = AndroidHttpClient.newInstance(TAG, context);
 
-        StringBuilder request = new StringBuilder("http://maps.googleapis.com/maps/api/geocode/json?sensor=false");
+        StringBuilder request = new StringBuilder(Config.GEOCODER_URL + "/maps/api/geocode/json?sensor=false");
         request.append("&language=").append(locale.getLanguage());
         request.append("&address=").append(URLEncoder.encode(locationName, "UTF-8"));
 
@@ -181,8 +181,10 @@ public final class Geocoder {
         return addressList;
     }
 
-    private Address getAddress(String json) {
+    private Address getAddress(String json, double latitude, double longitude) {
         Address address = new Address(locale);
+        address.setLatitude(latitude);
+        address.setLongitude(longitude);
 
         try {
             JSONObject o = new JSONObject(json);

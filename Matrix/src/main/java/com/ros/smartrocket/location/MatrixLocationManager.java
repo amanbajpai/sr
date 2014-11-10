@@ -199,7 +199,8 @@ public class MatrixLocationManager implements LocationListener,
 
         @Override
         protected void onPostExecute(Address address) {
-            /*if(address!=null && "Hong Kong".equals(address.getLocality())){
+            /*if (address != null && "Hong Kong".equals(address.getLocality())
+                    && ChinaTransformLocation.outOfChina(address.getLatitude(), address.getLongitude())) {
                 address.setCountryName("Hong Kong");
             }*/
             this.callback.onUpdate(address);

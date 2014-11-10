@@ -2,10 +2,8 @@ package com.ros.smartrocket.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.location.Address;
 import android.location.Location;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -13,7 +11,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
@@ -113,11 +110,6 @@ public class CheckLocationDialog extends Dialog {
                         @Override
                         public void run() {
                             if (locationChecked) {
-                                countryName = !TextUtils.isEmpty(checkLocationResponse.getCountryName()) ?
-                                        checkLocationResponse.getCountryName() : countryName;
-                                cityName = !TextUtils.isEmpty(checkLocationResponse.getCityName()) ?
-                                        checkLocationResponse.getCityName() : cityName;
-
                                 checkLocationListener.onLocationChecked(CheckLocationDialog.this,
                                         countryName, cityName, checkLocationResponse);
                             } else {

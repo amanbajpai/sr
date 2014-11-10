@@ -13,14 +13,30 @@ public class ChinaTransformLocation {
     private static final double CHINE_LAT_MIN = 0.8293;
     private static final double CHINE_LAT_MAX = 55.8271;
 
-    private static final double HONG_KONG_LONG_1 = 113.994141;
+    private static final double HONG_KONG_LONG_1 = 113.948479;
     private static final double HONG_KONG_LONG_2 = 114.399261;
     private static final double HONG_KONG_LONG_3 = 113.841705;
     private static final double HONG_KONG_LONG_4 = 114.399261;
+    private static final double HONG_KONG_LONG_5 = 114.02401;
+    private static final double HONG_KONG_LONG_6 = 114.087868;
+    private static final double HONG_KONG_LONG_7 = 114.131985;
+    private static final double HONG_KONG_LONG_8 = 114.061604;
+    private static final double HONG_KONG_LONG_9 = 114.154258;
+    private static final double HONG_KONG_LONG_10 = 114.22554;
+    private static final double HONG_KONG_LONG_11 = 114.151146;
+    private static final double HONG_KONG_LONG_12 = 114.22951;
     private static final double HONG_KONG_LAT_1 = 22.436715;
     private static final double HONG_KONG_LAT_2 = 22.510317;
     private static final double HONG_KONG_LAT_3 = 22.127925;
     private static final double HONG_KONG_LAT_4 = 22.436715;
+    private static final double HONG_KONG_LAT_5 = 22.500019;
+    private static final double HONG_KONG_LAT_6 = 22.532368;
+    private static final double HONG_KONG_LAT_7 = 22.540856;
+    private static final double HONG_KONG_LAT_8 = 22.512948;
+    private static final double HONG_KONG_LAT_9 = 22.551501;
+    private static final double HONG_KONG_LAT_10 = 22.552471;
+    private static final double HONG_KONG_LAT_11 = 22.545824;
+    private static final double HONG_KONG_LAT_12 = 22.54852;
 
     private static final double MACAU_LONG_1 = 113.528595;
     private static final double MACAU_LONG_2 = 113.569107;
@@ -106,7 +122,7 @@ public class ChinaTransformLocation {
         }
     }
 
-    private static boolean outOfChina(double lat, double lon) {
+    public static boolean outOfChina(double lat, double lon) {
         boolean outOfChina = false;
         if (lon < CHINE_LONG_MIN || lon > CHINE_LONG_MAX) {
             outOfChina = true;
@@ -121,6 +137,18 @@ public class ChinaTransformLocation {
                         && lat > HONG_KONG_LAT_1 && lat < HONG_KONG_LAT_2)
                         || (lon > HONG_KONG_LONG_3 && lon < HONG_KONG_LONG_4
                         && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_4)
+                        || (lon > HONG_KONG_LONG_5 && lon < HONG_KONG_LONG_4
+                        && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_5)
+                        || (lon > HONG_KONG_LONG_6 && lon < HONG_KONG_LONG_4
+                        && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_6)
+                        || (lon > HONG_KONG_LONG_7 && lon < HONG_KONG_LONG_4
+                        && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_7)
+                        || (lon > HONG_KONG_LONG_8 && lon < HONG_KONG_LONG_4
+                        && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_8)
+                        || (lon > HONG_KONG_LONG_9 && lon < HONG_KONG_LONG_10
+                        && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_10)
+                        || (lon > HONG_KONG_LONG_11 && lon < HONG_KONG_LONG_12
+                        && lat > HONG_KONG_LAT_3 && lat <= HONG_KONG_LAT_12)
 
                         //Macau
                         || (lon > MACAU_LONG_1 && lon < MACAU_LONG_2 && lat > MACAU_LAT_1 && lat <= MACAU_LAT_2)
