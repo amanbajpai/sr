@@ -139,7 +139,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    if (cursor.getCount() > 0) {
+                    if (cursor != null && cursor.getCount() > 0) {
                         nearTask = TasksBL.convertCursorToTask(cursor);
                         claimTaskManager = new ClaimTaskManager(WaveDetailsActivity.this, nearTask, WaveDetailsActivity.this);
 
