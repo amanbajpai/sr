@@ -131,7 +131,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), endDateTime);
                     filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
-                    if (task.getLatitudeToValidation() == 0 || task.getLongitudeToValidation() == 0) {
+                    if (isValidationLocationAdded(task)) {
                         AnswersBL.saveValidationLocation(task, answerListToSend, filesSizeB > 0);
                     }
 
@@ -327,7 +327,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 sendNowButtonClick();
                 break;
             case R.id.sendLaterButton:
-                finishActivity();
+                sendLaterButtonClick();
                 break;
             default:
                 break;
@@ -336,7 +336,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     public void sendNowButtonClick() {
         if (isReadyToSend()) {
-            if (task.getLatitudeToValidation() == 0 || task.getLongitudeToValidation() == 0) {
+            if (!isValidationLocationAdded(task)) {
                 if (filesSizeB > 0) {
                     AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
 
@@ -371,6 +371,41 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    public void sendLaterButtonClick() {
+        if (!isValidationLocationAdded(task)) {
+            if (filesSizeB > 0) {
+                AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
+
+                finishActivity();
+            } else {
+                MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                    @Override
+                    public void getLocationStart() {
+                        setSupportProgressBarIndeterminateVisibility(true);
+                    }
+
+                    @Override
+                    public void getLocationInProcess() {
+                    }
+
+                    @Override
+                    public void getLocationSuccess(Location location) {
+                        task.setLatitudeToValidation(location.getLatitude());
+                        task.setLongitudeToValidation(location.getLongitude());
+
+                        TasksBL.updateTask(task);
+
+                        setSupportProgressBarIndeterminateVisibility(false);
+
+                        finishActivity();
+                    }
+                });
+            }
+        } else {
+            finishActivity();
+        }
+    }
+
     public void sendAnswers() {
         if (task.getStartedStatusSent()) {
             sendTextAnswers();
@@ -378,6 +413,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             setSupportProgressBarIndeterminateVisibility(true);
             apiFacade.startTask(this, task.getId());
         }
+    }
+
+    public boolean isValidationLocationAdded(Task task) {
+        return task.getLatitudeToValidation() != 0 && task.getLongitudeToValidation() != 0;
     }
 
     @Override

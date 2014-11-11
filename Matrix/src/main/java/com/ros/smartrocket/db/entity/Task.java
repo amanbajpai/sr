@@ -449,7 +449,7 @@ public class Task extends BaseEntity {
     }
 
     public Double getLongitudeToValidation() {
-        return LongitudeToValidation;
+        return LongitudeToValidation == null ? 0 : LongitudeToValidation;
     }
 
     public void setLongitudeToValidation(Double longitudeToValidation) {
@@ -457,7 +457,7 @@ public class Task extends BaseEntity {
     }
 
     public Double getLatitudeToValidation() {
-        return LatitudeToValidation;
+        return LatitudeToValidation == null ? 0 : LatitudeToValidation;
     }
 
     public void setLatitudeToValidation(Double latitudeToValidation) {
