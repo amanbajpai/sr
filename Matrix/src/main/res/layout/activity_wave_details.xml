@@ -114,6 +114,7 @@
                         android:layout_height="68dp"
                         android:name="com.ros.smartrocket.fragment.TransparentSupportMapFragment" />-->
                     <com.ros.smartrocket.views.CustomTextView
+                        android:id="@+id/showMissionMapText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"

@@ -67,6 +67,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView deadlineTimeText;
     private TextView expireText;
 
+    private TextView showMissionMapText;
+
     public WaveDetailsActivity() {
     }
 
@@ -96,6 +98,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
         expireTextView = (TextView) findViewById(R.id.expireTextView);
+
+        showMissionMapText = (TextView) findViewById(R.id.showMissionMapText);
 
         projectPrice = (TextView) findViewById(R.id.projectPrice);
         projectExp = (TextView) findViewById(R.id.projectExp);
@@ -216,6 +220,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
             startTimeTextView.setTextColor(whiteColorResId);
             deadlineTimeTextView.setTextColor(whiteColorResId);
             expireTextView.setTextColor(whiteColorResId);
+
+            showMissionMapText.setTextColor(violetLightColorResId);
 
             taskOptionsLayout.setBackgroundColor(violetDarkColorResId);
             optionDivider.setBackgroundColor(violetLightColorResId);
