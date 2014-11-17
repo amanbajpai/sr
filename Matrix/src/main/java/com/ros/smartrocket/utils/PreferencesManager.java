@@ -72,6 +72,9 @@ public class PreferencesManager {
         return getString(Keys.TOKEN, "");
     }
 
+    public void removeToken() {
+        remove(Keys.TOKEN);
+    }
     public void setToken(String token) {
         setString(Keys.TOKEN, token);
     }

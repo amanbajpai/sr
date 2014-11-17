@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -40,6 +41,8 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.images.ImageLoader;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -48,6 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -806,6 +810,7 @@ public class UIUtils {
 
         return iconResId;
     }
+
     /**
      * Return number of hours in millisecond
      *
@@ -825,16 +830,37 @@ public class UIUtils {
         return code.contains("zh");
     }
 
-    public static String getDeviceName() {
+    public static String getDeviceManufacturer() {
+        String manufacturer = Build.MANUFACTURER;
+        return capitalize(manufacturer);
+    }
+
+    public static String getDeviceModel() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
+
         if (model.startsWith(manufacturer)) {
-            return capitalize(model);
+            return model.substring(manufacturer.length() + 1, model.length());
         } else {
-            return capitalize(manufacturer) + " " + model;
+            return model;
         }
     }
 
+    public static String getDeviceName(Context context) {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        String deviceName = getProperties(context, "android_models.properties").getProperty(model);
+
+        if (!TextUtils.isEmpty(deviceName)) {
+            if (deviceName.startsWith(capitalize(manufacturer))) {
+                return deviceName.substring(manufacturer.length() + 1, deviceName.length());
+            } else {
+                return deviceName;
+            }
+        } else {
+            return model;
+        }
+    }
 
     private static String capitalize(String s) {
         if (s == null || s.length() == 0) {
@@ -846,5 +872,19 @@ public class UIUtils {
         } else {
             return Character.toUpperCase(first) + s.substring(1);
         }
+    }
+
+    private static Properties getProperties(Context context, String fileName) {
+        Properties properties = new Properties();
+        try {
+            AssetManager assetManager = context.getAssets();
+            InputStream inputStream = assetManager.open(fileName);
+            properties.load(inputStream);
+
+        } catch (IOException e) {
+            L.e("AssetsPropertyReader", e.toString());
+        }
+        return properties;
+
     }
 }

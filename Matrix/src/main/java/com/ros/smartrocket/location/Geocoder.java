@@ -3,6 +3,7 @@ package com.ros.smartrocket.location;
 import android.content.Context;
 import android.location.Address;
 import android.net.http.AndroidHttpClient;
+import android.text.TextUtils;
 
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.utils.L;
@@ -238,7 +239,8 @@ public final class Geocoder {
                             address.setCountryName(longName);
                         } else if (addressTypeName.equals("administrative_area_level_1")) {
                             address.setAdminArea(longName);
-                        } else if (addressTypeName.equals("administrative_area_level_2")) {
+                        } else if (addressTypeName.equals("administrative_area_level_2")
+                                && (TextUtils.isEmpty(address.getSubLocality()) || Config.USE_BAIDU)) {
                             address.setSubLocality(longName);
                         } else if (addressTypeName.equals("sublocality_level_1")) {
                             address.setSubLocality(longName);

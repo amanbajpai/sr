@@ -30,6 +30,7 @@ import android.widget.ToggleButton;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
@@ -288,8 +289,26 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                                 .zIndex(task.getId())
                                 .extraInfo(bundle)
                                 .draggable(true);
+
                         baiduMap.addOverlay(ooA);
                     }
+
+                    baiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+                        @Override
+                        public void onMapStatusChangeStart(MapStatus mapStatus) {
+                            //mapStatus.zoom
+                        }
+
+                        @Override
+                        public void onMapStatusChange(MapStatus mapStatus) {
+
+                        }
+
+                        @Override
+                        public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+                        }
+                    });
 
                     baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
                         public boolean onMarkerClick(final com.baidu.mapapi.map.Marker marker) {

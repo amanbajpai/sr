@@ -13,6 +13,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.FragmentHelper;
+import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.UIUtils;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
         fragmentHelper.startFragmentFromStack(this, fragment);
 
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
+        startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
 
         CommonUtilities.registerGCMInBackground();
 

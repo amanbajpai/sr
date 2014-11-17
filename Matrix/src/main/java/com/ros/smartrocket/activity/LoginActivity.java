@@ -13,15 +13,14 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
-import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.GoogleUrlShortenManager;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -86,9 +85,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
+                String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+
+                WriteDataHelper.prepareLogin(this, email);
+
                 if (rememberMeCheckBox.isChecked()) {
-                    preferencesManager.setLastEmail(emailEditText.getText().toString().trim());
-                    preferencesManager.setLastPassword(passwordEditText.getText().toString().trim());
+                    preferencesManager.setLastEmail(email);
+                    preferencesManager.setLastPassword(password);
                 } else {
                     preferencesManager.setLastEmail("");
                     preferencesManager.setLastPassword("");
@@ -156,7 +160,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (deviceIsReady()) {
                     progressDialog = CustomProgressDialog.show(this);
                     loginButton.setEnabled(false);
-                    apiFacade.login(this, email, password, UIUtils.getDeviceName(), UIUtils.getAppVersion(this));
+
+                    String deviceManufacturer = UIUtils.getDeviceManufacturer();
+                    String deviceModel = UIUtils.getDeviceModel();
+                    String deviceName = UIUtils.getDeviceName(this);
+
+                    apiFacade.login(this, email, password, deviceName, deviceModel,
+                            deviceManufacturer, UIUtils.getAppVersion(this));
                 }
 
                 break;

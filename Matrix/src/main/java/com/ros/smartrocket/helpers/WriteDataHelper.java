@@ -1,6 +1,7 @@
 package com.ros.smartrocket.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -8,6 +9,8 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.fragment.SettingsFragment;
+import com.ros.smartrocket.net.TaskReminderService;
+import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 public class WriteDataHelper {
@@ -21,49 +24,62 @@ public class WriteDataHelper {
      */
     public static void prepareLogout(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        int taskRadius = preferencesManager.getDefaultRadius();
-        String lastEmail = preferencesManager.getLastEmail();
-        String lastPassword = preferencesManager.getLastPassword();
 
-        boolean useLocationServices = preferencesManager.getUseLocationServices();
-        boolean useSocialSharing = preferencesManager.getUseSocialSharing();
-        boolean useOnlyWiFiConnaction = preferencesManager.getUseOnlyWiFiConnaction();
-        boolean useSaveImageToCameraRoll = preferencesManager.getUseSaveImageToCameraRoll();
-        boolean usePushMessages = preferencesManager.getUsePushMessages();
-        boolean useDeadlineReminder = preferencesManager.getUseDeadlineReminder();
-        boolean isFirstLogin = preferencesManager.getIsFirstLogin();
-
-        String languageCode = preferencesManager.getLanguageCode();
-        long deadlineReminderMillisecond = preferencesManager.getDeadlineReminderMillisecond();
-        int uploadTaskLimit = preferencesManager.get3GUploadTaskLimit();
-        int uploadMonthLimit = preferencesManager.get3GUploadMonthLimit();
-
-        preferencesManager.clearAll();
-
-        preferencesManager.setDefaultRadius(taskRadius);
-        preferencesManager.setLastEmail(lastEmail);
-        preferencesManager.setLastPassword(lastPassword);
-
-        preferencesManager.setUseLocationServices(useLocationServices);
-        preferencesManager.setUseDeadlineReminder(useDeadlineReminder);
-        preferencesManager.setUsePushMessages(usePushMessages);
-        preferencesManager.setUseSocialSharing(useSocialSharing);
-        preferencesManager.setUseSaveImageToCameraRoll(useSaveImageToCameraRoll);
-        preferencesManager.setUseOnlyWiFiConnaction(useOnlyWiFiConnaction);
-        preferencesManager.setIsFirstLogin(isFirstLogin);
-
-        preferencesManager.setLanguageCode(languageCode);
-        preferencesManager.setDeadlineReminderMillisecond(deadlineReminderMillisecond);
-        preferencesManager.set3GUploadTaskLimit(uploadTaskLimit);
-        preferencesManager.set3GUploadMonthLimit(uploadMonthLimit);
-
-        SettingsFragment.setCurrentLanguage();
-
-        WavesBL.removeAllWavesFromDB(context);
-        TasksBL.removeAllTasksFromDB(context);
-        QuestionsBL.removeAllQuestionsFromDB(context);
-        AnswersBL.removeAllAnswers(context);
+        preferencesManager.removeToken();
+        context.stopService(new Intent(context, UploadFileService.class));
+        context.stopService(new Intent(context, TaskReminderService.class));
 
         GCMRegistrar.unregister(context);
+    }
+
+    public static void prepareLogin(Context context, String currentEmail) {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+
+        String lastEmail = preferencesManager.getLastEmail();
+        if (!lastEmail.equals(currentEmail)) {
+            int taskRadius = preferencesManager.getDefaultRadius();
+            String lastPassword = preferencesManager.getLastPassword();
+            String token = preferencesManager.getToken();
+
+            boolean useLocationServices = preferencesManager.getUseLocationServices();
+            boolean useSocialSharing = preferencesManager.getUseSocialSharing();
+            boolean useOnlyWiFiConnaction = preferencesManager.getUseOnlyWiFiConnaction();
+            boolean useSaveImageToCameraRoll = preferencesManager.getUseSaveImageToCameraRoll();
+            boolean usePushMessages = preferencesManager.getUsePushMessages();
+            boolean useDeadlineReminder = preferencesManager.getUseDeadlineReminder();
+            boolean isFirstLogin = preferencesManager.getIsFirstLogin();
+
+            String languageCode = preferencesManager.getLanguageCode();
+            long deadlineReminderMillisecond = preferencesManager.getDeadlineReminderMillisecond();
+            int uploadTaskLimit = preferencesManager.get3GUploadTaskLimit();
+            int uploadMonthLimit = preferencesManager.get3GUploadMonthLimit();
+
+            preferencesManager.clearAll();
+
+            preferencesManager.setDefaultRadius(taskRadius);
+            preferencesManager.setLastEmail(lastEmail);
+            preferencesManager.setLastPassword(lastPassword);
+            preferencesManager.setToken(token);
+
+            preferencesManager.setUseLocationServices(useLocationServices);
+            preferencesManager.setUseDeadlineReminder(useDeadlineReminder);
+            preferencesManager.setUsePushMessages(usePushMessages);
+            preferencesManager.setUseSocialSharing(useSocialSharing);
+            preferencesManager.setUseSaveImageToCameraRoll(useSaveImageToCameraRoll);
+            preferencesManager.setUseOnlyWiFiConnaction(useOnlyWiFiConnaction);
+            preferencesManager.setIsFirstLogin(isFirstLogin);
+
+            preferencesManager.setLanguageCode(languageCode);
+            preferencesManager.setDeadlineReminderMillisecond(deadlineReminderMillisecond);
+            preferencesManager.set3GUploadTaskLimit(uploadTaskLimit);
+            preferencesManager.set3GUploadMonthLimit(uploadMonthLimit);
+
+            SettingsFragment.setCurrentLanguage();
+
+            WavesBL.removeAllWavesFromDB(context);
+            TasksBL.removeAllTasksFromDB(context);
+            QuestionsBL.removeAllQuestionsFromDB(context);
+            AnswersBL.removeAllAnswers(context);
+        }
     }
 }

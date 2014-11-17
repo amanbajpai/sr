@@ -56,13 +56,16 @@ public class APIFacade {
      * @param email    - current email
      * @param password - current password
      */
-    public void login(Activity activity, String email, String password, String deviceName, String appVersion) {
+    public void login(Activity activity, String email, String password, String deviceName,
+                      String deviceModel,String deviceManufacturer, String appVersion) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             Login loginEntity = new Login();
             loginEntity.setEmail(email);
             loginEntity.setPassword(password);
             loginEntity.setDeviceName(deviceName);
+            loginEntity.setDeviceModel(deviceModel);
+            loginEntity.setDeviceManufacturer(deviceManufacturer);
             loginEntity.setAppVersion(appVersion);
 
             BaseOperation operation = new BaseOperation();
