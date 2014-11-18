@@ -2,6 +2,7 @@ package com.ros.smartrocket;
 
 
 import android.text.format.DateUtils;
+
 import com.ros.smartrocket.utils.UIUtils;
 
 public class Config {
@@ -30,7 +31,6 @@ public class Config {
     public static final long DEADLINE_REMINDER_MILLISECONDS = DateUtils.MINUTE_IN_MILLIS;
     public static final String ACRA_FORM_KEY = "dFZnWE93RnVfb2VhSHFFR2VicWoyamc6MA";
 
-    public static final boolean ACRA_ENABLED;
     public static final String WEB_SERVICE_URL;
 
     public static String TERMS_AND_CONDITION_URL;
@@ -45,7 +45,6 @@ public class Config {
         APP_VERSION = UIUtils.getAppVersion(App.getInstance());
         switch (ENV) {
             case CHINA_PRODUCTION:
-                ACRA_ENABLED = false;
                 LOG_ENABLED = false;
                 USE_BAIDU = true;
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
@@ -54,7 +53,6 @@ public class Config {
                 GEOCODER_URL = "http://ditu.google.cn";
                 break;
             case CHINA_STAGING:
-                ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 USE_BAIDU = true;
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
@@ -63,7 +61,6 @@ public class Config {
                 GEOCODER_URL = "http://ditu.google.cn";
                 break;
             case CHINA_DEVELOPMENT:
-                ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 USE_BAIDU = true;
                 WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";
@@ -72,7 +69,6 @@ public class Config {
                 GEOCODER_URL = "http://ditu.google.cn";
                 break;
             case PRODUCTION:
-                ACRA_ENABLED = false;
                 LOG_ENABLED = false;
                 USE_BAIDU = false;
                 WEB_SERVICE_URL = "http://matrixapi.red-ocean.net/";
@@ -81,7 +77,6 @@ public class Config {
                 GEOCODER_URL = "http://maps.googleapis.com";
                 break;
             case STAGING:
-                ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 USE_BAIDU = false;
                 WEB_SERVICE_URL = "http://api.staging.redoceansolutions.com/";
@@ -91,7 +86,6 @@ public class Config {
                 break;
             case DEVELOPMENT:
             default:
-                ACRA_ENABLED = true;
                 LOG_ENABLED = true;
                 USE_BAIDU = false;
                 WEB_SERVICE_URL = "http://dev.api.matrix.osiris.pp.ciklum.com/";

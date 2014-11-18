@@ -242,5 +242,6 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc"/>
     </application>
 </manifest>

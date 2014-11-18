@@ -26,7 +26,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_base_sliding_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

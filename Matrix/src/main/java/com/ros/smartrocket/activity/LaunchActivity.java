@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 public class LaunchActivity extends Activity {
@@ -15,6 +16,7 @@ public class LaunchActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
 
         Intent intent;
         if (!TextUtils.isEmpty(PreferencesManager.getInstance().getToken())) {
