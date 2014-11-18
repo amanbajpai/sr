@@ -10,8 +10,4 @@ public class Waves extends BaseEntity {
     public Wave[] getWaves() {
         return Waves;
     }
-
-    public void setWaves(Wave[] waves) {
-        this.Waves = waves;
-    }
 }

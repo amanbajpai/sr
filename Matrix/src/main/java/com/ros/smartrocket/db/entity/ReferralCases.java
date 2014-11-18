@@ -12,8 +12,4 @@ public class ReferralCases extends BaseEntity {
         return Cases;
     }
 
-    public void setCases(ReferralCase[] cases) {
-        Cases = cases;
-    }
-
 }

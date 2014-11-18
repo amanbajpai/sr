@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
@@ -68,16 +69,16 @@ public class ImageLoader {
     private static final int LOADING_SMALL_IMAGE_RES_ID = R.drawable.loading_small;
     private static final int NO_IMAGE_RES_ID = R.drawable.no_image;
 
-    public ImageLoader() {
-        fileCache = new FileCache();
-        executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-    }
-
     public static ImageLoader getInstance() {
         if (instance == null) {
             instance = new ImageLoader();
         }
         return instance;
+    }
+
+    public ImageLoader() {
+        fileCache = new FileCache();
+        executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     }
 
     public void displayImage(String url, ImageView imageView, int sizeType, boolean needAnimation, boolean needGone,
@@ -101,8 +102,6 @@ public class ImageLoader {
                     imageView.setImageResource(LOADING_BIG_IMAGE_RES_ID);
                 } else if (sizeType == NORMAL_IMAGE || sizeType == NORMAL_IMAGE_VAR) {
                     imageView.setImageResource(LOADING_NORMAL_IMAGE_RES_ID);
-                } else if (sizeType == SMALL_IMAGE || sizeType == SMALL_IMAGE_VAR) {
-                    imageView.setImageResource(LOADING_SMALL_IMAGE_RES_ID);
                 } else {
                     imageView.setImageResource(LOADING_SMALL_IMAGE_RES_ID);
                 }

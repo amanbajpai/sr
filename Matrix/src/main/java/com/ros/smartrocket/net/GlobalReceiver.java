@@ -9,7 +9,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 public class GlobalReceiver extends BroadcastReceiver {
     public static final String TAG = "GlobalReceiver";
-    private static boolean firstConnect = true;
+    private boolean firstConnect = true;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     @Override

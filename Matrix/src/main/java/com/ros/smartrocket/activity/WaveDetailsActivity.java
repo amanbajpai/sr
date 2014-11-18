@@ -2,7 +2,6 @@ package com.ros.smartrocket.activity;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -297,13 +296,11 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     setButtonsSettings(nearTask);
                 }
+                
+                startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
+                break;
             case R.id.mapImageView:
-                Bundle bundle = new Bundle();
-                bundle.putInt(Keys.MAP_VIEW_ITEM_ID, wave.getId());
-                bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.WAVE_TASKS.toString());
-                Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
                 break;
             default:
                 break;

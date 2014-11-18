@@ -10,8 +10,4 @@ public class Questions extends BaseEntity {
     public Question[] getQuestions() {
         return Questions;
     }
-
-    public void setQuestions(Question[] questions) {
-        this.Questions = questions;
-    }
 }

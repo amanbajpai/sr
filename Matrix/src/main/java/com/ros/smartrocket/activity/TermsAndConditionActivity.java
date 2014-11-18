@@ -21,11 +21,6 @@ public class TermsAndConditionActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_terms_and_condition);
 
-        int versionId = 1;
-        if (getIntent() != null) {
-            versionId = getIntent().getIntExtra(Keys.T_AND_C_VERSION, 1);
-        }
-
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(Config.TERMS_AND_CONDITION_URL);
     }

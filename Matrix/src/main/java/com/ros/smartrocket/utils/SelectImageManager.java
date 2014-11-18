@@ -18,8 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedOutputStream;
@@ -196,23 +198,38 @@ public class SelectImageManager {
     }
 
     public Bitmap getBitmapFromCamera(Intent intent) {
-        InputStream is;
+        InputStream is = null;
+        FileOutputStream fos = null;
+        OutputStream os = null;
         File file = lastFile;
 
         if (intent != null && intent.getData() != null && !file.exists()) {
             try {
                 Uri u = intent.getData();
                 is = activity.getContentResolver().openInputStream(u);
-                FileOutputStream fos = new FileOutputStream(file, false);
-                OutputStream os = new BufferedOutputStream(fos);
+                fos = new FileOutputStream(file, false);
+                os = new BufferedOutputStream(fos);
                 byte[] buffer = new byte[ONE_KB_IN_B];
                 int byteRead;
                 while ((byteRead = is.read(buffer)) != -1) {
                     os.write(buffer, 0, byteRead);
                 }
-                fos.close();
             } catch (Exception e) {
                 L.e(TAG, "GetBitmapFromCamera error" + e.getMessage(), e);
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                    if (fos != null) {
+                        fos.close();
+                    }
+                    if (os != null) {
+                        os.close();
+                    }
+                } catch (Exception e) {
+                    L.e(TAG, "GetScaledFile error" + e.getMessage(), e);
+                }
             }
         }
 
@@ -303,7 +320,6 @@ public class SelectImageManager {
         try {
             ExifInterface oldExif = new ExifInterface(imagePath);
             int index = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
-            int imageWidth = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_IMAGE_WIDTH));
             int degrees = OPERATIONS[index][0];
 
             Matrix matrix = new Matrix();
@@ -338,15 +354,21 @@ public class SelectImageManager {
     public File getScaledFile(File file, int maxSizeInPx, long maxSizeInByte) {
         Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte, !lastFileFromGallery);
 
+        FileOutputStream fos = null;
         try {
-            FileOutputStream fos = new FileOutputStream(file, false);
+            fos = new FileOutputStream(file, false);
 
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-            fos.flush();
-            fos.close();
         } catch (Exception e) {
             L.e(TAG, "GetScaledFile error" + e.getMessage(), e);
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (Exception e) {
+                    L.e(TAG, "GetScaledFile error" + e.getMessage(), e);
+                }
+            }
         }
 
         return file;
@@ -354,9 +376,12 @@ public class SelectImageManager {
 
     public static File copyFileToTempFolder(Context context, File file) {
         File resultFile = getTempFile(context);
+
+        InputStream in = null;
+        OutputStream out = null;
         try {
-            InputStream in = new FileInputStream(file);
-            OutputStream out = new FileOutputStream(resultFile);
+            in = new FileInputStream(file);
+            out = new FileOutputStream(resultFile);
 
             // Transfer bytes from in to out
             byte[] buf = new byte[ONE_KB_IN_B];
@@ -364,10 +389,21 @@ public class SelectImageManager {
             while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
-            in.close();
-            out.close();
+
         } catch (Exception e) {
             L.e(TAG, "CopyFileToTempFolder error" + e.getMessage(), e);
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                L.e(TAG, "GetScaledFile error" + e.getMessage(), e);
+            }
+
         }
         return resultFile;
     }

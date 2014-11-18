@@ -397,8 +397,8 @@ public class UIUtils {
         if (!TextUtils.isEmpty(dateString)) {
             dateString = dateString.substring(0, dateString.length() - 14)/* + "+00:00"*/;
             try {
-                ISO_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-                result = ISO_DATE_FORMAT.parse(dateString).getTime();
+                UIUtils.ISO_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+                result = UIUtils.ISO_DATE_FORMAT.parse(dateString).getTime();
             } catch (Exception e) {
                 L.e("isoTimeToLong", "Parse error" + e, e);
             }
@@ -417,36 +417,36 @@ public class UIUtils {
         String result;
         switch (formatId) {
             case 0:
-                result = HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+                result = UIUtils.HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
                 break;
             case 1:
                 if (isChineLanguage()) {
-                    result = DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
+                    result = UIUtils.DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
                 } else {
-                    result = DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                    result = UIUtils.DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
                 }
                 break;
             case 2:
-                ISO_DATE_FORMAT2.setTimeZone(TimeZone.getTimeZone("UTC"));
-                String utcDate = ISO_DATE_FORMAT2.format(new Date(dateLong));
+                UIUtils.ISO_DATE_FORMAT2.setTimeZone(TimeZone.getTimeZone("UTC"));
+                String utcDate = UIUtils.ISO_DATE_FORMAT2.format(new Date(dateLong));
 
                 result = utcDate.substring(0, utcDate.length() - 5) + "+00:00";
                 break;
             case 3:
                 if (isChineLanguage()) {
-                    result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
+                    result = UIUtils.HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
                 } else {
-                    result = HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
+                    result = UIUtils.HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
                 }
                 break;
             case 4:
-                result = DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
+                result = UIUtils.DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
                 break;
             case 5:
-                result = DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
+                result = UIUtils.DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
                 break;
             case 6:
-                result = HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
+                result = UIUtils.HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
                 break;
             default:
                 result = "longToStringFormatNotFound";
@@ -490,7 +490,8 @@ public class UIUtils {
         boolean containLowerLetter = false;
         boolean containNumber = false;
         boolean containSpecialSymbol = false;
-        boolean availableLength = password.length() >= MIN_PASSWORD_LANDTH && password.length() <= MAX_PASSWORD_LANDTH;
+        boolean availableLength = password.length() >= UIUtils.MIN_PASSWORD_LANDTH
+                && password.length() <= UIUtils.MAX_PASSWORD_LANDTH;
 
         char[] charArray = password.toCharArray();
         for (int i = 0; i < charArray.length; i++) {
@@ -509,7 +510,8 @@ public class UIUtils {
             }
         }
 
-        return containUpperLetter && containLowerLetter && containNumber && availableLength && containSpecialSymbol;
+        return containUpperLetter && containLowerLetter && containNumber
+                && availableLength && containSpecialSymbol;
     }
 
     /**
@@ -525,8 +527,8 @@ public class UIUtils {
         String result;
         String format = "%.1f";
         float convertedDistance
-                = distance < METERS_IN_KM && useMetersIfLessThanOne ? distance : distance / METERS_IN_KM;
-        String mOrKm = context.getString(distance < METERS_IN_KM && useMetersIfLessThanOne ? R.string.distance_m : R.string
+                = distance < UIUtils.METERS_IN_KM && useMetersIfLessThanOne ? distance : distance / UIUtils.METERS_IN_KM;
+        String mOrKm = context.getString(distance < UIUtils.METERS_IN_KM && useMetersIfLessThanOne ? R.string.distance_m : R.string
                 .distance_km);
 
         if (textResId != 0) {
@@ -547,11 +549,11 @@ public class UIUtils {
     }
 
     public static int getRandomInt(int max) {
-        return RANDOM.nextInt(max);
+        return UIUtils.RANDOM.nextInt(max);
     }
 
     public static int getRandomInt(int min, int max) {
-        return RANDOM.nextInt(max - min + 1) + min;
+        return UIUtils.RANDOM.nextInt(max - min + 1) + min;
     }
 
     public static void setEditTextColorByState(Context context, EditText editText, boolean isValidState) {

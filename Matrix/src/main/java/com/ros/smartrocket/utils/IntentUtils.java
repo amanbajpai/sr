@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import com.ros.smartrocket.Keys;
@@ -19,6 +20,7 @@ import com.ros.smartrocket.activity.FullScreenImageActivity;
 import com.ros.smartrocket.activity.FullScreenVideoActivity;
 import com.ros.smartrocket.activity.LoginActivity;
 import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.activity.MapActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.activity.QuitQuestionActivity;
 import com.ros.smartrocket.activity.SetNewPasswordActivity;
@@ -125,6 +127,22 @@ public class IntentUtils {
     public static Intent getQuitQuestionIntent(Context context, Question question) {
         Intent intent = new Intent(context, QuitQuestionActivity.class);
         intent.putExtra(Keys.QUESTION, question);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Quit Question screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getWaveMapIntent(Context context, int waveId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, waveId);
+        bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.WAVE_TASKS.toString());
+
+        Intent intent = new Intent(context, MapActivity.class);
+        intent.putExtras(bundle);
         return intent;
     }
 

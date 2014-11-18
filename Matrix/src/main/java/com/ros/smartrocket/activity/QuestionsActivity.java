@@ -225,7 +225,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             refreshMainProgress(question.getType(), question.getOrderId());
 
             int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
-            Question nextQuestion = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
 
             if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
                 startValidationActivity();

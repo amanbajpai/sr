@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.content.ContentValues;
+
 import com.ros.smartrocket.utils.FieldType;
 import com.ros.smartrocket.utils.L;
 
@@ -17,6 +18,7 @@ import java.util.Random;
 
 public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 7257189225671374288L;
+    private static Random random = new Random();
 
     /**
      * Database _id field. Required for AdapterViews
@@ -116,7 +118,7 @@ public abstract class BaseEntity implements Serializable {
     }
 
     public void setRandomId() {
-        setId(new Random().nextInt());
+        setId(random.nextInt());
     }
 
     public long get_id() {
