@@ -72,17 +72,16 @@ android {
         debug {
             applicationIdSuffix ""
             zipAlign false
-            runProguard false
             debuggable true
-            proguardFile file('configs/proguard-project-debug.txt')
+            proguardFiles 'configs/proguard-android.txt', 'configs/proguard-rules.pro',
+                    'configs/proguard-optimization-only-rules.pro'
         }
 
         release {
             zipAlign true
-            runProguard true
             debuggable false
             signingConfig signingConfigs.release
-            proguardFile 'configs/proguard-project-release.txt'
+            proguardFiles 'configs/proguard-android.txt', 'configs/proguard-rules.pro'
         }
     }
 }
