@@ -97,7 +97,6 @@
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-5.0.89" level="project" />
     <orderEntry type="module" module-name="clusterkraf" exported="" />
-    <orderEntry type="module" module-name="BaiduClusterkraf" exported="" />
   </component>
 </module>
 

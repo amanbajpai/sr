@@ -34,7 +34,6 @@ dependencies {
     compile fileTree(include: '*.jar', dir: '../libs')
     // Cluster map's pins
     compile project(':libs:clusterkraf')
-    compile project(':libs:BaiduClusterkraf')
     // test dependencies
     /*testCompile 'junit:junit:4.11'
         testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
