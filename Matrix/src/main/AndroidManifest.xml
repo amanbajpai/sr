@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ros.smartrocket"
-    android:installLocation="auto"
-    android:versionCode="4"
-    android:versionName="1.2">
-
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="19" />
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Baidu -->
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
-    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -27,10 +21,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Cloud to Device Messaging permissions -->
     <permission
-        android:name="com.ros.smartrocket.permission.C2D_MESSAGE"
+        android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.ros.smartrocket.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- Map -->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -48,11 +42,12 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
     <application
-        android:name="com.ros.smartrocket.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="allowBackup, label">
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
@@ -63,37 +58,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ros.smartrocket.activity.ReferralCasesActivity"
+            android:name=".activity.ReferralCasesActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.ros.smartrocket.activity.RegistrationActivity"
+            android:name=".activity.RegistrationActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.ros.smartrocket.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.ros.smartrocket.activity.ForgotPasswordActivity"
+            android:name=".activity.ForgotPasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.ros.smartrocket.activity.ForgotPasswordSuccessActivity"
+            android:name=".activity.ForgotPasswordSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.FullScreenImageActivity"
+            android:name=".activity.FullScreenImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ros.smartrocket.activity.FullScreenVideoActivity"
+            android:name=".activity.FullScreenVideoActivity"
             android:configChanges="orientation" />
         <activity
-            android:name="com.ros.smartrocket.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ros.smartrocket.activity.TaskDetailsActivity"
+            android:name=".activity.TaskDetailsActivity"
             android:configChanges="locale|orientation"
             android:theme="@style/AppThemeGreen" />
         <activity
@@ -101,32 +96,32 @@
             android:configChanges="locale"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name="com.ros.smartrocket.activity.NotificationActivity"
+            android:name=".activity.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
             android:theme="@style/CustomNotification.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.ros.smartrocket.activity.MapActivity"
+            android:name=".activity.MapActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
-            android:parentActivityName="com.ros.smartrocket.activity.MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppThemeGreen">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ros.smartrocket.activity.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name="com.ros.smartrocket.activity.SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.ShareActivity"
+            android:name=".activity.ShareActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.CheckLocationActivity"
+            android:name=".activity.CheckLocationActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.EmailRedirectActivity"
+            android:name=".activity.EmailRedirectActivity"
             android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -140,45 +135,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ros.smartrocket.activity.CheckLocationFailedActivity"
+            android:name=".activity.CheckLocationFailedActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.ActivateAccountActivity"
+            android:name=".activity.ActivateAccountActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.SetNewPasswordActivity"
+            android:name=".activity.SetNewPasswordActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.QuestionsActivity"
+            android:name=".activity.QuestionsActivity"
             android:configChanges="locale|orientation"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.ros.smartrocket.activity.TaskValidationActivity"
+            android:name=".activity.TaskValidationActivity"
             android:configChanges="locale"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name="com.ros.smartrocket.activity.TermsAndConditionActivity"
+            android:name=".activity.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.QuitQuestionActivity"
+            android:name=".activity.QuitQuestionActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.CashingOutActivity"
+            android:name=".activity.CashingOutActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.CashingOutConfirmationActivity"
+            android:name=".activity.CashingOutConfirmationActivity"
             android:configChanges="locale" />
         <activity
-            android:name="com.ros.smartrocket.activity.CashingOutSuccessActivity"
+            android:name=".activity.CashingOutSuccessActivity"
             android:configChanges="locale" />
 
         <service
-            android:name="com.ros.smartrocket.net.NetworkService"
+            android:name=".net.NetworkService"
             android:exported="false" />
         <provider
-            android:name="com.ros.smartrocket.db.AppContentProvider"
-            android:authorities="com.ros.smartrocket"
+            android:name=".db.AppContentProvider"
+            android:authorities="${applicationId}"
             android:exported="false" />
         <!-- Used for install referral measurement -->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
@@ -197,11 +192,11 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.ros.smartrocket" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.ros.smartrocket.net.GlobalReceiver"
+            android:name=".net.GlobalReceiver"
             android:exported="true">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -210,14 +205,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <data
-                    android:path="com.ua.makeev.contactwidgetpaid"
+                    android:path="${applicationId}"
                     android:scheme="package" />
             </intent-filter>
         </receiver>
 
-        <service android:name="com.ros.smartrocket.GCMIntentService" />
+        <service android:name=".GCMIntentService" />
         <service
-            android:name="com.ros.smartrocket.net.TaskReminderService"
+            android:name=".net.TaskReminderService"
             android:exported="true" />
 
         <meta-data
@@ -225,17 +220,17 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI" />
+            android:value="${googleApiKey}" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="hc5VEmGKRDw7ls2ZpGz18n6g" />
+            android:value="${baiduApiKey}" />
         <!-- Upload file services -->
         <service
-            android:name="com.ros.smartrocket.net.UploadFileService"
+            android:name=".net.UploadFileService"
             android:exported="false" />
         <service
-            android:name="com.ros.smartrocket.net.UploadFileNetworkService"
+            android:name=".net.UploadFileNetworkService"
             android:exported="false" />
 
         <service

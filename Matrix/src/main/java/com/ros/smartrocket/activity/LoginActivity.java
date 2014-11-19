@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
@@ -54,7 +55,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
         currentVersion = (TextView) findViewById(R.id.currentVersion);
-        currentVersion.setText("v." + UIUtils.getAppVersionCode(this));
+
+        currentVersion.setText("v." + BuildConfig.LOGIN_SCREEN_VERSION);
 
         String lastEmail = preferencesManager.getLastEmail();
         String lastPassword = preferencesManager.getLastPassword();

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -437,7 +440,7 @@ public class APIFacade {
         if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
             RegisterDevice registerDeviceEntity = new RegisterDevice();
-            registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID(context));
+            registerDeviceEntity.setDeviceId(App.getInstance().getDeviceId());
             registerDeviceEntity.setRegistrationId(regId);
 
             BaseOperation operation = new BaseOperation();

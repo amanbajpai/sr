@@ -6,6 +6,7 @@ import android.location.Location;
 import android.text.format.DateUtils;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
@@ -30,7 +31,15 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SDKInitializer.initialize(getApplicationContext());
+
+        if (BuildConfig.RUN_CRASHLYTICS) {
+            Crashlytics.start(this);
+        }
+
+        if (BuildConfig.USE_BAIDU) {
+            SDKInitializer.initialize(getApplicationContext());
+        }
+
         instance = this;
 
         deviceId = UIUtils.getDeviceId(this);

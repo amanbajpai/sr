@@ -34,6 +34,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -349,7 +350,7 @@ public class UIUtils {
      */
     public static boolean isMockLocationEnabled(Context context) {
         boolean result = false;
-        if (!Config.CAN_USE_FAKE_LOCATION) {
+        if (BuildConfig.CHECK_MOCK_LOCATION) {
             result = !"0".equals(Settings.Secure.getString(context.getContentResolver(),
                     Settings.Secure.ALLOW_MOCK_LOCATION));
         }

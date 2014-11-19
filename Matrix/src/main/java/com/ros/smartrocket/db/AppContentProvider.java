@@ -8,12 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import com.ros.smartrocket.BuildConfig;
+
 import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
 public class AppContentProvider extends ContentProvider {
-    public static final String CONTENT_AUTHORITY = "com.ros.smartrocket";
+    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID;
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final UriMatcher URI_MATCHER = buildUriMatcher();
 
