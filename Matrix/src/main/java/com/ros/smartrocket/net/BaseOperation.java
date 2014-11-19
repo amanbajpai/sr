@@ -1,12 +1,12 @@
 package com.ros.smartrocket.net;
 
 import com.ros.smartrocket.db.entity.BaseEntity;
+
 import org.apache.http.params.HttpParams;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 
 public class BaseOperation implements Serializable {
     private static final long serialVersionUID = -5529432321201760124L;
@@ -113,7 +113,6 @@ public class BaseOperation implements Serializable {
     public void setIsArray(Boolean isArray) {
         this.isArray = isArray;
     }
-
 
     public String getRequestUrl() {
         if (args != null) {
