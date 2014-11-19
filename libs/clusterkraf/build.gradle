@@ -22,19 +22,19 @@ dependencies {
 }
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion '19.1.0'
+    compileSdkVersion 19
+    buildToolsVersion '19.1.0'
 
     lintOptions {
         // if true, stop the gradle build if errors are found
         abortOnError false
     }
 
-  sourceSets {
-    main {
-      manifest.srcFile 'AndroidManifest.xml'
-      java.srcDirs = ['src']
-      res.srcDirs = ['res']
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
     }
-  }
 }
