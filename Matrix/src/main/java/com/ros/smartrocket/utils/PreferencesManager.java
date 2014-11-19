@@ -1,6 +1,6 @@
 package com.ros.smartrocket.utils;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
@@ -14,6 +14,7 @@ import com.ros.smartrocket.fragment.TasksMapFragment;
 /**
  * Global constant storage. Keep here small constants
  */
+@SuppressLint("CommitPrefEdits")
 public class PreferencesManager {
     private static final String TAG = "PreferencesManager";
     private SharedPreferences preferences;
@@ -65,6 +66,7 @@ public class PreferencesManager {
     public void removeToken() {
         remove(Keys.TOKEN);
     }
+
     public void setToken(String token) {
         setString(Keys.TOKEN, token);
     }

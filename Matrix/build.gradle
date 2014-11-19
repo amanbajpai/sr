@@ -60,8 +60,8 @@ android {
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
         buildConfigField "String", "KNOWLEDGE_BASE_URL", "\"https://smartrocket.desk.com/\""
         buildConfigField "String", "SHARE_URL", "\"http://smart-rocket.com/crew/\""
-        manifestPlaceholders = [googleApiKey:"AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
-                                baiduApiKey: "hc5VEmGKRDw7ls2ZpGz18n6g"]
+        manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
+                                baiduApiKey : "hc5VEmGKRDw7ls2ZpGz18n6g"]
     }
 
     signingConfigs {
@@ -151,8 +151,6 @@ android {
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://matrix.red-ocean.net/Account/Manage\""
             buildConfigField "String", "GEOCODER_URL", "\"http://ditu.google.cn\""
         }
-
-
     }
 
     lintOptions {
