@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -25,6 +26,7 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.NotificationActivity;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
+
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -156,8 +158,8 @@ public class NotificationUtils {
             if (stringJsonObject.has(languageCode)) {
                 resultString = stringJsonObject.optString(languageCode);
             } else {
-                Iterator<String> iter = stringJsonObject.keys();
-                resultString = stringJsonObject.optString(iter.next());
+                Iterator iterator = stringJsonObject.keys();
+                resultString = stringJsonObject.optString((String) iterator.next());
             }
         } catch (Exception e) {
             L.e(TAG, "Parse object Error: " + e.getMessage(), e);
