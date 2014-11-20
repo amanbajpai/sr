@@ -26,8 +26,6 @@ import java.util.Calendar;
 import javax.annotation.Nonnull;
 
 public class ClaimTaskManager implements NetworkOperationListenerInterface {
-    private static final String TAG = "ClaimTaskManager";
-
     private BaseActivity activity;
     private APIFacade apiFacade = APIFacade.getInstance();
     private AsyncQueryHandler handler;
@@ -65,9 +63,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
     }
 
     public void unClaimTask() {
-        long claimTimeInMillisecond = task.getLongClaimDateTime();
-        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-        String dateTime = UIUtils.longToString(claimTimeInMillisecond + timeoutInMillisecond, 3);
+        String dateTime = UIUtils.longToString(task.getLongExpireDateTime(), 3);
 
         new WithdrawTaskDialog(activity, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
             @Override
@@ -154,6 +150,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 task.setIsMy(true);
                 task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
                 task.setLongClaimDateTime(claimTimeInMillisecond);
+
+                task.setExpireDateTime(UIUtils.longToString(missionDueMillisecond, 2));
+                task.setLongExpireDateTime(missionDueMillisecond);
 
                 TasksBL.updateTask(handler, task);
 

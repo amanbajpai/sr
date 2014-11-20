@@ -44,6 +44,7 @@ public class Task extends BaseEntity {
     private String Status;
     private String StartDateTime;
     private String EndDateTime;
+    private String ExpireDateTime;
     private Double ExperienceOffer;
     private Long LongExpireTimeoutForClaimedTask;
     private Long LongPreClaimedTaskExpireAfterStart;
@@ -67,6 +68,7 @@ public class Task extends BaseEntity {
     private transient Long LongRedoDateTime;
     private transient Long LongStartDateTime;
     private transient Long LongClaimDateTime;
+    private transient Long LongExpireDateTime;
     private transient Boolean StartedStatusSent = false;
     private transient String CountryName;
 
@@ -113,10 +115,16 @@ public class Task extends BaseEntity {
             result.setStatus(c.getString(TaskDbSchema.Query.All.STATUS));
             result.setStartDateTime(c.getString(TaskDbSchema.Query.All.START_DATE_TIME));
             result.setEndDateTime(c.getString(TaskDbSchema.Query.All.END_DATE_TIME));
+            result.setExpireDateTime(c.getString(TaskDbSchema.Query.All.EXPIRE_DATE_TIME));
+
+            result.setLongEndDateTime(c.getLong(TaskDbSchema.Query.All.LONG_END_DATE_TIME));
+            result.setLongRedoDateTime(c.getLong(TaskDbSchema.Query.All.LONG_REDO_DATE_TIME));
+            result.setLongClaimDateTime(c.getLong(TaskDbSchema.Query.All.LONG_CLAIM_DATE_TIME));
+            result.setLongStartDateTime(c.getLong(TaskDbSchema.Query.All.LONG_START_DATE_TIME));
+            result.setLongExpireDateTime(c.getLong(TaskDbSchema.Query.All.LONG_EXPIRE_DATE_TIME));
 
             result.setIsMy(c.getInt(TaskDbSchema.Query.All.IS_MY) == 1);
             result.setIsHide(c.getInt(TaskDbSchema.Query.All.IS_HIDE) == 1);
-            result.setLongEndDateTime(c.getLong(TaskDbSchema.Query.All.LONG_END_DATE_TIME));
             result.setStartedStatusSent(c.getInt(TaskDbSchema.Query.All.STARTED_STATUS_SENT) == 1);
 
             result.setExperienceOffer(c.getDouble(TaskDbSchema.Query.All.EXPERIENCE_OFFER));
@@ -132,16 +140,12 @@ public class Task extends BaseEntity {
             result.setSubmittedAt(c.getString(TaskDbSchema.Query.All.SUBMITTED_AT));
             result.setCountryName(c.getString(TaskDbSchema.Query.All.COUNTRY_NAME));
 
-            result.setLongRedoDateTime(c.getLong(TaskDbSchema.Query.All.LONG_REDO_DATE_TIME));
-            result.setLongClaimDateTime(c.getLong(TaskDbSchema.Query.All.LONG_CLAIM_DATE_TIME));
-
             result.setPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.PHOTO_QUESTIONS_COUNT));
             result.setNoPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.NO_PHOTO_QUESTIONS_COUNT));
             result.setCurrencySign(c.getString(TaskDbSchema.Query.All.CURRENCY_SIGN));
             result.setLocationName(c.getString(TaskDbSchema.Query.All.LOCATION_NAME));
 
             result.setIcon(c.getString(TaskDbSchema.Query.All.ICON));
-            result.setLongStartDateTime(c.getLong(TaskDbSchema.Query.All.LONG_START_DATE_TIME));
 
             result.setLatitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LATITUDE_TO_VALIDATION));
             result.setLongitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LONGITUDE_TO_VALIDATION));
@@ -462,6 +466,22 @@ public class Task extends BaseEntity {
 
     public void setLatitudeToValidation(Double latitudeToValidation) {
         LatitudeToValidation = latitudeToValidation;
+    }
+
+    public Long getLongExpireDateTime() {
+        return LongExpireDateTime;
+    }
+
+    public void setLongExpireDateTime(Long longExpireDateTime) {
+        LongExpireDateTime = longExpireDateTime;
+    }
+
+    public String getExpireDateTime() {
+        return ExpireDateTime;
+    }
+
+    public void setExpireDateTime(String expireDateTime) {
+        ExpireDateTime = expireDateTime;
     }
 
     /**

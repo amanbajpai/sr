@@ -55,10 +55,18 @@ public class WavesBL {
         Location tampLocation = new Location(LocationManager.NETWORK_PROVIDER);
 
         for (Wave wave : waves.getWaves()) {
-            Project project = wave.getProject();
 
+            String projectIcon = null;
+            Project project = wave.getProject();
             if (project != null) {
-                wave.setIcon(project.getIcon());
+                projectIcon = project.getIcon();
+                wave.setIcon(projectIcon);
+            }
+
+            String countryName = null;
+            Country country = wave.getCountry();
+            if (country != null) {
+                countryName = country.getName();
             }
 
             long longPreClaimedTaskExpireAfterStart = wave.getPreClaimedTaskExpireAfterStart() * DateUtils.HOUR_IN_MILLIS;
@@ -70,15 +78,20 @@ public class WavesBL {
             List<ContentValues> vals = new ArrayList<ContentValues>();
             for (Task task : wave.getTasks()) {
                 task.setName(wave.getName());
+                task.setIcon(projectIcon);
+                task.setCountryName(countryName);
                 task.setDescription(wave.getDescription());
                 task.setExperienceOffer(wave.getExperienceOffer());
                 task.setStartedStatusSent(task.getStatusId() != null
                         && Task.TaskStatusId.NONE.getStatusId() != task.getStatusId()
                         && Task.TaskStatusId.CLAIMED.getStatusId() != task.getStatusId());
-                task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
-                task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
+
                 task.setLongStartDateTime(UIUtils.isoTimeToLong(task.getStartDateTime()));
+                task.setLongEndDateTime(UIUtils.isoTimeToLong(task.getEndDateTime()));
+                task.setLongExpireDateTime(UIUtils.isoTimeToLong(task.getExpireDateTime()));
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
+                task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
+
                 task.setLongExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS);
                 task.setLongPreClaimedTaskExpireAfterStart(longPreClaimedTaskExpireAfterStart);
 
@@ -86,15 +99,6 @@ public class WavesBL {
                 task.setNoPhotoQuestionsCount(wave.getNoPhotoQuestionsCount());
 
                 task.setIsMy(isMy);
-
-                if (project != null) {
-                    task.setIcon(project.getIcon());
-                }
-
-                Country country = wave.getCountry();
-                if (country != null) {
-                    task.setCountryName(country.getName());
-                }
 
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     tampLocation.setLatitude(task.getLatitude());

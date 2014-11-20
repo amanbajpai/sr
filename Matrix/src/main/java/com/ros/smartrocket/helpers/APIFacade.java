@@ -60,7 +60,8 @@ public class APIFacade {
      * @param password - current password
      */
     public void login(Activity activity, String email, String password, String deviceName,
-                      String deviceModel,String deviceManufacturer, String appVersion) {
+                      String deviceModel,String deviceManufacturer, String appVersion,
+                      String androidVersion) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             Login loginEntity = new Login();
@@ -70,6 +71,7 @@ public class APIFacade {
             loginEntity.setDeviceModel(deviceModel);
             loginEntity.setDeviceManufacturer(deviceManufacturer);
             loginEntity.setAppVersion(appVersion);
+            loginEntity.setAndroidVersion(androidVersion);
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.LOGIN);

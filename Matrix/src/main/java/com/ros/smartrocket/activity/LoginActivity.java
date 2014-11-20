@@ -2,6 +2,7 @@ package com.ros.smartrocket.activity;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -168,7 +169,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     String deviceName = UIUtils.getDeviceName(this);
 
                     apiFacade.login(this, email, password, deviceName, deviceModel,
-                            deviceManufacturer, UIUtils.getAppVersion(this));
+                            deviceManufacturer, UIUtils.getAppVersion(this),
+                            Build.VERSION.RELEASE);
                 }
 
                 break;
@@ -179,15 +181,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     registerButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
 
-                    MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
-                        @Override
-                        public void onGetAddressSuccess(Location location, String countryName,
-                                                        String cityName, String districtName) {
-                            apiFacade.checkLocationForRegistration(LoginActivity.this, countryName, cityName,
-                                    districtName, location.getLatitude(), location.getLongitude());
+                    MatrixLocationManager.getAddressByCurrentLocation(
+                            new MatrixLocationManager.GetAddressListener() {
+                                @Override
+                                public void onGetAddressSuccess(Location location,
+                                                                String countryName,
+                                                                String cityName,
+                                                                String districtName) {
+                                    apiFacade.checkLocationForRegistration(LoginActivity.this,
+                                            countryName, cityName, districtName,
+                                            location.getLatitude(), location.getLongitude());
 
-                        }
-                    });
+                                }
+                            });
                 }
                 break;
             case R.id.forgotPasswordButton:

@@ -9,6 +9,7 @@ public class Login extends BaseEntity {
     private String DeviceModel;
     private String DeviceManufacturer;
     private String AppVersion;
+    private String AndroidVersion;
 
     public String getEmail() {
         return Email;
@@ -57,5 +58,14 @@ public class Login extends BaseEntity {
     public void setDeviceManufacturer(String deviceManufacturer) {
         DeviceManufacturer = deviceManufacturer;
     }
+
+    public String getAndroidVersion() {
+        return AndroidVersion;
+    }
+
+    public void setAndroidVersion(String androidVersion) {
+        AndroidVersion = androidVersion;
+    }
+
 
 }

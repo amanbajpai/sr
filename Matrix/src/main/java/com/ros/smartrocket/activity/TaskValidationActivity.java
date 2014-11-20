@@ -194,25 +194,14 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void setTaskData(Task task) {
-        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-
         taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
                 .task_data_size_mb));
 
-        long missionDueMillisecond;
-
-        if (isRedo) {
-            long reDoTimeInMillisecond = UIUtils.isoTimeToLong(task.getRedoDate());
-            missionDueMillisecond = reDoTimeInMillisecond + timeoutInMillisecond;
-        } else {
-            long claimTimeInMillisecond = UIUtils.isoTimeToLong(task.getClaimed());
-            missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
-        }
-
-        long dueInMillisecond = missionDueMillisecond - calendar.getTimeInMillis();
+        long expireTimeInMillisecond = task.getLongExpireDateTime();
+        long dueInMillisecond = expireTimeInMillisecond - calendar.getTimeInMillis();
 
         dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
-        missionDueTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
+        missionDueTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {

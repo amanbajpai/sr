@@ -122,17 +122,8 @@ public class TaskReminderService extends Service {
                         if (COOKIE_DEADLINE_REMINDER == type) {
                             L.i(TAG, "Show Deadline reminder dialog");
 
-                            long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-                            long missionDueMillisecond;
-
-                            if (task.getStatusId() == Task.TaskStatusId.RE_DO_TASK.getStatusId()) {
-                                missionDueMillisecond = task.getLongRedoDateTime() + timeoutInMillisecond;
-                            } else {
-                                missionDueMillisecond = task.getLongClaimDateTime() + timeoutInMillisecond;
-                            }
-
                             NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
-                                    missionDueMillisecond,
+                                    task.getLongExpireDateTime(),
                                     task.getWaveId(), task.getId(),
                                     task.getName(), task.getCountryName(), task.getAddress(), task.getStatusId());
 

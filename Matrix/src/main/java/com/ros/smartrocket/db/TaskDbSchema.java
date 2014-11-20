@@ -44,11 +44,13 @@ public interface TaskDbSchema {
         STATUS("Status", DBType.TEXT),
         START_DATE_TIME("StartDateTime", DBType.TEXT),
         END_DATE_TIME("EndDateTime", DBType.TEXT),
+        EXPIRE_DATE_TIME("ExpireDateTime", DBType.TEXT),
         IS_MY("IsMy", DBType.INT),
         IS_HIDE("IsHide", DBType.INT),
         STARTED_STATUS_SENT("StartedStatusSent", DBType.INT),
         LONG_START_DATE_TIME("LongStartDateTime", DBType.NUMERIC),
         LONG_END_DATE_TIME("LongEndDateTime", DBType.NUMERIC),
+        LONG_EXPIRE_DATE_TIME("LongExpireDateTime", DBType.NUMERIC),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
         LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("LongExpireTimeoutForClaimedTask", DBType.NUMERIC),
@@ -117,40 +119,52 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.WAVE_ID.getName(),
                     Table.TASK.getName() + "." + Columns.USER_ID.getName(),
                     Table.TASK.getName() + "." + Columns.NAME.getName(),
+                    Table.TASK.getName() + "." + Columns.ICON.getName(),
                     Table.TASK.getName() + "." + Columns.DESCRIPTION.getName(),
                     Table.TASK.getName() + "." + Columns.LONGITUDE.getName(),
                     Table.TASK.getName() + "." + Columns.LATITUDE.getName(),
                     Table.TASK.getName() + "." + Columns.LANGUAGE.getName(),
-                    Table.TASK.getName() + "." + Columns.PRICE.getName(),
                     Table.TASK.getName() + "." + Columns.ADDRESS.getName(),
                     Table.TASK.getName() + "." + Columns.DISTANCE.getName(),
-                    Table.TASK.getName() + "." + Columns.REMAKE_TILL.getName(),
-                    Table.TASK.getName() + "." + Columns.STARTED.getName(),
+                    Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
+                    Table.TASK.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
+                    Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
+
+                    Table.TASK.getName() + "." + Columns.PRICE.getName(),
+                    Table.TASK.getName() + "." + Columns.CURRENCY_SIGN.getName(),
+
                     Table.TASK.getName() + "." + Columns.STATUS_ID.getName(),
                     Table.TASK.getName() + "." + Columns.STATUS.getName(),
-                    Table.TASK.getName() + "." + Columns.START_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
+
                     Table.TASK.getName() + "." + Columns.IS_MY.getName(),
                     Table.TASK.getName() + "." + Columns.IS_HIDE.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
+                    Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName(),
+
+                    Table.TASK.getName() + "." + Columns.STARTED.getName(),
+                    Table.TASK.getName() + "." + Columns.REMAKE_TILL.getName(),
+
+                    Table.TASK.getName() + "." + Columns.START_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.END_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.EXPIRE_DATE_TIME.getName(),
                     Table.TASK.getName() + "." + Columns.CLAIMED.getName(),
                     Table.TASK.getName() + "." + Columns.REDO_DATE.getName(),
+
+                    Table.TASK.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_EXPIRE_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_CLAIM_DATE_TIME.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_REDO_DATE_TIME.getName(),
+
+                    Table.TASK.getName() + "." + Columns.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
+                    Table.TASK.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
+
                     Table.TASK.getName() + "." + Columns.APPROVED_AT.getName(),
                     Table.TASK.getName() + "." + Columns.REJECTED_AT.getName(),
                     Table.TASK.getName() + "." + Columns.SUBMITTED_AT.getName(),
-                    Table.TASK.getName() + "." + Columns.STARTED_STATUS_SENT.getName(),
+
                     Table.TASK.getName() + "." + Columns.COUNTRY_NAME.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_REDO_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.LONG_CLAIM_DATE_TIME.getName(),
-                    Table.TASK.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
-                    Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
-                    Table.TASK.getName() + "." + Columns.CURRENCY_SIGN.getName(),
                     Table.TASK.getName() + "." + Columns.LOCATION_NAME.getName(),
-                    Table.TASK.getName() + "." + Columns.ICON.getName(),
+
                     Table.TASK.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
                     Table.TASK.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName()
             };
@@ -160,42 +174,54 @@ public interface TaskDbSchema {
             int WAVE_ID = 2;
             int USER_ID = 3;
             int NAME = 4;
-            int DESCRIPTION = 5;
-            int LONGITUDE = 6;
-            int LATITUDE = 7;
-            int LANGUAGE = 8;
-            int PRICE = 9;
+            int ICON = 5;
+            int DESCRIPTION = 6;
+            int LONGITUDE = 7;
+            int LATITUDE = 8;
+            int LANGUAGE = 9;
             int ADDRESS = 10;
             int DISTANCE = 11;
-            int REMAKE_TILL = 12;
-            int STARTED = 13;
-            int STATUS_ID = 14;
-            int STATUS = 15;
-            int START_DATE_TIME = 16;
-            int END_DATE_TIME = 17;
-            int IS_MY = 18;
-            int IS_HIDE = 19;
-            int LONG_END_DATE_TIME = 20;
-            int LONG_START_DATE_TIME = 21;
-            int EXPERIENCE_OFFER = 22;
-            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
-            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 24;
-            int CLAIMED = 25;
-            int REDO_DATE = 26;
-            int APPROVED_AT = 27;
-            int REJECTED_AT = 28;
-            int SUBMITTED_AT = 29;
-            int STARTED_STATUS_SENT = 30;
-            int COUNTRY_NAME = 31;
-            int LONG_REDO_DATE_TIME = 32;
-            int LONG_CLAIM_DATE_TIME = 33;
-            int PHOTO_QUESTIONS_COUNT = 34;
-            int NO_PHOTO_QUESTIONS_COUNT = 35;
-            int CURRENCY_SIGN = 36;
-            int LOCATION_NAME = 37;
-            int ICON = 38;
-            int LATITUDE_TO_VALIDATION = 39;
-            int LONGITUDE_TO_VALIDATION = 40;
+            int EXPERIENCE_OFFER = 12;
+            int PHOTO_QUESTIONS_COUNT = 13;
+            int NO_PHOTO_QUESTIONS_COUNT = 14;
+
+            int PRICE = 15;
+            int CURRENCY_SIGN = 16;
+
+            int STATUS_ID = 17;
+            int STATUS = 18;
+
+            int IS_MY = 19;
+            int IS_HIDE = 20;
+            int STARTED_STATUS_SENT = 21;
+
+            int STARTED = 22;
+            int REMAKE_TILL = 23;
+
+            int START_DATE_TIME = 24;
+            int END_DATE_TIME = 25;
+            int EXPIRE_DATE_TIME = 26;
+            int CLAIMED = 27;
+            int REDO_DATE = 28;
+
+            int LONG_START_DATE_TIME = 29;
+            int LONG_END_DATE_TIME = 30;
+            int LONG_EXPIRE_DATE_TIME = 31;
+            int LONG_CLAIM_DATE_TIME = 32;
+            int LONG_REDO_DATE_TIME = 33;
+
+            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 34;
+            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 35;
+
+            int APPROVED_AT = 36;
+            int REJECTED_AT = 37;
+            int SUBMITTED_AT = 38;
+
+            int COUNTRY_NAME = 39;
+            int LOCATION_NAME = 40;
+
+            int LATITUDE_TO_VALIDATION = 41;
+            int LONGITUDE_TO_VALIDATION = 42;
         }
     }
 }

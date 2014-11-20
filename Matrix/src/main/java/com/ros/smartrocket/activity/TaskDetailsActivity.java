@@ -248,26 +248,18 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         }
 
         long startTimeInMillisecond = task.getLongStartDateTime();
-        long endTimeInMillisecond = task.getLongEndDateTime();
-
-        long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-        long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
-        long claimTimeInMillisecond = task.getLongClaimDateTime();
-
-        long missionDueMillisecond;
-        if (TasksBL.isPreClaimTask(task)) {
-            missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
-        } else {
-            missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
-        }
-        long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
-
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
 
         if (task.getIsMy()) {
-            deadlineTimeTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
+            long expireTimeInMillisecond = task.getLongExpireDateTime();
+            long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
+
+            deadlineTimeTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
             expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
         } else {
+            long endTimeInMillisecond = task.getLongEndDateTime();
+            long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+
             deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
             expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         }
@@ -339,10 +331,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case RE_DO_TASK:
-                long missionDueMillisecond = task.getLongRedoDateTime() + task.getLongExpireTimeoutForClaimedTask();
-                long dueInMillisecond = missionDueMillisecond - Calendar.getInstance().getTimeInMillis();
+                long expireTimeInMillisecond = task.getLongExpireDateTime();
+                long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
 
-                deadlineTimeTextView.setText(UIUtils.longToString(missionDueMillisecond, 3));
+                deadlineTimeTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
                 expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
                 break;
             default:
