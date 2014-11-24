@@ -285,6 +285,7 @@ public class MyTaskAdapter extends BaseAdapter {
     }
 
     private void setTimeLeft(TextView timeLeftTextView, String timeLeft) {
+        timeLeftTextView.setVisibility(View.VISIBLE);
         if (UIUtils.isChineLanguage()) {
             timeLeftTextView.setText(activity.getString(R.string.time_left) + " " + timeLeft);
         } else {

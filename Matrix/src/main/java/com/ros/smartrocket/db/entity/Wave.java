@@ -31,24 +31,25 @@ public class Wave extends BaseEntity {
     private String ExternalWaveId;
     private Integer MaximumClaimsPerAgent;
     private String Name;
-    private String StartDateTime;
     private Integer SuspensionTarget;
     private Integer TargetMaximum;
     private Integer TargetMinimum;
     private Boolean ViewableBeforeLive;
     private Double ExperienceOffer;
-    private Integer ExpireTimeoutForClaimedTask;
-    private Integer PreClaimedTaskExpireAfterStart;
-    private Long LongExpireTimeoutForClaimedTask;
     private Integer PhotoQuestionsCount;
     private Integer NoPhotoQuestionsCount;
-
     private String Icon;
 
-    private transient Float Longitude;
-    private transient Float Latitude;
-    private transient Long LongPreClaimedTaskExpireAfterStart;
-    private transient Long LongStartDateTime;
+    private Float Longitude;
+    private Float Latitude;
+
+    private String StartDateTime;
+    private Integer PreClaimedTaskExpireAfterStart;
+    private Integer ExpireTimeoutForClaimedTask;
+
+    private Long LongStartDateTime;
+    private Long LongExpireTimeoutForClaimedTask;
+    private Long LongPreClaimedTaskExpireAfterStart;
 
     @SkipFieldInContentValues
     private Task[] Tasks;
@@ -356,7 +357,7 @@ public class Wave extends BaseEntity {
     }
 
     public Integer getPreClaimedTaskExpireAfterStart() {
-        return PreClaimedTaskExpireAfterStart;
+        return PreClaimedTaskExpireAfterStart == null ? 0 : PreClaimedTaskExpireAfterStart;
     }
 
     public void setPreClaimedTaskExpireAfterStart(Integer preClaimedTaskExpireAfterStart) {
@@ -364,7 +365,7 @@ public class Wave extends BaseEntity {
     }
 
     public Integer getExpireTimeoutForClaimedTask() {
-        return ExpireTimeoutForClaimedTask;
+        return ExpireTimeoutForClaimedTask == null ? 0 : ExpireTimeoutForClaimedTask;
     }
 
     public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {

@@ -419,4 +419,10 @@
         To submit this mission, please connect to a WiFi network or change your settings to allow 3G/4G sending –
         and then open the Mission again and click “Submit Now”.</string>
     <string name="turn_on_wifi_dialog_ok">OK</string>
+    <!-- AGE VERIFICATION DIALOG -->
+    <string name="logout_attention_dialog_title">Attention!</string>
+    <string name="logout_attention_dialog_text">A mission is currently being sent to the server.
+        If you logout now, the transfer will stop and will continue when you next log in</string>
+    <string name="logout_attention_dialog_logout">Log Out</string>
+    <string name="logout_attention_dialog_cancel">Cancel</string>
 </resources>

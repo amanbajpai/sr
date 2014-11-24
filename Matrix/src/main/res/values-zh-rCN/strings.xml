@@ -397,4 +397,9 @@
     <string name="turn_on_wifi_dialog_text1">任务暂时未能提交。请回到有无线上网(Wifi)覆盖的范围，
         或前往设定取消“必须使用无线上网传送数据”，然后前往“我的任务”再次尝试提交这个任务。</string>
     <string name="turn_on_wifi_dialog_ok">继续</string>
+    <!-- AGE VERIFICATION DIALOG -->
+    <string name="logout_attention_dialog_title">注意！</string>
+    <string name="logout_attention_dialog_text">任务正在发送。如果现在离开，发送将暂停，下次登录才继续。</string>
+    <string name="logout_attention_dialog_logout">登出</string>
+    <string name="logout_attention_dialog_cancel">取消</string>
 </resources>

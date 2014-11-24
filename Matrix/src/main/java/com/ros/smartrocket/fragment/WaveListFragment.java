@@ -109,6 +109,8 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         if (preferencesManager.getUseLocationServices()) {
             refreshIconState(true);
 
+            final int radius = TasksMapFragment.taskRadius;
+
             MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
                 @Override
                 public void getLocationStart() {
@@ -122,10 +124,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 @Override
                 public void getLocationSuccess(final Location location) {
                     ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-
-                    final int radius = TasksMapFragment.taskRadius;
-
-                    WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
 
                     if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
                         MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
@@ -143,6 +141,8 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                     }
                 }
             });
+
+            WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
         } else {
             adapter.setData(new ArrayList<Wave>());
         }
@@ -181,7 +181,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Wave wave = adapter.getItem(position);
-        startActivity(IntentUtils.getWaveDetailsIntent(getActivity(), wave));
+        startActivity(IntentUtils.getWaveDetailsIntent(getActivity(), wave.getId()));
     }
 
     @Override

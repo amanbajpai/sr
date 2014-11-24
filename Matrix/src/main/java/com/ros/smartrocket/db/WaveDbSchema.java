@@ -34,9 +34,10 @@ public interface WaveDbSchema {
         EXPECTED_START_DATE_TIME("ExpectedStartDateTime", DBType.TEXT),
         EXPERIENCE_OFFER("ExperienceOffer", DBType.FLOAT),
 
-        LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("LongExpireTimeoutForClaimedTask", DBType.INT),
         EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("ExpireTimeoutForClaimedTask", DBType.INT),
+        LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK("LongExpireTimeoutForClaimedTask", DBType.NUMERIC),
         PRE_CLAIMED_TASK_EXPIRE_AFTER_START("PreClaimedTaskExpireAfterStart", DBType.INT),
+        LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START("LongPreClaimedTaskExpireAfterStart", DBType.NUMERIC),
         CLAIMED("Claimed", DBType.TEXT),
 
         PHOTO_QUESTIONS_COUNT("PhotoQuestionsCount", DBType.INT),
@@ -45,7 +46,6 @@ public interface WaveDbSchema {
         ICON("Icon", DBType.TEXT),
 
         LONG_START_DATE_TIME("LongStartDateTime", DBType.NUMERIC),
-        LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START("LongPreClaimedTaskExpireAfterStart", DBType.NUMERIC),
 
         DELETED("Deleted", DBType.INT);
 

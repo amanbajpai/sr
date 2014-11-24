@@ -11,6 +11,7 @@ import android.text.format.DateUtils;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
+import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Country;
@@ -43,6 +44,15 @@ public class WavesBL {
 
         handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
                 WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, withHiddenTaskWhere, null, null
+        );
+    }
+
+    public static void getWaveWithNearTaskFromDB(AsyncQueryHandler handler, Integer waveId) {
+        String where = " and " + Table.WAVE.getName() + "."
+                + WaveDbSchema.Columns.ID.getName() + "=" + waveId;
+
+        handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
+                WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, where, null, null
         );
     }
 
@@ -140,6 +150,23 @@ public class WavesBL {
             while (cursor.moveToNext()) {
                 Wave wave = Wave.fromCursorByDistance(cursor);
                 result.add(wave);
+            }
+            cursor.close();
+        }
+        return result;
+    }
+
+    /**
+     * Convert cursor to Task list
+     *
+     * @param cursor - all fields cursor
+     * @return Wave
+     */
+    public static Wave convertCursorToWaveWithTask(Cursor cursor) {
+        Wave result = new Wave();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                result = Wave.fromCursorByDistance(cursor);
             }
             cursor.close();
         }

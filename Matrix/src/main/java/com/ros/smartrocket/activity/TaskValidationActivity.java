@@ -119,33 +119,35 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    task = TasksBL.convertCursorToTask(cursor);
+                    if (cursor != null && cursor.getCount() > 0) {
+                        task = TasksBL.convertCursorToTask(cursor);
 
-                    if (actionBarView != null) {
-                        ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
-                    }
+                        if (actionBarView != null) {
+                            ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
+                        }
 
-                    long endDateTime = UIUtils.isoTimeToLong(task.getEndDateTime());
+                        answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
+                        notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), task.getLongEndDateTime());
+                        filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
-                    answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
-                    notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), endDateTime);
-                    filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
+                        if (!isValidationLocationAdded(task)) {
+                            AnswersBL.saveValidationLocation(task, answerListToSend, filesSizeB > 0);
+                        }
 
-                    if (isValidationLocationAdded(task)) {
-                        AnswersBL.saveValidationLocation(task, answerListToSend, filesSizeB > 0);
-                    }
+                        setTaskData(task);
+                        if (firstlySelection) {
+                            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                            QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId());
+                        } else {
+                            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                            sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
+                            sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
 
-                    setTaskData(task);
-                    if (firstlySelection) {
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId());
+                            UIUtils.setActionBarBackground(TaskValidationActivity.this, task);
+                            closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
+                        }
                     } else {
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                        sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
-                        sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
-
-                        UIUtils.setActionBarBackground(TaskValidationActivity.this, task);
-                        closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
+                        TasksBL.getTaskFromDBbyID(handler, taskId);
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:

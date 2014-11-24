@@ -19,6 +19,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.ClaimTaskManager;
@@ -34,9 +35,12 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     private AsyncQueryHandler handler;
     private ClaimTaskManager claimTaskManager;
 
-    private Task nearTask = new Task();
+    private Integer waveId;
     private Wave wave = new Wave();
+    private Task nearTask = new Task();
 
+    private View actionBarView;
+    private TextView titleTextView;
     private TextView projectPrice;
     private TextView projectExp;
     private TextView projectLocations;
@@ -80,7 +84,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
-            wave = (Wave) getIntent().getSerializableExtra(Keys.WAVE);
+            waveId = getIntent().getIntExtra(Keys.WAVE_ID, 0);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -124,9 +128,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        setWaveData(wave);
+        WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
 
-        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -137,6 +140,17 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
+                case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
+                    if (cursor != null && cursor.getCount() > 0) {
+                        wave = WavesBL.convertCursorToWaveWithTask(cursor);
+
+                        setWaveData(wave);
+
+                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
+                    } else {
+                        WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
+                    }
+                    break;
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         nearTask = TasksBL.convertCursorToTask(cursor);
@@ -156,10 +170,13 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setWaveData(Wave wave) {
+        if (titleTextView != null) {
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        }
+
         projectDescription.setText(wave.getDescription());
         descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
 
-        long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
         long timeoutInMillisecond;
 
@@ -169,13 +186,9 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
             timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
         }
 
-        startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
+        startTimeTextView.setText(UIUtils.longToString(wave.getLongStartDateTime(), 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        if (timeoutInMillisecond != 0) {
-            expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
-        } else {
-            expireTextView.setVisibility(View.INVISIBLE);
-        }
+        expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
 
         projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice(), wave.getNearTaskCurrencySign(),
                 null, null));
@@ -185,6 +198,14 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
+
+        int backgroundRes;
+        if (WavesBL.isPreClaimWave(wave)) {
+            backgroundRes = R.drawable.action_bar_violet;
+        } else {
+            backgroundRes = R.drawable.action_bar_green;
+        }
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(backgroundRes));
 
         setColorTheme(wave);
     }
@@ -326,8 +347,12 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(wave.getName());
+        actionBarView = actionBar.getCustomView();
+
+        if (wave != null) {
+            titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        }
 
         return true;
     }

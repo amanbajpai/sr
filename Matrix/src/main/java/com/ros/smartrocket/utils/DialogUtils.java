@@ -476,4 +476,36 @@ public class DialogUtils {
 
         return dialog;
     }
+
+    /**
+     * Age verification Dialog message
+     *
+     * @param activity - current activity
+     */
+    public static Dialog showLogOutAttantionDialog(final Activity activity) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
+                activity.getText(R.string.logout_attention_dialog_title),
+                activity.getText(R.string.logout_attention_dialog_text),
+                R.string.logout_attention_dialog_cancel, R.string.logout_attention_dialog_logout);
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+
+                WriteDataHelper.prepareLogout(activity);
+
+                activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
+                activity.finish();
+                activity.sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
+            }
+        });
+
+        return dialog;
+    }
 }

@@ -77,8 +77,11 @@ public final class CommonUtilities {
             protected String doInBackground(Void... params) {
                 try {
                     GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(App.getInstance());
-                    String regId = gcm.register(Config.GCM_SENDER_ID);
-                    L.i(TAG, "Device registered, registration ID=" + regId);
+                    String registrationId = gcm.register(Config.GCM_SENDER_ID);
+                    L.i(TAG, "Device registered, registration ID=" + registrationId);
+
+                    APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId);
+                    PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
 
                     // You should send the registration ID to your server over HTTP,
                     // so it can use GCM/HTTP or CCS to send messages to your app.
@@ -89,7 +92,7 @@ public final class CommonUtilities {
                     // Persist the regID - no need to register again.
                     //PreferencesManager.getInstance().setGCMRegistrationId(regId);
 
-                    return regId;
+                    return registrationId;
                 } catch (IOException e) {
                     L.e(TAG, "registerGCMInBackground() [Error :" + e.getMessage() + "]", e);
                     // If there is an error, don't just keep trying to register.

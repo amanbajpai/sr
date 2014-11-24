@@ -387,9 +387,9 @@ public class IntentUtils {
      * @return Intent
      */
 
-    public static Intent getWaveDetailsIntent(Context context, Wave wave) {
+    public static Intent getWaveDetailsIntent(Context context, Integer waveId) {
         Intent intent = new Intent(context, WaveDetailsActivity.class);
-        intent.putExtra(Keys.WAVE, wave);
+        intent.putExtra(Keys.WAVE_ID, waveId);
         return intent;
     }
 

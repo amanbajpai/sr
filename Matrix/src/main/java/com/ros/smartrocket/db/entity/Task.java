@@ -469,7 +469,7 @@ public class Task extends BaseEntity {
     }
 
     public Long getLongExpireDateTime() {
-        return LongExpireDateTime;
+        return LongExpireDateTime == null ? 0 : LongExpireDateTime;
     }
 
     public void setLongExpireDateTime(Long longExpireDateTime) {
