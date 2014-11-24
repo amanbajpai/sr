@@ -121,9 +121,13 @@ public class MyTaskAdapter extends BaseAdapter {
         long startTimeInMillisecond = task.getLongStartDateTime();
 
         long expireTimeInMillisecond = task.getLongExpireDateTime();
-        long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
+        if (expireTimeInMillisecond != 0) {
+            long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
+            setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
+        } else {
+            holder.timeLeft.setVisibility(View.INVISIBLE);
+        }
 
-        setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
         holder.distance.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.m_to_km_with_text_mask, true));
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
@@ -223,8 +227,6 @@ public class MyTaskAdapter extends BaseAdapter {
             case RE_DO_TASK:
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
-
-                setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));

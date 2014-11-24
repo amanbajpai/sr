@@ -161,11 +161,21 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         long startTimeInMillisecond = UIUtils.isoTimeToLong(wave.getStartDateTime());
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
-        long timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
+        long timeoutInMillisecond;
+
+        if (WavesBL.isPreClaimWave(wave)) {
+            timeoutInMillisecond = wave.getLongPreClaimedTaskExpireAfterStart();
+        } else {
+            timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
+        }
 
         startTimeTextView.setText(UIUtils.longToString(startTimeInMillisecond, 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
+        if (timeoutInMillisecond != 0) {
+            expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
+        } else {
+            expireTextView.setVisibility(View.INVISIBLE);
+        }
 
         projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice(), wave.getNearTaskCurrencySign(),
                 null, null));
@@ -296,7 +306,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
                     setButtonsSettings(nearTask);
                 }
-                
+
                 startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
                 break;
             case R.id.mapImageView:

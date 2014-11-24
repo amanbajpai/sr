@@ -70,8 +70,11 @@ public class WavesBL {
             }
 
             long longPreClaimedTaskExpireAfterStart = wave.getPreClaimedTaskExpireAfterStart() * DateUtils.HOUR_IN_MILLIS;
+            long longExpireTimeoutForClaimedTask = wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS;
 
             wave.setLongPreClaimedTaskExpireAfterStart(longPreClaimedTaskExpireAfterStart);
+            wave.setLongExpireTimeoutForClaimedTask(longExpireTimeoutForClaimedTask);
+
             wave.setLongStartDateTime(UIUtils.isoTimeToLong(wave.getStartDateTime()));
             contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
@@ -92,7 +95,7 @@ public class WavesBL {
                 task.setLongClaimDateTime(UIUtils.isoTimeToLong(task.getClaimed()));
                 task.setLongRedoDateTime(UIUtils.isoTimeToLong(task.getRedoDate()));
 
-                task.setLongExpireTimeoutForClaimedTask(wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS);
+                task.setLongExpireTimeoutForClaimedTask(longExpireTimeoutForClaimedTask);
                 task.setLongPreClaimedTaskExpireAfterStart(longPreClaimedTaskExpireAfterStart);
 
                 task.setPhotoQuestionsCount(wave.getPhotoQuestionsCount());

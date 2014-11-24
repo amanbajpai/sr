@@ -397,7 +397,7 @@ public class Wave extends BaseEntity {
     }
 
     public Long getLongExpireTimeoutForClaimedTask() {
-        return LongExpireTimeoutForClaimedTask;
+        return LongExpireTimeoutForClaimedTask == null ? 0 : LongExpireTimeoutForClaimedTask;
     }
 
     public void setLongExpireTimeoutForClaimedTask(Long longExpireTimeoutForClaimedTask) {
@@ -447,7 +447,7 @@ public class Wave extends BaseEntity {
     }
 
     public Long getLongPreClaimedTaskExpireAfterStart() {
-        return LongPreClaimedTaskExpireAfterStart;
+        return LongPreClaimedTaskExpireAfterStart == null ? 0 : LongPreClaimedTaskExpireAfterStart;
     }
 
     public void setLongPreClaimedTaskExpireAfterStart(Long longPreClaimedTaskExpireAfterStart) {

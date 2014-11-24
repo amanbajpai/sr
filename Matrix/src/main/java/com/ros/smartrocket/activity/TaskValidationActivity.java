@@ -198,10 +198,15 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 .task_data_size_mb));
 
         long expireTimeInMillisecond = task.getLongExpireDateTime();
-        long dueInMillisecond = expireTimeInMillisecond - calendar.getTimeInMillis();
+        if (expireTimeInMillisecond != 0) {
+            long dueInMillisecond = expireTimeInMillisecond - calendar.getTimeInMillis();
 
-        dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
-        missionDueTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
+            dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+            missionDueTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
+        } else {
+            dueInTextView.setVisibility(View.INVISIBLE);
+            missionDueTextView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {

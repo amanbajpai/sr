@@ -252,13 +252,24 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (task.getIsMy()) {
             long expireTimeInMillisecond = task.getLongExpireDateTime();
-            long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
+            if (expireTimeInMillisecond != 0) {
+                long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
 
-            deadlineTimeTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
-            expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+                deadlineTimeTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
+                expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+            } else {
+                deadlineTimeTextView.setVisibility(View.INVISIBLE);
+                expireTextView.setVisibility(View.INVISIBLE);
+            }
         } else {
             long endTimeInMillisecond = task.getLongEndDateTime();
-            long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+            long timeoutInMillisecond;
+
+            if (TasksBL.isPreClaimTask(task)) {
+                timeoutInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
+            } else {
+                timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+            }
 
             deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
             expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
@@ -332,10 +343,15 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case RE_DO_TASK:
                 long expireTimeInMillisecond = task.getLongExpireDateTime();
-                long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
+                if (expireTimeInMillisecond != 0) {
+                    long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
 
-                deadlineTimeTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
-                expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+                    deadlineTimeTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
+                    expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
+                } else {
+                    deadlineTimeTextView.setVisibility(View.INVISIBLE);
+                    expireTextView.setVisibility(View.INVISIBLE);
+                }
                 break;
             default:
                 break;

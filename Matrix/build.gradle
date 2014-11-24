@@ -45,12 +45,12 @@ android {
     ext.env = System.getenv()
     ext.buildNumber = env.BUILD_NUMBER ?: '9999'
     ext.buildNumber = buildNumber.toInteger()
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 19
+        minSdkVersion 14
+        targetSdkVersion 21
         versionCode buildNumber
         versionName '1.2'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
@@ -103,7 +103,7 @@ android {
         Dev {
             applicationId 'com.ros.smartrocket.dev'
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage\""
@@ -112,7 +112,7 @@ android {
         Staging {
             applicationId 'com.ros.smartrocket.staging'
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://web.staging.redoceansolutions.com/Account/Manage\""
@@ -121,7 +121,7 @@ android {
         Production {
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://matrix.red-ocean.net/Account/Manage\""
@@ -131,7 +131,7 @@ android {
         ChinaDev {
             applicationId 'com.ros.smartrocket.dev'
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage\""
@@ -140,7 +140,7 @@ android {
         ChinaStaging {
             applicationId 'com.ros.smartrocket.staging'
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://web.staging.redoceansolutions.com/Account/Manage\""
@@ -149,7 +149,7 @@ android {
         ChinaProduction {
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://matrix.red-ocean.net/Account/Manage\""

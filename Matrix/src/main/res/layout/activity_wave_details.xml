@@ -95,7 +95,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="75dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
@@ -108,11 +108,7 @@
                         android:contentDescription="@string/app_name"
                         android:scaleType="centerCrop"
                         android:src="@drawable/map_piece_green" />
-                    <!--<fragment
-                        android:id="@+id/mapImageView"
-                        android:layout_width="68dp"
-                        android:layout_height="68dp"
-                        android:name="com.ros.smartrocket.fragment.TransparentSupportMapFragment" />-->
+
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/showMissionMapText"
                         android:layout_width="wrap_content"
