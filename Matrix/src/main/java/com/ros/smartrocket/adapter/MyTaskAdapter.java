@@ -121,12 +121,8 @@ public class MyTaskAdapter extends BaseAdapter {
         long startTimeInMillisecond = task.getLongStartDateTime();
 
         long expireTimeInMillisecond = task.getLongExpireDateTime();
-        if (expireTimeInMillisecond != 0) {
-            long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
-            setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
-        } else {
-            holder.timeLeft.setVisibility(View.INVISIBLE);
-        }
+        long dueInMillisecond = expireTimeInMillisecond - Calendar.getInstance().getTimeInMillis();
+        setTimeLeft(holder.timeLeft, UIUtils.getTimeInDayHoursMinutes(activity, dueInMillisecond));
 
         holder.distance.setText(UIUtils.convertMToKm(activity, task.getDistance(), R.string.m_to_km_with_text_mask, true));
 
@@ -225,13 +221,21 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_lightgrey, 0, 0, 0);
                 break;
             case RE_DO_TASK:
+                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
+                holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
+
+                if (expireTimeInMillisecond != 0) {
+                    holder.timeLeft.setVisibility(View.VISIBLE);
+                    holder.statusText.setText(activity.getString(R.string.redo_mission,
+                            UIUtils.longToString(expireTimeInMillisecond, 3)));
+                } else {
+                    holder.timeLeft.setVisibility(View.INVISIBLE);
+                    holder.statusText.setText(activity.getString(R.string.redo_mission, ""));
+                }
+
                 holder.listItem.setBackgroundResource(R.drawable.mission_red_bg);
                 holder.timeAndDistanceLayout.setVisibility(View.VISIBLE);
 
-                holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.red));
-                holder.statusText.setTextColor(activity.getResources().getColor(R.color.white));
-                holder.statusText.setText(activity.getString(R.string.redo_mission,
-                        UIUtils.longToString(expireTimeInMillisecond, 3)));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.red_dark));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.red));

@@ -765,9 +765,12 @@ public class UIUtils {
             case RE_DO_TASK:
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
                 break;
+            case VALIDATED:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_yellow);
+                break;
 
             default:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin);
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
                 break;
         }
 
@@ -805,9 +808,12 @@ public class UIUtils {
             case RE_DO_TASK:
                 iconResId = R.drawable.pin_red;
                 break;
+            case VALIDATED:
+                iconResId = R.drawable.pin_yellow;
+                break;
 
             default:
-                iconResId = R.drawable.ic_map_pin;
+                iconResId = R.drawable.pin_green;
                 break;
         }
 

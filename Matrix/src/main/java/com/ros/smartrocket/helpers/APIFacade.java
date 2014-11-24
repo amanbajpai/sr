@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -60,7 +58,7 @@ public class APIFacade {
      * @param password - current password
      */
     public void login(Activity activity, String email, String password, String deviceName,
-                      String deviceModel,String deviceManufacturer, String appVersion,
+                      String deviceModel, String deviceManufacturer, String appVersion,
                       String androidVersion) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
@@ -442,7 +440,7 @@ public class APIFacade {
         if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
             RegisterDevice registerDeviceEntity = new RegisterDevice();
-            registerDeviceEntity.setDeviceId(App.getInstance().getDeviceId());
+            registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID(context));
             registerDeviceEntity.setRegistrationId(regId);
 
             BaseOperation operation = new BaseOperation();

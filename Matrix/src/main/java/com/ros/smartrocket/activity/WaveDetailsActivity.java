@@ -313,7 +313,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                 claimTaskManager.claimTask();
                 break;
             case R.id.hideAllTasksButton:
-                if (nearTask != null) {
+                if (wave != null && nearTask != null) {
                     nearTask.setIsHide(true);
                     TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), true);
                     startActivity(IntentUtils.getMainActivityIntent(this));
@@ -321,17 +321,21 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.showAllTasksButton:
-                if (nearTask != null) {
-                    TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);
-                    nearTask.setIsHide(false);
+                if (wave != null) {
+                    if (nearTask != null) {
+                        TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);
+                        nearTask.setIsHide(false);
 
-                    setButtonsSettings(nearTask);
+                        setButtonsSettings(nearTask);
+                    }
+
+                    startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
                 }
-
-                startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
                 break;
             case R.id.mapImageView:
-                startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
+                if (wave != null) {
+                    startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
+                }
                 break;
             default:
                 break;
