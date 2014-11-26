@@ -211,8 +211,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setNearTaskData(Task task) {
-        UIUtils.setActionBarBackground(this, task);
-
         if (!TextUtils.isEmpty(task.getAddress())) {
             noTaskAddressText.setVisibility(View.GONE);
         } else {
