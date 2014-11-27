@@ -2,6 +2,7 @@ package com.ros.smartrocket.net;
 
 import android.content.Intent;
 import android.net.Uri;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -15,6 +16,7 @@ import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectImageManager;
+
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
@@ -122,6 +124,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
             if (notUploadedFile.getPortion() == portainCount) {
                 notUploadedFile.setPortion(0);
+                notUploadedFile.setFileCode(null);
             }
 
             File[] files = new File[portainCount - notUploadedFile.getPortion()];

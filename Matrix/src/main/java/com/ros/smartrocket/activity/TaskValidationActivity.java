@@ -107,6 +107,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         sendLaterButton = (Button) findViewById(R.id.sendLaterButton);
         sendLaterButton.setOnClickListener(this);
 
+        setSupportProgressBarIndeterminateVisibility(false);
+
         TasksBL.getTaskFromDBbyID(handler, taskId);
     }
 
