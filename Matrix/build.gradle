@@ -111,7 +111,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://maps.googleapis.com\""
         }
         Staging {
-            applicationId 'com.ros.smartrocket.staging'
+            applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
