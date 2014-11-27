@@ -104,10 +104,10 @@ public abstract class BaseEntity implements Serializable {
                     }
                 } else if (key != null) {
                     contentValues.putNull(fieldName);
-                } else {
+                }/* else {
                     L.d("BaseEntity.toContentValues", "Field: \"" + fieldName + "\" from entity: \""
                             + this.getClass().getSimpleName() + "\" not added to ContentValues");
-                }
+                }*/
             } catch (ClassNotFoundException e) {
             } catch (IllegalArgumentException e) {
             } catch (IllegalAccessException e) {

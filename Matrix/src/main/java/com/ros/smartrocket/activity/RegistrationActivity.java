@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -186,6 +187,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             case R.id.profilePhotoImageView:
                 selectImageManager.showSelectImageDialog(this, true);
                 selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
+                    @Override
+                    public void onStartLoading() {
+                        setSupportProgressBarIndeterminateVisibility(true);
+                    }
+
                     @Override
                     public void onImageComplete(Bitmap bitmap) {
                         RegistrationActivity.this.photoBitmap = bitmap;

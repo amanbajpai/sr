@@ -230,6 +230,12 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
     }
 
     SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener() {
+
+        @Override
+        public void onStartLoading() {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        }
+
         @Override
         public void onImageComplete(Bitmap bitmap) {
             isBitmapAdded = bitmap != null;
@@ -244,10 +250,13 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
             refreshRePhotoButton();
             refreshConfirmButton();
             refreshNextButton();
+
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
         }
 
         @Override
         public void onSelectImageError(int imageFrom) {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
             DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
         }
     };

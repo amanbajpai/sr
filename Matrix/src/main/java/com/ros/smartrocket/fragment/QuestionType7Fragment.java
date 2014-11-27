@@ -362,6 +362,11 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener() {
         @Override
+        public void onStartLoading() {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
         public void onImageComplete(Bitmap bitmap) {
             isBitmapAdded = bitmap != null;
             isBitmapConfirmed = false;
@@ -376,10 +381,13 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             refreshDeletePhotoButton();
             refreshConfirmButton();
             refreshNextButton();
+
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
         }
 
         @Override
         public void onSelectImageError(int imageFrom) {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
             DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
         }
     };

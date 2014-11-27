@@ -113,6 +113,7 @@
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="annotations-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="baidumapapi_v3_1_0" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="gcm" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />

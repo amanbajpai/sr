@@ -131,8 +131,8 @@ public class MatrixLocationManager implements LocationListener,
         if (location != null) {
             L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
                     + "Provider: " + location.getProvider() + "]");
-            new TasksBL().recalculateTasksDistance(location);
-            notifyAllRequestedLocation();
+
+            new RecalculateDistanceAsyncTask().execute(location);
         }
     }
 
@@ -169,6 +169,21 @@ public class MatrixLocationManager implements LocationListener,
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    public class RecalculateDistanceAsyncTask extends AsyncTask<Location, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Location... params) {
+            Location location = params[0];
+            TasksBL.recalculateTasksDistance(location);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void noResult) {
+            notifyAllRequestedLocation();
+        }
     }
 
     /**

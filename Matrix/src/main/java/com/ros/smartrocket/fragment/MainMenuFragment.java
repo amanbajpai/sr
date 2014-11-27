@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -250,6 +251,13 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 selectImageManager.showSelectImageDialog(getActivity(), false);
                 selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
                     @Override
+                    public void onStartLoading() {
+                        uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                                R.anim.rotate));
+                        uploadPhotoProgressImage.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
                     public void onImageComplete(Bitmap bitmap) {
 
                         if (bitmap != null) {
@@ -271,6 +279,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
                     @Override
                     public void onSelectImageError(int imageFrom) {
+                        uploadPhotoProgressImage.clearAnimation();
+                        uploadPhotoProgressImage.setVisibility(View.GONE);
+
                         DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
                     }
                 });

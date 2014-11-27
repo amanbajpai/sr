@@ -10,7 +10,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.util.Base64;
@@ -21,6 +24,7 @@ import android.view.Window;
 
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.io.FileUtils;
 
@@ -152,7 +156,9 @@ public class SelectImageManager {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode == Activity.RESULT_OK) {
-            Bitmap bitmap = null;
+            new GetBitmapAsyncTask(requestCode, intent).execute();
+
+            /*Bitmap bitmap = null;
             if (requestCode == SelectImageManager.GALLERY) {
                 bitmap = getBitmapFromGallery(intent);
 
@@ -170,7 +176,7 @@ public class SelectImageManager {
                 } else {
                     imageCompleteListener.onSelectImageError(requestCode);
                 }
-            }
+            }*/
         }
     }
 
@@ -180,15 +186,40 @@ public class SelectImageManager {
             if (intent != null && intent.getData() != null) {
                 Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
 
-                if (cursor != null && cursor.moveToFirst()) {
+                if ((cursor != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) || cursor != null) {
+                    cursor.moveToFirst();
                     int idx = cursor.getColumnIndex(ImageColumns.DATA);
+                    String imagePath;
+
                     if (idx != -1) {
-                        String fileUri = cursor.getString(idx);
-                        lastFile = copyFileToTempFolder(activity, new File(fileUri));
+                        imagePath = cursor.getString(idx);
+                        cursor.close();
+                    } else {
+                        imagePath = intent.getData().getLastPathSegment();
+                    }
+
+                    if (imagePath.startsWith("http")) {
+                        Bitmap image = Picasso.with(activity).load(imagePath).get();
+
+                        lastFile = saveBitmapToFile(activity, image);
+                        lastFileFromGallery = true;
+                        resultBitmap = getScaledBitmapByByteSize(image, MAX_SIZE_IN_BYTE);
+                    } else {
+                        lastFile = copyFileToTempFolder(activity, new File(imagePath));
                         lastFileFromGallery = true;
 
                         resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
                     }
+
+                } else {
+                    ParcelFileDescriptor parcelFileDescriptor
+                            = activity.getContentResolver().openFileDescriptor(intent.getData(), "r");
+                    Bitmap image = BitmapFactory.decodeFileDescriptor(parcelFileDescriptor.getFileDescriptor());
+                    parcelFileDescriptor.close();
+
+                    lastFile = saveBitmapToFile(activity, image);
+                    lastFileFromGallery = true;
+                    resultBitmap = getScaledBitmapByByteSize(image, MAX_SIZE_IN_BYTE);
                 }
             }
         } catch (Exception e) {
@@ -234,6 +265,51 @@ public class SelectImageManager {
         }
 
         return prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
+    }
+
+    public class GetBitmapAsyncTask extends AsyncTask<Void, Void, Bitmap> {
+        private Intent intent;
+        private int requestCode;
+
+        public GetBitmapAsyncTask(int requestCode, Intent intent) {
+            this.intent = intent;
+            this.requestCode = requestCode;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (imageCompleteListener != null) {
+                imageCompleteListener.onStartLoading();
+            }
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            Bitmap bitmap = null;
+            if (requestCode == SelectImageManager.GALLERY) {
+                bitmap = getBitmapFromGallery(intent);
+
+            } else if (requestCode == SelectImageManager.CAMERA || requestCode == SelectImageManager.CUSTOM_CAMERA) {
+                bitmap = getBitmapFromCamera(intent);
+
+                if (preferencesManager.getUseSaveImageToCameraRoll()) {
+                    MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "", "");
+                }
+            }
+
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (imageCompleteListener != null) {
+                if (bitmap != null) {
+                    imageCompleteListener.onImageComplete(bitmap);
+                } else {
+                    imageCompleteListener.onSelectImageError(requestCode);
+                }
+            }
+        }
     }
 
     /*public static File getPhotoFileFromContentURI(Context context, Uri contentUri) {
@@ -464,6 +540,23 @@ public class SelectImageManager {
         return ret;
     }
 
+    public File saveBitmapToFile(Context context, Bitmap bitmap) {
+        File resultFile = getTempFile(context);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(resultFile, false);
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+            fos.flush();
+            fos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return resultFile;
+    }
+
     /*private void deleteTempFile() {
         try {
             File file = getTempFile(activity);
@@ -484,6 +577,8 @@ public class SelectImageManager {
     }
 
     public interface OnImageCompleteListener {
+        void onStartLoading();
+
         void onImageComplete(Bitmap bitmap);
 
         void onSelectImageError(int imageFrom);
