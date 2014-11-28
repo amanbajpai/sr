@@ -149,6 +149,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://ditu.google.cn\""
         }
         ChinaProduction {
+            versionCode 10000 + buildNumber
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
