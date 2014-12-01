@@ -2,15 +2,14 @@ package com.ros.smartrocket;
 
 import com.ros.smartrocket.utils.UIUtils;
 import junit.framework.Assert;
-import org.junit.*;
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
-public class IsoTimeToLongTest {
+@org.robolectric.annotation.Config( emulateSdk = 18, reportSdk = 18)
+public class IsoTimeToLongTest extends TestCase {
 
     @Test
     public void testIsoTimeToLong() {
