@@ -1,12 +1,9 @@
 package com.ros.smartrocket;
 
-import android.content.Context;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -22,7 +19,6 @@ public class BaseTest {
     @Test(expected = NullPointerException.class)
     public void shouldThrowException() {
         Object o = null;
-        Context context = Robolectric.application;
         o.toString();
     }
 }

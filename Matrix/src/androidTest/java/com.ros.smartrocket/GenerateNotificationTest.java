@@ -3,11 +3,13 @@ package com.ros.smartrocket;
 import android.content.Context;
 import android.content.Intent;
 
+import com.ros.smartrocket.activity.LaunchActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.utils.NotificationUtils;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -17,13 +19,18 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
 public class GenerateNotificationTest {
+    private LaunchActivity activity;
+
+    @Before
+    public void setup() {
+        activity = Robolectric.buildActivity(LaunchActivity.class).get();
+    }
 
     @Test
     public void testGeneratePushNotification() {
-        Context context = Robolectric.application;
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(activity, MainActivity.class);
 
-        Boolean result = NotificationUtils.generateNotification(context, "title", "message", intent);
+        Boolean result = NotificationUtils.generateNotification(activity, "title", "message", intent);
         Assert.assertTrue(result);
     }
 }

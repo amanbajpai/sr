@@ -15,7 +15,7 @@ public class IsoTimeToLongTest extends TestCase {
 
     @Test
     public void testIsoTimeToLong() {
-        String isoTime = "2014-03-03T09:48:51.7158+02:00";
+        String isoTime = "2014-03-03T09:48:51.7158000+02:00";
         Assert.assertTrue(UIUtils.isoTimeToLong(isoTime) != 0);
     }
 }

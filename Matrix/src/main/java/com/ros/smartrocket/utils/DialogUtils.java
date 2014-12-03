@@ -318,36 +318,6 @@ public class DialogUtils {
     }
 
     /**
-     * Show quite task Dialog message
-     *
-     * @param activity - current activity
-     */
-    public static Dialog showReCheckAnswerTaskDialog(final Activity activity, final int waveId, final int taskId) {
-        QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
-        dialog.setOnDialogButtonClickListener(new QuiteTaskDialog.DialogButtonClickListener() {
-            @Override
-            public void onCancelButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onQuiteTaskButtonPressed(Dialog dialog) {
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.STARTED.getStatusId());
-
-                PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);
-
-                AnswersBL.clearTaskUserAnswers(activity, taskId);
-                dialog.dismiss();
-
-                activity.startActivity(IntentUtils.getQuestionsIntent(activity, taskId));
-                activity.finish();
-            }
-        });
-        return dialog;
-    }
-
-    /**
      * Show account not activated Dialog message
      *
      * @param activity - current activity

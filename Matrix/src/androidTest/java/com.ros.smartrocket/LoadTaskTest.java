@@ -12,7 +12,7 @@ import org.robolectric.annotation.Config;
 public class LoadTaskTest {
 
     @Test
-    public void testLoadTasksWithZeroDistane() {
+    public void testLoadTasksWithZeroDistance() {
         Assert.assertTrue(1 == 1);
     }
 }
