@@ -52,6 +52,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                             new CheckLocationDialog.CheckLocationListener() {
                                 @Override
                                 public void onLocationChecked(Dialog dialog, String countryName, String cityName,
+                                                              double latitude, double longitude,
                                                               CheckLocationResponse serverResponse) {
                                     Intent intent = new Intent(CheckLocationActivity.this, RegistrationActivity.class);
                                     if (getIntent().getExtras() != null) {
@@ -63,6 +64,8 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                                     intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
                                     intent.putExtra(Keys.COUNTRY_NAME, countryName);
                                     intent.putExtra(Keys.CITY_NAME, cityName);
+                                    intent.putExtra(Keys.LATITUDE, latitude);
+                                    intent.putExtra(Keys.LONGITUDE, longitude);
                                     startActivity(intent);
                                 }
 

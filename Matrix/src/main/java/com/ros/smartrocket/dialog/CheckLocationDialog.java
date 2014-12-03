@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.CheckLocation;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -31,6 +32,7 @@ public class CheckLocationDialog extends Dialog {
     private ImageView statusImage;
     private TextView statusText;
     private boolean locationChecked = false;
+    private CheckLocation checkLocationEntity;
     private CheckLocationResponse checkLocationResponse;
     private CheckLocationListener checkLocationListener;
     private String countryName = "";
@@ -84,6 +86,7 @@ public class CheckLocationDialog extends Dialog {
 
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
+                checkLocationEntity = (CheckLocation) operation.getEntities().get(0);
 
                 if (checkLocationResponse.getStatus()) {
                     statusImage.setImageResource(R.drawable.ok_progress);
@@ -111,7 +114,8 @@ public class CheckLocationDialog extends Dialog {
                         public void run() {
                             if (locationChecked) {
                                 checkLocationListener.onLocationChecked(CheckLocationDialog.this,
-                                        countryName, cityName, checkLocationResponse);
+                                        countryName, cityName, checkLocationEntity.getLatitude(),
+                                        checkLocationEntity.getLongitude(), checkLocationResponse);
                             } else {
                                 checkLocationListener.onCheckLocationFailed(CheckLocationDialog.this);
                             }
@@ -125,8 +129,8 @@ public class CheckLocationDialog extends Dialog {
     }
 
     public interface CheckLocationListener {
-        void onLocationChecked(Dialog dialog, String countryName, String cityName,
-                               CheckLocationResponse serverResponse);
+        void onLocationChecked(Dialog dialog, String countryName, String cityName, double latitude,
+                               double longitude, CheckLocationResponse serverResponse);
 
         void onCheckLocationFailed(Dialog dialog);
     }

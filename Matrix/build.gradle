@@ -160,7 +160,7 @@ android {
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false
-            testCoverageEnabled true
+            testCoverageEnabled false
             proguardFiles 'configs/proguard-android.txt', 'configs/proguard-rules.pro',
                     'configs/proguard-optimization-only-rules.pro'
         }
