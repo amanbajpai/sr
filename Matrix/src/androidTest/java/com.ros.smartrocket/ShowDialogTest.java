@@ -2,23 +2,20 @@ package com.ros.smartrocket;
 
 import android.app.Dialog;
 import android.content.Context;
+
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.utils.DialogUtils;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.junit.*;
-
-import com.ros.smartrocket.bl.LoginBL;
-
-import java.lang.NullPointerException;
-import java.lang.System;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class ShowDialogTest {
 
     @Test
