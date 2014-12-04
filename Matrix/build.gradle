@@ -12,7 +12,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 apply plugin: 'crashlytics'
 apply plugin: 'android-cq'
 
@@ -108,7 +108,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode "(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))" ? 10001 : buildNumber
+        versionCode "(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))" ? 10002 : buildNumber
         versionName '1.4'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
