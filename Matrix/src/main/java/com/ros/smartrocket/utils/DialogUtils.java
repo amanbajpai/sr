@@ -273,6 +273,30 @@ public class DialogUtils {
     }
 
     /**
+     * Show dialog. Photo is very big to upload.
+     *
+     * @param context - current context
+     */
+    public static Dialog showBigFileToUploadDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context,
+                context.getText(R.string.big_file_error_title),
+                context.getText(R.string.big_file_error_text),
+                0, android.R.string.ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
+
+    /**
      * Show 3G limit reached Dialog message
      *
      * @param activity - current activity

@@ -894,6 +894,22 @@ public class UIUtils {
             L.e("AssetsPropertyReader", e.toString());
         }
         return properties;
+    }
 
+    public static long getMemorySize(int type) {
+        try {
+            Runtime info = Runtime.getRuntime();
+            switch (type) {
+                case 1:
+                    return info.freeMemory();
+                case 2:
+                    return info.totalMemory() - info.freeMemory();
+                case 3:
+                    return info.totalMemory();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

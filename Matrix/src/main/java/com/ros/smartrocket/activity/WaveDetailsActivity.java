@@ -129,7 +129,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
         WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
-
     }
 
     class DbHandler extends AsyncQueryHandler {

@@ -33,7 +33,9 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectVideoManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
 
@@ -42,6 +44,7 @@ import java.io.File;
  */
 public class QuestionType5Fragment extends BaseQuestionFragment implements View.OnClickListener,
         MediaPlayer.OnCompletionListener {
+    private static final String TAG = QuestionType5Fragment.class.getSimpleName();
     private SelectVideoManager selectVideoManager = SelectVideoManager.getInstance();
     private ImageButton rePhotoButton;
     private ImageButton confirmButton;
@@ -256,6 +259,8 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     break;
                 }
             case R.id.rePhotoButton:
+                System.gc();
+
                 if (question.getVideoSource() == 0) {
                     selectVideoManager.startCamera(getActivity());
                 } else if (question.getVideoSource() == 1) {
@@ -267,20 +272,29 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                 selectVideoManager.setVideoCompleteListener(new SelectVideoManager.OnVideoCompleteListener() {
                     @Override
                     public void onVideoComplete(String videoFilePath) {
-                        videoPath = videoFilePath;
+                        File sourceImageFile = new File(videoFilePath);
 
-                        isVideoAdded = !TextUtils.isEmpty(videoPath);
-                        isVideoConfirmed = false;
-                        answerSelectedListener.onAnswerSelected(false);
+                        L.e(TAG, "Free Memory size: " + UIUtils.getMemorySize(1) / 1000 + " and File size " + sourceImageFile.length() / 1000);
 
-                        if (!TextUtils.isEmpty(videoPath)) {
-                            playPauseVideo(videoPath);
+                        if (sourceImageFile.length() > getActivity().getResources().getInteger(R.integer.max_video_file_size_byte)) {
+                            DialogUtils.showBigFileToUploadDialog(getActivity());
                         } else {
-                            videoView.setBackgroundResource(R.drawable.camera_video_icon);
-                        }
+                            videoPath = videoFilePath;
 
-                        refreshRePhotoButton();
-                        refreshConfirmButton();
+                            isVideoAdded = !TextUtils.isEmpty(videoPath);
+                            isVideoConfirmed = false;
+                            answerSelectedListener.onAnswerSelected(false);
+
+                            if (!TextUtils.isEmpty(videoPath)) {
+                                playPauseVideo(videoPath);
+                            } else {
+                                videoView.setBackgroundResource(R.drawable.camera_video_icon);
+                            }
+                            //TODO
+
+                            refreshRePhotoButton();
+                            refreshConfirmButton();
+                        }
                     }
 
                     @Override

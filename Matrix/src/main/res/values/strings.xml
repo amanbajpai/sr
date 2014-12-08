@@ -297,6 +297,9 @@
     <string name="add_photo_error_title">Add photo error.</string>
     <string name="add_photo_error_text">Photo can not be added from this source.</string>
     <string name="toast_application_not_found">Application not found.</string>
+    <!-- File very big to upload -->
+    <string name="big_file_error_title">Error</string>
+    <string name="big_file_error_text">"File is too large for uploading from your device</string>
     <!-- Date picker dialog -->
     <string name="date_picker_dialog_title_birthday">Birthday</string>
     <string name="date_picker_dialog_ok">OK</string>
