@@ -43,7 +43,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -235,6 +234,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (!MapHelper.isMapNotNull(googleMap, baiduMap)) {
             if (Config.USE_BAIDU) {
                 baiduMap = MapHelper.getBaiduMap(getActivity(), zoomLevel);
+
+                setBaiduChangeMapStatusListener();
             } else {
                 googleMap = MapHelper.getGoogleMap(getActivity(), new GoogleMap.OnCameraChangeListener() {
                     @Override
@@ -453,6 +454,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 @Override
                 public void useBaiduMap(final BaiduMap baiduMap) {
+
+
                     for (InputPoint point : inputPoints) {
                         Task task = (Task) point.getTag();
                         com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
@@ -472,23 +475,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                         baiduMap.addOverlay(ooA);
                     }
-
-                    baiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
-                        @Override
-                        public void onMapStatusChangeStart(MapStatus mapStatus) {
-                            //mapStatus.zoom
-                        }
-
-                        @Override
-                        public void onMapStatusChange(MapStatus mapStatus) {
-
-                        }
-
-                        @Override
-                        public void onMapStatusChangeFinish(MapStatus mapStatus) {
-
-                        }
-                    });
 
                     baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
                         public boolean onMarkerClick(final com.baidu.mapapi.map.Marker marker) {
@@ -519,6 +505,26 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 }
             });
         }
+    }
+
+    public void setBaiduChangeMapStatusListener(){
+        baiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+                L.e(TAG, "onMapStatusChangeStart: " + mapStatus.zoom + " / " + mapStatus.target);
+                //mapStatus.zoom
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+                L.e(TAG, "onMapStatusChange: " + mapStatus.zoom + " / " + mapStatus.target);
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+                L.e(TAG, "onMapStatusChangeFinish");
+            }
+        });
     }
 
 

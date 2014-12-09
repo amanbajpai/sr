@@ -1,7 +1,15 @@
 package com.ros.smartrocket.map;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +25,12 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Projection;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.android.gms.maps.model.UrlTileProvider;
 import com.ros.smartrocket.Config;
@@ -29,8 +41,10 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.fragment.TransparentSupportBaiduMapFragment;
 import com.ros.smartrocket.fragment.TransparentSupportMapFragment;
+import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
+import com.twotoasters.clusterkraf.ClustersBuilder;
 import com.twotoasters.clusterkraf.InputPoint;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
@@ -54,6 +68,10 @@ public class MapHelper {
     public static final int ZOOM_TO_BOUNDS_ANIMATION_DURATION = 500;
     public static final int SHOW_INFO_WINDOW_ANIMATION_DURATION = 500;
     public static final double EXPAND_BOUNDS_FACTOR = 0.5d;
+
+    private static final int CLUSTER_PAINT_ALPHA = 255;
+    private static final int CLUSTER_SIZE_100 = 100;
+    private static final int CLUSTER_SIZE_1000 = 1000;
 
     public static BaiduMap getBaiduMap(FragmentActivity activity, float zoomLevel) {
         BaiduMap baiduMap = null;
@@ -259,6 +277,94 @@ public class MapHelper {
         return inputPoints;
     }
 
+   /* public void addClusteredPinToBaiduMap(BaiduMap baiduMap, List<InputPoint> markerList) {
+
+        List<InputPoint> clusteredMarkerList = new ArrayList<InputPoint>();
+
+
+//		Log.d("CreateCluster", "markerList.size()"+markerList.size());
+        this.mClusterMarkers.clear();
+        ArrayList<MyOverlayItem> itemList = new ArrayList<MyOverlayItem>();
+//		Log.e(TAG, "createCluster, markerList.size()"+itemList.size());
+        for (int i = 0; i < markerList.size(); i++) {
+            addCluster(markerList.get(i));
+        }
+        for (int i = 0; i < mClusterMarkers.size(); i++) {
+            ClusterMarker cm = mClusterMarkers.get(i);
+            setClusterDrawable(cm);
+            MyOverlayItem oi = new MyOverlayItem(cm.getmCenter(), cm.getTitle(), cm.getSnippet());
+            oi.setMarker(cm.getMarker());
+            itemList.add(oi);
+        }
+
+        Log.e(TAG, "itemList.size:" + itemList.size());
+        return itemList;
+    }
+
+    public List<BaiduClusterInputPoint> transformInputPointsToClasterInputPointList(BaiduMap baiduMap, List<InputPoint> markerList) {
+        List<BaiduClusterInputPoint> clusteredMarkerList = new ArrayList<BaiduClusterInputPoint>();
+        for (InputPoint inputPoint : markerList) {
+
+            ;
+            GeoPoint markGeo = marker.getPoint();
+
+            if (clusteredMarkerList.size() == 0) {
+                clusteredMarkerList.add(new BaiduClusterInputPoint(inputPoint.getMapPosition(), inputPoint.getTag()));
+            } else {
+                Projection projection = baiduMap.getProjection();
+
+                ClustersBuilder builder = new ClustersBuilder(projection, arg.options, arg.previousClusters);
+                builder.addAll(arg.points);
+                result.currentClusters = builder.build();
+
+
+
+                BaiduClusterInputPoint clusterContain = null;
+                double distance = mDistance;
+
+                for (BaiduClusterInputPoint clusterInputPoint : clusteredMarkerList) {
+                    clusterInputPoint.getPi
+                    GeoPoint center = clusterInputPoint.getmCenter();
+                    double d = DistanceUtil.getDistance(center, marker.getPoint());
+
+                    if (d < distance) {
+                        distance = d;
+                        clusterContain = clusterInputPoint;
+                    }
+                }
+
+                if (clusterContain == null || !isMarkersInCluster(markGeo, clusterContain.getmGridBounds())) {
+                    clusteredMarkerList.add(new BaiduClusterInputPoint(inputPoint.getMapPosition(), inputPoint.getTag()));
+                } else {
+                    clusterContain.add(inputPoint);
+                }
+            }
+        }
+
+        return clusteredMarkerList;
+    }
+
+    public static OverlayOptions getBaiduPin(BaiduClusterInputPoint clusterInputPoint) {
+        Task task = (Task) clusterInputPoint.getTag();
+        com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
+        LatLng latLng = clusterInputPoint.getMapPosition();
+
+        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(latLng.latitude, latLng.longitude);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Keys.TASK, task);
+
+        OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions()
+                .position(ll)
+                .icon(icon)
+                .zIndex(task.getId())
+                .extraInfo(bundle)
+                .draggable(true);
+
+        return ooA;
+    }*/
+
+
     /**
      * Check coordinates of pins and change it if they are equals
      */
@@ -343,6 +449,60 @@ public class MapHelper {
             }
         };
 
+    }
+
+    public static Bitmap getClusterBitmap(Resources res, int resourceId, int clusterSize, Paint largePaint, Paint mediumPaint, Paint smallPaint) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            options.inMutable = true;
+        }
+        Bitmap bitmap = BitmapFactory.decodeResource(res, resourceId, options);
+        if (!bitmap.isMutable()) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+
+        Paint paint;
+        float originY;
+        if (clusterSize < CLUSTER_SIZE_100) {
+            paint = largePaint;
+            originY = bitmap.getHeight() * 0.6f;
+        } else if (clusterSize < CLUSTER_SIZE_1000) {
+            paint = mediumPaint;
+            originY = bitmap.getHeight() * 0.56f;
+        } else {
+            paint = smallPaint;
+            originY = bitmap.getHeight() * 0.52f;
+        }
+
+        canvas.drawText(String.valueOf(clusterSize), bitmap.getWidth() * 0.5f, originY, paint);
+        return bitmap;
+    }
+
+    public static Paint getMediumClasterPaint(Context context) {
+        Paint clusterPaintMedium = new Paint();
+        clusterPaintMedium.setColor(context.getResources().getColor(R.color.green));
+        clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
+        clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
+        clusterPaintMedium.setTypeface(FontUtils.loadFontFromAsset(context.getAssets(),
+                FontUtils.getFontAssetPath(3)));
+        clusterPaintMedium.setTextSize(context.getResources().getDimension(R.dimen.text_size_20sp));
+
+        return clusterPaintMedium;
+    }
+
+    public static Paint getSmallClasterPaint(Context context) {
+        Paint clusterPaintSmall = new Paint(getMediumClasterPaint(context));
+        clusterPaintSmall.setTextSize(context.getResources().getDimension(R.dimen.text_size_16sp));
+        return clusterPaintSmall;
+    }
+
+    public static Paint getLargeClasterPaint(Context context) {
+        Paint clusterPaintLarge = new Paint(getMediumClasterPaint(context));
+        clusterPaintLarge.setTextSize(context.getResources().getDimension(R.dimen.text_size_26sp));
+        return clusterPaintLarge;
     }
 
     public interface SelectMapInterface {

@@ -155,7 +155,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
+            buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
             zipAlignEnabled false
             debuggable true
             jniDebuggable false

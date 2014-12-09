@@ -2,21 +2,14 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.model.Marker;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.map.MapHelper;
-import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
-
-import java.util.Locale;
 
 public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private static final String MY_LOCATION = "MyLoc";

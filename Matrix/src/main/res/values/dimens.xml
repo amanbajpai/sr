@@ -34,5 +34,5 @@
     <dimen name="item_frame_height">55dp</dimen>
     <dimen name="spacing">10dp</dimen>
 
-    <integer name="max_video_file_size_byte">80000000</integer>
+    <integer name="max_video_file_size_byte">90000000</integer>
 </resources>
