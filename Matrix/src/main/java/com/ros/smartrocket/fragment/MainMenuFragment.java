@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -41,6 +42,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.MultipassUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -317,7 +319,13 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
-                getActivity().startActivity(IntentUtils.getBrowserIntent(Config.KNOWLEDGE_BASE_URL));
+                String uid = preferencesManager.getLastEmail();
+                long validTimeInMillis = DateUtils.DAY_IN_MILLIS;
+                String customerEmail = preferencesManager.getLastEmail();
+                String customerName = preferencesManager.getLastEmail();
+
+                MultipassUtils multipassUtils = new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
+                getActivity().startActivity(IntentUtils.getBrowserIntent(multipassUtils.buildUrl()));
                 break;
             case R.id.settingsButton:
                 //((MainActivity) getActivity()).startFragment(new SettingsFragment());

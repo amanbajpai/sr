@@ -3,6 +3,8 @@ package com.ros.smartrocket;
 
 import android.text.format.DateUtils;
 
+import java.math.BigInteger;
+
 public class Config {
     public static final String ANDROID_API_KEY = BuildConfig.ANDROID_API_KEY;
     public static final String SERVER_API_KEY = BuildConfig.SERVER_API_KEY;
@@ -13,7 +15,7 @@ public class Config {
 
     public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory
             (CACHE_PREFIX_DIR).getPath();
-    public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/";
+    public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/customer/authentication/multipass/callback?multipass=%1$s&signature=%2$s";
     public static final String SHARE_URL = "http://smart-rocket.com/crew/";
 
     public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 0;

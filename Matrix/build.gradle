@@ -5,11 +5,13 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
         classpath 'org.robolectric:robolectric-gradle-plugin:0.14.+'
     }
 }
+apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 //apply plugin: 'jacoco'
@@ -108,7 +110,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode "\"Production\".equals(FLAVOR)" ? 10002 : buildNumber
+        versionCode buildNumber
         versionName '1.5'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
@@ -155,7 +157,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
+            buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
             zipAlignEnabled false
             debuggable true
             jniDebuggable false
@@ -197,6 +199,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://maps.googleapis.com\""
         }
         Production {
+            versionCode 10002
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
@@ -225,6 +228,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://ditu.google.cn\""
         }
         ChinaProduction {
+            versionCode 10002
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"

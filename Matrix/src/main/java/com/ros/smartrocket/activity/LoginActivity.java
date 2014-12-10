@@ -93,11 +93,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 WriteDataHelper.prepareLogin(this, email);
 
+                preferencesManager.setLastEmail(email);
                 if (rememberMeCheckBox.isChecked()) {
-                    preferencesManager.setLastEmail(email);
                     preferencesManager.setLastPassword(password);
                 } else {
-                    preferencesManager.setLastEmail("");
                     preferencesManager.setLastPassword("");
                 }
                 dismissProgressDialog();
