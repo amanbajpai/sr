@@ -22,8 +22,13 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion '19.1.0'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+    }
 
     lintOptions {
         // if true, stop the gradle build if errors are found
