@@ -91,7 +91,9 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     public void onResume() {
         super.onResume();
 
-        getWaves();
+        if(!isHidden()){
+            getWaves();
+        }
     }
 
     @Override
@@ -106,41 +108,23 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     }
 
     private void getWaves() {
-        if (preferencesManager.getUseLocationServices()) {
+        if (preferencesManager.getUseLocationServices() && UIUtils.isGpsEnabled(getActivity())) {
             refreshIconState(true);
 
             final int radius = TasksMapFragment.taskRadius;
 
-            MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
-                @Override
-                public void getLocationStart() {
-                    ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-                }
-
-                @Override
-                public void getLocationInProcess() {
-                }
-
-                @Override
-                public void getLocationSuccess(final Location location) {
-                    ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-
-                    if (UIUtils.isOnline(getActivity()) && UIUtils.isGpsEnabled(getActivity())) {
-                        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
-                            @Override
-                            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                                apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
-                                        countryName, cityName, radius);
-                            }
-                        });
-                    } else {
-                        refreshIconState(false);
-                        if (!UIUtils.isOnline(getActivity())) {
-                            UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
-                        }
+            if (UIUtils.isOnline(getActivity())) {
+                MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+                    @Override
+                    public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                        apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
+                                countryName, cityName, radius);
                     }
-                }
-            });
+                });
+            } else {
+                refreshIconState(false);
+                UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+            }
 
             WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
         } else {
@@ -181,7 +165,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Wave wave = adapter.getItem(position);
-        startActivity(IntentUtils.getWaveDetailsIntent(getActivity(), wave.getId()));
+        startActivity(IntentUtils.getWaveDetailsIntent(getActivity(), wave.getId(), 0, WavesBL.isPreClaimWave(wave)));
     }
 
     @Override

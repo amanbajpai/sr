@@ -39,6 +39,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private ClaimTaskManager claimTaskManager;
 
     private Integer taskId;
+    private Integer statusId;
+    private boolean isPreClaim;
     private Task task;
     private Wave wave = new Wave();
 
@@ -105,6 +107,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
+            isPreClaim = getIntent().getBooleanExtra(Keys.IS_PRECLAIM, false);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -164,6 +168,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         mapImageView = (ImageView) findViewById(R.id.mapImageView);
         mapImageView.setOnClickListener(this);
+
+        UIUtils.setActionBarBackground(this, statusId, isPreClaim);
     }
 
     @Override
@@ -359,8 +365,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setColorTheme(Task task) {
-        UIUtils.setActionBarBackground(this, task);
-
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case NONE:
             case CLAIMED:

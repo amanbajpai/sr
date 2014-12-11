@@ -145,7 +145,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                             sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
                             sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
 
-                            UIUtils.setActionBarBackground(TaskValidationActivity.this, task);
+                            UIUtils.setActionBarBackground(TaskValidationActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
                             closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
                         }
                     } else {

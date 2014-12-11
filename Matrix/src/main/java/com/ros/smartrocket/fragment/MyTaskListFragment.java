@@ -18,6 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -74,7 +75,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onResume() {
         super.onResume();
 
-        getMyTasks();
+        if (!isHidden()) {
+            getMyTasks();
+        }
     }
 
     @Override
@@ -139,7 +142,8 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
                 startActivity(IntentUtils.getQuestionsIntent(getActivity(), task.getId()));
                 break;*/
             default:
-                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId()));
+                startActivity(IntentUtils.getTaskDetailIntent(getActivity(), task.getId(),
+                        task.getStatusId(), TasksBL.isPreClaimTask(task)));
                 break;
         }
     }

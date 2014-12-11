@@ -9,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.Location;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,12 +24,8 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.Projection;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.android.gms.maps.model.UrlTileProvider;
 import com.ros.smartrocket.Config;
@@ -44,7 +39,6 @@ import com.ros.smartrocket.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
-import com.twotoasters.clusterkraf.ClustersBuilder;
 import com.twotoasters.clusterkraf.InputPoint;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
@@ -241,7 +235,11 @@ public class MapHelper {
                     startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
                     break;*/
             default:
-                activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                if (task != null) {
+                    activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId,
+                            task.getStatusId(), TasksBL.isPreClaimTask(task)));
+                }
         }
     }
 

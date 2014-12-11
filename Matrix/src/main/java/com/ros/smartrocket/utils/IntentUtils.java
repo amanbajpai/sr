@@ -62,9 +62,11 @@ public class IntentUtils {
      * @param taskId  - current taskId
      * @return Intent
      */
-    public static Intent getTaskDetailIntent(Context context, int taskId) {
+    public static Intent getTaskDetailIntent(Context context, int taskId, int statusId, boolean isPreClaim) {
         Intent intent = new Intent(context, TaskDetailsActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.STATUS_ID, statusId);
+        intent.putExtra(Keys.IS_PRECLAIM, isPreClaim);
         return intent;
     }
 
@@ -387,9 +389,11 @@ public class IntentUtils {
      * @return Intent
      */
 
-    public static Intent getWaveDetailsIntent(Context context, Integer waveId) {
+    public static Intent getWaveDetailsIntent(Context context, int waveId, int statusId, boolean isPreClaim) {
         Intent intent = new Intent(context, WaveDetailsActivity.class);
         intent.putExtra(Keys.WAVE_ID, waveId);
+        intent.putExtra(Keys.STATUS_ID, statusId);
+        intent.putExtra(Keys.IS_PRECLAIM, isPreClaim);
         return intent;
     }
 

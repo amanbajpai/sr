@@ -36,6 +36,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     private ClaimTaskManager claimTaskManager;
 
     private Integer waveId;
+    private Integer statusId;
+    private boolean isPreClaim;
     private Wave wave = new Wave();
     private Task nearTask = new Task();
 
@@ -85,6 +87,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (getIntent() != null) {
             waveId = getIntent().getIntExtra(Keys.WAVE_ID, 0);
+            statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
+            isPreClaim = getIntent().getBooleanExtra(Keys.IS_PRECLAIM, false);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -123,6 +127,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         showAllTasksButton.setOnClickListener(this);
         mapImageView = (ImageView) findViewById(R.id.mapImageView);
         mapImageView.setOnClickListener(this);
+
+        UIUtils.setActionBarBackground(this, statusId, isPreClaim);
     }
 
     @Override
@@ -197,14 +203,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
-
-        int backgroundRes;
-        if (WavesBL.isPreClaimWave(wave)) {
-            backgroundRes = R.drawable.action_bar_violet;
-        } else {
-            backgroundRes = R.drawable.action_bar_green;
-        }
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(backgroundRes));
 
         setColorTheme(wave);
     }
@@ -299,7 +297,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onStarted(Task task) {
         finish();
-        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId()));
+        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), task.getStatusId(), TasksBL.isPreClaimTask(task)));
         startActivity(IntentUtils.getQuestionsIntent(this, task.getId()));
     }
 

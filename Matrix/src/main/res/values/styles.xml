@@ -348,7 +348,7 @@
         <item name="android:textSize">@dimen/text_size_13p6sp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">left</item>
-        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
     </style>
 
     <style name="TaskAndWaveOptionStyle" parent="@android:style/Widget.TextView">

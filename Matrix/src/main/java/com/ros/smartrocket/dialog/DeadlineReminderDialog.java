@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
@@ -53,7 +56,11 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.goToTaskButton:
                 dismiss();
-                activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                if (task != null) {
+                    activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId,
+                            task.getStatusId(), TasksBL.isPreClaimTask(task)));
+                }
                 break;
             default:
                 break;

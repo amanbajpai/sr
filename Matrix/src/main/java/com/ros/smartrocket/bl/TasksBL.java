@@ -13,7 +13,6 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Wave;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,10 +32,17 @@ public class TasksBL {
         calculateTaskDistance(myLocation, cursor);
     }
 
-    private static Cursor getTasksFromDB() {
+    public static Cursor getTasksFromDB() {
         ContentResolver resolver = App.getInstance().getContentResolver();
         return resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
                 null, null, TaskDbSchema.SORT_ORDER_DESC);
+    }
+
+    public static Cursor getTaskFromDBbyID(Integer taskId) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        return resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
+                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
+                TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
     public static void getNotMyTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius, boolean withHiddenTasks) {

@@ -121,7 +121,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     if (task != null) {
                         setTitle(task.getName());
 
-                        UIUtils.setActionBarBackground(QuestionsActivity.this, task);
+                        UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
 
                         isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
 

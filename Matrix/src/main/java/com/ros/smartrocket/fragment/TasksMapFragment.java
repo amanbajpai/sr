@@ -205,10 +205,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     @Override
     public void onResume() {
         super.onResume();
-        initMap();
 
-        setViewMode(getArguments());
-        loadData();
+        if (!isHidden()) {
+            initMap();
+
+            setViewMode(getArguments());
+            loadData();
+        }
     }
 
     @Override
@@ -293,25 +296,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         clearMap();
 
         if (preferencesManager.getUseLocationServices() && UIUtils.isGpsEnabled(getActivity())) {
-            MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
-                @Override
-                public void getLocationStart() {
-                    refreshIconState(true);
-                }
-
-                @Override
-                public void getLocationInProcess() {
-                    UIUtils.showSimpleToast(getActivity(), R.string.looking_for_location);
-                }
-
-                @Override
-                public void getLocationSuccess(Location location) {
-                    updateDataFromServer(location);
-                }
-            });
+            updateDataFromServer();
+            loadTasksFromLocalDb();
         }
-
-        loadTasksFromLocalDb();
     }
 
     /**
@@ -338,12 +325,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /**
      * Send request to server for data update
      */
-    private void updateDataFromServer(Location location) {
+    private void updateDataFromServer() {
         if (UIUtils.isOnline(getActivity())) {
             if (mode == Keys.MapViewMode.MY_TASKS) {
                 getMyTasksFromServer();
             } else if (mode == Keys.MapViewMode.ALL_TASKS) {
-                getWavesFromServer(location, taskRadius);
+                getWavesFromServer(taskRadius);
             }
         } else {
             refreshIconState(false);
@@ -363,8 +350,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      *
      * @param radius - selected radius
      */
-    private void getWavesFromServer(final Location location, final int radius) {
-        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+    private void getWavesFromServer(final int radius) {
+        refreshIconState(true);
+
+        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
                 APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
@@ -507,7 +496,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
-    public void setBaiduChangeMapStatusListener(){
+    public void setBaiduChangeMapStatusListener() {
         baiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
             @Override
             public void onMapStatusChangeStart(MapStatus mapStatus) {

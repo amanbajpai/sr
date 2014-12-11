@@ -109,6 +109,8 @@ public interface Keys {
     String WAVES = "Waves";
     String WAVE = "wave";
     String WAVE_ID = "wave_id";
+    String IS_PRECLAIM = "is_preclaim";
+    String STATUS_ID = "status_id";
 
     //Location
     String REFERRAL_CASES_ID = "referral_cases_id";

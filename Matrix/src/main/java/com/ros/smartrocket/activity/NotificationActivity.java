@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.IntentUtils;
 
 public class NotificationActivity extends Activity implements OnClickListener {
@@ -125,7 +126,10 @@ public class NotificationActivity extends Activity implements OnClickListener {
                         startActivity(IntentUtils.getQuestionsIntent(this, taskId));
                         break;
                     default:
-                        startActivity(IntentUtils.getTaskDetailIntent(this, taskId));
+                        Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                        if (task != null) {
+                            startActivity(IntentUtils.getTaskDetailIntent(this, taskId, task.getStatusId(), TasksBL.isPreClaimTask(task)));
+                        }
                         break;
                 }
                 finish();

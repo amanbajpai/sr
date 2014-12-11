@@ -694,13 +694,13 @@ public class UIUtils {
         return result;
     }
 
-    public static void setActionBarBackground(ActionBarActivity activity, Task task) {
+    public static void setActionBarBackground(ActionBarActivity activity, int statusId, boolean isPreclaim) {
         int backgroundRes;
-        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+        switch (TasksBL.getTaskStatusType(statusId)) {
             case NONE:
             case CLAIMED:
             case STARTED:
-                if (TasksBL.isPreClaimTask(task)) {
+                if (isPreclaim) {
                     backgroundRes = R.drawable.action_bar_violet;
                 } else {
                     backgroundRes = R.drawable.action_bar_green;
