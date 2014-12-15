@@ -28,6 +28,9 @@ public interface NotUploadedFileDbSchema {
 
         TASK_NAME("TaskName", DBType.TEXT),
 
+        LATITUDE_TO_VALIDATION("LatitudeToValidation", DBType.TEXT),
+        LONGITUDE_TO_VALIDATION("LongitudeToValidation", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -78,7 +81,10 @@ public interface NotUploadedFileDbSchema {
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_CODE.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_NAME.getName(),
 
-                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_NAME.getName()
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_NAME.getName(),
+
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName()
         };
 
         int _ID = 0;
@@ -97,5 +103,8 @@ public interface NotUploadedFileDbSchema {
         int FILE_NAME = 12;
 
         int TASK_NAME = 13;
+
+        int LATITUDE_TO_VALIDATION = 14;
+        int LONGITUDE_TO_VALIDATION = 15;
     }
 }

@@ -249,7 +249,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
                 if (notUploadedFileCount == 0) {
-                    validateTask(notUploadedFile.getTaskId());
+                    validateTask(notUploadedFile.getTaskId(),
+                            notUploadedFile.getLatitudeToValidation(), notUploadedFile.getLongitudeToValidation());
                 }
 
             } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
@@ -273,8 +274,18 @@ public class UploadFileService extends Service implements NetworkOperationListen
         }
     }
 
-    private void validateTask(final int taskId) {
-        TasksBL.getTaskFromDBbyID(dbHandler, taskId); //TODO
+    private void validateTask(final int taskId, final Double latitude, final Double longitude) {
+        Location location = new Location(LocationManager.NETWORK_PROVIDER);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+
+        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+            @Override
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, latitude, longitude, cityName));
+            }
+        });
     }
 
     private boolean needSendNotification(NotUploadedFile notUploadedFile) {

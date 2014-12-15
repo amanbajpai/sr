@@ -1,7 +1,9 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
+import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.utils.L;
 
 /**
@@ -46,6 +48,9 @@ public class NotUploadedFile extends BaseEntity {
     private String FileCode;
     private String FileName;
 
+    private Double LongitudeToValidation;
+    private Double LatitudeToValidation;
+
     public NotUploadedFile() {
     }
 
@@ -68,6 +73,9 @@ public class NotUploadedFile extends BaseEntity {
             result.setFileName(c.getString(NotUploadedFileDbSchema.Query.FILE_NAME));
 
             result.setTaskName(c.getString(NotUploadedFileDbSchema.Query.TASK_NAME));
+
+            result.setLatitudeToValidation(c.getDouble(NotUploadedFileDbSchema.Query.LATITUDE_TO_VALIDATION));
+            result.setLongitudeToValidation(c.getDouble(NotUploadedFileDbSchema.Query.LONGITUDE_TO_VALIDATION));
         }
         L.d("NotUploadedFile", result.toString());
         return result;
@@ -113,7 +121,6 @@ public class NotUploadedFile extends BaseEntity {
     public void setUse3G(Boolean use3G) {
         this.use3G = use3G;
     }
-
 
     public Long getFileSizeB() {
         return fileSizeB;
@@ -172,5 +179,21 @@ public class NotUploadedFile extends BaseEntity {
 
     public void setTaskName(String taskName) {
         TaskName = taskName;
+    }
+
+    public Double getLongitudeToValidation() {
+        return LongitudeToValidation == null ? 0 : LongitudeToValidation;
+    }
+
+    public void setLongitudeToValidation(Double longitudeToValidation) {
+        LongitudeToValidation = longitudeToValidation;
+    }
+
+    public Double getLatitudeToValidation() {
+        return LatitudeToValidation == null ? 0 : LatitudeToValidation;
+    }
+
+    public void setLatitudeToValidation(Double latitudeToValidation) {
+        LatitudeToValidation = latitudeToValidation;
     }
 }

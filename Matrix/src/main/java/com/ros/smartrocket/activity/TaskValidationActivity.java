@@ -217,25 +217,27 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         //Add files data to DB and start upload
         for (NotUploadedFile notUploadedFile : notUploadedFiles) {
             notUploadedFile.setUse3G(use3G);
+            notUploadedFile.setLatitudeToValidation(task.getLatitudeToValidation());
+            notUploadedFile.setLongitudeToValidation(task.getLongitudeToValidation());
+
             FilesBL.insertNotUploadedFile(notUploadedFile);
         }
         startService(new Intent(TaskValidationActivity.this, UploadFileService.class).setAction(Keys
                 .ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
-    private void validateTask(final int taskId) {
+    private void validateTask(final int taskId, final Double latitude, final Double longitude) {
         setSupportProgressBarIndeterminateVisibility(true);
 
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
-        location.setLatitude(task.getLatitudeToValidation());
-        location.setLongitude(task.getLongitudeToValidation());
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
 
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
 
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId,
-                        task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, latitude, longitude, cityName));
             }
         });
 
@@ -279,7 +281,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finishActivity();
             }
         } else {
-            validateTask(task.getId());
+            validateTask(task.getId(), task.getLatitudeToValidation(), task.getLongitudeToValidation());
         }
     }
 

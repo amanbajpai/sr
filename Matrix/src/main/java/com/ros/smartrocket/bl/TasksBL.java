@@ -272,7 +272,7 @@ public class TasksBL {
     public static Task convertCursorToTask(Cursor cursor) {
         Task result = new Task();
         if (cursor != null) {
-            while (cursor.moveToNext()) {
+            if (cursor.moveToFirst()) {
                 result = Task.fromCursor(cursor);
             }
             cursor.close();
