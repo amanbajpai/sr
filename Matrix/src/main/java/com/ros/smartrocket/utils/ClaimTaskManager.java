@@ -73,7 +73,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
             @Override
             public void onYesButtonPressed(Dialog dialog) {
                 showProgressBar();
-                apiFacade.rejectTask(activity, task.getId());
+                apiFacade.unclaimTask(activity, task.getId());
             }
         });
     }
@@ -162,7 +162,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
                         showProgressBar();
-                        apiFacade.rejectTask(activity, task.getId());
+                        apiFacade.unclaimTask(activity, task.getId());
                     }
 
                     @Override
@@ -176,7 +176,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     }
                 });
 
-            } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 dismissProgressBar();
 
                 changeStatusToUnClaimed();

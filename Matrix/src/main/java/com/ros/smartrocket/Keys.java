@@ -58,6 +58,7 @@ public interface Keys {
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";
     String SEND_ANSWERS_OPERATION_TAG = "send_answers_operation_tag";
+    String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
     String VALIDATE_TASK_OPERATION_TAG = "validate_task_operation_tag";
     String START_TASK_OPERATION_TAG = "start_task_operation_tag";
     String REJECT_TASK_OPERATION_TAG = "reject_task_operation_tag";
