@@ -73,7 +73,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
             @Override
             public void onYesButtonPressed(Dialog dialog) {
                 showProgressBar();
-                apiFacade.unclaimTask(activity, task.getId());
+                apiFacade.rejectTask(activity, task.getId());
             }
         });
     }
@@ -117,7 +117,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
 
-                MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
                     }
@@ -162,7 +162,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
                         showProgressBar();
-                        apiFacade.unclaimTask(activity, task.getId());
+                        apiFacade.rejectTask(activity, task.getId());
                     }
 
                     @Override
@@ -176,7 +176,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     }
                 });
 
-            } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 dismissProgressBar();
 
                 changeStatusToUnClaimed();

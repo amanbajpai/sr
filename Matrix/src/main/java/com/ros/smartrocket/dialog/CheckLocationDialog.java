@@ -67,7 +67,7 @@ public class CheckLocationDialog extends Dialog {
     }
 
     public void getLocation() {
-        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+        MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
                 CheckLocationDialog.this.countryName = countryName;

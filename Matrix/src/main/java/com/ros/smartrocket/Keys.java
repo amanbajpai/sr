@@ -1,5 +1,7 @@
 package com.ros.smartrocket;
 
+import android.text.format.DateUtils;
+
 public interface Keys {
     // Application
     String TOKEN = "token";
@@ -56,7 +58,6 @@ public interface Keys {
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";
     String SEND_ANSWERS_OPERATION_TAG = "send_answers_operation_tag";
-    String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
     String VALIDATE_TASK_OPERATION_TAG = "validate_task_operation_tag";
     String START_TASK_OPERATION_TAG = "start_task_operation_tag";
     String REJECT_TASK_OPERATION_TAG = "reject_task_operation_tag";
@@ -140,16 +141,14 @@ public interface Keys {
 
 
     /* ------------ Location parameters -----------------------*/
-    // Milliseconds per second
-    int MILLISECONDS_PER_SECOND = 1000;
     // Update frequency in seconds. every 10 minutes
-    int UPDATE_INTERVAL_IN_SECONDS = 600;
+    int UPDATE_INTERVAL_IN_SECONDS = 30;
     // Update frequency in milliseconds
-    long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
+    long UPDATE_INTERVAL = DateUtils.SECOND_IN_MILLIS * UPDATE_INTERVAL_IN_SECONDS;
     // The fastest update frequency, in seconds
     int FASTEST_INTERVAL_IN_SECONDS = 1;
     // A fast frequency ceiling in milliseconds
-    long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
+    long FASTEST_INTERVAL = DateUtils.SECOND_IN_MILLIS * FASTEST_INTERVAL_IN_SECONDS;
 
 
     /* ------------ GCM parameters -----------------------*/

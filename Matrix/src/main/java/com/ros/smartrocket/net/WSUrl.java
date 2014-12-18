@@ -21,7 +21,6 @@ public final class WSUrl {
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
     public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers?language=%s";
-    public static final String UNCLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Unclaimed";
     public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String START_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Start";
     public static final String REJECT_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Reject";
@@ -85,7 +84,6 @@ public final class WSUrl {
         URLS.put(GET_QUESTIONS, GET_QUESTIONS_ID);
         URLS.put(GET_REDO_QUESTION, GET_REDO_QUESTION_ID);
         URLS.put(UPLOAD_TASK_FILE, UPLOAD_TASK_FILE_ID);
-        URLS.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
         URLS.put(START_TASK, START_TASK_ID);
         URLS.put(VALIDATE_TASK, VALIDATE_TASK_ID);
         URLS.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);

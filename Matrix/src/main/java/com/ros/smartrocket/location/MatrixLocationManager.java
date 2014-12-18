@@ -35,6 +35,7 @@ public class MatrixLocationManager implements LocationListener,
     private Location lastLocation;
     private Queue<ILocationUpdate> requested;
     private LocationRequest locationRequest;
+    private CurrentLocationUpdateListener currentLocationUpdateListener;
 
 
     /**
@@ -71,6 +72,10 @@ public class MatrixLocationManager implements LocationListener,
             L.d(TAG, "Google Play services [ERROR=" + resultCode + "]");
             //TODO Implement handle logic when Google PLay Services not instaled
         }
+    }
+
+    public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
+        this.currentLocationUpdateListener = currentLocationUpdateListener;
     }
 
     /**
@@ -113,6 +118,9 @@ public class MatrixLocationManager implements LocationListener,
 
     private void notifyAllRequestedLocation() {
         if (lastLocation != null) {
+            if (currentLocationUpdateListener != null) {
+                currentLocationUpdateListener.onUpdate(lastLocation);
+            }
             while (!requested.isEmpty()) {
                 requested.poll().onUpdate(lastLocation);
             }
@@ -171,6 +179,10 @@ public class MatrixLocationManager implements LocationListener,
 
     }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
     public class RecalculateDistanceAsyncTask extends AsyncTask<Location, Void, Void> {
 
         @Override
@@ -222,13 +234,13 @@ public class MatrixLocationManager implements LocationListener,
         }
     }
 
-    public static void getCurrentLocation(final GetCurrentLocationListener getCurrentLocationListener) {
+    public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener getCurrentLocationListener) {
         MatrixLocationManager lm = App.getInstance().getLocationManager();
 
         getCurrentLocationListener.getLocationStart();
 
         Location location = lm.getLocation();
-        if (location != null) {
+        if (location != null && !force) {
             getCurrentLocationListener.getLocationSuccess(location);
         } else {
             getCurrentLocationListener.getLocationInProcess();
@@ -241,8 +253,8 @@ public class MatrixLocationManager implements LocationListener,
         }
     }
 
-    public static void getAddressByCurrentLocation(final GetAddressListener getAddressListener) {
-        MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+    public static void getAddressByCurrentLocation(final boolean force, final GetAddressListener getAddressListener) {
+        MatrixLocationManager.getCurrentLocation(force, new MatrixLocationManager.GetCurrentLocationListener() {
             @Override
             public void getLocationStart() {
             }
@@ -279,6 +291,10 @@ public class MatrixLocationManager implements LocationListener,
     }
 
     public interface ILocationUpdate {
+        void onUpdate(Location location);
+    }
+
+    public interface CurrentLocationUpdateListener {
         void onUpdate(Location location);
     }
 

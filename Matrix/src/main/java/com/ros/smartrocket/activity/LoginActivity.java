@@ -180,7 +180,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     registerButton.setEnabled(false);
                     setSupportProgressBarIndeterminateVisibility(true);
 
-                    MatrixLocationManager.getAddressByCurrentLocation(
+                    MatrixLocationManager.getAddressByCurrentLocation(false,
                             new MatrixLocationManager.GetAddressListener() {
                                 @Override
                                 public void onGetAddressSuccess(Location location,

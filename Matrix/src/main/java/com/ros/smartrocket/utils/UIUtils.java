@@ -35,7 +35,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.ros.smartrocket.BuildConfig;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.TasksBL;
@@ -321,6 +320,22 @@ public class UIUtils {
         if (context != null) {
             LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
             isEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+
+        return isEnable;
+    }
+
+    /**
+     * Check if Network provider is enabled
+     *
+     * @param context - current context
+     * @return boolean
+     */
+    public static boolean isNetworkEnabled(Context context) {
+        boolean isEnable = false;
+        if (context != null) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+            isEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }
 
         return isEnable;

@@ -342,7 +342,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                     sendAnswers();
                 } else {
-                    MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                    MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
                             setSupportProgressBarIndeterminateVisibility(true);
@@ -378,7 +378,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                 finishActivity();
             } else {
-                MatrixLocationManager.getCurrentLocation(new MatrixLocationManager.GetCurrentLocationListener() {
+                MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
                         setSupportProgressBarIndeterminateVisibility(true);

@@ -108,13 +108,13 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     }
 
     private void getWaves() {
-        if (preferencesManager.getUseLocationServices() && UIUtils.isGpsEnabled(getActivity())) {
+        if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             refreshIconState(true);
 
             final int radius = TasksMapFragment.taskRadius;
 
             if (UIUtils.isOnline(getActivity())) {
-                MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+                MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
                     @Override
                     public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
                         apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),

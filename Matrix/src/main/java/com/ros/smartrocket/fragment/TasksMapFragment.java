@@ -38,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -92,6 +93,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     public static int DEFAULT_TASK_RADIUS = 5000;
     public static int taskRadius = DEFAULT_TASK_RADIUS;
     private int sbRadiusProgress = 5;
+    private boolean isTracking = false;
     // 1% = 200m => Max = 20km
     private static final int RADIUS_DELTA = 200;
     private TextView txtRadius;
@@ -111,6 +113,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private int viewItemId = 0;
 
     private boolean isFirstStart = true;
+    private Marker currentLocationMarker;
+    private Circle circle;
 
     public TasksMapFragment() {
     }
@@ -162,6 +166,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                isTracking = true;
                 clearMap();
                 moveCameraToLocation();
                 roundImage.setVisibility(View.VISIBLE);
@@ -179,25 +184,27 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                isTracking = false;
                 preferencesManager.setDefaultRadius(taskRadius);
                 roundImage.setVisibility(View.GONE);
                 loadTasksFromLocalDb();
 
                 Location location = lm.getLocation();
 
-                if (location != null && UIUtils.isGpsEnabled(getActivity())
-                        && preferencesManager.getUseLocationServices()) {
-                    clearMap();
+                clearMap();
+                if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
                     addMyLocation(location);
                     addRadius(location);
+
+                    if (location == null && UIUtils.isOnline(getActivity())) {
+                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
+                    }
                 }
 
-                if (location == null && UIUtils.isOnline(getActivity())
-                        && UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
-                    UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined);
-                }
             }
         });
+
+        lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
 
         return view;
     }
@@ -292,10 +299,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Get Tasks
      */
     private void loadData() {
-        clearPins();
         clearMap();
 
-        if (preferencesManager.getUseLocationServices() && UIUtils.isGpsEnabled(getActivity())) {
+        if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             updateDataFromServer();
             loadTasksFromLocalDb();
         }
@@ -353,7 +359,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void getWavesFromServer(final int radius) {
         refreshIconState(true);
 
-        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+        MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
                 APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
@@ -678,11 +684,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 public void useGoogleMap(GoogleMap googleMap) {
 
                     LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                    googleMap.addMarker(new MarkerOptions()
-                            .snippet(MY_LOCATION)
-                            .position(coordinates)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
 
+                    if (currentLocationMarker == null) {
+                        currentLocationMarker = googleMap.addMarker(new MarkerOptions()
+                                .snippet(MY_LOCATION)
+                                .position(coordinates)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
+                    } else {
+                        currentLocationMarker.setPosition(coordinates);
+                    }
                 }
 
                 @Override
@@ -701,6 +711,19 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
+    MatrixLocationManager.CurrentLocationUpdateListener currentLocationUpdateListener = new MatrixLocationManager.CurrentLocationUpdateListener() {
+        @Override
+        public void onUpdate(Location location) {
+            L.i(TAG, "Current location pin updated " + location.getLatitude() + ", " + location.getLongitude() + ", "
+                    + "Provider: " + location.getProvider() + "]");
+            clearMap();
+
+            if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
+                loadTasksFromLocalDb();
+            }
+        }
+    };
+
     /**
      * Add Radius
      *
@@ -708,7 +731,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
 
     private void addRadius(Location location) {
-        if (location != null && getActivity() != null) {
+        if (location != null && getActivity() != null && !isTracking) {
             Resources r = getActivity().getResources();
             addCircle(location.getLatitude(), location.getLongitude(), taskRadius, r.getColor(R.color.map_radius_stroke),
                     r.getColor(R.color.map_radius_fill));
@@ -728,13 +751,16 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             public void useGoogleMap(GoogleMap googleMap) {
                 LatLng coordinates = new LatLng(latitude, longitude);
 
-                googleMap.addCircle(new CircleOptions()
-                                .center(coordinates)
-                                .radius(radius)
-                                .strokeColor(strokeColor)
-                                .strokeWidth(6f)
-                /*.fillColor(fillColor)*/
-                );
+                if (circle == null) {
+                    circle = googleMap.addCircle(new CircleOptions()
+                            .center(coordinates)
+                            .radius(radius)
+                            .strokeColor(strokeColor)
+                            .strokeWidth(6f));
+                } else {
+                    circle.setCenter(coordinates);
+                    circle.setRadius(radius);
+                }
             }
 
             @Override
@@ -770,6 +796,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             @Override
             public void useGoogleMap(GoogleMap googleMap) {
                 googleMap.clear();
+                currentLocationMarker = null;
+                circle = null;
             }
 
             @Override
@@ -783,20 +811,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (clusterkraf != null) {
             clusterkraf.clear();
         }
-    }
-
-    public void clearCircle() {
-        MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
-            @Override
-            public void useGoogleMap(GoogleMap googleMap) {
-                googleMap.clear();
-            }
-
-            @Override
-            public void useBaiduMap(BaiduMap baiduMap) {
-                baiduMap.clear();
-            }
-        });
     }
 
     @Override

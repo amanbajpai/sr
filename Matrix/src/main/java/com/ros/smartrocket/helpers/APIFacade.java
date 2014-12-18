@@ -292,22 +292,6 @@ public class APIFacade {
     }
 
     /**
-     * @param activity
-     * @param taskId
-     */
-    public void unclaimTask(Activity activity, Integer taskId) {
-        SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(taskId);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UNCLAIM_TASK);
-        operation.setTag(Keys.UNCLAIM_TASK_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(sendTaskId);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    /**
      * Send this request when all task files were uploaded
      *
      * @param taskId

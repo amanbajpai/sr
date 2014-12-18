@@ -111,7 +111,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     }
 
     private void setCurrentAddressByLocation() {
-        MatrixLocationManager.getAddressByCurrentLocation(new MatrixLocationManager.GetAddressListener() {
+        MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
                 latitude = location.getLatitude();
