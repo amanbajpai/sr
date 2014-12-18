@@ -163,9 +163,9 @@ public class WavesBL {
      * @return Wave
      */
     public static Wave convertCursorToWaveWithTask(Cursor cursor) {
-        Wave result = new Wave();
+        Wave result = null;
         if (cursor != null) {
-            while (cursor.moveToNext()) {
+            if (cursor.moveToFirst()) {
                 result = Wave.fromCursorByDistance(cursor);
             }
             cursor.close();

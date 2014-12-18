@@ -38,7 +38,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     private Integer waveId;
     private Integer statusId;
     private boolean isPreClaim;
-    private Wave wave = new Wave();
+    private Wave wave;
     private Task nearTask = new Task();
 
     private View actionBarView;
@@ -150,7 +150,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                         wave = WavesBL.convertCursorToWaveWithTask(cursor);
 
                         setWaveData(wave);
-
                         TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
                     } else {
                         WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
@@ -162,6 +161,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                         claimTaskManager = new ClaimTaskManager(WaveDetailsActivity.this, nearTask, WaveDetailsActivity.this);
 
                         claimNearTasksButton.setEnabled(!WavesBL.isPreClaimWave(wave) || wave.getIsCanBePreClaimed());
+
 
                         setNearTaskData(nearTask);
                     } else {
@@ -218,7 +218,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setButtonsSettings(Task task) {
-        if (wave.getTaskCount() == 1 && TextUtils.isEmpty(task.getAddress())) {
+        if (wave != null && wave.getTaskCount() == 1 && TextUtils.isEmpty(task.getAddress())) {
             claimNearTasksButton.setVisibility(View.VISIBLE);
 
             if (task.getIsHide()) {
