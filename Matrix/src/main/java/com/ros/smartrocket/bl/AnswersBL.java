@@ -158,7 +158,7 @@ public class AnswersBL {
         if (hasFile) {
             savePhotoVideoAnswersAverageLocation(task, answerList);
         } else {
-            MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
+            MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                 @Override
                 public void getLocationStart() {
                 }

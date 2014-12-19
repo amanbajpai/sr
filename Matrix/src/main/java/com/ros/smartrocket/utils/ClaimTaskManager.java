@@ -117,7 +117,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
 
-                MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
+                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
                     }

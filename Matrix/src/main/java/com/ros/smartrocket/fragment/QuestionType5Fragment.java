@@ -305,7 +305,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                 break;
             case R.id.confirmButton:
                 if (!isVideoConfirmed) {
-                    MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
+                    MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
                             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);

@@ -289,7 +289,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
                 break;
             case R.id.confirmButton:
-                MatrixLocationManager.getCurrentLocation(true, new MatrixLocationManager.GetCurrentLocationListener() {
+                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
                         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
