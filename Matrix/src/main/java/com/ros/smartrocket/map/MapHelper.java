@@ -84,7 +84,7 @@ public class MapHelper {
         if (mapFragment != null) {
             baiduMap = mapFragment.getBaiduMap();
             baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-            baiduMap.setMaxAndMinZoomLevel(1, 19);
+            baiduMap.setMaxAndMinZoomLevel(0, 19);
                     /*baiduMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                         @Override
                         public void onCameraChange(CameraPosition pos) {

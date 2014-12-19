@@ -33,7 +33,9 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -115,6 +117,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private boolean isFirstStart = true;
     private Marker currentLocationMarker;
     private Circle circle;
+    private Overlay circleBaidu;
 
     public TasksMapFragment() {
     }
@@ -143,6 +146,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         handler = new DbHandler(getActivity().getContentResolver());
 
         roundImage = (ImageView) view.findViewById(R.id.roundImage);
+        roundImage.setImageResource(Config.USE_BAIDU ? R.drawable.round_baidu : R.drawable.round);
         btnFilter = (ImageView) view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(this);
 
@@ -267,7 +271,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
 
-            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS && !Config.USE_BAIDU
+            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS/* && !Config.USE_BAIDU*/
                     /*|| mode == Keys.MapViewMode.WAVE_TASKS*/;
             btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
 
@@ -734,7 +738,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (location != null && getActivity() != null && !isTracking) {
             Resources r = getActivity().getResources();
             addCircle(location.getLatitude(), location.getLongitude(), taskRadius, r.getColor(R.color.map_radius_stroke),
-                    r.getColor(R.color.map_radius_fill));
+                    r.getColor(android.R.color.transparent));
         }
     }
 
@@ -765,13 +769,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-                /*com.baidu.mapapi.model.LatLng coordinates = new com.baidu.mapapi.model.LatLng(latitude, longitude);
-                OverlayOptions circle = new com.baidu.mapapi.map.CircleOptions()
+                com.baidu.mapapi.model.LatLng coordinates = new com.baidu.mapapi.model.LatLng(latitude, longitude);
+
+                circleBaidu = baiduMap.addOverlay(new com.baidu.mapapi.map.CircleOptions()
                         .center(coordinates)
                         .fillColor(fillColor)
                         .stroke(new Stroke(3, strokeColor))
-                        .radius(radius);
-                baiduMap.addOverlay(circle);*/
+                        .radius(radius));
             }
         });
     }
@@ -802,7 +806,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-                baiduMap.clear();
+                if (circleBaidu != null) {
+                    circleBaidu.remove();
+                }
+                if(baiduMap!=null){
+                    baiduMap.clear();
+                    baiduMap.setMyLocationData(new MyLocationData.Builder().build());
+                }
             }
         });
     }
