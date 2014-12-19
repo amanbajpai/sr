@@ -317,6 +317,10 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
 
                         @Override
                         public void getLocationSuccess(Location location) {
+                            if (getActivity() == null) {
+                                return;
+                            }
+
                             confirmButtonPressAction(location);
                             ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                         }

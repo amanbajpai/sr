@@ -128,6 +128,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
                     @Override
                     public void getLocationSuccess(Location location) {
+                        if (activity == null) {
+                            return;
+                        }
                         apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
                     }
                 });

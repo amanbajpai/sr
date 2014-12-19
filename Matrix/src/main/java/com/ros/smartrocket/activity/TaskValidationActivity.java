@@ -354,6 +354,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                         @Override
                         public void getLocationSuccess(Location location) {
+                            if (isFinishing()) {
+                                return;
+                            }
+
                             task.setLatitudeToValidation(location.getLatitude());
                             task.setLongitudeToValidation(location.getLongitude());
 
