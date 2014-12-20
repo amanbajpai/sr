@@ -806,12 +806,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-                if (circleBaidu != null) {
-                    circleBaidu.remove();
-                }
-                if(baiduMap!=null){
-                    baiduMap.clear();
-                    baiduMap.setMyLocationData(new MyLocationData.Builder().build());
+                if (baiduMap != null) {
+                    try {
+                        baiduMap.clear();
+                        baiduMap.setMyLocationData(new MyLocationData.Builder().build());
+                    } catch (Exception e) {
+                        L.e(TAG, "Clean Baidu map error", e);
+                    }
                 }
             }
         });
