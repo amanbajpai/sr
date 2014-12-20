@@ -453,54 +453,54 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 @Override
                 public void useBaiduMap(final BaiduMap baiduMap) {
+                    if (baiduMap != null && getActivity() != null && !getActivity().isFinishing()) {
+                        for (InputPoint point : inputPoints) {
+                            Task task = (Task) point.getTag();
+                            com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
+                            LatLng latLng = point.getMapPosition();
 
+                            com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(latLng.latitude, latLng.longitude);
 
-                    for (InputPoint point : inputPoints) {
-                        Task task = (Task) point.getTag();
-                        com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
-                        LatLng latLng = point.getMapPosition();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(Keys.TASK, task);
 
-                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(latLng.latitude, latLng.longitude);
+                            OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions()
+                                    .position(ll)
+                                    .icon(icon)
+                                    .zIndex(task.getId())
+                                    .extraInfo(bundle)
+                                    .draggable(true);
 
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Keys.TASK, task);
-
-                        OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions()
-                                .position(ll)
-                                .icon(icon)
-                                .zIndex(task.getId())
-                                .extraInfo(bundle)
-                                .draggable(true);
-
-                        baiduMap.addOverlay(ooA);
-                    }
-
-                    baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-                        public boolean onMarkerClick(final com.baidu.mapapi.map.Marker marker) {
-                            final Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
-                            View overlayView = LayoutInflater.from(getActivity()).inflate(R.layout.map_info_window, null);
-
-                            MapHelper.setMapOverlayView(getActivity(), overlayView, task);
-
-                            InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
-                                public void onInfoWindowClick() {
-
-                                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getStatusId());
-                                    baiduMap.hideInfoWindow();
-                                }
-                            };
-
-                            final com.baidu.mapapi.model.LatLng ll = marker.getPosition();
-                            Point p = baiduMap.getProjection().toScreenLocation(ll);
-                            p.y -= 47;
-
-                            com.baidu.mapapi.model.LatLng llInfo = baiduMap.getProjection().fromScreenLocation(p);
-                            InfoWindow mInfoWindow = new InfoWindow(overlayView, llInfo, listener);
-                            baiduMap.showInfoWindow(mInfoWindow);
-
-                            return true;
+                            baiduMap.addOverlay(ooA);
                         }
-                    });
+
+                        baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+                            public boolean onMarkerClick(final com.baidu.mapapi.map.Marker marker) {
+                                final Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
+                                View overlayView = LayoutInflater.from(getActivity()).inflate(R.layout.map_info_window, null);
+
+                                MapHelper.setMapOverlayView(getActivity(), overlayView, task);
+
+                                InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
+                                    public void onInfoWindowClick() {
+
+                                        MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getStatusId());
+                                        baiduMap.hideInfoWindow();
+                                    }
+                                };
+
+                                final com.baidu.mapapi.model.LatLng ll = marker.getPosition();
+                                Point p = baiduMap.getProjection().toScreenLocation(ll);
+                                p.y -= 47;
+
+                                com.baidu.mapapi.model.LatLng llInfo = baiduMap.getProjection().fromScreenLocation(p);
+                                InfoWindow mInfoWindow = new InfoWindow(overlayView, llInfo, listener);
+                                baiduMap.showInfoWindow(mInfoWindow);
+
+                                return true;
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -634,9 +634,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                     @Override
                     public void useBaiduMap(BaiduMap baiduMap) {
-                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(lm.getLocation().getLatitude(), lm.getLocation().getLongitude());
-                        baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(ll));
-                        baiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(zoomLevel + 1.4f));
+                        if (baiduMap != null && getActivity() != null && !getActivity().isFinishing()) {
+                            com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(lm.getLocation().getLatitude(), lm.getLocation().getLongitude());
+                            baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(ll));
+                            baiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(zoomLevel + 1.4f));
+                        }
                     }
                 });
 
@@ -701,15 +703,17 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 @Override
                 public void useBaiduMap(BaiduMap baiduMap) {
-                    MyLocationData locData = new MyLocationData.Builder()
-                            .latitude(location.getLatitude())
-                            .longitude(location.getLongitude())
-                            .build();
-                    baiduMap.setMyLocationData(locData);
+                    if (baiduMap != null && getActivity() != null && !getActivity().isFinishing()) {
+                        MyLocationData locData = new MyLocationData.Builder()
+                                .latitude(location.getLatitude())
+                                .longitude(location.getLongitude())
+                                .build();
+                        baiduMap.setMyLocationData(locData);
 
-                    com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(location.getLatitude(), location.getLongitude());
-                    MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-                    baiduMap.animateMapStatus(u);
+                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(location.getLatitude(), location.getLongitude());
+                        MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+                        baiduMap.animateMapStatus(u);
+                    }
                 }
             });
         }
@@ -806,7 +810,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-                if (baiduMap != null) {
+                if (baiduMap != null && getActivity() != null && !getActivity().isFinishing()) {
                     try {
                         baiduMap.clear();
                         baiduMap.setMyLocationData(new MyLocationData.Builder().build());
