@@ -178,6 +178,11 @@ public class AnswersBL {
         }
     }
 
+    /**
+     * Calculate average location for list of answers. And Save it to local DB
+     * @param task
+     * @param answerList
+     */
     public static void savePhotoVideoAnswersAverageLocation(final Task task, final List<Answer> answerList) {
         int photoVideoAnswerCount = 0;
 

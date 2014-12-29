@@ -285,6 +285,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    /**
+     * Check a lot of system setting before data upload. If some thing wrong show Dialog
+     * @return
+     */
     public boolean isReadyToSend() {
         boolean result = UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this)
                 && UIUtils.isGooglePlayServicesEnabled(this)
@@ -334,6 +338,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    /**
+     * Upload task right now.
+     */
     public void sendNowButtonClick() {
         if (isReadyToSend()) {
             if (!isValidationLocationAdded(task)) {
@@ -354,18 +361,15 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                         @Override
                         public void getLocationSuccess(Location location) {
-                            if (isFinishing()) {
-                                return;
+                            if (!isFinishing()) {
+                                saveLocationOfTaskToDb(task, location);
+
+                                setSupportProgressBarIndeterminateVisibility(false);
+
+                                sendAnswers();
+                            } else {
+                                //FIXME: how to save Location
                             }
-
-                            task.setLatitudeToValidation(location.getLatitude());
-                            task.setLongitudeToValidation(location.getLongitude());
-
-                            TasksBL.updateTask(task);
-
-                            setSupportProgressBarIndeterminateVisibility(false);
-
-                            sendAnswers();
                         }
                     });
                 }
@@ -375,6 +379,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    /**
+     * Postpone uploading and put it into local DB with flag.
+     */
     public void sendLaterButtonClick() {
         if (!isValidationLocationAdded(task)) {
             if (filesSizeB > 0) {
@@ -394,14 +401,15 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                     @Override
                     public void getLocationSuccess(Location location) {
-                        task.setLatitudeToValidation(location.getLatitude());
-                        task.setLongitudeToValidation(location.getLongitude());
+                        if (!isFinishing()) {
+                            saveLocationOfTaskToDb(task, location);
 
-                        TasksBL.updateTask(task);
+                            setSupportProgressBarIndeterminateVisibility(false);
 
-                        setSupportProgressBarIndeterminateVisibility(false);
-
-                        finishActivity();
+                            finishActivity();
+                        } else {
+                            //FIXME: how to save Location
+                        }
                     }
                 });
             }
@@ -475,4 +483,14 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         super.onStop();
     }
 
+    /**
+     * Save Location of task to DB
+     * @param task
+     * @param location
+     */
+    private void saveLocationOfTaskToDb(Task task, Location location) {
+        task.setLatitudeToValidation(location.getLatitude());
+        task.setLongitudeToValidation(location.getLongitude());
+        TasksBL.updateTask(task);
+    }
 }

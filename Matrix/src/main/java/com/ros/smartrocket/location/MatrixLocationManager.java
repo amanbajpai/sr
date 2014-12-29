@@ -234,20 +234,26 @@ public class MatrixLocationManager implements LocationListener,
         }
     }
 
-    public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener getCurrentLocationListener) {
+    /**
+     * Retrieve current location from {@link MatrixLocationManager}
+     * @param force If true than get location asynchronously, false - block Thread and wait update!
+     * @param currentLocationListener
+     */
+    public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener
+            currentLocationListener) {
         MatrixLocationManager lm = App.getInstance().getLocationManager();
 
-        getCurrentLocationListener.getLocationStart();
+        currentLocationListener.getLocationStart();
 
         Location location = lm.getLocation();
         if (location != null && !force) {
-            getCurrentLocationListener.getLocationSuccess(location);
+            currentLocationListener.getLocationSuccess(location);
         } else {
-            getCurrentLocationListener.getLocationInProcess();
+            currentLocationListener.getLocationInProcess();
             lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
                 @Override
                 public void onUpdate(Location location) {
-                    getCurrentLocationListener.getLocationSuccess(location);
+                    currentLocationListener.getLocationSuccess(location);
                 }
             });
         }
