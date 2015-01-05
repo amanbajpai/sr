@@ -5,7 +5,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +72,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
         conditionText.setText(R.string.choose_one_or_more_answers);
 
-        adapter = new AnswerCheckBoxAdapter(getActivity());
+        adapter = new AnswerCheckBoxAdapter(getActivity(), answerSelectedListener);
         list.setAdapter(adapter);
 
         questionText.setText(question.getQuestion());

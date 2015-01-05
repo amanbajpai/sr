@@ -72,7 +72,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
         conditionText.setText(R.string.choose_one_answer);
 
-        adapter = new AnswerRadioButtonAdapter(getActivity());
+        adapter = new AnswerRadioButtonAdapter(getActivity(), answerSelectedListener);
         list.setAdapter(adapter);
 
         questionText.setText(question.getQuestion());

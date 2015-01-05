@@ -2,6 +2,7 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,15 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter {
     private Answer[] answers;
     private LayoutInflater inflater;
+    private OnAnswerSelectedListener answerSelectedListener;
 
     public static class ViewHolder {
         private TextView name;
@@ -29,8 +32,9 @@ public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter
         }
     }
 
-    public AnswerRadioButtonAdapter(Activity activity) {
+    public AnswerRadioButtonAdapter(Activity activity, OnAnswerSelectedListener answerSelectedListener) {
         this.inflater = LayoutInflater.from(activity);
+        this.answerSelectedListener = answerSelectedListener;
     }
 
     public int getCount() {
@@ -110,6 +114,17 @@ public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter
                 @Override
                 public void afterTextChanged(Editable s) {
                     answer.setAnswer(s.toString());
+
+                    if (answerSelectedListener != null) {
+                        boolean selected = false;
+                        for (Answer answer : getData()) {
+                            if (answer.isChecked() && !TextUtils.isEmpty(answer.getAnswer())) {
+                                selected = true;
+                                break;
+                            }
+                        }
+                        answerSelectedListener.onAnswerSelected(selected);
+                    }
                 }
             });
         } else {

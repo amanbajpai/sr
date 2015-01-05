@@ -12,12 +12,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
 public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
     private Answer[] answers;
     private LayoutInflater inflater;
+    private OnAnswerSelectedListener answerSelectedListener;
 
     public static class ViewHolder {
         private TextView name;
@@ -33,8 +36,9 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         }
     }
 
-    public AnswerCheckBoxAdapter(Activity activity) {
+    public AnswerCheckBoxAdapter(Activity activity, OnAnswerSelectedListener answerSelectedListener) {
         this.inflater = LayoutInflater.from(activity);
+        this.answerSelectedListener = answerSelectedListener;
     }
 
     public int getCount() {
@@ -99,6 +103,17 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
                     answer.setAnswer(s.toString());
                     answer.setChecked(!TextUtils.isEmpty(s.toString()));
                     checkBox.setChecked(!TextUtils.isEmpty(s.toString()));
+
+                    if (answerSelectedListener != null) {
+                        boolean selected = false;
+                        for (Answer answer : getData()) {
+                            if (answer.isChecked()) {
+                                selected = true;
+                                break;
+                            }
+                        }
+                        answerSelectedListener.onAnswerSelected(selected);
+                    }
                 }
             });
         } else {
