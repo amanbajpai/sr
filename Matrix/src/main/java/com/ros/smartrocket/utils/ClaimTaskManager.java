@@ -108,8 +108,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         public DbHandler(ContentResolver cr) {
             super(cr);
         }
-
-
     }
 
     @Override
