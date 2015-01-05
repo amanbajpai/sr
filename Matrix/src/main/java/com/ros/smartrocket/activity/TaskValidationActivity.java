@@ -368,7 +368,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                                 sendAnswers();
                             } else {
-                                //FIXME: how to save Location
+                                saveLocationOfTaskToDb(task, location);
                             }
                         }
                     });
@@ -408,7 +408,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                             finishActivity();
                         } else {
-                            //FIXME: how to save Location
+                            saveLocationOfTaskToDb(task, location);
                         }
                     }
                 });

@@ -236,7 +236,8 @@ public class MatrixLocationManager implements LocationListener,
 
     /**
      * Retrieve current location from {@link MatrixLocationManager}
-     * @param force If true than get location asynchronously, false - block Thread and wait update!
+     *
+     * @param force                   If true than get location asynchronously, false - block Thread and wait update!
      * @param currentLocationListener
      */
     public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener
@@ -256,6 +257,11 @@ public class MatrixLocationManager implements LocationListener,
                     currentLocationListener.getLocationSuccess(location);
                 }
             });
+            if (lm.isConnected()) {
+                lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
+            }
+
+            lm.notifyAllRequestedLocation();
         }
     }
 
