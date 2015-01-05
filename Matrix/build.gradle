@@ -159,6 +159,7 @@ android {
         debug {
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
             zipAlignEnabled false
+            minifyEnabled false
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false
@@ -171,6 +172,7 @@ android {
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
             signingConfig signingConfigs.release
             zipAlignEnabled true
+            minifyEnabled false
             debuggable false
             jniDebuggable false
             renderscriptDebuggable false
@@ -187,7 +189,7 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.web.matrix.osiris.pp.ciklum.com/Account/Manage\""
-            buildConfigField "String", "GEOCODER_URL", "\"http://maps.googleapis.com\""
+            buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Staging {
             applicationId 'com.ros.smartrocket'
@@ -196,7 +198,7 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://web.staging.redoceansolutions.com/Account/Manage\""
-            buildConfigField "String", "GEOCODER_URL", "\"http://maps.googleapis.com\""
+            buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
             versionCode 10003
@@ -206,7 +208,7 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
-            buildConfigField "String", "GEOCODER_URL", "\"http://maps.googleapis.com\""
+            buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
 
         ChinaDev {

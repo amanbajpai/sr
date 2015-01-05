@@ -4,7 +4,9 @@ import android.content.Context;
 import android.location.Address;
 import android.net.http.AndroidHttpClient;
 import android.text.TextUtils;
+import android.util.Base64;
 
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.utils.L;
 
@@ -19,13 +21,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 public final class Geocoder {
     private static final String TAG = "Geocoder";
+    private static String key = "W5p8-Mt3zmaPqLT0c9rpin64Dno=";
     /**
      * Indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
      */
@@ -89,12 +96,64 @@ public final class Geocoder {
         url.append(longitude);
         url.append("&language=");
         url.append(locale.getLanguage());
+        url.append("&key=");
+        url.append(BuildConfig.SERVER_API_KEY);
+        url.append("&client=");
+        url.append("gme-redoceansolutions");
+
+        String signature = getSignature(url.toString(), key);
+
+        url.append("&signature=");
+        try {
+            url.append(URLEncoder.encode(signature, "UTF-8"));
+        } catch (Exception e) {
+            L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
+        }
 
         String json = sendGetRequest(url.toString());
 
         client.close();
 
         return getAddress(json, latitude, longitude);
+    }
+
+    private String getSignature(String baseUrl, String baseKey) {
+        String result = "";
+
+        try {
+            URL url = new URL(baseUrl);
+
+            baseKey = baseKey.replace('-', '+');
+            baseKey = baseKey.replace('_', '/');
+
+            byte[] key = Base64.decode(baseKey, Base64.DEFAULT);
+
+            String resource = url.getPath() + '?' + url.getQuery();
+
+            // Get an HMAC-SHA1 signing key from the raw key bytes
+            SecretKeySpec sha1Key = new SecretKeySpec(key, "HmacSHA1");
+
+            // Get an HMAC-SHA1 Mac instance and initialize it with the HMAC-SHA1 key
+            Mac mac = Mac.getInstance("HmacSHA1");
+            mac.init(sha1Key);
+
+            // compute the binary signature for the request
+            byte[] sigBytes = mac.doFinal(resource.getBytes());
+
+            // base 64 encode the binary signature
+            String signature = Base64.encodeToString(sigBytes, Base64.DEFAULT);
+
+            // convert the signature to 'web safe' base 64
+            signature = signature.replace('+', '-');
+            signature = signature.replace('/', '_');
+
+            result = signature;
+
+        } catch (Exception e) {
+            L.e(TAG, "Error in getSignature method.", e);
+        }
+
+        return result;
     }
 
     /**
