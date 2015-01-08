@@ -118,7 +118,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
         if (answerSelectedListener != null) {
             boolean selected = false;
             for (Answer answer : adapter.getData()) {
-                if (answer.isChecked()) {
+                if (answer.getChecked()) {
                     selected = true;
                     break;
                 }

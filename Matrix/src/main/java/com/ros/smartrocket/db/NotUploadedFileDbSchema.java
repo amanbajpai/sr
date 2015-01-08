@@ -13,23 +13,21 @@ public interface NotUploadedFileDbSchema {
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
-        TASK_ID("TaskId", DBType.NUMERIC),
-        QUESTION_ID("QuestionId", DBType.NUMERIC),
-        FILE_URI("FileUri", DBType.TEXT),
-        ADDED_TO_UPLOAD_DATE_TIME("AddedToUploadDateTime", DBType.NUMERIC),
-        END_DATE_TIME("EndDateTime", DBType.NUMERIC),
+        TASK_ID("taskId", DBType.NUMERIC),
+        QUESTION_ID("questionId", DBType.NUMERIC),
+        FILE_URI("fileUri", DBType.TEXT),
+        ADDED_TO_UPLOAD_DATE_TIME("addedToUploadDateTime", DBType.NUMERIC),
+        END_DATE_TIME("endDateTime", DBType.NUMERIC),
         USE_3G("use3G", DBType.INT),
         FILE_SIZE_B("fileSizeB", DBType.NUMERIC),
         SHOW_NOTIFICATION_STEP_ID("showNotificationStepId", DBType.INT),
+        TASK_NAME("taskName", DBType.TEXT),
+        LATITUDE_TO_VALIDATION("latitudeToValidation", DBType.TEXT),
+        LONGITUDE_TO_VALIDATION("longitudeToValidation", DBType.TEXT),
 
-        PORTION("Portion", DBType.INT),
-        FILE_CODE("FileCode", DBType.TEXT),
-        FILE_NAME("FileName", DBType.TEXT),
-
-        TASK_NAME("TaskName", DBType.TEXT),
-
-        LATITUDE_TO_VALIDATION("LatitudeToValidation", DBType.TEXT),
-        LONGITUDE_TO_VALIDATION("LongitudeToValidation", DBType.TEXT),
+        PORTION("portion", DBType.INT),
+        FILE_CODE("fileCode", DBType.TEXT),
+        FILE_NAME("fileName", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 

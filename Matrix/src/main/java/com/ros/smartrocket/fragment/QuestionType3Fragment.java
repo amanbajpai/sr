@@ -101,7 +101,7 @@ public class QuestionType3Fragment extends BaseQuestionFragment implements View.
                     QuestionType3Fragment.this.question.setAnswers(answers);
 
                     Answer answer = answers[0];
-                    if (answer.isChecked() && answer.getFileUri() != null) {
+                    if (answer.getChecked() && answer.getFileUri() != null) {
                         isBitmapAdded = true;
                         isBitmapConfirmed = true;
 

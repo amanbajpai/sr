@@ -1,24 +1,28 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ActivateAccount extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Email;
-    private String Token;
+    @SerializedName("Email")
+    private String email;
+    @SerializedName("Token")
+    private String token;
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getToken() {
-        return Token;
+        return token;
     }
 
     public void setToken(String token) {
-        Token = token;
+        this.token = token;
     }
 }

@@ -194,6 +194,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                         setTaskData(task);
                         WavesBL.getWaveFromDB(handler, task.getWaveId());
                     } else {
+                        if (cursor != null) {
+                            cursor.close();
+                        }
                         finish();
                     }
                     break;

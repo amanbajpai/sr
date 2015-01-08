@@ -123,7 +123,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     QuestionType5Fragment.this.question.setAnswers(answers);
 
                     Answer answer = answers[0];
-                    if (answer.isChecked() && answer.getFileUri() != null) {
+                    if (answer.getChecked() && answer.getFileUri() != null) {
                         isVideoAdded = true;
                         isVideoConfirmed = true;
                         videoPath = Uri.parse(answer.getFileUri()).getPath();

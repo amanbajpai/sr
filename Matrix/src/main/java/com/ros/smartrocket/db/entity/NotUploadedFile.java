@@ -2,8 +2,8 @@ package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.utils.L;
 
 /**
@@ -35,21 +35,32 @@ public class NotUploadedFile extends BaseEntity {
         }
     }
 
-    private Integer TaskId;
-    private String TaskName;
-    private Integer QuestionId;
-    private String FileUri;
-    private Long AddedToUploadDateTime;
-    private Long EndDateTime;
+    @SerializedName("TaskId")
+    private Integer taskId;
+    @SerializedName("TaskName")
+    private String taskName;
+    @SerializedName("QuestionId")
+    private Integer questionId;
+    @SerializedName("FileUri")
+    private String fileUri;
+    @SerializedName("AddedToUploadDateTime")
+    private Long addedToUploadDateTime;
+    @SerializedName("EndDateTime")
+    private Long endDateTime;
+    @SerializedName("Portion")
+    private Integer portion;
+    @SerializedName("FileCode")
+    private String fileCode;
+    @SerializedName("FileName")
+    private String fileName;
+    @SerializedName("LongitudeToValidation")
+    private Double longitudeToValidation;
+    @SerializedName("LatitudeToValidation")
+    private Double latitudeToValidation;
+
     private Boolean use3G;
     private Long fileSizeB;
     private Integer showNotificationStepId;
-    private Integer Portion;
-    private String FileCode;
-    private String FileName;
-
-    private Double LongitudeToValidation;
-    private Double LatitudeToValidation;
 
     public NotUploadedFile() {
     }
@@ -82,35 +93,35 @@ public class NotUploadedFile extends BaseEntity {
     }
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(Integer taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 
     public Long getEndDateTime() {
-        return EndDateTime;
+        return endDateTime;
     }
 
     public void setEndDateTime(Long endDateTime) {
-        EndDateTime = endDateTime;
+        this.endDateTime = endDateTime;
     }
 
     public Integer getQuestionId() {
-        return QuestionId;
+        return questionId;
     }
 
     public void setQuestionId(Integer questionId) {
-        QuestionId = questionId;
+        this.questionId = questionId;
     }
 
     public String getFileUri() {
-        return FileUri;
+        return fileUri;
     }
 
     public void setFileUri(String fileUri) {
-        FileUri = fileUri;
+        this.fileUri = fileUri;
     }
 
 
@@ -132,11 +143,11 @@ public class NotUploadedFile extends BaseEntity {
 
 
     public Long getAddedToUploadDateTime() {
-        return AddedToUploadDateTime;
+        return addedToUploadDateTime;
     }
 
     public void setAddedToUploadDateTime(Long addedToUploadDateTime) {
-        AddedToUploadDateTime = addedToUploadDateTime;
+        this.addedToUploadDateTime = addedToUploadDateTime;
     }
 
 
@@ -150,50 +161,50 @@ public class NotUploadedFile extends BaseEntity {
 
 
     public Integer getPortion() {
-        return Portion;
+        return portion;
     }
 
     public void setPortion(Integer portion) {
-        Portion = portion;
+        this.portion = portion;
     }
 
     public String getFileCode() {
-        return FileCode;
+        return fileCode;
     }
 
     public void setFileCode(String fileCode) {
-        FileCode = fileCode;
+        this.fileCode = fileCode;
     }
 
     public String getFileName() {
-        return FileName;
+        return fileName;
     }
 
     public void setFileName(String fileName) {
-        FileName = fileName;
+        this.fileName = fileName;
     }
 
     public String getTaskName() {
-        return TaskName;
+        return taskName;
     }
 
     public void setTaskName(String taskName) {
-        TaskName = taskName;
+        this.taskName = taskName;
     }
 
     public Double getLongitudeToValidation() {
-        return LongitudeToValidation == null ? 0 : LongitudeToValidation;
+        return longitudeToValidation == null ? 0 : longitudeToValidation;
     }
 
     public void setLongitudeToValidation(Double longitudeToValidation) {
-        LongitudeToValidation = longitudeToValidation;
+        this.longitudeToValidation = longitudeToValidation;
     }
 
     public Double getLatitudeToValidation() {
-        return LatitudeToValidation == null ? 0 : LatitudeToValidation;
+        return latitudeToValidation == null ? 0 : latitudeToValidation;
     }
 
     public void setLatitudeToValidation(Double latitudeToValidation) {
-        LatitudeToValidation = latitudeToValidation;
+        this.latitudeToValidation = latitudeToValidation;
     }
 }

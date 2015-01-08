@@ -82,7 +82,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         }
 
         final Answer answer = answers[position];
-        holder.checkBox.setChecked(answer.isChecked());
+        holder.checkBox.setChecked(answer.getChecked());
 
         if (Integer.valueOf(answer.getValue()) >= 1000) {
             final CheckBox checkBox = holder.checkBox;
@@ -107,7 +107,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
                     if (answerSelectedListener != null) {
                         boolean selected = false;
                         for (Answer answer : getData()) {
-                            if (answer.isChecked()) {
+                            if (answer.getChecked()) {
                                 selected = true;
                                 break;
                             }

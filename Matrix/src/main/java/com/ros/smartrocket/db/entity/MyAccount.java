@@ -1,152 +1,169 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MyAccount extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Name;
-    private String PhotoUrl;
-    private Double TotalEarnings;
-    private Double Balance;
-    private Double MinimalWithdrawAmount;
-    private Integer Experience;
-    private Integer MinLevelExperience;
-    private Integer MaxLevelExperience;
-    private Integer ToNextLevel;
-    private Integer LevelNumber;
-    private String LevelName;
-    private String LevelDescription;
-    private String LevelIconUrl;
-    private String CurrencySign;
-    private Boolean CashoutRequested;
-
-    private Integer TermsAndConditionsVersion;
+    @SerializedName("Name")
+    private String name;
+    @SerializedName("PhotoUrl")
+    private String photoUrl;
+    @SerializedName("TotalEarnings")
+    private Double totalEarnings;
+    @SerializedName("Balance")
+    private Double balance;
+    @SerializedName("MinimalWithdrawAmount")
+    private Double minimalWithdrawAmount;
+    @SerializedName("Experience")
+    private Integer experience;
+    @SerializedName("MinLevelExperience")
+    private Integer minLevelExperience;
+    @SerializedName("MaxLevelExperience")
+    private Integer maxLevelExperience;
+    @SerializedName("ToNextLevel")
+    private Integer toNextLevel;
+    @SerializedName("LevelNumber")
+    private Integer levelNumber;
+    @SerializedName("LevelName")
+    private String levelName;
+    @SerializedName("LevelDescription")
+    private String levelDescription;
+    @SerializedName("LevelIconUrl")
+    private String levelIconUrl;
+    @SerializedName("CurrencySign")
+    private String currencySign;
+    @SerializedName("CashoutRequested")
+    private Boolean cashoutRequested;
+    @SerializedName("TermsAndConditionsVersion")
+    private Integer termsAndConditionsVersion;
 
     public Double getTotalEarnings() {
-        return TotalEarnings;
+        return totalEarnings;
     }
 
     public void setTotalEarnings(Double totalEarnings) {
-        TotalEarnings = totalEarnings;
+        this.totalEarnings = totalEarnings;
     }
 
     public Double getBalance() {
-        return Balance;
+        return balance;
     }
 
     public void setBalance(Double balance) {
-        Balance = balance;
+        this.balance = balance;
     }
 
     public Integer getExperience() {
-        return Experience;
+        return experience;
     }
 
     public void setExperience(Integer experience) {
-        Experience = experience;
+        this.experience = experience;
     }
 
     public Integer getToNextLevel() {
-        return ToNextLevel;
+        return toNextLevel;
     }
 
     public void setToNextLevel(Integer toNextLevel) {
-        ToNextLevel = toNextLevel;
+        this.toNextLevel = toNextLevel;
     }
 
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getPhotoUrl() {
-        return PhotoUrl;
+        return photoUrl;
     }
 
     public void setPhotoUrl(String photoUrl) {
-        PhotoUrl = photoUrl;
+        this.photoUrl = photoUrl;
     }
 
     public Integer getMinLevelExperience() {
-        return MinLevelExperience;
+        return minLevelExperience;
     }
 
     public void setMinLevelExperience(Integer minLevelExperience) {
-        MinLevelExperience = minLevelExperience;
+        this.minLevelExperience = minLevelExperience;
     }
 
     public Integer getMaxLevelExperience() {
-        return MaxLevelExperience;
+        return maxLevelExperience;
     }
 
     public void setMaxLevelExperience(Integer maxLevelExperience) {
-        MaxLevelExperience = maxLevelExperience;
+        this.maxLevelExperience = maxLevelExperience;
     }
 
     public Integer getLevelNumber() {
-        return LevelNumber;
+        return levelNumber;
     }
 
     public void setLevelNumber(Integer levelNumber) {
-        LevelNumber = levelNumber;
+        this.levelNumber = levelNumber;
     }
 
     public String getLevelName() {
-        return LevelName;
+        return levelName;
     }
 
     public void setLevelName(String levelName) {
-        LevelName = levelName;
+        this.levelName = levelName;
     }
 
     public String getLevelIconUrl() {
-        return LevelIconUrl;
+        return levelIconUrl;
     }
 
     public void setLevelIconUrl(String levelIconUrl) {
-        LevelIconUrl = levelIconUrl;
+        this.levelIconUrl = levelIconUrl;
     }
 
     public Integer getTermsAndConditionsVersion() {
-        return TermsAndConditionsVersion != null ? TermsAndConditionsVersion : 1;
+        return termsAndConditionsVersion != null ? termsAndConditionsVersion : 1;
     }
 
     public void setTermsAndConditionsVersion(Integer termsAndConditionsVersion) {
-        TermsAndConditionsVersion = termsAndConditionsVersion;
+        this.termsAndConditionsVersion = termsAndConditionsVersion;
     }
 
     public String getLevelDescription() {
-        return LevelDescription;
+        return levelDescription;
     }
 
     public void setLevelDescription(String levelDescription) {
-        LevelDescription = levelDescription;
+        this.levelDescription = levelDescription;
     }
 
     public String getCurrencySign() {
-        return CurrencySign;
+        return currencySign;
     }
 
     public void setCurrencySign(String currencySign) {
-        CurrencySign = currencySign;
+        this.currencySign = currencySign;
     }
 
     public Double getMinimalWithdrawAmount() {
-        return MinimalWithdrawAmount;
+        return minimalWithdrawAmount;
     }
 
     public void setMinimalWithdrawAmount(Double minimalWithdrawAmount) {
-        MinimalWithdrawAmount = minimalWithdrawAmount;
+        this.minimalWithdrawAmount = minimalWithdrawAmount;
     }
 
     public Boolean getCashoutRequested() {
-        return CashoutRequested;
+        return cashoutRequested;
     }
 
     public void setCashoutRequested(Boolean cashoutRequested) {
-        CashoutRequested = cashoutRequested;
+        this.cashoutRequested = cashoutRequested;
     }
 }

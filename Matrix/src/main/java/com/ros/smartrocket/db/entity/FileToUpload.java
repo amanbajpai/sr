@@ -1,85 +1,95 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Data model of NotUploadedFile entity
  */
 public class FileToUpload extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private Integer TaskId;
-    private Integer QuestionId;
-    private String FileCode;
-    private String Filename;
-    private Long FileLength;
-    private Long FileOffset;
-    private String FileBase64String;
-    private String LanguageCode;
+    @SerializedName("TaskId")
+    private Integer taskId;
+    @SerializedName("QuestionId")
+    private Integer questionId;
+    @SerializedName("FileCode")
+    private String fileCode;
+    @SerializedName("Filename")
+    private String filename;
+    @SerializedName("FileLength")
+    private Long fileLength;
+    @SerializedName("FileOffset")
+    private Long fileOffset;
+    @SerializedName("FileBase64String")
+    private String fileBase64String;
+    @SerializedName("LanguageCode")
+    private String languageCode;
 
     public FileToUpload() {
     }
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(Integer taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 
     public Integer getQuestionId() {
-        return QuestionId;
+        return questionId;
     }
 
     public void setQuestionId(Integer questionId) {
-        QuestionId = questionId;
+        this.questionId = questionId;
     }
 
     public String getFileCode() {
-        return FileCode;
+        return fileCode;
     }
 
     public void setFileCode(String fileCode) {
-        FileCode = fileCode;
+        this.fileCode = fileCode;
     }
 
     public String getFilename() {
-        return Filename;
+        return filename;
     }
 
     public void setFilename(String filename) {
-        Filename = filename;
+        this.filename = filename;
     }
 
     public Long getFileLength() {
-        return FileLength;
+        return fileLength;
     }
 
     public void setFileLength(Long fileLength) {
-        FileLength = fileLength;
+        this.fileLength = fileLength;
     }
 
     public String getFileBase64String() {
-        return FileBase64String;
+        return fileBase64String;
     }
 
     public void setFileBase64String(String fileBase64String) {
-        FileBase64String = fileBase64String;
+        this.fileBase64String = fileBase64String;
     }
 
     public Long getFileOffset() {
-        return FileOffset;
+        return fileOffset;
     }
 
     public void setFileOffset(Long fileOffset) {
-        FileOffset = fileOffset;
+        this.fileOffset = fileOffset;
     }
 
     public String getLanguageCode() {
-        return LanguageCode;
+        return languageCode;
     }
 
     public void setLanguageCode(String languageCode) {
-        LanguageCode = languageCode;
+        this.languageCode = languageCode;
     }
 
 }

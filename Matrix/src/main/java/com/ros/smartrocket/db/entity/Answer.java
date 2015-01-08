@@ -2,31 +2,36 @@ package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.AnswerDbSchema;
-import com.ros.smartrocket.db.WaveDbSchema;
-import com.ros.smartrocket.utils.L;
 
 import java.io.Serializable;
 
 public class Answer extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
-    private Integer QuestionId;
-    private Integer TaskId;
-    private String Answer;
+    @SerializedName("QuestionId")
+    private Integer questionId;
+    @SerializedName("TaskId")
+    private Integer taskId;
+    @SerializedName("Answer")
+    private String answer;
 
-    private String Value;
-    private Integer Routing;
+    @SerializedName("Value")
+    private String value;
+    @SerializedName("Routing")
+    private Integer routing;
 
-    private Boolean Checked = false;
+    @SerializedName("Checked")
+    private Boolean checked = false;
 
-    private transient String FileUri;
-    private transient Long FileSizeB;
+    private transient String fileUri;
+    private transient Long fileSizeB;
 
-    private transient String FileName;
+    private transient String fileName;
 
-    private transient Double Longitude;
-    private transient Double Latitude;
+    private transient Double longitude;
+    private transient Double latitude;
 
     public Answer() {
     }
@@ -53,98 +58,98 @@ public class Answer extends BaseEntity implements Serializable {
     }
 
     public String getAnswer() {
-        return Answer;
+        return answer;
     }
 
     public void setAnswer(String answer) {
-        Answer = answer;
+        this.answer = answer;
     }
 
-    public boolean isChecked() {
-        return Checked;
+    public boolean getChecked() {
+        return checked;
     }
 
     public void setChecked(boolean checked) {
-        Checked = checked;
+        this.checked = checked;
     }
 
     public Integer getQuestionId() {
-        return QuestionId;
+        return questionId;
     }
 
     public void setQuestionId(Integer questionId) {
-        QuestionId = questionId;
+        this.questionId = questionId;
     }
 
     public String getValue() {
-        return Value;
+        return value;
     }
 
     public void setValue(String value) {
-        Value = value;
+        this.value = value;
     }
 
     public Integer getRouting() {
-        return Routing;
+        return routing;
     }
 
     public void setRouting(Integer routing) {
-        Routing = routing;
+        this.routing = routing;
     }
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(Integer taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 
 
     public void toggleChecked() {
-        Checked = !Checked;
+        checked = !checked;
     }
 
     public String getFileUri() {
-        return FileUri;
+        return fileUri;
     }
 
     public void setFileUri(String fileUri) {
-        this.FileUri = fileUri;
+        this.fileUri = fileUri;
     }
 
 
     public Long getFileSizeB() {
-        return FileSizeB;
+        return fileSizeB;
     }
 
     public void setFileSizeB(Long fileSizeB) {
-        this.FileSizeB = fileSizeB;
+        this.fileSizeB = fileSizeB;
     }
 
 
     public String getFileName() {
-        return FileName;
+        return fileName;
     }
 
     public void setFileName(String fileName) {
-        FileName = fileName;
+        this.fileName = fileName;
     }
 
     public Double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public Double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
 }

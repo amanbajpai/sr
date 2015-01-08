@@ -1,70 +1,79 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Login extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Email;
-    private String Password;
-    private String DeviceName;
-    private String DeviceModel;
-    private String DeviceManufacturer;
-    private String AppVersion;
-    private String AndroidVersion;
+    @SerializedName("Email")
+    private String email;
+    @SerializedName("Password")
+    private String password;
+    @SerializedName("DeviceName")
+    private String deviceName;
+    @SerializedName("DeviceModel")
+    private String deviceModel;
+    @SerializedName("DeviceManufacturer")
+    private String deviceManufacturer;
+    @SerializedName("AppVersion")
+    private String appVersion;
+    @SerializedName("AndroidVersion")
+    private String androidVersion;
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getDeviceName() {
-        return DeviceName;
+        return deviceName;
     }
 
     public void setDeviceName(String deviceName) {
-        DeviceName = deviceName;
+        this.deviceName = deviceName;
     }
 
     public String getAppVersion() {
-        return AppVersion;
+        return appVersion;
     }
 
     public void setAppVersion(String appVersion) {
-        AppVersion = appVersion;
+        this.appVersion = appVersion;
     }
 
     public String getDeviceModel() {
-        return DeviceModel;
+        return deviceModel;
     }
 
     public void setDeviceModel(String deviceModel) {
-        DeviceModel = deviceModel;
+        this.deviceModel = deviceModel;
     }
 
     public String getDeviceManufacturer() {
-        return DeviceManufacturer;
+        return deviceManufacturer;
     }
 
     public void setDeviceManufacturer(String deviceManufacturer) {
-        DeviceManufacturer = deviceManufacturer;
+        this.deviceManufacturer = deviceManufacturer;
     }
 
     public String getAndroidVersion() {
-        return AndroidVersion;
+        return androidVersion;
     }
 
     public void setAndroidVersion(String androidVersion) {
-        AndroidVersion = androidVersion;
+        this.androidVersion = androidVersion;
     }
 
 

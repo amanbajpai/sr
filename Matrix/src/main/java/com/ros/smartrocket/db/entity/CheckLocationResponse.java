@@ -1,62 +1,70 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CheckLocationResponse extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private Boolean Status = false;
-    private Integer CountryId;
-    private Integer CityId;
-    private Integer DistrictId;
-    private String CountryName;
-    private String CityName;
+    @SerializedName("Status")
+    private Boolean status = false;
+    @SerializedName("CountryId")
+    private Integer countryId;
+    @SerializedName("CityId")
+    private Integer cityId;
+    @SerializedName("DistrictId")
+    private Integer districtId;
+    @SerializedName("CountryName")
+    private String countryName;
+    @SerializedName("CityName")
+    private String cityName;
 
     public Boolean getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(Boolean status) {
-        this.Status = status;
+        this.status = status;
     }
 
     public Integer getCountryId() {
-        return CountryId;
+        return countryId;
     }
 
     public void setCountryId(Integer countryId) {
-        CountryId = countryId;
+        this.countryId = countryId;
     }
 
     public Integer getCityId() {
-        return CityId;
+        return cityId;
     }
 
     public void setCityId(Integer cityId) {
-        CityId = cityId;
+        this.cityId = cityId;
     }
 
     public Integer getDistrictId() {
-        return DistrictId;
+        return districtId;
     }
 
     public void setDistrictId(Integer districtId) {
-        DistrictId = districtId;
+        this.districtId = districtId;
     }
 
 
     public String getCountryName() {
-        return CountryName;
+        return countryName;
     }
 
     public void setCountryName(String countryName) {
-        CountryName = countryName;
+        this.countryName = countryName;
     }
 
     public String getCityName() {
-        return CityName;
+        return cityName;
     }
 
     public void setCityName(String cityName) {
-        CityName = cityName;
+        this.cityName = cityName;
     }
 
 }

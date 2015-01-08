@@ -12,19 +12,19 @@ public interface AnswerDbSchema {
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
-        QUESTION_ID("QuestionId", DBType.NUMERIC),
-        TASK_ID("TaskId", DBType.NUMERIC),
-        ANSWER("Answer", DBType.TEXT),
-        VALUE("Value", DBType.TEXT),
-        ROUTING("Routing", DBType.NUMERIC),
-        CHECKED("Checked", DBType.NUMERIC),
+        QUESTION_ID("questionId", DBType.NUMERIC),
+        TASK_ID("taskId", DBType.NUMERIC),
+        ANSWER("answer", DBType.TEXT),
+        VALUE("value", DBType.TEXT),
+        ROUTING("routing", DBType.NUMERIC),
+        CHECKED("checked", DBType.NUMERIC),
 
-        FILE_URI("FileUri", DBType.TEXT),
-        FILE_SIZE_B("FileSizeB", DBType.NUMERIC),
-        FILE_NAME("FileName", DBType.TEXT),
+        FILE_URI("fileUri", DBType.TEXT),
+        FILE_SIZE_B("fileSizeB", DBType.NUMERIC),
+        FILE_NAME("fileName", DBType.TEXT),
 
-        LONGITUDE("Longitude", DBType.TEXT),
-        LATITUDE("Latitude", DBType.TEXT),
+        LONGITUDE("longitude", DBType.TEXT),
+        LATITUDE("latitude", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 

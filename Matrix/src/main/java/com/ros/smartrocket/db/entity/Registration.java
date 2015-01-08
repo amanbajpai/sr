@@ -1,130 +1,148 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Registration extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Email;
-    private String Password;
-    private String FirstName;
-    private String LastName;
-    private Integer Gender;
-    private Integer EducationLevel;
-    private Integer EmploymentStatus;
-    private Integer ReferralId;
-    private String Birthday;
-    private Integer DistrictId;
-    private Integer CountryId;
-    private Integer CityId;
-    private Double Longitude;
-    private Double Latitude;
-    private String GroupCode;
+    @SerializedName("Email")
+    private String email;
+    @SerializedName("Password")
+    private String password;
+    @SerializedName("FirstName")
+    private String firstName;
+    @SerializedName("LastName")
+    private String lastName;
+    @SerializedName("Gender")
+    private Integer gender;
+    @SerializedName("EducationLevel")
+    private Integer educationLevel;
+    @SerializedName("EmploymentStatus")
+    private Integer employmentStatus;
+    @SerializedName("ReferralId")
+    private Integer referralId;
+    @SerializedName("Birthday")
+    private String birthday;
+    @SerializedName("DistrictId")
+    private Integer districtId;
+    @SerializedName("CountryId")
+    private Integer countryId;
+    @SerializedName("CityId")
+    private Integer cityId;
+    @SerializedName("Longitude")
+    private Double longitude;
+    @SerializedName("Latitude")
+    private Double latitude;
+    @SerializedName("GroupCode")
+    private String groupCode;
+    @SerializedName("TermsAndConditionsVersion")
+    private Integer termsAndConditionsVersion;
+    @SerializedName("PhotoBase64")
     private String photoBase64;
 
-    private Integer TermsAndConditionsVersion;
-
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public Integer getGender() {
-        return Gender;
+        return gender;
     }
 
     public void setGender(Integer gender) {
-        Gender = gender;
+        this.gender = gender;
     }
 
     public String getBirthday() {
-        return Birthday;
+        return birthday;
     }
 
     public void setBirthday(String birthday) {
-        Birthday = birthday;
+        this.birthday = birthday;
     }
 
     public Integer getCountryId() {
-        return CountryId;
+        return countryId;
     }
 
     public void setCountryId(Integer countryId) {
-        CountryId = countryId;
+        this.countryId = countryId;
     }
 
     public Integer getCityId() {
-        return CityId;
+        return cityId;
     }
 
     public void setCityId(Integer cityId) {
-        CityId = cityId;
+        this.cityId = cityId;
     }
 
     public Double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public Double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public Integer getEmploymentStatus() {
-        return EmploymentStatus;
+        return employmentStatus;
     }
 
     public void setEmploymentStatus(Integer employmentStatus) {
-        EmploymentStatus = employmentStatus;
+        this.employmentStatus = employmentStatus;
     }
 
     public Integer getEducationLevel() {
-        return EducationLevel;
+        return educationLevel;
     }
 
     public void setEducationLevel(Integer educationLevel) {
-        EducationLevel = educationLevel;
+        this.educationLevel = educationLevel;
     }
 
 
     public String getGroupCode() {
-        return GroupCode;
+        return groupCode;
     }
 
     public void setGroupCode(String groupCode) {
-        GroupCode = groupCode;
+        this.groupCode = groupCode;
     }
 
 
@@ -137,28 +155,28 @@ public class Registration extends BaseEntity {
     }
 
     public Integer getTermsAndConditionsVersion() {
-        return TermsAndConditionsVersion;
+        return termsAndConditionsVersion;
     }
 
     public void setTermsAndConditionsVersion(Integer termsAndConditionsVersion) {
-        TermsAndConditionsVersion = termsAndConditionsVersion;
+        this.termsAndConditionsVersion = termsAndConditionsVersion;
     }
 
     public Integer getDistrictId() {
-        return DistrictId;
+        return districtId;
     }
 
     public void setDistrictId(Integer districtId) {
-        DistrictId = districtId;
+        this.districtId = districtId;
     }
 
 
     public Integer getReferralId() {
-        return ReferralId;
+        return referralId;
     }
 
     public void setReferralId(Integer referralId) {
-        ReferralId = referralId;
+        this.referralId = referralId;
     }
 
 }

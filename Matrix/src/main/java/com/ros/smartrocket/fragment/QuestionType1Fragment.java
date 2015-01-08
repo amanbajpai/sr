@@ -5,9 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +106,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         if (answerSelectedListener != null) {
             boolean selected = false;
             for (Answer answer : adapter.getData()) {
-                if (answer.isChecked()) {
+                if (answer.getChecked()) {
                     selected = true;
                     break;
                 }
@@ -137,7 +135,7 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
         answer.toggleChecked();
 
         AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
-        viewHolder.getCheckBox().setChecked(answer.isChecked());
+        viewHolder.getCheckBox().setChecked(answer.getChecked());
 
         refreshNextButton();
     }

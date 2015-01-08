@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -200,10 +199,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         } else {
                             profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                         }
+                        setSupportProgressBarIndeterminateVisibility(false);
                     }
 
                     @Override
                     public void onSelectImageError(int imageFrom) {
+                        setSupportProgressBarIndeterminateVisibility(false);
                         DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
                     }
                 });

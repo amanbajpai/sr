@@ -89,7 +89,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
                     Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
 
                     QuestionType6Fragment.this.question.setAnswers(answers);
-                    if (answers[0].isChecked()) {
+                    if (answers[0].getChecked()) {
                         answerEditText.setText(answers[0].getValue());
                     }
 

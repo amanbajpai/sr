@@ -2,6 +2,7 @@ package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.utils.L;
 
@@ -25,33 +26,54 @@ public class Question extends BaseEntity implements Serializable {
         }
     }
 
-    private Integer WaveId;
-    private Integer TaskId;
-    private String Question = "";
-    private Integer Type;
-    private Integer OrderId;
-    private Integer MaximumCharacters;
-    private Integer MaximumPhotos;
-    private Boolean ShowBackButton;
-    private Boolean AllowMultiplyPhotos;
-    private String AskIf = "";
-    private Integer MinValue;
-    private Integer MaxValue;
-    private Integer PatternType;
-    private Integer VideoSource;
-    private Integer PhotoSource;
-    private String VideoUrl;
-    private String PhotoUrl;
+    @SerializedName("WaveId")
+    private Integer waveId;
+    @SerializedName("TaskId")
+    private Integer taskId;
+    @SerializedName("Question")
+    private String question = "";
+    @SerializedName("Type")
+    private Integer type;
+    @SerializedName("OrderId")
+    private Integer orderId;
+    @SerializedName("MaximumCharacters")
+    private Integer maximumCharacters;
+    @SerializedName("MaximumPhotos")
+    private Integer maximumPhotos;
+    @SerializedName("ShowBackButton")
+    private Boolean showBackButton;
+    @SerializedName("AllowMultiplyPhotos")
+    private Boolean allowMultiplyPhotos;
+    @SerializedName("AskIf")
+    private String askIf = "";
+    @SerializedName("MinValue")
+    private Integer minValue;
+    @SerializedName("MaxValue")
+    private Integer maxValue;
+    @SerializedName("PatternType")
+    private Integer patternType;
+    @SerializedName("VideoSource")
+    private Integer videoSource;
+    @SerializedName("PhotoSource")
+    private Integer photoSource;
+    @SerializedName("VideoUrl")
+    private String videoUrl;
+    @SerializedName("PhotoUrl")
+    private String photoUrl;
 
-    private Integer Routing;
+    @SerializedName("Routing")
+    private Integer routing;
 
-    private String ValidationComment;
-    private String PresetValidationText;
+    @SerializedName("ValidationComment")
+    private String validationComment;
+    @SerializedName("PresetValidationText")
+    private String presetValidationText;
 
-    private transient Integer PreviousQuestionOrderId;
+    private transient Integer previousQuestionOrderId;
 
     @SkipFieldInContentValues
-    private Answer[] Answers;
+    @SerializedName("Answers")
+    private Answer[] answers;
 
     public Question() {
     }
@@ -86,189 +108,189 @@ public class Question extends BaseEntity implements Serializable {
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
         }
 
-        L.d("Question", result.toString());
+        L.d("question", result.toString());
         return result;
     }
 
     public String getQuestion() {
-        return Question;
+        return question;
     }
 
     public void setQuestion(String question) {
-        Question = question;
+        this.question = question;
     }
 
     public Integer getWaveId() {
-        return WaveId;
+        return waveId;
     }
 
     public void setWaveId(Integer waveId) {
-        WaveId = waveId;
+        this.waveId = waveId;
     }
 
     public Answer[] getAnswers() {
-        return Answers;
+        return answers;
     }
 
     public void setAnswers(Answer[] answers) {
-        Answers = answers;
+        this.answers = answers;
     }
 
 
     public Integer getType() {
-        return Type;
+        return type;
     }
 
     public void setType(Integer type) {
-        Type = type;
+        this.type = type;
     }
 
 
     public Integer getOrderId() {
-        return OrderId;
+        return orderId;
     }
 
     public void setOrderId(Integer orderId) {
-        OrderId = orderId;
+        this.orderId = orderId;
     }
 
     public Integer getMaximumCharacters() {
-        return MaximumCharacters;
+        return maximumCharacters;
     }
 
     public void setMaximumCharacters(Integer maximumCharacters) {
-        MaximumCharacters = maximumCharacters;
+        this.maximumCharacters = maximumCharacters;
     }
 
     public Integer getMaximumPhotos() {
-        return MaximumPhotos;
+        return maximumPhotos;
     }
 
     public void setMaximumPhotos(Integer maximumPhotos) {
-        MaximumPhotos = maximumPhotos;
+        this.maximumPhotos = maximumPhotos;
     }
 
     public Boolean getShowBackButton() {
-        return ShowBackButton;
+        return showBackButton;
     }
 
     public void setShowBackButton(Boolean showBackButton) {
-        ShowBackButton = showBackButton;
+        this.showBackButton = showBackButton;
     }
 
     public Boolean getAllowMultiplyPhotos() {
-        return AllowMultiplyPhotos;
+        return allowMultiplyPhotos;
     }
 
     public void setAllowMultiplyPhotos(Boolean allowMultiplyPhotos) {
-        AllowMultiplyPhotos = allowMultiplyPhotos;
+        this.allowMultiplyPhotos = allowMultiplyPhotos;
     }
 
     public String getAskIf() {
-        return AskIf;
+        return askIf;
     }
 
     public void setAskIf(String askIf) {
-        AskIf = askIf;
+        this.askIf = askIf;
     }
 
 
     public Integer getPreviousQuestionOrderId() {
-        return PreviousQuestionOrderId;
+        return previousQuestionOrderId;
     }
 
     public void setPreviousQuestionOrderId(Integer previousQuestionOrderId) {
-        PreviousQuestionOrderId = previousQuestionOrderId;
+        this.previousQuestionOrderId = previousQuestionOrderId;
     }
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(Integer taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 
     public String getValidationComment() {
-        return ValidationComment;
+        return validationComment;
     }
 
     public void setValidationComment(String validationComment) {
-        ValidationComment = validationComment;
+        this.validationComment = validationComment;
     }
 
 
     public Integer getMinValue() {
-        return MinValue;
+        return minValue;
     }
 
     public void setMinValue(Integer minValue) {
-        MinValue = minValue;
+        this.minValue = minValue;
     }
 
     public Integer getMaxValue() {
-        return MaxValue;
+        return maxValue;
     }
 
     public void setMaxValue(Integer maxValue) {
-        MaxValue = maxValue;
+        this.maxValue = maxValue;
     }
 
     public Integer getPatternType() {
-        return PatternType;
+        return patternType;
     }
 
     public void setPatternType(Integer patternType) {
-        PatternType = patternType;
+        this.patternType = patternType;
     }
 
 
     public Integer getVideoSource() {
-        return VideoSource;
+        return videoSource;
     }
 
     public void setVideoSource(Integer videoSource) {
-        VideoSource = videoSource;
+        this.videoSource = videoSource;
     }
 
     public Integer getPhotoSource() {
-        return PhotoSource;
+        return photoSource;
     }
 
     public void setPhotoSource(Integer photoSource) {
-        PhotoSource = photoSource;
+        this.photoSource = photoSource;
     }
 
     public Integer getRouting() {
-        return Routing;
+        return routing;
     }
 
     public void setRouting(Integer routing) {
-        Routing = routing;
+        this.routing = routing;
     }
 
     public String getVideoUrl() {
-        return VideoUrl;
+        return videoUrl;
     }
 
     public void setVideoUrl(String videoUrl) {
-        VideoUrl = videoUrl;
+        this.videoUrl = videoUrl;
     }
 
     public String getPhotoUrl() {
-        return PhotoUrl;
+        return photoUrl;
     }
 
     public void setPhotoUrl(String photoUrl) {
-        PhotoUrl = photoUrl;
+        this.photoUrl = photoUrl;
     }
 
     public String getPresetValidationText() {
-        return PresetValidationText;
+        return presetValidationText;
     }
 
     public void setPresetValidationText(String presetValidationText) {
-        PresetValidationText = presetValidationText;
+        this.presetValidationText = presetValidationText;
     }
 
 }

@@ -175,7 +175,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             }
         }
 
-        if (answer.isChecked() && answer.getFileUri() != null) {
+        if (answer.getChecked() && answer.getFileUri() != null) {
             isBitmapAdded = true;
             isBitmapConfirmed = true;
 
@@ -321,7 +321,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 SelectImageManager.SIZE_IN_PX_2_MP, 0);
 
         Answer answer = question.getAnswers()[currentSelectedPhoto];
-        boolean needAddEmptyAnswer = !answer.isChecked();
+        boolean needAddEmptyAnswer = !answer.getChecked();
 
         answer.setChecked(true);
         answer.setFileUri(Uri.fromFile(resultImageFile).getPath());

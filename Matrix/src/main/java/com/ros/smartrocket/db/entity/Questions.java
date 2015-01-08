@@ -1,13 +1,17 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Questions extends BaseEntity {
     private static final long serialVersionUID = 5410835468654163958L;
-    private Question[] Questions;
+
+    @SerializedName("Questions")
+    private Question[] questions;
 
     public Questions() {
     }
 
     public Question[] getQuestions() {
-        return Questions;
+        return questions;
     }
 }

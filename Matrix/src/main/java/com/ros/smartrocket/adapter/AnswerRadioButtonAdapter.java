@@ -78,14 +78,14 @@ public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter
         }
 
         final Answer answer = answers[position];
-        holder.radioButton.setChecked(answer.isChecked());
+        holder.radioButton.setChecked(answer.getChecked());
 
         if (Integer.valueOf(answer.getValue()) >= 1000) {
             holder.otherAnswerEditText.setText(answer.getAnswer());
             holder.name.setVisibility(View.GONE);
             holder.otherAnswerEditText.setVisibility(View.VISIBLE);
 
-            if (answer.isChecked()) {
+            if (answer.getChecked()) {
                 holder.otherAnswerEditText.requestFocus();
             }
 
@@ -118,7 +118,7 @@ public class AnswerRadioButtonAdapter extends BaseAdapter implements ListAdapter
                     if (answerSelectedListener != null) {
                         boolean selected = false;
                         for (Answer answer : getData()) {
-                            if (answer.isChecked() && !TextUtils.isEmpty(answer.getAnswer())) {
+                            if (answer.getChecked() && !TextUtils.isEmpty(answer.getAnswer())) {
                                 selected = true;
                                 break;
                             }

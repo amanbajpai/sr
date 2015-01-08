@@ -3,6 +3,7 @@ package com.ros.smartrocket.db.entity;
 import android.database.Cursor;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.TaskDbSchema;
 
 /**
@@ -26,62 +27,91 @@ public class Task extends BaseEntity {
         }
     }
 
-    private Integer WaveId;
+    @SerializedName("WaveId")
+    private Integer waveId;
+    @SerializedName("UserId")
+    private Long userId;
+    @SerializedName("Name")
+    private String name = "";
+    @SerializedName("Description")
+    private String description;
+    @SerializedName("Longitude")
+    private Double longitude;
+    @SerializedName("Latitude")
+    private Double latitude;
+    @SerializedName("Language")
+    private String language;
+    @SerializedName("Price")
+    private Double price;
+    @SerializedName("Address")
+    private String address;
+    @SerializedName("Distance")
+    private Float distance;
+    @SerializedName("RemakeTill")
+    private String remakeTill;
 
-    private Long UserId;
-    private String Name = "";
-    private String Description;
-    private Double Longitude;
-    private Double Latitude;
-    private String Language;
-    private Double Price;
-    private String Address;
-    private Float Distance;
-    private String RemakeTill;
+    @SerializedName("Started")
+    private String started;
+    @SerializedName("StatusId")
+    private Integer statusId;
+    @SerializedName("Status")
+    private String status;
+    @SerializedName("StartDateTime")
+    private String startDateTime;
+    @SerializedName("EndDateTime")
+    private String endDateTime;
+    @SerializedName("ExpireDateTime")
+    private String expireDateTime;
+    @SerializedName("ExperienceOffer")
+    private Double experienceOffer;
+    @SerializedName("LongExpireTimeoutForClaimedTask")
+    private Long longExpireTimeoutForClaimedTask;
+    @SerializedName("LongPreClaimedTaskExpireAfterStart")
+    private Long longPreClaimedTaskExpireAfterStart;
+    @SerializedName("Claimed")
+    private String claimed;
+    @SerializedName("RedoDate")
+    private String redoDate;
+    @SerializedName("ApprovedAt")
+    private String approvedAt;
+    @SerializedName("RejectedAt")
+    private String rejectedAt;
+    @SerializedName("SubmittedAt")
+    private String submittedAt;
 
-    private String Started;
-    private Integer StatusId;
-    private String Status;
-    private String StartDateTime;
-    private String EndDateTime;
-    private String ExpireDateTime;
-    private Double ExperienceOffer;
-    private Long LongExpireTimeoutForClaimedTask;
-    private Long LongPreClaimedTaskExpireAfterStart;
-    private String Claimed;
-    private String RedoDate;
-    private String ApprovedAt;
-    private String RejectedAt;
-    private String SubmittedAt;
+    @SerializedName("PhotoQuestionsCount")
+    private Integer photoQuestionsCount;
+    @SerializedName("NoPhotoQuestionsCount")
+    private Integer noPhotoQuestionsCount;
 
-    private Integer PhotoQuestionsCount;
-    private Integer NoPhotoQuestionsCount;
+    @SerializedName("CurrencySign")
+    private String currencySign;
+    @SerializedName("LocationName")
+    private String locationName;
 
-    private String CurrencySign;
-    private String LocationName;
+    @SerializedName("Icon")
+    private String icon;
 
-    private String Icon;
+    private transient Boolean isMy = false;
+    private transient Boolean isHide = false;
+    private transient Long longEndDateTime;
+    private transient Long longRedoDateTime;
+    private transient Long longStartDateTime;
+    private transient Long longClaimDateTime;
+    private transient Long longExpireDateTime;
+    private transient Boolean startedStatusSent = false;
+    private transient String countryName;
 
-    private transient Boolean IsMy = false;
-    private transient Boolean IsHide = false;
-    private transient Long LongEndDateTime;
-    private transient Long LongRedoDateTime;
-    private transient Long LongStartDateTime;
-    private transient Long LongClaimDateTime;
-    private transient Long LongExpireDateTime;
-    private transient Boolean StartedStatusSent = false;
-    private transient String CountryName;
-
-    private transient Double LongitudeToValidation;
-    private transient Double LatitudeToValidation;
+    private transient Double longitudeToValidation;
+    private transient Double latitudeToValidation;
 
     public Task() {
     }
 
     public Task(String name, String description) {
-        this.Name = name;
+        this.name = name;
 
-        this.Description = description;
+        this.description = description;
     }
 
     public static Task fromCursor(Cursor c) {
@@ -154,334 +184,334 @@ public class Task extends BaseEntity {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        this.Name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        this.Description = description;
+        this.description = description;
     }
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Integer getWaveId() {
-        return WaveId;
+        return waveId;
     }
 
     public void setWaveId(Integer waveId) {
-        WaveId = waveId;
+        this.waveId = waveId;
     }
 
     public Double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public Double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public String getLanguage() {
-        return Language;
+        return language;
     }
 
     public void setLanguage(String language) {
-        Language = language;
+        this.language = language;
     }
 
     public Double getPrice() {
-        return Price == null ? 0 : Price;
+        return price == null ? 0 : price;
     }
 
     public void setPrice(Double price) {
-        Price = price;
+        this.price = price;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
 
     public Float getDistance() {
-        return Distance == null ? 0 : Distance;
+        return distance == null ? 0 : distance;
     }
 
     public void setDistance(Float distance) {
-        Distance = distance;
+        this.distance = distance;
     }
 
     public Boolean getIsMy() {
-        return IsMy;
+        return isMy;
     }
 
     public void setIsMy(Boolean isMy) {
-        IsMy = isMy;
+        this.isMy = isMy;
     }
 
 
     public String getRemakeTill() {
-        return RemakeTill;
+        return remakeTill;
     }
 
     public void setRemakeTill(String remakeTill) {
-        RemakeTill = remakeTill;
+        this.remakeTill = remakeTill;
     }
 
     public String getStarted() {
-        return Started;
+        return started;
     }
 
     public void setStarted(String started) {
-        Started = started;
+        this.started = started;
     }
 
     public Integer getStatusId() {
-        return StatusId;
+        return statusId;
     }
 
     public void setStatusId(Integer statusId) {
-        StatusId = statusId;
+        this.statusId = statusId;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 
     public String getStartDateTime() {
-        return StartDateTime;
+        return startDateTime;
     }
 
     public void setStartDateTime(String startDateTime) {
-        StartDateTime = startDateTime;
+        this.startDateTime = startDateTime;
     }
 
     public String getEndDateTime() {
-        return EndDateTime;
+        return endDateTime;
     }
 
     public void setEndDateTime(String endDateTime) {
-        EndDateTime = endDateTime;
+        this.endDateTime = endDateTime;
     }
 
     public Boolean getIsHide() {
-        return IsHide;
+        return isHide;
     }
 
     public void setIsHide(Boolean isHide) {
-        IsHide = isHide;
+        this.isHide = isHide;
     }
 
     public Double getExperienceOffer() {
-        return ExperienceOffer;
+        return experienceOffer;
     }
 
     public void setExperienceOffer(Double experienceOffer) {
-        ExperienceOffer = experienceOffer;
+        this.experienceOffer = experienceOffer;
     }
 
     public Long getLongEndDateTime() {
-        return LongEndDateTime;
+        return longEndDateTime;
     }
 
     public void setLongEndDateTime(Long longEndDateTime) {
-        LongEndDateTime = longEndDateTime;
+        this.longEndDateTime = longEndDateTime;
     }
 
     public Long getLongExpireTimeoutForClaimedTask() {
-        return LongExpireTimeoutForClaimedTask == null ? 0 : LongExpireTimeoutForClaimedTask;
+        return longExpireTimeoutForClaimedTask == null ? 0 : longExpireTimeoutForClaimedTask;
     }
 
     public void setLongExpireTimeoutForClaimedTask(Long expireTimeoutForClaimedTask) {
-        LongExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
+        longExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
     }
 
     public String getCountryName() {
-        return CountryName;
+        return countryName;
     }
 
     public void setCountryName(String countryName) {
-        CountryName = countryName;
+        this.countryName = countryName;
     }
 
 
     public String getClaimed() {
-        return Claimed;
+        return claimed;
     }
 
     public void setClaimed(String claimed) {
-        Claimed = claimed;
+        this.claimed = claimed;
     }
 
     public String getRedoDate() {
-        return RedoDate;
+        return redoDate;
     }
 
     public void setRedoDate(String redoDate) {
-        RedoDate = redoDate;
+        this.redoDate = redoDate;
     }
 
     public Boolean getStartedStatusSent() {
-        return StartedStatusSent;
+        return startedStatusSent;
     }
 
     public void setStartedStatusSent(Boolean startedStatusSent) {
-        StartedStatusSent = startedStatusSent;
+        this.startedStatusSent = startedStatusSent;
     }
 
     public Long getLongRedoDateTime() {
-        return LongRedoDateTime;
+        return longRedoDateTime;
     }
 
     public void setLongRedoDateTime(Long longRedoDateTime) {
-        LongRedoDateTime = longRedoDateTime;
+        this.longRedoDateTime = longRedoDateTime;
     }
 
     public Long getLongClaimDateTime() {
-        return LongClaimDateTime;
+        return longClaimDateTime;
     }
 
     public void setLongClaimDateTime(Long longClaimDateTime) {
-        LongClaimDateTime = longClaimDateTime;
+        this.longClaimDateTime = longClaimDateTime;
     }
 
     public Integer getNoPhotoQuestionsCount() {
-        return NoPhotoQuestionsCount;
+        return noPhotoQuestionsCount;
     }
 
     public void setNoPhotoQuestionsCount(Integer noPhotoQuestionsCount) {
-        NoPhotoQuestionsCount = noPhotoQuestionsCount;
+        this.noPhotoQuestionsCount = noPhotoQuestionsCount;
     }
 
     public Integer getPhotoQuestionsCount() {
-        return PhotoQuestionsCount;
+        return photoQuestionsCount;
     }
 
     public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
-        PhotoQuestionsCount = photoQuestionsCount;
+        this.photoQuestionsCount = photoQuestionsCount;
     }
 
     public String getCurrencySign() {
-        return CurrencySign;
+        return currencySign;
     }
 
     public void setCurrencySign(String currencySign) {
-        CurrencySign = currencySign;
+        this.currencySign = currencySign;
     }
 
     public String getLocationName() {
-        return LocationName;
+        return locationName;
     }
 
     public void setLocationName(String locationName) {
-        LocationName = locationName;
+        this.locationName = locationName;
     }
 
     public String getIcon() {
-        return Icon;
+        return icon;
     }
 
     public void setIcon(String icon) {
-        Icon = icon;
+        this.icon = icon;
     }
 
     public String getApprovedAt() {
-        return ApprovedAt;
+        return approvedAt;
     }
 
     public void setApprovedAt(String approvedAt) {
-        ApprovedAt = approvedAt;
+        this.approvedAt = approvedAt;
     }
 
     public String getRejectedAt() {
-        return RejectedAt;
+        return rejectedAt;
     }
 
     public void setRejectedAt(String rejectedAt) {
-        RejectedAt = rejectedAt;
+        this.rejectedAt = rejectedAt;
     }
 
     public String getSubmittedAt() {
-        return SubmittedAt;
+        return submittedAt;
     }
 
     public void setSubmittedAt(String submittedAt) {
-        SubmittedAt = submittedAt;
+        this.submittedAt = submittedAt;
     }
 
     public Long getLongStartDateTime() {
-        return LongStartDateTime;
+        return longStartDateTime;
     }
 
     public void setLongStartDateTime(Long longStartDateTime) {
-        LongStartDateTime = longStartDateTime;
+        this.longStartDateTime = longStartDateTime;
     }
 
     public Long getLongPreClaimedTaskExpireAfterStart() {
-        return LongPreClaimedTaskExpireAfterStart == null ? 0 : LongPreClaimedTaskExpireAfterStart;
+        return longPreClaimedTaskExpireAfterStart == null ? 0 : longPreClaimedTaskExpireAfterStart;
     }
 
     public void setLongPreClaimedTaskExpireAfterStart(Long longPreClaimedTaskExpireAfterStart) {
-        LongPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
+        this.longPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
     }
 
     public Double getLongitudeToValidation() {
-        return LongitudeToValidation == null ? 0 : LongitudeToValidation;
+        return longitudeToValidation == null ? 0 : longitudeToValidation;
     }
 
     public void setLongitudeToValidation(Double longitudeToValidation) {
-        LongitudeToValidation = longitudeToValidation;
+        this.longitudeToValidation = longitudeToValidation;
     }
 
     public Double getLatitudeToValidation() {
-        return LatitudeToValidation == null ? 0 : LatitudeToValidation;
+        return latitudeToValidation == null ? 0 : latitudeToValidation;
     }
 
     public void setLatitudeToValidation(Double latitudeToValidation) {
-        LatitudeToValidation = latitudeToValidation;
+        this.latitudeToValidation = latitudeToValidation;
     }
 
     public Long getLongExpireDateTime() {
-        return LongExpireDateTime == null ? 0 : LongExpireDateTime;
+        return longExpireDateTime == null ? 0 : longExpireDateTime;
     }
 
     public void setLongExpireDateTime(Long longExpireDateTime) {
-        LongExpireDateTime = longExpireDateTime;
+        this.longExpireDateTime = longExpireDateTime;
     }
 
     public String getExpireDateTime() {
-        return ExpireDateTime;
+        return expireDateTime;
     }
 
     public void setExpireDateTime(String expireDateTime) {
-        ExpireDateTime = expireDateTime;
+        this.expireDateTime = expireDateTime;
     }
 
     /**
@@ -491,15 +521,15 @@ public class Task extends BaseEntity {
      * @return
      */
     public LatLng getLatLng() {
-        return new LatLng(this.Latitude, this.Longitude);
+        return new LatLng(this.latitude, this.longitude);
     }
 
     @Override
     public String toString() {
-        return "Task{ WaveId=" + WaveId + ", UserId='" + UserId + '\'' + ", Name='" + Name + '\''
-                + ", Description='" + Description + '\'' + ", Language=" + Language
-                + ", Latitude='" + Latitude + '\'' + ", Longitude='" + Longitude + '\''
-                + ", Price='" + Price + '\'' + ", Address=" + Address + '}';
+        return "Task{ waveId=" + waveId + ", userId='" + userId + '\'' + ", name='" + name + '\''
+                + ", description='" + description + '\'' + ", language=" + language
+                + ", latitude='" + latitude + '\'' + ", longitude='" + longitude + '\''
+                + ", price='" + price + '\'' + ", address=" + address + '}';
     }
 
 

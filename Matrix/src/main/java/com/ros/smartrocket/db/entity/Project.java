@@ -1,37 +1,41 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Project extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
-    private transient Integer Id;
-    private String Name;
-    private String Icon;
+    private transient Integer id;
+    @SerializedName("Name")
+    private String name;
+    @SerializedName("Icon")
+    private String icon;
 
     public Project() {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getIcon() {
-        return Icon;
+        return icon;
     }
 
     public void setIcon(String icon) {
-        Icon = icon;
+        this.icon = icon;
     }
 
 }

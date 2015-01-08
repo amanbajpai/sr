@@ -1,23 +1,27 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class RegisterDevice extends BaseEntity {
 
-    private String DeviceId;
-    private String RegistrationId;
+    @SerializedName("DeviceId")
+    private String deviceId;
+    @SerializedName("RegistrationId")
+    private String registrationId;
 
     public String getDeviceId() {
-        return DeviceId;
+        return deviceId;
     }
 
     public void setDeviceId(String deviceId) {
-        DeviceId = deviceId;
+        this.deviceId = deviceId;
     }
 
     public String getRegistrationId() {
-        return RegistrationId;
+        return registrationId;
     }
 
     public void setRegistrationId(String registrationId) {
-        RegistrationId = registrationId;
+        this.registrationId = registrationId;
     }
 }

@@ -152,6 +152,9 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                         setWaveData(wave);
                         TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
                     } else {
+                        if (cursor != null) {
+                            cursor.close();
+                        }
                         WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
                     }
                     break;
@@ -165,6 +168,9 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
                         setNearTaskData(nearTask);
                     } else {
+                        if (cursor != null) {
+                            cursor.close();
+                        }
                         TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
                     }
                     break;
@@ -175,10 +181,6 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setWaveData(Wave wave) {
-        if (titleTextView != null) {
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
-        }
-
         projectDescription.setText(wave.getDescription());
         descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
 
@@ -208,6 +210,10 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setNearTaskData(Task task) {
+        if (titleTextView != null) {
+            titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
+        }
+
         if (!TextUtils.isEmpty(task.getAddress())) {
             noTaskAddressText.setVisibility(View.GONE);
         } else {
@@ -348,9 +354,9 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
         actionBarView = actionBar.getCustomView();
 
-        if (wave != null) {
+        if (nearTask != null) {
             titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+            titleTextView.setText(getString(R.string.task_detail_title, nearTask.getName()));
         }
 
         return true;

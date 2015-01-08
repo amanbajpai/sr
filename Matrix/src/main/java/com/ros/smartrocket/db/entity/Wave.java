@@ -2,6 +2,7 @@ package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.WaveDbSchema;
 
 public class Wave extends BaseEntity {
@@ -21,70 +22,97 @@ public class Wave extends BaseEntity {
         }
     }
 
-    private Boolean ClaimableBeforeLive;
-    private Boolean IsCanBePreClaimed;
-    private Integer ConcurrentClaimsPerAgent;
-    private String Description;
-    private String EndDateTime;
-    private String ExpectedEndDateTime;
-    private String ExpectedStartDateTime;
-    private String ExternalWaveId;
-    private Integer MaximumClaimsPerAgent;
-    private String Name;
-    private Integer SuspensionTarget;
-    private Integer TargetMaximum;
-    private Integer TargetMinimum;
-    private Boolean ViewableBeforeLive;
-    private Double ExperienceOffer;
-    private Integer PhotoQuestionsCount;
-    private Integer NoPhotoQuestionsCount;
-    private String Icon;
+    @SerializedName("ClaimableBeforeLive")
+    private Boolean claimableBeforeLive;
+    @SerializedName("IsCanBePreClaimed")
+    private Boolean isCanBePreClaimed;
+    @SerializedName("ConcurrentClaimsPerAgent")
+    private Integer concurrentClaimsPerAgent;
+    @SerializedName("Description")
+    private String description;
+    @SerializedName("EndDateTime")
+    private String endDateTime;
+    @SerializedName("ExpectedEndDateTime")
+    private String expectedEndDateTime;
+    @SerializedName("ExpectedStartDateTime")
+    private String expectedStartDateTime;
+    @SerializedName("ExternalWaveId")
+    private String externalWaveId;
+    @SerializedName("MaximumClaimsPerAgent")
+    private Integer maximumClaimsPerAgent;
+    @SerializedName("Name")
+    private String name;
+    @SerializedName("SuspensionTarget")
+    private Integer suspensionTarget;
+    @SerializedName("TargetMaximum")
+    private Integer targetMaximum;
+    @SerializedName("TargetMinimum")
+    private Integer targetMinimum;
+    @SerializedName("ViewableBeforeLive")
+    private Boolean viewableBeforeLive;
+    @SerializedName("ExperienceOffer")
+    private Double experienceOffer;
+    @SerializedName("PhotoQuestionsCount")
+    private Integer photoQuestionsCount;
+    @SerializedName("NoPhotoQuestionsCount")
+    private Integer noPhotoQuestionsCount;
+    @SerializedName("Icon")
+    private String icon;
 
-    private Float Longitude;
-    private Float Latitude;
+    @SerializedName("Longitude")
+    private Float longitude;
+    @SerializedName("Latitude")
+    private Float latitude;
 
-    private String StartDateTime;
-    private Integer PreClaimedTaskExpireAfterStart;
-    private Integer ExpireTimeoutForClaimedTask;
+    @SerializedName("StartDateTime")
+    private String startDateTime;
+    @SerializedName("PreClaimedTaskExpireAfterStart")
+    private Integer preClaimedTaskExpireAfterStart;
+    @SerializedName("ExpireTimeoutForClaimedTask")
+    private Integer expireTimeoutForClaimedTask;
 
-    private Long LongStartDateTime;
-    private Long LongExpireTimeoutForClaimedTask;
-    private Long LongPreClaimedTaskExpireAfterStart;
+    @SerializedName("LongStartDateTime")
+    private Long longStartDateTime;
+    @SerializedName("LongExpireTimeoutForClaimedTask")
+    private Long longExpireTimeoutForClaimedTask;
+    @SerializedName("LongPreClaimedTaskExpireAfterStart")
+    private Long longPreClaimedTaskExpireAfterStart;
 
     @SkipFieldInContentValues
-    private Task[] Tasks;
+    @SerializedName("Tasks")
+    private Task[] tasks;
 
     @SkipFieldInContentValues
-    private Float NearTaskDistance;
+    private Float nearTaskDistance;
 
     @SkipFieldInContentValues
-    private int TaskCount;
+    private int taskCount;
 
     @SkipFieldInContentValues
-    private Double NearTaskPrice;
+    private Double nearTaskPrice;
 
     @SkipFieldInContentValues
-    private Integer NearTaskId;
+    private Integer nearTaskId;
 
     @SkipFieldInContentValues
-    private Country Country;
+    private Country country;
 
     @SkipFieldInContentValues
-    private Project Project;
+    private Project project;
 
     @SkipFieldInContentValues
-    private transient Boolean IsAllTaskHide = false;
+    private transient Boolean isAllTaskHide = false;
 
     @SkipFieldInContentValues
-    private String NearTaskCurrencySign;
+    private String nearTaskCurrencySign;
 
 
     public Wave() {
     }
 
     public Wave(String name, String description) {
-        this.Name = name;
-        this.Description = description;
+        this.name = name;
+        this.description = description;
     }
 
     public static Wave fromCursor(Cursor c) {
@@ -181,286 +209,286 @@ public class Wave extends BaseEntity {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        this.Name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        this.Description = description;
+        this.description = description;
     }
 
     public Float getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Float longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public Float getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Float latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public Boolean getClaimableBeforeLive() {
-        return ClaimableBeforeLive;
+        return claimableBeforeLive;
     }
 
     public void setClaimableBeforeLive(Boolean claimableBeforeLive) {
-        ClaimableBeforeLive = claimableBeforeLive;
+        this.claimableBeforeLive = claimableBeforeLive;
     }
 
     public Boolean getViewableBeforeLive() {
-        return ViewableBeforeLive;
+        return viewableBeforeLive;
     }
 
     public void setViewableBeforeLive(Boolean viewableBeforeLive) {
-        ViewableBeforeLive = viewableBeforeLive;
+        this.viewableBeforeLive = viewableBeforeLive;
     }
 
     public Integer getConcurrentClaimsPerAgent() {
-        return ConcurrentClaimsPerAgent;
+        return concurrentClaimsPerAgent;
     }
 
     public void setConcurrentClaimsPerAgent(Integer concurrentClaimsPerAgent) {
-        ConcurrentClaimsPerAgent = concurrentClaimsPerAgent;
+        this.concurrentClaimsPerAgent = concurrentClaimsPerAgent;
     }
 
     public String getExternalWaveId() {
-        return ExternalWaveId;
+        return externalWaveId;
     }
 
     public void setExternalWaveId(String externalWaveId) {
-        ExternalWaveId = externalWaveId;
+        this.externalWaveId = externalWaveId;
     }
 
     public String getStartDateTime() {
-        return StartDateTime;
+        return startDateTime;
     }
 
     public void setStartDateTime(String startDateTime) {
-        StartDateTime = startDateTime;
+        this.startDateTime = startDateTime;
     }
 
     public Integer getSuspensionTarget() {
-        return SuspensionTarget;
+        return suspensionTarget;
     }
 
     public void setSuspensionTarget(Integer suspensionTarget) {
-        SuspensionTarget = suspensionTarget;
+        this.suspensionTarget = suspensionTarget;
     }
 
     public Integer getTargetMaximum() {
-        return TargetMaximum;
+        return targetMaximum;
     }
 
     public void setTargetMaximum(Integer targetMaximum) {
-        TargetMaximum = targetMaximum;
+        this.targetMaximum = targetMaximum;
     }
 
     public Integer getTargetMinimum() {
-        return TargetMinimum;
+        return targetMinimum;
     }
 
     public void setTargetMinimum(Integer targetMinimum) {
-        TargetMinimum = targetMinimum;
+        this.targetMinimum = targetMinimum;
     }
 
     public Integer getMaximumClaimsPerAgent() {
-        return MaximumClaimsPerAgent;
+        return maximumClaimsPerAgent;
     }
 
     public void setMaximumClaimsPerAgent(Integer maximumClaimsPerAgent) {
-        MaximumClaimsPerAgent = maximumClaimsPerAgent;
+        this.maximumClaimsPerAgent = maximumClaimsPerAgent;
     }
 
     public String getEndDateTime() {
-        return EndDateTime;
+        return endDateTime;
     }
 
     public void setEndDateTime(String endDateTime) {
-        EndDateTime = endDateTime;
+        this.endDateTime = endDateTime;
     }
 
     public String getExpectedEndDateTime() {
-        return ExpectedEndDateTime;
+        return expectedEndDateTime;
     }
 
     public void setExpectedEndDateTime(String expectedEndDateTime) {
-        ExpectedEndDateTime = expectedEndDateTime;
+        this.expectedEndDateTime = expectedEndDateTime;
     }
 
     public String getExpectedStartDateTime() {
-        return ExpectedStartDateTime;
+        return expectedStartDateTime;
     }
 
     public void setExpectedStartDateTime(String expectedStartDateTime) {
-        ExpectedStartDateTime = expectedStartDateTime;
+        this.expectedStartDateTime = expectedStartDateTime;
     }
 
     public Task[] getTasks() {
-        return Tasks;
+        return tasks;
     }
 
     public void setTasks(Task[] tasks) {
-        this.Tasks = tasks;
+        this.tasks = tasks;
     }
 
     public Float getNearTaskDistance() {
-        return NearTaskDistance;
+        return nearTaskDistance;
     }
 
     public void setNearTaskDistance(Float nearTaskDistance) {
-        NearTaskDistance = nearTaskDistance;
+        this.nearTaskDistance = nearTaskDistance;
     }
 
     public int getTaskCount() {
-        return TaskCount;
+        return taskCount;
     }
 
     public void setTaskCount(int taskCount) {
-        TaskCount = taskCount;
+        this.taskCount = taskCount;
     }
 
     public Double getNearTaskPrice() {
-        return NearTaskPrice;
+        return nearTaskPrice;
     }
 
     public void setNearTaskPrice(Double nearTaskPrice) {
-        NearTaskPrice = nearTaskPrice;
+        this.nearTaskPrice = nearTaskPrice;
     }
 
     public Integer getNearTaskId() {
-        return NearTaskId;
+        return nearTaskId;
     }
 
     public void setNearTaskId(Integer nearTaskId) {
-        NearTaskId = nearTaskId;
+        this.nearTaskId = nearTaskId;
     }
 
     public Double getExperienceOffer() {
-        return ExperienceOffer;
+        return experienceOffer;
     }
 
     public void setExperienceOffer(Double experienceOffer) {
-        ExperienceOffer = experienceOffer;
+        this.experienceOffer = experienceOffer;
     }
 
     public Integer getPreClaimedTaskExpireAfterStart() {
-        return PreClaimedTaskExpireAfterStart == null ? 0 : PreClaimedTaskExpireAfterStart;
+        return preClaimedTaskExpireAfterStart == null ? 0 : preClaimedTaskExpireAfterStart;
     }
 
     public void setPreClaimedTaskExpireAfterStart(Integer preClaimedTaskExpireAfterStart) {
-        PreClaimedTaskExpireAfterStart = preClaimedTaskExpireAfterStart;
+        this.preClaimedTaskExpireAfterStart = preClaimedTaskExpireAfterStart;
     }
 
     public Integer getExpireTimeoutForClaimedTask() {
-        return ExpireTimeoutForClaimedTask == null ? 0 : ExpireTimeoutForClaimedTask;
+        return expireTimeoutForClaimedTask == null ? 0 : expireTimeoutForClaimedTask;
     }
 
     public void setExpireTimeoutForClaimedTask(Integer expireTimeoutForClaimedTask) {
-        ExpireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
+        this.expireTimeoutForClaimedTask = expireTimeoutForClaimedTask;
     }
 
     public Country getCountry() {
-        return Country;
+        return country;
     }
 
     public void setCountry(Country country) {
-        Country = country;
+        this.country = country;
     }
 
 
     public Integer getNoPhotoQuestionsCount() {
-        return NoPhotoQuestionsCount;
+        return noPhotoQuestionsCount;
     }
 
     public void setNoPhotoQuestionsCount(Integer noPhotoQuestionsCount) {
-        NoPhotoQuestionsCount = noPhotoQuestionsCount;
+        this.noPhotoQuestionsCount = noPhotoQuestionsCount;
     }
 
     public Integer getPhotoQuestionsCount() {
-        return PhotoQuestionsCount;
+        return photoQuestionsCount;
     }
 
     public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
-        PhotoQuestionsCount = photoQuestionsCount;
+        this.photoQuestionsCount = photoQuestionsCount;
     }
 
     public Long getLongExpireTimeoutForClaimedTask() {
-        return LongExpireTimeoutForClaimedTask == null ? 0 : LongExpireTimeoutForClaimedTask;
+        return longExpireTimeoutForClaimedTask == null ? 0 : longExpireTimeoutForClaimedTask;
     }
 
     public void setLongExpireTimeoutForClaimedTask(Long longExpireTimeoutForClaimedTask) {
-        LongExpireTimeoutForClaimedTask = longExpireTimeoutForClaimedTask;
+        this.longExpireTimeoutForClaimedTask = longExpireTimeoutForClaimedTask;
     }
 
     public Boolean getIsAllTaskHide() {
-        return IsAllTaskHide;
+        return isAllTaskHide;
     }
 
     public void setIsAllTaskHide(Boolean isAllMissionHide) {
-        IsAllTaskHide = isAllMissionHide;
+        isAllTaskHide = isAllMissionHide;
     }
 
 
     public String getNearTaskCurrencySign() {
-        return NearTaskCurrencySign;
+        return nearTaskCurrencySign;
     }
 
     public void setNearTaskCurrencySign(String nearTaskCurrencySign) {
-        NearTaskCurrencySign = nearTaskCurrencySign;
+        this.nearTaskCurrencySign = nearTaskCurrencySign;
     }
 
 
     public String getIcon() {
-        return Icon;
+        return icon;
     }
 
     public void setIcon(String icon) {
-        Icon = icon;
+        this.icon = icon;
     }
 
     public Project getProject() {
-        return Project;
+        return project;
     }
 
     public void setProject(Project project) {
-        Project = project;
+        this.project = project;
     }
 
     public Long getLongStartDateTime() {
-        return LongStartDateTime;
+        return longStartDateTime;
     }
 
     public void setLongStartDateTime(Long longStartDateTime) {
-        LongStartDateTime = longStartDateTime;
+        this.longStartDateTime = longStartDateTime;
     }
 
     public Long getLongPreClaimedTaskExpireAfterStart() {
-        return LongPreClaimedTaskExpireAfterStart == null ? 0 : LongPreClaimedTaskExpireAfterStart;
+        return longPreClaimedTaskExpireAfterStart == null ? 0 : longPreClaimedTaskExpireAfterStart;
     }
 
     public void setLongPreClaimedTaskExpireAfterStart(Long longPreClaimedTaskExpireAfterStart) {
-        LongPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
+        this.longPreClaimedTaskExpireAfterStart = longPreClaimedTaskExpireAfterStart;
     }
 
     public Boolean getIsCanBePreClaimed() {
-        return IsCanBePreClaimed;
+        return isCanBePreClaimed;
     }
 
     public void setIsCanBePreClaimed(Boolean isCanBePreClaimed) {
-        IsCanBePreClaimed = isCanBePreClaimed;
+        this.isCanBePreClaimed = isCanBePreClaimed;
     }
 
 }

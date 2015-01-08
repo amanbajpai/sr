@@ -2,8 +2,8 @@ package com.ros.smartrocket.db.entity;
 
 import android.content.ContentValues;
 
+import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.utils.FieldType;
-import com.ros.smartrocket.utils.L;
 
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
@@ -28,7 +28,8 @@ public abstract class BaseEntity implements Serializable {
     /**
      * Server UUID
      */
-    private Integer Id;
+    @SerializedName("Id")
+    private Integer id;
 
     private Boolean deleted;
 
@@ -130,11 +131,11 @@ public abstract class BaseEntity implements Serializable {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.Id = id;
+        this.id = id;
     }
 
     public Boolean isDeleted() {
