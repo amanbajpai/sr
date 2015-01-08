@@ -1,24 +1,28 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ResponseError extends BaseEntity {
     private static final long serialVersionUID = -2989395260527906044L;
 
-    private Integer ErrorCode;
-    private String ErrorMessage;
+    @SerializedName("ErrorCode")
+    private Integer errorCode;
+    @SerializedName("ErrorMessage")
+    private String errorMessage;
 
     public String getErrorMessage() {
-        return ErrorMessage;
+        return errorMessage;
     }
 
     public void setErrorMessage(String errorMessage) {
-        this.ErrorMessage = errorMessage;
+        this.errorMessage = errorMessage;
     }
 
     public Integer getErrorCode() {
-        return ErrorCode;
+        return errorCode;
     }
 
     public void setErrorCode(Integer errorCode) {
-        ErrorCode = errorCode;
+        this.errorCode = errorCode;
     }
 }

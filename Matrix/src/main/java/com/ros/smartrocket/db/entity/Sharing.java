@@ -1,34 +1,39 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Sharing extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String SharedText;
-    private String SharedLink;
-    private Integer BitMaskSocialNetwork;
+    @SerializedName("SharedText")
+    private String sharedText;
+    @SerializedName("SharedLink")
+    private String sharedLink;
+    @SerializedName("BitMaskSocialNetwork")
+    private Integer bitMaskSocialNetwork;
 
     public String getSharedText() {
-        return SharedText;
+        return sharedText;
     }
 
     public void setSharedText(String sharedText) {
-        SharedText = sharedText;
+        this.sharedText = sharedText;
     }
 
     public String getSharedLink() {
-        return SharedLink;
+        return sharedLink;
     }
 
     public void setSharedLink(String sharedLink) {
-        SharedLink = sharedLink;
+        this.sharedLink = sharedLink;
     }
 
     public Integer getBitMaskSocialNetwork() {
-        return BitMaskSocialNetwork;
+        return bitMaskSocialNetwork;
     }
 
     public void setBitMaskSocialNetwork(Integer bitMaskSocialNetwork) {
-        BitMaskSocialNetwork = bitMaskSocialNetwork;
+        this.bitMaskSocialNetwork = bitMaskSocialNetwork;
     }
 
 }

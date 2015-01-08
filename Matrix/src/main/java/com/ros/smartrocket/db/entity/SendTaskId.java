@@ -1,42 +1,48 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SendTaskId extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private Integer TaskId;
-    private Double Longitude;
-    private Double Latitude;
-    private String CityName;
+    @SerializedName("TaskId")
+    private Integer taskId;
+    @SerializedName("Longitude")
+    private Double longitude;
+    @SerializedName("Latitude")
+    private Double latitude;
+    @SerializedName("CityName")
+    private String cityName;
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(Integer taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 
     public Double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public Double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public String getCityName() {
-        return CityName;
+        return cityName;
     }
 
     public void setCityName(String cityName) {
-        CityName = cityName;
+        this.cityName = cityName;
     }
 }

@@ -1,52 +1,59 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Subscription extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
 
-    private String Country;
-    private String City;
-    private String Email;
-    private Double Longitude;
-    private Double Latitude;
+    @SerializedName("Country")
+    private String country;
+    @SerializedName("City")
+    private String city;
+    @SerializedName("Email")
+    private String email;
+    @SerializedName("Longitude")
+    private Double longitude;
+    @SerializedName("Latitude")
+    private Double latitude;
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
     public void setCountry(String country) {
-        Country = country;
+        this.country = country;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public Double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public Double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
 }

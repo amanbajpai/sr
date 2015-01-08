@@ -1,34 +1,39 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class RegistrationResponse extends BaseEntity {
     private static final long serialVersionUID = -3693887084641009133L;
 
-    private String Token;
-    private Boolean State = false;
-    private String Message;
+    @SerializedName("Token")
+    private String token;
+    @SerializedName("State")
+    private Boolean state = false;
+    @SerializedName("Message")
+    private String message;
 
     public String getToken() {
-        return Token;
+        return token;
     }
 
     public void setToken(String token) {
-        this.Token = token;
+        this.token = token;
     }
 
     public Boolean getState() {
-        return State;
+        return state;
     }
 
     public void setState(Boolean state) {
-        this.State = state;
+        this.state = state;
     }
 
     public String getMessage() {
-        return Message;
+        return message;
     }
 
     public void setMessage(String message) {
-        Message = message;
+        this.message = message;
     }
 
 }

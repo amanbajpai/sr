@@ -1,25 +1,29 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SaveReferralCase extends BaseEntity {
     private static final long serialVersionUID = -3693887084641009133L;
 
-    private Integer CountryId;
-    private Integer ReferralId;
+    @SerializedName("CountryId")
+    private Integer countryId;
+    @SerializedName("ReferralId")
+    private Integer referralId;
 
     public Integer getCountryId() {
-        return CountryId;
+        return countryId;
     }
 
     public void setCountryId(Integer countryId) {
-        CountryId = countryId;
+        this.countryId = countryId;
     }
 
     public Integer getReferralId() {
-        return ReferralId;
+        return referralId;
     }
 
     public void setReferralId(Integer referralId) {
-        ReferralId = referralId;
+        this.referralId = referralId;
     }
 
 

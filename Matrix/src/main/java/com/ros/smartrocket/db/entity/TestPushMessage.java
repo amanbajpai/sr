@@ -1,23 +1,27 @@
 package com.ros.smartrocket.db.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class TestPushMessage extends BaseEntity {
 
-    private Integer StatusType;
-    private Integer TaskId;
+    @SerializedName("StatusType")
+    private Integer statusType;
+    @SerializedName("TaskId")
+    private Integer taskId;
 
     public Integer getStatusType() {
-        return StatusType;
+        return statusType;
     }
 
     public void setStatusType(Integer statusType) {
-        StatusType = statusType;
+        this.statusType = statusType;
     }
 
     public Integer getTaskId() {
-        return TaskId;
+        return taskId;
     }
 
     public void setTaskId(Integer taskId) {
-        TaskId = taskId;
+        this.taskId = taskId;
     }
 }
