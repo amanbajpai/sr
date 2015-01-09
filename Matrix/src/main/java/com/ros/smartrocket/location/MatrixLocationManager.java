@@ -3,6 +3,7 @@ package com.ros.smartrocket.location;
 import android.content.Context;
 import android.location.Address;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +12,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -19,13 +19,15 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Queue;
 
-public class MatrixLocationManager implements LocationListener,
+public class MatrixLocationManager implements com.google.android.gms.location.LocationListener, android.location.LocationListener,
         GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
 
     private static final String TAG = MatrixLocationManager.class.getSimpleName();
@@ -37,6 +39,7 @@ public class MatrixLocationManager implements LocationListener,
     private LocationRequest locationRequest;
     private CurrentLocationUpdateListener currentLocationUpdateListener;
 
+    private LocationManager locationManager;
 
     /**
      * @param context - current context
@@ -45,20 +48,15 @@ public class MatrixLocationManager implements LocationListener,
         L.d(TAG, "MatrixLocationManager init!");
         this.context = context;
         requested = new LinkedList<ILocationUpdate>();
-        // Check that Google Play services is available
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+
         // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            // In debug mode, log the status
+        if (isGooglePlayServicesAvailable()) {
             L.d(TAG, "Google Play services is available.");
 
             // Create the LocationRequest object
             locationRequest = LocationRequest.create();
-            // Use high accuracy
             locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-            // Set the update interval to 10 seconds
             locationRequest.setInterval(Keys.UPDATE_INTERVAL);
-            // Set the fastest update interval to 1 second
             locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
 
             /*
@@ -69,9 +67,53 @@ public class MatrixLocationManager implements LocationListener,
             // Connect the client.
             locationClient.connect();
         } else { // Google Play services was not available for some reason
-            L.d(TAG, "Google Play services [ERROR=" + resultCode + "]");
-            //TODO Implement handle logic when Google PLay Services not instaled
+            L.d(TAG, "Google Play services ERROR");
+
+            startLocationManager();
         }
+    }
+
+    public boolean isGooglePlayServicesAvailable() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+        return ConnectionResult.SUCCESS == resultCode;
+    }
+
+    public void startLocationManager() {
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        isConnected = true;
+
+        this.lastLocation = getLastLocation();
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
+
+        if (lastLocation == null) {
+            Calendar calendar = Calendar.getInstance();
+            long startTime = calendar.getTimeInMillis();
+            long currentTime = calendar.getTimeInMillis();
+            while (lastLocation == null && currentTime - startTime < 3000) {
+                this.lastLocation = getLastLocation();
+                currentTime = calendar.getTimeInMillis();
+            }
+        }
+
+        if (lastLocation != null) {
+            L.i(TAG, "getLocation[" + lastLocation + "]");
+            L.i(TAG, "getLocation[time=" + new Date(lastLocation.getTime()) + "]");
+        } else {
+            L.w(TAG, "location == null");
+        }
+
+        notifyAllRequestedLocation();
+    }
+
+    public Location getLastLocation() {
+        Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (lastLocation == null) {
+            lastLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        return lastLocation;
     }
 
     public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
@@ -85,7 +127,11 @@ public class MatrixLocationManager implements LocationListener,
      */
     public Location getLocation() {
         if (isConnected) {
-            this.lastLocation = locationClient.getLastLocation();
+            if (isGooglePlayServicesAvailable()) {
+                this.lastLocation = locationClient.getLastLocation();
+            } else {
+                this.lastLocation = getLastLocation();
+            }
         }
         if (lastLocation != null) {
             L.i(TAG, "getLocation[" + lastLocation + ", time=" + new Date(lastLocation.getTime()) + "]");
@@ -179,6 +225,34 @@ public class MatrixLocationManager implements LocationListener,
 
     }
 
+    @Override
+    public void onProviderDisabled(String provider) {
+        L.e(TAG, "onProviderDisabled");
+
+        if (isConnected) {
+            isConnected = false;
+            try {
+                if (locationManager != null) {
+                    locationManager.removeUpdates(this);
+                }
+            } catch (Exception e) {
+                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        L.e(TAG, "onProviderEnabled [provider = " + provider + "]");
+
+        startLocationManager();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        L.e(TAG, "onStatusChanged");
+    }
+
     public boolean isConnected() {
         return isConnected;
     }
@@ -258,7 +332,11 @@ public class MatrixLocationManager implements LocationListener,
                 }
             });
             if (lm.isConnected()) {
-                lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
+                if (lm.isGooglePlayServicesAvailable()) {
+                    lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
+                } else {
+                    lm.startLocationManager();
+                }
             }
 
             lm.notifyAllRequestedLocation();
@@ -278,6 +356,11 @@ public class MatrixLocationManager implements LocationListener,
             @Override
             public void getLocationSuccess(Location location) {
                 getAddressByLocation(location, getAddressListener);
+            }
+
+            @Override
+            public void getLocationFail(String errorText) {
+                UIUtils.showSimpleToast(App.getInstance(), errorText);
             }
         });
     }
@@ -324,5 +407,7 @@ public class MatrixLocationManager implements LocationListener,
         void getLocationInProcess();
 
         void getLocationSuccess(Location location);
+
+        void getLocationFail(String errorText);
     }
 }

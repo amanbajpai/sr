@@ -33,6 +33,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -307,6 +308,13 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
                         confirmButtonPressAction(location);
                         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    }
+
+                    @Override
+                    public void getLocationFail(String errorText) {
+                        if(!getActivity().isFinishing()){
+                            UIUtils.showSimpleToast(getActivity(), errorText);
+                        }
                     }
                 });
                 break;

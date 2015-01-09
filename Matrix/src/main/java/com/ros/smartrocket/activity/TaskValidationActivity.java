@@ -371,6 +371,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                                 saveLocationOfTaskToDb(task, location);
                             }
                         }
+
+                        @Override
+                        public void getLocationFail(String errorText) {
+                            if(!isFinishing()){
+                                UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
+                            }
+                        }
                     });
                 }
             } else {
@@ -410,6 +417,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         } else {
                             saveLocationOfTaskToDb(task, location);
                         }
+                    }
+
+                    @Override
+                    public void getLocationFail(String errorText) {
+                        UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
                     }
                 });
             }

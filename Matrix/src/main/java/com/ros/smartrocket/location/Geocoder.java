@@ -96,20 +96,22 @@ public final class Geocoder {
         url.append(longitude);
         url.append("&language=");
         url.append(locale.getLanguage());
-        url.append("&key=");
-        url.append(BuildConfig.SERVER_API_KEY);
-        url.append("&client=");
-        url.append("gme-redoceansolutions");
 
-        String signature = getSignature(url.toString(), key);
+        if(!Config.USE_BAIDU) {
+            url.append("&key=");
+            url.append(BuildConfig.SERVER_API_KEY);
+            url.append("&client=");
+            url.append("gme-redoceansolutions");
 
-        url.append("&signature=");
-        try {
-            url.append(URLEncoder.encode(signature, "UTF-8"));
-        } catch (Exception e) {
-            L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
+            String signature = getSignature(url.toString(), key);
+
+            url.append("&signature=");
+            try {
+                url.append(URLEncoder.encode(signature, "UTF-8"));
+            } catch (Exception e) {
+                L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
+            }
         }
-
         String json = sendGetRequest(url.toString());
 
         client.close();

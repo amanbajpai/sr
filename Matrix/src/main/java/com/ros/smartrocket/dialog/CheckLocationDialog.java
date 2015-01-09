@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.location.Location;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -91,6 +92,13 @@ public class CheckLocationDialog extends Dialog {
                 if (checkLocationResponse.getStatus()) {
                     statusImage.setImageResource(R.drawable.ok_progress);
                     statusText.setText(activity.getString(R.string.check_location_dialog_text2));
+
+                    if (TextUtils.isEmpty(this.countryName)) {
+                        this.countryName = checkLocationResponse.getCountryName();
+                    }
+                    if (TextUtils.isEmpty(this.cityName)) {
+                        this.cityName = checkLocationResponse.getCityName();
+                    }
 
                     locationChecked = true;
                 } else {

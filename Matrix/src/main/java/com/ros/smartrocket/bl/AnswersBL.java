@@ -174,12 +174,18 @@ public class AnswersBL {
 
                     TasksBL.updateTask(task);
                 }
+
+                @Override
+                public void getLocationFail(String errorText) {
+                    UIUtils.showSimpleToast(App.getInstance(), errorText);
+                }
             });
         }
     }
 
     /**
      * Calculate average location for list of answers. And Save it to local DB
+     *
      * @param task
      * @param answerList
      */

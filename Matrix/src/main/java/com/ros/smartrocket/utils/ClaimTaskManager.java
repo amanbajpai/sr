@@ -5,6 +5,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.location.Location;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -130,6 +131,11 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                             return;
                         }
                         apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+                    }
+
+                    @Override
+                    public void getLocationFail(String errorText) {
+                        UIUtils.showSimpleToast(App.getInstance(), errorText);
                     }
                 });
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
