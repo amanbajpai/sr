@@ -145,25 +145,27 @@ public class MapHelper {
                                                       OnInfoWindowClickDownstreamListener onInfoWindowClickListener,
                                                       OnMarkerClickDownstreamListener onMarkerClickListener) {
         Options options = new Options();
-        options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
-        options.setTransitionInterpolator(new LinearInterpolator());
 
-        options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, MapHelper.DIP_DISTANCE_TO_JOIN_CLUSTER));
-        options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
-        options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
-        options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
-        options.setSinglePointClickBehavior(Options.SinglePointClickBehavior.SHOW_INFO_WINDOW);
-        options.setClusterClickBehavior(Options.ClusterClickBehavior.ZOOM_TO_BOUNDS);
-        options.setClusterInfoWindowClickBehavior(Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
+        if (activity != null) {
+            options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
+            options.setTransitionInterpolator(new LinearInterpolator());
 
-        /*Live hack from library developers ^)*/
-        options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
-        options.setMarkerOptionsChooser(new TaskOptionsChooser(activity));
-        options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
+            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, MapHelper.DIP_DISTANCE_TO_JOIN_CLUSTER));
+            options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
+            options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
+            options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
+            options.setSinglePointClickBehavior(Options.SinglePointClickBehavior.SHOW_INFO_WINDOW);
+            options.setClusterClickBehavior(Options.ClusterClickBehavior.ZOOM_TO_BOUNDS);
+            options.setClusterInfoWindowClickBehavior(Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
 
-        options.setOnInfoWindowClickDownstreamListener(onInfoWindowClickListener);
-        options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
+            /*Live hack from library developers ^)*/
+            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
+            options.setMarkerOptionsChooser(new TaskOptionsChooser(activity));
+            options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
 
+            options.setOnInfoWindowClickDownstreamListener(onInfoWindowClickListener);
+            options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
+        }
         return options;
     }
 

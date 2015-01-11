@@ -76,6 +76,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     public boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
         return ConnectionResult.SUCCESS == resultCode;
+        //return false;
     }
 
     public void startLocationManager() {
@@ -227,7 +228,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
     @Override
     public void onProviderDisabled(String provider) {
-        L.e(TAG, "onProviderDisabled");
+        L.i(TAG, "onProviderDisabled");
 
         if (isConnected) {
             isConnected = false;
@@ -243,14 +244,14 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
     @Override
     public void onProviderEnabled(String provider) {
-        L.e(TAG, "onProviderEnabled [provider = " + provider + "]");
+        L.i(TAG, "onProviderEnabled [provider = " + provider + "]");
 
         startLocationManager();
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        L.e(TAG, "onStatusChanged");
+        L.i(TAG, "onStatusChanged");
     }
 
     public boolean isConnected() {

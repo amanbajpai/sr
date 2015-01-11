@@ -70,9 +70,25 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                                 }
 
                                 @Override
-                                public void onCheckLocationFailed(Dialog dialog) {
-                                    startActivity(new Intent(CheckLocationActivity.this,
-                                            CheckLocationFailedActivity.class));
+                                public void onCheckLocationFailed(Dialog dialog, String countryName, String cityName,
+                                                                  double latitude, double longitude,
+                                                                  CheckLocationResponse serverResponse) {
+                                    Intent intent = new Intent(CheckLocationActivity.this, CheckLocationFailedActivity.class);
+                                    if (getIntent().getExtras() != null) {
+                                        intent.putExtras(getIntent().getExtras());
+                                    }
+
+                                    if (serverResponse != null) {
+                                        intent.putExtra(Keys.COUNTRY_ID, serverResponse.getCountryId());
+                                        intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
+                                        intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
+                                    }
+                                    intent.putExtra(Keys.COUNTRY_NAME, countryName);
+                                    intent.putExtra(Keys.CITY_NAME, cityName);
+                                    intent.putExtra(Keys.LATITUDE, latitude);
+                                    intent.putExtra(Keys.LONGITUDE, longitude);
+
+                                    startActivity(intent);
                                 }
                             }
                     );

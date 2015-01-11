@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +9,6 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.dialog.RegistrationSubscribeSuccessDialog;
 import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -23,6 +21,12 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     private EditText countryEditText;
     private EditText cityEditText;
     private EditText emailEditText;
+
+    private int districtId;
+    private int countryId;
+    private int cityId;
+    private String countryName;
+    private String cityName;
     private Double latitude;
     private Double longitude;
 
@@ -35,13 +39,24 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
         getSupportActionBar().hide();
         setContentView(R.layout.activity_checking_failed);
 
+        if (getIntent() != null) {
+            districtId = getIntent().getIntExtra(Keys.DISTRICT_ID, 0);
+            countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
+            cityId = getIntent().getIntExtra(Keys.CITY_ID, 0);
+            countryName = getIntent().getStringExtra(Keys.COUNTRY_NAME);
+            cityName = getIntent().getStringExtra(Keys.CITY_NAME);
+            latitude = getIntent().getDoubleExtra(Keys.LATITUDE, 0);
+            longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
+        }
+
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         countryEditText = (EditText) findViewById(R.id.countryEditText);
         cityEditText = (EditText) findViewById(R.id.cityEditText);
 
-        setCurrentAddressByLocation();
+        countryEditText.setText(countryName);
+        cityEditText.setText(cityName);
 
         findViewById(R.id.subscribeButton).setOnClickListener(this);
         findViewById(R.id.cancelButton).setOnClickListener(this);
@@ -75,7 +90,8 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
                     break;
                 }
 
-                apiFacade.subscribe(this, email, countryName, cityName, latitude, longitude);
+                apiFacade.subscribe(this, email, countryName, cityName, latitude, longitude,
+                        districtId, countryId, cityId);
                 break;
             case R.id.cancelButton:
                 startActivity(IntentUtils.getLoginIntentForLogout(this));
@@ -108,18 +124,5 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
-    }
-
-    private void setCurrentAddressByLocation() {
-        MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
-            @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-
-                countryEditText.setText(countryName);
-                cityEditText.setText(cityName);
-            }
-        });
     }
 }

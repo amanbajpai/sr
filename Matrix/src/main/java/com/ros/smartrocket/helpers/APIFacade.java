@@ -413,13 +413,17 @@ public class APIFacade {
      * @param cityName
      */
     public void subscribe(Activity activity, String email, String countryName, String cityName,
-                          Double latitude, Double longitude) {
+                          Double latitude, Double longitude, Integer districtId, Integer countryId,
+                          Integer cityId) {
         Subscription subscriptionEntity = new Subscription();
         subscriptionEntity.setEmail(email);
         subscriptionEntity.setCountry(countryName);
         subscriptionEntity.setCity(cityName);
         subscriptionEntity.setLatitude(latitude);
         subscriptionEntity.setLongitude(longitude);
+        subscriptionEntity.setDistrictId(districtId);
+        subscriptionEntity.setCountryId(countryId);
+        subscriptionEntity.setCityId(cityId);
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.SUBSCRIPTION);

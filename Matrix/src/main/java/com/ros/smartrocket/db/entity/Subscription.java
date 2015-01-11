@@ -15,6 +15,12 @@ public class Subscription extends BaseEntity {
     private Double longitude;
     @SerializedName("Latitude")
     private Double latitude;
+    @SerializedName("DistrictId")
+    private Integer districtId;
+    @SerializedName("CountryId")
+    private Integer countryId;
+    @SerializedName("CityId")
+    private Integer cityId;
 
     public String getEmail() {
         return email;
@@ -56,4 +62,27 @@ public class Subscription extends BaseEntity {
         this.latitude = latitude;
     }
 
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public Integer getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
 }

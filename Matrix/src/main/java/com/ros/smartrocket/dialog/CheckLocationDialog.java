@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckLocation;
@@ -21,6 +22,8 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.utils.L;
+
+import org.json.JSONObject;
 
 /**
  * Dialog for checking location and showing results
@@ -85,33 +88,17 @@ public class CheckLocationDialog extends Dialog {
         if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
             statusImage.clearAnimation();
 
+            checkLocationEntity = (CheckLocation) operation.getEntities().get(0);
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
-                checkLocationEntity = (CheckLocation) operation.getEntities().get(0);
 
                 if (checkLocationResponse.getStatus()) {
-                    statusImage.setImageResource(R.drawable.ok_progress);
-                    statusText.setText(activity.getString(R.string.check_location_dialog_text2));
-
-                    if (TextUtils.isEmpty(this.countryName)) {
-                        this.countryName = checkLocationResponse.getCountryName();
-                    }
-                    if (TextUtils.isEmpty(this.cityName)) {
-                        this.cityName = checkLocationResponse.getCityName();
-                    }
-
-                    locationChecked = true;
+                    checkLocationSuccess();
                 } else {
-                    statusImage.setImageResource(R.drawable.error_progress);
-                    statusText.setText(activity.getString(R.string.check_location_dialog_text3));
-
-                    locationChecked = false;
+                    checkLocationFail(operation);
                 }
             } else {
-                statusImage.setImageResource(R.drawable.error_progress);
-                statusText.setText(activity.getString(R.string.check_location_dialog_text3));
-
-                locationChecked = false;
+                checkLocationFail(operation);
             }
 
             activity.runOnUiThread(new Runnable() {
@@ -125,7 +112,9 @@ public class CheckLocationDialog extends Dialog {
                                         countryName, cityName, checkLocationEntity.getLatitude(),
                                         checkLocationEntity.getLongitude(), checkLocationResponse);
                             } else {
-                                checkLocationListener.onCheckLocationFailed(CheckLocationDialog.this);
+                                checkLocationListener.onCheckLocationFailed(CheckLocationDialog.this,
+                                        countryName, cityName, checkLocationEntity.getLatitude(),
+                                        checkLocationEntity.getLongitude(), checkLocationResponse);
                             }
                             dismiss();
                         }
@@ -133,13 +122,45 @@ public class CheckLocationDialog extends Dialog {
                 }
             });
         }
+    }
 
+    public void checkLocationSuccess() {
+        statusImage.setImageResource(R.drawable.ok_progress);
+        statusText.setText(activity.getString(R.string.check_location_dialog_text2));
+
+        if (TextUtils.isEmpty(countryName) && !TextUtils.isEmpty(checkLocationResponse.getCountryName())) {
+            this.countryName = checkLocationResponse.getCountryName();
+        }
+        if (TextUtils.isEmpty(cityName) && !TextUtils.isEmpty(checkLocationResponse.getCityName())) {
+            this.cityName = checkLocationResponse.getCityName();
+        }
+
+        locationChecked = true;
+    }
+
+    public void checkLocationFail(BaseOperation operation) {
+        statusImage.setImageResource(R.drawable.error_progress);
+        statusText.setText(activity.getString(R.string.check_location_dialog_text3));
+
+        try {
+            JSONObject responseJson = new JSONObject(operation.getResponseString());
+            String locationData = responseJson.getString("Data");
+
+            checkLocationResponse = new Gson().fromJson(locationData,
+                    CheckLocationResponse.class);
+
+        } catch (Exception e) {
+            L.e(TAG, "Error in onNetworkOperation method.", e);
+        }
+
+        locationChecked = false;
     }
 
     public interface CheckLocationListener {
         void onLocationChecked(Dialog dialog, String countryName, String cityName, double latitude,
                                double longitude, CheckLocationResponse serverResponse);
 
-        void onCheckLocationFailed(Dialog dialog);
+        void onCheckLocationFailed(Dialog dialog, String countryName, String cityName, double latitude,
+                                   double longitude, CheckLocationResponse serverResponse);
     }
 }
