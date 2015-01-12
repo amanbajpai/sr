@@ -43,6 +43,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         }
 
         referralCasesSpinner = (Spinner) findViewById(R.id.referralCasesSpinner);
+        referralCasesSpinner.setEnabled(false);
 
         continueButton = (Button) findViewById(R.id.continueButton);
         continueButton.setOnClickListener(this);
@@ -83,6 +84,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                         R.id.name, referralCasesStringArray);
                 referralCasesSpinner.setAdapter(educationLevelAdapter);
                 referralCasesSpinner.setOnItemSelectedListener(this);
+                referralCasesSpinner.setEnabled(true);
 
             } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
                 startCheckLocationActivity(getCurrentReferralCaseId());
