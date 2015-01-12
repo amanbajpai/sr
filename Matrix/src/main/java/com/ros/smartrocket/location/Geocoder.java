@@ -97,7 +97,7 @@ public final class Geocoder {
         url.append("&language=");
         url.append(locale.getLanguage());
 
-        if(!Config.USE_BAIDU) {
+        if (!Config.USE_BAIDU) {
             url.append("&key=");
             url.append(BuildConfig.SERVER_API_KEY);
             url.append("&client=");
@@ -277,8 +277,7 @@ public final class Geocoder {
             JSONArray typeJSONArray = item.getJSONArray("types");
             String typeName = typeJSONArray.getString(0);
 
-            if (typeJSONArray.length() > 0 && (typeName.equals("locality")
-                    || typeName.equals("administrative_area_level_2")
+            if (typeJSONArray.length() > 0 && (typeName.equals("administrative_area_level_2")
                     || typeName.equals("sublocality_level_1"))) {
                 address.setFeatureName(item.getString("formatted_address"));
 
@@ -298,14 +297,15 @@ public final class Geocoder {
 
                         if (addressTypeName.equals("country")) {
                             address.setCountryName(longName);
-                        } else if (addressTypeName.equals("administrative_area_level_1")) {
-                            address.setAdminArea(longName);
                         } else if (addressTypeName.equals("administrative_area_level_2")
                                 && (TextUtils.isEmpty(address.getSubLocality()) || Config.USE_BAIDU)) {
                             address.setSubLocality(longName);
                         } else if (addressTypeName.equals("sublocality_level_1")) {
                             address.setSubLocality(longName);
                         } else if (addressTypeName.equals("locality")) {
+                            address.setLocality(longName);
+                        } else if (addressTypeName.equals("administrative_area_level_1")
+                                && (TextUtils.isEmpty(address.getLocality()) || Config.USE_BAIDU)) {
                             address.setLocality(longName);
                         }
                     }

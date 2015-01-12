@@ -111,7 +111,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode buildNumber
-        versionName '1.7'
+        versionName '1.8'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
         buildConfigField "String", "ANDROID_API_KEY", "\"AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI\""
@@ -201,7 +201,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
-            versionCode 10004
+            versionCode 10005
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
@@ -210,7 +210,6 @@ android {
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
-
         ChinaDev {
             applicationId 'com.ros.smartrocket.dev'
             buildConfigField "boolean", "USE_BAIDU", "true"
@@ -230,7 +229,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://ditu.google.cn\""
         }
         ChinaProduction {
-            versionCode 10004
+            versionCode 10005
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
