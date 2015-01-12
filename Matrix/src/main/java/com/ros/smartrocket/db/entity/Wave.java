@@ -95,9 +95,11 @@ public class Wave extends BaseEntity {
     private Integer nearTaskId;
 
     @SkipFieldInContentValues
+    @SerializedName("Country")
     private Country country;
 
     @SkipFieldInContentValues
+    @SerializedName("Project")
     private Project project;
 
     @SkipFieldInContentValues
