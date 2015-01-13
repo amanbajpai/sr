@@ -176,13 +176,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         if (myAccount.getLevelNumber() != null
                 && preferencesManager.getLastLevelNumber() != myAccount.getLevelNumber()) {
+
             if (preferencesManager.getLastLevelNumber() == -1) {
                 preferencesManager.setLastLevelNumber(myAccount.getLevelNumber());
-            }
-
-            if (myAccount.getLevelNumber() != 1
-                    && preferencesManager.getLastLevelNumber() != myAccount.getLevelNumber()) {
+            } else {
                 new LevelUpDialog(getActivity());
+
                 preferencesManager.setLastLevelNumber(myAccount.getLevelNumber());
             }
         }
