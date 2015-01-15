@@ -3,21 +3,22 @@ package com.ros.smartrocket.map;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.os.Bundle;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
-import com.twotoasters.clusterkraf.ClusterPoint;
-import com.twotoasters.clusterkraf.MarkerOptionsChooser;
+import com.twotoasters.baiduclusterkraf.ClusterPoint;
+import com.twotoasters.baiduclusterkraf.MarkerOptionsChooser;
 
 import java.lang.ref.WeakReference;
 
-public class TaskOptionsChooser extends MarkerOptionsChooser {
-    private static final String TAG = TaskOptionsChooser.class.getSimpleName();
+public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
+    private static final String TAG = TaskBaiduOptionsChooser.class.getSimpleName();
     private static final float ANCHOR_MARKER_U = 0.5f;
     private static final float ANCHOR_MARKER_V = 1.0f;
 
@@ -26,7 +27,7 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
     private final Paint clusterPaintMedium;
     private final Paint clusterPaintSmall;
 
-    public TaskOptionsChooser(Context context) {
+    public TaskBaiduOptionsChooser(Context context) {
         this.contextRef = new WeakReference<Context>(context);
 
         clusterPaintMedium = MapHelper.getMediumClasterPaint(context);
@@ -52,7 +53,10 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
 
                 icon = BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(data));
                 title = data.getName();
-                markerOptions.snippet(data.getId() + "_" + data.getWaveId() + "_" + data.getStatusId());
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Keys.TASK, data);
+                markerOptions.extraInfo(bundle);
             }
             markerOptions.icon(icon);
             markerOptions.title(title);

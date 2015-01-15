@@ -305,7 +305,7 @@ public final class Geocoder {
                         } else if (addressTypeName.equals("locality")) {
                             address.setLocality(longName);
                         } else if (addressTypeName.equals("administrative_area_level_1")
-                                && (TextUtils.isEmpty(address.getLocality()) || Config.USE_BAIDU)) {
+                                && TextUtils.isEmpty(address.getLocality())) {
                             address.setLocality(longName);
                         }
                     }

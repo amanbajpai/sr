@@ -177,7 +177,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
         if (entityList.size() > 0) {
             json = gson.toJson(entityList.size() > 1 ? entityList : entityList.get(0));
         }
-        L.i(TAG, "json: " + json);
         return json;
     }
 

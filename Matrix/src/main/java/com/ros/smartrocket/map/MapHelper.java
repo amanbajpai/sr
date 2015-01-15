@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.TileProvider;
@@ -39,6 +41,7 @@ import com.ros.smartrocket.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
+import com.twotoasters.baiduclusterkraf.OnShowInfoWindowListener;
 import com.twotoasters.clusterkraf.InputPoint;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
@@ -56,6 +59,7 @@ public class MapHelper {
     private static final String TAG = MapHelper.class.getSimpleName();
 
     public static final float COORDINATE_OFFSET = 0.00004f;
+    public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.00008f;
     public static final int TRANSITION_DURATION = 500;
     //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
     public static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 50;
@@ -84,7 +88,7 @@ public class MapHelper {
         if (mapFragment != null) {
             baiduMap = mapFragment.getBaiduMap();
             baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-            baiduMap.setMaxAndMinZoomLevel(0, 19);
+            //baiduMap.setMaxAndMinZoomLevel(0, 19);
                     /*baiduMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                         @Override
                         public void onCameraChange(CameraPosition pos) {
@@ -139,6 +143,35 @@ public class MapHelper {
                 selectMapInterface.useGoogleMap(googleMap);
             }
         }
+    }
+
+    public static com.twotoasters.baiduclusterkraf.Options getBaiduClusterkrafOptions(Activity activity, Keys.MapViewMode mode,
+                                                                                      OnShowInfoWindowListener onShowInfoWindowListener,
+                                                                                      com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickListener) {
+        com.twotoasters.baiduclusterkraf.Options options = new com.twotoasters.baiduclusterkraf.Options(activity);
+
+        if (activity != null) {
+            options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
+            options.setTransitionInterpolator(new LinearInterpolator());
+
+            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, 10));
+            options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
+            options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
+            options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
+            options.setSinglePointClickBehavior(com.twotoasters.baiduclusterkraf.Options.SinglePointClickBehavior.SHOW_INFO_WINDOW);
+            options.setClusterClickBehavior(com.twotoasters.baiduclusterkraf.Options.ClusterClickBehavior.ZOOM_TO_BOUNDS);
+            options.setClusterInfoWindowClickBehavior(com.twotoasters.baiduclusterkraf.Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
+
+            /*Live hack from library developers ^)*/
+            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
+            options.setMarkerOptionsChooser(new TaskBaiduOptionsChooser(activity));
+            options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
+
+            //options.setOnInfoWindowClickListener(onInfoWindowClickListener);
+            options.setOnShowInfoWindowListener(onShowInfoWindowListener);
+            //options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
+        }
+        return options;
     }
 
     public static Options getGoogleClusterkrafOptions(Activity activity, Keys.MapViewMode mode,
@@ -248,7 +281,7 @@ public class MapHelper {
     /**
      * Check coordinates of pins and change it if they are equals
      */
-    public static ArrayList<InputPoint> getInputPointList(List<Task> list, Location location) {
+    public static ArrayList<InputPoint> getGoogleMapInputPointList(List<Task> list, Location location) {
         ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
         Map<String, String> markerLocationMap = new HashMap<String, String>();
 
@@ -263,7 +296,8 @@ public class MapHelper {
             }
 
             if (latitude != null && longitude != null) {
-                Double[] newTaskCoordinate = MapHelper.getEditedTaskCoordinate(list.size(), latitude, longitude, markerLocationMap);
+                Double[] newTaskCoordinate = MapHelper.getEditedTaskCoordinate(list.size(),
+                        latitude, longitude, MapHelper.COORDINATE_OFFSET, markerLocationMap);
                 if (newTaskCoordinate != null) {
                     item.setLatitude(newTaskCoordinate[0]);
                     item.setLongitude(newTaskCoordinate[1]);
@@ -277,7 +311,41 @@ public class MapHelper {
         return inputPoints;
     }
 
-   /* public void addClusteredPinToBaiduMap(BaiduMap baiduMap, List<InputPoint> markerList) {
+    /**
+     * Check coordinates of pins and change it if they are equals
+     */
+    public static ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> getBaiduMapInputPointList(List<Task> list, Location location) {
+        ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> inputPoints = new ArrayList<com.twotoasters.baiduclusterkraf.InputPoint>();
+        Map<String, String> markerLocationMap = new HashMap<String, String>();
+
+        for (int i = 0; i < list.size(); i++) {
+            Task item = list.get(i);
+            Double latitude = item.getLatitude();
+            Double longitude = item.getLongitude();
+
+            if (location != null && (latitude == null || longitude == null)) {
+                latitude = location.getLatitude() + MapHelper.BAIDU_MAP_COORDINATE_OFFSET;
+                longitude = location.getLongitude() + MapHelper.BAIDU_MAP_COORDINATE_OFFSET;
+            }
+
+            if (latitude != null && longitude != null) {
+                Double[] newTaskCoordinate = MapHelper.getEditedTaskCoordinate(list.size(),
+                        latitude, longitude, MapHelper.BAIDU_MAP_COORDINATE_OFFSET, markerLocationMap);
+                if (newTaskCoordinate != null) {
+                    item.setLatitude(newTaskCoordinate[0]);
+                    item.setLongitude(newTaskCoordinate[1]);
+                }
+
+                inputPoints.add(new com.twotoasters.baiduclusterkraf.InputPoint(item.getBaiduLatLng(), item));
+            }
+        }
+
+        Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
+
+        return inputPoints;
+    }
+
+    /*public void addClusteredPinToBaiduMap(BaiduMap baiduMap, List<InputPoint> markerList) {
 
         List<InputPoint> clusteredMarkerList = new ArrayList<InputPoint>();
 
@@ -301,20 +369,16 @@ public class MapHelper {
         return itemList;
     }
 
-    public List<BaiduClusterInputPoint> transformInputPointsToClasterInputPointList(BaiduMap baiduMap, List<InputPoint> markerList) {
+    public List<BaiduClusterInputPoint> transformInputPointsToClasterInputPointList(BaiduMap baiduMap, ArrayList<InputPoint> markerList) {
         List<BaiduClusterInputPoint> clusteredMarkerList = new ArrayList<BaiduClusterInputPoint>();
         for (InputPoint inputPoint : markerList) {
-
-            ;
-            GeoPoint markGeo = marker.getPoint();
-
             if (clusteredMarkerList.size() == 0) {
                 clusteredMarkerList.add(new BaiduClusterInputPoint(inputPoint.getMapPosition(), inputPoint.getTag()));
             } else {
                 Projection projection = baiduMap.getProjection();
 
-                ClustersBuilder builder = new ClustersBuilder(projection, arg.options, arg.previousClusters);
-                builder.addAll(arg.points);
+                ClustersBuilder builder = new ClustersBuilder(projection, getGoogleClusterkrafOptions(), arg.previousClusters);
+                builder.addAll(markerList);
                 result.currentClusters = builder.build();
 
 
@@ -342,33 +406,29 @@ public class MapHelper {
         }
 
         return clusteredMarkerList;
-    }
+    }*/
 
-    public static OverlayOptions getBaiduPin(BaiduClusterInputPoint clusterInputPoint) {
+    public static OverlayOptions getBaiduPin(com.twotoasters.baiduclusterkraf.InputPoint clusterInputPoint) {
         Task task = (Task) clusterInputPoint.getTag();
         com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
-        LatLng latLng = clusterInputPoint.getMapPosition();
-
-        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(latLng.latitude, latLng.longitude);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(Keys.TASK, task);
 
         OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions()
-                .position(ll)
+                .position(clusterInputPoint.getMapPosition())
                 .icon(icon)
                 .zIndex(task.getId())
                 .extraInfo(bundle)
                 .draggable(true);
 
         return ooA;
-    }*/
-
+    }
 
     /**
      * Check coordinates of pins and change it if they are equals
      */
-    public static Double[] getEditedTaskCoordinate(int itemSize, double latitude, double longitude,
+    public static Double[] getEditedTaskCoordinate(int itemSize, double latitude, double longitude, float coordinateOffset,
                                                    Map<String, String> markerLocationMap) {
 
         Double[] location = null;
@@ -376,30 +436,30 @@ public class MapHelper {
 
         for (int i = 0; i <= itemSize; i++) {
 
-            if (markerLocationMap.containsValue((latitude + i * COORDINATE_OFFSET)
-                    + "," + (longitude + i * COORDINATE_OFFSET))) {
+            if (markerLocationMap.containsValue((latitude + i * coordinateOffset)
+                    + "," + (longitude + i * coordinateOffset))) {
 
                 // If i = 0 then below if condition is same as upper one. Hence, no need to execute below if condition.
                 if (i == 0)
                     continue;
 
-                if (markerLocationMap.containsValue((latitude - i * COORDINATE_OFFSET)
-                        + "," + (longitude - i * COORDINATE_OFFSET))) {
+                if (markerLocationMap.containsValue((latitude - i * coordinateOffset)
+                        + "," + (longitude - i * coordinateOffset))) {
                     continue;
 
                 } else {
                     location = new Double[2];
-                    location[0] = latitude - (i * COORDINATE_OFFSET);
-                    location[1] = longitude - (i * COORDINATE_OFFSET);
-                    locationToAdd = (latitude - i * COORDINATE_OFFSET) + "," + (longitude - i * COORDINATE_OFFSET);
+                    location[0] = latitude - (i * coordinateOffset);
+                    location[1] = longitude - (i * coordinateOffset);
+                    locationToAdd = (latitude - i * coordinateOffset) + "," + (longitude - i * coordinateOffset);
                     break;
                 }
 
             } else {
                 location = new Double[2];
-                location[0] = latitude + (i * COORDINATE_OFFSET);
-                location[1] = longitude + (i * COORDINATE_OFFSET);
-                locationToAdd = (latitude + i * COORDINATE_OFFSET) + "," + (longitude + i * COORDINATE_OFFSET);
+                location[0] = latitude + (i * coordinateOffset);
+                location[1] = longitude + (i * coordinateOffset);
+                locationToAdd = (latitude + i * coordinateOffset) + "," + (longitude + i * coordinateOffset);
                 break;
             }
         }

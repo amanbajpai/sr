@@ -50,7 +50,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         requested = new LinkedList<ILocationUpdate>();
 
         // If Google Play services is available
-        if (isGooglePlayServicesAvailable()) {
+        if (isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
             L.d(TAG, "Google Play services is available.");
 
             // Create the LocationRequest object
@@ -128,7 +128,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
      */
     public Location getLocation() {
         if (isConnected) {
-            if (isGooglePlayServicesAvailable()) {
+            if (isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
                 this.lastLocation = locationClient.getLastLocation();
             } else {
                 this.lastLocation = getLastLocation();
@@ -333,7 +333,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                 }
             });
             if (lm.isConnected()) {
-                if (lm.isGooglePlayServicesAvailable()) {
+                if (lm.isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
                     lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
                 } else {
                     lm.startLocationManager();

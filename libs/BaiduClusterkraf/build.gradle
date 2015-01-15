@@ -17,18 +17,14 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services:6.1.71'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile files('../baidumapapi_v3_1_0.jar')
+    compile files('../locSDK_3.1.jar')
 }
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 19
     buildToolsVersion '19.1.0'
-
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 21
-    }
 
     lintOptions {
         // if true, stop the gradle build if errors are found
@@ -41,5 +37,20 @@ android {
             java.srcDirs = ['src']
             res.srcDirs = ['res']
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
     }
 }

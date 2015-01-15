@@ -291,15 +291,12 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      */
     public boolean isReadyToSend() {
         boolean result = UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this)
-                && UIUtils.isGooglePlayServicesEnabled(this)
                 && preferencesManager.getUseLocationServices()
                 && !UIUtils.isMockLocationEnabled(this);
         if (!UIUtils.isOnline(this)) {
             DialogUtils.showNetworkDialog(this);
         } else if (!UIUtils.isGpsEnabled(this) || !preferencesManager.getUseLocationServices()) {
             DialogUtils.showLocationDialog(this, true);
-        } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
-            DialogUtils.showGoogleSdkDialog(this);
         } else if (UIUtils.isMockLocationEnabled(this)) {
             DialogUtils.showMockLocationDialog(this, true);
         }

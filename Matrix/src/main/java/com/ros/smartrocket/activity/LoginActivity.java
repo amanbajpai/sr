@@ -205,13 +205,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     public boolean deviceIsReady() {
         boolean result = UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this)
-                && UIUtils.isGooglePlayServicesEnabled(this) && !UIUtils.isMockLocationEnabled(this);
+                && !UIUtils.isMockLocationEnabled(this);
         if (!UIUtils.isOnline(this)) {
             DialogUtils.showNetworkDialog(this);
         } else if (!UIUtils.isGpsEnabled(this)) {
             DialogUtils.showLocationDialog(this, true);
-        } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
-            DialogUtils.showGoogleSdkDialog(this);
         } else if (UIUtils.isMockLocationEnabled(this)) {
             DialogUtils.showMockLocationDialog(this, true);
         }

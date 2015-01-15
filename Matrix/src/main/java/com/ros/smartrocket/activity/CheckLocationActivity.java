@@ -43,8 +43,6 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     DialogUtils.showNetworkDialog(this);
                 } else if (!UIUtils.isGpsEnabled(this)) {
                     DialogUtils.showLocationDialog(this, true);
-                } else if (!UIUtils.isGooglePlayServicesEnabled(this)) {
-                    DialogUtils.showGoogleSdkDialog(this);
                 } else if (UIUtils.isMockLocationEnabled(this)) {
                     DialogUtils.showMockLocationDialog(this, true);
                 } else {

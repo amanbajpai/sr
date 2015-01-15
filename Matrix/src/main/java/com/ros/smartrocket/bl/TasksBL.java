@@ -227,7 +227,7 @@ public class TasksBL {
 
         List<Task> tasks = convertCursorToTasksList(cursor);
 
-        if (currentLocation != null) {
+        if (currentLocation != null && tasks != null) {
             for (Task task : tasks) {
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     taskLocation.setLatitude(task.getLatitude());

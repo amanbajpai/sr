@@ -2,6 +2,7 @@ package com.ros.smartrocket.bl;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
@@ -37,8 +38,6 @@ public class LoginBL {
             errors = PreLoginErrors.NOCONNECTION;
         } else if (!utils.isGpsEnabled(context)) {
             errors = PreLoginErrors.GPSOFF;
-        } else if (!utils.isGooglePlayServicesEnabled(context)) {
-            errors = PreLoginErrors.GOOGLEPSNOTWALID;
         } else if (utils.isMockLocationEnabled(context)) {
             errors = PreLoginErrors.MOCKON;
         } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
