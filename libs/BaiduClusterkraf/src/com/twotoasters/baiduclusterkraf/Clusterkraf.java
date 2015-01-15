@@ -132,14 +132,10 @@ public class Clusterkraf {
          * @see http://code.google.com/p/gmaps-api-issues/issues/detail?id=4703
          */
         if (currentMarkers != null) {
-            try {
-                for (Marker marker : currentMarkers) {
-                    if (marker != null) {
-                        marker.remove();
-                    }
+            for (Marker marker : currentMarkers) {
+                if (marker != null) {
+                    marker.remove();
                 }
-            } catch (Exception e) {
-                Log.e("Clusterkraf", "Error in clear method.", e);
             }
         }
 

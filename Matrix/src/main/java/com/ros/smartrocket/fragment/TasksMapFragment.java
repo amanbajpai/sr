@@ -383,7 +383,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    onLoadingComplete(TasksBL.convertCursorToTasksList(cursor));
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        onLoadingComplete(TasksBL.convertCursorToTasksList(cursor));
+                    }
                     break;
                 default:
                     break;
