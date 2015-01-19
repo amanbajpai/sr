@@ -142,15 +142,24 @@ public class CheckLocationDialog extends Dialog {
         statusImage.setImageResource(R.drawable.error_progress);
         statusText.setText(activity.getString(R.string.check_location_dialog_text3));
 
-        try {
-            JSONObject responseJson = new JSONObject(operation.getResponseString());
-            String locationData = responseJson.getString("Data");
+        String responseString = operation.getResponseString();
+        L.i(TAG, "Check location fail responseString: " + responseString);
+        if (responseString != null) {
+            try {
+                JSONObject responseJson = new JSONObject(responseString);
+                String locationData = responseJson.getString("Data");
 
-            checkLocationResponse = new Gson().fromJson(locationData,
-                    CheckLocationResponse.class);
+                checkLocationResponse = new Gson().fromJson(locationData, CheckLocationResponse.class);
 
-        } catch (Exception e) {
-            L.e(TAG, "Error in onNetworkOperation method.", e);
+                if (TextUtils.isEmpty(countryName) && !TextUtils.isEmpty(checkLocationResponse.getCountryName())) {
+                    this.countryName = checkLocationResponse.getCountryName();
+                }
+                if (TextUtils.isEmpty(cityName) && !TextUtils.isEmpty(checkLocationResponse.getCityName())) {
+                    this.cityName = checkLocationResponse.getCityName();
+                }
+            } catch (Exception e) {
+                L.e(TAG, "Error in checkLocationFail method.", e);
+            }
         }
 
         locationChecked = false;

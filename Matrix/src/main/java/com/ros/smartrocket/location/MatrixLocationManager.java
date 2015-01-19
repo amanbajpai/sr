@@ -151,7 +151,11 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
      * @param callback
      */
     public void getAddress(Location location, IAddress callback) {
-        (new GetAddressTask(this.context, callback)).execute(location);
+        if (!Config.USE_BAIDU) {
+            (new GetAddressTask(this.context, callback)).execute(location);
+        } else {
+            callback.onUpdate(null);
+        }
     }
 
     /**

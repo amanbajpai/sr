@@ -159,17 +159,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-                if (deviceIsReady()) {
-                    progressDialog = CustomProgressDialog.show(this);
-                    loginButton.setEnabled(false);
+                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+                    if (deviceIsReady()) {
+                        progressDialog = CustomProgressDialog.show(this);
+                        loginButton.setEnabled(false);
 
-                    String deviceManufacturer = UIUtils.getDeviceManufacturer();
-                    String deviceModel = UIUtils.getDeviceModel();
-                    String deviceName = UIUtils.getDeviceName(this);
+                        String deviceManufacturer = UIUtils.getDeviceManufacturer();
+                        String deviceModel = UIUtils.getDeviceModel();
+                        String deviceName = UIUtils.getDeviceName(this);
 
-                    apiFacade.login(this, email, password, deviceName, deviceModel,
-                            deviceManufacturer, UIUtils.getAppVersion(this),
-                            Build.VERSION.RELEASE);
+                        apiFacade.login(this, email, password, deviceName, deviceModel,
+                                deviceManufacturer, UIUtils.getAppVersion(this),
+                                Build.VERSION.RELEASE);
+                    }
+                } else {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
                 }
 
                 break;

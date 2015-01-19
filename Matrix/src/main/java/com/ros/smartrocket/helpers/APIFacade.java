@@ -77,6 +77,8 @@ public class APIFacade {
             operation.setMethod(BaseOperation.Method.POST);
             operation.getEntities().add(loginEntity);
             ((BaseActivity) activity).sendNetworkOperation(operation);
+        } else {
+            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
         }
     }
 
