@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 public class Config {
     public static final String ANDROID_API_KEY = BuildConfig.ANDROID_API_KEY;
+    public static final String BAIDU_API_KEY = BuildConfig.BAIDU_API_KEY;
     public static final String SERVER_API_KEY = BuildConfig.SERVER_API_KEY;
     public static final String GCM_SENDER_ID = BuildConfig.GCM_SENDER_ID;
     public static final String CACHE_PREFIX_DIR = "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache/";

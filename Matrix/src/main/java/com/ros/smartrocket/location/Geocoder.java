@@ -9,6 +9,7 @@ import android.util.Base64;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -37,6 +38,7 @@ public final class Geocoder {
      * Indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
      */
     private static final String STATUS_OK = "OK";
+    private static final String BAIDU_STATUS_OK = "0";
 
     /**
      * Indicates that you are over your quota.
@@ -90,33 +92,63 @@ public final class Geocoder {
             throw new IllegalArgumentException("longitude == " + longitude);
         }
 
-        StringBuilder url = new StringBuilder(Config.GEOCODER_URL + "/maps/api/geocode/json?sensor=true&latlng=");
+        Address address;
+        String url;
+
+        if (!Config.USE_BAIDU) {
+            url = getGoogleGeocodingUrl(latitude, longitude);
+            String json = sendGetRequest(url);
+            address = getAddress(json, latitude, longitude);
+        } else {
+            url = getBaiduGeocodingUrl(latitude, longitude);
+            String json = sendGetRequest(url);
+            address = getBaiduAddress(json, latitude, longitude);
+        }
+
+        client.close();
+
+        return address;
+    }
+
+    private String getGoogleGeocodingUrl(double latitude, double longitude) {
+        StringBuilder url = new StringBuilder(Config.GEOCODER_URL);
+
+        url.append("/maps/api/geocode/json?sensor=true&latlng=");
         url.append(latitude);
         url.append(',');
         url.append(longitude);
         url.append("&language=");
         url.append(locale.getLanguage());
 
-        if (!Config.USE_BAIDU) {
-            url.append("&key=");
-            url.append(BuildConfig.SERVER_API_KEY);
-            url.append("&client=");
-            url.append("gme-redoceansolutions");
+        url.append("&key=");
+        url.append(BuildConfig.SERVER_API_KEY);
+        url.append("&client=");
+        url.append("gme-redoceansolutions");
 
-            String signature = getSignature(url.toString(), key);
+        String signature = getSignature(url.toString(), key);
 
-            url.append("&signature=");
-            try {
-                url.append(URLEncoder.encode(signature, "UTF-8"));
-            } catch (Exception e) {
-                L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
-            }
+        url.append("&signature=");
+        try {
+            url.append(URLEncoder.encode(signature, "UTF-8"));
+        } catch (Exception e) {
+            L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
         }
-        String json = sendGetRequest(url.toString());
+        return url.toString();
+    }
 
-        client.close();
+    private String getBaiduGeocodingUrl(double latitude, double longitude) {
+        StringBuilder url = new StringBuilder(Config.GEOCODER_URL);
+        url.append("/?ak=");
+        url.append(Config.BAIDU_API_KEY);
+        //url.append("&callback=renderReverse");
+        url.append("&location=");
+        url.append(latitude);
+        url.append(',');
+        url.append(longitude);
+        url.append("&output=json&pois=0&mcode=");
+        url.append(UIUtils.getCertificateSHA1Fingerprint(context) + ";" + BuildConfig.APPLICATION_ID);
 
-        return getAddress(json, latitude, longitude);
+        return url.toString();
     }
 
     private String getSignature(String baseUrl, String baseKey) {
@@ -251,8 +283,8 @@ public final class Geocoder {
         try {
             JSONObject o = new JSONObject(json);
             String status = o.getString("status");
-            if (status.equals(STATUS_OK)) {
-                JSONArray a = o.getJSONArray("results");
+            if (status.equals(STATUS_OK) || status.equals(BAIDU_STATUS_OK)) {
+                JSONArray a = o.optJSONArray("results");
 
                 for (int i = 0; i < a.length(); i++) {
                     JSONObject item = a.getJSONObject(i);
@@ -311,6 +343,39 @@ public final class Geocoder {
                     }
                 }
             }
+        } catch (Exception e) {
+            L.e(TAG, "parseJson error: " + e.getMessage(), e);
+        }
+    }
+
+    private Address getBaiduAddress(String json, double latitude, double longitude) {
+        Address address = new Address(locale);
+        address.setLatitude(latitude);
+        address.setLongitude(longitude);
+
+        try {
+            JSONObject o = new JSONObject(json);
+            String status = o.getString("status");
+            if (status.equals(BAIDU_STATUS_OK)) {
+                fillInBaiduAddress(address, o.optJSONObject("result"));
+            }
+        } catch (Exception e) {
+            L.e(TAG, "parseJson error: " + e.getMessage(), e);
+        }
+
+        return address;
+    }
+
+    public void fillInBaiduAddress(Address address, JSONObject item) {
+        try {
+            JSONObject location = item.getJSONObject("addressComponent");
+
+            String districtName = location.getString("district");
+            String cityName = location.optString("city");
+
+            address.setCountryName("中国");
+            address.setSubLocality(districtName);
+            address.setLocality(cityName);
         } catch (Exception e) {
             L.e(TAG, "parseJson error: " + e.getMessage(), e);
         }
