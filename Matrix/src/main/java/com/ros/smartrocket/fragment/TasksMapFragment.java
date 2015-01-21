@@ -440,13 +440,16 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                     restoreCameraPositionByRadius(location, taskRadius);
                     addRadius(location);
 
+                } else if (mode == Keys.MapViewMode.MY_TASKS) {
+                    restoreCameraPositionByBaiduPins(location, inputPoints);
                 } else {
                     restoreCameraPositionByBaiduPins(location, inputPoints);
+                    moveCameraToLocation();
                 }
             }
         });
 
-        if (isFirstStart) {
+        if (isFirstStart && (mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.MY_TASKS)) {
             moveCameraToLocation();
             isFirstStart = false;
         }
@@ -657,7 +660,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 @Override
                 public void useBaiduMap(BaiduMap baiduMap) {
                     if (restoreCameraByBaiduPins != null) {
-                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(restoreCameraByBaiduPins);
+                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(restoreCameraByBaiduPins, display.getWidth(),
+                                display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150));
                         baiduMap.animateMapStatus(cameraUpdate);
                     }
                 }
@@ -675,7 +679,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 @Override
                 public void useBaiduMap(BaiduMap baiduMap) {
                     if (restoreCameraByBaiduPins != null) {
-                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(restoreCameraByBaiduPins);
+                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(restoreCameraByBaiduPins, display.getWidth(),
+                                display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150));
                         baiduMap.animateMapStatus(cameraUpdate);
                     }
                 }
