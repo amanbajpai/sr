@@ -159,7 +159,8 @@ android {
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
             buildConfigField "String", "BAIDU_API_KEY", "\"n0GLOKAhMcokvNddHSdFnqPh\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
-                                    baiduApiKey : "n0GLOKAhMcokvNddHSdFnqPh"]
+                                    baiduApiKey : "n0GLOKAhMcokvNddHSdFnqPh",
+                                    jPushAppKey : "1afdb8b1c523982b249eae94"]
             zipAlignEnabled false
             minifyEnabled false
             debuggable true
@@ -174,7 +175,8 @@ android {
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
             buildConfigField "String", "BAIDU_API_KEY", "\"hc5VEmGKRDw7ls2ZpGz18n6g\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
-                                    baiduApiKey : "hc5VEmGKRDw7ls2ZpGz18n6g"]
+                                    baiduApiKey : "hc5VEmGKRDw7ls2ZpGz18n6g",
+                                    jPushAppKey : "1afdb8b1c523982b249eae94"]
             signingConfig signingConfigs.release
             zipAlignEnabled true
             minifyEnabled false

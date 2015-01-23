@@ -288,7 +288,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setEducationLevel(educationLevel);
                 registrationEntity.setEmploymentStatus(employmentStatus);
                 registrationEntity.setTermsAndConditionsVersion(currentTermsAndConditionsVersion);
-                registrationEntity.setReferralId(referralCasesId);
+
+                if (referralCasesId > 0) {
+                    registrationEntity.setReferralId(referralCasesId);
+                }
 
                 if (photoBitmap != null) {
                     registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));

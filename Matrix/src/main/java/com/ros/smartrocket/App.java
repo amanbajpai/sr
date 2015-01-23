@@ -17,6 +17,8 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
     private static App instance;
@@ -26,7 +28,6 @@ public class App extends Application {
     private String deviceType;
     private MatrixLocationManager locationManager;
     private MyAccount myAccount;
-    private PreferencesManager preferencesManager;
 
     @Override
     public void onCreate() {
@@ -38,6 +39,9 @@ public class App extends Application {
 
         if (BuildConfig.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());
+
+            JPushInterface.setDebugMode(BuildConfig.DEBUG);
+            JPushInterface.init(this);
         }
 
         instance = this;
@@ -46,7 +50,6 @@ public class App extends Application {
         deviceApiNumber = android.os.Build.VERSION.SDK_INT;
         deviceType = "android";
         locationManager = new MatrixLocationManager(getApplicationContext());
-        preferencesManager = PreferencesManager.getInstance();
 
         requestToCurrentLocation();
         SettingsFragment.setCurrentLanguage();

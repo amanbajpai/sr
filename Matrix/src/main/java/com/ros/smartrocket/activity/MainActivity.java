@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
@@ -16,7 +17,10 @@ import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     private FragmentHelper fragmentHelper = new FragmentHelper();
@@ -43,24 +47,18 @@ public class MainActivity extends BaseSlidingMenuActivity {
         startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
         startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
 
-        CommonUtilities.registerGCMInBackground();
+        if (!Config.USE_BAIDU) {
+            CommonUtilities.registerGCMInBackground();
+        } else {
+            L.i("MainActivity", "MainActivity JPushInterface.init");
+            JPushInterface.init(getApplicationContext());
+        }
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.FINISH_MAIN_ACTIVITY);
 
         registerReceiver(localReceiver, intentFilter);
-
-        /*NotificationUtils.startExpiredNotificationActivity(this, "missionName", "locationName", "missionAddress");*/
-        /*NotificationUtils.startApprovedNotificationActivity(this, "Validation Text", "missionName", "locationName",
-                "missionAddress");*/
-        /*NotificationUtils.startRedoNotificationActivity(this, 18, 100, "missionName", "locationName", "missionAddress");*/
-       /* NotificationUtils.startRejectNotificationActivity(this, "Validation Text", "missionName", "locationName",
-                "missionAddress");*/
-
-        /*long deadlineTime = Calendar.getInstance().getTimeInMillis();
-        NotificationUtils.startDeadlineNotificationActivity(this, deadlineTime, 18, 100, "missionName", "locationName",
-                "missionAddress");*/
     }
 
     public class ResponseReceiver extends BroadcastReceiver {

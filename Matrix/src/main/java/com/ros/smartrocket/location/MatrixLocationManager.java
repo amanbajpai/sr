@@ -129,7 +129,9 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     public Location getLocation() {
         if (isConnected) {
             if (isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
-                this.lastLocation = locationClient.getLastLocation();
+                if (locationClient != null) {
+                    this.lastLocation = locationClient.getLastLocation();
+                }
             } else {
                 this.lastLocation = getLastLocation();
             }
@@ -152,7 +154,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
      */
     public void getAddress(Location location, IAddress callback) {
         //if (!Config.USE_BAIDU) {
-            (new GetAddressTask(this.context, callback)).execute(location);
+        (new GetAddressTask(this.context, callback)).execute(location);
         /*} else {
             callback.onUpdate(null);
         }*/
