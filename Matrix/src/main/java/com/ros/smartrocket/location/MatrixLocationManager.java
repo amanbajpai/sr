@@ -8,9 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClientOption;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
 import com.ros.smartrocket.App;
@@ -21,25 +23,25 @@ import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Queue;
 
-public class MatrixLocationManager implements com.google.android.gms.location.LocationListener, android.location.LocationListener,
-        GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
+public class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
+        GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
 
     private static final String TAG = MatrixLocationManager.class.getSimpleName();
     private Context context;
     private LocationClient locationClient;
+    private com.baidu.location.LocationClient baiduLocationClient;
     private boolean isConnected;
     private Location lastLocation;
     private Queue<ILocationUpdate> requested;
     private LocationRequest locationRequest;
     private CurrentLocationUpdateListener currentLocationUpdateListener;
 
-    private LocationManager locationManager;
+    //private LocationManager locationManager;
 
     /**
      * @param context - current context
@@ -47,10 +49,10 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     public MatrixLocationManager(Context context) {
         L.d(TAG, "MatrixLocationManager init!");
         this.context = context;
-        requested = new LinkedList<ILocationUpdate>();
+        requested = new LinkedList<>();
 
         // If Google Play services is available
-        if (isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
+        if (!Config.USE_BAIDU) {
             L.d(TAG, "Google Play services is available.");
 
             // Create the LocationRequest object
@@ -66,55 +68,27 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             locationClient = new LocationClient(context, this, this);
             // Connect the client.
             locationClient.connect();
-        } else { // Google Play services was not available for some reason
-            L.d(TAG, "Google Play services ERROR");
-
-            startLocationManager();
-        }
-    }
-
-    public boolean isGooglePlayServicesAvailable() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
-        return ConnectionResult.SUCCESS == resultCode;
-        //return false;
-    }
-
-    public void startLocationManager() {
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-        isConnected = true;
-
-        this.lastLocation = getLastLocation();
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
-
-        if (lastLocation == null) {
-            Calendar calendar = Calendar.getInstance();
-            long startTime = calendar.getTimeInMillis();
-            long currentTime = calendar.getTimeInMillis();
-            while (lastLocation == null && currentTime - startTime < 3000) {
-                this.lastLocation = getLastLocation();
-                currentTime = calendar.getTimeInMillis();
-            }
-        }
-
-        if (lastLocation != null) {
-            L.i(TAG, "getLocation[" + lastLocation + "]");
-            L.i(TAG, "getLocation[time=" + new Date(lastLocation.getTime()) + "]");
         } else {
-            L.w(TAG, "location == null");
+            startBaiduLocationClient();
         }
+    }
+
+    public void startBaiduLocationClient() {
+        L.d(TAG, "startBaiduLocationClient");
+
+        baiduLocationClient = new com.baidu.location.LocationClient(context);
+        baiduLocationClient.registerLocationListener(this);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);
+        option.setCoorType("bd09mc");
+        option.setScanSpan((int) Keys.UPDATE_INTERVAL);
+        baiduLocationClient.setLocOption(option);
+        baiduLocationClient.start();
+        baiduLocationClient.requestLocation();
+
+        this.isConnected = true;
 
         notifyAllRequestedLocation();
-    }
-
-    public Location getLastLocation() {
-        Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (lastLocation == null) {
-            lastLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        }
-        return lastLocation;
     }
 
     public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
@@ -128,42 +102,44 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
      */
     public Location getLocation() {
         if (isConnected) {
-            if (isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
+            if (!Config.USE_BAIDU) {
                 if (locationClient != null) {
                     this.lastLocation = locationClient.getLastLocation();
                 }
             } else {
-                this.lastLocation = getLastLocation();
+                this.lastLocation = convertBaiduLocationToLocation(baiduLocationClient.getLastKnownLocation());
             }
-        }
-        if (lastLocation != null) {
-            L.i(TAG, "getLocation[" + lastLocation + ", time=" + new Date(lastLocation.getTime()) + "]");
         }
 
         if (!Config.USE_BAIDU) {
             ChinaTransformLocation.transformFromChinaLocation(lastLocation);
+        } else {
+            ChinaTransformLocation.transformForBaiduLocation(lastLocation);
         }
+
+        if (lastLocation != null) {
+            L.i(TAG, "getLocation() [ " + lastLocation.getLatitude() + ", " + lastLocation.getLongitude()
+                    + ", time=" + new Date(lastLocation.getTime()) + "]");
+        }
+
         return lastLocation;
     }
 
     /**
      * Send request to get Address from {@link Geocoder}
      *
-     * @param location
-     * @param callback
+     * @param location - location to check
+     * @param callback - result callback
      */
+
     public void getAddress(Location location, IAddress callback) {
-        //if (!Config.USE_BAIDU) {
         (new GetAddressTask(this.context, callback)).execute(location);
-        /*} else {
-            callback.onUpdate(null);
-        }*/
     }
 
     /**
      * Add request to the Queue and wait for update
      *
-     * @param listener
+     * @param listener - result callback
      */
     public void getLocationAsync(ILocationUpdate listener) {
         requested.add(listener);
@@ -181,8 +157,17 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     }
 
     public void disconnect() {
-        if (locationClient != null) {
-            locationClient.disconnect();
+        if (!Config.USE_BAIDU) {
+            if (locationClient != null) {
+                locationClient.disconnect();
+            }
+        } else {
+            if (isConnected) {
+                isConnected = false;
+                if (baiduLocationClient != null) {
+                    baiduLocationClient.stop();
+                }
+            }
         }
     }
 
@@ -198,16 +183,29 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     }
 
     @Override
+    public void onReceiveLocation(BDLocation location) {
+        if (location != null) {
+            Location tampLocation = convertBaiduLocationToLocation(location);
+            ChinaTransformLocation.transformForBaiduLocation(tampLocation);
+
+            lastLocation = tampLocation;
+
+            L.i(TAG, "onReceiveLocation() [ " + tampLocation.getLatitude() + ", " + tampLocation.getLongitude() + "]");
+
+            new RecalculateDistanceAsyncTask().execute(tampLocation);
+        }
+    }
+
+    @Override
+    public void onReceivePoi(BDLocation poiLocation) {
+    }
+
+
+    @Override
     public void onConnected(Bundle bundle) {
         L.i(TAG, "onConnected() [bundle = " + bundle + "]");
         isConnected = true;
         this.lastLocation = locationClient.getLastLocation();
-        if (lastLocation != null) {
-            L.i(TAG, "getLocation[" + lastLocation + "]");
-            L.i(TAG, "getLocation[time=" + new Date(lastLocation.getTime()) + "]");
-        } else {
-            L.w(TAG, "location == null");
-        }
 
         locationClient.requestLocationUpdates(locationRequest, this);
 
@@ -230,34 +228,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        L.i(TAG, "onProviderDisabled");
-
-        if (isConnected) {
-            isConnected = false;
-            try {
-                if (locationManager != null) {
-                    locationManager.removeUpdates(this);
-                }
-            } catch (Exception e) {
-                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
-            }
-        }
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        L.i(TAG, "onProviderEnabled [provider = " + provider + "]");
-
-        startLocationManager();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        L.i(TAG, "onStatusChanged");
     }
 
     public boolean isConnected() {
@@ -318,8 +288,8 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     /**
      * Retrieve current location from {@link MatrixLocationManager}
      *
-     * @param force                   If true than get location asynchronously, false - block Thread and wait update!
-     * @param currentLocationListener
+     * @param force                   - if true than get location asynchronously, false - block Thread and wait update!
+     * @param currentLocationListener - result callback
      */
     public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener
             currentLocationListener) {
@@ -339,10 +309,10 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                 }
             });
             if (lm.isConnected()) {
-                if (lm.isGooglePlayServicesAvailable() && !Config.USE_BAIDU) {
+                if (!Config.USE_BAIDU) {
                     lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
                 } else {
-                    lm.startLocationManager();
+                    lm.startBaiduLocationClient();
                 }
             }
 
@@ -390,6 +360,18 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                 getAddressListener.onGetAddressSuccess(location, countryName, cityName, districtName);
             }
         });
+    }
+
+    private static Location convertBaiduLocationToLocation(BDLocation location) {
+        Location resultLocation = null;
+
+        if (location != null) {
+            resultLocation = new Location(LocationManager.NETWORK_PROVIDER);
+            resultLocation.setLatitude(location.getLatitude());
+            resultLocation.setLongitude(location.getLongitude());
+        }
+
+        return resultLocation;
     }
 
     public interface ILocationUpdate {

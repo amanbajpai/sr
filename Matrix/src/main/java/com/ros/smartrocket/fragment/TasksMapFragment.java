@@ -628,25 +628,27 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void moveCameraToLocation() {
         if (mode == Keys.MapViewMode.ALL_TASKS) {
-            if (restoreCameraByPositionAndRadius != null) {
-                MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
-                    @Override
-                    public void useGoogleMap(GoogleMap googleMap) {
+
+            MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
+                @Override
+                public void useGoogleMap(GoogleMap googleMap) {
+                    if (restoreCameraByPositionAndRadius != null) {
                         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraByPositionAndRadius));
+                    } else if (UIUtils.isOnline(getActivity())) {
+                        UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
                     }
+                }
 
-                    @Override
-                    public void useBaiduMap(BaiduMap baiduMap) {
-                        if (baiduMap != null && getActivity() != null && !getActivity().isFinishing()) {
-                            com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(lm.getLocation().getLatitude(), lm.getLocation().getLongitude());
-                            baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(ll, zoomLevel + 1.4f));
-                        }
+                @Override
+                public void useBaiduMap(BaiduMap baiduMap) {
+                    Location location = lm.getLocation();
+                    if (baiduMap != null && getActivity() != null && !getActivity().isFinishing() && location != null) {
+                        com.baidu.mapapi.model.LatLng ll = new com.baidu.mapapi.model.LatLng(location.getLatitude(), location.getLongitude());
+                        baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(ll, zoomLevel + 1.4f));
                     }
-                });
+                }
+            });
 
-            } else if (UIUtils.isOnline(getActivity())) {
-                UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
-            }
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                 @Override

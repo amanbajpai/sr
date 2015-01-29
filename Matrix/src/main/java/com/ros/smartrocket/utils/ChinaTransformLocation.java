@@ -7,6 +7,7 @@ import com.ros.smartrocket.map.polygon.Polygon;
 
 public class ChinaTransformLocation {
     private static final String TAG = ChinaTransformLocation.class.getSimpleName();
+    public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.003f;
     private static final double PI = 3.14159265358979323;
     private static final double A = 6378245.0;
     private static final double EE = 0.00669342162296594323;
@@ -84,6 +85,16 @@ public class ChinaTransformLocation {
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
             }
+        }
+    }
+
+    public static void transformForBaiduLocation(Location location) {
+        if (location != null) {
+            double latitude = location.getLatitude() + BAIDU_MAP_COORDINATE_OFFSET;
+            double longitude = location.getLongitude() + BAIDU_MAP_COORDINATE_OFFSET;
+
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
         }
     }
 

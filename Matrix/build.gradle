@@ -112,7 +112,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode buildNumber
-        versionName '1.8'
+        versionName '1.9'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
         buildConfigField "String", "ANDROID_API_KEY", "\"AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI\""
@@ -146,6 +146,12 @@ android {
     }
 
     signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
         release {
             storeFile file('matrix_app_key.jks')
             storePassword 'RocketStore852'
@@ -161,6 +167,7 @@ android {
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
                                     baiduApiKey : "n0GLOKAhMcokvNddHSdFnqPh",
                                     jPushAppKey : "1afdb8b1c523982b249eae94"]
+            signingConfig signingConfigs.debug
             zipAlignEnabled false
             minifyEnabled false
             debuggable true
@@ -209,7 +216,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
-            versionCode 10005
+            versionCode 10006
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
@@ -237,7 +244,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaProduction {
-            versionCode 10005
+            versionCode 10006
             applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
