@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.ActivateAccountActivity;
 import com.ros.smartrocket.activity.CashingOutActivity;
@@ -31,7 +32,6 @@ import com.ros.smartrocket.activity.TaskValidationActivity;
 import com.ros.smartrocket.activity.TermsAndConditionActivity;
 import com.ros.smartrocket.activity.WaveDetailsActivity;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Wave;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -432,8 +432,8 @@ public class IntentUtils {
     /**
      * Return intent for opening images in full size
      *
-     * @param context  - current context
-     * @param filePath - file path to open
+     * @param context        - current context
+     * @param filePath       - file path to open
      * @param rotateFromExif - need to rotate by exif flag
      * @return Intent
      */

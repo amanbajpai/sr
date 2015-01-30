@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 
 public class TransparentSupportBaiduMapFragment extends SupportMapFragment {

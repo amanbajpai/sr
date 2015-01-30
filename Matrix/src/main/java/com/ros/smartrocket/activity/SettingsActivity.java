@@ -1,10 +1,8 @@
 package com.ros.smartrocket.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.fragment.SettingsFragment;
 
 /**

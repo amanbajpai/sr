@@ -128,7 +128,7 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
         }
     }
 
-    public void getShortUrl(String longUrl){
+    public void getShortUrl(String longUrl) {
         //Generate Short url to share
         googleUrlShortenManager.getShortUrl(getActivity(), longUrl,
                 new GoogleUrlShortenManager.OnShotrUrlReadyListener() {

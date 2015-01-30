@@ -91,7 +91,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     public void onResume() {
         super.onResume();
 
-        if(!isHidden()){
+        if (!isHidden()) {
             getWaves();
         }
     }

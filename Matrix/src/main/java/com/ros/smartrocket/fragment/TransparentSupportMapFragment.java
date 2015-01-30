@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import com.google.android.gms.maps.SupportMapFragment;
 
 public class TransparentSupportMapFragment extends SupportMapFragment {

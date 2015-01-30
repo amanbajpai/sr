@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.ros.smartrocket.utils.UIUtils;
 
 public class ImageEditorView extends View {

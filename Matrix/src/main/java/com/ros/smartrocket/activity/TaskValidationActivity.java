@@ -287,6 +287,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     /**
      * Check a lot of system setting before data upload. If some thing wrong show Dialog
+     *
      * @return
      */
     public boolean isReadyToSend() {
@@ -371,7 +372,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                         @Override
                         public void getLocationFail(String errorText) {
-                            if(!isFinishing()){
+                            if (!isFinishing()) {
                                 UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
                             }
                         }
@@ -494,6 +495,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     /**
      * Save Location of task to DB
+     *
      * @param task
      * @param location
      */

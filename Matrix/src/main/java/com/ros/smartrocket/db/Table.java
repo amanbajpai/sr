@@ -3,8 +3,8 @@ package com.ros.smartrocket.db;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Wave;
 
 @SuppressWarnings("rawtypes")
 public enum Table {

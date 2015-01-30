@@ -312,7 +312,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
                     @Override
                     public void getLocationFail(String errorText) {
-                        if(!getActivity().isFinishing()){
+                        if (!getActivity().isFinishing()) {
                             UIUtils.showSimpleToast(getActivity(), errorText);
                         }
                     }

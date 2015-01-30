@@ -3,8 +3,6 @@ package com.ros.smartrocket;
 
 import android.text.format.DateUtils;
 
-import java.math.BigInteger;
-
 public class Config {
     public static final String ANDROID_API_KEY = BuildConfig.ANDROID_API_KEY;
     public static final String BAIDU_API_KEY = BuildConfig.BAIDU_API_KEY;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
@@ -12,6 +13,7 @@ import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

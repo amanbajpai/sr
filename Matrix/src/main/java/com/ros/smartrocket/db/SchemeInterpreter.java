@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db;
 
 import android.net.Uri;
+
 import com.ros.smartrocket.utils.L;
 
 import java.lang.reflect.Field;

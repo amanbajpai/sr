@@ -83,7 +83,7 @@ public interface Keys {
 
     /**
      * Notification activity
-     * */
+     */
     String TITLE_BACKGROUND_COLOR_RES_ID = "title_background_color_res_id";
     String TITLE_ICON_RES_ID = "title_icon_res_id";
     String NOTIFICATION_TITLE = "notification_title";

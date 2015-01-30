@@ -5,7 +5,6 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.ros.smartrocket.fragment.CashingOutFragment;
-import com.ros.smartrocket.helpers.APIFacade;
 
 /**
  * Activity for view Settings

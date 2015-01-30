@@ -11,8 +11,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.dialog.QuiteTaskDialog;
 import com.ros.smartrocket.helpers.WriteDataHelper;

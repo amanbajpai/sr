@@ -5,7 +5,6 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import com.ros.smartrocket.Config;
-import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.PreferencesManager;
 
