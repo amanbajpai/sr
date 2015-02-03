@@ -7,7 +7,7 @@ import com.ros.smartrocket.map.polygon.Polygon;
 
 public class ChinaTransformLocation {
     private static final String TAG = ChinaTransformLocation.class.getSimpleName();
-    public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.003f;
+    public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.006f;
     private static final double PI = 3.14159265358979323;
     private static final double A = 6378245.0;
     private static final double EE = 0.00669342162296594323;
