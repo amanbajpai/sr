@@ -57,7 +57,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
             // Create the LocationRequest object
             locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             locationRequest.setInterval(Keys.UPDATE_INTERVAL);
             locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
 
