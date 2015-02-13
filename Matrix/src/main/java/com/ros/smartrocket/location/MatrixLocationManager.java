@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -21,6 +22,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Date;
@@ -32,6 +34,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
 
     private static final String TAG = MatrixLocationManager.class.getSimpleName();
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private Context context;
     private LocationClient locationClient;
     private com.baidu.location.LocationClient baiduLocationClient;
@@ -51,26 +54,33 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         this.context = context;
         requested = new LinkedList<>();
 
-        // If Google Play services is available
-        if (!Config.USE_BAIDU) {
-            L.d(TAG, "Google Play services is available.");
+        startLocationClient();
+    }
 
-            // Create the LocationRequest object
-            locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(Keys.UPDATE_INTERVAL);
-            locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
+    public void startLocationClient() {
+        if (!Config.USE_BAIDU) {
+            startGoogleLocationClient();
+        } else {
+            startBaiduLocationClient();
+        }
+    }
+
+    public void startGoogleLocationClient() {
+        L.d(TAG, "startGoogleLocationClient");
+
+        // Create the LocationRequest object
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(Keys.UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
 
             /*
              * Create a new location client, using the enclosing class to
              * handle callbacks.
              */
-            locationClient = new LocationClient(context, this, this);
-            // Connect the client.
-            locationClient.connect();
-        } else {
-            startBaiduLocationClient();
-        }
+        locationClient = new LocationClient(context, this, this);
+        // Connect the client.
+        locationClient.connect();
     }
 
     public void startBaiduLocationClient() {
@@ -120,6 +130,11 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         if (lastLocation != null) {
             L.i(TAG, "getLocation() [ " + lastLocation.getLatitude() + ", " + lastLocation.getLongitude()
                     + ", time=" + new Date(lastLocation.getTime()) + "]");
+
+            if (preferencesManager.getUseLocationServices() && lastLocation.getTime() < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2) {
+                lastLocation = null;
+                startLocationClient();
+            }
         }
 
         return lastLocation;

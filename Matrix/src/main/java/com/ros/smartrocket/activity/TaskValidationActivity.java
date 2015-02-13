@@ -296,7 +296,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 && !UIUtils.isMockLocationEnabled(this);
         if (!UIUtils.isOnline(this)) {
             DialogUtils.showNetworkDialog(this);
-        } else if (!UIUtils.isGpsEnabled(this) || !preferencesManager.getUseLocationServices()) {
+        } else if (lm.getLocation() == null || !UIUtils.isGpsEnabled(this)
+                || !UIUtils.isNetworkEnabled(this) || !preferencesManager.getUseLocationServices()) {
             DialogUtils.showLocationDialog(this, true);
         } else if (UIUtils.isMockLocationEnabled(this)) {
             DialogUtils.showMockLocationDialog(this, true);
