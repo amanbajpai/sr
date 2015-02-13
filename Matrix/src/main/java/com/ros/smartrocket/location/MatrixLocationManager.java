@@ -134,7 +134,9 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             L.i(TAG, "getLocation() [ " + lastLocation.getLatitude() + ", " + lastLocation.getLongitude()
                     + ", time=" + new Date(lastLocation.getTime()) + "]");
 
-            if (preferencesManager.getUseLocationServices() && lastLocation.getTime() < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2) {
+            if (preferencesManager.getUseLocationServices() && lastLocation.getTime()
+                    < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2
+                    && (locationClient == null || (locationClient != null && !locationClient.isConnected()))) {
                 lastLocation = null;
                 startLocationClient();
             }
