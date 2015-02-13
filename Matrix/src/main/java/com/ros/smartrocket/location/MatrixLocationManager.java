@@ -66,21 +66,24 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     }
 
     public void startGoogleLocationClient() {
-        L.d(TAG, "startGoogleLocationClient");
+        if (locationClient == null || (!locationClient.isConnecting() && !locationClient.isConnected())) {
+            L.d(TAG, "startGoogleLocationClient");
 
-        // Create the LocationRequest object
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        locationRequest.setInterval(Keys.UPDATE_INTERVAL);
-        locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
+            // Create the LocationRequest object
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            locationRequest.setInterval(Keys.UPDATE_INTERVAL);
+            locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
 
             /*
              * Create a new location client, using the enclosing class to
              * handle callbacks.
              */
-        locationClient = new LocationClient(context, this, this);
-        // Connect the client.
-        locationClient.connect();
+            locationClient = new LocationClient(context, this, this);
+            // Connect the client.
+            locationClient.connect();
+
+        }
     }
 
     public void startBaiduLocationClient() {
@@ -325,7 +328,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             });
             if (lm.isConnected()) {
                 if (!Config.USE_BAIDU) {
-                    if(lm.locationClient.isConnected()) {
+                    if (lm.locationClient.isConnected()) {
                         lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
                     } else {
                         lm.startGoogleLocationClient();
