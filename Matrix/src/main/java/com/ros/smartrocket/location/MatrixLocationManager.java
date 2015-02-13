@@ -325,7 +325,11 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             });
             if (lm.isConnected()) {
                 if (!Config.USE_BAIDU) {
-                    lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
+                    if(lm.locationClient.isConnected()) {
+                        lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
+                    } else {
+                        lm.startGoogleLocationClient();
+                    }
                 } else {
                     lm.startBaiduLocationClient();
                 }
