@@ -131,13 +131,15 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
-        Answer answer = adapter.getItem(position - 1);
-        answer.toggleChecked();
+        if (position > 0) {
+            Answer answer = adapter.getItem(position - 1);
+            answer.toggleChecked();
 
-        AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
-        viewHolder.getCheckBox().setChecked(answer.getChecked());
+            AnswerCheckBoxAdapter.ViewHolder viewHolder = (AnswerCheckBoxAdapter.ViewHolder) item.getTag();
+            viewHolder.getCheckBox().setChecked(answer.getChecked());
 
-        refreshNextButton();
+            refreshNextButton();
+        }
     }
 
     @Override

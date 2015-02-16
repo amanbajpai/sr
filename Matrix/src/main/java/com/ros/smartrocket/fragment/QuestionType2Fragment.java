@@ -143,19 +143,22 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View item, int position, long id) {
-        for (Answer answer : adapter.getData()) {
-            answer.setChecked(false);
+        if (position > 0) {
+            for (Answer answer : adapter.getData()) {
+                answer.setChecked(false);
+            }
+
+            Answer answer = adapter.getItem(position - 1);
+            answer.toggleChecked();
+            adapter.notifyDataSetChanged();
+
+            if (Integer.valueOf(answer.getValue()) < 1000) {
+                EditText editText = (EditText) item.findViewById(R.id.otherAnswerEditText);
+                UIUtils.hideSoftKeyboard(getActivity(), editText);
+            }
+
+            refreshNextButton();
+
         }
-
-        Answer answer = adapter.getItem(position - 1);
-        answer.toggleChecked();
-        adapter.notifyDataSetChanged();
-
-        if (Integer.valueOf(answer.getValue()) < 1000) {
-            EditText editText = (EditText) item.findViewById(R.id.otherAnswerEditText);
-            UIUtils.hideSoftKeyboard(getActivity(), editText);
-        }
-
-        refreshNextButton();
     }
 }
