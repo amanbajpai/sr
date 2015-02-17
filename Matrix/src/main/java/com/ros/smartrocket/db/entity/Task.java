@@ -14,7 +14,7 @@ public class Task extends BaseEntity {
 
     public enum TaskStatusId {
         CAN_PRE_CLAIM(-1), NONE(0), CLAIMED(1), STARTED(2), VALIDATION(3), RE_DO_TASK(4), PENDING(5), VALIDATED(6), COMPLETED(7),
-        SCHEDULED(8), REJECTED(9), IN_PAYMENT_PROCESS(11), PAID(12);
+        SCHEDULED(8), REJECTED(9), IN_PAYMENT_PROCESS(11), PAID(12), WITHDRAW(14);
 
         private int statusId;
 
