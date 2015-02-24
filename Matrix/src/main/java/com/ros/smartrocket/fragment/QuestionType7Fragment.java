@@ -72,6 +72,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
         handler = new DbHandler(getActivity().getContentResolver());
 
+        progressDialog = CustomProgressDialog.show(getActivity());
+        progressDialog.setCancelable(false);
+
         TextView questionText = (TextView) view.findViewById(R.id.questionText);
         if (!TextUtils.isEmpty(question.getPresetValidationText())) {
             TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
@@ -129,6 +132,10 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     refreshPhotoGallery(question.getAnswers());
 
                     selectGalleryPhoto(0);
+
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
                     break;
                 default:
                     break;
@@ -213,6 +220,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     public void refreshConfirmButton() {
         if (isBitmapAdded) {
             confirmButton.setVisibility(View.VISIBLE);
+            confirmButton.setEnabled(!isBitmapConfirmed);
             if (isBitmapConfirmed) {
                 confirmButton.setBackgroundResource(R.drawable.btn_square_green);
                 confirmButton.setImageResource(R.drawable.check_square_white);
@@ -295,7 +303,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
-                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                        progressDialog = CustomProgressDialog.show(getActivity());
+                        progressDialog.setCancelable(false);
                     }
 
                     @Override
@@ -309,13 +318,20 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                         }
 
                         confirmButtonPressAction(location);
-                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void getLocationFail(String errorText) {
-                        if (!getActivity().isFinishing()) {
+                        if (getActivity() != null && !getActivity().isFinishing()) {
                             UIUtils.showSimpleToast(getActivity(), errorText);
+                        }
+
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
                         }
                     }
                 });
@@ -385,9 +401,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
         @Override
         public void onImageComplete(Bitmap bitmap) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-            }
 
             isBitmapAdded = bitmap != null;
             isBitmapConfirmed = false;
@@ -403,6 +416,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             refreshConfirmButton();
             refreshNextButton();
 
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
         }
 
         @Override
@@ -449,7 +465,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         if (position == currentSelectedPhoto) {
             imageFrame.setVisibility(View.VISIBLE);
         }
-
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
