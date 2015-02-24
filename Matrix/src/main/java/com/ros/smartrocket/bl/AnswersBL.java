@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
@@ -19,6 +20,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +121,10 @@ public class AnswersBL {
     public static float getTaskFilesSizeMb(List<NotUploadedFile> filesToUpload) {
         long resultSizeInB = 0;
         for (NotUploadedFile fileToUpload : filesToUpload) {
-            resultSizeInB = resultSizeInB + fileToUpload.getFileSizeB();
+            File file = new File(Uri.parse(fileToUpload.getFileUri()).getPath());
+            if (file.exists()) {
+                resultSizeInB = resultSizeInB + file.length();
+            }
         }
 
         return resultSizeInB / (float) 1024;
@@ -152,6 +157,18 @@ public class AnswersBL {
                 new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
 
         return convertCursorToAnswerList(cursor);
+    }
+
+    public static boolean isHasFile(List<Answer> answerListToSend) {
+        boolean hasFile = false;
+        for (Answer answer : answerListToSend) {
+            if (!TextUtils.isEmpty(answer.getFileName()) && !TextUtils.isEmpty(answer.getValue())) {
+                hasFile = true;
+                break;
+            }
+        }
+
+        return hasFile;
     }
 
     public static void saveValidationLocation(final Task task, final List<Answer> answerList, boolean hasFile) {

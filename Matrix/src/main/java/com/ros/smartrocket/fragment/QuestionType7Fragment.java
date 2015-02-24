@@ -328,30 +328,32 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
                 SelectImageManager.SIZE_IN_PX_2_MP, 0);
 
-        Answer answer = question.getAnswers()[currentSelectedPhoto];
-        boolean needAddEmptyAnswer = !answer.getChecked();
+        if(resultImageFile.exists()){
+            Answer answer = question.getAnswers()[currentSelectedPhoto];
+            boolean needAddEmptyAnswer = !answer.getChecked();
 
-        answer.setChecked(true);
-        answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
-        answer.setFileSizeB(resultImageFile.length());
-        answer.setFileName(resultImageFile.getName());
-        answer.setValue(resultImageFile.getName());
-        answer.setLatitude(location.getLatitude());
-        answer.setLongitude(location.getLongitude());
+            answer.setChecked(true);
+            answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
+            answer.setFileSizeB(resultImageFile.length());
+            answer.setFileName(resultImageFile.getName());
+            answer.setValue(resultImageFile.getName());
+            answer.setLatitude(location.getLatitude());
+            answer.setLongitude(location.getLongitude());
 
-        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 
-        if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
-            question.setAnswers(addEmptyAnswer(question.getAnswers()));
+            if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
+                question.setAnswers(addEmptyAnswer(question.getAnswers()));
+            }
+
+            refreshPhotoGallery(question.getAnswers());
+
+            isBitmapConfirmed = true;
+
+            refreshRePhotoButton();
+            refreshConfirmButton();
+            refreshNextButton();
         }
-
-        refreshPhotoGallery(question.getAnswers());
-
-        isBitmapConfirmed = true;
-
-        refreshRePhotoButton();
-        refreshConfirmButton();
-        refreshNextButton();
     }
 
     public Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {

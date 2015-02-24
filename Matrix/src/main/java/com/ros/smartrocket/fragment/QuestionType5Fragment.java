@@ -342,22 +342,24 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     public void confirmButtonPressAction(Location location) {
         File sourceImageFile = new File(videoPath);
 
-        Answer answer = question.getAnswers()[0];
-        answer.setChecked(true);
-        answer.setFileUri(videoPath);
-        answer.setFileSizeB(sourceImageFile.length());
-        answer.setFileName(sourceImageFile.getName());
-        answer.setValue(sourceImageFile.getName());
-        answer.setLatitude(location.getLatitude());
-        answer.setLongitude(location.getLongitude());
+        if(sourceImageFile.exists()){
+            Answer answer = question.getAnswers()[0];
+            answer.setChecked(true);
+            answer.setFileUri(videoPath);
+            answer.setFileSizeB(sourceImageFile.length());
+            answer.setFileName(sourceImageFile.getName());
+            answer.setValue(sourceImageFile.getName());
+            answer.setLatitude(location.getLatitude());
+            answer.setLongitude(location.getLongitude());
 
-        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
 
-        isVideoConfirmed = true;
+            isVideoConfirmed = true;
 
-        refreshRePhotoButton();
-        refreshConfirmButton();
-        refreshNextButton();
+            refreshRePhotoButton();
+            refreshConfirmButton();
+            refreshNextButton();
+        }
     }
 
     @Override

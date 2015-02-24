@@ -250,7 +250,7 @@ android {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "TERMS_AND_CONDITION_URL", "\"http://smart-rocket.com/terms-of-service/\""
-            buildConfigField "String", "PROFILE_PAGE_URL", "\"http://matrix.red-ocean.net/Account/Manage\""
+            buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
     }

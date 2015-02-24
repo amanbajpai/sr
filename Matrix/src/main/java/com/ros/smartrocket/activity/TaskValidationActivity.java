@@ -66,6 +66,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private AsyncQueryHandler handler;
     private List<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
     private List<Answer> answerListToSend = new ArrayList<Answer>();
+    private boolean hasFile = false;
     private float filesSizeB = 0;
 
     private Button sendNowButton;
@@ -129,11 +130,12 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         }
 
                         answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
+                        hasFile = AnswersBL.isHasFile(answerListToSend);
                         notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), task.getLongEndDateTime());
                         filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                         if (!isValidationLocationAdded(task)) {
-                            AnswersBL.saveValidationLocation(task, answerListToSend, filesSizeB > 0);
+                            AnswersBL.saveValidationLocation(task, answerListToSend, hasFile);
                         }
 
                         setTaskData(task);
@@ -256,7 +258,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private void sendAnswerTextsSuccess() {
         TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.COMPLETED.getStatusId());
 
-        if (filesSizeB > 0) {
+        if (hasFile) {
             if (UIUtils.is3G(this)
                     && (preferencesManager.get3GUploadTaskLimit() != 0 && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit())
                     || (preferencesManager.get3GUploadMonthLimit() != 0 && preferencesManager.getUsed3GUploadMonthlySize
@@ -343,7 +345,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void sendNowButtonClick() {
         if (isReadyToSend()) {
             if (!isValidationLocationAdded(task)) {
-                if (filesSizeB > 0) {
+                if (hasFile) {
                     AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
 
                     sendAnswers();
@@ -390,7 +392,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      */
     public void sendLaterButtonClick() {
         if (!isValidationLocationAdded(task)) {
-            if (filesSizeB > 0) {
+            if (hasFile) {
                 AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
 
                 finishActivity();

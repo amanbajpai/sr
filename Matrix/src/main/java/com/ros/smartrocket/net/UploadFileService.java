@@ -261,6 +261,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName());
+                UIUtils.showSimpleToast(this, operation.getResponseError());
             }
 
             if (responseCode != BaseNetworkService.NO_INTERNET && canUploadNextFile(this)) {
