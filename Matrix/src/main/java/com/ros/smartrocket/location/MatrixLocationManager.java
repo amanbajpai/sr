@@ -136,7 +136,8 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
             if (preferencesManager.getUseLocationServices() && lastLocation.getTime()
                     < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2
-                    && (locationClient == null || (locationClient != null && !locationClient.isConnected()))) {
+                    && ((!Config.USE_BAIDU && (locationClient == null || (locationClient != null && !locationClient.isConnected())))
+                    || (Config.USE_BAIDU && (baiduLocationClient == null || (baiduLocationClient != null && !baiduLocationClient.isStarted()))))) {
                 lastLocation = null;
                 startLocationClient();
             }
@@ -336,7 +337,11 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                         lm.startGoogleLocationClient();
                     }
                 } else {
-                    lm.startBaiduLocationClient();
+                    if (lm.baiduLocationClient.isStarted()) {
+                        lm.baiduLocationClient.requestLocation();
+                    } else {
+                        lm.startBaiduLocationClient();
+                    }
                 }
             }
 

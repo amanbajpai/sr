@@ -133,7 +133,9 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
 
     @Override
     public void saveQuestion() {
-        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+        if (question != null) {
+            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+        }
     }
 
     @Override

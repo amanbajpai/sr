@@ -9,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.Location;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,11 +24,8 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.TileProvider;
-import com.google.android.gms.maps.model.UrlTileProvider;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -47,8 +43,6 @@ import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -345,86 +339,6 @@ public class MapHelper {
         return inputPoints;
     }
 
-    /*public void addClusteredPinToBaiduMap(BaiduMap baiduMap, List<InputPoint> markerList) {
-
-        List<InputPoint> clusteredMarkerList = new ArrayList<InputPoint>();
-
-
-//		Log.d("CreateCluster", "markerList.size()"+markerList.size());
-        this.mClusterMarkers.clear();
-        ArrayList<MyOverlayItem> itemList = new ArrayList<MyOverlayItem>();
-//		Log.e(TAG, "createCluster, markerList.size()"+itemList.size());
-        for (int i = 0; i < markerList.size(); i++) {
-            addCluster(markerList.get(i));
-        }
-        for (int i = 0; i < mClusterMarkers.size(); i++) {
-            ClusterMarker cm = mClusterMarkers.get(i);
-            setClusterDrawable(cm);
-            MyOverlayItem oi = new MyOverlayItem(cm.getmCenter(), cm.getTitle(), cm.getSnippet());
-            oi.setMarker(cm.getMarker());
-            itemList.add(oi);
-        }
-
-        Log.e(TAG, "itemList.size:" + itemList.size());
-        return itemList;
-    }
-
-    public List<BaiduClusterInputPoint> transformInputPointsToClasterInputPointList(BaiduMap baiduMap, ArrayList<InputPoint> markerList) {
-        List<BaiduClusterInputPoint> clusteredMarkerList = new ArrayList<BaiduClusterInputPoint>();
-        for (InputPoint inputPoint : markerList) {
-            if (clusteredMarkerList.size() == 0) {
-                clusteredMarkerList.add(new BaiduClusterInputPoint(inputPoint.getMapPosition(), inputPoint.getTag()));
-            } else {
-                Projection projection = baiduMap.getProjection();
-
-                ClustersBuilder builder = new ClustersBuilder(projection, getGoogleClusterkrafOptions(), arg.previousClusters);
-                builder.addAll(markerList);
-                result.currentClusters = builder.build();
-
-
-
-                BaiduClusterInputPoint clusterContain = null;
-                double distance = mDistance;
-
-                for (BaiduClusterInputPoint clusterInputPoint : clusteredMarkerList) {
-                    clusterInputPoint.getPi
-                    GeoPoint center = clusterInputPoint.getmCenter();
-                    double d = DistanceUtil.getDistance(center, marker.getPoint());
-
-                    if (d < distance) {
-                        distance = d;
-                        clusterContain = clusterInputPoint;
-                    }
-                }
-
-                if (clusterContain == null || !isMarkersInCluster(markGeo, clusterContain.getmGridBounds())) {
-                    clusteredMarkerList.add(new BaiduClusterInputPoint(inputPoint.getMapPosition(), inputPoint.getTag()));
-                } else {
-                    clusterContain.add(inputPoint);
-                }
-            }
-        }
-
-        return clusteredMarkerList;
-    }*/
-
-    public static OverlayOptions getBaiduPin(com.twotoasters.baiduclusterkraf.InputPoint clusterInputPoint) {
-        Task task = (Task) clusterInputPoint.getTag();
-        com.baidu.mapapi.map.BitmapDescriptor icon = com.baidu.mapapi.map.BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(task));
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Keys.TASK, task);
-
-        OverlayOptions ooA = new com.baidu.mapapi.map.MarkerOptions()
-                .position(clusterInputPoint.getMapPosition())
-                .icon(icon)
-                .zIndex(task.getId())
-                .extraInfo(bundle)
-                .draggable(true);
-
-        return ooA;
-    }
-
     /**
      * Check coordinates of pins and change it if they are equals
      */
@@ -477,38 +391,6 @@ public class MapHelper {
         final double arg = (40075004 * mapWidth * latitudinalAdjustment / (desiredMeters * 256.0));
 
         return (float) (Math.log(arg) / Math.log(2.0));
-    }
-
-    public static TileProvider getTileProvider() {
-        return new UrlTileProvider(256, 256) {
-            @Override
-            public URL getTileUrl(int x, int y, int zoom) {
-
-                String s = String.format("http://ditu.google.cn/images/%d/%d/%d.png", zoom, x, y);
-
-                if (!checkTileExists(x, y, zoom)) {
-                    return null;
-                }
-
-                try {
-                    return new URL(s);
-                } catch (MalformedURLException e) {
-                    throw new AssertionError(e);
-                }
-            }
-
-            private boolean checkTileExists(int x, int y, int zoom) {
-                int minZoom = 12;
-                int maxZoom = 16;
-
-                if ((zoom < minZoom || zoom > maxZoom)) {
-                    return false;
-                }
-
-                return true;
-            }
-        };
-
     }
 
     public static Bitmap getClusterBitmap(Resources res, int resourceId, int clusterSize, Paint largePaint, Paint mediumPaint, Paint smallPaint) {

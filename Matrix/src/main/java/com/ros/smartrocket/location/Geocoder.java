@@ -100,9 +100,12 @@ public final class Geocoder {
             String json = sendGetRequest(url);
             address = getAddress(json, latitude, longitude);
         } else {
-            url = getBaiduGeocodingUrl(latitude, longitude);
+            /*url = getBaiduGeocodingUrl(latitude, longitude);
             String json = sendGetRequest(url);
-            address = getBaiduAddress(json, latitude, longitude);
+            address = getBaiduAddress(json, latitude, longitude);*/
+
+            //Don't use geocoding for baidu map
+            address = null;
         }
 
         client.close();

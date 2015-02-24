@@ -135,10 +135,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
 
-        if (Config.USE_BAIDU) {
-            mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
-        } else {
-            mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
+        try {
+            if (Config.USE_BAIDU) {
+                mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
+            } else {
+                mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
+            }
+        } catch (Exception e) {
+            L.e(TAG, "Error in onCreateView method.", e);
+            getActivity().finish();
         }
 
         display = getActivity().getWindowManager().getDefaultDisplay();
