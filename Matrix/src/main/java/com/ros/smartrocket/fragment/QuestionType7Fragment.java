@@ -27,6 +27,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -56,6 +57,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     private AsyncQueryHandler handler;
     private int currentSelectedPhoto = 0;
+    private CustomProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -328,7 +330,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
                 SelectImageManager.SIZE_IN_PX_2_MP, 0);
 
-        if(resultImageFile.exists()){
+        if (resultImageFile.exists()) {
             Answer answer = question.getAnswers()[currentSelectedPhoto];
             boolean needAddEmptyAnswer = !answer.getChecked();
 
@@ -377,11 +379,16 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener() {
         @Override
         public void onStartLoading() {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+            progressDialog = CustomProgressDialog.show(getActivity());
+            progressDialog.setCancelable(false);
         }
 
         @Override
         public void onImageComplete(Bitmap bitmap) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+
             isBitmapAdded = bitmap != null;
             isBitmapConfirmed = false;
 
@@ -396,12 +403,13 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             refreshConfirmButton();
             refreshNextButton();
 
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
         }
 
         @Override
         public void onSelectImageError(int imageFrom) {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
             DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
         }
     };
