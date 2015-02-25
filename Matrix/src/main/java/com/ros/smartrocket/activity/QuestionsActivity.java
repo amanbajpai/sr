@@ -178,20 +178,22 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void startNextQuestionFragment() {
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
-            L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+            if (currentQuestion != null) {
+                L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
-            int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
+                int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
 
-            Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
-            if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, nextQuestionOrderId);
-                question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
+                Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
+                if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
+                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, nextQuestionOrderId);
+                    question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
-                QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
+                    QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
-                startFragment(question);
-            } else {
-                startValidationActivity();
+                    startFragment(question);
+                } else {
+                    startValidationActivity();
+                }
             }
         }
     }
