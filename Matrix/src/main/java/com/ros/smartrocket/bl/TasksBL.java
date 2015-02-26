@@ -126,6 +126,23 @@ public class TasksBL {
         );
     }
 
+    public static void getMyTasksForMainMenuFromDB(AsyncQueryHandler handler) {
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 "
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.WITHDRAW.getStatusId()
+                        + " and " + TaskDbSchema.Columns.LONG_EXPIRE_DATE_TIME + " > " + currentTime
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.COMPLETED.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.VALIDATED.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.VALIDATION.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.IN_PAYMENT_PROCESS.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.PAID.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.REJECTED.getStatusId(),
+                null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
+        );
+    }
+
     public static void getTaskToRemindFromDB(AsyncQueryHandler handler, int coockie, long fromTime, long tillTime) {
         String betweenClaimedTime = "("
                 + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("

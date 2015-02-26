@@ -196,7 +196,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             if (Keys.REFRESH_MAIN_MENU.equals(action)) {
                 apiFacade.getMyAccount(getActivity());
             } else if (Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT.equals(action)) {
-                TasksBL.getMyTasksForMapFromDB(handler);
+                TasksBL.getMyTasksForMainMenuFromDB(handler);
             }
         }
     }
