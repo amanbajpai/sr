@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class UploadFileNetworkService extends BaseNetworkService {
     private static final String TAG = "UploadFileNetworkService";
     public static final String TAG_RECRUITING = "recruiting";
-    public static final int MAX_BYTE_SIZE = 1000 * 500;
+    public static final int MAX_BYTE_SIZE = 1000 * 16;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     public UploadFileNetworkService() {
