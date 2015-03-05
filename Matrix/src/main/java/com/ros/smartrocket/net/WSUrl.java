@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public final class WSUrl {
     public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
-    public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ForgotPassword?email=%s";
+    public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ForgotPassword?email=%s&language=%s";
     public static final String GET_CURRENT_T_AND_C = Config.WEB_SERVICE_URL + "GetTermsAndConditionsCurrentVersion";
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
-    public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register";
+    public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
     public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePhoto";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
     public static final String GET_WAVES = Config.WEB_SERVICE_URL

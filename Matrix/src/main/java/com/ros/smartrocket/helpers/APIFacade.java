@@ -90,7 +90,7 @@ public class APIFacade {
         try {
             if (!TextUtils.isEmpty(email)) {
                 BaseOperation operation = new BaseOperation();
-                operation.setUrl(WSUrl.FORGOT_PASSWORD, URLEncoder.encode(email, "UTF-8"));
+                operation.setUrl(WSUrl.FORGOT_PASSWORD, URLEncoder.encode(email, "UTF-8"), preferencesManager.getLanguageCode());
                 operation.setTag(Keys.FORGOT_PASSWORD_OPERATION_TAG);
                 operation.setMethod(BaseOperation.Method.GET);
                 ((BaseActivity) activity).sendNetworkOperation(operation);
@@ -157,7 +157,7 @@ public class APIFacade {
      */
     public void registration(Activity activity, Registration registrationEntity) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.REGISTRATION);
+        operation.setUrl(WSUrl.REGISTRATION, preferencesManager.getLanguageCode());
         operation.setTag(Keys.REGISTRATION_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(registrationEntity);

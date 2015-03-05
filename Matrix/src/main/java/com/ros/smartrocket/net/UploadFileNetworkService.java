@@ -39,60 +39,62 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        BaseOperation operation = (BaseOperation) intent.getSerializableExtra(KEY_OPERATION);
-        if (operation != null) {
-            if (WSUrl.matchUrl(operation.getUrl()) == WSUrl.UPLOAD_TASK_FILE_ID) {
-                NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
+        if (intent != null) {
+            BaseOperation operation = (BaseOperation) intent.getSerializableExtra(KEY_OPERATION);
+            if (operation != null) {
+                if (WSUrl.matchUrl(operation.getUrl()) == WSUrl.UPLOAD_TASK_FILE_ID) {
+                    NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
-                File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-                long mainFileLength = sourceFile.length();
+                    File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
+                    long mainFileLength = sourceFile.length();
 
-                //Separate main file
-                File[] files = separateFile(notUploadedFile);
-                if (files != null) {
-                    try {
-                        for (int i = 0; i < files.length; i++) {
+                    //Separate main file
+                    File[] files = separateFile(notUploadedFile);
+                    if (files != null) {
+                        try {
+                            for (int i = 0; i < files.length; i++) {
 
-                            BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
-                                    mainFileLength);
-                            executeRequest(tempOperation);
+                                BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
+                                        mainFileLength);
+                                executeRequest(tempOperation);
 
-                            int responseCode = tempOperation.getResponseStatusCode();
-                            String responseString = tempOperation.getResponseString();
-                            if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
-                                L.i(TAG, "Upload temp file success: " + files[i].getName());
+                                int responseCode = tempOperation.getResponseStatusCode();
+                                String responseString = tempOperation.getResponseString();
+                                if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
+                                    L.i(TAG, "Upload temp file success: " + files[i].getName());
 
-                                notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
-                                notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
+                                    notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
+                                    notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
 
-                                FilesBL.updatePortionAndFileCode(notUploadedFile.getId(), notUploadedFile.getPortion(),
-                                        notUploadedFile.getFileCode());
+                                    FilesBL.updatePortionAndFileCode(notUploadedFile.getId(), notUploadedFile.getPortion(),
+                                            notUploadedFile.getFileCode());
 
-                                files[i].delete();
-                                operation.setResponseStatusCode(responseCode);
+                                    files[i].delete();
+                                    operation.setResponseStatusCode(responseCode);
 
                                 /*if (files.length == i + 1) {
                                     tempOperation = getSendTempFileOperation(null, notUploadedFile, mainFileLength);
                                     executeRequest(tempOperation);
                                 }*/
-                            } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
-                                    responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
-                                files[i].delete();
-                                operation.setResponseStatusCode(responseCode);
-                                break;
-                            } else {
-                                operation.setResponseStatusCode(NO_INTERNET);
-                                break;
+                                } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
+                                        responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+                                    files[i].delete();
+                                    operation.setResponseStatusCode(responseCode);
+                                    break;
+                                } else {
+                                    operation.setResponseStatusCode(NO_INTERNET);
+                                    break;
+                                }
                             }
+                        } catch (Exception e) {
+                            L.e(TAG, "Upload file error" + e.getMessage(), e);
                         }
-                    } catch (Exception e) {
-                        L.e(TAG, "Upload file error" + e.getMessage(), e);
                     }
+                } else {
+                    executeRequest(operation);
                 }
-            } else {
-                executeRequest(operation);
+                notifyOperationFinished(operation);
             }
-            notifyOperationFinished(operation);
         }
     }
 
