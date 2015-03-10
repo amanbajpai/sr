@@ -30,7 +30,7 @@ public class ChinaTransformLocation {
     private static final double MN_300 = 300.0;
     private static final double MN_320 = 320.0;
 
-    public static void transformFromChinaLocation(Location location) {
+    public static void transformToChinaLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -57,7 +57,7 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformToChinaLocation(Location location) {
+    public static void transformFromChinaLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -81,6 +81,38 @@ public class ChinaTransformLocation {
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
             }
+        }
+    }
+
+    public static void transformToBaiduLocation(Location location) {
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+
+            transformToChinaLocation(location);
+
+            double x_pi = PI * 3000.0 / 180.0;
+            double z = Math.sqrt(longitude * longitude + latitude * latitude) + 0.00002 * Math.sin(latitude * x_pi);
+            double theta = Math.atan2(latitude, longitude) + 0.000003 * Math.cos(longitude * x_pi);
+
+            location.setLatitude(z * Math.sin(theta) + 0.006);
+            location.setLongitude(z * Math.cos(theta) + 0.0065);
+        }
+    }
+
+    public static void transformFromBaiduLocation(Location location) {
+        if (location != null) {
+            double x = location.getLatitude() - 0.0065;
+            double y = location.getLongitude() - 0.006;
+
+            double x_pi = PI * 3000.0 / 180.0;
+            double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
+            double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
+
+            location.setLatitude(z * Math.sin(theta));
+            location.setLongitude(z * Math.cos(theta));
+
+            transformFromChinaLocation(location);
         }
     }
 

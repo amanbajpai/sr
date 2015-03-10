@@ -118,7 +118,7 @@ public class WavesBL {
                     tampLocation.setLongitude(task.getLongitude());
 
                     if (Config.USE_BAIDU) {
-                        ChinaTransformLocation.transformToChinaLocation(tampLocation);
+                        ChinaTransformLocation.transformToBaiduLocation(tampLocation);
 
                         task.setLatitude(tampLocation.getLatitude());
                         task.setLongitude(tampLocation.getLongitude());
