@@ -11,7 +11,6 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -186,7 +185,7 @@ public class SelectImageManager {
             if (intent != null && intent.getData() != null) {
                 Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
 
-                if ((cursor != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) || cursor != null) {
+                if (cursor != null) {
                     cursor.moveToFirst();
                     int idx = cursor.getColumnIndex(ImageColumns.DATA);
                     String imagePath;

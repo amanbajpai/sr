@@ -276,8 +276,8 @@ public class MapHelper {
      * Check coordinates of pins and change it if they are equals
      */
     public static ArrayList<InputPoint> getGoogleMapInputPointList(List<Task> list, Location location) {
-        ArrayList<InputPoint> inputPoints = new ArrayList<InputPoint>();
-        Map<String, String> markerLocationMap = new HashMap<String, String>();
+        ArrayList<InputPoint> inputPoints = new ArrayList<>();
+        Map<String, String> markerLocationMap = new HashMap<>();
 
         for (int i = 0; i < list.size(); i++) {
             Task item = list.get(i);

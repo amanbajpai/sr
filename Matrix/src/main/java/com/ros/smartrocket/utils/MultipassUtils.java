@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Locale;
 
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
@@ -22,7 +23,7 @@ public class MultipassUtils {
     private final static String SITE_KEY = "smartrocket"; // this has to be all lower cases
     private final static String API_KEY = "49dff71c32cef9b00b4cdb92446b054861167b2d"; // you'll find the multipass key in your admin
 
-    private final static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+    private final static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ", Locale.ENGLISH);
 
     private String uid;
     private String expires;

@@ -74,9 +74,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener,
-        CompoundButton.OnCheckedChangeListener, OnMarkerClickDownstreamListener,
-        OnInfoWindowClickDownstreamListener {
+public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface,
+        View.OnClickListener, CompoundButton.OnCheckedChangeListener,
+        OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MY_LOCATION = "MyLoc";
@@ -147,7 +147,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
 
         display = getActivity().getWindowManager().getDefaultDisplay();
-        mapWidth = UIUtils.getDpFromPx(getActivity(), display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
+        mapWidth = UIUtils.getDpFromPx(getActivity(),
+                display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
 
         handler = new DbHandler(getActivity().getContentResolver());
 
@@ -163,7 +164,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
 
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
-        SeekBar sbRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
+        SeekBar seekBarRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
 
         taskRadius = preferencesManager.getDefaultRadius();
@@ -171,8 +172,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         setRadiusText();
 
-        sbRadius.setProgress(sbRadiusProgress);
-        sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarRadius.setProgress(sbRadiusProgress);
+        seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -261,7 +262,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                         zoomLevel = cameraPosition.zoom;
                     }
                 });
-                //googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(MapHelper.getTileProvider()));
             }
         }
     }

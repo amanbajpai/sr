@@ -30,10 +30,6 @@ public class ChinaTransformLocation {
     private static final double MN_300 = 300.0;
     private static final double MN_320 = 320.0;
 
-    public ChinaTransformLocation() {
-
-    }
-
     public static void transformFromChinaLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();

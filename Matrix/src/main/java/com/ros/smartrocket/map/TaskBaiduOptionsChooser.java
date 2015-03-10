@@ -18,7 +18,7 @@ import com.twotoasters.baiduclusterkraf.MarkerOptionsChooser;
 import java.lang.ref.WeakReference;
 
 public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
-    private static final String TAG = TaskBaiduOptionsChooser.class.getSimpleName();
+    //private static final String TAG = TaskBaiduOptionsChooser.class.getSimpleName();
     private static final float ANCHOR_MARKER_U = 0.5f;
     private static final float ANCHOR_MARKER_V = 1.0f;
 
@@ -28,7 +28,7 @@ public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
     private final Paint clusterPaintSmall;
 
     public TaskBaiduOptionsChooser(Context context) {
-        this.contextRef = new WeakReference<Context>(context);
+        this.contextRef = new WeakReference<>(context);
 
         clusterPaintMedium = MapHelper.getMediumClasterPaint(context);
         clusterPaintSmall = MapHelper.getSmallClasterPaint(context);

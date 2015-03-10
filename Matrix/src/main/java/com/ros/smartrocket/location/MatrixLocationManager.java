@@ -93,7 +93,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         baiduLocationClient.registerLocationListener(this);
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);
-        option.setCoorType("bd09mc");
+        option.setCoorType("bd09ll");
         option.setScanSpan((int) Keys.UPDATE_INTERVAL);
         baiduLocationClient.setLocOption(option);
         baiduLocationClient.start();
