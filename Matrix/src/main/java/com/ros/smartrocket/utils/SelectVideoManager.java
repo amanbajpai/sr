@@ -147,7 +147,11 @@ public class SelectVideoManager {
 
     public String getVideoPathFromCamera(Intent intent) {
         Uri videoUri = intent.getData();
-        return getVideoPathFromContentURI(activity, videoUri);
+        if (videoUri != null) {
+            return getVideoPathFromContentURI(activity, videoUri);
+        } else {
+            return null;
+        }
     }
 
     public static File getTempFile(Context context) {

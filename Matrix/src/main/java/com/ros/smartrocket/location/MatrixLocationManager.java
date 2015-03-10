@@ -226,10 +226,13 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     public void onConnected(Bundle bundle) {
         L.i(TAG, "onConnected() [bundle = " + bundle + "]");
         isConnected = true;
-        this.lastLocation = locationClient.getLastLocation();
 
-        locationClient.requestLocationUpdates(locationRequest, this);
-
+        try {
+            this.lastLocation = locationClient.getLastLocation();
+            locationClient.requestLocationUpdates(locationRequest, this);
+        } catch (Exception e) {
+            L.e(TAG, "onConnected. locationClient error" + e.getMessage(), e);
+        }
         notifyAllRequestedLocation();
     }
 
