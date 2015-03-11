@@ -34,10 +34,14 @@ public class FullScreenImageActivity extends ActionBarActivity {
         bitmap = ImageLoader.getScaledBitmap(bitmap, display.getWidth(), display.getHeight() - UIUtils.getPxFromDp
                 (this, 70));
 
-        ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
-        photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));
-        photo.setCanRotate(false);
-        photo.setBitmap(bitmap);
+        if (bitmap != null) {
+            ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
+            photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));
+            photo.setCanRotate(false);
+            photo.setBitmap(bitmap);
+        } else {
+            UIUtils.showSimpleToast(this, R.string.error);
+        }
     }
 
     @Override

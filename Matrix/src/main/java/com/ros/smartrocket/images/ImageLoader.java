@@ -275,20 +275,24 @@ public class ImageLoader {
     }
 
     public static Bitmap getScaledBitmap(Bitmap source, double resultWidth, double resultHeight) {
-        double coefficient;
-        double sourceWidth = source.getWidth();
-        double sourceHeight = source.getHeight();
+        if (source != null) {
+            double coefficient;
+            double sourceWidth = source.getWidth();
+            double sourceHeight = source.getHeight();
 
-        if (sourceHeight - resultHeight > sourceWidth - resultWidth) {
-            coefficient = resultWidth / sourceWidth;
+            if (sourceHeight - resultHeight > sourceWidth - resultWidth) {
+                coefficient = resultWidth / sourceWidth;
+            } else {
+                coefficient = resultHeight / sourceHeight;
+            }
+
+            sourceWidth = (coefficient * sourceWidth);
+            sourceHeight = (coefficient * sourceHeight);
+
+            return Bitmap.createScaledBitmap(source, (int) sourceWidth, (int) sourceHeight, false);
         } else {
-            coefficient = resultHeight / sourceHeight;
+            return null;
         }
-
-        sourceWidth = (coefficient * sourceWidth);
-        sourceHeight = (coefficient * sourceHeight);
-
-        return Bitmap.createScaledBitmap(source, (int) sourceWidth, (int) sourceHeight, false);
     }
 
     // decodes photoMask and scales it to reduce memory consumption

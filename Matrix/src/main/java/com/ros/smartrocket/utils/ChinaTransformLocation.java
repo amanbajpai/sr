@@ -102,12 +102,12 @@ public class ChinaTransformLocation {
 
     public static void transformFromBaiduLocation(Location location) {
         if (location != null) {
-            double x = location.getLatitude() - 0.0065;
-            double y = location.getLongitude() - 0.006;
+            double latitude = location.getLatitude() - 0.006;
+            double longitude = location.getLongitude() - 0.0065;
 
             double x_pi = PI * 3000.0 / 180.0;
-            double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
-            double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
+            double z = Math.sqrt(longitude * longitude + latitude * latitude) - 0.00002 * Math.sin(latitude * x_pi);
+            double theta = Math.atan2(latitude, longitude) - 0.000003 * Math.cos(longitude * x_pi);
 
             location.setLatitude(z * Math.sin(theta));
             location.setLongitude(z * Math.cos(theta));
