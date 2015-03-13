@@ -116,16 +116,6 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformForBaiduLocation(Location location) {
-        if (location != null) {
-            double latitude = location.getLatitude() + BAIDU_MAP_COORDINATE_OFFSET;
-            double longitude = location.getLongitude() + BAIDU_MAP_COORDINATE_OFFSET;
-
-            location.setLatitude(latitude);
-            location.setLongitude(longitude);
-        }
-    }
-
     public static boolean outOfChina(double lat, double lon) {
         boolean outOfChina = !inChina(lat, lon) || inHongKong(lat, lon) || inMakao(lat, lon);
 

@@ -35,7 +35,8 @@ import java.util.Locale;
 import java.util.Queue;
 
 public class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
-        GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
+        android.location.LocationListener, GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
 
     private static final String TAG = MatrixLocationManager.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -48,8 +49,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     private LocationRequest locationRequest;
     private CurrentLocationUpdateListener currentLocationUpdateListener;
     private AsyncQueryHandler handler;
-
-    //private LocationManager locationManager;
+    private LocationManager locationManager;
 
     /**
      * @param context - current context
@@ -109,6 +109,135 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
         notifyAllRequestedLocation();
     }
+
+    public void startGpsLocationClient() {
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
+
+        isConnected = true;
+
+        notifyAllRequestedLocation();
+    }
+
+    /**
+     * GOOGLE location listeners
+     */
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        L.i(TAG, "onConnected() [bundle = " + bundle + "]");
+        isConnected = true;
+
+        try {
+            this.lastLocation = locationClient.getLastLocation();
+            locationClient.requestLocationUpdates(locationRequest, this);
+        } catch (Exception e) {
+            L.e(TAG, "onConnected. locationClient error" + e.getMessage(), e);
+        }
+        notifyAllRequestedLocation();
+    }
+
+    @Override
+    public void onDisconnected() {
+        L.i(TAG, "onDisconnected()");
+        if (isConnected) {
+            isConnected = false;
+            try {
+                locationClient.removeLocationUpdates(this);
+            } catch (Exception e) {
+                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+
+    /**
+     * NOT GOOGLE location listeners
+     */
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        L.i(TAG, "onStatusChanged: status=" + status + ", extras=" + extras);
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        L.i(TAG, "onProviderEnabled [provider = " + provider + "]");
+
+        startLocationClient();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        L.i(TAG, "onProviderDisabled");
+
+        if (isConnected) {
+            isConnected = false;
+            try {
+                if (locationManager != null) {
+                    locationManager.removeUpdates(this);
+                }
+            } catch (Exception e) {
+                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        lastLocation = location;
+        if (location != null) {
+            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
+                    + "Provider: " + location.getProvider() + "]");
+
+            TasksBL.getTasksFromDB(handler);
+        }
+    }
+
+
+    /**
+     * BAIDU location listeners
+     */
+
+    @Override
+    public void onReceiveLocation(BDLocation baiduLocation) {
+        if (baiduLocation != null) {
+            L.i(TAG, "onReceiveLocation() Location from Baidu location services [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
+            Location location = convertBaiduLocationToLocation(baiduLocation);
+            //ChinaTransformLocation.transformForBaiduLocation(tampLocation);
+
+            ChinaTransformLocation.transformToChinaLocation(location);
+            L.i(TAG, "onReceiveLocation() China location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
+
+            ChinaTransformLocation.transformToBaiduLocation(location);
+            L.i(TAG, "onReceiveLocation() Baidu location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
+
+            /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
+            testLocation.setLongitude(113.319181);
+            testLocation.setLatitude(23.109057);
+            ChinaTransformLocation.transformToChinaLocation(testLocation);
+            L.i(TAG, "testLocation() China location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
+
+            ChinaTransformLocation.transformToBaiduLocation(testLocation);
+            L.i(TAG, "testLocation() Baidu location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");*/
+
+            lastLocation = location;
+
+            TasksBL.getTasksFromDB(handler);
+        }
+    }
+
+    @Override
+    public void onReceivePoi(BDLocation poiLocation) {
+        L.i(TAG, "onReceivePoi() Location from Baidu location services [ " + poiLocation.getLatitude() + ", " + poiLocation.getLongitude() + "]");
+    }
+
 
     /**
      * Get Last known location.
@@ -173,83 +302,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                 requested.poll().onUpdate(lastLocation);
             }
         }
-    }
-
-    public void disconnect() {
-        if (!Config.USE_BAIDU) {
-            if (locationClient != null) {
-                locationClient.disconnect();
-            }
-        } else {
-            if (isConnected) {
-                isConnected = false;
-                if (baiduLocationClient != null) {
-                    baiduLocationClient.stop();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        lastLocation = location;
-        if (location != null) {
-            L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
-                    + "Provider: " + location.getProvider() + "]");
-
-            TasksBL.getTasksFromDB(handler);
-        }
-    }
-
-    @Override
-    public void onReceiveLocation(BDLocation location) {
-        if (location != null) {
-            Location tampLocation = convertBaiduLocationToLocation(location);
-            ChinaTransformLocation.transformForBaiduLocation(tampLocation);
-
-            lastLocation = tampLocation;
-
-            L.i(TAG, "onReceiveLocation() [ " + tampLocation.getLatitude() + ", " + tampLocation.getLongitude() + "]");
-
-            TasksBL.getTasksFromDB(handler);
-        }
-    }
-
-    @Override
-    public void onReceivePoi(BDLocation poiLocation) {
-    }
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        L.i(TAG, "onConnected() [bundle = " + bundle + "]");
-        isConnected = true;
-
-        try {
-            this.lastLocation = locationClient.getLastLocation();
-            locationClient.requestLocationUpdates(locationRequest, this);
-        } catch (Exception e) {
-            L.e(TAG, "onConnected. locationClient error" + e.getMessage(), e);
-        }
-        notifyAllRequestedLocation();
-    }
-
-    @Override
-    public void onDisconnected() {
-        L.i(TAG, "onDisconnected()");
-        if (isConnected) {
-            isConnected = false;
-            try {
-                locationClient.removeLocationUpdates(this);
-            } catch (Exception e) {
-                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
-            }
-        }
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
     public boolean isConnected() {
@@ -428,6 +480,22 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
         return resultLocation;
     }
+
+    public void disconnect() {
+        if (!Config.USE_BAIDU) {
+            if (locationClient != null) {
+                locationClient.disconnect();
+            }
+        } else {
+            if (isConnected) {
+                isConnected = false;
+                if (baiduLocationClient != null) {
+                    baiduLocationClient.stop();
+                }
+            }
+        }
+    }
+
 
     public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
         this.currentLocationUpdateListener = currentLocationUpdateListener;
