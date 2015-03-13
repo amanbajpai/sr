@@ -57,7 +57,7 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformFromChinaLocation(Location location) {
+    public static void transformFromChinaWorldLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -100,7 +100,7 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformFromBaiduLocation(Location location) {
+    public static void transformFromBaiduToWorldLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude() - 0.006;
             double longitude = location.getLongitude() - 0.0065;
@@ -112,7 +112,7 @@ public class ChinaTransformLocation {
             location.setLatitude(z * Math.sin(theta));
             location.setLongitude(z * Math.cos(theta));
 
-            transformFromChinaLocation(location);
+            transformFromChinaWorldLocation(location);
         }
     }
 

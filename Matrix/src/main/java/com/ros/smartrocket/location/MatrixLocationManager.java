@@ -210,7 +210,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         if (baiduLocation != null) {
             L.i(TAG, "onReceiveLocation() Location from Baidu location services [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
             Location location = convertBaiduLocationToLocation(baiduLocation);
-            //ChinaTransformLocation.transformForBaiduLocation(tampLocation);
 
             ChinaTransformLocation.transformToChinaLocation(location);
             L.i(TAG, "onReceiveLocation() China location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
@@ -226,6 +225,11 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
             ChinaTransformLocation.transformToBaiduLocation(testLocation);
             L.i(TAG, "testLocation() Baidu location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");*/
+
+            /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
+            testLocation.setLongitude(113.3311329521378);
+            testLocation.setLatitude(23.11220962419907);
+            ChinaTransformLocation.transformFromBaiduToWorldLocation(testLocation);*/
 
             lastLocation = location;
 
@@ -393,7 +397,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         Location location = lm.getLocation();
         if (location != null && !force) {
             if (Config.USE_BAIDU) {
-                ChinaTransformLocation.transformFromBaiduLocation(location);
+                ChinaTransformLocation.transformFromBaiduToWorldLocation(location);
             }
             currentLocationListener.getLocationSuccess(location);
         } else {
@@ -402,7 +406,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                 @Override
                 public void onUpdate(Location location) {
                     if (Config.USE_BAIDU) {
-                        ChinaTransformLocation.transformFromBaiduLocation(location);
+                        ChinaTransformLocation.transformFromBaiduToWorldLocation(location);
                     }
                     currentLocationListener.getLocationSuccess(location);
                 }
