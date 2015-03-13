@@ -30,7 +30,7 @@ public class ChinaTransformLocation {
     private static final double MN_300 = 300.0;
     private static final double MN_320 = 320.0;
 
-    public static void transformToChinaLocation(Location location) {
+    public static void transformFromWorldToChinaLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -57,7 +57,7 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformFromChinaWorldLocation(Location location) {
+    public static void transformFromChinaToWorldLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -84,12 +84,12 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformToBaiduLocation(Location location) {
+    public static void transformFromWorldToBaiduLocation(Location location) {
         if (location != null) {
+            transformFromWorldToChinaLocation(location);
+
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-
-            transformToChinaLocation(location);
 
             double x_pi = PI * 3000.0 / 180.0;
             double z = Math.sqrt(longitude * longitude + latitude * latitude) + 0.00002 * Math.sin(latitude * x_pi);
@@ -112,7 +112,7 @@ public class ChinaTransformLocation {
             location.setLatitude(z * Math.sin(theta));
             location.setLongitude(z * Math.cos(theta));
 
-            transformFromChinaWorldLocation(location);
+            transformFromChinaToWorldLocation(location);
         }
     }
 

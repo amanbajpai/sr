@@ -211,19 +211,14 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             L.i(TAG, "onReceiveLocation() Location from Baidu location services [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
             Location location = convertBaiduLocationToLocation(baiduLocation);
 
-            ChinaTransformLocation.transformToChinaLocation(location);
-            L.i(TAG, "onReceiveLocation() China location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
-
-            ChinaTransformLocation.transformToBaiduLocation(location);
+            ChinaTransformLocation.transformFromWorldToBaiduLocation(location);
             L.i(TAG, "onReceiveLocation() Baidu location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
 
             /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
             testLocation.setLongitude(113.319181);
             testLocation.setLatitude(23.109057);
-            ChinaTransformLocation.transformToChinaLocation(testLocation);
-            L.i(TAG, "testLocation() China location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
 
-            ChinaTransformLocation.transformToBaiduLocation(testLocation);
+            ChinaTransformLocation.transformFromWorldToBaiduLocation(testLocation);
             L.i(TAG, "testLocation() Baidu location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");*/
 
             /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
@@ -253,7 +248,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             if (locationClient != null && locationClient.isConnected()) {
                 this.lastLocation = locationClient.getLastLocation();
             }
-            ChinaTransformLocation.transformToChinaLocation(lastLocation);
+            ChinaTransformLocation.transformFromWorldToChinaLocation(lastLocation);
 
         } else {
             if (baiduLocationClient != null && baiduLocationClient.isStarted()) {
