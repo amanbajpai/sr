@@ -142,7 +142,7 @@ public interface Keys {
 
 
     /* ------------ Location parameters -----------------------*/
-    // Update frequency in seconds. every 10 minutes
+    // Update frequency in seconds. every 30 seconds
     int UPDATE_INTERVAL_IN_SECONDS = 30;
     // Update frequency in milliseconds
     long UPDATE_INTERVAL = DateUtils.SECOND_IN_MILLIS * UPDATE_INTERVAL_IN_SECONDS;

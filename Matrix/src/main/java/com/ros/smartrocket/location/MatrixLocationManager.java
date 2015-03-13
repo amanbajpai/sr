@@ -1,6 +1,9 @@
 package com.ros.smartrocket.location;
 
+import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
@@ -20,6 +23,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -43,6 +47,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     private Queue<ILocationUpdate> requested;
     private LocationRequest locationRequest;
     private CurrentLocationUpdateListener currentLocationUpdateListener;
+    private AsyncQueryHandler handler;
 
     //private LocationManager locationManager;
 
@@ -53,6 +58,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         L.d(TAG, "MatrixLocationManager init!");
         this.context = context;
         requested = new LinkedList<>();
+        handler = new DbHandler(context.getContentResolver());
 
         startLocationClient();
     }
@@ -102,10 +108,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         this.isConnected = true;
 
         notifyAllRequestedLocation();
-    }
-
-    public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
-        this.currentLocationUpdateListener = currentLocationUpdateListener;
     }
 
     /**
@@ -197,7 +199,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
                     + "Provider: " + location.getProvider() + "]");
 
-            new RecalculateDistanceAsyncTask().execute(location);
+            TasksBL.getTasksFromDB(handler);
         }
     }
 
@@ -211,7 +213,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
             L.i(TAG, "onReceiveLocation() [ " + tampLocation.getLatitude() + ", " + tampLocation.getLongitude() + "]");
 
-            new RecalculateDistanceAsyncTask().execute(tampLocation);
+            TasksBL.getTasksFromDB(handler);
         }
     }
 
@@ -256,18 +258,38 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         return isConnected;
     }
 
-    public class RecalculateDistanceAsyncTask extends AsyncTask<Location, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Location... params) {
-            Location location = params[0];
-            TasksBL.recalculateTasksDistance(location);
-            return null;
+    /**
+     * Process data from local database
+     */
+    class DbHandler extends AsyncQueryHandler {
+        public DbHandler(ContentResolver cr) {
+            super(cr);
         }
 
         @Override
-        protected void onPostExecute(Void noResult) {
-            notifyAllRequestedLocation();
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case TaskDbSchema.Query.All.TOKEN_QUERY:
+                    final Location currentLocation = lastLocation;
+                    TasksBL.calculateTaskDistance(handler, currentLocation, cursor);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        protected void onUpdateComplete(int token, Object cookie, int result) {
+            switch (token) {
+                case TaskDbSchema.Query.All.TOKEN_UPDATE:
+                    boolean isLast = (Boolean) cookie;
+                    if (isLast) {
+                        notifyAllRequestedLocation();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -313,8 +335,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
      * @param force                   - if true than get location asynchronously, false - block Thread and wait update!
      * @param currentLocationListener - result callback
      */
-    public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener
-            currentLocationListener) {
+    public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener currentLocationListener) {
         MatrixLocationManager lm = App.getInstance().getLocationManager();
 
         currentLocationListener.getLocationStart();
@@ -408,6 +429,10 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         }
 
         return resultLocation;
+    }
+
+    public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
+        this.currentLocationUpdateListener = currentLocationUpdateListener;
     }
 
     public interface ILocationUpdate {

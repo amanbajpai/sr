@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -106,6 +107,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
     @Override
     public void onDestroy() {
         unregisterReceiver(localReceiver);
+        App.getInstance().getLocationManager().disconnect();
         super.onDestroy();
     }
 }

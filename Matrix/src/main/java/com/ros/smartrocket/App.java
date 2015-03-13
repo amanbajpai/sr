@@ -101,6 +101,8 @@ public class App extends Application {
         SettingsFragment.setCurrentLanguage();
     }
 
+
+
     /**
      * @return
      */

@@ -129,7 +129,7 @@ public class ChinaTransformLocation {
     public static boolean outOfChina(double lat, double lon) {
         boolean outOfChina = !inChina(lat, lon) || inHongKong(lat, lon) || inMakao(lat, lon);
 
-        L.i(TAG, "outOfChina = " + outOfChina);
+        //L.i(TAG, "outOfChina = " + outOfChina);
 
         return outOfChina;
     }

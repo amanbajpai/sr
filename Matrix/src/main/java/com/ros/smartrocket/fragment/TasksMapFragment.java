@@ -311,7 +311,19 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             updateDataFromServer();
-            loadTasksFromLocalDb();
+
+            if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
+                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+            }
+
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    loadTasksFromLocalDb();
+                }
+            }, 1000);
+
         }
     }
 
@@ -323,10 +335,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
         } else if (mode == Keys.MapViewMode.MY_TASKS) {
             TasksBL.getMyTasksForMapFromDB(handler);
-        } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices()) {
+        } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
             TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
             Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
-        } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices()) {
+        } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
             TasksBL.getTaskFromDBbyID(handler, viewItemId);
             Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
         }
@@ -429,9 +441,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 if (mode == Keys.MapViewMode.ALL_TASKS) {
                     restoreCameraPositionByRadius(location, taskRadius);
                     addRadius(location);
-
+                } else if (mode == Keys.MapViewMode.MY_TASKS) {
+                    restoreCameraPositionByPins(location, inputPoints);
                 } else {
                     restoreCameraPositionByPins(location, inputPoints);
+                    moveCameraToLocation();
                 }
             }
 

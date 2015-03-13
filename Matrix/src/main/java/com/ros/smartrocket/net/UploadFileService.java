@@ -13,7 +13,6 @@ import android.location.LocationManager;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
@@ -46,9 +45,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private static final String TAG = UploadFileService.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private List<NetworkOperationListenerInterface>
-            networkOperationListeners = new ArrayList<NetworkOperationListenerInterface>();
+            networkOperationListeners = new ArrayList<>();
     private AsyncQueryHandler dbHandler;
     private BroadcastReceiver receiver;
 

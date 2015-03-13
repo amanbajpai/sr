@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.util.SparseArray;
 
 import com.ros.smartrocket.App;
@@ -23,19 +24,9 @@ public class TasksBL {
 
     }
 
-    /**
-     * 1. Get data from DB
-     * 2. Update distance
-     */
-    public static void recalculateTasksDistance(Location myLocation) {
-        Cursor cursor = getTasksFromDB();
-        calculateTaskDistance(myLocation, cursor);
-    }
-
-    public static Cursor getTasksFromDB() {
-        ContentResolver resolver = App.getInstance().getContentResolver();
-        return resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
-                null, null, TaskDbSchema.SORT_ORDER_DESC);
+    public static void getTasksFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
     public static Cursor getTaskFromDBbyID(Integer taskId) {
@@ -222,19 +213,24 @@ public class TasksBL {
     }
 
     /**
+     * 1. Get data from DB
+     * 2. Update distance
+     *
      * @param currentLocation - user current location
      * @param cursor          - Cursor with data set from DB
      */
 
-    private static void calculateTaskDistance(final Location currentLocation, Cursor cursor) {
-        ContentResolver resolver = App.getInstance().getContentResolver();
-        Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
+    public static void calculateTaskDistance(AsyncQueryHandler handler, final Location currentLocation, Cursor cursor) {
+        new RecalculateDistanceAsyncTask(handler, cursor).execute(currentLocation);
+        /*Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
         ContentValues contentValues = new ContentValues();
 
-        List<Task> tasks = convertCursorToTasksList(cursor);
+        final List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
 
         if (currentLocation != null && tasks != null) {
-            for (Task task : tasks) {
+            final int tasksCount = tasks.size();
+            for (int i = 0; i < tasksCount; i++) {
+                Task task = tasks.get(i);
                 if (task.getLatitude() != null && task.getLongitude() != null) {
                     taskLocation.setLatitude(task.getLatitude());
                     taskLocation.setLongitude(task.getLongitude());
@@ -247,9 +243,55 @@ public class TasksBL {
                 String where = TaskDbSchema.Columns.ID + "=?";
                 String[] whereArgs = new String[]{String.valueOf(task.getId())};
 
-                resolver.update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+                handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE,
+                        i == tasksCount - 1, TaskDbSchema.CONTENT_URI, contentValues,
+                        where, whereArgs);
             }
+        }*/
+    }
+
+
+    public static class RecalculateDistanceAsyncTask extends AsyncTask<Location, Void, Void> {
+        private AsyncQueryHandler handler;
+        private Cursor cursor;
+
+        public RecalculateDistanceAsyncTask(AsyncQueryHandler handler, Cursor cursor) {
+            this.handler = handler;
+            this.cursor = cursor;
         }
+
+        @Override
+        protected Void doInBackground(Location... params) {
+            Location currentLocation = params[0];
+            Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
+            ContentValues contentValues = new ContentValues();
+
+            final List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
+
+            if (currentLocation != null && tasks != null) {
+                final int tasksCount = tasks.size();
+                for (int i = 0; i < tasksCount; i++) {
+                    Task task = tasks.get(i);
+                    if (task.getLatitude() != null && task.getLongitude() != null) {
+                        taskLocation.setLatitude(task.getLatitude());
+                        taskLocation.setLongitude(task.getLongitude());
+
+                        contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), currentLocation.distanceTo(taskLocation));
+                    } else {
+                        contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), 0f);
+                    }
+
+                    String where = TaskDbSchema.Columns.ID + "=?";
+                    String[] whereArgs = new String[]{String.valueOf(task.getId())};
+
+                    handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE,
+                            i == tasksCount - 1, TaskDbSchema.CONTENT_URI, contentValues,
+                            where, whereArgs);
+                }
+            }
+            return null;
+        }
+
     }
 
     /**
