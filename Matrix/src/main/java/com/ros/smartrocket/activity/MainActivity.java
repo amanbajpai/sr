@@ -107,7 +107,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
     @Override
     public void onDestroy() {
         unregisterReceiver(localReceiver);
-        App.getInstance().getLocationManager().disconnect();
+        //App.getInstance().getLocationManager().disconnect();
         super.onDestroy();
     }
 }

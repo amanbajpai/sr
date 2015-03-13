@@ -99,7 +99,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         baiduLocationClient.registerLocationListener(this);
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);
-        option.setCoorType("bd09mc");
+        option.setCoorType("wgs84");
         option.setScanSpan((int) Keys.UPDATE_INTERVAL);
         baiduLocationClient.setLocOption(option);
         baiduLocationClient.start();
@@ -116,18 +116,16 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
      * @return null if not connected to Google Play Service or
      */
     public Location getLocation() {
-        if (isConnected) {
-            if (!Config.USE_BAIDU) {
-                if (locationClient != null) {
-                    this.lastLocation = locationClient.getLastLocation();
-                }
-            } else {
+        if (!Config.USE_BAIDU) {
+            if (locationClient != null && locationClient.isConnected()) {
+                this.lastLocation = locationClient.getLastLocation();
+            }
+            ChinaTransformLocation.transformToChinaLocation(lastLocation);
+
+        } else {
+            if (baiduLocationClient != null && baiduLocationClient.isStarted()) {
                 this.lastLocation = convertBaiduLocationToLocation(baiduLocationClient.getLastKnownLocation());
             }
-        }
-
-        if (!Config.USE_BAIDU) {
-            ChinaTransformLocation.transformToChinaLocation(lastLocation);
         }
 
         if (lastLocation != null) {
