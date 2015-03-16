@@ -29,15 +29,11 @@ public class JPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
 
             //Send the Registration Id to server...
-            if (Config.USE_BAIDU) {
-                APIFacade.getInstance().registerGCMId(context, registrationId);
-                preferencesManager.setGCMRegistrationId(registrationId);
-            }
+            APIFacade.getInstance().registerGCMId(context, registrationId);
+            preferencesManager.setGCMRegistrationId(registrationId);
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-            if (Config.USE_BAIDU) {
-                processCustomMessage(context, bundle);
-            }
+            processCustomMessage(context, bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "ACTION_NOTIFICATION_RECEIVED");
@@ -53,15 +49,6 @@ public class JPushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             Log.w(TAG, intent.getAction() + " connected state change to " + connected);
-
-            String registrationId = JPushInterface.getRegistrationID(context);
-            Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
-
-            if (Config.USE_BAIDU && !TextUtils.isEmpty(registrationId)) {
-                //Send the Registration Id to server...
-                APIFacade.getInstance().registerGCMId(context, registrationId);
-                preferencesManager.setGCMRegistrationId(registrationId);
-            }
         } else {
             Log.d(TAG, "Unhandled intent - " + intent.getAction());
         }

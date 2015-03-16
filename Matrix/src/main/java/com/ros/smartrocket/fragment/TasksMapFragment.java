@@ -313,14 +313,18 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             updateDataFromServer();
 
             if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
-                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                if(getActivity()!=null){
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                }
             }
 
             new android.os.Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                    loadTasksFromLocalDb();
+                    if(getActivity()!=null){
+                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                        loadTasksFromLocalDb();
+                    }
                 }
             }, 1000);
 
