@@ -106,6 +106,13 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         setTaskLimitSpinner();
         setMonthLimitSpinner();
 
+        locationServicesToggleButton.setBackgroundResource(R.drawable.btn_toggle);
+        socialSharingToggleButton.setBackgroundResource(R.drawable.btn_toggle);
+        useOnlyWifiToggleButton.setBackgroundResource(R.drawable.btn_toggle);
+        saveImageToggleButton.setBackgroundResource(R.drawable.btn_toggle);
+        pushMessagesToggleButton.setBackgroundResource(R.drawable.btn_toggle);
+        deadlineReminderToggleButton.setBackgroundResource(R.drawable.btn_toggle);
+
         locationServicesToggleButton.setChecked(preferencesManager.getUseLocationServices());
         socialSharingToggleButton.setChecked(preferencesManager.getUseSocialSharing());
         useOnlyWifiToggleButton.setChecked(preferencesManager.getUseOnlyWiFiConnaction());
@@ -199,7 +206,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void setMonthLimitSpinner() {
         int limit = preferencesManager.get3GUploadMonthLimit();
 
-        ArrayAdapter monthLimitAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
+        ArrayAdapter monthLimitAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_spinner, R.id.name,
                 MONTHLY_LIMIT_MB);
         monthLimitSpinner.setAdapter(monthLimitAdapter);
 

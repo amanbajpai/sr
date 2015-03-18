@@ -47,9 +47,7 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(token)) {
                 activateAccountButton.setEnabled(false);
             }
-
         }
-
     }
 
     @Override

@@ -858,7 +858,8 @@ public class UIUtils {
 
     public static boolean isChineLanguage() {
         String code = PreferencesManager.getInstance().getLanguageCode();
-        return code.contains("zh");
+        return "zh_CN".equals(code) || "en_SG".equals(code) || "zh".equals(code)
+                || "zh_TW".equals(code) || "zh_HK".equals(code);
     }
 
     public static String getDeviceManufacturer() {
