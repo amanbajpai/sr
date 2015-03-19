@@ -84,10 +84,8 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformFromWorldToBaiduLocation(Location location) {
+    public static void transformFromChinaToBaiduLocation(Location location) {
         if (location != null) {
-            transformFromWorldToChinaLocation(location);
-
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
 
@@ -100,7 +98,14 @@ public class ChinaTransformLocation {
         }
     }
 
-    public static void transformFromBaiduToWorldLocation(Location location) {
+    public static void transformFromWorldToBaiduLocation(Location location) {
+        if (location != null) {
+            transformFromWorldToChinaLocation(location);
+            transformFromChinaToBaiduLocation(location);
+        }
+    }
+
+    public static void transformFromBaiduToChinaLocation(Location location) {
         if (location != null) {
             double latitude = location.getLatitude() - 0.006;
             double longitude = location.getLongitude() - 0.0065;
@@ -111,7 +116,12 @@ public class ChinaTransformLocation {
 
             location.setLatitude(z * Math.sin(theta));
             location.setLongitude(z * Math.cos(theta));
+        }
+    }
 
+    public static void transformFromBaiduToWorldLocation(Location location) {
+        if (location != null) {
+            transformFromBaiduToChinaLocation(location);
             transformFromChinaToWorldLocation(location);
         }
     }

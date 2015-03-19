@@ -218,8 +218,19 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             testLocation.setLongitude(113.319181);
             testLocation.setLatitude(23.109057);
 
-            ChinaTransformLocation.transformFromWorldToBaiduLocation(testLocation);
-            L.i(TAG, "testLocation() Baidu location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");*/
+            ChinaTransformLocation.transformFromWorldToChinaLocation(testLocation);
+            L.i(TAG, "testLocation() China location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
+            ChinaTransformLocation.transformFromWorldToChinaLocation(testLocation);
+            L.i(TAG, "testLocation() China2 location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
+
+            Location test2Location = new Location(LocationManager.NETWORK_PROVIDER);
+            test2Location.setLongitude(113.319181);
+            test2Location.setLatitude(23.109057);
+
+            ChinaTransformLocation.transformFromWorldToBaiduLocation(test2Location);
+            L.i(TAG, "testLocation() Baidu location [ " + test2Location.getLatitude() + ", " + test2Location.getLongitude() + "]");
+            ChinaTransformLocation.transformFromWorldToBaiduLocation(test2Location);
+            L.i(TAG, "testLocation() Baidu2 location [ " + test2Location.getLatitude() + ", " + test2Location.getLongitude() + "]");*/
 
             /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
             testLocation.setLongitude(113.3311329521378);
@@ -254,7 +265,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             if (baiduLocationClient != null && baiduLocationClient.isStarted()) {
                 this.lastLocation = convertBaiduLocationToLocation(baiduLocationClient.getLastKnownLocation());
             }
-            ChinaTransformLocation.transformFromWorldToBaiduLocation(lastLocation);
+            ChinaTransformLocation.transformFromChinaToBaiduLocation(lastLocation);
         }
 
         if (lastLocation != null) {
