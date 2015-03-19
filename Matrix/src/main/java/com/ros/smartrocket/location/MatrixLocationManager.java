@@ -208,15 +208,17 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     @Override
     public void onReceiveLocation(BDLocation baiduLocation) {
         if (baiduLocation != null) {
-            L.i(TAG, "onReceiveLocation() Location from Baidu location services [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
+            L.i(TAG, "onReceiveLocation() Source location [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
             Location location = convertBaiduLocationToLocation(baiduLocation);
 
-            ChinaTransformLocation.transformFromWorldToBaiduLocation(location);
+            ChinaTransformLocation.transformFromChinaToBaiduLocation(location);
             L.i(TAG, "onReceiveLocation() Baidu location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
+/*
+            L.i(TAG, "testLocation() Source location [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
 
-            /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
-            testLocation.setLongitude(113.319181);
-            testLocation.setLatitude(23.109057);
+            final Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
+            testLocation.setLongitude(location.getLongitude());
+            testLocation.setLatitude(location.getLatitude());
 
             ChinaTransformLocation.transformFromWorldToChinaLocation(testLocation);
             L.i(TAG, "testLocation() China location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
@@ -224,8 +226,8 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             L.i(TAG, "testLocation() China2 location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
 
             Location test2Location = new Location(LocationManager.NETWORK_PROVIDER);
-            test2Location.setLongitude(113.319181);
-            test2Location.setLatitude(23.109057);
+            test2Location.setLongitude(location.getLongitude());
+            test2Location.setLatitude(location.getLatitude());
 
             ChinaTransformLocation.transformFromWorldToBaiduLocation(test2Location);
             L.i(TAG, "testLocation() Baidu location [ " + test2Location.getLatitude() + ", " + test2Location.getLongitude() + "]");

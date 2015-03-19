@@ -188,13 +188,17 @@ class ClusterTransitionsAnimation implements AnimatorListener, AnimatorUpdateLis
             ArrayList<AnimatedTransition> animatedTransitions = state.getTransitions();
             int animatedTransitionCount = animatedTransitions.size();
             animatedMarkers = new Marker[animatedTransitionCount];
-            for (int i = 0; i < animatedTransitionCount; i++) {
-                AnimatedTransition animatedTransition = animatedTransitions.get(i);
-                ClusterPoint origin = animatedTransition.getOriginClusterRelevantInputPoints();
-                Marker marker = addMarker(map, moc, origin);
+            try {
+                for (int i = 0; i < animatedTransitionCount; i++) {
+                    AnimatedTransition animatedTransition = animatedTransitions.get(i);
+                    ClusterPoint origin = animatedTransition.getOriginClusterRelevantInputPoints();
+                    Marker marker = addMarker(map, moc, origin);
 
-                animatedMarkers[i] = marker;
-                animatedTransitionsByMarker.put(marker, animatedTransition);
+                    animatedMarkers[i] = marker;
+                    animatedTransitionsByMarker.put(marker, animatedTransition);
+                }
+            } catch (Exception e) {
+                Log.e("TransitionsAnimation", "onAnimationStart" + e);
             }
 
             // plot stationary clusters
@@ -202,12 +206,16 @@ class ClusterTransitionsAnimation implements AnimatorListener, AnimatorUpdateLis
             int stationaryClusterCount = stationaryClusters.size();
             if (stationaryClusterCount > 0) {
                 stationaryMarkers = new Marker[stationaryClusterCount];
-                for (int i = 0; i < stationaryClusterCount; i++) {
-                    ClusterPoint stationaryCluster = stationaryClusters.get(i);
-                    Marker marker = addMarker(map, moc, stationaryCluster);
+                try {
+                    for (int i = 0; i < stationaryClusterCount; i++) {
+                        ClusterPoint stationaryCluster = stationaryClusters.get(i);
+                        Marker marker = addMarker(map, moc, stationaryCluster);
 
-                    stationaryMarkers[i] = marker;
-                    stationaryTransitionsByMarker.put(marker, stationaryCluster);
+                        stationaryMarkers[i] = marker;
+                        stationaryTransitionsByMarker.put(marker, stationaryCluster);
+                    }
+                } catch (Exception e) {
+                    Log.e("TransitionsAnimation", "onAnimationStart" + e);
                 }
             }
         }
@@ -222,15 +230,23 @@ class ClusterTransitionsAnimation implements AnimatorListener, AnimatorUpdateLis
      */
     void onHostPlottedDestinationClusterPoints() {
         if (animatedMarkers != null && animatedMarkers.length > 0) {
-            for (Marker marker : animatedMarkers) {
-                marker.remove();
+            try {
+                for (Marker marker : animatedMarkers) {
+                    marker.remove();
+                }
+            } catch (Exception e) {
+                Log.e("TransitionsAnimation", "onHostPlottedDestinationClusterPoints1" + e);
             }
             animatedMarkers = null;
         }
 
         if (stationaryMarkers != null && stationaryMarkers.length > 0) {
-            for (Marker marker : stationaryMarkers) {
-                marker.remove();
+            try {
+                for (Marker marker : stationaryMarkers) {
+                    marker.remove();
+                }
+            } catch (Exception e) {
+                Log.e("TransitionsAnimation", "onHostPlottedDestinationClusterPoints2" + e);
             }
             stationaryMarkers = null;
         }
