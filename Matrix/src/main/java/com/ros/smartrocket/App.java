@@ -42,7 +42,6 @@ public class App extends Application {
             SDKInitializer.initialize(getApplicationContext());
 
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
-            JPushInterface.init(this);
         }
 
         instance = this;
