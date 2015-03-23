@@ -441,12 +441,13 @@ public class APIFacade {
      * @param context
      * @param regId
      */
-    public void registerGCMId(Context context, String regId) {
+    public void registerGCMId(Context context, String regId, int providerType) {
         if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
             RegisterDevice registerDeviceEntity = new RegisterDevice();
             registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID(context));
             registerDeviceEntity.setRegistrationId(regId);
+            registerDeviceEntity.setProviderType(providerType);
 
             BaseOperation operation = new BaseOperation();
             operation.setUrl(WSUrl.GCM_REGISTER_DEVICE);

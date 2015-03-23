@@ -29,7 +29,7 @@ public class JPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
 
             //Send the Registration Id to server...
-            APIFacade.getInstance().registerGCMId(context, registrationId);
+            APIFacade.getInstance().registerGCMId(context, registrationId, 1);
             preferencesManager.setGCMRegistrationId(registrationId);
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {

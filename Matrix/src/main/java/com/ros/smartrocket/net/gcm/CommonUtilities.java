@@ -80,7 +80,7 @@ public final class CommonUtilities {
                     String registrationId = gcm.register(Config.GCM_SENDER_ID);
                     L.i(TAG, "Device registered, registration ID=" + registrationId);
 
-                    APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId);
+                    APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
                     PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
 
                     // You should send the registration ID to your server over HTTP,

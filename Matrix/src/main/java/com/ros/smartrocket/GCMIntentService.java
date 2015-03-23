@@ -34,7 +34,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         CommonUtilities.displayMessage(context, getString(R.string.gcm_registered));
 
         L.d(TAG, "Send registered to server: regId = " + registrationId);
-        APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId);
+        APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
         PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
     }
 

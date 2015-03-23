@@ -8,6 +8,8 @@ public class RegisterDevice extends BaseEntity {
     private String deviceId;
     @SerializedName("RegistrationId")
     private String registrationId;
+    @SerializedName("ProviderType")
+    private Integer providerType;
 
     public String getDeviceId() {
         return deviceId;
@@ -24,4 +26,13 @@ public class RegisterDevice extends BaseEntity {
     public void setRegistrationId(String registrationId) {
         this.registrationId = registrationId;
     }
+
+    public Integer getProviderType() {
+        return providerType;
+    }
+
+    public void setProviderType(Integer providerType) {
+        this.providerType = providerType;
+    }
+
 }
