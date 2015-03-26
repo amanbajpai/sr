@@ -260,7 +260,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
                     @Override
                     public void onImageComplete(Bitmap bitmap) {
-                        bitmap = SelectImageManager.getScaledBitmapByByteSize(bitmap, 1000);
                         if (bitmap != null) {
                             uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                                     R.anim.rotate));

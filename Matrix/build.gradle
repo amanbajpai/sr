@@ -198,7 +198,7 @@ android {
 
     productFlavors {
         Dev {
-            applicationId 'com.ros.smartrocket.dev'
+            applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""

@@ -59,7 +59,7 @@ public class SelectImageManager {
     // Configuration
     private static final int MAX_SIZE_IN_PX = 700;
     public static final int SIZE_IN_PX_2_MP = 1600;
-    private static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
+    public static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
     private static final int ONE_KB_IN_B = 1024;
 
     private Dialog selectImageDialog;
@@ -202,7 +202,7 @@ public class SelectImageManager {
 
                         lastFile = saveBitmapToFile(activity, image);
                         lastFileFromGallery = true;
-                        resultBitmap = getScaledBitmapByByteSize(image, MAX_SIZE_IN_BYTE);
+                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
                     } else {
                         lastFile = copyFileToTempFolder(activity, new File(imagePath));
                         lastFileFromGallery = true;
@@ -218,7 +218,7 @@ public class SelectImageManager {
 
                     lastFile = saveBitmapToFile(activity, image);
                     lastFileFromGallery = true;
-                    resultBitmap = getScaledBitmapByByteSize(image, MAX_SIZE_IN_BYTE);
+                    resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
                 }
             }
         } catch (Exception e) {
@@ -329,6 +329,7 @@ public class SelectImageManager {
     }
 
     public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte, boolean rotateByExif) {
+        L.i(TAG, "Source file size: " + f.length()+"bytes");
         Bitmap resultBitmap = null;
         try {
             resultBitmap = getScaledBitmapByPxSize(f, maxSizeInPx);

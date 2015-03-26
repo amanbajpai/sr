@@ -392,7 +392,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
         @Override
         public void onImageComplete(Bitmap bitmap) {
-
             isBitmapAdded = bitmap != null;
             isBitmapConfirmed = false;
 

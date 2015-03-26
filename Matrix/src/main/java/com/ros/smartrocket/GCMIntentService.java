@@ -33,9 +33,11 @@ public class GCMIntentService extends GCMBaseIntentService {
         L.d(TAG, "Device registered: regId = " + registrationId);
         CommonUtilities.displayMessage(context, getString(R.string.gcm_registered));
 
-        L.d(TAG, "Send registered to server: regId = " + registrationId);
-        APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
-        PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
+        if(!Config.USE_BAIDU) {
+            L.d(TAG, "Send registered to server: regId = " + registrationId);
+            APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
+            PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
+        }
     }
 
     @Override

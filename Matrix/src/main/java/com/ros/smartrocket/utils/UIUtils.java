@@ -222,6 +222,12 @@ public class UIUtils {
         return result;
     }
 
+    public static boolean isGooglePlayServicesAvailable(Context context) {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+        return resultCode == ConnectionResult.SUCCESS;
+
+    }
+
     /**
      * @param context - current context
      * @param pixels  - px
