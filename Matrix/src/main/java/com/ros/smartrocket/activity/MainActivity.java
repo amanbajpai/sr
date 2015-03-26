@@ -57,7 +57,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
             L.i("MainActivity", "MainActivity JPushInterface.init");
             JPushInterface.init(getApplicationContext());
         }
-        JPushInterface.init(App.getInstance());
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
