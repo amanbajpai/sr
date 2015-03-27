@@ -313,7 +313,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             updateDataFromServer();
 
             if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
-                if(getActivity()!=null){
+                if (getActivity() != null) {
                     ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
                 }
             }
@@ -321,7 +321,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             new android.os.Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(getActivity()!=null){
+                    if (getActivity() != null) {
                         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                         loadTasksFromLocalDb();
                     }
@@ -381,12 +381,25 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void getWavesFromServer(final int radius) {
         refreshIconState(true);
-
-        MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
+        MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
             @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(),
-                        location.getLongitude(), countryName, cityName, radius);
+            public void getLocationStart() {
+
+            }
+
+            @Override
+            public void getLocationInProcess() {
+
+            }
+
+            @Override
+            public void getLocationSuccess(Location location) {
+                APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+            }
+
+            @Override
+            public void getLocationFail(String errorText) {
+                UIUtils.showSimpleToast(App.getInstance(), errorText);
             }
         });
     }

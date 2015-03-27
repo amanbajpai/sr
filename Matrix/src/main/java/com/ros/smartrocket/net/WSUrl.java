@@ -15,8 +15,7 @@ public final class WSUrl {
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
     public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePhoto";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
-    public static final String GET_WAVES = Config.WEB_SERVICE_URL
-            + "api/Waves?latitude=%s&longitude=%s&countryName=%s&cityName=%s&radius=%s&language=%s";
+    public static final String GET_WAVES = Config.WEB_SERVICE_URL + "api/Waves?latitude=%s&longitude=%s&&radius=%s&language=%s";
     public static final String GET_WAVE_TASKS = Config.WEB_SERVICE_URL + "api/Waves/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="20dp" >
+    android:padding="20dp">
+
     <com.ros.smartrocket.views.CustomTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         android:textSize="@dimen/text_size_16sp"
         android:text="@string/cashing_out_current_balance"
         custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/currentBalance"
         android:layout_height="wrap_content"
@@ -25,6 +27,7 @@
         android:textSize="@dimen/text_size_34sp"
         android:text="@string/zero"
         custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomButton
         android:id="@+id/cashOutButton"
         android:layout_height="wrap_content"
@@ -39,7 +42,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         custom:textStyle="bold"
-        android:enabled="false"/>
+        android:enabled="false" />
+
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/minBalance"
         android:layout_height="wrap_content"
@@ -50,5 +54,17 @@
         android:textSize="@dimen/text_size_13p6sp"
         android:text="@string/cashing_out_minimum_balance"
         custom:textStyle="bold"
-        android:visibility="invisible" />
-</LinearLayout >
+        android:visibility="gone" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/paymentInProgress"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_13p6sp"
+        android:text="@string/cashing_out_payment_in_progress"
+        custom:textStyle="bold"
+        android:visibility="gone" />
+</LinearLayout>

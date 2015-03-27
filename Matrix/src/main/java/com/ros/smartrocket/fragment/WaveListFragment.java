@@ -114,11 +114,25 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
             final int radius = TasksMapFragment.taskRadius;
 
             if (UIUtils.isOnline(getActivity())) {
-                MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
+                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
-                    public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                        apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(),
-                                countryName, cityName, radius);
+                    public void getLocationStart() {
+
+                    }
+
+                    @Override
+                    public void getLocationInProcess() {
+
+                    }
+
+                    @Override
+                    public void getLocationSuccess(Location location) {
+                        apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                    }
+
+                    @Override
+                    public void getLocationFail(String errorText) {
+                        UIUtils.showSimpleToast(App.getInstance(), errorText);
                     }
                 });
             } else {

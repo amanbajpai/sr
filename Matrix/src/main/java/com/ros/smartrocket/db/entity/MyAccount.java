@@ -37,6 +37,8 @@ public class MyAccount extends BaseEntity {
     private Boolean cashoutRequested;
     @SerializedName("TermsAndConditionsVersion")
     private Integer termsAndConditionsVersion;
+    @SerializedName("InPaymentProcess")
+    private Double inPaymentProcess;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -165,5 +167,13 @@ public class MyAccount extends BaseEntity {
 
     public void setCashoutRequested(Boolean cashoutRequested) {
         this.cashoutRequested = cashoutRequested;
+    }
+
+    public Double getInPaymentProcess() {
+        return inPaymentProcess;
+    }
+
+    public void setInPaymentProcess(Double inPaymentProcess) {
+        this.inPaymentProcess = inPaymentProcess;
     }
 }

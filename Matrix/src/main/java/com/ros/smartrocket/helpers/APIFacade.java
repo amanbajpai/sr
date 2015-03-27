@@ -229,16 +229,12 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public void getWaves(Activity activity, double latitude, double longitude, String countryName, String cityName,
-                         int radius) {
+    public void getWaves(Activity activity, double latitude, double longitude, int radius) {
         if (activity != null && activity instanceof BaseActivity) {
             try {
-                String resultCountryName = !TextUtils.isEmpty(countryName) ? URLEncoder.encode(countryName, "UTF-8") : "";
-                String resultCityName = !TextUtils.isEmpty(cityName) ? URLEncoder.encode(cityName, "UTF-8") : "";
-
                 BaseOperation operation = new BaseOperation();
                 operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude),
-                        resultCountryName, resultCityName, String.valueOf(radius), preferencesManager.getLanguageCode());
+                        String.valueOf(radius), preferencesManager.getLanguageCode());
                 operation.setTag(Keys.GET_WAVES_OPERATION_TAG);
                 operation.setMethod(BaseOperation.Method.GET);
                 ((BaseActivity) activity).sendNetworkOperation(operation);
