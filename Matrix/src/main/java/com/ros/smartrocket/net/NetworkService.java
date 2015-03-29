@@ -168,7 +168,7 @@ public class NetworkService extends BaseNetworkService {
 
                         QuestionsBL.removeQuestionsFromDB(this, waveId, taskId);
 
-                        responseString = "{\n" +
+                        /*responseString = "{\n" +
                                 "  \"Questions\": [\n" +
                                 "    {\n" +
                                 "      \"PresetValidationText\": \"sample string 1\",\n" +
@@ -318,7 +318,7 @@ public class NetworkService extends BaseNetworkService {
                                 "      }\n" +
                                 "    }\n" +
                                 "  ]\n" +
-                                "}";
+                                "}";*/
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
