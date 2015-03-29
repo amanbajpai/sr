@@ -7,12 +7,19 @@ import android.database.Cursor;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.TaskLocation;
+import com.ros.smartrocket.utils.L;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsBL {
+    private static final String TAG = QuestionsBL.class.getSimpleName();
 
     private QuestionsBL() {
 
@@ -127,6 +134,113 @@ public class QuestionsBL {
             if (question.getOrderId() == orderId) {
                 result = question;
                 break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get Question by orderId
+     *
+     * @param questions - question list
+     * @param orderId   - orderId to select
+     * @return Question
+     */
+    public static Question getQuestionWithCheckConditionByOrderId(List<Question> questions, int orderId) {
+        int i = 0; //Not more 50 redirects by routing
+        Question result = null;
+        while (result == null && i < 50) {
+            for (Question question : questions) {
+                if (question.getOrderId() == orderId) {
+                    int previousQuestionOrderId = question.getPreviousQuestionOrderId() != 0 ? question.getPreviousQuestionOrderId() : 1;
+                    Question previousQuestion = getQuestionByOrderId(questions, previousQuestionOrderId);
+                    if (checkCondition(question, previousQuestion)) {
+                        result = question;
+                    } else {
+                        orderId = getOrderIdFromRoutingCondition(question);
+                        i++;
+                    }
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public static boolean checkCondition(Question question, Question previousQuestion) {
+        boolean result = false;
+        AskIf[] askIfArray = question.getAskIfArray();
+        TaskLocation taskLocation = question.getTaskLocationObject();
+        String answerValue = getAnswerValue(previousQuestion);
+
+        askifloop:
+        for (AskIf askIf : askIfArray) {
+            String sourceKey = askIf.getSourceKey();
+            String value = askIf.getValue();
+            Integer operator = askIf.getOperator();
+            Integer nextConditionOperator = askIf.getNextConditionOperator();
+
+            boolean currentConditionResult = false;
+
+            switch (AskIf.ConditionSourceType.getSourceTypeById(askIf.getSourceType())) {
+                case LOCATION_RETAILER:
+                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getRetailerName()) : !value.equals(taskLocation.getRetailerName());
+
+                    break;
+                case LOCATION_STATE:
+                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getState()) : !value.equals(taskLocation.getState());
+
+                    break;
+                case LOCATION_CITY:
+                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getCity()) : !value.equals(taskLocation.getCity());
+
+                    break;
+                case CUSTOM_FIELD:
+                    try {
+                        JSONObject customFieldJsonObject = new JSONObject(taskLocation.getCustomFields());
+                        String customFieldValue = (String) customFieldJsonObject.get(sourceKey);
+
+                        currentConditionResult = operator == 1 ? value.equals(customFieldValue) : !value.equals(customFieldValue);
+                    } catch (Exception e) {
+                        L.e(TAG, "Parse customField error" + e, e);
+                    }
+                    break;
+                case PREV_QUESTION:
+                    currentConditionResult = operator == 1 ? value.equals(answerValue) : !value.equals(answerValue);
+                    break;
+                case ROUTING:
+                    break askifloop;
+                default:
+                    L.e(TAG, "WRONG condition type: " + askIf.getSourceType());
+                    break;
+            }
+
+            result = nextConditionOperator == 1 ? (result && currentConditionResult) : (result || currentConditionResult);
+
+        }
+
+        return result;
+    }
+
+    public static int getOrderIdFromRoutingCondition(Question question) {
+        int orderId = 0;
+        AskIf[] askIfArray = question.getAskIfArray();
+        for (AskIf askIf : askIfArray) {
+            if (askIf.getSourceType() == AskIf.ConditionSourceType.ROUTING.getTypeId()) {
+                orderId = Integer.valueOf(askIf.getValue());
+            }
+        }
+        return orderId;
+    }
+
+    public static String getAnswerValue(Question question) {
+        String result = null;
+        Answer[] answers = question.getAnswers();
+
+        for (Answer answer : answers) {
+            if (answer.getChecked()) {
+                result = answer.getValue();
             }
         }
         return result;

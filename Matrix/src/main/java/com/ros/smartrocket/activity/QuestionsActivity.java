@@ -149,7 +149,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                                 taskId);
 
-                        Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
+                        Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
                         startFragment(question);
                     } else {
                         setSupportProgressBarIndeterminateVisibility(true);
@@ -183,9 +183,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
 
-                Question question = QuestionsBL.getQuestionByOrderId(questions, nextQuestionOrderId);
+                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
                 if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, nextQuestionOrderId);
+                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, question.getOrderId());
                     question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
                     QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
@@ -207,7 +207,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     .getPreviousQuestionOrderId() : 1;
             preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, previousQuestionOrderId);
 
-            Question question = QuestionsBL.getQuestionByOrderId(questions, previousQuestionOrderId);
+            Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
 
             startFragment(question);
         }
@@ -305,7 +305,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                         taskId);
-                Question question = QuestionsBL.getQuestionByOrderId(questions, lastQuestionOrderId);
+                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
 
                 startActivity(IntentUtils.getQuitQuestionIntent(this, question));
                 finish();

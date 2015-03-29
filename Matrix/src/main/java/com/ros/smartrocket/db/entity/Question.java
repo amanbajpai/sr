@@ -46,6 +46,8 @@ public class Question extends BaseEntity implements Serializable {
     private Boolean allowMultiplyPhotos;
     @SerializedName("AskIf")
     private String askIf = "";
+    @SerializedName("TaskLocation")
+    private String taskLocation = "";
     @SerializedName("MinValue")
     private Integer minValue;
     @SerializedName("MaxValue")
@@ -60,16 +62,19 @@ public class Question extends BaseEntity implements Serializable {
     private String videoUrl;
     @SerializedName("PhotoUrl")
     private String photoUrl;
-
     @SerializedName("Routing")
     private Integer routing;
-
     @SerializedName("ValidationComment")
     private String validationComment;
     @SerializedName("PresetValidationText")
     private String presetValidationText;
 
     private transient Integer previousQuestionOrderId;
+
+    @SkipFieldInContentValues
+    private AskIf[] askIfArray;
+    @SkipFieldInContentValues
+    private TaskLocation taskLocationObject;
 
     @SkipFieldInContentValues
     @SerializedName("Answers")
@@ -106,6 +111,9 @@ public class Question extends BaseEntity implements Serializable {
             result.setPhotoUrl(c.getString(QuestionDbSchema.Query.PHOTO_URL));
 
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
+
+            result.setAskIfArray(AskIf.getAskIfArray(result.getAskIf()));
+            result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
         }
 
         L.d("question", result.toString());
@@ -293,4 +301,27 @@ public class Question extends BaseEntity implements Serializable {
         this.presetValidationText = presetValidationText;
     }
 
+    public AskIf[] getAskIfArray() {
+        return askIfArray;
+    }
+
+    public void setAskIfArray(AskIf[] askIfArray) {
+        this.askIfArray = askIfArray;
+    }
+
+    public TaskLocation getTaskLocationObject() {
+        return taskLocationObject;
+    }
+
+    public void setTaskLocationObject(TaskLocation taskLocationObject) {
+        this.taskLocationObject = taskLocationObject;
+    }
+
+    public String getTaskLocation() {
+        return taskLocation;
+    }
+
+    public void setTaskLocation(String taskLocation) {
+        this.taskLocation = taskLocation;
+    }
 }
