@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class TaskLocation extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
@@ -18,15 +19,20 @@ public class TaskLocation extends BaseEntity implements Serializable {
     private Integer cityId;
     @SerializedName("RetailerName")
     private String retailerName;
-    @SerializedName("CustomFields")
+
     private String customFields;
+    @SkipFieldInContentValues
+    @SerializedName("CustomFields")
+    private Map<String, String> customFieldsMap;
 
     public TaskLocation() {
     }
 
-    public static TaskLocation getTaskLocation(String jsonArrayString) {
-        TaskLocation askIfs = new Gson().fromJson(jsonArrayString, TaskLocation.class);
-        return askIfs;
+    public static TaskLocation getTaskLocation(String jsonString) {
+        Gson gson = new Gson();
+        TaskLocation taskLocation = gson.fromJson(jsonString, TaskLocation.class);
+        taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+        return taskLocation;
     }
 
 
@@ -78,5 +84,11 @@ public class TaskLocation extends BaseEntity implements Serializable {
         this.customFields = customFields;
     }
 
+    public Map<String, String> getCustomFieldsMap() {
+        return customFieldsMap;
+    }
 
+    public void setCustomFieldsMap(Map<String, String> customFieldsMap) {
+        this.customFieldsMap = customFieldsMap;
+    }
 }

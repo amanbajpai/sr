@@ -27,6 +27,7 @@ import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.db.entity.Sharing;
+import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -167,11 +168,168 @@ public class NetworkService extends BaseNetworkService {
 
                         QuestionsBL.removeQuestionsFromDB(this, waveId, taskId);
 
+                        responseString = "{\n" +
+                                "  \"Questions\": [\n" +
+                                "    {\n" +
+                                "      \"PresetValidationText\": \"sample string 1\",\n" +
+                                "      \"Id\": 2,\n" +
+                                "      \"WaveId\": 3,\n" +
+                                "      \"OrderId\": 4,\n" +
+                                "      \"Type\": 1,\n" +
+                                "      \"ShowBackButton\": true,\n" +
+                                "      \"IncludeInReporting\": true,\n" +
+                                "      \"Question\": \"sample string 7\",\n" +
+                                "      \"AskIf\": [\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        }\n" +
+                                "      ],\n" +
+                                "      \"ValidationComment\": \"sample string 8\",\n" +
+                                "      \"TaskLocation\": {\n" +
+                                "        \"State\": \"sample string 1\",\n" +
+                                "        \"StateId\": 2,\n" +
+                                "        \"City\": \"sample string 3\",\n" +
+                                "        \"CityId\": 4,\n" +
+                                "        \"RetailerName\": \"sample string 5\",\n" +
+                                "        \"CustomFields\": {\n" +
+                                "          \"sample string 1\": \"sample string 2\",\n" +
+                                "          \"sample string 3\": \"sample string 4\",\n" +
+                                "          \"sample string 5\": \"sample string 6\"\n" +
+                                "        }\n" +
+                                "      }\n" +
+                                "    },\n" +
+                                "    {\n" +
+                                "      \"PresetValidationText\": \"sample string 1\",\n" +
+                                "      \"Id\": 2,\n" +
+                                "      \"WaveId\": 3,\n" +
+                                "      \"OrderId\": 4,\n" +
+                                "      \"Type\": 1,\n" +
+                                "      \"ShowBackButton\": true,\n" +
+                                "      \"IncludeInReporting\": true,\n" +
+                                "      \"Question\": \"sample string 7\",\n" +
+                                "      \"AskIf\": [\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        }\n" +
+                                "      ],\n" +
+                                "      \"ValidationComment\": \"sample string 8\",\n" +
+                                "      \"TaskLocation\": {\n" +
+                                "        \"State\": \"sample string 1\",\n" +
+                                "        \"StateId\": 2,\n" +
+                                "        \"City\": \"sample string 3\",\n" +
+                                "        \"CityId\": 4,\n" +
+                                "        \"RetailerName\": \"sample string 5\",\n" +
+                                "        \"CustomFields\": {\n" +
+                                "          \"sample string 1\": \"sample string 2\",\n" +
+                                "          \"sample string 3\": \"sample string 4\",\n" +
+                                "          \"sample string 5\": \"sample string 6\"\n" +
+                                "        }\n" +
+                                "      }\n" +
+                                "    },\n" +
+                                "    {\n" +
+                                "      \"PresetValidationText\": \"sample string 1\",\n" +
+                                "      \"Id\": 2,\n" +
+                                "      \"WaveId\": 3,\n" +
+                                "      \"OrderId\": 4,\n" +
+                                "      \"Type\": 1,\n" +
+                                "      \"ShowBackButton\": true,\n" +
+                                "      \"IncludeInReporting\": true,\n" +
+                                "      \"Question\": \"sample string 7\",\n" +
+                                "      \"AskIf\": [\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        },\n" +
+                                "        {\n" +
+                                "          \"OrderId\": 1,\n" +
+                                "          \"SourceType\": 1,\n" +
+                                "          \"SourceKey\": \"sample string 2\",\n" +
+                                "          \"Value\": \"sample string 3\",\n" +
+                                "          \"Operator\": 1,\n" +
+                                "          \"NextConditionOperator\": 1\n" +
+                                "        }\n" +
+                                "      ],\n" +
+                                "      \"ValidationComment\": \"sample string 8\",\n" +
+                                "      \"TaskLocation\": {\n" +
+                                "        \"State\": \"sample string 1\",\n" +
+                                "        \"StateId\": 2,\n" +
+                                "        \"City\": \"sample string 3\",\n" +
+                                "        \"CityId\": 4,\n" +
+                                "        \"RetailerName\": \"sample string 5\",\n" +
+                                "        \"CustomFields\": {\n" +
+                                "          \"sample string 1\": \"sample string 2\",\n" +
+                                "          \"sample string 3\": \"sample string 4\",\n" +
+                                "          \"sample string 5\": \"sample string 6\"\n" +
+                                "        }\n" +
+                                "      }\n" +
+                                "    }\n" +
+                                "  ]\n" +
+                                "}";
+
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
                             question.setTaskId(taskId);
+                            question.setAskIf(gson.toJson(question.getAskIfArray()));
+
+                            TaskLocation taskLocation = question.getTaskLocationObject();
+                            taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+                            question.setTaskLocation(gson.toJson(taskLocation));
                             if (WSUrl.GET_REDO_QUESTION_ID == url) {
                                 question.setOrderId(i);
                             }

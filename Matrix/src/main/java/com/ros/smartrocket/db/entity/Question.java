@@ -44,10 +44,6 @@ public class Question extends BaseEntity implements Serializable {
     private Boolean showBackButton;
     @SerializedName("AllowMultiplyPhotos")
     private Boolean allowMultiplyPhotos;
-    @SerializedName("AskIf")
-    private String askIf = "";
-    @SerializedName("TaskLocation")
-    private String taskLocation = "";
     @SerializedName("MinValue")
     private Integer minValue;
     @SerializedName("MaxValue")
@@ -68,12 +64,16 @@ public class Question extends BaseEntity implements Serializable {
     private String validationComment;
     @SerializedName("PresetValidationText")
     private String presetValidationText;
-
     private transient Integer previousQuestionOrderId;
 
+    private String askIf = "";
     @SkipFieldInContentValues
+    @SerializedName("AskIf")
     private AskIf[] askIfArray;
+
+    private String taskLocation = "";
     @SkipFieldInContentValues
+    @SerializedName("TaskLocation")
     private TaskLocation taskLocationObject;
 
     @SkipFieldInContentValues
@@ -98,6 +98,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setShowBackButton(c.getInt(QuestionDbSchema.Query.SHOW_BACK_BUTTON) == 1);
             result.setAllowMultiplyPhotos(c.getInt(QuestionDbSchema.Query.ALLOW_MULTIPLY_PHOTOS) == 1);
             result.setAskIf(c.getString(QuestionDbSchema.Query.ASK_IF));
+            result.setTaskLocation(c.getString(QuestionDbSchema.Query.TASK_LOCATION));
             result.setPreviousQuestionOrderId(c.getInt(QuestionDbSchema.Query.PREVIOUS_QUESTION_ORDER_ID));
             result.setValidationComment(c.getString(QuestionDbSchema.Query.VALIDATION_COMMENT));
             result.setPresetValidationText(c.getString(QuestionDbSchema.Query.PRESENT_VALIDATION_TEXT));

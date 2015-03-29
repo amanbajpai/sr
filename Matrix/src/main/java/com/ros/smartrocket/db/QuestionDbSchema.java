@@ -23,6 +23,7 @@ public interface QuestionDbSchema {
         SHOW_BACK_BUTTON("showBackButton", DBType.NUMERIC),
         ALLOW_MULTIPLY_PHOTOS("allowMultiplyPhotos", DBType.NUMERIC),
         ASK_IF("askIf", DBType.TEXT),
+        TASK_LOCATION("taskLocation", DBType.TEXT),
         PREVIOUS_QUESTION_ORDER_ID("previousQuestionOrderId", DBType.NUMERIC),
         VALIDATION_COMMENT("validationComment", DBType.TEXT),
         PRESENT_VALIDATION_TEXT("presetValidationText", DBType.TEXT),
@@ -87,6 +88,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
                 Table.QUESTION.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
                 Table.QUESTION.getName() + "." + Columns.ASK_IF.getName(),
+                Table.QUESTION.getName() + "." + Columns.TASK_LOCATION.getName(),
                 Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName(),
                 Table.QUESTION.getName() + "." + Columns.PRESENT_VALIDATION_TEXT.getName(),
@@ -116,18 +118,19 @@ public interface QuestionDbSchema {
         int SHOW_BACK_BUTTON = 9;
         int ALLOW_MULTIPLY_PHOTOS = 10;
         int ASK_IF = 11;
-        int PREVIOUS_QUESTION_ORDER_ID = 12;
-        int VALIDATION_COMMENT = 13;
-        int PRESENT_VALIDATION_TEXT = 14;
+        int TASK_LOCATION = 12;
+        int PREVIOUS_QUESTION_ORDER_ID = 13;
+        int VALIDATION_COMMENT = 14;
+        int PRESENT_VALIDATION_TEXT = 15;
 
-        int MIN_VALUES = 15;
-        int MAX_VALUES = 16;
-        int PATTERN_TYPE = 17;
-        int VIDEO_SOURCE = 18;
-        int PHOTO_SOURCE = 19;
-        int VIDEO_URL = 20;
-        int PHOTO_URL = 21;
+        int MIN_VALUES = 16;
+        int MAX_VALUES = 17;
+        int PATTERN_TYPE = 18;
+        int VIDEO_SOURCE = 19;
+        int PHOTO_SOURCE = 20;
+        int VIDEO_URL = 21;
+        int PHOTO_URL = 22;
 
-        int ROUTING = 22;
+        int ROUTING = 23;
     }
 }
