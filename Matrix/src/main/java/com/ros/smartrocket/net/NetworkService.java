@@ -17,6 +17,7 @@ import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
@@ -33,7 +34,6 @@ import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.ArrayList;
 
@@ -326,11 +326,16 @@ public class NetworkService extends BaseNetworkService {
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
                             question.setTaskId(taskId);
-                            question.setAskIf(gson.toJson(question.getAskIfArray()));
+                            AskIf[] askIfArray = question.getAskIfArray();
+                            if (askIfArray != null) {
+                                question.setAskIf(gson.toJson(askIfArray));
+                            }
 
                             TaskLocation taskLocation = question.getTaskLocationObject();
-                            taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
-                            question.setTaskLocation(gson.toJson(taskLocation));
+                            if (taskLocation != null) {
+                                taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+                                question.setTaskLocation(gson.toJson(taskLocation));
+                            }
                             if (WSUrl.GET_REDO_QUESTION_ID == url) {
                                 question.setOrderId(i);
                             }

@@ -238,9 +238,11 @@ public class QuestionsBL {
         String result = null;
         Answer[] answers = question.getAnswers();
 
-        for (Answer answer : answers) {
-            if (answer.getChecked()) {
-                result = answer.getValue();
+        if (answers != null) {
+            for (Answer answer : answers) {
+                if (answer.getChecked()) {
+                    result = answer.getValue();
+                }
             }
         }
         return result;

@@ -1,5 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -57,8 +59,12 @@ public class AskIf extends BaseEntity implements Serializable {
     }
 
     public static AskIf[] getAskIfArray(String jsonArrayString) {
-        AskIfs askIfs = new Gson().fromJson(jsonArrayString, AskIfs.class);
-        return sortAskIfByOrderId(askIfs.getAskIfs());
+        AskIf[] askIfArray = new AskIf[]{};
+        if (!TextUtils.isEmpty(jsonArrayString)) {
+            askIfArray = new Gson().fromJson(jsonArrayString, AskIf[].class);
+            askIfArray = sortAskIfByOrderId(askIfArray);
+        }
+        return askIfArray;
     }
 
     public static AskIf[] sortAskIfByOrderId(AskIf[] askIfArray) {

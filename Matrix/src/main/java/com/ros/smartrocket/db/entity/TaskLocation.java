@@ -31,7 +31,9 @@ public class TaskLocation extends BaseEntity implements Serializable {
     public static TaskLocation getTaskLocation(String jsonString) {
         Gson gson = new Gson();
         TaskLocation taskLocation = gson.fromJson(jsonString, TaskLocation.class);
-        taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+        if (taskLocation != null) {
+            taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+        }
         return taskLocation;
     }
 
