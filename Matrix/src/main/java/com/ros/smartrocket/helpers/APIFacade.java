@@ -382,7 +382,7 @@ public class APIFacade {
      */
     public void getQuestions(Activity activity, Integer waveId, Integer taskId) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(waveId), preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(waveId), preferencesManager.getLanguageCode(), String.valueOf(taskId));
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
         operation.setWaveId(waveId);
         operation.setTaskId(taskId);

@@ -158,7 +158,12 @@ public class QuestionsBL {
                     if (checkCondition(question, previousQuestion)) {
                         result = question;
                     } else {
-                        orderId = getOrderIdFromRoutingCondition(question);
+                        int routingOrderId = getOrderIdFromRoutingCondition(question);
+                        if (routingOrderId != 0) {
+                            orderId = routingOrderId;
+                        } else {
+                            orderId = orderId + 1;
+                        }
                         i++;
                     }
                     break;
@@ -189,11 +194,11 @@ public class QuestionsBL {
 
                     break;
                 case LOCATION_STATE:
-                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getState()) : !value.equals(taskLocation.getState());
+                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getStateId()) : !value.equals(taskLocation.getStateId());
 
                     break;
                 case LOCATION_CITY:
-                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getCity()) : !value.equals(taskLocation.getCity());
+                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getCityId()) : !value.equals(taskLocation.getCityId());
 
                     break;
                 case CUSTOM_FIELD:

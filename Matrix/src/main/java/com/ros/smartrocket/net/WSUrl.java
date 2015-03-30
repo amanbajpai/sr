@@ -28,7 +28,7 @@ public final class WSUrl {
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account?language=%s";
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
-            + "api/Waves/Questionnaire?waveId=%s&language=%s";
+            + "api/Waves/Questionnaire?waveId=%s&language=%s&taskId=%s";
     public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
             + "api/Tasks/Re-Do-Questions?taskId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";

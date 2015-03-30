@@ -146,7 +146,7 @@ public abstract class BaseNetworkService extends IntentService {
             JSONObject settingJsonObject = new JSONObject();
             settingJsonObject.put("CurrentVersion", BuildConfig.VERSION_NAME);
             if (BuildConfig.USE_BAIDU) {
-                settingJsonObject.put("Region", "Asia_China");
+                settingJsonObject.put("Region", "AsiaChina");
             } else {
                 settingJsonObject.put("Region", "Asia");
             }
