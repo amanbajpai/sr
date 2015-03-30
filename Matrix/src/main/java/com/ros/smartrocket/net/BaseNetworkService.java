@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Base64;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
@@ -30,6 +32,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -137,7 +140,21 @@ public abstract class BaseNetworkService extends IntentService {
         method.addHeader("device-os-version", App.getInstance().getDeviceApiNumber());
         //method.addHeader("Accept-Encoding", "gzip");
         method.addHeader("Authorization", "Bearer " + preferencesManager.getToken());
-        method.addHeader("App-version", Config.APP_VERSION);
+        method.addHeader("App-version", BuildConfig.VERSION_NAME);
+
+        try {
+            JSONObject settingJsonObject = new JSONObject();
+            settingJsonObject.put("CurrentVersion", BuildConfig.VERSION_NAME);
+            if (BuildConfig.USE_BAIDU) {
+                settingJsonObject.put("Region", "Asia_China");
+            } else {
+                settingJsonObject.put("Region", "Asia");
+            }
+            byte[] settingsByteArray = settingJsonObject.toString().getBytes("UTF-8");
+            method.addHeader("Settings", Base64.encodeToString(settingsByteArray, Base64.NO_WRAP));
+        } catch (Exception e) {
+            L.e(TAG, "Add header settings json" + e, e);
+        }
     }
 
     protected abstract String getRequestJson(BaseOperation operation);
