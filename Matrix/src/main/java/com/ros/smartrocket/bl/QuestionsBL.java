@@ -148,15 +148,18 @@ public class QuestionsBL {
      * @return Question
      */
     public static Question getQuestionWithCheckConditionByOrderId(List<Question> questions, int orderId) {
-        int i = 0; //Not more 50 redirects by routing
         Question result = null;
-        while (result == null && i < 50) {
+        boolean continueLoop = true;
+        while (result == null && continueLoop) {
+            continueLoop = false;
             for (Question question : questions) {
                 if (question.getOrderId() == orderId) {
                     int previousQuestionOrderId = question.getPreviousQuestionOrderId() != 0 ? question.getPreviousQuestionOrderId() : 1;
                     Question previousQuestion = getQuestionByOrderId(questions, previousQuestionOrderId);
+
                     if (checkCondition(question, previousQuestion)) {
                         result = question;
+
                     } else {
                         int routingOrderId = getOrderIdFromRoutingCondition(question);
                         if (routingOrderId != 0) {
@@ -164,8 +167,8 @@ public class QuestionsBL {
                         } else {
                             orderId = orderId + 1;
                         }
-                        i++;
                     }
+                    continueLoop = true;
                     break;
                 }
             }
@@ -175,7 +178,7 @@ public class QuestionsBL {
 
     public static boolean checkCondition(Question question, Question previousQuestion) {
         AskIf[] askIfArray = question.getAskIfArray();
-        boolean result = askIfArray.length == 0;
+        boolean result = true;
         TaskLocation taskLocation = question.getTaskLocationObject();
         String answerValue = getAnswerValue(previousQuestion);
 
@@ -194,11 +197,11 @@ public class QuestionsBL {
 
                     break;
                 case LOCATION_STATE:
-                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getStateId()) : !value.equals(taskLocation.getStateId());
+                    currentConditionResult = operator == 1 ? value.equals(String.valueOf(taskLocation.getStateId())) : !value.equals(String.valueOf(taskLocation.getStateId()));
 
                     break;
                 case LOCATION_CITY:
-                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getCityId()) : !value.equals(taskLocation.getCityId());
+                    currentConditionResult = operator == 1 ? value.equals(String.valueOf(taskLocation.getCityId())) : !value.equals(String.valueOf(taskLocation.getCityId()));
 
                     break;
                 case CUSTOM_FIELD:
