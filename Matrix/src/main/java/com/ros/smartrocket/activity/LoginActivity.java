@@ -5,11 +5,13 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -93,7 +95,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 WriteDataHelper.prepareLogin(this, email);
 
-
                 preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
                 preferencesManager.setLastEmail(email);
                 if (rememberMeCheckBox.isChecked()) {
@@ -120,30 +121,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 registerButton.setEnabled(true);
                 dismissProgressDialog();
             }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressDialog();
-                loginButton.setEnabled(true);
-                DialogUtils.showAccountNotActivatedDialog(this);
-            }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                == BaseNetworkService.NO_INTERNET) {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())
-                    || Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressDialog();
-                loginButton.setEnabled(true);
-                DialogUtils.showBadOrNoInternetDialog(this);
-            }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 dismissProgressDialog();
                 loginButton.setEnabled(true);
-                DialogUtils.showLoginFailedDialog(this);
+                if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                        == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
+                    DialogUtils.showAccountNotActivatedDialog(this);
+
+                } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                        == BaseNetworkService.NO_INTERNET) {
+                    DialogUtils.showBadOrNoInternetDialog(this);
+
+                } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                        == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
+                    DialogUtils.showLoginFailedDialog(this);
+
+                } else {
+                    UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+                }
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                startActivity(new Intent(this, CheckLocationActivity.class));
                 registerButton.setEnabled(true);
                 dismissProgressDialog();
+                if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                        == BaseNetworkService.NO_INTERNET) {
+                    DialogUtils.showBadOrNoInternetDialog(this);
+                } else {
+                    startActivity(new Intent(this, CheckLocationActivity.class));
+                }
             }
         }
     }

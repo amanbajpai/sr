@@ -112,7 +112,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode buildNumber
-        versionName '2.1'
+        versionName '2.0.1'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
