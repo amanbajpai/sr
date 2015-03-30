@@ -13,6 +13,7 @@ import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.UIUtils;
 
 import org.json.JSONObject;
 
@@ -180,6 +181,7 @@ public class QuestionsBL {
     public static boolean checkCondition(Question question, Question previousQuestion) {
         AskIf[] askIfArray = question.getAskIfArray();
         boolean result = true;
+        Integer previousConditionOperator = null;
         TaskLocation taskLocation = question.getTaskLocationObject();
         String answerValue = getAnswerValue(previousQuestion);
 
@@ -228,7 +230,13 @@ public class QuestionsBL {
                     break;
             }
 
-            result = nextConditionOperator == 1 ? (result && currentConditionResult) : (result || currentConditionResult);
+            if (previousConditionOperator != null) {
+                result = previousConditionOperator == 1 ? (result && currentConditionResult) : (result || currentConditionResult);
+            } else {
+                result = currentConditionResult;
+            }
+
+            previousConditionOperator = nextConditionOperator;
 
         }
 
@@ -239,8 +247,9 @@ public class QuestionsBL {
         int orderId = 0;
         AskIf[] askIfArray = question.getAskIfArray();
         for (AskIf askIf : askIfArray) {
-            if (askIf.getSourceType() == AskIf.ConditionSourceType.ROUTING.getTypeId()) {
-                orderId = Integer.valueOf(askIf.getValue());
+            String value = UIUtils.getNumbersOnly(askIf.getValue());
+            if (askIf.getSourceType() == AskIf.ConditionSourceType.ROUTING.getTypeId() && !TextUtils.isEmpty(value)) {
+                orderId = Integer.valueOf(value);
             }
         }
         return orderId;

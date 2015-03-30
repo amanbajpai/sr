@@ -509,6 +509,16 @@ public class UIUtils {
     }
 
     /**
+     * Check if email is valid
+     *
+     * @param s - string to check
+     * @return boolean
+     */
+    public static String getNumbersOnly(CharSequence s) {
+        return s.toString().replaceAll("[^0-9]", "");
+    }
+
+    /**
      * Check if password is valid
      *
      * @param password - password to check
