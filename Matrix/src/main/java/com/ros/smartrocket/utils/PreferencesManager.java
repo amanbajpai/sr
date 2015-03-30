@@ -218,6 +218,14 @@ public class PreferencesManager {
         setString(Keys.LAST_PASSWORD, password);
     }
 
+    public int getLastAppVersion() {
+        return getInt(Keys.LAST_APP_VERSION, 0);
+    }
+
+    public void setLastAppVersion(int appVersion) {
+        setInt(Keys.LAST_APP_VERSION, appVersion);
+    }
+
     public boolean getShowHiddenTask() {
         return getBoolean(Keys.SHOW_HIDDEN_TASKS, false);
     }

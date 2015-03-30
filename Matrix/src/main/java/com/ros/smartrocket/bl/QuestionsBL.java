@@ -169,8 +169,8 @@ public class QuestionsBL {
     }
 
     public static boolean checkCondition(Question question, Question previousQuestion) {
-        boolean result = false;
         AskIf[] askIfArray = question.getAskIfArray();
+        boolean result = askIfArray.length == 0;
         TaskLocation taskLocation = question.getTaskLocationObject();
         String answerValue = getAnswerValue(previousQuestion);
 

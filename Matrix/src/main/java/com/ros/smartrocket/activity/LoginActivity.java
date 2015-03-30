@@ -93,6 +93,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 WriteDataHelper.prepareLogin(this, email);
 
+
+                preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
                 preferencesManager.setLastEmail(email);
                 if (rememberMeCheckBox.isChecked()) {
                     preferencesManager.setLastPassword(password);

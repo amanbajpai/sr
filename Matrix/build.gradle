@@ -112,7 +112,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode buildNumber
-        versionName '2.0'
+        versionName '2.1'
+        applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
         buildConfigField "String", "ANDROID_API_KEY", "\"AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI\""
@@ -198,7 +199,6 @@ android {
 
     productFlavors {
         Dev {
-            applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
@@ -207,7 +207,6 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Staging {
-            applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
@@ -216,8 +215,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
-            versionCode 10007
-            applicationId 'com.ros.smartrocket'
+            versionCode 10008
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
@@ -226,7 +224,6 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         ChinaDev {
-            applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
@@ -235,7 +232,6 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaStaging {
-            applicationId 'com.ros.smartrocket'
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
@@ -244,8 +240,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaProduction {
-            versionCode 10007
-            applicationId 'com.ros.smartrocket'
+            versionCode 10008
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""

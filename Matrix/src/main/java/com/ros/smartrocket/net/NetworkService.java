@@ -33,6 +33,7 @@ import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.ArrayList;
 
