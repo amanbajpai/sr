@@ -4,6 +4,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -207,9 +208,12 @@ public class QuestionsBL {
                 case CUSTOM_FIELD:
                     try {
                         JSONObject customFieldJsonObject = new JSONObject(taskLocation.getCustomFields());
-                        String customFieldValue = (String) customFieldJsonObject.get(sourceKey);
+                        String customFieldValue = customFieldJsonObject.optString(sourceKey);
 
-                        currentConditionResult = operator == 1 ? value.equals(customFieldValue) : !value.equals(customFieldValue);
+                        currentConditionResult = operator == 1 ?
+                                (!TextUtils.isEmpty(customFieldValue) && value.equals(customFieldValue))
+                                :
+                                (TextUtils.isEmpty(customFieldValue) && !value.equals(customFieldValue));
                     } catch (Exception e) {
                         L.e(TAG, "Parse customField error" + e, e);
                     }
