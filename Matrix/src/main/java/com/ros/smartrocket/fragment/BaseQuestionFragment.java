@@ -13,6 +13,9 @@ public class BaseQuestionFragment extends Fragment {
     public void saveQuestion() {
     }
 
+    public void clearAnswer() {
+    }
+
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
     }
 

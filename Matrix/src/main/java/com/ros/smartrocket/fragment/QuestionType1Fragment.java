@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.internal.fi;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
@@ -122,6 +123,16 @@ public class QuestionType1Fragment extends BaseQuestionFragment implements Adapt
     @Override
     public void saveQuestion() {
         AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+    }
+
+    @Override
+    public void clearAnswer() {
+        Answer[] answers = question.getAnswers();
+        for (Answer answer: answers){
+            answer.setChecked(false);
+        }
+
+        AnswersBL.updateAnswersToDB(handler, answers);
     }
 
     @Override

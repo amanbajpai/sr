@@ -255,6 +255,16 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
+    public void clearAnswer() {
+        Answer[] answers = question.getAnswers();
+        for (Answer answer: answers){
+            answer.setChecked(false);
+        }
+
+        AnswersBL.updateAnswersToDB(handler, answers);
+    }
+
+    @Override
     public Question getQuestion() {
         return question;
     }

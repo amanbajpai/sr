@@ -201,6 +201,16 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
+    public void clearAnswer() {
+        Answer[] answers = question.getAnswers();
+        for (Answer answer: answers){
+            answer.setChecked(false);
+        }
+
+        AnswersBL.updateAnswersToDB(handler, answers);
+    }
+
+    @Override
     public Question getQuestion() {
         return question;
     }
@@ -290,7 +300,6 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                             } else {
                                 videoView.setBackgroundResource(R.drawable.camera_video_icon);
                             }
-                            //TODO
 
                             refreshRePhotoButton();
                             refreshConfirmButton();
@@ -342,7 +351,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     public void confirmButtonPressAction(Location location) {
         File sourceImageFile = new File(videoPath);
 
-        if(sourceImageFile.exists()){
+        if (sourceImageFile.exists()) {
             Answer answer = question.getAnswers()[0];
             answer.setChecked(true);
             answer.setFileUri(videoPath);

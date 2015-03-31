@@ -320,7 +320,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.previousButton:
-                currentFragment.saveQuestion();
+                currentFragment.clearAnswer();
                 startPreviousQuestionFragment();
                 break;
             case R.id.nextButton:

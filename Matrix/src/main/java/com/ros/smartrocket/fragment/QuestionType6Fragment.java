@@ -150,6 +150,16 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
     }
 
     @Override
+    public void clearAnswer() {
+        Answer[] answers = question.getAnswers();
+        for (Answer answer: answers){
+            answer.setChecked(false);
+        }
+
+        AnswersBL.updateAnswersToDB(handler, answers);
+    }
+
+    @Override
     public Question getQuestion() {
         return question;
     }
