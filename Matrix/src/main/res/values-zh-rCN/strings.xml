@@ -155,6 +155,7 @@
     <string name="error">错误</string>
     <string name="success">成功</string>
     <string name="no_internet">请开启互联网连接</string>
+    <string name="your_version_outdated">请立即为智慧飞船应用进行版本更新，方能成功认领。</string>
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">定位服务</string>
     <string name="turn_on_location_dialog_text">要使用智慧飞船，您必须允许智能电话设定内的定位服务。</string>

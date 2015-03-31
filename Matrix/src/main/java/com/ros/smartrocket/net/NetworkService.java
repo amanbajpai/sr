@@ -399,6 +399,9 @@ public class NetworkService extends BaseNetworkService {
                     } else if (operation.getResponseErrorCode() == USER_ALREADY_EXIST_ERROR_CODE) {
                         operation.setResponseError(getString(R.string.user_already_exists_error_text));
 
+                    } else if (operation.getResponseErrorCode() == YOUR_VERSION_OUTDATED_ERROR_CODE) {
+                        operation.setResponseError(getString(R.string.your_version_outdated));
+
                     }
                 }
             } catch (Exception e) {

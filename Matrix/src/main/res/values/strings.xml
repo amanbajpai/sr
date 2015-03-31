@@ -162,6 +162,7 @@
     <string name="error">Error.</string>
     <string name="success">Success.</string>
     <string name="no_internet">Please turn ON internet connection.</string>
+    <string name="your_version_outdated">Your version of SmartRocket is Outdated. Please update it to access the application</string>
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">Location services</string>
     <string name="turn_on_location_dialog_text">To use SmartRocket, you must TURN ON Location Services in your

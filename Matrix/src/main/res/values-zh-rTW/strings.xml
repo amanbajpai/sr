@@ -154,6 +154,7 @@
     <string name="error">錯誤</string>
     <string name="success">成功</string>
     <string name="no_internet">請開啓互聯網連接</string>
+    <string name="your_version_outdated">請立即為SmartRocket進行版本更新，才能成功認領。</string>
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">定位服務</string>
     <string name="turn_on_location_dialog_text">要使用SmartRocket，你必須開啓智能電話設定内的定位服務。</string>

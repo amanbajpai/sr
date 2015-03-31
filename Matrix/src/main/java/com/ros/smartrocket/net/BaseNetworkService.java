@@ -63,6 +63,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int FILE_ALREADY_UPLOADED_ERROR_CODE = 10053;
     public static final int USER_NOT_FOUND_ERROR_CODE = 10004;
     public static final int USER_ALREADY_EXIST_ERROR_CODE = 10006;
+    public static final int YOUR_VERSION_OUTDATED_ERROR_CODE = 10089;
     public static final int QUOTA_IS_EXCEEDE_ERROR = 10066;
     public static final int SUCCESS = 200;
     public static final int AUTORIZATION_ERROR = 401;
