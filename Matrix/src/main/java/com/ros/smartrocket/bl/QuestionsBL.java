@@ -196,16 +196,32 @@ public class QuestionsBL {
 
             switch (AskIf.ConditionSourceType.getSourceTypeById(askIf.getSourceType())) {
                 case LOCATION_RETAILER:
-                    currentConditionResult = operator == 1 ? value.equals(taskLocation.getRetailerName()) : !value.equals(taskLocation.getRetailerName());
+                    try {
+                        currentConditionResult = operator == 1 ?
+                                (taskLocation != null && value.equals(taskLocation.getRetailerName())) :
+                                (taskLocation == null || !value.equals(taskLocation.getRetailerName()));
+                    } catch (Exception e) {
+                        L.e(TAG, "Parse RetailerName error" + e, e);
+                    }
 
                     break;
                 case LOCATION_STATE:
-                    currentConditionResult = operator == 1 ? value.equals(String.valueOf(taskLocation.getStateId())) : !value.equals(String.valueOf(taskLocation.getStateId()));
-
+                    try {
+                        currentConditionResult = operator == 1 ?
+                                (taskLocation != null && value.equals(String.valueOf(taskLocation.getStateId()))) :
+                                (taskLocation == null || !value.equals(String.valueOf(taskLocation.getStateId())));
+                    } catch (Exception e) {
+                        L.e(TAG, "Parse StateId error" + e, e);
+                    }
                     break;
                 case LOCATION_CITY:
-                    currentConditionResult = operator == 1 ? value.equals(String.valueOf(taskLocation.getCityId())) : !value.equals(String.valueOf(taskLocation.getCityId()));
-
+                    try {
+                        currentConditionResult = operator == 1 ?
+                                (taskLocation != null && value.equals(String.valueOf(taskLocation.getCityId()))) :
+                                (taskLocation == null || !value.equals(String.valueOf(taskLocation.getCityId())));
+                    } catch (Exception e) {
+                        L.e(TAG, "Parse cityId error" + e, e);
+                    }
                     break;
                 case CUSTOM_FIELD:
                     try {
@@ -215,7 +231,7 @@ public class QuestionsBL {
                         currentConditionResult = operator == 1 ?
                                 (!TextUtils.isEmpty(customFieldValue) && value.equals(customFieldValue))
                                 :
-                                (TextUtils.isEmpty(customFieldValue) && !value.equals(customFieldValue));
+                                (TextUtils.isEmpty(customFieldValue) || !value.equals(customFieldValue));
                     } catch (Exception e) {
                         L.e(TAG, "Parse customField error" + e, e);
                     }
