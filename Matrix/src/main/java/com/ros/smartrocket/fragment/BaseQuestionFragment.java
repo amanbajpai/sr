@@ -10,7 +10,8 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
  * Fragment for display About information
  */
 public class BaseQuestionFragment extends Fragment {
-    public void saveQuestion() {
+    public boolean saveQuestion() {
+        return true;
     }
 
     public void clearAnswer() {

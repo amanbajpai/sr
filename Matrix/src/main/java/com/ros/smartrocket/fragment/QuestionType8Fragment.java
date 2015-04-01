@@ -141,7 +141,12 @@ public class QuestionType8Fragment extends BaseQuestionFragment {
     }
 
     @Override
-    public void saveQuestion() {
+    public boolean saveQuestion() {
+        return true;
+    }
+
+    @Override
+    public void clearAnswer() {
     }
 
     @Override

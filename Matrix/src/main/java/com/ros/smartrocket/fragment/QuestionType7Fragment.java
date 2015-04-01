@@ -143,7 +143,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         protected void onUpdateComplete(int token, Object cookie, int result) {
             switch (token) {
                 case AnswerDbSchema.Query.TOKEN_UPDATE:
-                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    }
                     break;
                 default:
                     break;
@@ -250,18 +252,20 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public void saveQuestion() {
-        //AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+    public boolean saveQuestion() {
+        return true;
     }
 
     @Override
     public void clearAnswer() {
-        Answer[] answers = question.getAnswers();
-        for (Answer answer: answers){
-            answer.setChecked(false);
-        }
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+            Answer[] answers = question.getAnswers();
+            for (Answer answer : answers) {
+                answer.setChecked(false);
+            }
 
-        AnswersBL.updateAnswersToDB(handler, answers);
+            AnswersBL.updateAnswersToDB(handler, answers);
+        }
     }
 
     @Override

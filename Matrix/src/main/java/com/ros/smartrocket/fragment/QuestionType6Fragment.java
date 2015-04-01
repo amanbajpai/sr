@@ -141,22 +141,29 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
     }
 
     @Override
-    public void saveQuestion() {
-        Answer answer = question.getAnswers()[0];
-        answer.setValue(answerEditText.getText().toString());
-        answer.setChecked(true);
+    public boolean saveQuestion() {
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+            Answer answer = question.getAnswers()[0];
+            answer.setValue(answerEditText.getText().toString());
+            answer.setChecked(true);
 
-        AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void clearAnswer() {
-        Answer[] answers = question.getAnswers();
-        for (Answer answer: answers){
-            answer.setChecked(false);
-        }
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+            Answer[] answers = question.getAnswers();
+            for (Answer answer : answers) {
+                answer.setChecked(false);
+            }
 
-        AnswersBL.updateAnswersToDB(handler, answers);
+            AnswersBL.updateAnswersToDB(handler, answers);
+        }
     }
 
     @Override

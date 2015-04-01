@@ -196,18 +196,20 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public void saveQuestion() {
-
+    public boolean saveQuestion() {
+        return true;
     }
 
     @Override
     public void clearAnswer() {
-        Answer[] answers = question.getAnswers();
-        for (Answer answer: answers){
-            answer.setChecked(false);
-        }
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+            Answer[] answers = question.getAnswers();
+            for (Answer answer : answers) {
+                answer.setChecked(false);
+            }
 
-        AnswersBL.updateAnswersToDB(handler, answers);
+            AnswersBL.updateAnswersToDB(handler, answers);
+        }
     }
 
     @Override

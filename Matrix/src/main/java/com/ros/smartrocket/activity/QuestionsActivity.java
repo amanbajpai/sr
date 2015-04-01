@@ -324,8 +324,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 startPreviousQuestionFragment();
                 break;
             case R.id.nextButton:
-                currentFragment.saveQuestion();
-                startNextQuestionFragment();
+                if(currentFragment.saveQuestion()){
+                    startNextQuestionFragment();
+                }
                 break;
            /* case R.id.validationButton:
                 currentFragment.saveQuestion();

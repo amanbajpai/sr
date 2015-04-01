@@ -132,20 +132,25 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
     }
 
     @Override
-    public void saveQuestion() {
-        if (question != null) {
+    public boolean saveQuestion() {
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            return true;
+        } else {
+            return false;
         }
     }
 
     @Override
     public void clearAnswer() {
-        Answer[] answers = question.getAnswers();
-        for (Answer answer: answers){
-            answer.setChecked(false);
-        }
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+            Answer[] answers = question.getAnswers();
+            for (Answer answer : answers) {
+                answer.setChecked(false);
+            }
 
-        AnswersBL.updateAnswersToDB(handler, answers);
+            AnswersBL.updateAnswersToDB(handler, answers);
+        }
     }
 
     @Override

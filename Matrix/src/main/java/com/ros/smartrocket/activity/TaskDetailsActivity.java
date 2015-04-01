@@ -578,13 +578,17 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 claimTaskManager.startTask();
                 break;
             case R.id.continueTaskButton:
-                continueTaskButtonClick();
+                if (task != null) {
+                    continueTaskButtonClick();
+                }
                 break;
             case R.id.redoTaskButton:
                 redoTaskButtonClick();
                 break;
             case R.id.mapImageView:
-                mapImageViewClick();
+                if (task != null) {
+                    mapImageViewClick();
+                }
                 break;
             default:
                 break;
@@ -594,23 +598,23 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void hideTaskButtonClick() {
         task.setIsHide(true);
         setButtonsSettings(task);
-        TasksBL.setHideTaskOnMapByID(handler, task.getId(), true);
+        TasksBL.setHideTaskOnMapByID(handler, taskId, true);
     }
 
     public void showTaskButtonClick() {
         task.setIsHide(false);
         setButtonsSettings(task);
-        TasksBL.setHideTaskOnMapByID(handler, task.getId(), false);
+        TasksBL.setHideTaskOnMapByID(handler, taskId, false);
     }
 
     public void continueTaskButtonClick() {
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case CLAIMED:
             case STARTED:
-                startActivity(IntentUtils.getQuestionsIntent(this, task.getId()));
+                startActivity(IntentUtils.getQuestionsIntent(this, taskId));
                 break;
             case SCHEDULED:
-                startActivity(IntentUtils.getTaskValidationIntent(this, task.getId(), false, false));
+                startActivity(IntentUtils.getTaskValidationIntent(this, taskId, false, false));
                 break;
             default:
                 break;
@@ -623,7 +627,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     public void mapImageViewClick() {
         Bundle bundle = new Bundle();
-        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
+        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, taskId);
         bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
 
         Intent intent = new Intent(this, MapActivity.class);
