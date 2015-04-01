@@ -156,10 +156,7 @@ public class QuestionsBL {
             continueLoop = false;
             for (Question question : questions) {
                 if (question.getOrderId() == orderId) {
-                    int previousQuestionOrderId = question.getPreviousQuestionOrderId() != 0 ? question.getPreviousQuestionOrderId() : 1;
-                    Question previousQuestion = getQuestionByOrderId(questions, previousQuestionOrderId);
-
-                    if (checkCondition(question, previousQuestion)) {
+                    if (checkCondition(question, questions)) {
                         result = question;
 
                     } else {
@@ -178,12 +175,11 @@ public class QuestionsBL {
         return result;
     }
 
-    public static boolean checkCondition(Question question, Question previousQuestion) {
+    public static boolean checkCondition(Question question, List<Question> questions) {
         AskIf[] askIfArray = question.getAskIfArray();
         boolean result = true;
         Integer previousConditionOperator = null;
         TaskLocation taskLocation = question.getTaskLocationObject();
-        String answerValue = getAnswerValue(previousQuestion);
 
         askifloop:
         for (AskIf askIf : askIfArray) {
@@ -237,7 +233,14 @@ public class QuestionsBL {
                     }
                     break;
                 case PREV_QUESTION:
-                    currentConditionResult = operator == 1 ? value.equals(answerValue) : !value.equals(answerValue);
+                    //int previousQuestionOrderId = question.getPreviousQuestionOrderId() != 0 ? question.getPreviousQuestionOrderId() : 1;
+                    Question previousQuestion = getQuestionByOrderId(questions, Integer.valueOf(sourceKey));
+
+                    String answerValue = getAnswerValue(previousQuestion);
+                    currentConditionResult = operator == 1 ?
+                            (answerValue == null || value.equals(answerValue))
+                            :
+                            (answerValue == null || !value.equals(answerValue));
                     break;
                 case ROUTING:
                     break askifloop;
