@@ -238,9 +238,9 @@ public class QuestionsBL {
 
                     String answerValue = getAnswerValue(previousQuestion);
                     currentConditionResult = operator == 1 ?
-                            (answerValue == null || value.equals(answerValue))
+                            (answerValue != null && value.equals(answerValue))
                             :
-                            (answerValue == null || !value.equals(answerValue));
+                            (answerValue != null && !value.equals(answerValue));
                     break;
                 case ROUTING:
                     break askifloop;
