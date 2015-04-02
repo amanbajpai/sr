@@ -237,10 +237,30 @@ public class QuestionsBL {
                     Question previousQuestion = getQuestionByOrderId(questions, Integer.valueOf(sourceKey));
 
                     String answerValue = getAnswerValue(previousQuestion);
-                    currentConditionResult = operator == 1 ?
-                            (answerValue != null && value.equals(answerValue))
-                            :
-                            (answerValue != null && !value.equals(answerValue));
+
+                    if (question.getType() == Question.QuestionType.NUMBER.getTypeId()) {
+                        String[] valuesArray = value.split("-");
+                        int minValue = Integer.valueOf(valuesArray[0]);
+                        int maxValue = Integer.valueOf(valuesArray[1]);
+
+                        if (answerValue == null) {
+                            currentConditionResult = false;
+                        } else {
+                            int intAnswerValue = Integer.valueOf(answerValue);
+
+                            currentConditionResult = operator == 1 ?
+                                    (intAnswerValue >= minValue && intAnswerValue <= maxValue)
+                                    :
+                                    (intAnswerValue < minValue && intAnswerValue > maxValue);
+                        }
+                    } else {
+                        currentConditionResult = operator == 1 ?
+                                (answerValue != null && value.equals(answerValue))
+                                :
+                                (answerValue != null && !value.equals(answerValue));
+                    }
+
+
                     break;
                 case ROUTING:
                     break askifloop;
