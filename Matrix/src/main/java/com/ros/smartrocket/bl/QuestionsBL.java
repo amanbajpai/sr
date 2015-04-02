@@ -238,7 +238,7 @@ public class QuestionsBL {
 
                     String answerValue = getAnswerValue(previousQuestion);
 
-                    if (question.getType() == Question.QuestionType.NUMBER.getTypeId()) {
+                    if (previousQuestion.getType() == Question.QuestionType.NUMBER.getTypeId()) {
                         String[] valuesArray = value.split("-");
                         int minValue = Integer.valueOf(valuesArray[0]);
                         int maxValue = Integer.valueOf(valuesArray[1]);
