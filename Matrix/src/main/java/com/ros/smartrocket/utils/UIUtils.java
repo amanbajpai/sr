@@ -67,8 +67,8 @@ import java.util.TimeZone;
  */
 public class UIUtils {
     private static final String TAG = "UIUtils";
-    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private static final SimpleDateFormat ISO_DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ");
+    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+    private static final SimpleDateFormat ISO_DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT_CHINE = new SimpleDateFormat("yyyy年MM月dd日",
@@ -92,7 +92,7 @@ public class UIUtils {
      * Show simple Toast message
      *
      * @param context - current context
-     * @param resId
+     * @param resId   - resource id
      */
     public static void showSimpleToast(Context context, int resId) {
         if (context != null) {

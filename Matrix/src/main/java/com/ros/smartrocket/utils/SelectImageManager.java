@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.Random;
 
 public class SelectImageManager {
     private static final String TAG = SelectImageManager.class.getSimpleName();
@@ -65,6 +66,7 @@ public class SelectImageManager {
     private static final int ONE_KB_IN_B = 1024;
     private File lastFile;
     private Boolean lastFileFromGallery = true;
+    private static final Random RANDOM = new Random();
 
     public static SelectImageManager getInstance() {
         if (instance == null) {
@@ -533,9 +535,9 @@ public class SelectImageManager {
             }
 
             if (Environment.MEDIA_MOUNTED.equals(state)) {
-                ret = new File(cacheDir, Calendar.getInstance().getTimeInMillis() + ".jpg");
+                ret = new File(cacheDir, Calendar.getInstance().getTimeInMillis() + "" + RANDOM.nextInt() + ".jpg");
             } else {
-                ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + ".jpg");
+                ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + "" + RANDOM.nextInt() + ".jpg");
             }
         } catch (Exception e) {
             L.e(TAG, "GetTempFile error", e);
