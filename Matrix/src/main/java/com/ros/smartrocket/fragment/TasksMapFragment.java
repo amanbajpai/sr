@@ -615,13 +615,18 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     @Override
     public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
-        String[] taskData = marker.getSnippet().split("_");
-        int taskId = Integer.valueOf(taskData[0]);
-        //int waveId = Integer.valueOf(taskData[1]);
-        int taskStatusId = Integer.valueOf(taskData[2]);
+        if (marker != null) {
+            try {
+                String[] taskData = marker.getSnippet().split("_");
+                int taskId = Integer.valueOf(taskData[0]);
+                //int waveId = Integer.valueOf(taskData[1]);
+                int taskStatusId = Integer.valueOf(taskData[2]);
 
-        MapHelper.mapOverlayClickResult(getActivity(), taskId, taskStatusId);
-
+                MapHelper.mapOverlayClickResult(getActivity(), taskId, taskStatusId);
+            } catch (Exception e) {
+                L.e(TAG, "Error info vindow click" + e, e);
+            }
+        }
         return false;
     }
 
