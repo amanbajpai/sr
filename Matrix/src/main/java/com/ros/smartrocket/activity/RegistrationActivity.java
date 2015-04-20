@@ -193,6 +193,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                     @Override
                     public void onImageComplete(Bitmap bitmap) {
+                        RegistrationActivity.this.photoBitmap = bitmap;
                         if (bitmap != null) {
                             profilePhotoImageView.setImageBitmap(bitmap);
                         } else {
