@@ -84,8 +84,8 @@ public class AnswersBL {
     public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, String taskName, long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(taskId)}, null);
+                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=?",
+                new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
 
         Answer[] answers = convertCursorToAnswersArray(cursor);
 
