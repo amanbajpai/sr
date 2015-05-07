@@ -1,21 +1,16 @@
 package com.ros.smartrocket.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Question;
@@ -23,6 +18,7 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.SelectImageManager;
 
 import java.io.File;
 
@@ -66,53 +62,71 @@ public class QuestionType8Fragment extends BaseQuestionFragment {
         questionText.setText(question.getQuestion());
 
         if (!TextUtils.isEmpty(question.getPhotoUrl())) {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+            if (!TextUtils.isEmpty(question.getInstructionFileUri())) {
+                File file = new File(question.getInstructionFileUri());
+                setImageInstructionFile(file);
+            } else {
+                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-            photoImageView.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
-                    new ImageLoader.OnFileLoadCompleteListener() {
-                        @Override
-                        public void onFileLoadComplete(final File file) {
-                            photoImageView.setImageURI(Uri.fromFile(file));
-                            photoImageView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), file.getPath(), false));
-                                }
-                            });
-
-                            if (getActivity() != null) {
-                                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                photoImageView.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
+                        new ImageLoader.OnFileLoadCompleteListener() {
+                            @Override
+                            public void onFileLoadComplete(final File file) {
+                                setImageInstructionFile(file);
                             }
                         }
-                    }
-            );
+                );
+            }
         } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+            if (!TextUtils.isEmpty(question.getInstructionFileUri())) {
+                File file = new File(question.getInstructionFileUri());
+                setVideoInstructionFile(file);
+            } else {
+                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-            ImageLoader.getInstance().getFileByUrlAsync(question.getVideoUrl(),
-                    new ImageLoader.OnFileLoadCompleteListener() {
-                        @Override
-                        public void onFileLoadComplete(final File file) {
-                            //videoView.setMediaController(new CustomMediaController(getActivity()));
-                            videoView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    startActivity(IntentUtils.getFullScreenVideoIntent(getActivity(), file.getPath()));
-                                    return false;
-                                }
-                            });
-
-                            playVideo(file.getPath());
+                ImageLoader.getInstance().getFileByUrlAsync(question.getVideoUrl(),
+                        new ImageLoader.OnFileLoadCompleteListener() {
+                            @Override
+                            public void onFileLoadComplete(final File file) {
+                                setVideoInstructionFile(file);
+                            }
                         }
-                    }
-            );
+                );
+            }
         }
 
         refreshNextButton();
         return view;
     }
 
+    public void setImageInstructionFile(final File file) {
+        Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
+        photoImageView.setImageBitmap(bitmap);
+        photoImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), file.getPath(), false));
+            }
+        });
+
+        if (getActivity() != null) {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+        }
+    }
+
+    public void setVideoInstructionFile(final File file) {
+        //videoView.setMediaController(new CustomMediaController(getActivity()));
+        videoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                startActivity(IntentUtils.getFullScreenVideoIntent(getActivity(), file.getPath()));
+                return false;
+            }
+        });
+
+        playVideo(file.getPath());
+    }
 
     public void refreshNextButton() {
         if (answerSelectedListener != null) {

@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -14,7 +13,6 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -86,6 +84,19 @@ public class QuestionsBL {
 
     public static void removeAllQuestionsFromDB(Context context) {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI, null, null);
+    }
+
+    public static void updateInstructionFileUri(Integer waveId, Integer taskId, Integer questionId,
+                                                String fileUri) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionDbSchema.Columns.INSTRUCTION_FILE_URI.getName(), fileUri);
+
+        String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
+                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId),
+                String.valueOf(questionId)};
+
+        App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
     /**

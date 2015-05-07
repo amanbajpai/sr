@@ -3,8 +3,9 @@ package com.ros.smartrocket.utils;
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.database.Cursor;
 import android.location.Location;
-
+import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -12,6 +13,8 @@ import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
@@ -22,9 +25,10 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 
-import java.util.Calendar;
-
 import javax.annotation.Nonnull;
+import java.io.File;
+import java.util.Calendar;
+import java.util.List;
 
 public class ClaimTaskManager implements NetworkOperationListenerInterface {
     private BaseActivity activity;
@@ -33,6 +37,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
     private ClaimTaskListener claimTaskListener;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private FileProcessingManager fileProcessingManager = FileProcessingManager.getInstance();
     private Calendar calendar = Calendar.getInstance();
 
     private CustomProgressDialog progressDialog;
@@ -109,6 +114,57 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         public DbHandler(ContentResolver cr) {
             super(cr);
         }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case QuestionDbSchema.Query.TOKEN_QUERY:
+                    List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+
+                    if (!questions.isEmpty()) {
+                        for (final Question question : questions) {
+                            if (question.getType() == Question.QuestionType.INSTRUCTION.getTypeId()) {
+
+
+                                String fileUrl = "";
+                                FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
+                                if (!TextUtils.isEmpty(question.getPhotoUrl())) {
+                                    fileUrl = question.getPhotoUrl();
+                                } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
+                                    fileUrl = question.getVideoUrl();
+                                    fileType = FileProcessingManager.FileType.VIDEO;
+                                }
+
+                                if (!TextUtils.isEmpty(fileUrl)) {
+                                    fileProcessingManager.getFileByUrl(fileUrl, fileType, new FileProcessingManager.OnLoadFileListener() {
+                                        @Override
+                                        public void onStartFileLoading() {
+
+                                        }
+
+                                        @Override
+                                        public void onFileLoaded(File file) {
+                                            QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getId(), question.getId(), file.getPath());
+                                        }
+
+                                        @Override
+                                        public void onFileLoadingError() {
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    } else {
+                        apiFacade.getQuestions(activity, task.getWaveId(), task.getId());
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -130,6 +186,8 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                         if (activity == null) {
                             return;
                         }
+                        QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), task.getId());
+                        //TODO Load questions file
                         apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
                     }
 

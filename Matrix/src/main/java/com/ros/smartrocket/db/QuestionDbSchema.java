@@ -37,6 +37,7 @@ public interface QuestionDbSchema {
         PHOTO_URL("photoUrl", DBType.TEXT),
 
         ROUTING("routing", DBType.NUMERIC),
+        INSTRUCTION_FILE_URI("instructionFileUri", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 
@@ -101,7 +102,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.VIDEO_URL.getName(),
                 Table.QUESTION.getName() + "." + Columns.PHOTO_URL.getName(),
 
-                Table.QUESTION.getName() + "." + Columns.ROUTING.getName()
+                Table.QUESTION.getName() + "." + Columns.ROUTING.getName(),
+                Table.QUESTION.getName() + "." + Columns.INSTRUCTION_FILE_URI.getName()
 
 
         };
@@ -132,5 +134,6 @@ public interface QuestionDbSchema {
         int PHOTO_URL = 22;
 
         int ROUTING = 23;
+        int INSTRUCTION_FILE_URI = 24;
     }
 }

@@ -80,6 +80,8 @@ public class Question extends BaseEntity implements Serializable {
     @SerializedName("Answers")
     private Answer[] answers;
 
+    private transient String instructionFileUri;
+
     public Question() {
     }
 
@@ -112,6 +114,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setPhotoUrl(c.getString(QuestionDbSchema.Query.PHOTO_URL));
 
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
+            result.setInstructionFileUri(c.getString(QuestionDbSchema.Query.INSTRUCTION_FILE_URI));
 
             result.setAskIfArray(AskIf.getAskIfArray(result.getAskIf()));
             result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
@@ -325,4 +328,13 @@ public class Question extends BaseEntity implements Serializable {
     public void setTaskLocation(String taskLocation) {
         this.taskLocation = taskLocation;
     }
+
+    public String getInstructionFileUri() {
+        return instructionFileUri;
+    }
+
+    public void setInstructionFileUri(String instructionFileUri) {
+        this.instructionFileUri = instructionFileUri;
+    }
+
 }
