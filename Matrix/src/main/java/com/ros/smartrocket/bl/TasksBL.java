@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.SparseArray;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -34,16 +33,6 @@ public class TasksBL {
         return resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
                 TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
                 TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
-    }
-
-    public static void getNotMyTasksFromDBbyRadius(AsyncQueryHandler handler, int taskRadius, boolean withHiddenTasks) {
-        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
-
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.DISTANCE + "<=? and " + Table.TASK.getName()
-                        + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?" + withHiddenTaskWhere,
-                new String[]{String.valueOf(taskRadius), String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC
-        );
     }
 
     public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean showHiddenTasks, Integer radius) {
@@ -222,32 +211,6 @@ public class TasksBL {
 
     public static void calculateTaskDistance(AsyncQueryHandler handler, final Location currentLocation, Cursor cursor) {
         new RecalculateDistanceAsyncTask(handler, cursor).execute(currentLocation);
-        /*Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
-        ContentValues contentValues = new ContentValues();
-
-        final List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
-
-        if (currentLocation != null && tasks != null) {
-            final int tasksCount = tasks.size();
-            for (int i = 0; i < tasksCount; i++) {
-                Task task = tasks.get(i);
-                if (task.getLatitude() != null && task.getLongitude() != null) {
-                    taskLocation.setLatitude(task.getLatitude());
-                    taskLocation.setLongitude(task.getLongitude());
-
-                    contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), currentLocation.distanceTo(taskLocation));
-                } else {
-                    contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), 0f);
-                }
-
-                String where = TaskDbSchema.Columns.ID + "=?";
-                String[] whereArgs = new String[]{String.valueOf(task.getId())};
-
-                handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE,
-                        i == tasksCount - 1, TaskDbSchema.CONTENT_URI, contentValues,
-                        where, whereArgs);
-            }
-        }*/
     }
 
 
@@ -347,7 +310,7 @@ public class TasksBL {
     public static Task convertCursorToTaskOrNull(Cursor cursor) {
         Task result = null;
         if (cursor != null) {
-            while (cursor.moveToNext()) {
+            if (cursor.moveToFirst()) {
                 result = Task.fromCursor(cursor);
             }
             cursor.close();

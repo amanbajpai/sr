@@ -46,6 +46,7 @@ public interface WaveDbSchema {
         ICON("icon", DBType.TEXT),
 
         LONG_START_DATE_TIME("longStartDateTime", DBType.NUMERIC),
+        DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK("downloadMediaWhenClaimingTask", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -106,7 +107,8 @@ public interface WaveDbSchema {
 
                 Table.WAVE.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
                 Table.WAVE.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
-                Table.WAVE.getName() + "." + Columns.CAN_BE_PRE_CLAIMED.getName()
+                Table.WAVE.getName() + "." + Columns.CAN_BE_PRE_CLAIMED.getName(),
+                Table.WAVE.getName() + "." + Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName()
         };
 
         int _ID = 0;
@@ -137,6 +139,7 @@ public interface WaveDbSchema {
         int LONG_START_DATE_TIME = 25;
         int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 26;
         int CAN_BE_PRE_CLAIMED = 27;
+        int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 28;
     }
 
     public interface QueryWaveByDistance {
@@ -178,5 +181,6 @@ public interface WaveDbSchema {
         int LONG_START_DATE_TIME = 31;
         int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 32;
         int CAN_BE_PRE_CLAIMED = 33;
+        int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 34;
     }
 }

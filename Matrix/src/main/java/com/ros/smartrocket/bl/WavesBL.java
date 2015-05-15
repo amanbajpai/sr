@@ -8,17 +8,12 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.text.format.DateUtils;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
-import com.ros.smartrocket.db.entity.Country;
-import com.ros.smartrocket.db.entity.Project;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.db.entity.Waves;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -32,14 +27,20 @@ public class WavesBL {
 
     }
 
+    public static Cursor getWaveFromDBbyID(Integer waveId) {
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        return resolver.query(WaveDbSchema.CONTENT_URI, WaveDbSchema.Query.PROJECTION,
+                WaveDbSchema.Columns.ID + "=?", new String[]{String.valueOf(waveId)},
+                WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
+    }
+
     public static void getWaveFromDB(AsyncQueryHandler handler, Integer waveId) {
         handler.startQuery(WaveDbSchema.Query.TOKEN_QUERY, null, WaveDbSchema.CONTENT_URI,
                 WaveDbSchema.Query.PROJECTION, WaveDbSchema.Columns.ID + "=?",
                 new String[]{String.valueOf(waveId)}, WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
-    public static void getNotMyTasksWavesListFromDB(AsyncQueryHandler handler, Integer radius,
-                                                    boolean showHiddenTasks) {
+    public static void getNotMyTasksWavesListFromDB(AsyncQueryHandler handler, Integer radius, boolean showHiddenTasks) {
         String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
         handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,

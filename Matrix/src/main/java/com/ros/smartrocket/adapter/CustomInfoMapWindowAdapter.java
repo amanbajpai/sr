@@ -2,10 +2,10 @@ package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
 import android.view.View;
-
 import com.google.android.gms.maps.model.Marker;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.map.MapHelper;
 import com.twotoasters.clusterkraf.ClusterPoint;
@@ -14,7 +14,7 @@ import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
 public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private static final String MY_LOCATION = "MyLoc";
     private final View mWindow;
-    private final View mContents;
+    //private final View mContents;
     private Keys.MapViewMode mode;
     private Activity activity;
 
@@ -23,7 +23,7 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         this.activity = activity;
 
         mWindow = activity.getLayoutInflater().inflate(R.layout.map_info_window, null);
-        mContents = activity.getLayoutInflater().inflate(R.layout.map_info_contents, null);
+        //mContents = activity.getLayoutInflater().inflate(R.layout.map_info_contents, null);
     }
 
     private boolean render(Marker marker, View view, ClusterPoint clusterPoint) {
@@ -32,9 +32,13 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         if (clusterPoint != null && clusterPoint.getPointAtOffset(0) != null) {
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-            MapHelper.setMapOverlayView(activity, view, task);
+            task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId()));
 
-            result = true;
+            if (task != null) {
+                MapHelper.setMapOverlayView(activity, view, task);
+                result = true;
+            }
+
         }
 
         return result;
@@ -42,14 +46,14 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
 
     @Override
     public View getInfoContents(Marker marker, ClusterPoint clusterPoint) {
-        View view = null;
+        /*View view = null;
 
         if (marker != null && !MY_LOCATION.equals(marker.getSnippet())
                 && mode != Keys.MapViewMode.SINGLE_TASK && render(marker, mContents, clusterPoint)) {
             view = mContents;
 
-        }
-        return view;
+        }*/
+        return null;
     }
 
     @Override

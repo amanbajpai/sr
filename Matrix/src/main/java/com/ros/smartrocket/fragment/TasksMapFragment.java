@@ -11,37 +11,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.Overlay;
-import com.baidu.mapapi.map.Stroke;
+import android.widget.*;
+import com.baidu.mapapi.map.*;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.*;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.App;
@@ -63,12 +43,7 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.baiduclusterkraf.OnShowInfoWindowListener;
-import com.twotoasters.clusterkraf.ClusterPoint;
-import com.twotoasters.clusterkraf.Clusterkraf;
-import com.twotoasters.clusterkraf.InputPoint;
-import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
-import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
-import com.twotoasters.clusterkraf.Options;
+import com.twotoasters.clusterkraf.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -307,8 +282,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Get Tasks
      */
     private void loadData() {
-        clearMap();
-
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             updateDataFromServer();
 
@@ -448,6 +421,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void onLoadingComplete(final List<Task> list) {
         final Location location = lm.getLocation();
 
+        clearMap();
+
         MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
             @Override
             public void useGoogleMap(GoogleMap googleMap) {
@@ -521,7 +496,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     OnShowInfoWindowListener onShowInfoWindowListener = new OnShowInfoWindowListener() {
         @Override
         public boolean onShowInfoWindow(com.baidu.mapapi.map.Marker marker, com.twotoasters.baiduclusterkraf.ClusterPoint clusterPoint) {
-            final Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
+            Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
+            final Task updatedTask = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId()));
+
+            if (updatedTask == null) {
+                return false;
+            }
+
             View overlayView = LayoutInflater.from(getActivity()).inflate(R.layout.map_info_window, null);
 
             MapHelper.setMapOverlayView(getActivity(), overlayView, task);
@@ -529,7 +510,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
                 public void onInfoWindowClick() {
 
-                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getStatusId());
+                    MapHelper.mapOverlayClickResult(getActivity(), updatedTask.getId(), updatedTask.getStatusId());
                     baiduMap.hideInfoWindow();
                 }
             };
@@ -773,10 +754,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         public void onUpdate(Location location) {
             L.i(TAG, "Current location pin updated " + location.getLatitude() + ", " + location.getLongitude() + ", "
                     + "Provider: " + location.getProvider());
-            clearMap();
+            //clearMap();
 
             if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
-                loadTasksFromLocalDb();
+                //loadTasksFromLocalDb();
+                addMyLocation(location);
             }
         }
     };

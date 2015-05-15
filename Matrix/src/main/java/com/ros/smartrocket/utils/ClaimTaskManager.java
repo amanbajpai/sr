@@ -13,9 +13,11 @@ import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.WithdrawTaskDialog;
@@ -35,6 +37,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
     private AsyncQueryHandler handler;
     private ClaimTaskListener claimTaskListener;
+    private Location location;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private FileProcessingManager fileProcessingManager = FileProcessingManager.getInstance();
@@ -122,9 +125,10 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
 
                     if (!questions.isEmpty()) {
+                        final Question lastQuestion = QuestionsBL.getLastInstructionQuestionWithFile
+                                (questions);
                         for (final Question question : questions) {
                             if (question.getType() == Question.QuestionType.INSTRUCTION.getTypeId()) {
-
 
                                 String fileUrl = "";
                                 FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
@@ -144,7 +148,13 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
                                         @Override
                                         public void onFileLoaded(File file) {
-                                            QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getId(), question.getId(), file.getPath());
+                                            QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getTaskId(), question.getId(), file.getPath());
+
+                                            if (question.getWaveId() == lastQuestion.getWaveId() &&
+                                                    question.getTaskId() == lastQuestion.getTaskId() &&
+                                                    question.getId() == lastQuestion.getId()) {
+                                                apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+                                            }
                                         }
 
                                         @Override
@@ -186,9 +196,15 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                         if (activity == null) {
                             return;
                         }
-                        QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), task.getId());
-                        //TODO Load questions file
-                        apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+
+                        ClaimTaskManager.this.location = location;
+
+                        Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
+                        if (wave.getDownloadMediaWhenClaimingTask()) {
+                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), task.getId());
+                        } else {
+                            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+                        }
                     }
 
                     @Override

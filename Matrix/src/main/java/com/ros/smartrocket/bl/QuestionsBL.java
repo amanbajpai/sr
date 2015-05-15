@@ -369,4 +369,15 @@ public class QuestionsBL {
         }
         return result;
     }
+
+    public static Question getLastInstructionQuestionWithFile(List<Question> questions) {
+        Question lastQuestion = null;
+        for (final Question question : questions) {
+            if (question.getType() == Question.QuestionType.INSTRUCTION.getTypeId() && (!TextUtils.isEmpty(question
+                    .getPhotoUrl()) || !TextUtils.isEmpty(question.getVideoUrl()))) {
+                lastQuestion = question;
+            }
+        }
+        return lastQuestion;
+    }
 }

@@ -77,6 +77,8 @@ public class Wave extends BaseEntity {
     private Long longExpireTimeoutForClaimedTask;
     @SerializedName("LongPreClaimedTaskExpireAfterStart")
     private Long longPreClaimedTaskExpireAfterStart;
+    @SerializedName("DownloadMediaWhenClaimingTask")
+    private Boolean downloadMediaWhenClaimingTask;
 
     @SkipFieldInContentValues
     @SerializedName("Tasks")
@@ -154,6 +156,8 @@ public class Wave extends BaseEntity {
 
             result.setLongStartDateTime(c.getLong(WaveDbSchema.Query.LONG_START_DATE_TIME));
             result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.Query.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+
+            result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.Query.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
         }
         return result;
     }
@@ -205,6 +209,8 @@ public class Wave extends BaseEntity {
 
             result.setLongStartDateTime(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_START_DATE_TIME));
             result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+
+            result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.QueryWaveByDistance.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
 
         }
         return result;
@@ -491,6 +497,14 @@ public class Wave extends BaseEntity {
 
     public void setIsCanBePreClaimed(Boolean isCanBePreClaimed) {
         this.isCanBePreClaimed = isCanBePreClaimed;
+    }
+
+    public Boolean getDownloadMediaWhenClaimingTask() {
+        return downloadMediaWhenClaimingTask;
+    }
+
+    public void setDownloadMediaWhenClaimingTask(Boolean downloadMediaWhenClaimingTask) {
+        this.downloadMediaWhenClaimingTask = downloadMediaWhenClaimingTask;
     }
 
 }

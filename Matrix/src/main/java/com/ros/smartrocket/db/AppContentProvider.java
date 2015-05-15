@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-
 import com.ros.smartrocket.BuildConfig;
 
 import java.util.HashMap;
@@ -155,7 +154,8 @@ public class AppContentProvider extends ContentProvider {
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.ICON.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_START_DATE_TIME.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CAN_BE_PRE_CLAIMED.getName()
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CAN_BE_PRE_CLAIMED.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName()
 
                 };
 
