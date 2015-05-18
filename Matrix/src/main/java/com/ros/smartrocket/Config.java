@@ -23,7 +23,6 @@ public class Config {
     public static final long DEADLINE_REMINDER_MILLISECONDS = DateUtils.MINUTE_IN_MILLIS;
 
     public static final String WEB_SERVICE_URL = BuildConfig.WEB_SERVICE_URL;
-    public static String TERMS_AND_CONDITION_URL = BuildConfig.TERMS_AND_CONDITION_URL;
     public static String PROFILE_PAGE_URL = BuildConfig.PROFILE_PAGE_URL;
     public static String GEOCODER_URL = BuildConfig.GEOCODER_URL;
 

@@ -8,6 +8,7 @@ import android.text.format.DateUtils;
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.nru.androidremotedebug.DebugService;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -33,6 +34,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         //ACRA.init(this);
+
+        DebugService.startServer(this);
 
         if (BuildConfig.RUN_CRASHLYTICS) {
             Crashlytics.start(this);

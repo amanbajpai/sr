@@ -496,10 +496,11 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     OnShowInfoWindowListener onShowInfoWindowListener = new OnShowInfoWindowListener() {
         @Override
         public boolean onShowInfoWindow(com.baidu.mapapi.map.Marker marker, com.twotoasters.baiduclusterkraf.ClusterPoint clusterPoint) {
-            Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
-            final Task updatedTask = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId()));
+            final Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
+            //TODO Get data from local DB
+            //final Task updatedTask = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId()));
 
-            if (updatedTask == null) {
+            if (task == null) {
                 return false;
             }
 
@@ -510,7 +511,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
                 public void onInfoWindowClick() {
 
-                    MapHelper.mapOverlayClickResult(getActivity(), updatedTask.getId(), updatedTask.getStatusId());
+                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getStatusId());
                     baiduMap.hideInfoWindow();
                 }
             };

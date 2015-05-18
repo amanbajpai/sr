@@ -96,6 +96,7 @@
     <string name="confirm_and_save_big">应用</string>
     <string name="unlimited">无限</string>
     <string name="term_and_conditions"><u>使用协议和条款</u></string>
+    <string name="term_and_conditions_title">使用协议和条款</string>
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title">分享</string>
     <string name="share_text">I\'ve been having fun (and making money) with SmartRocket app

@@ -102,6 +102,7 @@
     <string name="confirm_and_save_big">APPLY</string>
     <string name="unlimited">Unlimited</string>
     <string name="term_and_conditions"><u>TERMS &amp; CONDITIONS</u></string>
+    <string name="term_and_conditions_title">Terms &amp; Conditions</string>
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title">Share</string>
     <string name="share_text">I\'ve been having fun (and making money) with SmartRocket app
