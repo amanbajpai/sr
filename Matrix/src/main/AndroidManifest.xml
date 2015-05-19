@@ -146,10 +146,9 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!--<data android:host="www.youtube.com" android:scheme="http"></data>-->
                 <data
                     android:host="smart-rocket.com"
-                    android:scheme="http" />
+                    android:scheme="matrix" />
             </intent-filter>
         </activity>
         <activity
