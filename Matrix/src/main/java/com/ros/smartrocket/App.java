@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.text.format.DateUtils;
-
+import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
@@ -17,8 +17,6 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
-
-import cn.jpush.android.api.JPushInterface;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
@@ -33,9 +31,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //ACRA.init(this);
 
-        DebugService.startServer(this);
+        if (BuildConfig.DEBUG) {
+            DebugService.startServer(this);
+        }
 
         if (BuildConfig.RUN_CRASHLYTICS) {
             Crashlytics.start(this);
@@ -103,7 +102,6 @@ public class App extends Application {
         super.onConfigurationChanged(newConfig);
         SettingsFragment.setCurrentLanguage();
     }
-
 
 
     /**

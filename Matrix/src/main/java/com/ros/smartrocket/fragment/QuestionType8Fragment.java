@@ -62,13 +62,13 @@ public class QuestionType8Fragment extends BaseQuestionFragment {
         questionText.setText(question.getQuestion());
 
         if (!TextUtils.isEmpty(question.getPhotoUrl())) {
+            photoImageView.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(question.getInstructionFileUri())) {
                 File file = new File(question.getInstructionFileUri());
                 setImageInstructionFile(file);
             } else {
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-                photoImageView.setVisibility(View.VISIBLE);
                 ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
                         new ImageLoader.OnFileLoadCompleteListener() {
                             @Override

@@ -80,7 +80,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                     referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
                 }
 
-                ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner,
+                ArrayAdapter educationLevelAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner,
                         R.id.name, referralCasesStringArray);
                 referralCasesSpinner.setAdapter(educationLevelAdapter);
                 referralCasesSpinner.setOnItemSelectedListener(this);
