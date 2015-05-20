@@ -7,16 +7,11 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -26,25 +21,14 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.fragment.BaseQuestionFragment;
-import com.ros.smartrocket.fragment.QuestionType1Fragment;
-import com.ros.smartrocket.fragment.QuestionType2Fragment;
-import com.ros.smartrocket.fragment.QuestionType4Fragment;
-import com.ros.smartrocket.fragment.QuestionType5Fragment;
-import com.ros.smartrocket.fragment.QuestionType6Fragment;
-import com.ros.smartrocket.fragment.QuestionType7Fragment;
-import com.ros.smartrocket.fragment.QuestionType8Fragment;
+import com.ros.smartrocket.fragment.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 
 import java.util.List;
 
@@ -70,7 +54,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private BaseQuestionFragment currentFragment;
 
     private int questionsToAnswerCount = 0;
-
     private boolean isRedo = false;
 
     public QuestionsActivity() {
@@ -79,7 +62,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
 
@@ -190,6 +173,16 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
+                    if (currentQuestion.getNextAnsweredQuestionId() != null &&
+                            !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
+                        for (Question tempQuestion : questions) {
+                            if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
+                                AnswersBL.clearAnswersInDB(taskId, tempQuestion.getId());
+                            }
+                        }
+                    }
+                    QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
+
                     startFragment(question);
                 } else {
                     startValidationActivity();
@@ -226,7 +219,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getType(), question.getOrderId());
 
-            int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
+            //int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
 
             if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
                 startValidationActivity();
@@ -320,18 +313,14 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.previousButton:
-                currentFragment.clearAnswer();
+                //currentFragment.clearAnswer();
                 startPreviousQuestionFragment();
                 break;
             case R.id.nextButton:
-                if(currentFragment.saveQuestion()){
+                if (currentFragment.saveQuestion()) {
                     startNextQuestionFragment();
                 }
                 break;
-           /* case R.id.validationButton:
-                currentFragment.saveQuestion();
-                startValidationActivity();
-                break;*/
             default:
                 break;
         }

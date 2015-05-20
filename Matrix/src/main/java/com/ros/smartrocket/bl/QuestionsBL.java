@@ -71,6 +71,22 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
+    /**
+     * Update next answered question Id
+     *
+     * @param questionId              - current questionId
+     * @param nextAnsweredQuestionId - question Id of next answered question
+     */
+    public static void updateNextAnsweredQuestionId(Integer questionId, Integer nextAnsweredQuestionId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionDbSchema.Columns.NEXT_ANSWERED_QUESTION_ID.getName(), nextAnsweredQuestionId);
+
+        String where = QuestionDbSchema.Columns.ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(questionId)};
+
+        App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
     public static void removeQuestionsFromDB(Context context, Integer waveId, int taskId) {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",

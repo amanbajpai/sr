@@ -65,6 +65,7 @@ public class Question extends BaseEntity implements Serializable {
     @SerializedName("PresetValidationText")
     private String presetValidationText;
     private transient Integer previousQuestionOrderId;
+    private transient Integer nextAnsweredQuestionId;
 
     private String askIf = "";
     @SkipFieldInContentValues
@@ -115,6 +116,8 @@ public class Question extends BaseEntity implements Serializable {
 
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
             result.setInstructionFileUri(c.getString(QuestionDbSchema.Query.INSTRUCTION_FILE_URI));
+
+            result.setNextAnsweredQuestionId(c.getInt(QuestionDbSchema.Query.NEXT_ANSWERED_QUESTION_ID));
 
             result.setAskIfArray(AskIf.getAskIfArray(result.getAskIf()));
             result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
@@ -335,6 +338,14 @@ public class Question extends BaseEntity implements Serializable {
 
     public void setInstructionFileUri(String instructionFileUri) {
         this.instructionFileUri = instructionFileUri;
+    }
+
+    public Integer getNextAnsweredQuestionId() {
+        return nextAnsweredQuestionId;
+    }
+
+    public void setNextAnsweredQuestionId(Integer nextAnsweredQuestionId) {
+        this.nextAnsweredQuestionId = nextAnsweredQuestionId;
     }
 
 }

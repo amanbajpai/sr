@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.utils.L;
@@ -61,6 +60,7 @@ public class NotUploadedFile extends BaseEntity {
     private Boolean use3G;
     private Long fileSizeB;
     private Integer showNotificationStepId;
+    private Boolean taskValidated;
 
     public NotUploadedFile() {
     }
@@ -87,6 +87,8 @@ public class NotUploadedFile extends BaseEntity {
 
             result.setLatitudeToValidation(c.getDouble(NotUploadedFileDbSchema.Query.LATITUDE_TO_VALIDATION));
             result.setLongitudeToValidation(c.getDouble(NotUploadedFileDbSchema.Query.LONGITUDE_TO_VALIDATION));
+
+            result.setTaskValidated(c.getInt(NotUploadedFileDbSchema.Query.TASK_VALIDATED) == 1);
         }
         L.d("NotUploadedFile", result.toString());
         return result;
@@ -206,5 +208,13 @@ public class NotUploadedFile extends BaseEntity {
 
     public void setLatitudeToValidation(Double latitudeToValidation) {
         this.latitudeToValidation = latitudeToValidation;
+    }
+
+    public Boolean getTaskValidated() {
+        return taskValidated;
+    }
+
+    public void setTaskValidated(Boolean taskValidated) {
+        this.taskValidated = taskValidated;
     }
 }

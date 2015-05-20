@@ -1,18 +1,12 @@
 package com.ros.smartrocket.net;
 
 import android.app.Service;
-import android.content.AsyncQueryHandler;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
@@ -28,11 +22,7 @@ import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * For upload file:
@@ -247,18 +237,17 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
                 if (notUploadedFileCount == 0) {
-                    validateTask(notUploadedFile.getTaskId(),
-                            notUploadedFile.getLatitudeToValidation(), notUploadedFile.getLongitudeToValidation());
+                    validateTask(notUploadedFile.getTaskId(), notUploadedFile.getLatitudeToValidation(), notUploadedFile.getLongitudeToValidation());
                 }
 
-            } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
-                    responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+            } else if (responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
                 //Forward to remove the uploaded file
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
 
             } else {
+                //TODO Send log to server
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
-                        + notUploadedFile.getFileName());
+                        + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError());
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
 
@@ -269,7 +258,15 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 uploadingFiles = false;
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-            sendNetworkOperation(apiFacade.getMyTasksOperation());
+            int responseCode = operation.getResponseStatusCode();
+
+            if (responseCode == BaseNetworkService.SUCCESS || responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE) {
+                sendNetworkOperation(apiFacade.getMyTasksOperation());
+            } else {
+                //TODO Log to server
+                //TODO Log
+                //TODO Send to validation again
+            }
         }
     }
 

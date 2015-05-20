@@ -25,6 +25,7 @@ public interface QuestionDbSchema {
         ASK_IF("askIf", DBType.TEXT),
         TASK_LOCATION("taskLocation", DBType.TEXT),
         PREVIOUS_QUESTION_ORDER_ID("previousQuestionOrderId", DBType.NUMERIC),
+        NEXT_ANSWERED_QUESTION_ID("nextAnsweredQuestionId", DBType.NUMERIC),
         VALIDATION_COMMENT("validationComment", DBType.TEXT),
         PRESENT_VALIDATION_TEXT("presetValidationText", DBType.TEXT),
 
@@ -103,7 +104,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.PHOTO_URL.getName(),
 
                 Table.QUESTION.getName() + "." + Columns.ROUTING.getName(),
-                Table.QUESTION.getName() + "." + Columns.INSTRUCTION_FILE_URI.getName()
+                Table.QUESTION.getName() + "." + Columns.INSTRUCTION_FILE_URI.getName(),
+                Table.QUESTION.getName() + "." + Columns.NEXT_ANSWERED_QUESTION_ID.getName()
 
 
         };
@@ -135,5 +137,6 @@ public interface QuestionDbSchema {
 
         int ROUTING = 23;
         int INSTRUCTION_FILE_URI = 24;
+        int NEXT_ANSWERED_QUESTION_ID = 25;
     }
 }

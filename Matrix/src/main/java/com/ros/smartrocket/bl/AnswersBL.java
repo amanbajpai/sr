@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -59,6 +58,16 @@ public class AnswersBL {
                     answer.toContentValues(), AnswerDbSchema.Columns._ID + "=?",
                     new String[]{String.valueOf(answer.get_id())});
         }
+    }
+
+    public static void clearAnswersInDB(Integer taskId, Integer questionId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
+
+        App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI,
+                contentValues, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId)});
+
     }
 
     /**

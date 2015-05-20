@@ -1,10 +1,6 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -20,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -455,7 +450,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         ImageView photo = (ImageView) convertView.findViewById(R.id.image);
         ImageView imageFrame = (ImageView) convertView.findViewById(R.id.imageFrame);
 
-        if (!TextUtils.isEmpty(answer.getFileUri())) {
+        if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
             Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100, 0, false);
             photo.setImageBitmap(bitmap);
         } else {
