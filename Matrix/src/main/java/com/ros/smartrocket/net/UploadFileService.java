@@ -233,6 +233,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                         + (int) (notUploadedFile.getFileSizeB() / 1000));
 
+                //TODO Mark file as uploaded
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());

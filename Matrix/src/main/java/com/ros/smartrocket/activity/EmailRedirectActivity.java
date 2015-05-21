@@ -23,14 +23,16 @@ public class EmailRedirectActivity extends Activity {
             if (data != null) {
                 List<String> params = data.getPathSegments();
 
-                String email = data.getQueryParameter("email");
-                String token = data.getQueryParameter("token");
-                if (params.size() > 1 && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(token)) {
-                    if (Keys.ACTIVATE_ACCOUNT.equals(params.get(2))) {
-                        startActivity(IntentUtils.getActivateAccountIntent(this, email, token));
-                    } else if (Keys.FORGOT_PASS.equals(params.get(1))) {
-                        startActivity(IntentUtils.getSetNewPasswordIntent(this, email, token));
-                    }
+                if(params.size() > 2 && Keys.ACTIVATE_ACCOUNT.equals(params.get(2))){
+                    String email = data.getQueryParameter("email");
+                    String token = data.getQueryParameter("token");
+
+                    startActivity(IntentUtils.getActivateAccountIntent(this, email, token));
+                } else if(params.size() > 2 && Keys.FORGOT_PASS.equals(params.get(0))){
+                    String email = params.get(1);
+                    String token = params.get(2);
+
+                    startActivity(IntentUtils.getSetNewPasswordIntent(this, email, token));
                 }
             }
         }

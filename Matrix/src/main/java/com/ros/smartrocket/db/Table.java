@@ -1,11 +1,6 @@
 package com.ros.smartrocket.db;
 
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.AskIf;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.*;
 
 @SuppressWarnings("rawtypes")
 public enum Table {
@@ -13,7 +8,8 @@ public enum Table {
     WAVE("Wave", WaveDbSchema.class, Wave.class.getSimpleName()),
     QUESTION("Question", QuestionDbSchema.class, Question.class.getSimpleName()),
     ANSWER("Answer", AnswerDbSchema.class, Answer.class.getSimpleName()),
-    NOT_UPLOADED_FILE("NotUploadedFile", NotUploadedFileDbSchema.class, NotUploadedFile.class.getSimpleName());
+    NOT_UPLOADED_FILE("NotUploadedFile", NotUploadedFileDbSchema.class, NotUploadedFile.class.getSimpleName()),
+    WAITING_VALIDATION_TASK("WaitingValidationTask", WaitingValidationTaskDbSchema.class, WaitingValidationTask.class.getSimpleName());
 
     private String name;
     private Class schema;
