@@ -69,7 +69,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                 if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
                                     L.i(TAG, "Upload file part " + i + " SUCCESS: " + files[i].getName() + " Date: " +
                                             UIUtils.longToString(System.currentTimeMillis(), 2)
-                                            + "FileCode" + new JSONObject(responseString).getString("FileCode"));
+                                            + " FileCode: " + new JSONObject(responseString).getString("FileCode"));
 
                                     notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
                                     notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
