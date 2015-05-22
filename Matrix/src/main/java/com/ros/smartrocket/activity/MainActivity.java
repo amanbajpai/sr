@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-
+import cn.jpush.android.api.JPushInterface;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -20,8 +20,6 @@ import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
-
-import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     private FragmentHelper fragmentHelper = new FragmentHelper();
