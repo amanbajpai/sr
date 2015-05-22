@@ -179,8 +179,8 @@ public abstract class BaseNetworkService extends IntentService {
                 if (request != null) {
                     client = AndroidHttpClient.newInstance("MatrixAndroidApp", this);
                     HttpParams params = client.getParams();
-                    HttpConnectionParams.setConnectionTimeout(params, 120000);
-                    HttpConnectionParams.setSoTimeout(params, 120000);
+                    HttpConnectionParams.setConnectionTimeout(params, 240000);
+                    HttpConnectionParams.setSoTimeout(params, 240000);
 
                     HttpResponse response = client.execute(request);
                     operation = readResponseToOperation(response, operation);

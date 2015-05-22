@@ -2,7 +2,6 @@ package com.ros.smartrocket.net;
 
 import android.content.Intent;
 import android.net.Uri;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -17,7 +16,7 @@ import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectImageManager;
-
+import com.ros.smartrocket.utils.UIUtils;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
@@ -38,7 +37,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
         super("NetworkService");
 
         if (!BuildConfig.USE_BAIDU) {
-            MAX_BYTE_SIZE = 500 * 1000;
+            MAX_BYTE_SIZE = 32 * 1000;
         }
     }
 
@@ -59,14 +58,18 @@ public class UploadFileNetworkService extends BaseNetworkService {
                         try {
                             for (int i = 0; i < files.length; i++) {
 
-                                BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
-                                        mainFileLength);
+                                L.i(TAG, "Upload file part " + i + ": " + files[i].getName() + " Date: " +
+                                        UIUtils.longToString(System.currentTimeMillis(), 2));
+
+                                BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
                                 executeRequest(tempOperation);
 
                                 int responseCode = tempOperation.getResponseStatusCode();
                                 String responseString = tempOperation.getResponseString();
                                 if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
-                                    L.i(TAG, "Upload temp file success: " + files[i].getName());
+                                    L.i(TAG, "Upload file part " + i + " SUCCESS: " + files[i].getName() + " Date: " +
+                                            UIUtils.longToString(System.currentTimeMillis(), 2)
+                                            + "FileCode" + new JSONObject(responseString).getString("FileCode"));
 
                                     notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
                                     notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
@@ -92,7 +95,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                 }
                             }
                         } catch (Exception e) {
-                            L.e(TAG, "Upload file error" + e.getMessage(), e);
+                            L.e(TAG, "Upload file error" + e.getMessage() + " Date: " +
+                                    UIUtils.longToString(System.currentTimeMillis(), 2), e);
                         }
                     }
                 } else {

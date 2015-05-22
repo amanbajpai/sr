@@ -1,42 +1,42 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-import com.ros.smartrocket.db.WaitingValidationTaskDbSchema;
+import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
 import com.ros.smartrocket.utils.L;
 
 /**
  * Data model of WaitingValidationTask entity
  */
-public class WaitingValidationTask extends BaseEntity {
+public class WaitingUploadTask extends BaseEntity {
     private static final long serialVersionUID = 5410835468659163958L;
 
     private Integer taskId;
     private Integer missionId;
-    private Integer questionId;
+    private Integer waveId;
     private Long addedToUploadDateTime;
     private String cityName;
     private Double longitudeToValidation;
     private Double latitudeToValidation;
     private Boolean allFileSent;
 
-    public WaitingValidationTask() {
+    public WaitingUploadTask() {
     }
 
-    public static WaitingValidationTask fromCursor(Cursor c) {
-        WaitingValidationTask result = new WaitingValidationTask();
+    public static WaitingUploadTask fromCursor(Cursor c) {
+        WaitingUploadTask result = new WaitingUploadTask();
         if (c.getCount() > 0) {
-            result.set_id(c.getInt(WaitingValidationTaskDbSchema.Query._ID));
-            result.setId(c.getInt(WaitingValidationTaskDbSchema.Query.ID));
-            result.setTaskId(c.getInt(WaitingValidationTaskDbSchema.Query.TASK_ID));
-            result.setQuestionId(c.getInt(WaitingValidationTaskDbSchema.Query.QUESTION_ID));
-            result.setMissionId(c.getInt(WaitingValidationTaskDbSchema.Query.MISSION_ID));
-            result.setAddedToUploadDateTime(c.getLong(WaitingValidationTaskDbSchema.Query.ADDED_TO_UPLOAD_DATE_TIME));
-            result.setCityName(c.getString(WaitingValidationTaskDbSchema.Query.CITY_NAME));
+            result.set_id(c.getInt(WaitingUploadTaskDbSchema.Query._ID));
+            result.setId(c.getInt(WaitingUploadTaskDbSchema.Query.ID));
+            result.setTaskId(c.getInt(WaitingUploadTaskDbSchema.Query.TASK_ID));
+            result.setWaveId(c.getInt(WaitingUploadTaskDbSchema.Query.WAVE_ID));
+            result.setMissionId(c.getInt(WaitingUploadTaskDbSchema.Query.MISSION_ID));
+            result.setAddedToUploadDateTime(c.getLong(WaitingUploadTaskDbSchema.Query.ADDED_TO_UPLOAD_DATE_TIME));
+            result.setCityName(c.getString(WaitingUploadTaskDbSchema.Query.CITY_NAME));
 
-            result.setLatitudeToValidation(c.getDouble(WaitingValidationTaskDbSchema.Query.LATITUDE_TO_VALIDATION));
-            result.setLongitudeToValidation(c.getDouble(WaitingValidationTaskDbSchema.Query.LONGITUDE_TO_VALIDATION));
+            result.setLatitudeToValidation(c.getDouble(WaitingUploadTaskDbSchema.Query.LATITUDE_TO_VALIDATION));
+            result.setLongitudeToValidation(c.getDouble(WaitingUploadTaskDbSchema.Query.LONGITUDE_TO_VALIDATION));
 
-            result.setAllFileSent(c.getInt(WaitingValidationTaskDbSchema.Query.ALL_FILE_SENT) == 1);
+            result.setAllFileSent(c.getInt(WaitingUploadTaskDbSchema.Query.ALL_FILE_SENT) == 1);
 
         }
         L.d("WaitingValidationTask", result.toString());
@@ -51,12 +51,12 @@ public class WaitingValidationTask extends BaseEntity {
         this.taskId = taskId;
     }
 
-    public Integer getQuestionId() {
-        return questionId;
+    public Integer getWaveId() {
+        return waveId;
     }
 
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
+    public void setWaveId(Integer waveId) {
+        this.waveId = waveId;
     }
 
     public Long getAddedToUploadDateTime() {

@@ -161,7 +161,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
 
                         if (notUploadedFile != null) {
-                            L.i(TAG, "Upload file");
+                            L.i(TAG, "Send file to upload Date: " + UIUtils.longToString(System.currentTimeMillis(), 2));
                             uploadingFiles = true;
                             apiFacade.sendFile(UploadFileService.this, notUploadedFile);
                         } else {
@@ -227,13 +227,13 @@ public class UploadFileService extends Service implements NetworkOperationListen
             int responseCode = operation.getResponseStatusCode();
 
             if (responseCode == BaseNetworkService.SUCCESS) {
-                L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId() + " File name: "
-                        + notUploadedFile.getFileName());
+                L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId()
+                        + " File name: " + notUploadedFile.getFileName()
+                        + " Date: " + UIUtils.longToString(System.currentTimeMillis(), 2));
 
                 preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                         + (int) (notUploadedFile.getFileSizeB() / 1000));
 
-                //TODO Mark file as uploaded
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
@@ -246,9 +246,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
 
             } else {
-                //TODO Send log to server
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
-                        + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError());
+                        + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError() + " Date: " +
+                        UIUtils.longToString(System.currentTimeMillis(), 2));
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
 

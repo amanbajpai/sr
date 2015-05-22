@@ -9,7 +9,7 @@ public enum Table {
     QUESTION("Question", QuestionDbSchema.class, Question.class.getSimpleName()),
     ANSWER("Answer", AnswerDbSchema.class, Answer.class.getSimpleName()),
     NOT_UPLOADED_FILE("NotUploadedFile", NotUploadedFileDbSchema.class, NotUploadedFile.class.getSimpleName()),
-    WAITING_VALIDATION_TASK("WaitingValidationTask", WaitingValidationTaskDbSchema.class, WaitingValidationTask.class.getSimpleName());
+    WAITING_UPLOAD_TASK("WaitingUploadTask", WaitingUploadTaskDbSchema.class, WaitingUploadTask.class.getSimpleName());
 
     private String name;
     private Class schema;

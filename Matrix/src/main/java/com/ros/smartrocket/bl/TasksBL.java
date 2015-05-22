@@ -14,6 +14,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -246,7 +247,10 @@ public class TasksBL {
                         taskLocation.setLatitude(task.getLatitude());
                         taskLocation.setLongitude(task.getLongitude());
 
-                        contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), currentLocation.distanceTo(taskLocation));
+                        float distance = currentLocation.distanceTo(taskLocation);
+                        /*L.e("Distance", "Task id = " + task.getId());
+                        L.e("Distance", "Distance = " + distance);*/
+                        contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), distance);
                     } else {
                         contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), 0f);
                     }
