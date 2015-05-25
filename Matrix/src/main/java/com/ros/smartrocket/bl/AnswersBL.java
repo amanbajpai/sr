@@ -308,7 +308,7 @@ public class AnswersBL {
                 orderId = question.getRouting();
             } else if (question.getAnswers() != null) {
                 for (Answer answer : question.getAnswers()) {
-                    if (answer.getChecked()) {
+                    if (answer!=null && answer.getChecked()) {
                         orderId = answer.getRouting();
                         break;
                     }

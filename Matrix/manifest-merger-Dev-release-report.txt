@@ -1,0 +1,689 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	package
+		ADDED from AndroidManifest.xml:4:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	xmlns:tools
+		ADDED from AndroidManifest.xml:3:5
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	android:installLocation
+		ADDED from AndroidManifest.xml:5:5
+uses-permission#android.permission.INTERNET
+ADDED from AndroidManifest.xml:7:5
+	android:name
+		ADDED from AndroidManifest.xml:7:22
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from AndroidManifest.xml:8:5
+	android:name
+		ADDED from AndroidManifest.xml:8:22
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:9:5
+	android:name
+		ADDED from AndroidManifest.xml:9:22
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from AndroidManifest.xml:11:5
+	android:name
+		ADDED from AndroidManifest.xml:11:22
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from AndroidManifest.xml:12:5
+	android:name
+		ADDED from AndroidManifest.xml:12:22
+permission#com.ros.smartrocket.permission.JPUSH_MESSAGE
+ADDED from AndroidManifest.xml:14:5
+	android:protectionLevel
+		ADDED from AndroidManifest.xml:16:9
+	android:name
+		ADDED from AndroidManifest.xml:15:9
+uses-permission#com.ros.smartrocket.permission.JPUSH_MESSAGE
+ADDED from AndroidManifest.xml:18:5
+	android:name
+		ADDED from AndroidManifest.xml:18:22
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from AndroidManifest.xml:19:5
+	android:name
+		ADDED from AndroidManifest.xml:19:22
+uses-permission#android.permission.RECEIVE_USER_PRESENT
+ADDED from AndroidManifest.xml:20:5
+	android:name
+		ADDED from AndroidManifest.xml:20:22
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:21:5
+	android:name
+		ADDED from AndroidManifest.xml:21:22
+uses-permission#android.permission.VIBRATE
+ADDED from AndroidManifest.xml:22:5
+	android:name
+		ADDED from AndroidManifest.xml:22:22
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from AndroidManifest.xml:23:5
+	android:name
+		ADDED from AndroidManifest.xml:23:22
+uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+ADDED from AndroidManifest.xml:24:5
+	android:name
+		ADDED from AndroidManifest.xml:24:22
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from AndroidManifest.xml:25:5
+	android:name
+		ADDED from AndroidManifest.xml:25:22
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from AndroidManifest.xml:27:5
+	android:name
+		ADDED from AndroidManifest.xml:27:22
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from AndroidManifest.xml:28:5
+	android:name
+		ADDED from AndroidManifest.xml:28:22
+uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+ADDED from AndroidManifest.xml:29:5
+	android:name
+		ADDED from AndroidManifest.xml:29:22
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from AndroidManifest.xml:30:5
+	android:name
+		ADDED from AndroidManifest.xml:30:22
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from AndroidManifest.xml:32:5
+	android:name
+		ADDED from AndroidManifest.xml:32:22
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from AndroidManifest.xml:34:5
+	android:protectionLevel
+		ADDED from AndroidManifest.xml:36:9
+	android:name
+		ADDED from AndroidManifest.xml:35:9
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from AndroidManifest.xml:38:5
+	android:name
+		ADDED from AndroidManifest.xml:38:22
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from AndroidManifest.xml:39:5
+	android:name
+		ADDED from AndroidManifest.xml:39:22
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from AndroidManifest.xml:41:5
+	android:name
+		ADDED from AndroidManifest.xml:41:22
+uses-permission#android.permission.WAKE_LOCK
+ADDED from AndroidManifest.xml:43:5
+	android:name
+		ADDED from AndroidManifest.xml:43:22
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from AndroidManifest.xml:44:5
+	android:name
+		ADDED from AndroidManifest.xml:44:22
+uses-permission#android.permission.READ_LOGS
+ADDED from AndroidManifest.xml:46:5
+	android:name
+		ADDED from AndroidManifest.xml:46:22
+uses-permission#android.permission.CAMERA
+ADDED from AndroidManifest.xml:48:5
+	android:name
+		ADDED from AndroidManifest.xml:48:22
+uses-feature#android.hardware.camera
+ADDED from AndroidManifest.xml:50:5
+	android:name
+		ADDED from AndroidManifest.xml:50:19
+uses-feature#0x00020000
+ADDED from AndroidManifest.xml:51:5
+	android:glEsVersion
+		ADDED from AndroidManifest.xml:52:9
+	android:required
+		ADDED from AndroidManifest.xml:53:9
+application
+ADDED from AndroidManifest.xml:55:5
+MERGED from com.google.android.gms:play-services:6.1.71:16:5
+MERGED from com.android.support:support-v4:20.0.0:17:5
+MERGED from com.android.support:appcompat-v7:19.1.0:19:5
+MERGED from com.android.support:support-v4:20.0.0:17:5
+MERGED from com.android.support:support-v4:20.0.0:17:5
+MERGED from matrix-android-app.libs:clusterkraf:unspecified:15:5
+MERGED from com.google.android.gms:play-services:6.1.71:16:5
+MERGED from com.android.support:support-v4:20.0.0:17:5
+MERGED from matrix-android-app.libs:BaiduClusterkraf:unspecified:11:5
+MERGED from :AndroidRemoteDebug-1.0.0::11:5
+	android:label
+		ADDED from AndroidManifest.xml:59:9
+		REJECTED from matrix-android-app.libs:clusterkraf:unspecified:18:9
+		REJECTED from matrix-android-app.libs:BaiduClusterkraf:unspecified:14:9
+		REJECTED from :AndroidRemoteDebug-1.0.0::13:9
+	android:allowBackup
+		ADDED from AndroidManifest.xml:57:9
+		REJECTED from matrix-android-app.libs:clusterkraf:unspecified:16:9
+		REJECTED from matrix-android-app.libs:BaiduClusterkraf:unspecified:12:9
+		REJECTED from :AndroidRemoteDebug-1.0.0::12:9
+	android:icon
+		ADDED from AndroidManifest.xml:58:9
+	android:largeHeap
+		ADDED from AndroidManifest.xml:60:9
+	android:theme
+		ADDED from AndroidManifest.xml:61:9
+	tools:replace
+		ADDED from AndroidManifest.xml:62:9
+	android:name
+		ADDED from AndroidManifest.xml:56:9
+activity#com.ros.smartrocket.activity.LaunchActivity
+ADDED from AndroidManifest.xml:63:9
+	android:label
+		ADDED from AndroidManifest.xml:65:13
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:66:13
+	android:name
+		ADDED from AndroidManifest.xml:64:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:67:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:68:17
+	android:name
+		ADDED from AndroidManifest.xml:68:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:69:17
+	android:name
+		ADDED from AndroidManifest.xml:69:27
+activity#com.ros.smartrocket.activity.ReferralCasesActivity
+ADDED from AndroidManifest.xml:72:9
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:75:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:74:13
+	android:name
+		ADDED from AndroidManifest.xml:73:13
+activity#com.ros.smartrocket.activity.RegistrationActivity
+ADDED from AndroidManifest.xml:76:9
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:79:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:78:13
+	android:name
+		ADDED from AndroidManifest.xml:77:13
+activity#com.ros.smartrocket.activity.LoginActivity
+ADDED from AndroidManifest.xml:80:9
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:83:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:82:13
+	android:name
+		ADDED from AndroidManifest.xml:81:13
+activity#com.ros.smartrocket.activity.ForgotPasswordActivity
+ADDED from AndroidManifest.xml:84:9
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:87:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:86:13
+	android:name
+		ADDED from AndroidManifest.xml:85:13
+activity#com.ros.smartrocket.activity.ForgotPasswordSuccessActivity
+ADDED from AndroidManifest.xml:88:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:90:13
+	android:name
+		ADDED from AndroidManifest.xml:89:13
+activity#com.ros.smartrocket.activity.FullScreenImageActivity
+ADDED from AndroidManifest.xml:91:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:93:13
+	android:name
+		ADDED from AndroidManifest.xml:92:13
+activity#com.ros.smartrocket.activity.FullScreenVideoActivity
+ADDED from AndroidManifest.xml:94:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:96:13
+	android:name
+		ADDED from AndroidManifest.xml:95:13
+activity#com.ros.smartrocket.activity.MainActivity
+ADDED from AndroidManifest.xml:97:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:101:13
+	android:exported
+		ADDED from AndroidManifest.xml:100:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:99:13
+	android:name
+		ADDED from AndroidManifest.xml:98:13
+activity#com.ros.smartrocket.activity.TaskDetailsActivity
+ADDED from AndroidManifest.xml:102:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:105:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:104:13
+	android:theme
+		ADDED from AndroidManifest.xml:106:13
+	android:name
+		ADDED from AndroidManifest.xml:103:13
+activity#com.ros.smartrocket.activity.WaveDetailsActivity
+ADDED from AndroidManifest.xml:107:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:110:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:109:13
+	android:theme
+		ADDED from AndroidManifest.xml:111:13
+	android:name
+		ADDED from AndroidManifest.xml:108:13
+activity#com.ros.smartrocket.activity.NotificationActivity
+ADDED from AndroidManifest.xml:112:9
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:116:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:114:13
+	android:theme
+		ADDED from AndroidManifest.xml:115:13
+	android:name
+		ADDED from AndroidManifest.xml:113:13
+activity#com.ros.smartrocket.activity.MapActivity
+ADDED from AndroidManifest.xml:117:9
+	android:parentActivityName
+		ADDED from AndroidManifest.xml:121:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:120:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:119:13
+	android:theme
+		ADDED from AndroidManifest.xml:122:13
+	android:name
+		ADDED from AndroidManifest.xml:118:13
+meta-data#android.support.PARENT_ACTIVITY
+ADDED from AndroidManifest.xml:124:13
+	android:value
+		ADDED from AndroidManifest.xml:126:17
+	android:name
+		ADDED from AndroidManifest.xml:125:17
+activity#com.ros.smartrocket.activity.SettingsActivity
+ADDED from AndroidManifest.xml:128:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:130:13
+	android:name
+		ADDED from AndroidManifest.xml:129:13
+activity#com.ros.smartrocket.activity.ShareActivity
+ADDED from AndroidManifest.xml:131:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:133:13
+	android:name
+		ADDED from AndroidManifest.xml:132:13
+activity#com.ros.smartrocket.activity.CheckLocationActivity
+ADDED from AndroidManifest.xml:134:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:136:13
+	android:name
+		ADDED from AndroidManifest.xml:135:13
+activity#com.ros.smartrocket.activity.EmailRedirectActivity
+ADDED from AndroidManifest.xml:137:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:139:13
+	android:name
+		ADDED from AndroidManifest.xml:138:13
+intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:140:13
+action#android.intent.action.VIEW
+ADDED from AndroidManifest.xml:141:17
+	android:name
+		ADDED from AndroidManifest.xml:141:25
+category#android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:143:17
+	android:name
+		ADDED from AndroidManifest.xml:143:27
+category#android.intent.category.BROWSABLE
+ADDED from AndroidManifest.xml:144:17
+	android:name
+		ADDED from AndroidManifest.xml:144:27
+data
+ADDED from AndroidManifest.xml:146:17
+	android:path
+		INJECTED from AndroidManifest.xml:0:0
+	android:host
+		ADDED from AndroidManifest.xml:147:21
+	android:scheme
+		ADDED from AndroidManifest.xml:148:21
+activity#com.ros.smartrocket.activity.CheckLocationFailedActivity
+ADDED from AndroidManifest.xml:180:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:182:13
+	android:name
+		ADDED from AndroidManifest.xml:181:13
+activity#com.ros.smartrocket.activity.ActivateAccountActivity
+ADDED from AndroidManifest.xml:183:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:185:13
+	android:name
+		ADDED from AndroidManifest.xml:184:13
+activity#com.ros.smartrocket.activity.SetNewPasswordActivity
+ADDED from AndroidManifest.xml:186:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:188:13
+	android:name
+		ADDED from AndroidManifest.xml:187:13
+activity#com.ros.smartrocket.activity.QuestionsActivity
+ADDED from AndroidManifest.xml:189:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:192:13
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:194:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:191:13
+	android:theme
+		ADDED from AndroidManifest.xml:193:13
+	android:name
+		ADDED from AndroidManifest.xml:190:13
+activity#com.ros.smartrocket.activity.TaskValidationActivity
+ADDED from AndroidManifest.xml:195:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:197:13
+	android:theme
+		ADDED from AndroidManifest.xml:198:13
+	android:name
+		ADDED from AndroidManifest.xml:196:13
+activity#com.ros.smartrocket.activity.TermsAndConditionActivity
+ADDED from AndroidManifest.xml:199:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:201:13
+	android:name
+		ADDED from AndroidManifest.xml:200:13
+activity#com.ros.smartrocket.activity.QuitQuestionActivity
+ADDED from AndroidManifest.xml:202:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:204:13
+	android:name
+		ADDED from AndroidManifest.xml:203:13
+activity#com.ros.smartrocket.activity.CashingOutActivity
+ADDED from AndroidManifest.xml:205:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:207:13
+	android:name
+		ADDED from AndroidManifest.xml:206:13
+activity#com.ros.smartrocket.activity.CashingOutConfirmationActivity
+ADDED from AndroidManifest.xml:208:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:210:13
+	android:name
+		ADDED from AndroidManifest.xml:209:13
+activity#com.ros.smartrocket.activity.CashingOutSuccessActivity
+ADDED from AndroidManifest.xml:211:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:213:13
+	android:name
+		ADDED from AndroidManifest.xml:212:13
+service#com.ros.smartrocket.net.NetworkService
+ADDED from AndroidManifest.xml:215:9
+	android:exported
+		ADDED from AndroidManifest.xml:217:13
+	android:name
+		ADDED from AndroidManifest.xml:216:13
+provider#com.ros.smartrocket.db.AppContentProvider
+ADDED from AndroidManifest.xml:218:9
+	android:authorities
+		ADDED from AndroidManifest.xml:220:13
+		INJECTED from AndroidManifest.xml:0:0
+	android:exported
+		ADDED from AndroidManifest.xml:221:13
+	android:name
+		ADDED from AndroidManifest.xml:219:13
+service#com.google.analytics.tracking.android.CampaignTrackingService
+ADDED from AndroidManifest.xml:223:9
+	android:name
+		ADDED from AndroidManifest.xml:223:18
+receiver#com.google.analytics.tracking.android.CampaignTrackingReceiver
+ADDED from AndroidManifest.xml:224:9
+	android:exported
+		ADDED from AndroidManifest.xml:226:13
+	android:name
+		ADDED from AndroidManifest.xml:225:13
+intent-filter#com.android.vending.INSTALL_REFERRER
+ADDED from AndroidManifest.xml:227:13
+action#com.android.vending.INSTALL_REFERRER
+ADDED from AndroidManifest.xml:228:17
+	android:name
+		ADDED from AndroidManifest.xml:228:25
+receiver#com.google.android.gcm.GCMBroadcastReceiver
+ADDED from AndroidManifest.xml:232:9
+	android:permission
+		ADDED from AndroidManifest.xml:234:13
+	android:name
+		ADDED from AndroidManifest.xml:233:13
+intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION
+ADDED from AndroidManifest.xml:235:13
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from AndroidManifest.xml:236:17
+	android:name
+		ADDED from AndroidManifest.xml:236:25
+action#com.google.android.c2dm.intent.REGISTRATION
+ADDED from AndroidManifest.xml:237:17
+	android:name
+		ADDED from AndroidManifest.xml:237:25
+category#${applicationId}
+ADDED from AndroidManifest.xml:239:17
+	android:name
+		ADDED from AndroidManifest.xml:239:27
+		INJECTED from AndroidManifest.xml:0:0
+service#com.ros.smartrocket.GCMIntentService
+ADDED from AndroidManifest.xml:242:9
+	android:name
+		ADDED from AndroidManifest.xml:242:18
+receiver#com.ros.smartrocket.net.GlobalReceiver
+ADDED from AndroidManifest.xml:252:9
+	android:exported
+		ADDED from AndroidManifest.xml:254:13
+	android:name
+		ADDED from AndroidManifest.xml:253:13
+intent-filter#android.intent.action.BOOT_COMPLETED+android.net.conn.CONNECTIVITY_CHANGE
+ADDED from AndroidManifest.xml:255:13
+	android:priority
+		ADDED from AndroidManifest.xml:255:28
+action#android.intent.action.BOOT_COMPLETED
+ADDED from AndroidManifest.xml:256:17
+	android:name
+		ADDED from AndroidManifest.xml:256:25
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from AndroidManifest.xml:257:17
+	android:name
+		ADDED from AndroidManifest.xml:257:25
+intent-filter#android.intent.action.PACKAGE_REPLACED
+ADDED from AndroidManifest.xml:259:13
+action#android.intent.action.PACKAGE_REPLACED
+ADDED from AndroidManifest.xml:260:17
+	android:name
+		ADDED from AndroidManifest.xml:260:25
+service#com.ros.smartrocket.net.TaskReminderService
+ADDED from AndroidManifest.xml:266:9
+	android:exported
+		ADDED from AndroidManifest.xml:268:13
+	android:name
+		ADDED from AndroidManifest.xml:267:13
+meta-data#com.google.android.gms.version
+ADDED from AndroidManifest.xml:270:9
+	android:value
+		ADDED from AndroidManifest.xml:272:13
+	android:name
+		ADDED from AndroidManifest.xml:271:13
+meta-data#com.google.android.maps.v2.API_KEY
+ADDED from AndroidManifest.xml:273:9
+	android:value
+		ADDED from AndroidManifest.xml:275:13
+		INJECTED from AndroidManifest.xml:0:0
+	android:name
+		ADDED from AndroidManifest.xml:274:13
+meta-data#com.baidu.lbsapi.API_KEY
+ADDED from AndroidManifest.xml:276:9
+	android:value
+		ADDED from AndroidManifest.xml:278:13
+		INJECTED from AndroidManifest.xml:0:0
+	android:name
+		ADDED from AndroidManifest.xml:277:13
+service#com.ros.smartrocket.net.UploadFileService
+ADDED from AndroidManifest.xml:280:9
+	android:exported
+		ADDED from AndroidManifest.xml:282:13
+	android:name
+		ADDED from AndroidManifest.xml:281:13
+service#com.ros.smartrocket.net.UploadFileNetworkService
+ADDED from AndroidManifest.xml:283:9
+	android:exported
+		ADDED from AndroidManifest.xml:285:13
+	android:name
+		ADDED from AndroidManifest.xml:284:13
+service#com.baidu.location.f
+ADDED from AndroidManifest.xml:286:9
+	android:enabled
+		ADDED from AndroidManifest.xml:288:13
+	android:process
+		ADDED from AndroidManifest.xml:289:13
+	android:name
+		ADDED from AndroidManifest.xml:287:13
+meta-data#com.crashlytics.ApiKey
+ADDED from AndroidManifest.xml:291:9
+	android:value
+		ADDED from AndroidManifest.xml:293:13
+	android:name
+		ADDED from AndroidManifest.xml:292:13
+service#cn.jpush.android.service.DownloadService
+ADDED from AndroidManifest.xml:295:9
+	android:enabled
+		ADDED from AndroidManifest.xml:297:13
+	android:exported
+		ADDED from AndroidManifest.xml:298:13
+	android:name
+		ADDED from AndroidManifest.xml:296:13
+service#cn.jpush.android.service.PushService
+ADDED from AndroidManifest.xml:300:9
+	android:enabled
+		ADDED from AndroidManifest.xml:302:13
+	android:exported
+		ADDED from AndroidManifest.xml:303:13
+	android:name
+		ADDED from AndroidManifest.xml:301:13
+intent-filter#cn.jpush.android.intent.PUSH_TIME+cn.jpush.android.intent.PushService+cn.jpush.android.intent.REGISTER+cn.jpush.android.intent.REPORT
+ADDED from AndroidManifest.xml:304:13
+action#cn.jpush.android.intent.REGISTER
+ADDED from AndroidManifest.xml:305:17
+	android:name
+		ADDED from AndroidManifest.xml:305:25
+action#cn.jpush.android.intent.REPORT
+ADDED from AndroidManifest.xml:306:17
+	android:name
+		ADDED from AndroidManifest.xml:306:25
+action#cn.jpush.android.intent.PushService
+ADDED from AndroidManifest.xml:307:17
+	android:name
+		ADDED from AndroidManifest.xml:307:25
+action#cn.jpush.android.intent.PUSH_TIME
+ADDED from AndroidManifest.xml:308:17
+	android:name
+		ADDED from AndroidManifest.xml:308:25
+receiver#cn.jpush.android.service.PushReceiver
+ADDED from AndroidManifest.xml:312:9
+	android:enabled
+		ADDED from AndroidManifest.xml:314:13
+	android:name
+		ADDED from AndroidManifest.xml:313:13
+intent-filter#cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY+com.ros.smartrocket
+ADDED from AndroidManifest.xml:315:13
+	android:priority
+		ADDED from AndroidManifest.xml:315:28
+action#cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY
+ADDED from AndroidManifest.xml:316:17
+	android:name
+		ADDED from AndroidManifest.xml:316:25
+category#com.ros.smartrocket
+ADDED from AndroidManifest.xml:318:17
+	android:name
+		ADDED from AndroidManifest.xml:318:27
+intent-filter#android.intent.action.USER_PRESENT+android.net.conn.CONNECTIVITY_CHANGE
+ADDED from AndroidManifest.xml:320:13
+action#android.intent.action.USER_PRESENT
+ADDED from AndroidManifest.xml:321:17
+	android:name
+		ADDED from AndroidManifest.xml:321:25
+intent-filter#android.intent.action.PACKAGE_ADDED+android.intent.action.PACKAGE_REMOVED
+ADDED from AndroidManifest.xml:325:13
+action#android.intent.action.PACKAGE_ADDED
+ADDED from AndroidManifest.xml:326:17
+	android:name
+		ADDED from AndroidManifest.xml:326:25
+action#android.intent.action.PACKAGE_REMOVED
+ADDED from AndroidManifest.xml:327:17
+	android:name
+		ADDED from AndroidManifest.xml:327:25
+receiver#cn.jpush.android.service.AlarmReceiver
+ADDED from AndroidManifest.xml:333:9
+	android:name
+		ADDED from AndroidManifest.xml:333:19
+receiver#com.ros.smartrocket.JPushReceiver
+ADDED from AndroidManifest.xml:335:9
+	android:enabled
+		ADDED from AndroidManifest.xml:337:13
+	android:name
+		ADDED from AndroidManifest.xml:336:13
+intent-filter#cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK+cn.jpush.android.intent.CONNECTION+cn.jpush.android.intent.MESSAGE_RECEIVED+cn.jpush.android.intent.NOTIFICATION_OPENED+cn.jpush.android.intent.NOTIFICATION_RECEIVED+cn.jpush.android.intent.REGISTRATION+cn.jpush.android.intent.UNREGISTRATION+com.ros.smartrocket
+ADDED from AndroidManifest.xml:338:13
+action#cn.jpush.android.intent.REGISTRATION
+ADDED from AndroidManifest.xml:339:17
+	android:name
+		ADDED from AndroidManifest.xml:339:25
+action#cn.jpush.android.intent.UNREGISTRATION
+ADDED from AndroidManifest.xml:341:17
+	android:name
+		ADDED from AndroidManifest.xml:341:25
+action#cn.jpush.android.intent.MESSAGE_RECEIVED
+ADDED from AndroidManifest.xml:342:17
+	android:name
+		ADDED from AndroidManifest.xml:342:25
+action#cn.jpush.android.intent.NOTIFICATION_RECEIVED
+ADDED from AndroidManifest.xml:344:17
+	android:name
+		ADDED from AndroidManifest.xml:344:25
+action#cn.jpush.android.intent.NOTIFICATION_OPENED
+ADDED from AndroidManifest.xml:346:17
+	android:name
+		ADDED from AndroidManifest.xml:346:25
+action#cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK
+ADDED from AndroidManifest.xml:348:17
+	android:name
+		ADDED from AndroidManifest.xml:348:25
+action#cn.jpush.android.intent.CONNECTION
+ADDED from AndroidManifest.xml:350:17
+	android:name
+		ADDED from AndroidManifest.xml:350:25
+meta-data#JPUSH_CHANNEL
+ADDED from AndroidManifest.xml:356:9
+	android:value
+		ADDED from AndroidManifest.xml:358:13
+	android:name
+		ADDED from AndroidManifest.xml:357:13
+meta-data#JPUSH_APPKEY
+ADDED from AndroidManifest.xml:359:9
+	android:value
+		ADDED from AndroidManifest.xml:361:13
+		INJECTED from AndroidManifest.xml:0:0
+	android:name
+		ADDED from AndroidManifest.xml:360:13
+uses-sdk
+INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+MERGED from com.google.android.gms:play-services:6.1.71:15:5
+MERGED from com.android.support:support-v4:20.0.0:16:5
+MERGED from com.android.support:appcompat-v7:19.1.0:18:5
+MERGED from com.android.support:support-v4:20.0.0:16:5
+MERGED from com.android.support:support-v4:20.0.0:16:5
+MERGED from matrix-android-app.libs:clusterkraf:unspecified:7:5
+MERGED from com.google.android.gms:play-services:6.1.71:15:5
+MERGED from com.android.support:support-v4:20.0.0:16:5
+MERGED from matrix-android-app.libs:BaiduClusterkraf:unspecified:7:5
+MERGED from :AndroidRemoteDebug-1.0.0::7:5
+	android:targetSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+service#com.nru.androidremotedebug.DebugService
+ADDED from :AndroidRemoteDebug-1.0.0::14:9
+	android:exported
+		ADDED from :AndroidRemoteDebug-1.0.0::16:13
+	android:name
+		ADDED from :AndroidRemoteDebug-1.0.0::15:13
