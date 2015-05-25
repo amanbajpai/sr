@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-
+import cn.jpush.android.api.JPushInterface;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
-
-import cn.jpush.android.api.JPushInterface;
 
 public class JPushReceiver extends BroadcastReceiver {
     private static final String TAG = JPushReceiver.class.getSimpleName();
@@ -29,7 +27,7 @@ public class JPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
 
             //Send the Registration Id to server...
-            if(Config.USE_BAIDU){
+            if (Config.USE_BAIDU) {
                 L.d(TAG, "[MyReceiver] Send registered to server: regId = " + registrationId);
                 APIFacade.getInstance().registerGCMId(context, registrationId, 1);
                 preferencesManager.setGCMRegistrationId(registrationId);
@@ -59,13 +57,15 @@ public class JPushReceiver extends BroadcastReceiver {
 
     private static String printBundle(Bundle bundle) {
         StringBuilder sb = new StringBuilder();
-        for (String key : bundle.keySet()) {
-            if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
-                sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
-            } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
-                sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
-            } else {
-                sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
+                    sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
+                } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
+                    sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
+                } else {
+                    sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+                }
             }
         }
         return sb.toString();

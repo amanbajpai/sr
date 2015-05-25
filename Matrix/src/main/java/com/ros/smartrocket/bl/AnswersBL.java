@@ -303,19 +303,21 @@ public class AnswersBL {
     public static int getNextQuestionOrderId(Question question) {
         int orderId = 0;
 
-        if (question.getRouting() != null && question.getRouting() != 0) {
-            orderId = question.getRouting();
-        } else if (question.getAnswers() != null) {
-            for (Answer answer : question.getAnswers()) {
-                if (answer.getChecked()) {
-                    orderId = answer.getRouting();
-                    break;
+        if (question != null) {
+            if (question.getRouting() != null && question.getRouting() != 0) {
+                orderId = question.getRouting();
+            } else if (question.getAnswers() != null) {
+                for (Answer answer : question.getAnswers()) {
+                    if (answer.getChecked()) {
+                        orderId = answer.getRouting();
+                        break;
+                    }
                 }
             }
-        }
 
-        if (orderId == 0) {
-            orderId = question.getOrderId() + 1;
+            if (orderId == 0) {
+                orderId = question.getOrderId() + 1;
+            }
         }
         return orderId;
     }

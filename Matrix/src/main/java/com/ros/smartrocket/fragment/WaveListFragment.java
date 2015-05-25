@@ -8,20 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -54,8 +44,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     private ImageView refreshButton;
     private AsyncQueryHandler handler;
     private WaveAdapter adapter;
-
-    private LinearLayout showHideMissionLayout;
     private Button showHideMissionButton;
 
     @Override
@@ -78,12 +66,12 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         waveList.setOnItemClickListener(this);
         waveList.setAdapter(adapter);
 
-        showHideMissionLayout = (LinearLayout) view.findViewById(R.id.showHideMissionLayout);
-
         showHideMissionButton = (Button) view.findViewById(R.id.showHideMissionButton);
         showHideMissionButton.setOnClickListener(this);
 
         refreshHiddenStatus(preferencesManager.getShowHiddenTask());
+
+        initActionBarView();
         return view;
     }
 
@@ -92,7 +80,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         super.onResume();
 
         if (!isHidden()) {
-            getWaves();
+            getWaves(true);
         }
     }
 
@@ -101,45 +89,44 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            getWaves();
+            getWaves(false);
 
             refreshHiddenStatus(preferencesManager.getShowHiddenTask());
         }
     }
 
-    private void getWaves() {
+    private void getWaves(boolean updateFromServer) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
-            refreshIconState(true);
-
             final int radius = TasksMapFragment.taskRadius;
 
-            if (UIUtils.isOnline(getActivity())) {
-                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
-                    @Override
-                    public void getLocationStart() {
+            if (updateFromServer) {
+                if (UIUtils.isOnline(getActivity())) {
+                    refreshIconState(true);
+                    MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
+                        @Override
+                        public void getLocationStart() {
 
-                    }
+                        }
 
-                    @Override
-                    public void getLocationInProcess() {
+                        @Override
+                        public void getLocationInProcess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void getLocationSuccess(Location location) {
-                        apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
-                    }
+                        @Override
+                        public void getLocationSuccess(Location location) {
+                            apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                        }
 
-                    @Override
-                    public void getLocationFail(String errorText) {
-                        UIUtils.showSimpleToast(App.getInstance(), errorText);
-                    }
-                });
-            } else {
-                refreshIconState(false);
-                UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+                        @Override
+                        public void getLocationFail(String errorText) {
+                            UIUtils.showSimpleToast(App.getInstance(), errorText);
+                        }
+                    });
+                } else {
+                    UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+                }
             }
-
             WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
         } else {
             adapter.setData(new ArrayList<Wave>());
@@ -186,7 +173,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.refreshButton:
-                getWaves();
+                getWaves(true);
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
@@ -205,13 +192,30 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-
-        View view = actionBar.getCustomView();
-        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
-        refreshButton.setOnClickListener(this);
+        initActionBarView();
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void initActionBarView() {
+        if (refreshButton == null) {
+            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            View view = actionBar.getCustomView();
+            if (view != null) {
+                initRefreshButton(actionBar);
+            } else {
+                actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
+                initRefreshButton(actionBar);
+            }
+        }
+    }
+
+    public void initRefreshButton(ActionBar actionBar) {
+        View view = actionBar.getCustomView();
+        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+        if (refreshButton != null) {
+            refreshButton.setOnClickListener(this);
+        }
     }
 
     private void refreshIconState(boolean isLoading) {

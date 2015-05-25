@@ -194,15 +194,16 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void startPreviousQuestionFragment() {
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
-            L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+            if (currentQuestion != null) {
+                L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
-            int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
-                    .getPreviousQuestionOrderId() : 1;
-            preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, previousQuestionOrderId);
+                int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
+                        .getPreviousQuestionOrderId() : 1;
+                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, previousQuestionOrderId);
 
-            Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
-
-            startFragment(question);
+                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
+                startFragment(question);
+            }
         }
     }
 
@@ -350,7 +351,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 finish();
                 return true;
             case R.id.quiteTask:
-                DialogUtils.showQuiteTaskDialog(this, task.getWaveId(), task.getId());
+                if (task.getWaveId() != null && task.getId() != null) {
+                    DialogUtils.showQuiteTaskDialog(this, task.getWaveId(), task.getId());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
