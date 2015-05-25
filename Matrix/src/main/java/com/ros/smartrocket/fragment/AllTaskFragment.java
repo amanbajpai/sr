@@ -78,7 +78,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     public void showDefaultFragment() {
         if (Keys.FIND_TASK.equals(contentType)) {
             if (preferencesManager.getIsFirstLogin()) {
-                //preferencesManager.setIsFirstLogin(false);
+                preferencesManager.setIsFirstLogin(false);
                 showList();
             } else {
                 showMap();
