@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClientOption;
@@ -34,7 +33,7 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Queue;
 
-public class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
+public final class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
         android.location.LocationListener, GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
 
@@ -63,7 +62,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         startLocationClient();
     }
 
-    public void startLocationClient() {
+    private void startLocationClient() {
         if (!Config.USE_BAIDU) {
             startGoogleLocationClient();
         } else {
@@ -71,7 +70,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         }
     }
 
-    public void startGoogleLocationClient() {
+    private void startGoogleLocationClient() {
         if (locationClient == null || (!locationClient.isConnecting() && !locationClient.isConnected())) {
             L.d(TAG, "startGoogleLocationClient");
 
@@ -92,7 +91,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         }
     }
 
-    public void startBaiduLocationClient() {
+    private void startBaiduLocationClient() {
         L.d(TAG, "startBaiduLocationClient");
 
         baiduLocationClient = new com.baidu.location.LocationClient(context);
@@ -153,7 +152,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
 
@@ -324,7 +322,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     /**
      * Process data from local database
      */
-    class DbHandler extends AsyncQueryHandler {
+    private class DbHandler extends AsyncQueryHandler {
         public DbHandler(ContentResolver cr) {
             super(cr);
         }
@@ -384,10 +382,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
         @Override
         protected void onPostExecute(Address address) {
-            /*if (address != null && "Hong Kong".equals(address.getLocality())
-                    && ChinaTransformLocation.outOfChina(address.getLatitude(), address.getLongitude())) {
-                address.setCountryName("Hong Kong");
-            }*/
             this.callback.onUpdate(address);
         }
     }

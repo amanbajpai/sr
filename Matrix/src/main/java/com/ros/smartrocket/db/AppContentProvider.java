@@ -46,7 +46,7 @@ public class AppContentProvider extends ContentProvider {
     }
 
     private void fillTableNames() {
-        dbTables = new HashMap<String, Class>();
+        dbTables = new HashMap<>();
         Table[] tables = Table.values();
         for (Table table : tables) {
             dbTables.put(table.getName(), table.getSchema());
@@ -77,13 +77,13 @@ public class AppContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor cursor = null;
-        String table = null;
-        String[] colums = null;
+        String table;
+        String[] columns;
         String where = null;
-        String groupBy = null;
+        String groupBy;
         String additionalSelection = null;
 
-        SQLiteQueryBuilder builder = null;
+        SQLiteQueryBuilder builder;
         db = dbHelper.getReadableDatabase();
         switch (URI_MATCHER.match(uri)) {
             case ENTITY:
@@ -108,7 +108,7 @@ public class AppContentProvider extends ContentProvider {
                         + TaskDbSchema.Columns.ID.getName() + " and " + Table.TASK.getName()
                         + "." + TaskDbSchema.Columns.IS_MY.getName() + "= 0" + selection + ")";
 
-                colums = new String[]{Table.WAVE.getName() + "." + WaveDbSchema.Columns._ID.getName(),
+                columns = new String[]{Table.WAVE.getName() + "." + WaveDbSchema.Columns._ID.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.NAME.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.DESCRIPTION.getName(),
@@ -161,7 +161,7 @@ public class AppContentProvider extends ContentProvider {
 
                 groupBy = Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName();
 
-                cursor = db.query(table, colums, null, null, groupBy, null, TaskDbSchema.SORT_ORDER_END_DATE_ASC);
+                cursor = db.query(table, columns, null, null, groupBy, null, TaskDbSchema.SORT_ORDER_END_DATE_ASC);
                 break;
             default:
                 break;
