@@ -153,7 +153,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-
+        view = actionBar.getCustomView();
         if (Keys.FIND_TASK.equals(contentType)) {
             ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.find_mission);
         } else if (Keys.MY_TASK.equals(contentType)) {
