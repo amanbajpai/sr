@@ -7,18 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -68,6 +63,8 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         taskList.setOnItemClickListener(this);
         taskList.setAdapter(adapter);
 
+        initActionBarView();
+
         return view;
     }
 
@@ -76,7 +73,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         super.onResume();
 
         if (!isHidden()) {
-            getMyTasks();
+            getMyTasks(true);
         }
     }
 
@@ -85,18 +82,19 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         super.onHiddenChanged(hidden);
 
         if (!hidden) {
-            getMyTasks();
+            getMyTasks(false);
         }
     }
 
-    private void getMyTasks() {
-        refreshIconState(true);
+    private void getMyTasks(boolean updateFromServer) {
         TasksBL.getMyTasksFromDB(handler);
-        if (UIUtils.isOnline(getActivity())) {
-            ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
-        } else {
-            refreshIconState(false);
-            UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+        if (updateFromServer) {
+            if (UIUtils.isOnline(getActivity())) {
+                refreshIconState(true);
+                ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
+            } else {
+                UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+            }
         }
     }
 
@@ -152,7 +150,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.refreshButton:
-                getMyTasks();
+                getMyTasks(true);
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
@@ -163,15 +161,30 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        initActionBarView();
 
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void initActionBarView() {
+        if (refreshButton == null) {
+            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            View view = actionBar.getCustomView();
+            if (view != null) {
+                initRefreshButton(actionBar);
+            } else {
+                actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
+                initRefreshButton(actionBar);
+            }
+        }
+    }
+
+    public void initRefreshButton(ActionBar actionBar) {
         View view = actionBar.getCustomView();
         refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
         if (refreshButton != null) {
             refreshButton.setOnClickListener(this);
         }
-
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void refreshIconState(boolean isLoading) {

@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.util.SparseArray;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -16,21 +15,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.AskIf;
-import com.ros.smartrocket.db.entity.BaseEntity;
-import com.ros.smartrocket.db.entity.CheckLocationResponse;
-import com.ros.smartrocket.db.entity.LoginResponse;
-import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Questions;
-import com.ros.smartrocket.db.entity.ReferralCases;
-import com.ros.smartrocket.db.entity.RegistrationResponse;
-import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.Sharing;
-import com.ros.smartrocket.db.entity.TaskLocation;
-import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
-import com.ros.smartrocket.db.entity.Waves;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
@@ -50,11 +35,13 @@ public class NetworkService extends BaseNetworkService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        BaseOperation operation = (BaseOperation) intent.getSerializableExtra(KEY_OPERATION);
-        if (operation != null) {
-            executeRequest(operation);
+        if (intent != null) {
+            BaseOperation operation = (BaseOperation) intent.getSerializableExtra(KEY_OPERATION);
+            if (operation != null) {
+                executeRequest(operation);
 
-            notifyOperationFinished(operation);
+                notifyOperationFinished(operation);
+            }
         }
     }
 

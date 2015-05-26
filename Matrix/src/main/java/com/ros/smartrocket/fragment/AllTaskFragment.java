@@ -5,15 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.helpers.FragmentHelper;
@@ -151,12 +146,14 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         menu.clear();
 
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
+        View view = actionBar.getCustomView();
+        if (view == null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
+        }
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        View view = actionBar.getCustomView();
-
+        view = actionBar.getCustomView();
         if (Keys.FIND_TASK.equals(contentType)) {
             ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.find_mission);
         } else if (Keys.MY_TASK.equals(contentType)) {

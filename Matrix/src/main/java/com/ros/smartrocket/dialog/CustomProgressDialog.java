@@ -9,7 +9,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
 
@@ -69,10 +68,17 @@ public class CustomProgressDialog extends Dialog {
                 dialog.show();
                 return dialog;
             } catch (Exception e) {
-                L.e(TAG, "Show dialog error" + e.getMessage(), e);
+                L.e(TAG, "Error show dialog: " + e.getMessage(), e);
             }
         }
         return null;
     }
 
+    public void dismiss() {
+        try {
+            super.dismiss();
+        } catch (Exception e) {
+            L.e(TAG, "Error dismiss dialog: " + e.getMessage(), e);
+        }
+    }
 }

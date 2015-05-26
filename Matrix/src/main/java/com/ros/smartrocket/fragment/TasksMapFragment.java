@@ -192,6 +192,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
 
+        initRefreshButton();
+
         return view;
     }
 
@@ -203,7 +205,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             initMap();
 
             setViewMode(getArguments());
-            loadData();
+            loadData(true);
         }
     }
 
@@ -213,7 +215,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         if (!hidden) {
             setViewMode(getArguments());
-            loadData();
+            loadData(false);
 
             showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
         } else {
@@ -281,26 +283,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     /**
      * Get Tasks
      */
-    private void loadData() {
+    private void loadData(boolean serverUpdate) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
-            updateDataFromServer();
-
-            if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
-                if (getActivity() != null) {
-                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-                }
+            if(serverUpdate){
+                updateDataFromServer();
             }
-
-            new android.os.Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (getActivity() != null) {
-                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                        loadTasksFromLocalDb();
-                    }
-                }
-            }, 1000);
-
+            loadTasksFromLocalDb();
         }
     }
 
@@ -308,20 +296,33 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Get Tasks from local db
      */
     private void loadTasksFromLocalDb() {
-        if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
-            TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
-        } else if (mode == Keys.MapViewMode.MY_TASKS) {
-            TasksBL.getMyTasksForMapFromDB(handler);
-        } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
-            TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
-            Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
-        } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
-            TasksBL.getTaskFromDBbyID(handler, viewItemId);
-            Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
+        if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
+            if (getActivity() != null) {
+                ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+            }
         }
 
-        Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null) {
+                    ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
+                        TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
+                    } else if (mode == Keys.MapViewMode.MY_TASKS) {
+                        TasksBL.getMyTasksForMapFromDB(handler);
+                    } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
+                        TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
+                        Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
+                    } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
+                        TasksBL.getTaskFromDBbyID(handler, viewItemId);
+                        Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
+                    }
 
+                    Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
+                }
+            }
+        }, 1000);
     }
 
     /**
@@ -329,6 +330,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void updateDataFromServer() {
         if (UIUtils.isOnline(getActivity())) {
+            refreshIconState(true);
             if (mode == Keys.MapViewMode.MY_TASKS) {
                 getMyTasksFromServer();
             } else if (mode == Keys.MapViewMode.ALL_TASKS) {
@@ -353,7 +355,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * @param radius - selected radius
      */
     private void getWavesFromServer(final int radius) {
-        refreshIconState(true);
         MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
             @Override
             public void getLocationStart() {
@@ -544,13 +545,13 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 break;
             case R.id.applyButton:
                 toggleFilterPanel();
-                loadData();
+                loadData(true);
                 break;
             case R.id.btnFilter:
                 toggleFilterPanel();
                 break;
             case R.id.refreshButton:
-                loadData();
+                loadData(true);
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
@@ -564,7 +565,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         switch (buttonView.getId()) {
             case R.id.showHiddenTasksToggleButton:
                 preferencesManager.setShowHiddenTask(isChecked);
-                loadData();
+                loadData(true);
                 break;
             default:
                 break;
@@ -573,17 +574,22 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-
-        View view = actionBar.getCustomView();
-        if (view != null) {
-            refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
-            if (refreshButton != null) {
-                refreshButton.setOnClickListener(this);
-            }
-        }
+        initRefreshButton();
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void initRefreshButton() {
+        if (refreshButton == null) {
+            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            View view = actionBar.getCustomView();
+            if (view != null) {
+                refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+                if (refreshButton != null) {
+                    refreshButton.setOnClickListener(this);
+                }
+            }
+        }
     }
 
     /* ==============================================
