@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
@@ -63,7 +63,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView expireText;
     private TextView statusTimeText;
 
-    private LinearLayout addressLayout;
     private LinearLayout descriptionLayout;
     private TextView taskAddress;
     private View optionDivider;
@@ -80,8 +79,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Button withdrawTaskButton;
     private Button continueTaskButton;
     private Button redoTaskButton;
-
-    private View actionBarView;
 
     private LinearLayout startTimeLayout;
     private LinearLayout deadlineTimeLayout;
@@ -142,7 +139,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         optionDivider = findViewById(R.id.optionDivider);
 
         descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
-        addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
 
         taskDescription = (TextView) findViewById(R.id.taskDescription);
         locationName = (TextView) findViewById(R.id.locationName);
@@ -249,7 +245,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (!TextUtils.isEmpty(task.getAddress())) {
             taskAddress.setText(task.getAddress());
-            taskDistance.setText(UIUtils.convertMToKm(this, task.getDistance(), R.string.task_distance_away, false));
+            taskDistance.setText(UIUtils.convertMToKm(this, getDistanceForTask(task), R.string.task_distance_away,
+                    false));
         } else {
             //taskAddress.setVisibility(View.GONE);
             taskAddress.setText(R.string.no_mission_address);
@@ -287,6 +284,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         setTaskDataByType(task);
         setColorTheme(task);
         setButtonsSettings(task);
+    }
+
+    private float getDistanceForTask(Task task) {
+        return TasksBL.getDistanceForTask(task, App.getInstance().getLocationManager().getLocation());
     }
 
     public void setWaveData(Wave wave) {
@@ -657,7 +658,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        actionBarView = actionBar.getCustomView();
+        View actionBarView = actionBar.getCustomView();
 
         if (wave != null) {
             titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);

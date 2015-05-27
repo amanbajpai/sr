@@ -16,16 +16,11 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -43,11 +38,7 @@ import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class MapHelper {
     private static final String TAG = MapHelper.class.getSimpleName();
@@ -211,7 +202,7 @@ public class MapHelper {
         title.setText(task.getName());
         priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign(), null, null));
         pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-        distanceText.setText(UIUtils.convertMToKm(activity, task.getDistance(),
+        distanceText.setText(UIUtils.convertMToKm(activity, getDistanceToTask(task),
                 R.string.map_popup_distance, false));
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
@@ -253,6 +244,10 @@ public class MapHelper {
             default:
                 break;
         }
+    }
+
+    private static float getDistanceToTask(Task task) {
+        return TasksBL.getDistanceForTask(task, App.getInstance().getLocationManager().getLocation());
     }
 
     public static void mapOverlayClickResult(Activity activity, int taskId, int taskStatusId) {

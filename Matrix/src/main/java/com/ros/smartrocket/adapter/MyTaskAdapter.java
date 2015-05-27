@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
@@ -21,8 +20,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyTaskAdapter extends BaseAdapter {
+
     private Activity activity;
-    private List<Task> items = new ArrayList<Task>();
+    private List<Task> items = new ArrayList<>();
     private LayoutInflater inflater;
 
     public static class ViewHolder {
@@ -35,7 +35,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
         private LinearLayout timeAndDistanceLayout;
         private TextView locationName;
-        private TextView missionAvaileble;
+        private TextView missionAvailable;
 
         private TextView statusText;
         private LinearLayout optionLayout;
@@ -49,7 +49,6 @@ public class MyTaskAdapter extends BaseAdapter {
 
     public MyTaskAdapter(Activity activity) {
         this.activity = activity;
-
         inflater = LayoutInflater.from(activity);
     }
 
@@ -85,7 +84,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
             holder.timeAndDistanceLayout = (LinearLayout) convertView.findViewById(R.id.timeAndDistanceLayout);
             holder.locationName = (TextView) convertView.findViewById(R.id.locationName);
-            holder.missionAvaileble = (TextView) convertView.findViewById(R.id.missionAvaileble);
+            holder.missionAvailable = (TextView) convertView.findViewById(R.id.missionAvaileble);
 
             holder.statusText = (TextView) convertView.findViewById(R.id.statusText);
             holder.optionLayout = (LinearLayout) convertView.findViewById(R.id.optionLayout);
@@ -105,7 +104,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
         holder.timeAndDistanceLayout.setVisibility(View.GONE);
         holder.locationName.setVisibility(View.GONE);
-        holder.missionAvaileble.setVisibility(View.GONE);
+        holder.missionAvailable.setVisibility(View.GONE);
 
         holder.name.setText(task.getName());
         UIUtils.showWaveTypeIcon(activity, holder.image, task.getIcon());
@@ -133,8 +132,9 @@ public class MyTaskAdapter extends BaseAdapter {
                 if (TasksBL.isPreClaimTask(task)) {
                     holder.listItem.setBackgroundResource(R.drawable.mission_violet_bg);
 
-                    holder.missionAvaileble.setText(activity.getString(R.string.mission_available, UIUtils.longToString(startTimeInMillisecond, 3)));
-                    holder.missionAvaileble.setVisibility(View.VISIBLE);
+                    holder.missionAvailable.setText(activity.getString(R.string.mission_available, UIUtils
+                            .longToString(startTimeInMillisecond, 3)));
+                    holder.missionAvailable.setVisibility(View.VISIBLE);
 
                     holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                     holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));

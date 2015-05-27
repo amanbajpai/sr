@@ -14,7 +14,6 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -265,7 +264,23 @@ public class TasksBL {
             }
             return null;
         }
+    }
 
+    /**
+     * Calculates distance to the task according to specific Location
+     * @param task task to get location for
+     * @param currentLocation location to distance calculation
+     * @return distance to task or 0 if location of the task is not specified
+     */
+    public static float getDistanceForTask(Task task, Location currentLocation) {
+        Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
+        if (task.getLatitude() != null && task.getLongitude() != null && currentLocation != null) {
+            taskLocation.setLatitude(task.getLatitude());
+            taskLocation.setLongitude(task.getLongitude());
+            return currentLocation.distanceTo(taskLocation);
+        } else {
+            return 0f;
+        }
     }
 
     /**

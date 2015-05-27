@@ -23,6 +23,7 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -49,6 +50,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     private CurrentLocationUpdateListener currentLocationUpdateListener;
     private AsyncQueryHandler handler;
     private LocationManager locationManager;
+    private DistancesUpdateListener distancesUpdatedListener;
 
     /**
      * @param context - current context
@@ -193,8 +195,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         if (location != null) {
             L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
                     + "Provider: " + location.getProvider() + "]");
-
-            TasksBL.getTasksFromDB(handler);
+            notifyAllRequestedLocation();
         }
     }
 
@@ -238,8 +239,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             ChinaTransformLocation.transformFromBaiduToWorldLocation(testLocation);*/
 
             lastLocation = location;
-
-            TasksBL.getTasksFromDB(handler);
+            notifyAllRequestedLocation();
         }
     }
 
@@ -304,6 +304,15 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         requested.add(listener);
     }
 
+    /**
+     * Force to recalculate distances to the tasks according to the actual location
+     * @param distancesUpdateListener - listener to be called when the recalculation in done
+     */
+    public void recalculateDistances(DistancesUpdateListener distancesUpdateListener) {
+        this.distancesUpdatedListener = distancesUpdateListener;
+        TasksBL.getTasksFromDB(handler);
+    }
+
     private void notifyAllRequestedLocation() {
         if (lastLocation != null) {
             if (currentLocationUpdateListener != null) {
@@ -312,6 +321,12 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             while (!requested.isEmpty()) {
                 requested.poll().onUpdate(lastLocation);
             }
+        }
+    }
+
+    private void notifyDatabaseDistancesRecalculated() {
+        if (distancesUpdatedListener != null) {
+            distancesUpdatedListener.onDistancesUpdated();
         }
     }
 
@@ -345,7 +360,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
                 case TaskDbSchema.Query.All.TOKEN_UPDATE:
                     boolean isLast = (Boolean) cookie;
                     if (isLast) {
-                        notifyAllRequestedLocation();
+                        notifyDatabaseDistancesRecalculated();
                     }
                     break;
                 default:
@@ -502,7 +517,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             }
         }
     }
-
 
     public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
         this.currentLocationUpdateListener = currentLocationUpdateListener;

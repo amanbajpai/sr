@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -22,6 +23,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -87,7 +89,8 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     private void getMyTasks(boolean updateFromServer) {
-        TasksBL.getMyTasksFromDB(handler);
+        // todo potentional issue? we read\write tasks from local and from net - synchronization issue?
+        App.getInstance().getLocationManager().recalculateDistances(distancesUpdateListener);
         if (updateFromServer) {
             if (UIUtils.isOnline(getActivity())) {
                 refreshIconState(true);
@@ -208,4 +211,12 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
         super.onStop();
     }
+
+    // load data from db after distances are recalculated
+    private final DistancesUpdateListener distancesUpdateListener = new DistancesUpdateListener() {
+        @Override
+        public void onDistancesUpdated() {
+            TasksBL.getMyTasksFromDB(handler);
+        }
+    };
 }
