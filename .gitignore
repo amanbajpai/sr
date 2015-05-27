@@ -34,3 +34,10 @@ Cluedologs/build/
 /.idea/workspace.xml
 
 .DS_Store
+
+## File-based project format
+*.ipr
+*.iws
+*.iml
+*~
+*.swp

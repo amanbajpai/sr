@@ -181,6 +181,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             }
                         }
                     }
+                    currentQuestion.setNextAnsweredQuestionId(question.getId());
                     QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
 
                     startFragment(question);
