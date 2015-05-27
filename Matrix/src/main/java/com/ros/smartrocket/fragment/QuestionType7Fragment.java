@@ -38,6 +38,9 @@ import java.util.Arrays;
  * Multiple photo question type
  */
 public class QuestionType7Fragment extends BaseQuestionFragment implements View.OnClickListener {
+
+    private static final String STATE_PHOTO = "STATE_PHOTO";
+
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private LayoutInflater localInflater;
     private ImageButton rePhotoButton;
@@ -53,6 +56,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     private AsyncQueryHandler handler;
     private int currentSelectedPhoto = 0;
     private CustomProgressDialog progressDialog;
+    private String mCurrentPhotoPath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,6 +109,23 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mCurrentPhotoPath = savedInstanceState.getString(STATE_PHOTO);
+        }
+        selectImageManager.setImageCompleteListener(imageCompleteListener);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mCurrentPhotoPath != null) {
+            outState.putString(STATE_PHOTO, mCurrentPhotoPath);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
     class DbHandler extends AsyncQueryHandler {
 
         public DbHandler(ContentResolver cr) {
@@ -124,9 +145,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     }
 
                     refreshPhotoGallery(question.getAnswers());
-
                     selectGalleryPhoto(0);
-
                     hideProgressDialog();
                     break;
                 default:
@@ -154,7 +173,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     if (question.getAnswers().length == question.getMaximumPhotos()) {
                         question.setAnswers(addEmptyAnswer(question.getAnswers()));
                     }
-
                     AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
                     break;
                 default:
@@ -202,7 +220,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             boolean selected = isBitmapAdded && isBitmapConfirmed;
-
             answerSelectedListener.onAnswerSelected(selected);
         }
 
@@ -225,7 +242,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         } else {
             confirmButton.setVisibility(View.GONE);
         }
-
     }
 
     public void refreshRePhotoButton() {
@@ -243,7 +259,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         } else {
             deletePhotoButton.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -258,7 +273,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             for (Answer answer : answers) {
                 answer.setChecked(false);
             }
-
             AnswersBL.updateAnswersToDB(handler, answers);
         }
     }
@@ -269,7 +283,11 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        selectImageManager.onActivityResult(requestCode, resultCode, intent);
+        if (mCurrentPhotoPath != null) {
+            intent = new Intent();
+            intent.setData(Uri.fromFile(new File(mCurrentPhotoPath)));
+            selectImageManager.onActivityResult(requestCode, resultCode, intent);
+        }
     }
 
     @Override
@@ -293,14 +311,14 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 }
             case R.id.rePhotoButton:
                 if (question.getPhotoSource() == 0) {
-                    selectImageManager.startCamera(getActivity());
+                    File fileToPhoto = SelectImageManager.getTempFile(getActivity());
+                    mCurrentPhotoPath = fileToPhoto.getAbsolutePath();
+                    selectImageManager.startCamera(this, fileToPhoto);
                 } else if (question.getPhotoSource() == 1) {
                     selectImageManager.startGallery(getActivity());
                 } else {
                     selectImageManager.showSelectImageDialog(getActivity(), true);
                 }
-
-                selectImageManager.setImageCompleteListener(imageCompleteListener);
                 break;
             case R.id.deletePhotoButton:
                 AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
@@ -323,7 +341,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                         }
 
                         confirmButtonPressAction(location);
-
                         hideProgressDialog();
                     }
 
@@ -332,7 +349,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                         if (getActivity() != null && !getActivity().isFinishing()) {
                             UIUtils.showSimpleToast(getActivity(), errorText);
                         }
-
                         hideProgressDialog();
                     }
                 });
@@ -475,8 +491,10 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressDialog = CustomProgressDialog.show(getActivity());
-                progressDialog.setCancelable(false);
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog = CustomProgressDialog.show(getActivity());
+                    progressDialog.setCancelable(false);
+                }
             }
         });
 
@@ -487,6 +505,4 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             progressDialog.dismiss();
         }
     }
-
-
 }

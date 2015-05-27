@@ -4,46 +4,39 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:orientation="vertical">
-
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/questionText"
         style="@style/QuestionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp" />
-
+        android:layout_marginBottom="20dp"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/presetValidationComment"
         style="@style/QuestionValidationComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp" />
-
+        android:paddingBottom="10dp"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/validationComment"
         style="@style/QuestionValidationComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp" />
-
+        android:paddingBottom="20dp"/>
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:layout_marginBottom="5dp"
         android:scrollbars="none">
-
         <LinearLayout
             android:id="@+id/galleryLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"/>
     </HorizontalScrollView>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/grey_light">
-
         <ImageView
             android:id="@+id/photo"
             android:layout_width="match_parent"
@@ -51,8 +44,7 @@
             android:adjustViewBounds="true"
             android:background="@drawable/camera_icon"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop" />
-
+            android:scaleType="centerCrop"/>
         <ImageButton
             android:id="@+id/rePhotoButton"
             android:layout_width="42dp"
@@ -62,8 +54,7 @@
             android:background="@drawable/btn_square_active"
             android:contentDescription="@string/app_name"
             android:padding="10dp"
-            android:src="@drawable/refresh_square_red" />
-
+            android:src="@drawable/refresh_square_red"/>
         <ImageButton
             android:id="@+id/deletePhotoButton"
             android:layout_width="42dp"
@@ -74,8 +65,7 @@
             android:background="@drawable/btn_square_active"
             android:contentDescription="@string/app_name"
             android:padding="10dp"
-            android:src="@drawable/delete_square_red" />
-
+            android:src="@drawable/delete_square_red"/>
         <ImageButton
             android:id="@+id/confirmButton"
             android:layout_width="42dp"
@@ -86,6 +76,6 @@
             android:contentDescription="@string/app_name"
             android:padding="10dp"
             android:src="@drawable/check_square_green"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </FrameLayout>
 </LinearLayout>
