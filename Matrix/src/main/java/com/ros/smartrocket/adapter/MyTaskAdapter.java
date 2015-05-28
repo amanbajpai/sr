@@ -193,7 +193,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-                holder.statusText.setText(activity.getString(R.string.mission_in_validation));
+                holder.statusText.setText(activity.getString(R.string.mission_transmitting));
 
                 holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.grey));
                 holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
