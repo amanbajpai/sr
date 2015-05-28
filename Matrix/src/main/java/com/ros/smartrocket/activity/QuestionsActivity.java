@@ -2,7 +2,6 @@ package com.ros.smartrocket.activity;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -273,16 +272,25 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     break;
             }
 
-            if (currentFragment != null) {
-                currentFragment.setAnswerPageLoadingFinishedListener(this);
-                currentFragment.setAnswerSelectedListener(this);
-                currentFragment.setArguments(fragmentBundle);
+            BaseQuestionFragment prevFragment = (BaseQuestionFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.contentLayout);
 
-                try {
-                    t.replace(R.id.contentLayout, currentFragment).commit();
-                } catch (Exception e) {
-                    L.e(TAG, "Error replace question type fragment", e);
-                    finish();
+            if (currentFragment != null) {
+                if (prevFragment == null || currentFragment.getClass() != prevFragment.getClass()) {
+                    currentFragment.setAnswerPageLoadingFinishedListener(this);
+                    currentFragment.setAnswerSelectedListener(this);
+                    currentFragment.setArguments(fragmentBundle);
+
+                    try {
+                        t.replace(R.id.contentLayout, currentFragment).commit();
+                    } catch (Exception e) {
+                        L.e(TAG, "Error replace question type fragment", e);
+                        finish();
+                    }
+                } else {
+                    currentFragment = prevFragment;
+                    currentFragment.setAnswerPageLoadingFinishedListener(this);
+                    currentFragment.setAnswerSelectedListener(this);
                 }
             }
         } else {
@@ -338,12 +346,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (currentFragment != null) {
-            currentFragment.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (currentFragment != null) {
+//            currentFragment.onActivityResult(requestCode, resultCode, data);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
