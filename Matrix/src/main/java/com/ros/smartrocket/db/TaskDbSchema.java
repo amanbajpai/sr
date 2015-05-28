@@ -3,6 +3,7 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface TaskDbSchema {
+
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.TASK
             .getName()).build();
@@ -25,7 +26,7 @@ public interface TaskDbSchema {
                     + Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName() + " DESC";
     String SORT_ORDER_END_DATE_ASC = Table.TASK.getName() + "." + Columns.LONG_END_DATE_TIME.getName() + " ASC";
 
-    public enum Columns {
+    enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         WAVE_ID("waveId", DBType.NUMERIC),
@@ -109,8 +110,8 @@ public interface TaskDbSchema {
         }
     }
 
-    public interface Query {
-        public interface All {
+    interface Query {
+        interface All {
             int TOKEN_QUERY = 1;
             int TOKEN_UPDATE = 3;
 

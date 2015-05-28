@@ -98,7 +98,7 @@ public interface Keys {
     /**
      * All possible view modes on map
      */
-    public enum MapViewMode {
+    enum MapViewMode {
         ALL_TASKS,
         MY_TASKS,
         WAVE_TASKS,

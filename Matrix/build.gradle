@@ -107,12 +107,12 @@ android {
     ext.env = System.getenv()
     ext.buildNumber = env.BUILD_NUMBER ?: '0'
     ext.buildNumber = buildNumber.toInteger()
-    compileSdkVersion 21
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode buildNumber
         versionName '2.0.4'
         applicationId 'com.ros.smartrocket'

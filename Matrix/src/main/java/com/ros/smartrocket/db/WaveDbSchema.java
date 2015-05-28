@@ -3,7 +3,8 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface WaveDbSchema {
-    public static final int WAVE_BY_DISTANCE = 102;
+
+    int WAVE_BY_DISTANCE = 102;
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.WAVE
             .getName()).build();
@@ -12,7 +13,7 @@ public interface WaveDbSchema {
 
     String SORT_ORDER_DESC_LIMIT_1 = Table.WAVE.getName() + "." + Columns._ID.getName() + " DESC LIMIT 1";
 
-    public enum Columns {
+    enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         NAME("name", DBType.TEXT),
@@ -71,7 +72,7 @@ public interface WaveDbSchema {
         }
     }
 
-    public interface Query {
+    interface Query {
         int TOKEN_QUERY = 10;
 
         String[] PROJECTION = {Table.WAVE.getName() + "." + Columns._ID.getName(),
@@ -142,7 +143,7 @@ public interface WaveDbSchema {
         int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 28;
     }
 
-    public interface QueryWaveByDistance {
+    interface QueryWaveByDistance {
         int TOKEN_QUERY = 10;
 
         //Look projection in AppContentProvider

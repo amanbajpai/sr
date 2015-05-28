@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClientOption;
@@ -24,6 +23,7 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -34,7 +34,7 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Queue;
 
-public class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
+public final class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
         android.location.LocationListener, GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
 
@@ -50,6 +50,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     private CurrentLocationUpdateListener currentLocationUpdateListener;
     private AsyncQueryHandler handler;
     private LocationManager locationManager;
+    private DistancesUpdateListener distancesUpdatedListener;
 
     /**
      * @param context - current context
@@ -63,7 +64,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         startLocationClient();
     }
 
-    public void startLocationClient() {
+    private void startLocationClient() {
         if (!Config.USE_BAIDU) {
             startGoogleLocationClient();
         } else {
@@ -71,7 +72,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         }
     }
 
-    public void startGoogleLocationClient() {
+    private void startGoogleLocationClient() {
         if (locationClient == null || (!locationClient.isConnecting() && !locationClient.isConnected())) {
             L.d(TAG, "startGoogleLocationClient");
 
@@ -92,7 +93,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         }
     }
 
-    public void startBaiduLocationClient() {
+    private void startBaiduLocationClient() {
         L.d(TAG, "startBaiduLocationClient");
 
         baiduLocationClient = new com.baidu.location.LocationClient(context);
@@ -153,7 +154,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
 
@@ -195,8 +195,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         if (location != null) {
             L.i(TAG, "onLocationChanged() [ " + location.getLatitude() + ", " + location.getLongitude() + ", "
                     + "Provider: " + location.getProvider() + "]");
-
-            TasksBL.getTasksFromDB(handler);
+            notifyAllRequestedLocation();
         }
     }
 
@@ -240,8 +239,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             ChinaTransformLocation.transformFromBaiduToWorldLocation(testLocation);*/
 
             lastLocation = location;
-
-            TasksBL.getTasksFromDB(handler);
+            notifyAllRequestedLocation();
         }
     }
 
@@ -306,6 +304,15 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         requested.add(listener);
     }
 
+    /**
+     * Force to recalculate distances to the tasks according to the actual location
+     * @param distancesUpdateListener - listener to be called when the recalculation in done
+     */
+    public void recalculateDistances(DistancesUpdateListener distancesUpdateListener) {
+        this.distancesUpdatedListener = distancesUpdateListener;
+        TasksBL.getTasksFromDB(handler);
+    }
+
     private void notifyAllRequestedLocation() {
         if (lastLocation != null) {
             if (currentLocationUpdateListener != null) {
@@ -317,6 +324,12 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
         }
     }
 
+    private void notifyDatabaseDistancesRecalculated() {
+        if (distancesUpdatedListener != null) {
+            distancesUpdatedListener.onDistancesUpdated();
+        }
+    }
+
     public boolean isConnected() {
         return isConnected;
     }
@@ -324,7 +337,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
     /**
      * Process data from local database
      */
-    class DbHandler extends AsyncQueryHandler {
+    private class DbHandler extends AsyncQueryHandler {
         public DbHandler(ContentResolver cr) {
             super(cr);
         }
@@ -347,7 +360,7 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
                 case TaskDbSchema.Query.All.TOKEN_UPDATE:
                     boolean isLast = (Boolean) cookie;
                     if (isLast) {
-                        notifyAllRequestedLocation();
+                        notifyDatabaseDistancesRecalculated();
                     }
                     break;
                 default:
@@ -384,10 +397,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
 
         @Override
         protected void onPostExecute(Address address) {
-            /*if (address != null && "Hong Kong".equals(address.getLocality())
-                    && ChinaTransformLocation.outOfChina(address.getLatitude(), address.getLongitude())) {
-                address.setCountryName("Hong Kong");
-            }*/
             this.callback.onUpdate(address);
         }
     }
@@ -508,7 +517,6 @@ public class MatrixLocationManager implements com.google.android.gms.location.Lo
             }
         }
     }
-
 
     public void setCurrentLocationUpdateListener(CurrentLocationUpdateListener currentLocationUpdateListener) {
         this.currentLocationUpdateListener = currentLocationUpdateListener;
