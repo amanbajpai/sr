@@ -83,6 +83,17 @@ public class SelectImageManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
+    public void startGallery(Fragment fragment) {
+        this.activity = fragment.getActivity();
+
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (!IntentUtils.isIntentAvailable(activity, i)) {
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("photo/*");
+        }
+        fragment.startActivityForResult(i, GALLERY);
+    }
+
     public void startCamera(Activity activity) {
         this.activity = activity;
 
@@ -102,16 +113,6 @@ public class SelectImageManager {
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileToSavePhoto));
         fragment.startActivityForResult(i, CAMERA);
     }
-
-    /*public void startCustomCamera(Activity activity) {
-        this.activity = activity;
-
-        lastFile = getTempFile(activity);
-
-        Intent i = new Intent(activity, TakePhotoActivity.class);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
-        activity.startActivityForResult(i, CUSTOM_CAMERA);
-    }*/
 
     public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

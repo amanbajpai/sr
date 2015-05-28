@@ -40,6 +40,7 @@ import java.util.Arrays;
 public class QuestionType7Fragment extends BaseQuestionFragment implements View.OnClickListener {
 
     private static final String STATE_PHOTO = "STATE_PHOTO";
+    private static final String STATE_SELECTED_FRAME = "current_selected_photo";
 
     private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private LayoutInflater localInflater;
@@ -114,6 +115,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mCurrentPhotoPath = savedInstanceState.getString(STATE_PHOTO);
+            currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
         }
         selectImageManager.setImageCompleteListener(imageCompleteListener);
     }
@@ -122,6 +124,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     public void onSaveInstanceState(Bundle outState) {
         if (mCurrentPhotoPath != null) {
             outState.putString(STATE_PHOTO, mCurrentPhotoPath);
+            outState.putInt(STATE_SELECTED_FRAME, currentSelectedPhoto);
         }
         super.onSaveInstanceState(outState);
     }
@@ -182,8 +185,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     public void selectGalleryPhoto(int position) {
-        currentSelectedPhoto = position;
-
         Answer answer = question.getAnswers()[position];
 
         for (int i = 0; i < galleryLayout.getChildCount(); i++) {
@@ -287,6 +288,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             intent = new Intent();
             intent.setData(Uri.fromFile(new File(mCurrentPhotoPath)));
             selectImageManager.onActivityResult(requestCode, resultCode, intent);
+        } else if (intent != null && intent.getData() != null) {
+            selectImageManager.onActivityResult(requestCode, resultCode, intent);
         }
     }
 
@@ -315,7 +318,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     mCurrentPhotoPath = fileToPhoto.getAbsolutePath();
                     selectImageManager.startCamera(this, fileToPhoto);
                 } else if (question.getPhotoSource() == 1) {
-                    selectImageManager.startGallery(getActivity());
+                    selectImageManager.startGallery(this);
                 } else {
                     selectImageManager.showSelectImageDialog(getActivity(), true);
                 }
@@ -480,6 +483,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentSelectedPhoto = position;
                 selectGalleryPhoto(position);
             }
         });
