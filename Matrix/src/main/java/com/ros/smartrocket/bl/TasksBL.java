@@ -234,7 +234,6 @@ public class TasksBL {
         protected Void doInBackground(Location... params) {
             Location currentLocation = params[0];
             Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
-            ContentValues contentValues = new ContentValues();
 
             final List<Task> tasks = TasksBL.convertCursorToTasksList(cursor);
 
@@ -242,6 +241,7 @@ public class TasksBL {
                 final int tasksCount = tasks.size();
                 for (int i = 0; i < tasksCount; i++) {
                     Task task = tasks.get(i);
+                    ContentValues contentValues = new ContentValues();
                     if (task.getLatitude() != null && task.getLongitude() != null) {
                         taskLocation.setLatitude(task.getLatitude());
                         taskLocation.setLongitude(task.getLongitude());
@@ -258,8 +258,7 @@ public class TasksBL {
                     String[] whereArgs = new String[]{String.valueOf(task.getId())};
 
                     handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE,
-                            i == tasksCount - 1, TaskDbSchema.CONTENT_URI, contentValues,
-                            where, whereArgs);
+                            i == tasksCount - 1, TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
                 }
             }
             return null;
@@ -268,7 +267,8 @@ public class TasksBL {
 
     /**
      * Calculates distance to the task according to specific Location
-     * @param task task to get location for
+     *
+     * @param task            task to get location for
      * @param currentLocation location to distance calculation
      * @return distance to task or 0 if location of the task is not specified
      */
@@ -290,8 +290,9 @@ public class TasksBL {
      * @return ArrayList<Task>
      */
     public static List<Task> convertCursorToTasksList(Cursor cursor) {
-        List<Task> result = new ArrayList<Task>();
+        List<Task> result = new ArrayList<>();
         if (cursor != null) {
+            cursor.moveToFirst();
             while (cursor.moveToNext()) {
                 result.add(Task.fromCursor(cursor));
             }

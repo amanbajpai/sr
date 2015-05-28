@@ -55,6 +55,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_my_task_list, null);
 
+        initActionBarView();
+        refreshIconState(true);
+
         handler = new DbHandler(getActivity().getContentResolver());
         adapter = new MyTaskAdapter(getActivity());
 
@@ -64,8 +67,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         taskList.setEmptyView(emptyListLTextView);
         taskList.setOnItemClickListener(this);
         taskList.setAdapter(adapter);
-
-        initActionBarView();
 
         return view;
     }
@@ -89,13 +90,15 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     private void getMyTasks(boolean updateFromServer) {
-        // todo potentional issue? we read\write tasks from local and from net - synchronization issue?
-        App.getInstance().getLocationManager().recalculateDistances(distancesUpdateListener);
+        AllTaskFragment.stopRefreshProgress = !updateFromServer;
+        refreshIconState(true);
+        TasksBL.getMyTasksFromDB(handler);
+
         if (updateFromServer) {
             if (UIUtils.isOnline(getActivity())) {
-                refreshIconState(true);
                 ((BaseActivity) getActivity()).sendNetworkOperation(apiFacade.getMyTasksOperation());
             } else {
+                refreshIconState(false);
                 UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
             }
         }
@@ -111,6 +114,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     adapter.setData(TasksBL.convertCursorToTasksList(cursor));
+                    if (AllTaskFragment.stopRefreshProgress) {
+                        refreshIconState(false);
+                    }
                     break;
                 default:
                     break;
@@ -120,15 +126,17 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+        if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                AllTaskFragment.stopRefreshProgress = true;
                 TasksBL.getMyTasksFromDB(handler);
                 IntentUtils.refreshMainMenuMyTaskCount(getActivity());
+
+            } else {
+                L.i(TAG, operation.getResponseError());
+                refreshIconState(false);
             }
-        } else {
-            L.i(TAG, operation.getResponseError());
         }
-        refreshIconState(false);
     }
 
     @Override
@@ -211,12 +219,4 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
         super.onStop();
     }
-
-    // load data from db after distances are recalculated
-    private final DistancesUpdateListener distancesUpdateListener = new DistancesUpdateListener() {
-        @Override
-        public void onDistancesUpdated() {
-            TasksBL.getMyTasksFromDB(handler);
-        }
-    };
 }

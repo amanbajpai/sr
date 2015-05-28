@@ -108,17 +108,22 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
 
+        initRefreshButton();
+        refreshIconState(true);
+
         LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
 
-        try {
-            if (Config.USE_BAIDU) {
-                mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
-            } else {
-                mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
+        if (savedInstanceState == null) {
+            try {
+                if (Config.USE_BAIDU) {
+                    mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
+                } else {
+                    mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
+                }
+            } catch (Exception e) {
+                L.e(TAG, "Error in onCreateView method.", e);
+                getActivity().finish();
             }
-        } catch (Exception e) {
-            L.e(TAG, "Error in onCreateView method.", e);
-            getActivity().finish();
         }
 
         display = getActivity().getWindowManager().getDefaultDisplay();
@@ -191,8 +196,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         });
 
         lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
-
-        initRefreshButton();
 
         return view;
     }
@@ -285,10 +288,15 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void loadData(boolean serverUpdate) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
-            if(serverUpdate){
+            AllTaskFragment.stopRefreshProgress = !serverUpdate;
+            refreshIconState(true);
+            loadTasksFromLocalDb();
+
+            if (serverUpdate) {
                 updateDataFromServer();
             }
-            loadTasksFromLocalDb();
+        } else {
+            refreshIconState(false);
         }
     }
 
@@ -330,7 +338,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void updateDataFromServer() {
         if (UIUtils.isOnline(getActivity())) {
-            refreshIconState(true);
             if (mode == Keys.MapViewMode.MY_TASKS) {
                 getMyTasksFromServer();
             } else if (mode == Keys.MapViewMode.ALL_TASKS) {
@@ -393,6 +400,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (getActivity() != null && !getActivity().isFinishing()) {
                         onLoadingComplete(TasksBL.convertCursorToTasksList(cursor));
+                        if (AllTaskFragment.stopRefreshProgress) {
+                            refreshIconState(false);
+                        }
                     }
                     break;
                 default:
@@ -403,15 +413,17 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
-                    || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+        if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
+                || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                AllTaskFragment.stopRefreshProgress = true;
                 loadTasksFromLocalDb();
+
+            } else {
+                L.i(TAG, operation.getResponseError());
+                refreshIconState(false);
             }
-        } else {
-            L.i(TAG, operation.getResponseError());
         }
-        refreshIconState(false);
     }
 
     /**

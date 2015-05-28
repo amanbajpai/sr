@@ -21,6 +21,7 @@ import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
@@ -56,6 +57,9 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_wave_list, null);
 
+        initActionBarView();
+        refreshIconState(true);
+
         handler = new DbHandler(getActivity().getContentResolver());
         adapter = new WaveAdapter(getActivity());
 
@@ -71,7 +75,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
 
         refreshHiddenStatus(preferencesManager.getShowHiddenTask());
 
-        initActionBarView();
         return view;
     }
 
@@ -95,41 +98,59 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         }
     }
 
-    private void getWaves(boolean updateFromServer) {
+    private void getWaves(final boolean updateFromServer) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
-            final int radius = TasksMapFragment.taskRadius;
+            AllTaskFragment.stopRefreshProgress = !updateFromServer;
+            refreshIconState(true);
 
-            if (updateFromServer) {
-                if (UIUtils.isOnline(getActivity())) {
-                    refreshIconState(true);
-                    MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
-                        @Override
-                        public void getLocationStart() {
+            App.getInstance().getLocationManager().recalculateDistances(new DistancesUpdateListener() {
+                @Override
+                public void onDistancesUpdated() {
+                    WavesBL.getNotMyTasksWavesListFromDB(handler, TasksMapFragment.taskRadius,
+                            preferencesManager.getShowHiddenTask());
 
-                        }
-
-                        @Override
-                        public void getLocationInProcess() {
-
-                        }
-
-                        @Override
-                        public void getLocationSuccess(Location location) {
-                            apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
-                        }
-
-                        @Override
-                        public void getLocationFail(String errorText) {
-                            UIUtils.showSimpleToast(App.getInstance(), errorText);
-                        }
-                    });
-                } else {
-                    UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
+                    if (updateFromServer) {
+                        updateDataFromServer();
+                    }
                 }
-            }
-            WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
+            });
+
         } else {
+            refreshIconState(false);
             adapter.setData(new ArrayList<Wave>());
+        }
+    }
+
+    /**
+     * Send request to server for data update
+     */
+    private void updateDataFromServer() {
+        final int radius = TasksMapFragment.taskRadius;
+        if (UIUtils.isOnline(getActivity())) {
+            MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
+                @Override
+                public void getLocationStart() {
+
+                }
+
+                @Override
+                public void getLocationInProcess() {
+
+                }
+
+                @Override
+                public void getLocationSuccess(Location location) {
+                    apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                }
+
+                @Override
+                public void getLocationFail(String errorText) {
+                    UIUtils.showSimpleToast(App.getInstance(), errorText);
+                }
+            });
+        } else {
+            refreshIconState(false);
+            UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
         }
     }
 
@@ -143,6 +164,9 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
             switch (token) {
                 case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
                     adapter.setData(WavesBL.convertCursorToWaveListByDistance(cursor));
+                    if (AllTaskFragment.stopRefreshProgress) {
+                        refreshIconState(false);
+                    }
                     break;
                 default:
                     break;
@@ -152,15 +176,17 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())) {
+        if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                AllTaskFragment.stopRefreshProgress = true;
                 WavesBL.getNotMyTasksWavesListFromDB(handler, TasksMapFragment.taskRadius,
                         preferencesManager.getShowHiddenTask());
+
+            } else {
+                L.e(TAG, operation.getResponseError());
+                refreshIconState(false);
             }
-        } else {
-            L.e(TAG, operation.getResponseError());
         }
-        refreshIconState(false);
     }
 
     @Override

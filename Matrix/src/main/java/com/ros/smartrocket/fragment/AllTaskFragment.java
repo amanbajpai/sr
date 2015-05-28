@@ -26,6 +26,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     private LinearLayout tabsLayout;
     private LinearLayout mapButton;
     private LinearLayout listButton;
+    public static boolean stopRefreshProgress;
 
     public AllTaskFragment() {
     }
