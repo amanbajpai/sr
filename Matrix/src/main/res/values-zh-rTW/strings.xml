@@ -74,6 +74,7 @@
     <string name="redo_mission">重做。任務到期於： %1$s</string>
     <string name="send_latter_mission">未提交。任務到期於： %1$s</string>
     <string name="mission_in_validation">任務認證中。</string>
+    <string name="mission_transmitting">上載中。</string>
     <string name="mission_rejected">任務被拒絕。</string>
     <string name="mission_validated">恭喜！任務已獲批核！</string>
     <string name="time_left">剩餘</string>
