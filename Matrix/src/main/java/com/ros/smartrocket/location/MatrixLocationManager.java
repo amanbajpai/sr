@@ -306,6 +306,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
     /**
      * Force to recalculate distances to the tasks according to the actual location
+     *
      * @param distancesUpdateListener - listener to be called when the recalculation in done
      */
     public void recalculateDistances(DistancesUpdateListener distancesUpdateListener) {
@@ -346,8 +347,12 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    final Location currentLocation = lastLocation;
-                    TasksBL.calculateTaskDistance(handler, currentLocation, cursor);
+                    if (cursor != null && cursor.getCount() > 0) {
+                        final Location currentLocation = lastLocation;
+                        TasksBL.calculateTaskDistance(handler, currentLocation, cursor);
+                    } else {
+                        notifyDatabaseDistancesRecalculated();
+                    }
                     break;
                 default:
                     break;

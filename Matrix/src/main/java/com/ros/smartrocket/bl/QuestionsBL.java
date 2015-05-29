@@ -1,5 +1,6 @@
 package com.ros.smartrocket.bl;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
@@ -74,7 +75,7 @@ public class QuestionsBL {
     /**
      * Update next answered question Id
      *
-     * @param questionId              - current questionId
+     * @param questionId             - current questionId
      * @param nextAnsweredQuestionId - question Id of next answered question
      */
     public static void updateNextAnsweredQuestionId(Integer questionId, Integer nextAnsweredQuestionId) {
@@ -85,6 +86,16 @@ public class QuestionsBL {
         String[] whereArgs = new String[]{String.valueOf(questionId)};
 
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
+    public static void recoverQuestionTable(Activity activity, Integer waveId, Integer taskId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.putNull(QuestionDbSchema.Columns.NEXT_ANSWERED_QUESTION_ID.getName());
+        contentValues.putNull(QuestionDbSchema.Columns.PREVIOUS_QUESTION_ORDER_ID.getName());
+
+        activity.getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues,
+                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId)});
     }
 
     public static void removeQuestionsFromDB(Context context, Integer waveId, int taskId) {

@@ -217,7 +217,7 @@ android {
         Production {
             versionCode 10011
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""

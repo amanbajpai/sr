@@ -174,6 +174,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
                     if (currentQuestion.getNextAnsweredQuestionId() != null &&
+                            currentQuestion.getNextAnsweredQuestionId() != 0 &&
                             !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
                         for (Question tempQuestion : questions) {
                             if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {

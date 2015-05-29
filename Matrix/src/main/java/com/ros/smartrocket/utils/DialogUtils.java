@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
-
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.dialog.QuiteTaskDialog;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -332,6 +332,7 @@ public class DialogUtils {
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
+                QuestionsBL.recoverQuestionTable(activity, waveId, taskId);
                 dialog.dismiss();
                 activity.finish();
             }
