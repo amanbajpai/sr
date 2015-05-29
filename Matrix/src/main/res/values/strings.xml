@@ -73,6 +73,7 @@
     <string name="hide_hidden_projects">HIDE HIDDEN PROJECTS</string>
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at">Mission due: %1$s</string>
+    <string name="loading_missions">Loading Missions...</string>
     <string name="no_mission_available">There are currently no missions available in your area. \nPlease check back
         later to claim and complete new missions.</string>
     <!-- MY TASK FRAGMENT-->

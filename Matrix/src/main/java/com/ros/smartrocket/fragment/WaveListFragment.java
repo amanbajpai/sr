@@ -46,6 +46,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     private AsyncQueryHandler handler;
     private WaveAdapter adapter;
     private Button showHideMissionButton;
+    private TextView emptyListLTextView;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -63,7 +64,8 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         handler = new DbHandler(getActivity().getContentResolver());
         adapter = new WaveAdapter(getActivity());
 
-        TextView emptyListLTextView = (TextView) view.findViewById(R.id.emptyListLTextView);
+        emptyListLTextView = (TextView) view.findViewById(R.id.emptyListLTextView);
+        emptyListLTextView.setText(R.string.loading_missions);
 
         ListView waveList = (ListView) view.findViewById(R.id.waveList);
         waveList.setEmptyView(emptyListLTextView);
@@ -165,6 +167,9 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
                     adapter.setData(WavesBL.convertCursorToWaveListByDistance(cursor));
                     if (AllTaskFragment.stopRefreshProgress) {
+                        if(adapter.getCount()==0){
+                            emptyListLTextView.setText(R.string.no_mission_available);
+                        }
                         refreshIconState(false);
                     }
                     break;

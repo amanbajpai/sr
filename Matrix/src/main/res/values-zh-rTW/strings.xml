@@ -69,6 +69,7 @@
     <string name="hide_hidden_projects">隱藏隱藏項目</string>
     <!-- WAVES TASK LIST ACTIVITY -->
     <string name="mission_expires_at">任務到期： %1$s</string>
+    <string name="loading_missions">任務載入中，請稍等...</string>
     <string name="no_mission_available">你所在的地區暫時沒有任務。\n請稍後再回來。</string>
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission">重做。任務到期於： %1$s</string>

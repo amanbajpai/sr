@@ -14,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -23,7 +22,6 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -41,6 +39,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     private ImageView refreshButton;
     private AsyncQueryHandler handler;
     private MyTaskAdapter adapter;
+    private TextView emptyListLTextView;
 
     public MyTaskListFragment() {
     }
@@ -61,7 +60,8 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
         handler = new DbHandler(getActivity().getContentResolver());
         adapter = new MyTaskAdapter(getActivity());
 
-        TextView emptyListLTextView = (TextView) view.findViewById(R.id.emptyListLTextView);
+        emptyListLTextView = (TextView) view.findViewById(R.id.emptyListLTextView);
+        emptyListLTextView.setText(R.string.loading_missions);
 
         ListView taskList = (ListView) view.findViewById(R.id.taskList);
         taskList.setEmptyView(emptyListLTextView);
@@ -115,6 +115,9 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     adapter.setData(TasksBL.convertCursorToTasksList(cursor));
                     if (AllTaskFragment.stopRefreshProgress) {
+                        if (adapter.getCount() == 0) {
+                            emptyListLTextView.setText(R.string.you_have_no_tasks);
+                        }
                         refreshIconState(false);
                     }
                     break;
