@@ -837,8 +837,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void refreshIconState(boolean isLoading) {
         if (refreshButton != null && getActivity() != null) {
             if (isLoading) {
+                refreshButton.setClickable(false);
                 refreshButton.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
             } else {
+                refreshButton.setClickable(true);
                 refreshButton.clearAnimation();
             }
         }

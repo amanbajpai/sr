@@ -204,8 +204,10 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     private void refreshIconState(boolean isLoading) {
         if (refreshButton != null && getActivity() != null) {
             if (isLoading) {
+                refreshButton.setClickable(false);
                 refreshButton.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
             } else {
+                refreshButton.setClickable(true);
                 refreshButton.clearAnimation();
             }
         }
