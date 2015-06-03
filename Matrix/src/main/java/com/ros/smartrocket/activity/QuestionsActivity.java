@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.*;
@@ -34,7 +35,10 @@ import java.util.List;
 
 public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface,
         View.OnClickListener, OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
+
     private static final String TAG = QuestionsActivity.class.getSimpleName();
+    private static final String KEY_IS_STARTED = "started";
+
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
@@ -55,6 +59,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     private int questionsToAnswerCount = 0;
     private boolean isRedo = false;
+    private boolean isAlreadyStarted;
 
     public QuestionsActivity() {
     }
@@ -87,6 +92,27 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         nextButton.setOnClickListener(this);
 
         TasksBL.getTaskFromDBbyID(handler, taskId);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        isAlreadyStarted = savedInstanceState.getBoolean(KEY_IS_STARTED, false);
+        if (isAlreadyStarted) {
+            restoreFragment();
+        }
+    }
+
+    private void restoreFragment() {
+        currentFragment = (BaseQuestionFragment) getSupportFragmentManager().findFragmentById(R.id.contentLayout);
+        currentFragment.setAnswerPageLoadingFinishedListener(this);
+        currentFragment.setAnswerSelectedListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(KEY_IS_STARTED, true);
+        super.onSaveInstanceState(outState);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -155,7 +181,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         } else {
             questionOfLayout.setVisibility(View.GONE);
         }
-
     }
 
     public void startNextQuestionFragment() {
@@ -280,7 +305,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 currentFragment.setArguments(fragmentBundle);
 
                 try {
-                    t.replace(R.id.contentLayout, currentFragment).commit();
+                    if (!isAlreadyStarted) {
+                        t.replace(R.id.contentLayout, currentFragment).commit();
+                    } else {
+                        restoreFragment();
+                        onAnswerPageLoadingFinished();
+                    }
                 } catch (Exception e) {
                     L.e(TAG, "Error replace question type fragment", e);
                     finish();
@@ -318,8 +348,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             case R.id.previousButton:
                 //currentFragment.clearAnswer();
                 startPreviousQuestionFragment();
+                isAlreadyStarted = false;
                 break;
             case R.id.nextButton:
+                isAlreadyStarted = false;
                 if (currentFragment.saveQuestion()) {
                     startNextQuestionFragment();
                 }

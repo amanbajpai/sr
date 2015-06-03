@@ -93,6 +93,18 @@ public class SelectImageManager {
         activity.startActivityForResult(i, CAMERA);
     }
 
+    public void startCamera(Activity activity, File filePath) {
+        this.activity = activity;
+
+        lastFile = filePath;
+        lastFileFromGallery = false;
+
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
+        activity.startActivityForResult(i, CAMERA);
+    }
+
+
     public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
