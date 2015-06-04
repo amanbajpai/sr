@@ -126,6 +126,7 @@ public interface Keys {
     String CITY_NAME = "city_name";
 
     String GROUP_CODE = "group_code";
+    String PROMO_CODE = "promo_code";
 
     String PREFERENCE_CURRENT_LOCATION = "current_location";
 

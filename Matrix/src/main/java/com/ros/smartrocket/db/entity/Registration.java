@@ -39,6 +39,8 @@ public class Registration extends BaseEntity {
     private Integer termsAndConditionsVersion;
     @SerializedName("PhotoBase64")
     private String photoBase64;
+    @SerializedName("PromoCode")
+    private String promoCode;
 
     public String getEmail() {
         return email;
@@ -179,4 +181,15 @@ public class Registration extends BaseEntity {
         this.referralId = referralId;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
 }

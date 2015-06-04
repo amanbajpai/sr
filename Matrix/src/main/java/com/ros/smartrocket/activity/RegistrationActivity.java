@@ -13,18 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-
+import android.widget.*;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
@@ -36,13 +25,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.BytesBitmap;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.FontUtils;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
-import com.ros.smartrocket.utils.SelectImageManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 
 /**
  * Activity for first Agents registration into system
@@ -79,6 +62,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private Bitmap photoBitmap;
     private CustomProgressDialog progressDialog;
     private int currentTermsAndConditionsVersion = 1;
+    private String promoCode;
 
     public RegistrationActivity() {
     }
@@ -99,6 +83,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             latitude = getIntent().getDoubleExtra(Keys.LATITUDE, 0);
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
             referralCasesId = getIntent().getIntExtra(Keys.REFERRAL_CASES_ID, 0);
+            promoCode = getIntent().getStringExtra(Keys.PROMO_CODE);
         }
 
         String[] educationLevel = new String[]{getString(R.string.education_level), getString(R.string.no_schooling),
@@ -295,6 +280,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                 if (photoBitmap != null) {
                     registrationEntity.setPhotoBase64(BytesBitmap.getBase64String(photoBitmap));
+                }
+
+                if (promoCode != null) {
+                    registrationEntity.setPromoCode(promoCode);
                 }
 
                 switch (genderRadioGroup.getCheckedRadioButtonId()) {
