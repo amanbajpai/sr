@@ -114,7 +114,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode buildNumber
-        versionName '2.0.5'
+        versionName '2.0.6'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!(\"Production\".equals(FLAVOR) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "\"Production\".equals(FLAVOR)? VERSION_NAME : String.valueOf(VERSION_CODE)"
@@ -215,7 +215,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
-            versionCode 10012
+            versionCode 10013
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
@@ -237,7 +237,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaProduction {
-            versionCode 10012
+            versionCode 10013
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
