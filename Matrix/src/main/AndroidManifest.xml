@@ -74,6 +74,10 @@
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".activity.PromoCodeActivity"
+            android:configChanges="locale"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activity.RegistrationActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />

@@ -5,6 +5,7 @@ import android.location.Location;
 import com.ros.smartrocket.map.polygon.Point;
 import com.ros.smartrocket.map.polygon.Polygon;
 
+@SuppressWarnings("all")
 public class ChinaTransformLocation {
     private static final String TAG = ChinaTransformLocation.class.getSimpleName();
     public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.006f;
