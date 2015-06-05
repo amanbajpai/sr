@@ -10,13 +10,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -182,6 +182,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
                 sendTextAnswers();
 
+            } else if (Keys.GET_NEW_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
+                sendNowButtonClick();
+
             } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
                 sendAnswerTextsSuccess();
 
@@ -330,7 +333,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.sendNowButton:
-                sendNowButtonClick();
+                if (System.currentTimeMillis() - preferencesManager.getTokenUpdateDate() > DateUtils.HOUR_IN_MILLIS) {
+                    apiFacade.getNewToken(this);
+                } else {
+                    sendNowButtonClick();
+                }
                 break;
             case R.id.sendLaterButton:
                 sendLaterButtonClick();

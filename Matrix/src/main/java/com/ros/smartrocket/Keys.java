@@ -5,6 +5,8 @@ import android.text.format.DateUtils;
 public interface Keys {
     // Application
     String TOKEN = "token";
+    String TOKEN_FOR_UPLOAD_FILE = "token_for_upload_file";
+    String TOKEN_UPDATE_DATE = "token_update_date";
     String SHORT_URL_TO_SHARE = "short_url_to_share";
     String BIT_MASK_SOCIAL_NETWORK = "bit_mask_social_network";
     String LAST_EMAIL = "last_email";
@@ -72,6 +74,7 @@ public interface Keys {
     String SET_PASSWORD_OPERATION_TAG = "set_password_operation_tag";
     String CASHING_OUT_OPERATION_TAG = "cashing_out_operation_tag";
     String GET_SHARING_DATA_OPERATION_TAG = "get_sharing_data_operation_tag";
+    String GET_NEW_TOKEN_OPERATION_TAG = "get_new_token_operation_tag";
 
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";

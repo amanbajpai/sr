@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -80,6 +79,22 @@ public class PreferencesManager {
 
     public void setToken(String token) {
         setString(Keys.TOKEN, token);
+    }
+
+    public String getTokenForUploadFile() {
+        return getString(Keys.TOKEN_FOR_UPLOAD_FILE, "");
+    }
+
+    public void setTokenForUploadFile(String token) {
+        setString(Keys.TOKEN_FOR_UPLOAD_FILE, token);
+    }
+
+    public long getTokenUpdateDate() {
+        return getLong(Keys.TOKEN_UPDATE_DATE, 0);
+    }
+
+    public void setTokenUpdateDate(long timeInMillis) {
+        setLong(Keys.TOKEN_UPDATE_DATE, timeInMillis);
     }
 
     public String getLanguageCode() {

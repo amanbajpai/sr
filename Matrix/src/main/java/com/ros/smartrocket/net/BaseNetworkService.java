@@ -5,26 +5,20 @@ import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Base64;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -34,12 +28,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 
 public abstract class BaseNetworkService extends IntentService {
@@ -140,7 +129,11 @@ public abstract class BaseNetworkService extends IntentService {
         method.addHeader("device-type", App.getInstance().getDeviceType());
         method.addHeader("device-os-version", App.getInstance().getDeviceApiNumber());
         //method.addHeader("Accept-Encoding", "gzip");
-        method.addHeader("Authorization", "Bearer " + preferencesManager.getToken());
+
+        String token = TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ?
+                preferencesManager.getToken() :
+                preferencesManager.getTokenForUploadFile();
+        method.addHeader("Authorization", "Bearer " + token);
         method.addHeader("App-version", BuildConfig.VERSION_NAME);
 
         try {

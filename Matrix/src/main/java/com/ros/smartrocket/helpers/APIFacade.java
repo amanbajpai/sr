@@ -4,23 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
-import com.ros.smartrocket.db.entity.ActivateAccount;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.CheckLocation;
-import com.ros.smartrocket.db.entity.Login;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.RegisterDevice;
-import com.ros.smartrocket.db.entity.Registration;
-import com.ros.smartrocket.db.entity.SaveReferralCase;
-import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.SetPassword;
-import com.ros.smartrocket.db.entity.Subscription;
-import com.ros.smartrocket.db.entity.TestPushMessage;
-import com.ros.smartrocket.db.entity.UploadPhoto;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
@@ -522,6 +509,21 @@ public class APIFacade {
         operation.setUrl(WSUrl.GET_SHARING_DATA, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_SHARING_DATA_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     */
+    public void getNewToken(Activity activity) {
+        Token token = new Token();
+        token.setToken(preferencesManager.getToken());
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_NEW_TOKEN);
+        operation.setTag(Keys.GET_NEW_TOKEN_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(token);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

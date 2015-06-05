@@ -115,6 +115,14 @@ public class NetworkService extends BaseNetworkService {
                         LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
                         operation.responseEntities.add(loginResponse);
                         getPreferencesManager().setToken(loginResponse.getToken());
+                        getPreferencesManager().setTokenForUploadFile(loginResponse.getToken());
+                        getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
+                        break;
+                    case WSUrl.GET_NEW_TOKEN_ID:
+                        Token token = gson.fromJson(responseString, Token.class);
+                        getPreferencesManager().setToken(token.getToken());
+                        getPreferencesManager().setTokenForUploadFile(token.getToken());
+                        getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
                         break;
                     case WSUrl.GET_CURRENT_T_AND_C_ID:
                         TermsAndConditionVersion currentVersion = gson.fromJson(responseString,
