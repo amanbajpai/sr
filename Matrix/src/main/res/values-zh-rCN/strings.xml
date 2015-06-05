@@ -22,6 +22,8 @@
     <string name="continue_register">继续</string>
     <string name="welcome_to_smart_rocket">欢迎来到智慧飞船注册页面！</string>
     <string name="how_did_you_hear_about_us">您透过哪个渠道认识智慧飞船？</string>
+    <!-- PROMO CODE -->
+    <string name="if_you_have_promo_code">请输入团体编号，否则点击继续</string>
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name">姓氏</string>
     <string name="last_name">名字</string>

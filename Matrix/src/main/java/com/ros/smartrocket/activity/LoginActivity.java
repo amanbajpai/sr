@@ -7,12 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -110,7 +105,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         (CheckLocationResponse) operation.getResponseEntities().get(0);
 
                 if (checkLocationResponse.getStatus()) {
-                    Intent intent = new Intent(this, ReferralCasesActivity.class);
+                    Intent intent = new Intent(this, PromoCodeActivity.class);
                     intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
                     intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
                     intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());

@@ -22,6 +22,8 @@
     <string name="continue_register">繼續</string>
     <string name="welcome_to_smart_rocket">歡迎來到SmartRocket註冊頁面！</string>
     <string name="how_did_you_hear_about_us">你透過什麽渠道認識SmartRocket？</string>
+    <!-- PROMO CODE -->
+    <string name="if_you_have_promo_code">請輸入團體編號，否則點擊繼續</string>
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name">姓氏</string>
     <string name="last_name">名字</string>

@@ -94,6 +94,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private Marker currentLocationMarker;
     private Circle circle;
     private Overlay circleBaidu;
+    private boolean isNeedRefresh = true;
 
     public TasksMapFragment() {
     }
@@ -204,7 +205,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     public void onResume() {
         super.onResume();
 
-        if (!isHidden()) {
+        if (!isHidden() && isNeedRefresh) {
+            isNeedRefresh = false;
             initMap();
 
             setViewMode(getArguments());
