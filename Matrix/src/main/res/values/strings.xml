@@ -26,7 +26,7 @@
     <string name="welcome_to_smart_rocket">Welcome to SmartRocket registration!</string>
     <string name="how_did_you_hear_about_us">How did you first hear about SmartRocket?</string>
     <!-- PROMO CODE -->
-    <string name="if_you_have_promo_code">If you have a Promo Code please enter it now, otherwise click CONTINUE</string>
+    <string name="if_you_have_promo_code">If you have a Group Code please enter it now, otherwise click CONTINUE</string>
     <!-- REGISTRATION ACTIVITY -->
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
