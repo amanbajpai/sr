@@ -333,7 +333,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.sendNowButton:
-                if (System.currentTimeMillis() - preferencesManager.getTokenUpdateDate() > DateUtils.HOUR_IN_MILLIS) {
+                if (TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ||
+                        System.currentTimeMillis() - preferencesManager.getTokenUpdateDate() > DateUtils.HOUR_IN_MILLIS) {
                     apiFacade.getNewToken(this);
                 } else {
                     sendNowButtonClick();

@@ -28,7 +28,6 @@ public class WriteDataHelper {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
         preferencesManager.removeToken();
-        context.stopService(new Intent(context, UploadFileService.class));
         context.stopService(new Intent(context, TaskReminderService.class));
 
         GCMRegistrar.unregister(context);
@@ -44,6 +43,8 @@ public class WriteDataHelper {
             int taskRadius = preferencesManager.getDefaultRadius();
             String lastPassword = preferencesManager.getLastPassword();
             String token = preferencesManager.getToken();
+            String tokenForUpdateFile = preferencesManager.getTokenForUploadFile();
+            long tokenUpdateDate = preferencesManager.getTokenUpdateDate();
 
             boolean useLocationServices = preferencesManager.getUseLocationServices();
             boolean useSocialSharing = preferencesManager.getUseSocialSharing();
@@ -64,6 +65,8 @@ public class WriteDataHelper {
             preferencesManager.setLastEmail(lastEmail);
             preferencesManager.setLastPassword(lastPassword);
             preferencesManager.setToken(token);
+            preferencesManager.setTokenForUploadFile(tokenForUpdateFile);
+            preferencesManager.setTokenUpdateDate(tokenUpdateDate);
 
             preferencesManager.setUseLocationServices(useLocationServices);
             preferencesManager.setUseDeadlineReminder(useDeadlineReminder);
