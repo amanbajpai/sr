@@ -12,6 +12,7 @@ import android.text.format.DateUtils;
 import android.view.*;
 import android.widget.*;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
@@ -82,7 +83,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
 
-        ((TextView) view.findViewById(R.id.currentVersion)).setText(UIUtils.getAppVersion(getActivity()));
+        ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
+                BuildConfig.VERSION_CODE + ")");
         view.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
