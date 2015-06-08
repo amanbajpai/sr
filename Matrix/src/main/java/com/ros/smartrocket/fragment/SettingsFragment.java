@@ -353,16 +353,16 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         boolean result;
         switch (item.getItemId()) {
             case R.id.logout:
-                int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
-                if (notUploadedFileCount == 0) {
+                /*int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
+                if (notUploadedFileCount == 0) {*/
                     WriteDataHelper.prepareLogout(getActivity());
 
                     getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
                     getActivity().finish();
                     getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
-                } else {
+                /*} else {
                     DialogUtils.showLogOutAttantionDialog(getActivity());
-                }
+                }*/
 
                 result = true;
                 break;
