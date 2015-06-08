@@ -84,7 +84,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
 
         ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
-                BuildConfig.VERSION_CODE + ")");
+                BuildConfig.JENKINS_BUILD_VERSION + ")");
         view.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
