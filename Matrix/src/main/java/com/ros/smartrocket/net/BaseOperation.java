@@ -1,7 +1,6 @@
 package com.ros.smartrocket.net;
 
 import com.ros.smartrocket.db.entity.BaseEntity;
-
 import org.apache.http.params.HttpParams;
 
 import java.io.Serializable;
@@ -16,6 +15,7 @@ public class BaseOperation implements Serializable {
     private Method method;
 
     private Integer taskId;
+    private Integer missionId;
     private Integer waveId;
     private ArrayList<BaseEntity> requestEntities = new ArrayList<BaseEntity>();
     public ArrayList<BaseEntity> responseEntities = new ArrayList<BaseEntity>();
@@ -91,6 +91,14 @@ public class BaseOperation implements Serializable {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public Integer getWaveId() {

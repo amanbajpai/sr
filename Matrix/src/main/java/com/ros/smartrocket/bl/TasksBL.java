@@ -29,11 +29,21 @@ public class TasksBL {
                 TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    public static Cursor getTaskFromDBbyID(Integer taskId) {
+    public static Cursor getTaskFromDBbyID(Integer taskId, Integer missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
-        return resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
-                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)},
-                TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+        Cursor c;
+        if (missionId == null || missionId == 0) {
+            c = resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
+                    new String[]{String.valueOf(taskId)},
+                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+        } else {
+            c = resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
+                    new String[]{String.valueOf(taskId), String.valueOf(missionId)},
+                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+        }
+        return c;
     }
 
     public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean showHiddenTasks, Integer radius) {
@@ -47,10 +57,20 @@ public class TasksBL {
     }
 
 
-    public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?",
-                new String[]{String.valueOf(taskId)}, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+    public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId, Integer missionId) {
+        if (missionId == null || missionId == 0) {
+            handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                    TaskDbSchema.Query.All.PROJECTION,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
+                    new String[]{String.valueOf(taskId)},
+                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+        } else {
+            handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                    TaskDbSchema.Query.All.PROJECTION,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
+                    new String[]{String.valueOf(taskId), String.valueOf(missionId)},
+                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+        }
     }
 
     public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId, View mapItemWindow) {
@@ -158,12 +178,20 @@ public class TasksBL {
         );
     }
 
-    public static void setHideTaskOnMapByID(AsyncQueryHandler handler, Integer taskId, Boolean isHide) {
+    public static void setHideTaskOnMapByID(AsyncQueryHandler handler, Integer taskId, Integer missionId,
+                                            Boolean isHide) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
 
-        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
-                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
+        if (missionId == null || missionId == 0) {
+            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
+                    new String[]{String.valueOf(taskId)});
+        } else {
+            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
+                    new String[]{String.valueOf(taskId), String.valueOf(missionId)});
+        }
     }
 
     public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer waveId, Boolean isHide) {
@@ -176,7 +204,8 @@ public class TasksBL {
 
     public static void updateTask(AsyncQueryHandler handler, Task task) {
         handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
-                task.toContentValues(), TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(task.getId())});
+                task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(task.getId()), String.valueOf(task.getMissionId())});
     }
 
     /**
@@ -198,12 +227,12 @@ public class TasksBL {
      * @param taskId   - current task id
      * @param statusId - new task status id
      */
-    public static void updateTaskStatusId(Integer taskId, Integer statusId) {
+    public static void updateTaskStatusId(Integer taskId, Integer statusId, Integer missionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskDbSchema.Columns.STATUS_ID.getName(), statusId);
 
-        String where = TaskDbSchema.Columns.ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(taskId)};
+        String where = TaskDbSchema.Columns.ID + "=? and "+TaskDbSchema.Columns.MISSION_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(taskId), String.valueOf(missionId)};
 
         App.getInstance().getContentResolver().update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }

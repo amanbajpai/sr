@@ -32,11 +32,13 @@ public class QuestionsBL {
      * @param handler - Handler for getting response from DB
      * @param waveId  - current waveId
      */
-    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId) {
+    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
+                                              Integer missionId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                        .Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId)}, QuestionDbSchema.SORT_ORDER_DESC
+                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
+                QuestionDbSchema.SORT_ORDER_DESC
         );
     }
 
@@ -47,12 +49,14 @@ public class QuestionsBL {
      * @param waveId  - current waveId
      * @param taskId  - current taskId
      */
-    public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId) {
+    public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
+                                                         Integer missionId) {
         handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(3)},
-                QuestionDbSchema.SORT_ORDER_DESC
+                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=? and "
+                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(3),
+                        String.valueOf(missionId)}, QuestionDbSchema.SORT_ORDER_DESC
         );
     }
 
@@ -88,20 +92,22 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    public static void recoverQuestionTable(Activity activity, Integer waveId, Integer taskId) {
+    public static void recoverQuestionTable(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.putNull(QuestionDbSchema.Columns.NEXT_ANSWERED_QUESTION_ID.getName());
         contentValues.putNull(QuestionDbSchema.Columns.PREVIOUS_QUESTION_ORDER_ID.getName());
 
         activity.getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues,
-                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId)});
+                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
     }
 
-    public static void removeQuestionsFromDB(Context context, Integer waveId, int taskId) {
+    public static void removeQuestionsFromDB(Context context, Integer waveId, int taskId, Integer missionId) {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId)});
+                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
     }
 
     public static void removeQuestionsByWaveId(Context context, Integer waveId) {
@@ -113,15 +119,16 @@ public class QuestionsBL {
         context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI, null, null);
     }
 
-    public static void updateInstructionFileUri(Integer waveId, Integer taskId, Integer questionId,
+    public static void updateInstructionFileUri(Integer waveId, Integer taskId, Integer missionId, Integer questionId,
                                                 String fileUri) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(QuestionDbSchema.Columns.INSTRUCTION_FILE_URI.getName(), fileUri);
 
         String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.ID + "=?";
+                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.ID + "=? and "
+                + QuestionDbSchema.Columns.MISSION_ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId),
-                String.valueOf(questionId)};
+                String.valueOf(questionId), String.valueOf(missionId)};
 
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }

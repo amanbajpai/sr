@@ -14,6 +14,7 @@ public interface NotUploadedFileDbSchema {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         TASK_ID("taskId", DBType.NUMERIC),
+        MISSION_ID("missionId", DBType.NUMERIC),
         QUESTION_ID("questionId", DBType.NUMERIC),
         FILE_URI("fileUri", DBType.TEXT),
         ADDED_TO_UPLOAD_DATE_TIME("addedToUploadDateTime", DBType.NUMERIC),
@@ -69,6 +70,7 @@ public interface NotUploadedFileDbSchema {
         String[] PROJECTION = {Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_ID.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.MISSION_ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.QUESTION_ID.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_URI.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.ADDED_TO_UPLOAD_DATE_TIME.getName(),
@@ -91,23 +93,24 @@ public interface NotUploadedFileDbSchema {
         int _ID = 0;
         int ID = 1;
         int TASK_ID = 2;
-        int QUESTION_ID = 3;
-        int FILE_URI = 4;
-        int ADDED_TO_UPLOAD_DATE_TIME = 5;
-        int END_DATE_TIME = 6;
-        int USE_3G = 7;
-        int FILE_SIZE_B = 8;
-        int SHOW_NOTIFICATION_STEP_ID = 9;
+        int MISSION_ID = 3;
+        int QUESTION_ID = 4;
+        int FILE_URI = 5;
+        int ADDED_TO_UPLOAD_DATE_TIME = 6;
+        int END_DATE_TIME = 7;
+        int USE_3G = 8;
+        int FILE_SIZE_B = 9;
+        int SHOW_NOTIFICATION_STEP_ID = 10;
 
-        int PORTION = 10;
-        int FILE_CODE = 11;
-        int FILE_NAME = 12;
+        int PORTION = 11;
+        int FILE_CODE = 12;
+        int FILE_NAME = 13;
 
-        int TASK_NAME = 13;
+        int TASK_NAME = 14;
 
-        int LATITUDE_TO_VALIDATION = 14;
-        int LONGITUDE_TO_VALIDATION = 15;
+        int LATITUDE_TO_VALIDATION = 15;
+        int LONGITUDE_TO_VALIDATION = 16;
 
-        int TASK_VALIDATED = 16;
+        int TASK_VALIDATED = 17;
     }
 }

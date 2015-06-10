@@ -7,6 +7,8 @@ public class SendTaskId extends BaseEntity {
 
     @SerializedName("TaskId")
     private Integer taskId;
+    @SerializedName("MissionId")
+    private Integer missionId;
     @SerializedName("Longitude")
     private Double longitude;
     @SerializedName("Latitude")
@@ -20,6 +22,14 @@ public class SendTaskId extends BaseEntity {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public Double getLongitude() {

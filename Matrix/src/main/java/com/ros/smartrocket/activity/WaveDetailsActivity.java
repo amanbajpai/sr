@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
@@ -150,7 +149,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                         wave = WavesBL.convertCursorToWaveWithTask(cursor);
 
                         setWaveData(wave);
-                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
+                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId(), 0);
                     } else {
                         if (cursor != null) {
                             cursor.close();
@@ -171,7 +170,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
                         if (cursor != null) {
                             cursor.close();
                         }
-                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId());
+                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId(), 0);
                     }
                     break;
                 default:
@@ -303,8 +302,9 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onStarted(Task task) {
         finish();
-        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), task.getStatusId(), TasksBL.isPreClaimTask(task)));
-        startActivity(IntentUtils.getQuestionsIntent(this, task.getId()));
+        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), 0, task.getStatusId(),
+                TasksBL.isPreClaimTask(task)));
+        startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), 0));
     }
 
     @Override

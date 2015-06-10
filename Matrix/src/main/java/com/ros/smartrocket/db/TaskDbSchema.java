@@ -29,6 +29,7 @@ public interface TaskDbSchema {
     enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
+        MISSION_ID("missionId", DBType.NUMERIC),
         WAVE_ID("waveId", DBType.NUMERIC),
         USER_ID("userId", DBType.NUMERIC),
         NAME("name", DBType.TEXT),
@@ -117,6 +118,7 @@ public interface TaskDbSchema {
 
             String[] PROJECTION = {Table.TASK.getName() + "." + Columns._ID.getName(),
                     Table.TASK.getName() + "." + Columns.ID.getName(),
+                    Table.TASK.getName() + "." + Columns.MISSION_ID.getName(),
                     Table.TASK.getName() + "." + Columns.WAVE_ID.getName(),
                     Table.TASK.getName() + "." + Columns.USER_ID.getName(),
                     Table.TASK.getName() + "." + Columns.NAME.getName(),
@@ -172,57 +174,58 @@ public interface TaskDbSchema {
 
             int _ID = 0;
             int ID = 1;
-            int WAVE_ID = 2;
-            int USER_ID = 3;
-            int NAME = 4;
-            int ICON = 5;
-            int DESCRIPTION = 6;
-            int LONGITUDE = 7;
-            int LATITUDE = 8;
-            int LANGUAGE = 9;
-            int ADDRESS = 10;
-            int DISTANCE = 11;
-            int EXPERIENCE_OFFER = 12;
-            int PHOTO_QUESTIONS_COUNT = 13;
-            int NO_PHOTO_QUESTIONS_COUNT = 14;
+            int MISSION_ID = 2;
+            int WAVE_ID = 3;
+            int USER_ID = 4;
+            int NAME = 5;
+            int ICON = 6;
+            int DESCRIPTION = 7;
+            int LONGITUDE = 8;
+            int LATITUDE = 9;
+            int LANGUAGE = 10;
+            int ADDRESS = 11;
+            int DISTANCE = 12;
+            int EXPERIENCE_OFFER = 13;
+            int PHOTO_QUESTIONS_COUNT = 14;
+            int NO_PHOTO_QUESTIONS_COUNT = 15;
 
-            int PRICE = 15;
-            int CURRENCY_SIGN = 16;
+            int PRICE = 16;
+            int CURRENCY_SIGN = 17;
 
-            int STATUS_ID = 17;
-            int STATUS = 18;
+            int STATUS_ID = 18;
+            int STATUS = 19;
 
-            int IS_MY = 19;
-            int IS_HIDE = 20;
-            int STARTED_STATUS_SENT = 21;
+            int IS_MY = 20;
+            int IS_HIDE = 21;
+            int STARTED_STATUS_SENT = 22;
 
-            int STARTED = 22;
-            int REMAKE_TILL = 23;
+            int STARTED = 23;
+            int REMAKE_TILL = 24;
 
-            int START_DATE_TIME = 24;
-            int END_DATE_TIME = 25;
-            int EXPIRE_DATE_TIME = 26;
-            int CLAIMED = 27;
-            int REDO_DATE = 28;
+            int START_DATE_TIME = 25;
+            int END_DATE_TIME = 26;
+            int EXPIRE_DATE_TIME = 27;
+            int CLAIMED = 28;
+            int REDO_DATE = 29;
 
-            int LONG_START_DATE_TIME = 29;
-            int LONG_END_DATE_TIME = 30;
-            int LONG_EXPIRE_DATE_TIME = 31;
-            int LONG_CLAIM_DATE_TIME = 32;
-            int LONG_REDO_DATE_TIME = 33;
+            int LONG_START_DATE_TIME = 30;
+            int LONG_END_DATE_TIME = 31;
+            int LONG_EXPIRE_DATE_TIME = 32;
+            int LONG_CLAIM_DATE_TIME = 33;
+            int LONG_REDO_DATE_TIME = 34;
 
-            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 34;
-            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 35;
+            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 35;
+            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 36;
 
-            int APPROVED_AT = 36;
-            int REJECTED_AT = 37;
-            int SUBMITTED_AT = 38;
+            int APPROVED_AT = 37;
+            int REJECTED_AT = 38;
+            int SUBMITTED_AT = 39;
 
-            int COUNTRY_NAME = 39;
-            int LOCATION_NAME = 40;
+            int COUNTRY_NAME = 40;
+            int LOCATION_NAME = 41;
 
-            int LATITUDE_TO_VALIDATION = 41;
-            int LONGITUDE_TO_VALIDATION = 42;
+            int LATITUDE_TO_VALIDATION = 42;
+            int LONGITUDE_TO_VALIDATION = 43;
         }
     }
 }

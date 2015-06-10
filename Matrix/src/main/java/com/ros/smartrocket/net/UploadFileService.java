@@ -207,7 +207,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         @Override
                         public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
 
-                            sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getId(),
+                            sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getId(), task.getMissionId(),
                                     task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
                         }
                     });
@@ -238,7 +238,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
                 if (notUploadedFileCount == 0) {
-                    validateTask(notUploadedFile.getTaskId(), notUploadedFile.getLatitudeToValidation(), notUploadedFile.getLongitudeToValidation());
+                    validateTask(notUploadedFile);
                 }
 
             } else if (responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
@@ -265,22 +265,22 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 sendNetworkOperation(apiFacade.getMyTasksOperation());
             } else {
                 //TODO Log to server
-                //TODO Log
                 //TODO Send to validation again
             }
         }
     }
 
-    private void validateTask(final int taskId, final Double latitude, final Double longitude) {
+    private void validateTask(final NotUploadedFile notUploadedFile) {
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
+        location.setLatitude(notUploadedFile.getLatitudeToValidation());
+        location.setLongitude(notUploadedFile.getLongitudeToValidation());
 
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, latitude, longitude, cityName));
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(notUploadedFile.getTaskId(),
+                        notUploadedFile.getMissionId(), location.getLatitude(),
+                        location.getLongitude(), cityName));
             }
         });
     }

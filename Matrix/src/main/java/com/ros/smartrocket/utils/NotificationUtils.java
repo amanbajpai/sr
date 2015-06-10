@@ -101,6 +101,7 @@ public class NotificationUtils {
             int statusType = messageObject.optInt("StatusType");
             int waveId = messageObject.optInt("WaveId");
             int taskId = messageObject.optInt("TaskId");
+            int missionId = messageObject.optInt("MissionId");
 
             String taskName = getStringForCurrentLang(messageObject.optJSONObject("TaskName"));
 
@@ -125,7 +126,7 @@ public class NotificationUtils {
             switch (TasksBL.getTaskStatusType(statusType)) {
                 case RE_DO_TASK:
                     NotificationUtils.startRedoNotificationActivity(context, validationText,
-                            waveId, taskId, taskName, locationName, missionAddress);
+                            waveId, taskId, missionId, taskName, locationName, missionAddress);
                     break;
                 case VALIDATED:
                     NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText,
@@ -179,7 +180,7 @@ public class NotificationUtils {
      * @param missionAddress - current missionAddress
      */
     public static void startRedoNotificationActivity(Context context, String validationText,
-                                                     int waveId, int taskId, String missionName,
+                                                     int waveId, int taskId, int missionId, String missionName,
                                                      String locationName, String missionAddress) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
@@ -190,6 +191,7 @@ public class NotificationUtils {
 
         intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.MISSION_ID, missionId);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_redo.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.orange_dark);

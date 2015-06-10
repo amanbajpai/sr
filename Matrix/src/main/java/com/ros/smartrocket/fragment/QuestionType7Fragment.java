@@ -105,7 +105,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         } else {
             questionText.setText(question.getQuestion());
         }
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
         return view;
     }
@@ -176,7 +176,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     if (question.getAnswers().length == question.getMaximumPhotos()) {
                         question.setAnswers(addEmptyAnswer(question.getAnswers()));
                     }
-                    AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
+                    AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
                     break;
                 default:
                     break;

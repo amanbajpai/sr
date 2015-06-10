@@ -59,7 +59,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
     public void claimTask() {
         showProgressBar();
-        apiFacade.getQuestions(activity, task.getWaveId(), task.getId());
+        apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
     }
 
     public void startTask() {
@@ -104,10 +104,11 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         task.setStatusId(Task.TaskStatusId.NONE.getStatusId());
         task.setStarted("");
         task.setIsMy(false);
+        task.setMissionId(null);
 
         TasksBL.updateTask(handler, task);
 
-        QuestionsBL.removeQuestionsFromDB(activity, task.getWaveId(), task.getId());
+        QuestionsBL.removeQuestionsFromDB(activity, task.getWaveId(), task.getId(), task.getMissionId());
         AnswersBL.removeAnswersByTaskId(activity, task.getId());
 
         claimTaskListener.onUnClaimed(task);
@@ -148,7 +149,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
                                         @Override
                                         public void onFileLoaded(File file) {
-                                            QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getTaskId(), question.getId(), file.getPath());
+                                            QuestionsBL.updateInstructionFileUri(question.getWaveId(),
+                                                    question.getTaskId(), question.getMissionId(), question.getId(),
+                                                    file.getPath());
 
                                             if (question.getWaveId() == lastQuestion.getWaveId() &&
                                                     question.getTaskId() == lastQuestion.getTaskId() &&
@@ -166,7 +169,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                             }
                         }
                     } else {
-                        apiFacade.getQuestions(activity, task.getWaveId(), task.getId());
+                        apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
                     }
 
                     break;
@@ -201,7 +204,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
                         Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
                         if (wave.getDownloadMediaWhenClaimingTask()) {
-                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), task.getId());
+                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), task.getId(), task.getMissionId());
                         } else {
                             apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
                         }

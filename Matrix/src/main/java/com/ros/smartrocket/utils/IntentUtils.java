@@ -49,9 +49,10 @@ public class IntentUtils {
      * @param taskId  - current taskId
      * @return Intent
      */
-    public static Intent getQuestionsIntent(Context context, int taskId) {
+    public static Intent getQuestionsIntent(Context context, int taskId, int missionId) {
         Intent intent = new Intent(context, QuestionsActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.MISSION_ID, missionId);
         return intent;
     }
 
@@ -62,9 +63,11 @@ public class IntentUtils {
      * @param taskId  - current taskId
      * @return Intent
      */
-    public static Intent getTaskDetailIntent(Context context, int taskId, int statusId, boolean isPreClaim) {
+    public static Intent getTaskDetailIntent(Context context, int taskId, int missionId, int statusId, boolean
+            isPreClaim) {
         Intent intent = new Intent(context, TaskDetailsActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.MISSION_ID, missionId);
         intent.putExtra(Keys.STATUS_ID, statusId);
         intent.putExtra(Keys.IS_PRECLAIM, isPreClaim);
         return intent;

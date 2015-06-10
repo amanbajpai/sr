@@ -91,7 +91,7 @@ public class ShowDialogTest {
 
     @Test
     public void testQuiteTaskDialog() {
-        Dialog dialog = DialogUtils.showQuiteTaskDialog(activity, 0, 0);
+        Dialog dialog = DialogUtils.showQuiteTaskDialog(activity, 0, 0, 0);
         Assert.assertTrue(dialog.isShowing());
         dialog.dismiss();
         Assert.assertTrue(!dialog.isShowing());

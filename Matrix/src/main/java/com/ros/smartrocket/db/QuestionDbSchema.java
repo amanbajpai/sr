@@ -15,6 +15,7 @@ public interface QuestionDbSchema {
         ID("id", DBType.NUMERIC),
         WAVE_ID("waveId", DBType.NUMERIC),
         TASK_ID("taskId", DBType.NUMERIC),
+        MISSION_ID("missionId", DBType.NUMERIC),
         QUESTION("question", DBType.TEXT),
         TYPE("type", DBType.NUMERIC),
         ORDER_ID("orderId", DBType.NUMERIC),
@@ -82,6 +83,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.WAVE_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.TASK_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.MISSION_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.QUESTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.TYPE.getName(),
                 Table.QUESTION.getName() + "." + Columns.ORDER_ID.getName(),
@@ -114,29 +116,30 @@ public interface QuestionDbSchema {
         int ID = 1;
         int WAVE_ID = 2;
         int TASK_ID = 3;
-        int QUESTION = 4;
-        int TYPE = 5;
-        int ORDER_ID = 6;
-        int MAXIMUM_CHARACTERS = 7;
-        int MAXIMUM_PHOTOS = 8;
-        int SHOW_BACK_BUTTON = 9;
-        int ALLOW_MULTIPLY_PHOTOS = 10;
-        int ASK_IF = 11;
-        int TASK_LOCATION = 12;
-        int PREVIOUS_QUESTION_ORDER_ID = 13;
-        int VALIDATION_COMMENT = 14;
-        int PRESENT_VALIDATION_TEXT = 15;
+        int MISSION_ID = 4;
+        int QUESTION = 5;
+        int TYPE = 6;
+        int ORDER_ID = 7;
+        int MAXIMUM_CHARACTERS = 8;
+        int MAXIMUM_PHOTOS = 9;
+        int SHOW_BACK_BUTTON = 10;
+        int ALLOW_MULTIPLY_PHOTOS = 11;
+        int ASK_IF = 12;
+        int TASK_LOCATION = 13;
+        int PREVIOUS_QUESTION_ORDER_ID = 14;
+        int VALIDATION_COMMENT = 15;
+        int PRESENT_VALIDATION_TEXT = 16;
 
-        int MIN_VALUES = 16;
-        int MAX_VALUES = 17;
-        int PATTERN_TYPE = 18;
-        int VIDEO_SOURCE = 19;
-        int PHOTO_SOURCE = 20;
-        int VIDEO_URL = 21;
-        int PHOTO_URL = 22;
+        int MIN_VALUES = 17;
+        int MAX_VALUES = 18;
+        int PATTERN_TYPE = 19;
+        int VIDEO_SOURCE = 20;
+        int PHOTO_SOURCE = 21;
+        int VIDEO_URL = 22;
+        int PHOTO_URL = 23;
 
-        int ROUTING = 23;
-        int INSTRUCTION_FILE_URI = 24;
-        int NEXT_ANSWERED_QUESTION_ID = 25;
+        int ROUTING = 24;
+        int INSTRUCTION_FILE_URI = 25;
+        int NEXT_ANSWERED_QUESTION_ID = 26;
     }
 }

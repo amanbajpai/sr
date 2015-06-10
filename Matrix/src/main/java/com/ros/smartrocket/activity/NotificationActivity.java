@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
@@ -19,6 +18,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
     private CharSequence text;
 
     private int taskId;
+    private int missionId;
     private int notificationTypeId;
     private int taskStatusId;
     private int titleBackgroundColorResId;
@@ -50,6 +50,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
             notificationTypeId = getIntent().getIntExtra(Keys.NOTIFICATION_TYPE_ID, 0);
             taskStatusId = getIntent().getIntExtra(Keys.TASK_STATUS_ID, 0);
             titleBackgroundColorResId = getIntent().getIntExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, 0);
@@ -114,12 +115,13 @@ public class NotificationActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case mission_redo:
-                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
                 if (task != null) {
                     if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK) {
-                        startActivity(IntentUtils.getQuestionsIntent(this, taskId));
+                        startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
                     } else {
-                        startActivity(IntentUtils.getTaskDetailIntent(this, taskId, task.getStatusId(), TasksBL.isPreClaimTask(task)));
+                        startActivity(IntentUtils.getTaskDetailIntent(this, taskId, missionId, task.getStatusId(),
+                                TasksBL.isPreClaimTask(task)));
                     }
                 }
                 finish();
@@ -130,12 +132,13 @@ public class NotificationActivity extends Activity implements OnClickListener {
                         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, false, false));
                         break;
                     case RE_DO_TASK:
-                        startActivity(IntentUtils.getQuestionsIntent(this, taskId));
+                        startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
                         break;
                     default:
-                        Task taskToOpen = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                        Task taskToOpen = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
                         if (taskToOpen != null) {
-                            startActivity(IntentUtils.getTaskDetailIntent(this, taskId, taskToOpen.getStatusId(), TasksBL.isPreClaimTask(taskToOpen)));
+                            startActivity(IntentUtils.getTaskDetailIntent(this, taskId, missionId,
+                                    taskToOpen.getStatusId(), TasksBL.isPreClaimTask(taskToOpen)));
                         }
                         break;
                 }

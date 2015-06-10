@@ -37,11 +37,12 @@ public class AnswersBL {
      * @param questionId - question id
      */
 
-    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer questionId) {
+    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Integer
+            questionId) {
         handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema
-                        .Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId)}, AnswerDbSchema.SORT_ORDER_ASC
+                        .Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)}, AnswerDbSchema.SORT_ORDER_ASC
         );
     }
 
@@ -60,13 +61,14 @@ public class AnswersBL {
         }
     }
 
-    public static void clearAnswersInDB(Integer taskId, Integer questionId) {
+    public static void clearAnswersInDB(Integer taskId, Integer missionId, Integer questionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
 
         App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI,
-                contentValues, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId)});
+                contentValues, AnswerDbSchema.Columns.QUESTION_ID + "=? and " +
+                        AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)});
 
     }
 
@@ -90,11 +92,12 @@ public class AnswersBL {
      * @return List<NotUploadedFile>
      */
 
-    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, String taskName, long endDateTime) {
+    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, Integer missionId, String taskName, long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=?",
-                new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
+                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
+                        AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId)}, null);
 
         Answer[] answers = convertCursorToAnswersArray(cursor);
 
@@ -104,6 +107,7 @@ public class AnswersBL {
                 NotUploadedFile fileToUpload = new NotUploadedFile();
                 fileToUpload.setRandomId();
                 fileToUpload.setTaskId(answer.getTaskId());
+                fileToUpload.setMissionId(answer.getMissionId());
                 fileToUpload.setTaskName(taskName);
                 fileToUpload.setQuestionId(answer.getQuestionId());
                 fileToUpload.setFileUri(answer.getFileUri());
@@ -158,12 +162,13 @@ public class AnswersBL {
         return hrSize;
     }
 
-    public static List<Answer> getAnswersListToSend(Integer taskId) {
+    public static List<Answer> getAnswersListToSend(Integer taskId, Integer missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=?"
+                AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
+                        AnswerDbSchema.Columns.MISSION_ID + "=?"
                 /* and " + AnswerDbSchema.Columns.FILE_URI + " IS NULL"*/,
-                new String[]{String.valueOf(taskId), String.valueOf(1)}, null);
+                new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId)}, null);
 
         return convertCursorToAnswerList(cursor);
     }
@@ -322,7 +327,7 @@ public class AnswersBL {
         return orderId;
     }
 
-    public static void clearTaskUserAnswers(Activity activity, int taskId) {
+    public static void clearTaskUserAnswers(Activity activity, int taskId, int missionId) {
         activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.TASK_ID + "=? and "
                         + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf(taskId)}

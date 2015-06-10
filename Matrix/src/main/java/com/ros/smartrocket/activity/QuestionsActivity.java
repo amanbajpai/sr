@@ -43,6 +43,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     private Integer taskId;
+    private Integer missionId;
     private Task task = new Task();
 
     private ProgressBar mainProgressBar;
@@ -75,6 +76,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
         }
 
         handler = new DbHandler(getContentResolver());
@@ -91,7 +93,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
 
-        TasksBL.getTaskFromDBbyID(handler, taskId);
+        TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
 
     @Override
@@ -142,9 +144,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             nextButton.setPadding(padding, padding, padding, padding);
                             previousButton.setPadding(padding, padding, padding, padding);
 
-                            apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
+                            apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
                         } else {
-                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId);
+                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
                         }
                     } else {
                         finish();
@@ -162,7 +164,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         startFragment(question);
                     } else {
                         setSupportProgressBarIndeterminateVisibility(true);
-                        apiFacade.getQuestions(QuestionsActivity.this, task.getWaveId(), taskId);
+                        apiFacade.getQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
                     }
 
                     break;
@@ -193,7 +195,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
                 if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, question.getOrderId());
+                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(), question
+                            .getOrderId());
                     question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
                     QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
@@ -203,7 +206,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
                         for (Question tempQuestion : questions) {
                             if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
-                                AnswersBL.clearAnswersInDB(taskId, tempQuestion.getId());
+                                AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), tempQuestion.getId());
                             }
                         }
                     }
@@ -226,7 +229,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
                         .getPreviousQuestionOrderId() : 1;
-                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), taskId, previousQuestionOrderId);
+                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(), previousQuestionOrderId);
 
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
                 startFragment(question);
@@ -235,7 +238,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startValidationActivity() {
-        TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.SCHEDULED.getStatusId());
+        TasksBL.updateTaskStatusId(taskId, task.getMissionId(), Task.TaskStatusId.SCHEDULED.getStatusId());
 
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true, isRedo));
         finish();
@@ -327,7 +330,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
-                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId);
+                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                         taskId);
@@ -386,7 +389,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 return true;
             case R.id.quiteTask:
                 if (task.getWaveId() != null && task.getId() != null) {
-                    DialogUtils.showQuiteTaskDialog(this, task.getWaveId(), task.getId());
+                    DialogUtils.showQuiteTaskDialog(this, task.getWaveId(), task.getId(), task.getMissionId());
                 }
                 return true;
             default:

@@ -72,7 +72,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         questionText.setText(question.getQuestion());
         conditionText.setText(getString(R.string.write_your_number, question.getMinValue(),
                 question.getMaxValue()));
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
         return view;
     }

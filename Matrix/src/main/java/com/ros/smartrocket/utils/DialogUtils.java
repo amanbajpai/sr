@@ -317,7 +317,8 @@ public class DialogUtils {
      *
      * @param activity - current activity
      */
-    public static Dialog showQuiteTaskDialog(final Activity activity, final int waveId, final int taskId) {
+    public static Dialog showQuiteTaskDialog(final Activity activity, final int waveId, final int taskId,
+                                             final int missionId) {
         QuiteTaskDialog dialog = new QuiteTaskDialog(activity);
         dialog.setOnDialogButtonClickListener(new QuiteTaskDialog.DialogButtonClickListener() {
             @Override
@@ -332,7 +333,7 @@ public class DialogUtils {
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);
 
                 AnswersBL.clearTaskUserAnswers(activity, taskId);
-                QuestionsBL.recoverQuestionTable(activity, waveId, taskId);
+                QuestionsBL.recoverQuestionTable(activity, waveId, taskId, missionId);
                 dialog.dismiss();
                 activity.finish();
             }

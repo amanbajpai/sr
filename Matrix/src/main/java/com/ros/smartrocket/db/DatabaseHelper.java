@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-    private static final int DB_VERSION = 24;
+    private static final int DB_VERSION = 25;
     private static final String DB_NAME = "matrix_db";
     private static DatabaseHelper instance;
 

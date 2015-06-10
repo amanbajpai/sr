@@ -39,6 +39,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private ClaimTaskManager claimTaskManager;
 
     private Integer taskId;
+    private Integer missionId;
     private Integer statusId;
     private boolean isPreClaim;
     private Task task;
@@ -104,6 +105,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
             statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
             isPreClaim = getIntent().getBooleanExtra(Keys.IS_PRECLAIM, false);
         }
@@ -171,7 +173,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        TasksBL.getTaskFromDBbyID(handler, taskId);
+        TasksBL.getTaskFromDBbyID(handler, task.getId(), task.getMissionId());
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -557,7 +559,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onStarted(Task task) {
         setButtonsSettings(task);
-        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getId()));
+        startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getId(), task.getMissionId()));
     }
 
     @Override
@@ -612,7 +614,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case CLAIMED:
             case STARTED:
-                startActivity(IntentUtils.getQuestionsIntent(this, taskId));
+                startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
                 break;
             case SCHEDULED:
                 startActivity(IntentUtils.getTaskValidationIntent(this, taskId, false, false));
@@ -623,12 +625,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void redoTaskButtonClick() {
-        startActivity(IntentUtils.getQuestionsIntent(this, taskId));
+        startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
     }
 
     public void mapImageViewClick() {
         Bundle bundle = new Bundle();
-        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, taskId);
+        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
         bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
 
         Intent intent = new Intent(this, MapActivity.class);

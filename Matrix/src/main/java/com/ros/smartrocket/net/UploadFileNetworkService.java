@@ -110,6 +110,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
     public BaseOperation getSendTempFileOperation(File file, NotUploadedFile notUploadedFile, long mainFileLength) {
         FileToUpload uploadFileEntity = new FileToUpload();
         uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
+        uploadFileEntity.setMissionId(notUploadedFile.getMissionId());
         uploadFileEntity.setQuestionId(notUploadedFile.getQuestionId());
         uploadFileEntity.setFileOffset((long) MAX_BYTE_SIZE * notUploadedFile.getPortion());
         uploadFileEntity.setFileCode(notUploadedFile.getFileCode());

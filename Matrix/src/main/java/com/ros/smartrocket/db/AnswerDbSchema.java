@@ -14,6 +14,7 @@ public interface AnswerDbSchema {
         ID("id", DBType.NUMERIC),
         QUESTION_ID("questionId", DBType.NUMERIC),
         TASK_ID("taskId", DBType.NUMERIC),
+        MISSION_ID("missionId", DBType.NUMERIC),
         ANSWER("answer", DBType.TEXT),
         VALUE("value", DBType.TEXT),
         ROUTING("routing", DBType.NUMERIC),
@@ -67,6 +68,7 @@ public interface AnswerDbSchema {
                 Table.ANSWER.getName() + "." + Columns.ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.QUESTION_ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.TASK_ID.getName(),
+                Table.ANSWER.getName() + "." + Columns.MISSION_ID.getName(),
                 Table.ANSWER.getName() + "." + Columns.ANSWER.getName(),
                 Table.ANSWER.getName() + "." + Columns.VALUE.getName(),
                 Table.ANSWER.getName() + "." + Columns.ROUTING.getName(),
@@ -81,15 +83,16 @@ public interface AnswerDbSchema {
         int _ID = 0;
         int ID = 1;
         int QUESTION_ID = 2;
-        int TASK_ID = 3;
-        int ANSWER = 4;
-        int VALUE = 5;
-        int ROUTING = 6;
-        int CHECKED = 7;
-        int FILE_URI = 8;
-        int FILE_SIZE_B = 9;
-        int FILE_NAME = 10;
-        int LONGITUDE = 11;
-        int LATITUDE = 12;
+        int MISSION_ID = 3;
+        int TASK_ID = 4;
+        int ANSWER = 5;
+        int VALUE = 6;
+        int ROUTING = 7;
+        int CHECKED = 8;
+        int FILE_URI = 9;
+        int FILE_SIZE_B = 10;
+        int FILE_NAME = 11;
+        int LONGITUDE = 12;
+        int LATITUDE = 13;
     }
 }

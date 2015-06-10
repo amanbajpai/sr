@@ -110,7 +110,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         setSupportProgressBarIndeterminateVisibility(false);
 
-        TasksBL.getTaskFromDBbyID(handler, taskId);
+        TasksBL.getTaskFromDBbyID(handler, task.getId(), task.getMissionId());
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -129,9 +129,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                             ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
                         }
 
-                        answerListToSend = AnswersBL.getAnswersListToSend(task.getId());
+                        answerListToSend = AnswersBL.getAnswersListToSend(task.getId(), task.getMissionId());
                         hasFile = AnswersBL.isHasFile(answerListToSend);
-                        notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getName(), task.getLongEndDateTime());
+                        notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getMissionId(), task.getName(), task.getLongEndDateTime());
                         filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
                         if (!isValidationLocationAdded(task)) {
@@ -141,7 +141,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         setTaskData(task);
                         if (firstlySelection) {
                             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                            QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId());
+                            QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId(),
+                                    task.getMissionId());
                         } else {
                             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                             sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
@@ -151,7 +152,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                             closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
                         }
                     } else {
-                        TasksBL.getTaskFromDBbyID(handler, taskId);
+                        TasksBL.getTaskFromDBbyID(handler, task.getId(), task.getMissionId());
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
@@ -193,7 +194,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
                 TasksBL.updateTask(handler, task);
 
-                QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId());
+                QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId(), task.getMissionId());
 
                 finishActivity();
             }
@@ -232,7 +233,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 .ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
-    private void validateTask(final int taskId, final Double latitude, final Double longitude) {
+    private void validateTask(final int taskId, final int missionId, final Double latitude, final Double longitude) {
         setSupportProgressBarIndeterminateVisibility(true);
 
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
@@ -243,7 +244,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
 
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, latitude, longitude, cityName));
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, missionId, latitude, longitude,
+                        cityName));
             }
         });
 
@@ -260,7 +262,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     private void sendAnswerTextsSuccess() {
-        TasksBL.updateTaskStatusId(task.getId(), Task.TaskStatusId.COMPLETED.getStatusId());
+        TasksBL.updateTaskStatusId(task.getId(), task.getMissionId(), Task.TaskStatusId.COMPLETED.getStatusId());
 
         if (hasFile) {
             if (UIUtils.is3G(this)
@@ -287,7 +289,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finishActivity();
             }
         } else {
-            validateTask(task.getId(), task.getLatitudeToValidation(), task.getLongitudeToValidation());
+            validateTask(task.getId(), task.getMissionId(), task.getLatitudeToValidation(),
+                    task.getLongitudeToValidation());
         }
     }
 
@@ -327,9 +330,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                TasksBL.updateTaskStatusId(taskId, Task.TaskStatusId.STARTED.getStatusId());
+                TasksBL.updateTaskStatusId(taskId, task.getMissionId(), Task.TaskStatusId.STARTED.getStatusId());
 
-                startActivity(IntentUtils.getQuestionsIntent(this, taskId));
+                startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
                 finish();
                 break;
             case R.id.sendNowButton:

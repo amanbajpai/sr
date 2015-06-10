@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.AnswerDbSchema;
 
@@ -10,6 +9,8 @@ import java.io.Serializable;
 public class Answer extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
+    @SerializedName("MissionId")
+    private Integer missionId;
     @SerializedName("QuestionId")
     private Integer questionId;
     @SerializedName("TaskId")
@@ -43,6 +44,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.setId(c.getInt(AnswerDbSchema.Query.ID));
             result.setQuestionId(c.getInt(AnswerDbSchema.Query.QUESTION_ID));
             result.setTaskId(c.getInt(AnswerDbSchema.Query.TASK_ID));
+            result.setMissionId(c.getInt(AnswerDbSchema.Query.MISSION_ID));
             result.setAnswer(c.getString(AnswerDbSchema.Query.ANSWER));
             result.setValue(c.getString(AnswerDbSchema.Query.VALUE));
             result.setRouting(c.getInt(AnswerDbSchema.Query.ROUTING));
@@ -105,6 +107,13 @@ public class Answer extends BaseEntity implements Serializable {
         this.taskId = taskId;
     }
 
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
+    }
 
     public void toggleChecked() {
         checked = !checked;

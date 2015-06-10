@@ -34,6 +34,8 @@ public class NotUploadedFile extends BaseEntity {
         }
     }
 
+    @SerializedName("MissionId")
+    private Integer missionId;
     @SerializedName("TaskId")
     private Integer taskId;
     @SerializedName("TaskName")
@@ -71,6 +73,7 @@ public class NotUploadedFile extends BaseEntity {
             result.set_id(c.getInt(NotUploadedFileDbSchema.Query._ID));
             result.setId(c.getInt(NotUploadedFileDbSchema.Query.ID));
             result.setTaskId(c.getInt(NotUploadedFileDbSchema.Query.TASK_ID));
+            result.setMissionId(c.getInt(NotUploadedFileDbSchema.Query.MISSION_ID));
             result.setQuestionId(c.getInt(NotUploadedFileDbSchema.Query.QUESTION_ID));
             result.setFileUri(c.getString(NotUploadedFileDbSchema.Query.FILE_URI));
             result.setAddedToUploadDateTime(c.getLong(NotUploadedFileDbSchema.Query.ADDED_TO_UPLOAD_DATE_TIME));
@@ -100,6 +103,14 @@ public class NotUploadedFile extends BaseEntity {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public Long getEndDateTime() {

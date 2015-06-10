@@ -298,9 +298,11 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public BaseOperation getValidateTaskOperation(Integer taskId, double latitude, double longitude, String cityName) {
+    public BaseOperation getValidateTaskOperation(Integer taskId, Integer missionId, double latitude,
+                                                  double longitude, String cityName) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
+        sendTaskId.setMissionId(missionId);
         sendTaskId.setLatitude(latitude);
         sendTaskId.setLongitude(longitude);
         sendTaskId.setCityName(cityName);
@@ -367,12 +369,13 @@ public class APIFacade {
      * @param activity
      * @param waveId
      */
-    public void getQuestions(Activity activity, Integer waveId, Integer taskId) {
+    public void getQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(waveId), preferencesManager.getLanguageCode(), String.valueOf(taskId));
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
         operation.setWaveId(waveId);
         operation.setTaskId(taskId);
+        operation.setMissionId(missionId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
@@ -381,12 +384,13 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void getReDoQuestions(Activity activity, Integer waveId, Integer taskId) {
+    public void getReDoQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
         operation.setWaveId(waveId);
         operation.setTaskId(taskId);
+        operation.setMissionId(missionId);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }

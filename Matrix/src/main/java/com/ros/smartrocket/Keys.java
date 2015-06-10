@@ -110,6 +110,7 @@ public interface Keys {
 
     //Tasks
     String TASK_ID = "task_id";
+    String MISSION_ID = "mission_id";
 
     //Wave
     String WAVES = "Waves";

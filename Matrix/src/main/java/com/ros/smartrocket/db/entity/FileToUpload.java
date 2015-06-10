@@ -10,6 +10,8 @@ public class FileToUpload extends BaseEntity {
 
     @SerializedName("TaskId")
     private Integer taskId;
+    @SerializedName("MissionId")
+    private Integer missionId;
     @SerializedName("QuestionId")
     private Integer questionId;
     @SerializedName("FileCode")
@@ -34,6 +36,14 @@ public class FileToUpload extends BaseEntity {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public Integer getQuestionId() {

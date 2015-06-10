@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -27,6 +26,8 @@ public class Task extends BaseEntity {
         }
     }
 
+    @SerializedName("MissionId")
+    private Integer missionId;
     @SerializedName("WaveId")
     private Integer waveId;
     @SerializedName("UserId")
@@ -119,6 +120,7 @@ public class Task extends BaseEntity {
         if (c.getCount() > 0) {
             result.set_id(c.getInt(TaskDbSchema.Query.All._ID));
             result.setId(c.getInt(TaskDbSchema.Query.All.ID));
+            result.setMissionId(c.getInt(TaskDbSchema.Query.All.MISSION_ID));
             result.setWaveId(c.getInt(TaskDbSchema.Query.All.WAVE_ID));
             result.setUserId(c.getLong(TaskDbSchema.Query.All.USER_ID));
             result.setName(c.getString(TaskDbSchema.Query.All.NAME));
@@ -181,6 +183,14 @@ public class Task extends BaseEntity {
             result.setLongitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LONGITUDE_TO_VALIDATION));
         }
         return result;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public String getName() {

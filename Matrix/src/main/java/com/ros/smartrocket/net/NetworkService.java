@@ -161,8 +161,9 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.GET_REDO_QUESTION_ID:
                         int waveId = operation.getWaveId();
                         int taskId = operation.getTaskId();
+                        int missionId = operation.getMissionId();
 
-                        QuestionsBL.removeQuestionsFromDB(this, waveId, taskId);
+                        QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 

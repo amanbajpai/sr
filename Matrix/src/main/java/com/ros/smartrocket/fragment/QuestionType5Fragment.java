@@ -104,7 +104,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
         confirmButton.setOnClickListener(this);
 
         questionText.setText(question.getQuestion());
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
         return view;
     }

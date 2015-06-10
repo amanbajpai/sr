@@ -26,6 +26,8 @@ public class Question extends BaseEntity implements Serializable {
         }
     }
 
+    @SerializedName("MissionId")
+    private Integer missionId;
     @SerializedName("WaveId")
     private Integer waveId;
     @SerializedName("TaskId")
@@ -93,6 +95,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setId(c.getInt(QuestionDbSchema.Query.ID));
             result.setWaveId(c.getInt(QuestionDbSchema.Query.WAVE_ID));
             result.setTaskId(c.getInt(QuestionDbSchema.Query.TASK_ID));
+            result.setMissionId(c.getInt(QuestionDbSchema.Query.MISSION_ID));
             result.setQuestion(c.getString(QuestionDbSchema.Query.QUESTION));
             result.setType(c.getInt(QuestionDbSchema.Query.TYPE));
             result.setOrderId(c.getInt(QuestionDbSchema.Query.ORDER_ID));
@@ -125,6 +128,14 @@ public class Question extends BaseEntity implements Serializable {
 
         L.d("question", result.toString());
         return result;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public String getQuestion() {
