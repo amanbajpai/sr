@@ -399,6 +399,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         answer.setRandomId();
         answer.setQuestionId(question.getId());
         answer.setTaskId(question.getTaskId());
+        answer.setMissionId(question.getMissionId());
 
         //Save empty answer to DB
         Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());

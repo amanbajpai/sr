@@ -83,8 +83,8 @@ public interface AnswerDbSchema {
         int _ID = 0;
         int ID = 1;
         int QUESTION_ID = 2;
-        int MISSION_ID = 3;
-        int TASK_ID = 4;
+        int TASK_ID = 3;
+        int MISSION_ID = 4;
         int ANSWER = 5;
         int VALUE = 6;
         int ROUTING = 7;

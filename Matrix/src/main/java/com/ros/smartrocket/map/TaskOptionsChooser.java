@@ -3,7 +3,6 @@ package com.ros.smartrocket.map;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Paint;
-
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -51,7 +50,8 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
 
                 icon = BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(data));
                 title = data.getName();
-                markerOptions.snippet(data.getId() + "_" + data.getWaveId() + "_" + data.getStatusId());
+                markerOptions.snippet(data.getId() + "_" + data.getWaveId() + "_" + data.getStatusId()
+                        + "_" + data.getMissionId());
             }
             markerOptions.icon(icon);
             markerOptions.title(title);

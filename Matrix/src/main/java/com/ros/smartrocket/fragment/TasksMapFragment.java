@@ -325,7 +325,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                         TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
                         Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
                     } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
-                        TasksBL.getTaskFromDBbyID(handler, viewItemId);
+                        TasksBL.getTaskFromDBbyID(handler, viewItemId, 0);
                         Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
                     }
 
@@ -526,7 +526,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
                 public void onInfoWindowClick() {
 
-                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getStatusId());
+                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getMissionId(),
+                            task.getStatusId());
                     baiduMap.hideInfoWindow();
                 }
             };
@@ -623,8 +624,9 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 int taskId = Integer.valueOf(taskData[0]);
                 //int waveId = Integer.valueOf(taskData[1]);
                 int taskStatusId = Integer.valueOf(taskData[2]);
+                int missionId = Integer.valueOf(taskData[3]);
 
-                MapHelper.mapOverlayClickResult(getActivity(), taskId, taskStatusId);
+                MapHelper.mapOverlayClickResult(getActivity(), taskId, missionId, taskStatusId);
             } catch (Exception e) {
                 L.e(TAG, "Error info vindow click" + e, e);
             }

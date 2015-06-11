@@ -37,9 +37,8 @@ public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
         if (clusterPoint != null && clusterPoint.getPointAtOffset(0) != null) {
             Task task = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-            final Task updatedTask = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId()));
-            //TODO Get data from local DB
-            //TasksBL.getTaskFromDBbyID(handler, task.getId(), view);
+            final Task updatedTask = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId(),
+                    task.getMissionId()));
             if (updatedTask != null) {
                 MapHelper.setMapOverlayView(activity, view, updatedTask);
                 return true;

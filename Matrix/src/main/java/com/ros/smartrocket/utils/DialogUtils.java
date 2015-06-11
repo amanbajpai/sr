@@ -330,9 +330,10 @@ public class DialogUtils {
             public void onQuiteTaskButtonPressed(Dialog dialog) {
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
-                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId);
+                preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId +
+                        "_" + missionId);
 
-                AnswersBL.clearTaskUserAnswers(activity, taskId);
+                AnswersBL.clearTaskUserAnswers(activity, taskId, missionId);
                 QuestionsBL.recoverQuestionTable(activity, waveId, taskId, missionId);
                 dialog.dismiss();
                 activity.finish();

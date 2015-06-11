@@ -43,6 +43,38 @@ public class QuestionsBL {
     }
 
     /**
+     * Make request for getting Question list
+     *
+     * @param waveId  - current waveId
+     */
+    public static void getQuestionsListFromDB(Integer waveId, Integer taskId, Integer missionId) {
+        App.getInstance().getContentResolver().query(QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
+                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
+                QuestionDbSchema.SORT_ORDER_DESC
+        );
+    }
+
+    /**
+     * Update missionId
+     *
+     * @param waveId    - current waveId
+     * @param taskId    - current taskId
+     * @param missionId - missionId to set
+     */
+    public static void setMissionId(Integer waveId, Integer taskId, Integer missionId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionDbSchema.Columns.MISSION_ID.getName(), missionId);
+
+        String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and (" +
+                QuestionDbSchema.Columns.MISSION_ID + "=? or " + QuestionDbSchema.Columns.MISSION_ID + " IS NULL )";
+        String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(0)};
+
+        App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
+    /**
      * Make request for getting Closing Statement Question
      *
      * @param handler - Handler for getting response from DB

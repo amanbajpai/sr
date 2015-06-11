@@ -19,7 +19,7 @@ public final class WSUrl {
     public static final String GET_WAVE_TASKS = Config.WEB_SERVICE_URL + "api/Waves/%s/Tasks";
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
-    public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers?language=%s";
+    public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers?missionId=%s&language=%s";
     public static final String UNCLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Unclaimed";
     public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String START_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Start";
@@ -30,7 +30,7 @@ public final class WSUrl {
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
             + "api/Waves/Questionnaire?waveId=%s&language=%s&taskId=%s";
     public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
-            + "api/Tasks/Re-Do-Questions?taskId=%s&language=%s";
+            + "api/Tasks/Re-Do-Questions?taskId=%s&missionId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
     public static final String GET_REFERRAL_CASES = Config.WEB_SERVICE_URL
             + "api/Authorize/ReferralCases?countryId=%s&language=%s";

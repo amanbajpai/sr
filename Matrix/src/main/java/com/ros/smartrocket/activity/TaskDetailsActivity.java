@@ -173,7 +173,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        TasksBL.getTaskFromDBbyID(handler, task.getId(), task.getMissionId());
+        TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -601,13 +601,13 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     public void hideTaskButtonClick() {
         task.setIsHide(true);
         setButtonsSettings(task);
-        TasksBL.setHideTaskOnMapByID(handler, taskId, true);
+        TasksBL.setHideTaskOnMapByID(handler, task.getId(), task.getMissionId(), true);
     }
 
     public void showTaskButtonClick() {
         task.setIsHide(false);
         setButtonsSettings(task);
-        TasksBL.setHideTaskOnMapByID(handler, taskId, false);
+        TasksBL.setHideTaskOnMapByID(handler, task.getId(), task.getMissionId(), false);
     }
 
     public void continueTaskButtonClick() {
@@ -617,7 +617,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
                 break;
             case SCHEDULED:
-                startActivity(IntentUtils.getTaskValidationIntent(this, taskId, false, false));
+                startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, false, false));
                 break;
             default:
                 break;

@@ -106,6 +106,8 @@ public class NetworkService extends BaseNetworkService {
                         break;
 
                     case WSUrl.CLAIM_TASKS_ID:
+                        ClaimTaskResponse claimTaskResponse = gson.fromJson(responseString, ClaimTaskResponse.class);
+                        operation.responseEntities.add(claimTaskResponse);
                         break;
                     case WSUrl.SEND_ANSWERS_ID:
                         break;
@@ -170,6 +172,7 @@ public class NetworkService extends BaseNetworkService {
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
                             question.setTaskId(taskId);
+                            question.setMissionId(missionId);
                             AskIf[] askIfArray = question.getAskIfArray();
                             if (askIfArray != null) {
                                 question.setAskIf(gson.toJson(askIfArray));
@@ -196,6 +199,7 @@ public class NetworkService extends BaseNetworkService {
                                     answer.setRandomId();
                                     answer.setQuestionId(question.getId());
                                     answer.setTaskId(taskId);
+                                    answer.setMissionId(missionId);
                                     contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                                 }
                             } else {
@@ -203,6 +207,7 @@ public class NetworkService extends BaseNetworkService {
                                 answer.setRandomId();
                                 answer.setQuestionId(question.getId());
                                 answer.setTaskId(taskId);
+                                answer.setMissionId(missionId);
                                 contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                             }
                             i++;

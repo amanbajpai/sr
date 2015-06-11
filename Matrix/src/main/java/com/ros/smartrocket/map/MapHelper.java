@@ -250,18 +250,18 @@ public class MapHelper {
         return TasksBL.getDistanceForTask(task, App.getInstance().getLocationManager().getLocation());
     }
 
-    public static void mapOverlayClickResult(Activity activity, int taskId, int taskStatusId) {
+    public static void mapOverlayClickResult(Activity activity, int taskId, int missionId, int taskStatusId) {
         switch (TasksBL.getTaskStatusType(taskStatusId)) {
             case SCHEDULED:
-                activity.startActivity(IntentUtils.getTaskValidationIntent(activity, taskId, false, false));
+                activity.startActivity(IntentUtils.getTaskValidationIntent(activity, taskId, missionId, false, false));
                 break;
                 /*case RE_DO_TASK:
                     startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
                     break;*/
             default:
-                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
                 if (task != null) {
-                    activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId,
+                    activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId, missionId,
                             task.getStatusId(), TasksBL.isPreClaimTask(task)));
                 }
         }

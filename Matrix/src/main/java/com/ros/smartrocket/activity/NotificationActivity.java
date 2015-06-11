@@ -129,7 +129,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
             case mission_deadline:
                 switch (TasksBL.getTaskStatusType(taskStatusId)) {
                     case SCHEDULED:
-                        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, false, false));
+                        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, false, false));
                         break;
                     case RE_DO_TASK:
                         startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));

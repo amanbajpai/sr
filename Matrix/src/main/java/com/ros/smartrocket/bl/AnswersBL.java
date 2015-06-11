@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
@@ -28,6 +29,23 @@ public class AnswersBL {
 
     private AnswersBL() {
 
+    }
+
+    /**
+     * Update missionId
+     *
+     * @param taskId    - current taskId
+     * @param missionId - missionId to set
+     */
+    public static void setMissionId(Integer taskId, Integer missionId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AnswerDbSchema.Columns.MISSION_ID.getName(), missionId);
+
+        String where = AnswerDbSchema.Columns.TASK_ID + "=? and (" +
+                AnswerDbSchema.Columns.MISSION_ID + "=? or " + AnswerDbSchema.Columns.MISSION_ID + " IS NULL )";
+        String[] whereArgs = new String[]{String.valueOf(taskId), String.valueOf(0)};
+
+        App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
     /**

@@ -280,9 +280,11 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void unclaimTask(Activity activity, Integer taskId) {
+    public void unclaimTask(Activity activity, Integer taskId, Integer missionId) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
+        sendTaskId.setMissionId(missionId);
+
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.UNCLAIM_TASK);
         operation.setTag(Keys.UNCLAIM_TASK_OPERATION_TAG);
@@ -339,10 +341,10 @@ public class APIFacade {
      * @param activity
      * @param answers
      */
-    public void sendAnswers(Activity activity, List<Answer> answers) {
+    public void sendAnswers(Activity activity, List<Answer> answers, Integer missionId) {
         BaseOperation operation = new BaseOperation();
         operation.setIsArray(true);
-        operation.setUrl(WSUrl.SEND_ANSWERS, preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.SEND_ANSWERS, String.valueOf(missionId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.SEND_ANSWERS_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().addAll(answers);
@@ -353,9 +355,10 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void startTask(Activity activity, Integer taskId) {
+    public void startTask(Activity activity, Integer taskId, Integer missionId) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
+        sendTaskId.setMissionId(missionId);
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.START_TASK);
@@ -386,7 +389,7 @@ public class APIFacade {
      */
     public void getReDoQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), String.valueOf(missionId), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
         operation.setWaveId(waveId);
         operation.setTaskId(taskId);
@@ -482,9 +485,10 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void rejectTask(Activity activity, Integer taskId) {
+    public void rejectTask(Activity activity, Integer taskId, Integer missionId) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
+        sendTaskId.setMissionId(missionId);
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.REJECT_TASK);

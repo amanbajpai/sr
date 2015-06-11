@@ -158,7 +158,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     if (!questions.isEmpty()) {
                         questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
-                                taskId);
+                                taskId, task.getMissionId());
 
                         Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
                         startFragment(question);
@@ -195,8 +195,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
                 if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(), question
-                            .getOrderId());
+                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
+                            task.getMissionId(), question.getOrderId());
                     question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
                     QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
@@ -229,7 +229,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
                         .getPreviousQuestionOrderId() : 1;
-                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(), previousQuestionOrderId);
+                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
+                        task.getMissionId(), previousQuestionOrderId);
 
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
                 startFragment(question);
@@ -238,9 +239,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startValidationActivity() {
-        TasksBL.updateTaskStatusId(taskId, task.getMissionId(), Task.TaskStatusId.SCHEDULED.getStatusId());
+        TasksBL.updateTaskStatusId(taskId, missionId, Task.TaskStatusId.SCHEDULED.getStatusId());
 
-        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, true, isRedo));
+        startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, true, isRedo));
         finish();
     }
 
@@ -259,7 +260,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             } else if (question.getType() == Question.QuestionType.REJECT.getTypeId()) {
                 if (UIUtils.isOnline(this)) {
                     setSupportProgressBarIndeterminateVisibility(true);
-                    apiFacade.rejectTask(this, question.getTaskId());
+                    apiFacade.rejectTask(this, question.getTaskId(), question.getMissionId());
                 } else {
                     UIUtils.showSimpleToast(this, getString(R.string.no_internet));
                 }
@@ -333,7 +334,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
-                        taskId);
+                        taskId, task.getMissionId());
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
 
                 startActivity(IntentUtils.getQuitQuestionIntent(this, question));

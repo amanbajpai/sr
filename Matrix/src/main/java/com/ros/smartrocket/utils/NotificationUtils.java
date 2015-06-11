@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -26,7 +25,6 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.NotificationActivity;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
-
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -274,7 +272,7 @@ public class NotificationUtils {
      * @param missionAddress - current missionAddress
      */
     public static void startDeadlineNotificationActivity(Context context, long deadlineTime, int waveId, int taskId,
-                                                         String missionName,
+                                                         int missionId, String missionName,
                                                          String locationName, String missionAddress, int taskStatusId) {
         String deadlineDateText = UIUtils.longToString(deadlineTime, 3);
 
@@ -286,6 +284,7 @@ public class NotificationUtils {
 
         intent.putExtra(Keys.WAVE_ID, waveId);
         intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.MISSION_ID, missionId);
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_deadline.getId());
         intent.putExtra(Keys.TASK_STATUS_ID, taskStatusId);

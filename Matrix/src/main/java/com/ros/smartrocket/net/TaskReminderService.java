@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -125,7 +124,7 @@ public class TaskReminderService extends Service {
 
                             NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
                                     task.getLongExpireDateTime(),
-                                    task.getWaveId(), task.getId(),
+                                    task.getWaveId(), task.getId(), task.getMissionId(),
                                     task.getName(), task.getCountryName(), task.getAddress(), task.getStatusId());
 
                         } else if (COOKIE_EXPIRED_TASK == type) {

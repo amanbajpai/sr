@@ -161,12 +161,12 @@ public class PreferencesManager {
         setBoolean(Keys.USE_DEADLINE_REMINDER, use);
     }
 
-    public int getLastNotAnsweredQuestionOrderId(int waveId, int taskId) {
-        return getInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId, 1);
+    public int getLastNotAnsweredQuestionOrderId(int waveId, int taskId, int missionId) {
+        return getInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId + "_" + missionId, 1);
     }
 
-    public void setLastNotAnsweredQuestionOrderId(int waveId, int taskId, int orderId) {
-        setInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId, orderId);
+    public void setLastNotAnsweredQuestionOrderId(int waveId, int taskId, int missionId, int orderId) {
+        setInt(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId + "_" + missionId, orderId);
     }
 
     public int get3GUploadTaskLimit() {

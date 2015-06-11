@@ -19,12 +19,14 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
     private static final String TAG = WithdrawTaskDialog.class.getSimpleName();
     private Context activity;
     private int taskId;
+    private int missionId;
 
     public DeadlineReminderDialog(Context context, long deadlineTimeInMillis, String taskName, int waveId,
-                                  int taskId) {
+                                  int taskId, int missionId) {
         super(context);
         this.activity = context;
         this.taskId = taskId;
+        this.missionId = missionId;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         try {
@@ -56,9 +58,9 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.goToTaskButton:
                 dismiss();
-                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
                 if (task != null) {
-                    activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId,
+                    activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId, missionId,
                             task.getStatusId(), TasksBL.isPreClaimTask(task)));
                 }
                 break;

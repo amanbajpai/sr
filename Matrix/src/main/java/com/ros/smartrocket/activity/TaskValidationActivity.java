@@ -59,6 +59,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private TextView closingQuestionText;
 
     private int taskId;
+    private int missionId;
     private boolean firstlySelection;
     private boolean isRedo;
     private Task task = new Task();
@@ -87,6 +88,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
+            missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
             firstlySelection = getIntent().getBooleanExtra(Keys.FIRSTLY_SELECTION, true);
             isRedo = getIntent().getBooleanExtra(Keys.IS_REDO, false);
         }
@@ -110,7 +112,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         setSupportProgressBarIndeterminateVisibility(false);
 
-        TasksBL.getTaskFromDBbyID(handler, task.getId(), task.getMissionId());
+        TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -255,7 +257,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
             setSupportProgressBarIndeterminateVisibility(true);
 
-            apiFacade.sendAnswers(this, answerListToSend);
+            apiFacade.sendAnswers(this, answerListToSend, missionId);
         } else {
             DialogUtils.showTurnOnWifiDialog(this);
         }
@@ -319,7 +321,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         if (firstlySelection) {
             PreferencesManager preferencesManager = PreferencesManager.getInstance();
             preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId()
-                    + "_" + taskId);
+                    + "_" + taskId + "_" + task.getMissionId());
 
             startActivity(IntentUtils.getMainActivityIntent(this));
         }
@@ -450,7 +452,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             sendTextAnswers();
         } else {
             setSupportProgressBarIndeterminateVisibility(true);
-            apiFacade.startTask(this, task.getId());
+            apiFacade.startTask(this, task.getId(), task.getMissionId());
         }
     }
 

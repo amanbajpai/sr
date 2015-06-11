@@ -15,6 +15,7 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
@@ -29,6 +30,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -65,7 +67,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
     public void startTask() {
         if (UIUtils.isOnline(activity)) {
             showProgressBar();
-            apiFacade.startTask(activity, task.getId());
+            apiFacade.startTask(activity, task.getId(), task.getMissionId());
         } else {
             changeStatusToStarted(false);
         }
@@ -82,7 +84,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
             @Override
             public void onYesButtonPressed(Dialog dialog) {
                 showProgressBar();
-                apiFacade.unclaimTask(activity, task.getId());
+                apiFacade.unclaimTask(activity, task.getId(), task.getMissionId());
             }
         });
     }
@@ -99,14 +101,15 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
     public void changeStatusToUnClaimed() {
         preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId() + "_"
-                + task.getId());
+                + task.getId() + "_" + task.getMissionId());
 
+        Integer missionId = task.getMissionId();
         task.setStatusId(Task.TaskStatusId.NONE.getStatusId());
         task.setStarted("");
         task.setIsMy(false);
         task.setMissionId(null);
 
-        TasksBL.updateTask(handler, task);
+        TasksBL.updateTask(handler, task, missionId);
 
         QuestionsBL.removeQuestionsFromDB(activity, task.getWaveId(), task.getId(), task.getMissionId());
         AnswersBL.removeAnswersByTaskId(activity, task.getId());
@@ -218,6 +221,8 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 dismissProgressBar();
 
+                ClaimTaskResponse claimTaskResponse = (ClaimTaskResponse) operation.getResponseEntities().get(0);
+
                 long startTimeInMillisecond = task.getLongStartDateTime();
                 long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
@@ -230,6 +235,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
                 }
 
+                task.setMissionId(claimTaskResponse.getMissionId());
                 task.setStatusId(Task.TaskStatusId.CLAIMED.getStatusId());
                 task.setIsMy(true);
                 task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
@@ -238,7 +244,10 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 task.setExpireDateTime(UIUtils.longToString(missionDueMillisecond, 2));
                 task.setLongExpireDateTime(missionDueMillisecond);
 
-                TasksBL.updateTask(handler, task);
+                TasksBL.updateTask(handler, task, null);
+
+                QuestionsBL.setMissionId(task.getWaveId(), task.getId(), task.getMissionId());
+                AnswersBL.setMissionId(task.getId(), task.getMissionId());
 
                 String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
 
@@ -246,7 +255,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
                         showProgressBar();
-                        apiFacade.unclaimTask(activity, task.getId());
+                        apiFacade.unclaimTask(activity, task.getId(), task.getMissionId());
                     }
 
                     @Override

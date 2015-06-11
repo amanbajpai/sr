@@ -10,27 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.activity.ActivateAccountActivity;
-import com.ros.smartrocket.activity.CashingOutActivity;
-import com.ros.smartrocket.activity.CashingOutConfirmationActivity;
-import com.ros.smartrocket.activity.CashingOutSuccessActivity;
-import com.ros.smartrocket.activity.ForgotPasswordSuccessActivity;
-import com.ros.smartrocket.activity.FullScreenImageActivity;
-import com.ros.smartrocket.activity.FullScreenVideoActivity;
-import com.ros.smartrocket.activity.LoginActivity;
-import com.ros.smartrocket.activity.MainActivity;
-import com.ros.smartrocket.activity.MapActivity;
-import com.ros.smartrocket.activity.QuestionsActivity;
-import com.ros.smartrocket.activity.QuitQuestionActivity;
-import com.ros.smartrocket.activity.SetNewPasswordActivity;
-import com.ros.smartrocket.activity.SettingsActivity;
-import com.ros.smartrocket.activity.ShareActivity;
-import com.ros.smartrocket.activity.TaskDetailsActivity;
-import com.ros.smartrocket.activity.TaskValidationActivity;
-import com.ros.smartrocket.activity.TermsAndConditionActivity;
-import com.ros.smartrocket.activity.WaveDetailsActivity;
+import com.ros.smartrocket.activity.*;
 import com.ros.smartrocket.db.entity.Question;
 
 import java.net.URLEncoder;
@@ -103,9 +84,11 @@ public class IntentUtils {
      * @param context - context
      * @return Intent
      */
-    public static Intent getTaskValidationIntent(Context context, int taskId, boolean firstlySelection, boolean isRedo) {
+    public static Intent getTaskValidationIntent(Context context, int taskId, int missionId, boolean firstlySelection,
+                                                 boolean isRedo) {
         Intent intent = new Intent(context, TaskValidationActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.MISSION_ID, missionId);
         intent.putExtra(Keys.FIRSTLY_SELECTION, firstlySelection);
         intent.putExtra(Keys.IS_REDO, isRedo);
         return intent;
