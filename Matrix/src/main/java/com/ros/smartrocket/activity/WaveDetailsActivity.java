@@ -302,9 +302,9 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onStarted(Task task) {
         finish();
-        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), 0, task.getStatusId(),
+        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), task.getMissionId(), task.getStatusId(),
                 TasksBL.isPreClaimTask(task)));
-        startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), 0));
+        startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
     }
 
     @Override

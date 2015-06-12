@@ -233,7 +233,7 @@ public class SelectImageManager {
         OutputStream os = null;
         File file = lastFile;
 
-        if (intent != null && intent.getData() != null && !file.exists()) {
+        if (intent != null && intent.getData() != null && file != null && !file.exists()) {
             try {
                 Uri u = intent.getData();
                 is = activity.getContentResolver().openInputStream(u);
