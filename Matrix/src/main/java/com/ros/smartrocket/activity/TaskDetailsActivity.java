@@ -309,7 +309,11 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 expireTimeLayout.setVisibility(View.GONE);
 
                 statusLayout.setVisibility(View.VISIBLE);
-                statusTextView.setText(getString(R.string.in_validation_task));
+                if(Task.TaskStatusId.COMPLETED == TasksBL.getTaskStatusType(task.getStatusId())){
+                    statusTextView.setText(getString(R.string.mission_transmitting));
+                } else {
+                    statusTextView.setText(getString(R.string.in_validation_task));
+                }
 
                 if (!TextUtils.isEmpty(task.getSubmittedAt())) {
                     statusTimeLayout.setVisibility(View.VISIBLE);

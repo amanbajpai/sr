@@ -329,9 +329,9 @@ public class SelectImageManager {
     }
 
     public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte, boolean rotateByExif) {
-        L.i(TAG, "Source file size: " + f.length() + "bytes");
         Bitmap resultBitmap = null;
         try {
+            L.i(TAG, "Source file size: " + f.length() + "bytes");
             resultBitmap = getScaledBitmapByPxSize(f, maxSizeInPx);
 
             if (maxSizeInByte > 0) {
