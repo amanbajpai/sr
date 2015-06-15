@@ -239,7 +239,7 @@ public class FileProcessingManager {
 
         protected void onPostExecute(File file) {
             if (loadFileListener != null) {
-                if (resultFile != null) {
+                if (file != null) {
                     loadFileListener.onFileLoaded(file);
                 } else {
                     loadFileListener.onFileLoadingError();

@@ -535,6 +535,27 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     * @param context    - current context
+     * @param userName   - user name
+     * @param logMessage - message
+     * @param logType    - type
+     */
+    public BaseOperation getSendLogOperation(Context context, String userName, String logMessage, String logType) {
+        ServerLog serverLog = new ServerLog();
+        serverLog.setUserName(userName);
+        serverLog.setLogMessage(logMessage);
+        serverLog.setLogType(logType);
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SEND_LOG);
+        operation.setTag(Keys.SEND_LOG_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(serverLog);
+        return operation;
+
+    }
+
     public void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);

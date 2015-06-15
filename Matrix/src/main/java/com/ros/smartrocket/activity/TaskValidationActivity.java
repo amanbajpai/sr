@@ -26,10 +26,7 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -192,6 +189,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 sendAnswerTextsSuccess();
 
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
+
+                sendValidateLog("Success Validate task. ", sendTask.getTaskId(), sendTask.getMissionId(),
+                        sendTask.getLatitude(), sendTask.getLongitude(), sendTask.getCityName());
+
                 task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
                 task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
                 TasksBL.updateTask(handler, task);
@@ -201,6 +203,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finishActivity();
             }
         } else {
+            if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
+
+                sendValidateLog("Error. Can not Validate task. ", sendTask.getTaskId(), sendTask.getMissionId(),
+                        sendTask.getLatitude(), sendTask.getLongitude(), sendTask.getCityName());
+            }
+
             UIUtils.showSimpleToast(this, operation.getResponseError());
             sendNowButton.setEnabled(true);
         }
@@ -245,12 +254,33 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                sendValidateLog("Send task to validation. ", taskId, missionId, latitude, longitude, cityName);
 
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, missionId, latitude, longitude,
-                        cityName));
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, missionId, latitude, longitude, cityName));
             }
         });
 
+    }
+
+    public void sendValidateLog(String command, Integer taskId, Integer missionId, double latitude, double longitude,
+                                String cityName) {
+        String userName = preferencesManager.getLastEmail();
+
+        String message = command +
+                " taskId = " + taskId +
+                " missionId = " + missionId +
+                " latitude = " + latitude +
+                " longitude = " + longitude +
+                " cityName = " + cityName + " \n\n " +
+                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
+                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
+                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
+                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
+                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
+                " useLocationServices = " + preferencesManager.getUseLocationServices() +
+                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
+        String type = ServerLog.LogType.VALIDATE_TASK.getType();
+        sendNetworkOperation(apiFacade.getSendLogOperation(TaskValidationActivity.this, userName, message, type));
     }
 
     public void sendTextAnswers() {

@@ -38,6 +38,7 @@ public final class WSUrl {
     public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "WithdrawMoney";
     public static final String GET_SHARING_DATA = Config.WEB_SERVICE_URL + "api/Socials/SharingData?language=%s";
     public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
+    public static final String SEND_LOG = Config.WEB_SERVICE_URL + "api/Tasks/Log";
 
     public static final int LOGIN_ID = 1;
     public static final int GET_WAVES_ID = 2;
@@ -67,6 +68,7 @@ public final class WSUrl {
     public static final int CASHING_OUT_ID = 25;
     public static final int GET_SHARING_DATA_ID = 26;
     public static final int GET_NEW_TOKEN_ID = 27;
+    public static final int SEND_LOG_ID = 28;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -99,6 +101,7 @@ public final class WSUrl {
         URLS.put(CASHING_OUT, CASHING_OUT_ID);
         URLS.put(GET_SHARING_DATA, GET_SHARING_DATA_ID);
         URLS.put(GET_NEW_TOKEN, GET_NEW_TOKEN_ID);
+        URLS.put(SEND_LOG, SEND_LOG_ID);
     }
 
     public static int matchUrl(String url) {

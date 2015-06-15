@@ -9,10 +9,8 @@ import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
-import com.ros.smartrocket.db.entity.BaseEntity;
-import com.ros.smartrocket.db.entity.FileToUpload;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.ResponseError;
+import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectImageManager;
@@ -32,6 +30,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
     public static final String TAG_RECRUITING = "recruiting";
     public static int MAX_BYTE_SIZE = 1000 * 16;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private APIFacade apiFacade = APIFacade.getInstance();
 
     public UploadFileNetworkService() {
         super("NetworkService");
@@ -52,6 +51,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
                     File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
                     long mainFileLength = sourceFile.length();
 
+                    sendLog("Start send Main file", notUploadedFile, sourceFile, ServerLog.LogType.FILE_UPLOAD);
+
                     //Separate main file
                     File[] files = separateFile(notUploadedFile);
                     if (files != null) {
@@ -60,6 +61,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                                 L.i(TAG, "Upload file part " + i + ": " + files[i].getName() + " Date: " +
                                         UIUtils.longToString(System.currentTimeMillis(), 2));
+                                sendLog("Start send package file", notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);
 
                                 BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
                                 executeRequest(tempOperation);
@@ -80,16 +82,17 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                     files[i].delete();
                                     operation.setResponseStatusCode(responseCode);
 
-                                /*if (files.length == i + 1) {
-                                    tempOperation = getSendTempFileOperation(null, notUploadedFile, mainFileLength);
-                                    executeRequest(tempOperation);
-                                }*/
                                 } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
                                         responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+
+                                    sendLog("Error send package file. ErrorCode = " + responseCode +
+                                            " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);
                                     files[i].delete();
                                     operation.setResponseStatusCode(responseCode);
                                     break;
                                 } else {
+                                    sendLog("Error send package file. ErrorCode = " + responseCode +
+                                            " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);
                                     operation.setResponseStatusCode(NO_INTERNET);
                                     break;
                                 }
@@ -125,6 +128,31 @@ public class UploadFileNetworkService extends BaseNetworkService {
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(uploadFileEntity);
         return operation;
+    }
+
+    public void sendLog(String command, NotUploadedFile notUploadedFile, File file, ServerLog.LogType logType) {
+        String userName = preferencesManager.getLastEmail();
+
+        String message = command +
+                " taskId = " + notUploadedFile.getTaskId() +
+                " missionId = " + notUploadedFile.getMissionId() +
+                " latitude = " + notUploadedFile.getLatitudeToValidation() +
+                " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
+                " fileExist = " + file.exists() +
+                " fileName = " + file.getName() +
+                " filePath = " + file.getAbsolutePath() +
+                " fileCode = " + notUploadedFile.getFileCode() +
+                " addedToUploadDateTime (MainFile) = " + notUploadedFile.getAddedToUploadDateTime() +
+                " fileSize (byte) = " + file.length() +
+                " portion = " + notUploadedFile.getPortion() + " \n\n " +
+                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
+                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
+                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
+                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
+                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
+                " useLocationServices = " + preferencesManager.getUseLocationServices() +
+                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
+        executeRequest(apiFacade.getSendLogOperation(UploadFileNetworkService.this, userName, message, logType.getType()));
     }
 
     public File[] separateFile(NotUploadedFile notUploadedFile) {

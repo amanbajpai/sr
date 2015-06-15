@@ -1000,4 +1000,13 @@ public class UIUtils {
         }
         return resultString.toString();
     }
+
+    public static Integer getConnectedNetwork(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() != null) {
+            return cm.getActiveNetworkInfo().getType();
+        }
+        return null;
+
+    }
 }
