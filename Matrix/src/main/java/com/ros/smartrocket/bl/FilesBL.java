@@ -4,7 +4,6 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
@@ -72,10 +71,12 @@ public class FilesBL {
                 NotUploadedFileDbSchema.Columns.ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    public static int getNotUploadedFileCount(int taskId) {
+    public static int getNotUploadedFileCount(int taskId, int missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(NotUploadedFileDbSchema.CONTENT_URI, new String[]{"count(*)"},
-                NotUploadedFileDbSchema.Columns.TASK_ID + " = ?", new String[]{String.valueOf(taskId)}, null);
+                NotUploadedFileDbSchema.Columns.TASK_ID + " = ? and " +
+                        NotUploadedFileDbSchema.Columns.MISSION_ID + " = ?",
+                new String[]{String.valueOf(taskId), String.valueOf(missionId)}, null);
 
         int result = 0;
         if (cursor != null) {

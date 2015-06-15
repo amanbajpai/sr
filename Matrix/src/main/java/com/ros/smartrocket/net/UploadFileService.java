@@ -243,7 +243,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
-                int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId());
+                int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
                 if (notUploadedFileCount == 0) {
                     validateTask(notUploadedFile);
                 }

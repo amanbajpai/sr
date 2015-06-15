@@ -61,7 +61,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                                 L.i(TAG, "Upload file part " + i + ": " + files[i].getName() + " Date: " +
                                         UIUtils.longToString(System.currentTimeMillis(), 2));
-                                sendLog("Start send package file", notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);
 
                                 BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile, mainFileLength);
                                 executeRequest(tempOperation);
