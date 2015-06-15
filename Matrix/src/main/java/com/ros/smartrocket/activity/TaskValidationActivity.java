@@ -283,9 +283,28 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         sendNetworkOperation(apiFacade.getSendLogOperation(TaskValidationActivity.this, userName, message, type));
     }
 
+    public void sendAnswerUploadLog(String command, Integer taskId, Integer missionId) {
+        String userName = preferencesManager.getLastEmail();
+
+        String message = command +
+                " taskId = " + taskId +
+                " missionId = " + missionId + " \n\n " +
+                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
+                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
+                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
+                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
+                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
+                " useLocationServices = " + preferencesManager.getUseLocationServices() +
+                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
+        String type = ServerLog.LogType.ANSWERS_UPLOAD.getType();
+        sendNetworkOperation(apiFacade.getSendLogOperation(TaskValidationActivity.this, userName, message, type));
+    }
+
     public void sendTextAnswers() {
         if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
             setSupportProgressBarIndeterminateVisibility(true);
+
+            sendAnswerUploadLog("Send text answers. ", task.getId(), task.getMissionId());
 
             apiFacade.sendAnswers(this, answerListToSend, missionId);
         } else {
