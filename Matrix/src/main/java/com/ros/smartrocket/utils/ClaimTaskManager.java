@@ -30,7 +30,6 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 
 import javax.annotation.Nonnull;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
     public void startTask() {
         if (UIUtils.isOnline(activity)) {
             showProgressBar();
-            apiFacade.startTask(activity, task.getId(), task.getMissionId());
+            apiFacade.startTask(activity, task.getWaveId(), task.getId(), task.getMissionId());
         } else {
             changeStatusToStarted(false);
         }

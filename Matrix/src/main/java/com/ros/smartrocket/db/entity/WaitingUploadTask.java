@@ -4,6 +4,8 @@ import android.database.Cursor;
 import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
 import com.ros.smartrocket.utils.L;
 
+import java.util.Calendar;
+
 /**
  * Data model of WaitingValidationTask entity
  */
@@ -20,6 +22,17 @@ public class WaitingUploadTask extends BaseEntity {
     private Boolean allFileSent;
 
     public WaitingUploadTask() {
+    }
+
+    public WaitingUploadTask(Task task) {
+        this.taskId = task.getId();
+        this.missionId = task.getMissionId();
+        this.waveId = task.getWaveId();
+        this.addedToUploadDateTime = Calendar.getInstance().getTimeInMillis();
+        this.cityName = task.getLocationName();
+        this.longitudeToValidation = task.getLongitudeToValidation();
+        this.latitudeToValidation = task.getLatitudeToValidation();
+        this.allFileSent = false;
     }
 
     public static WaitingUploadTask fromCursor(Cursor c) {

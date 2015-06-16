@@ -20,10 +20,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.FilesBL;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.*;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.*;
@@ -62,8 +59,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private Task task = new Task();
 
     private AsyncQueryHandler handler;
-    private List<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
-    private List<Answer> answerListToSend = new ArrayList<Answer>();
+    private List<NotUploadedFile> notUploadedFiles = new ArrayList<>();
+    private List<Answer> answerListToSend = new ArrayList<>();
     private boolean hasFile = false;
     private float filesSizeB = 0;
 
@@ -233,8 +230,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {
         //Add files data to DB and start upload
+        WaitingUploadTaskBL.insertWaitingUploadTask(new WaitingUploadTask(task));
         for (NotUploadedFile notUploadedFile : notUploadedFiles) {
             notUploadedFile.setUse3G(use3G);
+            notUploadedFile.setWaveId(task.getWaveId());
             notUploadedFile.setLatitudeToValidation(task.getLatitudeToValidation());
             notUploadedFile.setLongitudeToValidation(task.getLongitudeToValidation());
 
@@ -244,22 +243,23 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 .ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
-    private void validateTask(final int taskId, final int missionId, final Double latitude, final Double longitude) {
+    private void validateTask(final Task task) {
         setSupportProgressBarIndeterminateVisibility(true);
 
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
+        location.setLatitude(task.getLatitudeToValidation());
+        location.setLongitude(task.getLongitudeToValidation());
 
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                sendValidateLog("Send task to validation. ", taskId, missionId, latitude, longitude, cityName);
+                sendValidateLog("Send task to validation. ", task.getId(), task.getMissionId(),
+                        task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName);
 
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(taskId, missionId, latitude, longitude, cityName));
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(), task.getMissionId(),
+                        task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
             }
         });
-
     }
 
     public void sendValidateLog(String command, Integer taskId, Integer missionId, double latitude, double longitude,
@@ -340,8 +340,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finishActivity();
             }
         } else {
-            validateTask(task.getId(), task.getMissionId(), task.getLatitudeToValidation(),
-                    task.getLongitudeToValidation());
+            validateTask(task);
         }
     }
 
@@ -501,7 +500,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             sendTextAnswers();
         } else {
             setSupportProgressBarIndeterminateVisibility(true);
-            apiFacade.startTask(this, task.getId(), task.getMissionId());
+            apiFacade.startTask(this, task.getWaveId(), task.getId(), task.getMissionId());
         }
     }
 
