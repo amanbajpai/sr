@@ -300,10 +300,11 @@ public class APIFacade {
      * @param latitude
      * @param longitude
      */
-    public BaseOperation getValidateTaskOperation(Integer taskId, Integer missionId, double latitude,
+    public BaseOperation getValidateTaskOperation(Integer waveId, Integer taskId, Integer missionId, double latitude,
                                                   double longitude, String cityName) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
+        sendTaskId.setWaveId(waveId);
         sendTaskId.setMissionId(missionId);
         sendTaskId.setLatitude(latitude);
         sendTaskId.setLongitude(longitude);
@@ -355,8 +356,9 @@ public class APIFacade {
      * @param activity
      * @param taskId
      */
-    public void startTask(Activity activity, Integer taskId, Integer missionId) {
+    public void startTask(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         SendTaskId sendTaskId = new SendTaskId();
+        sendTaskId.setWaveId(waveId);
         sendTaskId.setTaskId(taskId);
         sendTaskId.setMissionId(missionId);
 

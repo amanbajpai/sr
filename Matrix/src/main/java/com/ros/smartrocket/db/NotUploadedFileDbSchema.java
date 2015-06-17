@@ -10,10 +10,11 @@ public interface NotUploadedFileDbSchema {
     String SORT_ORDER_ASC_LIMIT_1 = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " ASC LIMIT 1";
     String SORT_ORDER_DESC = Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName() + " DESC";
 
-    public enum Columns {
+    enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         TASK_ID("taskId", DBType.NUMERIC),
+        WAVE_ID("waveId", DBType.NUMERIC),
         MISSION_ID("missionId", DBType.NUMERIC),
         QUESTION_ID("questionId", DBType.NUMERIC),
         FILE_URI("fileUri", DBType.TEXT),
@@ -64,7 +65,7 @@ public interface NotUploadedFileDbSchema {
         }
     }
 
-    public interface Query {
+    interface Query {
         int TOKEN_QUERY = 41;
 
         String[] PROJECTION = {Table.NOT_UPLOADED_FILE.getName() + "." + Columns._ID.getName(),
@@ -87,7 +88,8 @@ public interface NotUploadedFileDbSchema {
 
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName(),
-                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_VALIDATED.getName()
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_VALIDATED.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.WAVE_ID.getName()
         };
 
         int _ID = 0;
@@ -112,5 +114,6 @@ public interface NotUploadedFileDbSchema {
         int LONGITUDE_TO_VALIDATION = 16;
 
         int TASK_VALIDATED = 17;
+        int WAVE_ID = 18;
     }
 }

@@ -7,6 +7,8 @@ public class SendTaskId extends BaseEntity {
 
     @SerializedName("TaskId")
     private Integer taskId;
+    @SerializedName("WaveId")
+    private Integer waveId;
     @SerializedName("MissionId")
     private Integer missionId;
     @SerializedName("Longitude")
@@ -54,5 +56,13 @@ public class SendTaskId extends BaseEntity {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public Integer getWaveId() {
+        return waveId;
+    }
+
+    public void setWaveId(Integer waveId) {
+        this.waveId = waveId;
     }
 }

@@ -12,12 +12,11 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WaitingUploadTaskBL;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.ServerLog;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
@@ -45,6 +44,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
     private BroadcastReceiver receiver;
 
     private Timer uploadFilesTimer;
+    private Timer waitingTaskTimer;
     private Timer showNotificationTimer;
     private boolean uploadingFiles = false;
 
@@ -137,6 +137,32 @@ public class UploadFileService extends Service implements NetworkOperationListen
         }.start();
     }
 
+    private void startWaitingTaskTimer() {
+        if (waitingTaskTimer != null) {
+            L.i(TAG, "Restart waitingTaskTimer");
+            waitingTaskTimer.cancel();
+        } else {
+            L.i(TAG, "Start waitingTaskTimer");
+        }
+
+        new Thread() {
+            public void run() {
+                try {
+                    // waiting task timer
+                    waitingTaskTimer = new Timer();
+                    waitingTaskTimer.schedule(new TimerTask() {
+                        public void run() {
+                            L.i(TAG, "In timer. Start WaitingTimerTask");
+                            WaitingUploadTaskBL.getUploadedTasksFromDB(dbHandler);
+                        }
+                    }, WAIT_START_TIMER_IN_MILLISECONDS, Config.CHECK_NOT_UPLOADED_FILE_MILLISECONDS);
+                } catch (Exception e) {
+                    L.e(TAG, "StartCheckNotUploadedFilesTimer error: " + e.getMessage(), e);
+                }
+            }
+        }.start();
+    }
+
     public void stopUploadedFilesTimer() {
         L.i(TAG, "Stop uploadFilesTimer");
         if (uploadFilesTimer != null) {
@@ -214,17 +240,24 @@ public class UploadFileService extends Service implements NetworkOperationListen
                                     task.getMissionId(), task.getLatitudeToValidation(),
                                     task.getLongitudeToValidation(), cityName);
 
-                            sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getId(), task.getMissionId(),
+                            sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(),
+                                    task.getMissionId(),
                                     task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
                         }
                     });
+                    break;
+                case WaitingUploadTaskDbSchema.Query.TOKEN_QUERY:
+                    List<WaitingUploadTask> waitingUploadTasks = WaitingUploadTaskBL
+                            .convertCursorToWaitingUploadTaskList(cursor);
+                    for (WaitingUploadTask waitingUploadTask : waitingUploadTasks) {
+                        validateTask(waitingUploadTask);
+                    }
                     break;
                 default:
                     break;
             }
         }
     }
-
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
@@ -245,6 +278,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
                 if (notUploadedFileCount == 0) {
+                    WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
+                            notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
+                    startWaitingTaskTimer();
                     validateTask(notUploadedFile);
                 }
 
@@ -277,6 +313,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
             if (responseCode == BaseNetworkService.SUCCESS || responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE) {
                 SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
+                // removing this task from waiting list
+                WaitingUploadTaskBL.deletUploadedTaskFromDbById(sendTask.getWaveId(), sendTask.getTaskId(), sendTask
+                        .getMissionId());
 
                 sendValidateLog("Success Validate task. ", sendTask.getTaskId(),
                         sendTask.getMissionId(), sendTask.getLatitude(),
@@ -306,8 +345,27 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         notUploadedFile.getMissionId(), notUploadedFile.getLatitudeToValidation(),
                         notUploadedFile.getLongitudeToValidation(), cityName);
 
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(notUploadedFile.getTaskId(),
-                        notUploadedFile.getMissionId(), location.getLatitude(),
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(notUploadedFile.getWaveId(),
+                        notUploadedFile.getTaskId(), notUploadedFile.getMissionId(), location.getLatitude(),
+                        location.getLongitude(), cityName));
+            }
+        });
+    }
+
+    private void validateTask(final WaitingUploadTask waitingUploadTask) {
+        Location location = new Location(LocationManager.NETWORK_PROVIDER);
+        location.setLatitude(waitingUploadTask.getLatitudeToValidation());
+        location.setLongitude(waitingUploadTask.getLongitudeToValidation());
+
+        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+            @Override
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                sendValidateLog("Send Waiting task to validation. ", waitingUploadTask.getTaskId(),
+                        waitingUploadTask.getMissionId(), waitingUploadTask.getLatitudeToValidation(),
+                        waitingUploadTask.getLongitudeToValidation(), cityName);
+
+                sendNetworkOperation(apiFacade.getValidateTaskOperation(waitingUploadTask.getWaveId(),
+                        waitingUploadTask.getTaskId(), waitingUploadTask.getMissionId(), location.getLatitude(),
                         location.getLongitude(), cityName));
             }
         });
