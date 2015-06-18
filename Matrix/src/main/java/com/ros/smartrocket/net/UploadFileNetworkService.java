@@ -82,7 +82,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                     operation.setResponseStatusCode(responseCode);
 
                                 } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
-                                        responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+                                        responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
+                                        responseCode == BaseNetworkService.FILE_NOT_FOUND) {
 
                                     sendLog("Error send package file. ErrorCode = " + responseCode +
                                             " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);

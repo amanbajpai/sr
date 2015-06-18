@@ -11,6 +11,7 @@ import android.widget.*;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -163,16 +164,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
                     if (deviceIsReady()) {
-                        progressDialog = CustomProgressDialog.show(this);
-                        loginButton.setEnabled(false);
+                        if (isAllFilesSend(email)) {
+                            progressDialog = CustomProgressDialog.show(this);
+                            loginButton.setEnabled(false);
 
-                        String deviceManufacturer = UIUtils.getDeviceManufacturer();
-                        String deviceModel = UIUtils.getDeviceModel();
-                        String deviceName = UIUtils.getDeviceName(this);
+                            String deviceManufacturer = UIUtils.getDeviceManufacturer();
+                            String deviceModel = UIUtils.getDeviceModel();
+                            String deviceName = UIUtils.getDeviceName(this);
 
-                        apiFacade.login(this, email, password, deviceName, deviceModel,
-                                deviceManufacturer, UIUtils.getAppVersion(this),
-                                Build.VERSION.RELEASE);
+                            apiFacade.login(this, email, password, deviceName, deviceModel,
+                                    deviceManufacturer, UIUtils.getAppVersion(this),
+                                    Build.VERSION.RELEASE);
+                        } else {
+                            // not all tasks are sent - cannot login
+                            DialogUtils.showNotAllFilesSendDialog(this);
+                        }
                     }
                 } else {
                     UIUtils.showSimpleToast(this, R.string.fill_in_field);
@@ -207,6 +213,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             default:
                 break;
         }
+    }
+
+    private boolean isAllFilesSend(String currentEmail) {
+        boolean result = true;
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        String lastEmail = preferencesManager.getLastEmail();
+        if (!lastEmail.equals(currentEmail)) {
+            int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
+            result = notUploadedFileCount == 0;
+        }
+        return result;
     }
 
     public boolean deviceIsReady() {

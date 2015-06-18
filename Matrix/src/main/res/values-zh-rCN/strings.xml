@@ -164,6 +164,9 @@
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">定位服务</string>
     <string name="turn_on_location_dialog_text">要使用智慧飞船，您必须允许智能电话设定内的定位服务。</string>
+    <!-- NOT ALL FILES SENT DIALOG -->
+    <string name="not_all_files_sent_dialog_title">注意！</string>
+    <string name="not_all_files_sent_dialog_text">目前不能登录，因为其他账户的数据正在上传中。请先登录正在上传的账户，完成上传过程。</string>
     <!-- TURN ON NETWORK DIALOG -->
     <string name="turn_on_network_dialog_title">网络服务</string>
     <string name="turn_on_network_dialog_text">要使用智慧飞船，您必须允许智能电话设定内的网络服务。</string>

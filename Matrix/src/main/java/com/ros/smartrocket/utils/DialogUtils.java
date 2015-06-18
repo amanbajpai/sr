@@ -448,6 +448,31 @@ public class DialogUtils {
     }
 
     /**
+     * User already exist Dialog
+     *
+     * @param context - current context
+     */
+    public static Dialog showNotAllFilesSendDialog(final Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
+                context.getText(R.string.not_all_files_sent_dialog_title),
+                context.getText(R.string.not_all_files_sent_dialog_text),
+                0, R.string.user_already_exists_dialog_ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+
+        return dialog;
+    }
+
+    /**
      * Turn on Wi-Fi or change settings dialog
      *
      * @param context - current context

@@ -184,6 +184,9 @@
     <string name="turn_of_mock_location_dialog_title">GPS mock location</string>
     <string name="turn_of_mock_location_dialog_text">To use SmartRocket, you must TURN OFF GPS mock location in your
         smartphone settings.</string>
+    <!-- NOT ALL FILES SENT DIALOG -->
+    <string name="not_all_files_sent_dialog_title">Warning</string>
+    <string name="not_all_files_sent_dialog_text">You cannot log in right now with this account because a previous mission from a different account has still not completed transmission. Please log in with the other account so the mission can complete its transmission</string>
     <!-- REGISTRATION SUCCESS DIALOG -->
     <string name="registration_success_dialog_title">SmartRocket registration</string>
     <string name="registration_success_dialog_text0">Thank you!</string>

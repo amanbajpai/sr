@@ -74,12 +74,12 @@ public class SelectImageManager {
     public void startGallery(Activity activity) {
         this.activity = activity;
 
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (!IntentUtils.isIntentAvailable(activity, i)) {
-            i = new Intent(Intent.ACTION_GET_CONTENT);
-            i.setType("photo/*");
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        if (!IntentUtils.isIntentAvailable(activity, intent)) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
         }
-        activity.startActivityForResult(i, GALLERY);
+        activity.startActivityForResult(intent, GALLERY);
     }
 
     public void startCamera(Activity activity) {
