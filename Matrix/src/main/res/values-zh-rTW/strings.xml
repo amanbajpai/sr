@@ -163,6 +163,9 @@
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">定位服務</string>
     <string name="turn_on_location_dialog_text">要使用SmartRocket，你必須開啓智能電話設定内的定位服務。</string>
+    <!-- NOT ALL FILES SENT DIALOG -->
+    <string name="not_all_files_sent_dialog_title">注意！</string>
+    <string name="not_all_files_sent_dialog_text">目前不能登入，因爲其他賬戶的數據仍在傳送中。請先登入正在傳送的賬戶，完成傳送過程。</string>
     <!-- TURN ON NETWORK DIALOG -->
     <string name="turn_on_network_dialog_title">網絡服務</string>
     <string name="turn_on_network_dialog_text">要使用SmartRocket，你必須開啓智能電話設定内的網絡服務。</string>
