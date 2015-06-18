@@ -266,7 +266,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
             int responseCode = operation.getResponseStatusCode();
 
-            if (responseCode == BaseNetworkService.SUCCESS) {
+            if (responseCode == BaseNetworkService.SUCCESS || responseCode == BaseNetworkService.FILE_NOT_FOUND) {
                 L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId()
                         + " File name: " + notUploadedFile.getFileName()
                         + " Date: " + UIUtils.longToString(System.currentTimeMillis(), 2));
