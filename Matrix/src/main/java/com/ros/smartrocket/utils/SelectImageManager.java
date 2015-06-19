@@ -74,16 +74,12 @@ public class SelectImageManager {
     public void startGallery(Activity activity) {
         this.activity = activity;
 
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("image/*");
-
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.setType("image/*");
-
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
-
-        activity.startActivityForResult(chooserIntent, GALLERY);
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (!IntentUtils.isIntentAvailable(activity, i)) {
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("photo/*");
+        }
+        activity.startActivityForResult(i, GALLERY);
     }
 
     public void startCamera(Activity activity) {
@@ -184,7 +180,20 @@ public class SelectImageManager {
         Bitmap resultBitmap = null;
         try {
             if (intent != null && intent.getData() != null) {
-                Cursor cursor = activity.getContentResolver().query(intent.getData(), null, null, null, null);
+                Uri uri = intent.getData();
+                if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
+                    String unusablePath = intent.getData().getPath();
+                    int startIndex = unusablePath.indexOf("external/");
+                    int endIndex = unusablePath.indexOf("/ACTUAL");
+                    String embeddedPath = unusablePath.substring(startIndex, endIndex);
+
+                    Uri.Builder builder = intent.getData().buildUpon();
+                    builder.path(embeddedPath);
+                    builder.authority("media");
+                    uri = builder.build();
+                }
+
+                Cursor cursor = activity.getContentResolver().query(uri, null, null, null, null);
 
                 if (cursor != null) {
                     cursor.moveToFirst();
