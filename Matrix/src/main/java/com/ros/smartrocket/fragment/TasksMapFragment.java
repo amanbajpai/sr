@@ -114,7 +114,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
 
-        if (savedInstanceState == null) {
+        View mapView = mapLayout.findViewById(R.id.map);
+        if (savedInstanceState == null && mapView == null) {
             try {
                 if (Config.USE_BAIDU) {
                     mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));

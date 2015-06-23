@@ -105,10 +105,15 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
     }
 
-    private void restoreFragment() {
-        currentFragment = (BaseQuestionFragment) getSupportFragmentManager().findFragmentById(R.id.contentLayout);
-        currentFragment.setAnswerPageLoadingFinishedListener(this);
-        currentFragment.setAnswerSelectedListener(this);
+    private BaseQuestionFragment restoreFragment() {
+        BaseQuestionFragment restoredCurrentFragment = (BaseQuestionFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.contentLayout);
+        if (restoredCurrentFragment != null) {
+            currentFragment = restoredCurrentFragment;
+            currentFragment.setAnswerPageLoadingFinishedListener(this);
+            currentFragment.setAnswerSelectedListener(this);
+        }
+        return restoredCurrentFragment;
     }
 
     @Override
@@ -227,8 +232,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             if (currentQuestion != null) {
                 L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
-                int previousQuestionOrderId = currentQuestion.getPreviousQuestionOrderId() != 0 ? currentQuestion
-                        .getPreviousQuestionOrderId() : 1;
+                int previousQuestionOrderId = (currentQuestion.getPreviousQuestionOrderId() != null &&
+                        currentQuestion.getPreviousQuestionOrderId() != 0) ? currentQuestion.getPreviousQuestionOrderId() : 1;
                 preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
                         task.getMissionId(), previousQuestionOrderId);
 
@@ -312,8 +317,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     if (!isAlreadyStarted) {
                         t.replace(R.id.contentLayout, currentFragment).commit();
                     } else {
-                        restoreFragment();
-                        onAnswerPageLoadingFinished();
+                        BaseQuestionFragment restoredCurrentFragment = restoreFragment();
+                        if (restoredCurrentFragment != null) {
+                            onAnswerPageLoadingFinished();
+                        } else {
+                            t.replace(R.id.contentLayout, currentFragment).commit();
+                        }
                     }
                 } catch (Exception e) {
                     L.e(TAG, "Error replace question type fragment", e);

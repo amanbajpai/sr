@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 
@@ -141,8 +140,14 @@ public class SelectVideoManager {
     }
 
     public String getVideoPathFromGallery(Intent intent) {
-        Uri videoUri = intent.getData();
-        return getVideoPathFromContentURI(activity, videoUri);
+        Uri uri = intent.getData();
+        /*if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
+            String pathUri = uri.toString();
+            String newUri = pathUri.substring(pathUri.indexOf("content"), pathUri.lastIndexOf("/ACTUAL"));
+            uri = Uri.parse(newUri);
+        }*/
+
+        return getVideoPathFromContentURI(activity, uri);
     }
 
     public String getVideoPathFromCamera(Intent intent) {

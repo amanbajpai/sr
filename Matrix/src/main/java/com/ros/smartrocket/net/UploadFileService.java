@@ -277,6 +277,14 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
                 int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
+                L.i(TAG, "notUploadedFileCount = " + notUploadedFileCount +
+                        " taskId = " + notUploadedFile.getTaskId() +
+                        " missionId = " + notUploadedFile.getMissionId() +
+                        " latitude = " + notUploadedFile.getLatitudeToValidation() +
+                        " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
+                        " fileExist = " + new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).exists() +
+                        UIUtils.longToString(System.currentTimeMillis(), 2));
+                sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ", notUploadedFile);
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());

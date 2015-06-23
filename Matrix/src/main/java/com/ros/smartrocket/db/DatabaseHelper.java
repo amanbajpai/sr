@@ -61,6 +61,13 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
             try {
                 if (oldVersion < 25) {
                     db.execSQL("DROP TABLE IF EXISTS " + table.getName());
+
+                    StringBuilder sql = new StringBuilder(1024);
+                    if (appendCreateTableSQL(sql, table)) {
+                        continue;
+                    }
+                    db.execSQL(sql.toString());
+                    sql.setLength(0);
                 } else {
                     List<ContentValues> tableContent = new ArrayList<ContentValues>();
 
