@@ -45,7 +45,7 @@ public class QuestionsBL {
     /**
      * Make request for getting Question list
      *
-     * @param waveId  - current waveId
+     * @param waveId - current waveId
      */
     public static void getQuestionsListFromDB(Integer waveId, Integer taskId, Integer missionId) {
         App.getInstance().getContentResolver().query(QuestionDbSchema.CONTENT_URI,
@@ -54,6 +54,24 @@ public class QuestionsBL {
                 new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
                 QuestionDbSchema.SORT_ORDER_DESC
         );
+    }
+
+    /**
+     * Make request for getting Question
+     *
+     * @param waveId - current waveId
+     */
+    public static Question getQuestionsFromDB(Integer waveId, Integer taskId, Integer missionId, Integer questionId) {
+        Cursor cursor = App.getInstance().getContentResolver().query(QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
+                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.MISSION_ID + "=? and " +
+                        QuestionDbSchema.Columns.ID + "=?",
+                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId), String
+                        .valueOf(questionId)},
+                QuestionDbSchema.SORT_ORDER_DESC
+        );
+
+        return convertCursorToQuestionOrNull(cursor);
     }
 
     /**
@@ -176,6 +194,23 @@ public class QuestionsBL {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(Question.fromCursor(cursor));
+            }
+            cursor.close();
+        }
+        return result;
+    }
+
+    /**
+     * Convert cursor to Question
+     *
+     * @param cursor - all fields cursor
+     * @return Question
+     */
+    public static Question convertCursorToQuestionOrNull(Cursor cursor) {
+        Question result = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                result = Question.fromCursor(cursor);
             }
             cursor.close();
         }

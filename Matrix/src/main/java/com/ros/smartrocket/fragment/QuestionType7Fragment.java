@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
@@ -280,7 +281,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     @Override
     public Question getQuestion() {
-        return question;
+        return QuestionsBL.getQuestionsFromDB(question.getWaveId(), question.getTaskId(), question.getMissionId(),
+                question.getId());
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

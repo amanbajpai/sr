@@ -92,6 +92,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
 
         TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
@@ -281,7 +286,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putSerializable(Keys.QUESTION, question);
 
-            FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             switch (QuestionsBL.getQuestionType(question.getType())) {
                 case MULTIPLE_CHOICE:
                     currentFragment = new QuestionType1Fragment();
@@ -314,14 +318,20 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 currentFragment.setArguments(fragmentBundle);
 
                 try {
+                    FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
                     if (!isAlreadyStarted) {
-                        t.replace(R.id.contentLayout, currentFragment).commit();
+                        if (!isFinishing()) {
+                            t.replace(R.id.contentLayout, currentFragment).commitAllowingStateLoss();
+                        }
                     } else {
                         BaseQuestionFragment restoredCurrentFragment = restoreFragment();
                         if (restoredCurrentFragment != null) {
                             onAnswerPageLoadingFinished();
                         } else {
-                            t.replace(R.id.contentLayout, currentFragment).commit();
+                            if (!isFinishing()) {
+                                t.replace(R.id.contentLayout, currentFragment).commitAllowingStateLoss();
+                            }
+
                         }
                     }
                 } catch (Exception e) {

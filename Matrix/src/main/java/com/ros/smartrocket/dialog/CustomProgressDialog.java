@@ -42,7 +42,9 @@ public class CustomProgressDialog extends Dialog {
             dialog.addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
             try {
-                dialog.show();
+                if(!activity.isFinishing()){
+                    dialog.show();
+                }
                 return dialog;
             } catch (Exception e) {
                 L.e(TAG, "Show dialog error" + e.getMessage(), e);
