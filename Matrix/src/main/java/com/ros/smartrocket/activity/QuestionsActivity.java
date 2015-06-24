@@ -68,6 +68,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        L.i(TAG, "onCreate");
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
@@ -92,11 +93,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
 
         TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
@@ -104,6 +100,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        L.i(TAG, "onRestoreInstanceState");
         isAlreadyStarted = savedInstanceState.getBoolean(KEY_IS_STARTED, false);
         if (isAlreadyStarted) {
             restoreFragment();
@@ -111,9 +108,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     private BaseQuestionFragment restoreFragment() {
+        L.i(TAG, "restoreFragment");
         BaseQuestionFragment restoredCurrentFragment = (BaseQuestionFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentLayout);
         if (restoredCurrentFragment != null) {
+            L.i(TAG, "restoreFragment not null");
             currentFragment = restoredCurrentFragment;
             currentFragment.setAnswerPageLoadingFinishedListener(this);
             currentFragment.setAnswerSelectedListener(this);
@@ -123,6 +122,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        L.i(TAG, "onSaveInstanceState");
         outState.putBoolean(KEY_IS_STARTED, true);
         super.onSaveInstanceState(outState);
     }

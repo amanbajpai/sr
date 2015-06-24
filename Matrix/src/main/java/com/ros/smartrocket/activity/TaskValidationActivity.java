@@ -172,7 +172,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onNetworkOperation(BaseOperation operation) {
         setSupportProgressBarIndeterminateVisibility(false);
 
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS ||
+                operation.getResponseStatusCode() == BaseNetworkService.TASK_ALREADY_SUBMITTED) {
             if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStartedStatusSent(true);
                 TasksBL.updateTask(handler, task);

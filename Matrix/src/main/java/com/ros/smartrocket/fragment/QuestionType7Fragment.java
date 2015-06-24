@@ -498,6 +498,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                hideProgressDialog();
+
                 if (progressDialog == null || !progressDialog.isShowing()) {
                     progressDialog = CustomProgressDialog.show(getActivity());
                     progressDialog.setCancelable(false);
