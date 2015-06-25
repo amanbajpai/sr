@@ -167,7 +167,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
                     adapter.setData(WavesBL.convertCursorToWaveListByDistance(cursor));
                     if (AllTaskFragment.stopRefreshProgress) {
-                        if(adapter.getCount()==0){
+                        if (adapter.getCount() == 0) {
                             emptyListLTextView.setText(R.string.no_mission_available);
                         }
                         refreshIconState(false);
@@ -186,7 +186,10 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 AllTaskFragment.stopRefreshProgress = true;
                 WavesBL.getNotMyTasksWavesListFromDB(handler, TasksMapFragment.taskRadius,
                         preferencesManager.getShowHiddenTask());
-
+            } else if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             } else {
                 L.e(TAG, operation.getResponseError());
                 refreshIconState(false);

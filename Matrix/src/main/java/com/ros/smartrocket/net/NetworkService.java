@@ -76,33 +76,46 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.GET_WAVES_ID:
                         Waves waves = gson.fromJson(responseString, Waves.class);
 
-                        //Get tasks with 'scheduled' status id
-                        scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
-                        hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
+                        try {
+                            //Get tasks with 'scheduled' status id
+                            scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
+                            hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
-                        TasksBL.removeNotMyTask(contentResolver);
-                        WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, false);
+                            TasksBL.removeNotMyTask(contentResolver);
+                            WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, false);
 
-                        //Update task status id
-                        TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
-                        TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
+                            //Update task status id
+                            TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
+                            TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
+
+                        } catch (Exception e) {
+                            L.e(TAG, "Error updating data TASK and WAVE DB");
+                            operation.setResponseErrorCode(DEVICE_INTEERNAL_ERROR);
+                        }
+
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
                         Waves myTasksWaves = gson.fromJson(responseString, Waves.class);
 
-                        //Get tasks with 'scheduled' status id
-                        scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
-                        hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
-                        validLocationTaskContentValuesMap = TasksBL.getValidLocationTaskHashMap(contentResolver);
+                        try {
+                            //Get tasks with 'scheduled' status id
+                            scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
+                            hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
+                            validLocationTaskContentValuesMap = TasksBL.getValidLocationTaskHashMap(contentResolver);
 
-                        TasksBL.removeAllMyTask(contentResolver);
-                        WavesBL.saveWaveAndTaskFromServer(contentResolver, myTasksWaves, true);
+                            TasksBL.removeAllMyTask(contentResolver);
+                            WavesBL.saveWaveAndTaskFromServer(contentResolver, myTasksWaves, true);
 
-                        //Update task status id
-                        TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
-                        TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
-                        TasksBL.updateTasksByContentValues(contentResolver, validLocationTaskContentValuesMap);
+                            //Update task status id
+                            TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
+                            TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
+                            TasksBL.updateTasksByContentValues(contentResolver, validLocationTaskContentValuesMap);
+
+                        } catch (Exception e) {
+                            L.e(TAG, "Error updating data TASK and WAVE DB");
+                            operation.setResponseErrorCode(DEVICE_INTEERNAL_ERROR);
+                        }
                         break;
 
                     case WSUrl.CLAIM_TASKS_ID:

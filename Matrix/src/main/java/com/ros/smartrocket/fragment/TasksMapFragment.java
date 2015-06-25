@@ -422,6 +422,10 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 AllTaskFragment.stopRefreshProgress = true;
                 loadTasksFromLocalDb();
 
+            } else if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             } else {
                 L.i(TAG, operation.getResponseError());
                 refreshIconState(false);

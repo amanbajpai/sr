@@ -208,7 +208,7 @@ public class SelectImageManager {
                     }
 
                     if (imagePath.startsWith("http")) {
-                        Bitmap image = Picasso.with(activity).load(imagePath).get();
+                        Bitmap image = Picasso.with(activity).load(imagePath).resize(MAX_SIZE_IN_PX, MAX_SIZE_IN_PX).get();
 
                         lastFile = saveBitmapToFile(activity, image);
                         image.recycle();
@@ -304,7 +304,8 @@ public class SelectImageManager {
             } else if (requestCode == SelectImageManager.CAMERA || requestCode == SelectImageManager.CUSTOM_CAMERA) {
                 bitmap = getBitmapFromCamera(intent);
 
-                if (preferencesManager.getUseSaveImageToCameraRoll()) {
+                if (preferencesManager.getUseSaveImageToCameraRoll() &&
+                        activity != null && activity.getContentResolver() != null && bitmap != null) {
                     MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "", "");
                 }
             }
