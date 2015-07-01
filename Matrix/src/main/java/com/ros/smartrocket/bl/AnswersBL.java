@@ -246,6 +246,8 @@ public class AnswersBL {
         double z = 0;
 
         for (Answer answer : answerList) {
+            L.e("AnswerBL", "Answer Latitude: " + answer.getLatitude());
+            L.e("AnswerBL", "Answer Longitude: " + answer.getLongitude());
             if (answer.getLatitude() == 0 || answer.getLongitude() == 0) {
                 continue;
             }
@@ -271,8 +273,8 @@ public class AnswersBL {
         double hyp = Math.sqrt(x * x + y * y);
         double lat = Math.atan2(z, hyp);
 
-        L.e("AnswerBL", "Latitude: " + lat * 180 / Math.PI);
-        L.e("AnswerBL", "Longitude: " + lon * 180 / Math.PI);
+        L.e("AnswerBL", "Result Latitude: " + lat * 180 / Math.PI);
+        L.e("AnswerBL", "Result Longitude: " + lon * 180 / Math.PI);
 
         task.setLatitudeToValidation(lat * 180 / Math.PI);
         task.setLongitudeToValidation(lon * 180 / Math.PI);

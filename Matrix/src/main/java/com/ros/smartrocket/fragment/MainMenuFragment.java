@@ -1,28 +1,18 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.AsyncQueryHandler;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -39,15 +29,10 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.BytesBitmap;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.MultipassUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.SelectImageManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -223,8 +208,11 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                MyAccount myAccount = (MyAccount) operation.getResponseEntities().get(0);
-                setData(myAccount);
+                ArrayList<MyAccount> responseEntities = (ArrayList<MyAccount>) operation.getResponseEntities();
+                if (responseEntities.size() > 0) {
+                    MyAccount myAccount = responseEntities.get(0);
+                    setData(myAccount);
+                }
             } else if (Keys.UPLOAD_PHOTO_OPERATION_TAG.equals(operation.getTag())) {
                 finishUploadingPhoto();
             }

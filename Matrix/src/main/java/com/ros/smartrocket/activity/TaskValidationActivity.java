@@ -130,7 +130,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getMissionId(), task.getName(), task.getLongEndDateTime());
                         filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
 
-                        if (!isValidationLocationAdded(task)) {
+                        if (!isValidationLocationAdded(task) && isReadyToSend()) {
                             AnswersBL.saveValidationLocation(task, answerListToSend, hasFile);
                         }
 
@@ -351,19 +351,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      * @return
      */
     public boolean isReadyToSend() {
-        boolean result = UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this)
-                && preferencesManager.getUseLocationServices()
+        return UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this) && preferencesManager.getUseLocationServices()
                 && !UIUtils.isMockLocationEnabled(this);
-        if (!UIUtils.isOnline(this)) {
-            DialogUtils.showNetworkDialog(this);
-        } else if (lm.getLocation() == null || !UIUtils.isGpsEnabled(this)
-                || !UIUtils.isNetworkEnabled(this) || !preferencesManager.getUseLocationServices()) {
-            DialogUtils.showLocationDialog(this, true);
-        } else if (UIUtils.isMockLocationEnabled(this)) {
-            DialogUtils.showMockLocationDialog(this, true);
-        }
-
-        return result;
     }
 
     public void finishActivity() {
@@ -449,6 +438,15 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             } else {
                 sendAnswers();
             }
+        } else {
+            if (!UIUtils.isOnline(this)) {
+                DialogUtils.showNetworkDialog(this);
+            } else if (lm.getLocation() == null || !UIUtils.isGpsEnabled(this)
+                    || !UIUtils.isNetworkEnabled(this) || !preferencesManager.getUseLocationServices()) {
+                DialogUtils.showLocationDialog(this, true);
+            } else if (UIUtils.isMockLocationEnabled(this)) {
+                DialogUtils.showMockLocationDialog(this, true);
+            }
         }
     }
 
@@ -456,7 +454,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      * Postpone uploading and put it into local DB with flag.
      */
     public void sendLaterButtonClick() {
-        if (!isValidationLocationAdded(task)) {
+        if (!isValidationLocationAdded(task) && isReadyToSend()) {
             if (hasFile) {
                 AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
 

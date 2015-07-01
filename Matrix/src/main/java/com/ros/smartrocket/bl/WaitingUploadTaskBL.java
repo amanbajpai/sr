@@ -21,7 +21,7 @@ public class WaitingUploadTaskBL {
     public static void getUploadedTasksFromDB(AsyncQueryHandler handler) {
         handler.startQuery(WaitingUploadTaskDbSchema.Query.TOKEN_QUERY, null, WaitingUploadTaskDbSchema.CONTENT_URI,
                 WaitingUploadTaskDbSchema.Query.PROJECTION, WaitingUploadTaskDbSchema.Columns.ALL_FILE_SENT + " = ?",
-                new String[]{"1"}, NotUploadedFileDbSchema.SORT_ORDER_DESC);
+                new String[]{"1"}, WaitingUploadTaskDbSchema.SORT_ORDER_DESC);
     }
 
     public static void updateStatusToAllFileSent(int waveId, int taskId, int missionId) {

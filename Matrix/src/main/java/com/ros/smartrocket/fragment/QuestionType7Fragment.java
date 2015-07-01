@@ -281,8 +281,12 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     @Override
     public Question getQuestion() {
-        return QuestionsBL.getQuestionsFromDB(question.getWaveId(), question.getTaskId(), question.getMissionId(),
-                question.getId());
+        try {
+            return QuestionsBL.getQuestionsFromDB(question.getWaveId(), question.getTaskId(), question.getMissionId(),
+                    question.getId());
+        } catch (Exception e) {
+            return question;
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
