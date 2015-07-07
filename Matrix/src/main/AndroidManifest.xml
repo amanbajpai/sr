@@ -188,7 +188,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="103.242.72.243:8003"
+                    android:host="103.242.72.243"
                     android:scheme="http" />
             </intent-filter >
         </activity >
