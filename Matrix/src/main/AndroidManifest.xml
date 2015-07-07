@@ -171,15 +171,26 @@
                     android:host="agent.staging.redoceansolutions.com"
                     android:scheme="http" />
             </intent-filter >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="smart-rocket.com"
                     android:scheme="http" />
-            </intent-filter>
+            </intent-filter >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="103.242.72.243:8003"
+                    android:scheme="http" />
+            </intent-filter >
         </activity >
         <activity
             android:name=".activity.CheckLocationFailedActivity"
