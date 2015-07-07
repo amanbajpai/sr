@@ -106,7 +106,9 @@ public class QuestionType8Fragment extends BaseQuestionFragment {
         photoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), file.getPath(), false));
+                if(!TextUtils.isEmpty(file.getPath())) {
+                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), file.getPath(), false));
+                }
             }
         });
 

@@ -315,7 +315,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                         rotateByExif = false;
                     }
 
-                    startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif));
+                    if(!TextUtils.isEmpty(filePath)) {
+                        startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif));
+                    }
                     break;
                 }
             case R.id.rePhotoButton:

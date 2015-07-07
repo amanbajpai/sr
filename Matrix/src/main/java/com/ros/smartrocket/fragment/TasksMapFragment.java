@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -377,8 +378,18 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             }
 
             @Override
-            public void getLocationSuccess(Location location) {
-                APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+            public void getLocationSuccess(final Location location) {
+                if (isFirstStart) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                        }
+                    }, 1000);
+                } else {
+                    APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                }
+
             }
 
             @Override

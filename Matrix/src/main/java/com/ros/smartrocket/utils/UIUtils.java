@@ -1002,9 +1002,13 @@ public class UIUtils {
     }
 
     public static Integer getConnectedNetwork(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm.getActiveNetworkInfo() != null) {
-            return cm.getActiveNetworkInfo().getType();
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm.getActiveNetworkInfo() != null) {
+                return cm.getActiveNetworkInfo().getType();
+            }
+        } catch (Exception e){
+            L.e(TAG, "getConnectedNetwork. Get type error.");
         }
         return null;
 

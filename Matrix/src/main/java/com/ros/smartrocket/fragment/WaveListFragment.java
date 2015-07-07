@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -47,6 +48,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     private WaveAdapter adapter;
     private Button showHideMissionButton;
     private TextView emptyListLTextView;
+    private boolean isFirstStart = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -141,8 +143,18 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 }
 
                 @Override
-                public void getLocationSuccess(Location location) {
-                    apiFacade.getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                public void getLocationSuccess(final Location location) {
+                    if (isFirstStart) {
+                        isFirstStart = false;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                            }
+                        }, 1000);
+                    } else {
+                        APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
+                    }
                 }
 
                 @Override
