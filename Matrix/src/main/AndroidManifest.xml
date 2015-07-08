@@ -188,7 +188,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="103.242.72.243"
+                    android:host="crew.smartrocket.cn"
                     android:scheme="http" />
             </intent-filter >
         </activity >
