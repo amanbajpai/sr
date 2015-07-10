@@ -61,7 +61,7 @@ public class BaseActivity extends ActionBarActivity {
         if (checkDeviceSettingsByOnResume) {
             if (UIUtils.isMockLocationEnabled(this)) {
                 DialogUtils.showMockLocationDialog(this, false);
-            } else if (!UIUtils.isGpsEnabled(this) && preferencesManager.getUseLocationServices()) {
+            } else if (!UIUtils.isAllLocationSourceEnabled(this) && preferencesManager.getUseLocationServices()) {
                 DialogUtils.showLocationDialog(this, false);
             }
         }

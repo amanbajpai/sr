@@ -36,7 +36,7 @@ public class LoginBL {
 
         if (!utils.isOnline(context)) {
             errors = PreLoginErrors.NOCONNECTION;
-        } else if (!utils.isGpsEnabled(context)) {
+        } else if (!utils.isAllLocationSourceEnabled(context)) {
             errors = PreLoginErrors.GPSOFF;
         } else if (utils.isMockLocationEnabled(context)) {
             errors = PreLoginErrors.MOCKON;

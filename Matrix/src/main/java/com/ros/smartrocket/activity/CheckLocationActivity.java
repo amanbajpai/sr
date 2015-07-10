@@ -41,7 +41,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
             case R.id.checkMyLocationButton:
                 if (!UIUtils.isOnline(this)) {
                     DialogUtils.showNetworkDialog(this);
-                } else if (!UIUtils.isGpsEnabled(this)) {
+                } else if (!UIUtils.isAllLocationSourceEnabled(this)) {
                     DialogUtils.showLocationDialog(this, true);
                 } else if (UIUtils.isMockLocationEnabled(this)) {
                     DialogUtils.showMockLocationDialog(this, true);

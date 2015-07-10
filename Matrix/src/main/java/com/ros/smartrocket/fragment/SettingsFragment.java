@@ -230,7 +230,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             case R.id.locationServicesToggleButton:
                 preferencesManager.setUseLocationServices(isChecked);
 
-                if (!UIUtils.isGpsEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
+                if (!UIUtils.isAllLocationSourceEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
                     DialogUtils.showLocationDialog(getActivity(), false);
                 }
                 break;

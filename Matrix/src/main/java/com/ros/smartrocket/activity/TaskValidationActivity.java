@@ -351,7 +351,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      * @return
      */
     public boolean isReadyToSend() {
-        return UIUtils.isOnline(this) && UIUtils.isGpsEnabled(this) && preferencesManager.getUseLocationServices()
+        return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this) && preferencesManager.getUseLocationServices()
                 && !UIUtils.isMockLocationEnabled(this);
     }
 
@@ -441,7 +441,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         } else {
             if (!UIUtils.isOnline(this)) {
                 DialogUtils.showNetworkDialog(this);
-            } else if (lm.getLocation() == null || !UIUtils.isGpsEnabled(this)
+            } else if (lm.getLocation() == null || !UIUtils.isAllLocationSourceEnabled(this)
                     || !UIUtils.isNetworkEnabled(this) || !preferencesManager.getUseLocationServices()) {
                 DialogUtils.showLocationDialog(this, true);
             } else if (UIUtils.isMockLocationEnabled(this)) {

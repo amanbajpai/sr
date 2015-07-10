@@ -341,6 +341,11 @@ public class UIUtils {
         return isEnable;
     }
 
+
+    public static boolean isAllLocationSourceEnabled(Context context){
+        return isGpsEnabled(context) && isNetworkEnabled(context);
+    }
+
     /**
      * Check if GooglePlayServices is enabled
      *
