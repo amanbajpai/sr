@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -98,7 +99,24 @@ public class PreferencesManager {
     }
 
     public String getLanguageCode() {
-        return getString(Keys.LANGUAGE_CODE, "");
+        String languageCode = getString(Keys.LANGUAGE_CODE, "");
+        if (!TextUtils.isEmpty(languageCode)) {
+            switch (languageCode) {
+                case "en_SG":
+                case "zh_CN":
+                    languageCode = "zh_CN";
+                    break;
+                case "zh":
+                case "zh_TW":
+                case "zh_HK":
+                    languageCode = "zh_TW";
+                    break;
+                default:
+                    languageCode = "en";
+                    break;
+            }
+        }
+        return languageCode;
     }
 
     public void setLanguageCode(String languageCode) {
