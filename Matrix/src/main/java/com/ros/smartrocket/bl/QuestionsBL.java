@@ -471,14 +471,14 @@ public class QuestionsBL {
         return result;
     }
 
-    public static Question getLastInstructionQuestionWithFile(List<Question> questions) {
-        Question lastQuestion = null;
-        for (final Question question : questions) {
+    public static List<Question> getInstructionQuestionList(List<Question> questions) {
+        List<Question> resultQuestionList = new ArrayList<>();
+        for (Question question : questions) {
             if (question.getType() == Question.QuestionType.INSTRUCTION.getTypeId() && (!TextUtils.isEmpty(question
                     .getPhotoUrl()) || !TextUtils.isEmpty(question.getVideoUrl()))) {
-                lastQuestion = question;
+                resultQuestionList.add(question);
             }
         }
-        return lastQuestion;
+        return resultQuestionList;
     }
 }

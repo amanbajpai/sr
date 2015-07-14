@@ -128,8 +128,8 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
 
                     if (!questions.isEmpty()) {
-                        final Question lastQuestion = QuestionsBL.getLastInstructionQuestionWithFile(questions);
-                        downloadInstructionQuestionFile(0, questions, lastQuestion);
+                        List<Question> instructionQuestions = QuestionsBL.getInstructionQuestionList(questions);
+                        downloadInstructionQuestionFile(0, instructionQuestions);
                     } else {
                         apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
                     }
@@ -142,52 +142,43 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
     }
 
-    public void downloadInstructionQuestionFile(final int startFrom, final List<Question> questions,
-                                                final Question lastQuestion) {
+    public void downloadInstructionQuestionFile(final int startFrom, final List<Question> questions) {
         final Question question = questions.get(startFrom);
-        if (question.getType() == Question.QuestionType.INSTRUCTION.getTypeId()) {
 
-            String fileUrl = "";
-            FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
-            if (!TextUtils.isEmpty(question.getPhotoUrl())) {
-                fileUrl = question.getPhotoUrl();
-            } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
-                fileUrl = question.getVideoUrl();
-                fileType = FileProcessingManager.FileType.VIDEO;
-            }
-
-            if (!TextUtils.isEmpty(fileUrl)) {
-                fileProcessingManager.getFileByUrl(fileUrl, fileType, new FileProcessingManager.OnLoadFileListener() {
-                    @Override
-                    public void onStartFileLoading() {
-
-                    }
-
-                    @Override
-                    public void onFileLoaded(File file) {
-                        QuestionsBL.updateInstructionFileUri(question.getWaveId(),
-                                question.getTaskId(), question.getMissionId(), question.getId(),
-                                file.getPath());
-
-                        if (question.getWaveId() == lastQuestion.getWaveId() &&
-                                question.getTaskId() == lastQuestion.getTaskId() &&
-                                question.getId() == lastQuestion.getId()) {
-                            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
-                        } else {
-                            downloadInstructionQuestionFile(startFrom + 1, questions, lastQuestion);
-                        }
-                    }
-
-                    @Override
-                    public void onFileLoadingError() {
-                        UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
-                        dismissProgressBar();
-                    }
-                });
-            }
-        } else if (questions.size() > startFrom + 1) {
-            downloadInstructionQuestionFile(startFrom + 1, questions, lastQuestion);
+        String fileUrl = "";
+        FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
+        if (!TextUtils.isEmpty(question.getPhotoUrl())) {
+            fileUrl = question.getPhotoUrl();
+        } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
+            fileUrl = question.getVideoUrl();
+            fileType = FileProcessingManager.FileType.VIDEO;
         }
+
+        fileProcessingManager.getFileByUrl(fileUrl, fileType, new FileProcessingManager.OnLoadFileListener() {
+            @Override
+            public void onStartFileLoading() {
+
+            }
+
+            @Override
+            public void onFileLoaded(File file) {
+                QuestionsBL.updateInstructionFileUri(question.getWaveId(),
+                        question.getTaskId(), question.getMissionId(), question.getId(),
+                        file.getPath());
+
+                if (questions.size() == startFrom + 1) {
+                    apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+                } else {
+                    downloadInstructionQuestionFile(startFrom + 1, questions);
+                }
+            }
+
+            @Override
+            public void onFileLoadingError() {
+                UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
+                dismissProgressBar();
+            }
+        });
     }
 
     @Override
