@@ -332,7 +332,16 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 }
                 break;
             case R.id.deletePhotoButton:
-                AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
+                if (isBitmapConfirmed) {
+                    AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
+                } else {
+                    isBitmapAdded = false;
+                    refreshRePhotoButton();
+                    refreshDeletePhotoButton();
+                    refreshConfirmButton();
+                    refreshPhotoGallery(question.getAnswers());
+                    photoImageView.setImageBitmap(null);
+                }
                 break;
             case R.id.confirmButton:
                 MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
