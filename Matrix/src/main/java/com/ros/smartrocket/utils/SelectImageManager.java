@@ -11,7 +11,6 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -20,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.squareup.picasso.Picasso;
 import org.apache.commons.io.FileUtils;
@@ -41,9 +39,6 @@ public class SelectImageManager {
     private static final int[][] OPERATIONS = new int[][]{new int[]{0, NONE}, new int[]{0, HORIZONTAL},
             new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
             new int[]{90, HORIZONTAL}, new int[]{0, NONE}, new int[]{90, NONE}};
-    /*private static final int[][] CUSTOM_CAMERA_OPERATIONS = new int[][]{new int[]{90,NONE}, new int[]{90,HORIZONTAL},
-            new int[]{180, NONE}, new int[]{180, VERTICAL}, new int[]{90, HORIZONTAL}, new int[]{90, NONE},
-            new int[]{90, HORIZONTAL}, new int[]{-90, NONE},};*/
 
     private final static PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private static SelectImageManager instance = null;
@@ -153,26 +148,6 @@ public class SelectImageManager {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode == Activity.RESULT_OK) {
             new GetBitmapAsyncTask(requestCode, intent).execute();
-
-            /*Bitmap bitmap = null;
-            if (requestCode == SelectImageManager.GALLERY) {
-                bitmap = getBitmapFromGallery(intent);
-
-            } else if (requestCode == SelectImageManager.CAMERA || requestCode == SelectImageManager.CUSTOM_CAMERA) {
-                bitmap = getBitmapFromCamera(intent);
-
-                if (preferencesManager.getUseSaveImageToCameraRoll()) {
-                    MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "", "");
-                }
-            }
-
-            if (imageCompleteListener != null) {
-                if (bitmap != null) {
-                    imageCompleteListener.onImageComplete(bitmap);
-                } else {
-                    imageCompleteListener.onSelectImageError(requestCode);
-                }
-            }*/
         }
     }
 
@@ -208,7 +183,8 @@ public class SelectImageManager {
                     }
 
                     if (imagePath.startsWith("http")) {
-                        Bitmap image = Picasso.with(activity).load(imagePath).resize(MAX_SIZE_IN_PX, MAX_SIZE_IN_PX).get();
+                        Bitmap image = Picasso.with(activity).load(imagePath).resize(MAX_SIZE_IN_PX, MAX_SIZE_IN_PX)
+                                .get();
 
                         lastFile = saveBitmapToFile(activity, image);
                         image.recycle();
@@ -324,19 +300,6 @@ public class SelectImageManager {
             }
         }
     }
-
-    /*public static File getPhotoFileFromContentURI(Context context, Uri contentUri) {
-        Cursor cursor = context.getContentResolver().query(contentUri, null, null, null, null);
-
-        String fileUri = null;
-        if (cursor != null && cursor.moveToFirst()) {
-            int idx = cursor.getColumnIndex(ImageColumns.DATA);
-            if (idx != -1) {
-                fileUri = cursor.getString(idx);
-            }
-        }
-        return new File(fileUri);
-    }*/
 
     public static Bitmap prepareBitmap(File f) {
         return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, false);
@@ -498,22 +461,6 @@ public class SelectImageManager {
         return resultFile;
     }
 
-/*    public static String getFileAsString(Uri uri, int maxSizeInPx, long maxSizeInByte) {
-        String resultString = "";
-        File file = new File(uri.getPath());
-        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte);
-        try {
-            //byte[] fileAsBytesArray = FileUtils.readFileToByteArray(file);
-            byte[] fileAsBytesArray = BytesBitmap.getBytes(bitmap);
-            resultString = Base64.encodeToString(fileAsBytesArray, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            bitmap.recycle();
-        }
-        return resultString;
-    }*/
-
     public static String getFileAsString(File file) {
         String resultString = "";
         try {
@@ -528,30 +475,8 @@ public class SelectImageManager {
     }
 
     public static File getTempFile(Context context) {
-        File ret = null;
-        try {
-            String state = Environment.getExternalStorageState();
-
-            File cacheDir;
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
-                cacheDir = new File(Config.CACHE_DIR, "images");
-            } else {
-                cacheDir = context.getFilesDir();
-            }
-
-            if (!cacheDir.exists()) {
-                cacheDir.mkdirs();
-            }
-
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
-                ret = new File(cacheDir, Calendar.getInstance().getTimeInMillis() + "" + RANDOM.nextInt() + ".jpg");
-            } else {
-                ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + "" + RANDOM.nextInt() + ".jpg");
-            }
-        } catch (Exception e) {
-            L.e(TAG, "GetTempFile error", e);
-        }
-        return ret;
+        File dir = StorageManager.getImageStoreDir(context);
+        return new File(dir, Calendar.getInstance().getTimeInMillis() + "" + RANDOM.nextInt() + ".jpg");
     }
 
     public File saveBitmapToFile(Context context, Bitmap bitmap) {
@@ -570,17 +495,6 @@ public class SelectImageManager {
 
         return resultFile;
     }
-
-    /*private void deleteTempFile() {
-        try {
-            File file = getTempFile(activity);
-            if (file != null && file.exists()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            L.w(TAG, e.toString());
-        }
-    }*/
 
     public File getLastFile() {
         return lastFile;

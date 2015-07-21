@@ -284,21 +284,24 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
                         " fileExist = " + new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).exists() +
                         UIUtils.longToString(System.currentTimeMillis(), 2));
-                sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ", notUploadedFile);
+                sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ",
+                        notUploadedFile);
+
+                new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).delete();
+
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
                     startWaitingTaskTimer();
                     validateTask(notUploadedFile);
                 }
-
             } else if (responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
                 //Forward to remove the uploaded file
                 sendFileLog("Error. File not uploaded. ErrorCode = " + responseCode +
                         " ErrorText = " + operation.getResponseError(), notUploadedFile);
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
-
+                new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).delete();
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError() + " Date: " +

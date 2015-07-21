@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 
 import java.io.File;
@@ -141,12 +139,6 @@ public class SelectVideoManager {
 
     public String getVideoPathFromGallery(Intent intent) {
         Uri uri = intent.getData();
-        /*if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
-            String pathUri = uri.toString();
-            String newUri = pathUri.substring(pathUri.indexOf("content"), pathUri.lastIndexOf("/ACTUAL"));
-            uri = Uri.parse(newUri);
-        }*/
-
         return getVideoPathFromContentURI(activity, uri);
     }
 
@@ -160,30 +152,8 @@ public class SelectVideoManager {
     }
 
     public static File getTempFile(Context context) {
-        File ret = null;
-        try {
-            String state = Environment.getExternalStorageState();
-
-            File cacheDir;
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
-                cacheDir = new File(Config.CACHE_DIR, "videos");
-            } else {
-                cacheDir = context.getFilesDir();
-            }
-
-            if (!cacheDir.exists()) {
-                cacheDir.mkdirs();
-            }
-
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
-                ret = new File(cacheDir, Calendar.getInstance().getTimeInMillis() + ".mp4");
-            } else {
-                ret = new File(cacheDir + "/", Calendar.getInstance().getTimeInMillis() + ".mp4");
-            }
-        } catch (Exception e) {
-            L.e(TAG, "Error get Temp File", e);
-        }
-        return ret;
+        File dir = StorageManager.getVideoStoreDir(context);
+        return new File(dir, Calendar.getInstance().getTimeInMillis() + ".mp4");
     }
 
     public static String getVideoPathFromContentURI(Activity activity, Uri contentUri) {
