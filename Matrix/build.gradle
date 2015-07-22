@@ -101,6 +101,7 @@ dependencies {
     }
     compile(name: 'AndroidRemoteDebug-1.0.0', ext: 'aar')
     compile 'org.apache.velocity:velocity:1.7'
+    compile 'commons-io:commons-io:2.4'
 }
 
 android {

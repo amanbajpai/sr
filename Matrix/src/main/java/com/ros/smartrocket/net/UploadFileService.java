@@ -191,7 +191,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
 
                         if (notUploadedFile != null) {
-                            L.i(TAG, "Send file to upload Date: " + UIUtils.longToString(System.currentTimeMillis(), 2));
+                            L.i(TAG, "Send file to upload Date: " + UIUtils.longToString(System.currentTimeMillis(),
+                                    2));
                             uploadingFiles = true;
                             apiFacade.sendFile(UploadFileService.this, notUploadedFile);
                         } else {
@@ -233,9 +234,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     location.setLatitude(task.getLatitudeToValidation());
                     location.setLongitude(task.getLongitudeToValidation());
 
-                    MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
+                    MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener
+                            () {
                         @Override
-                        public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+                        public void onGetAddressSuccess(Location location, String countryName, String cityName,
+                                                        String districtName) {
                             sendValidateLog("Send task to validation. ", task.getId(),
                                     task.getMissionId(), task.getLatitudeToValidation(),
                                     task.getLongitudeToValidation(), cityName);
@@ -278,7 +281,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId()); //Forward to remove the uploaded file
 
-                int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
+                int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(),
+                        notUploadedFile.getMissionId());
                 L.i(TAG, "notUploadedFileCount = " + notUploadedFileCount +
                         " taskId = " + notUploadedFile.getTaskId() +
                         " missionId = " + notUploadedFile.getMissionId() +
@@ -286,21 +290,26 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
                         " fileExist = " + new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).exists() +
                         UIUtils.longToString(System.currentTimeMillis(), 2));
-                sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ", notUploadedFile);
+                sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ",
+                        notUploadedFile);
+
+                new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).delete();
+
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
                     startWaitingTaskTimer();
                     validateTask(notUploadedFile);
                 }
-
-            } else if (responseErrorCode != null && responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+            } else if (responseErrorCode != null
+                    && (responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE
+                    || responseErrorCode == BaseNetworkService.LOCAL_UPLOAD_FILE_ERROR)) {
                 //Forward to remove the uploaded file
                 sendFileLog("Error. File not uploaded. ErrorCode = " + responseCode +
                         " ErrorText = " + operation.getResponseError(), notUploadedFile);
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
-
+                new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).delete();
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError() + " Date: " +
@@ -352,7 +361,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String
+                    districtName) {
                 sendValidateLog("Send task to validation. ", notUploadedFile.getTaskId(),
                         notUploadedFile.getMissionId(), notUploadedFile.getLatitudeToValidation(),
                         notUploadedFile.getLongitudeToValidation(), cityName);
@@ -371,7 +381,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String
+                    districtName) {
                 sendValidateLog("Send Waiting task to validation. ", waitingUploadTask.getTaskId(),
                         waitingUploadTask.getMissionId(), waitingUploadTask.getLatitudeToValidation(),
                         waitingUploadTask.getLongitudeToValidation(), cityName);

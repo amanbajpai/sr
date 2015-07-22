@@ -2,7 +2,7 @@ package com.ros.smartrocket.images;
 
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
+import com.ros.smartrocket.utils.StorageManager;
 
 import java.io.File;
 
@@ -15,14 +15,7 @@ public class FileCache {
      */
     public FileCache() {
         // Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-            cacheDir = new File(Config.CACHE_DIR, "images");
-        } else {
-            cacheDir = App.getInstance().getCacheDir();
-        }
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs();
-        }
+        cacheDir = StorageManager.getImageCacheDir(App.getInstance());
     }
 
     /**
