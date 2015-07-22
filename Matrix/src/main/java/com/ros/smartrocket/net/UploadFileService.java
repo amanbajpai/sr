@@ -265,8 +265,10 @@ public class UploadFileService extends Service implements NetworkOperationListen
             final NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
             int responseCode = operation.getResponseStatusCode();
+            Integer responseErrorCode = operation.getResponseErrorCode();
 
-            if (responseCode == BaseNetworkService.SUCCESS || responseCode == BaseNetworkService.FILE_NOT_FOUND) {
+            if (responseCode == BaseNetworkService.SUCCESS ||
+                    (responseErrorCode != null && responseErrorCode == BaseNetworkService.FILE_NOT_FOUND)) {
                 L.i(TAG, "onNetworkOperation. File uploaded: " + notUploadedFile.getId()
                         + " File name: " + notUploadedFile.getFileName()
                         + " Date: " + UIUtils.longToString(System.currentTimeMillis(), 2));
@@ -295,7 +297,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     startWaitingTaskTimer();
                     validateTask(notUploadedFile);
                 }
-            } else if (responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
+
+            } else if (responseErrorCode != null && responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE) {
                 //Forward to remove the uploaded file
                 sendFileLog("Error. File not uploaded. ErrorCode = " + responseCode +
                         " ErrorText = " + operation.getResponseError(), notUploadedFile);
@@ -321,8 +324,10 @@ public class UploadFileService extends Service implements NetworkOperationListen
             }
         } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
             int responseCode = operation.getResponseStatusCode();
+            Integer responseErrorCode = operation.getResponseErrorCode();
 
-            if (responseCode == BaseNetworkService.SUCCESS || responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE) {
+            if (responseCode == BaseNetworkService.SUCCESS ||
+                    (responseErrorCode != null && responseErrorCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE)) {
                 SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
                 // removing this task from waiting list
                 WaitingUploadTaskBL.deletUploadedTaskFromDbById(sendTask.getWaveId(), sendTask.getTaskId(), sendTask
@@ -336,7 +341,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
             } else {
                 SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
 
-                sendValidateLog("Error. Can not Validate task. ErrorCode = " + responseCode +
+                sendValidateLog("Error. Can not Validate task. ErrorCode = " + responseErrorCode +
                                 " ErrorText = " + operation.getResponseError(), sendTask.getTaskId(),
                         sendTask.getMissionId(), sendTask.getLatitude(),
                         sendTask.getLongitude(), sendTask.getCityName());

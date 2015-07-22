@@ -67,6 +67,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                                 int responseCode = tempOperation.getResponseStatusCode();
                                 String responseString = tempOperation.getResponseString();
+                                Integer responseErrorCode = tempOperation.getResponseErrorCode();
                                 if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
                                     L.i(TAG, "Upload file part " + i + " SUCCESS: " + files[i].getName() + " Date: " +
                                             UIUtils.longToString(System.currentTimeMillis(), 2)
@@ -81,19 +82,21 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                     files[i].delete();
                                     operation.setResponseStatusCode(responseCode);
 
-                                } else if (responseCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
-                                        responseCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
-                                        responseCode == BaseNetworkService.FILE_NOT_FOUND) {
+                                } else if (responseErrorCode != null && (responseErrorCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
+                                        responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
+                                        responseErrorCode == BaseNetworkService.FILE_NOT_FOUND)) {
 
-                                    sendLog("Error send package file. ErrorCode = " + responseCode +
+                                    sendLog("Error send package file. ErrorCode = " + responseErrorCode +
                                             " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);
                                     files[i].delete();
                                     operation.setResponseStatusCode(responseCode);
+                                    operation.setResponseErrorCode(responseErrorCode);
                                     break;
+
                                 } else {
-                                    sendLog("Error send package file. ErrorCode = " + responseCode +
+                                    sendLog("Error send package file. ErrorCode = " + responseErrorCode +
                                             " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog.LogType.PACKAGE_UPLOAD);
-                                    operation.setResponseStatusCode(NO_INTERNET);
+                                    operation.setResponseStatusCode(responseCode);
                                     break;
                                 }
                             }
@@ -227,12 +230,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
         String responseString = operation.getResponseString();
         if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
-                /*ContentResolver contentResolver = getContentResolver();
-                HashMap<Integer, ContentValues> scheduledTaskContentValuesMap;*/
                 switch (WSUrl.matchUrl(operation.getUrl())) {
                     case WSUrl.VALIDATE_TASK_ID:
-                        //SendTaskId sendedTaskId = (SendTaskId) operation.getEntities().get(0);
-
                         break;
                     default:
                         break;
