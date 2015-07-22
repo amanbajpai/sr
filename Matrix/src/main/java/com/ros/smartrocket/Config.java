@@ -8,10 +8,6 @@ public class Config {
     public static final String BAIDU_API_KEY = BuildConfig.BAIDU_API_KEY;
     public static final String SERVER_API_KEY = BuildConfig.SERVER_API_KEY;
     public static final String GCM_SENDER_ID = BuildConfig.GCM_SENDER_ID;
-    public static final String CACHE_PREFIX_DIR = "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache/";
-
-    public static final String CACHE_DIR = android.os.Environment.getExternalStoragePublicDirectory
-            (CACHE_PREFIX_DIR).getPath();
     public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/customer/authentication/multipass/callback?multipass=%1$s&signature=%2$s";
     public static final String SHARE_URL = "http://smart-rocket.com/crew/";
 
