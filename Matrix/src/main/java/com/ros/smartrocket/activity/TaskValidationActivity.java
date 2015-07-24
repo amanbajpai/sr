@@ -210,6 +210,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
             UIUtils.showSimpleToast(this, operation.getResponseError());
             sendNowButton.setEnabled(true);
+            sendLaterButton.setEnabled(true);
         }
     }
 
@@ -397,6 +398,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void sendNowButtonClick() {
         if (isReadyToSend()) {
             sendNowButton.setEnabled(false);
+            sendLaterButton.setEnabled(false);
             if (!isValidationLocationAdded(task)) {
                 if (hasFile) {
                     AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
@@ -430,6 +432,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         public void getLocationFail(String errorText) {
                             if (!isFinishing()) {
                                 sendNowButton.setEnabled(true);
+                                sendLaterButton.setEnabled(true);
                                 UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
                             }
                         }
