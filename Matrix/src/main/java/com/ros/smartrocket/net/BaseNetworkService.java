@@ -17,7 +17,6 @@ import com.ros.smartrocket.utils.UIUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -85,7 +84,7 @@ public abstract class BaseNetworkService extends IntentService {
             if (entity == null) {
                 json = getRequestJson(operation);
                 if (json != null) {
-                    L.i(TAG, "Request body: " + json);
+//                    L.i(TAG, "Request body: " + json);
                     entity = new StringEntity(json, "UTF-8");
                     contentTypeHeader = new BasicHeader("Content-type", "application/json");
                 }
@@ -187,10 +186,6 @@ public abstract class BaseNetworkService extends IntentService {
                 operation.setResponseStatusCode(NO_INTERNET);
                 operation.setResponseError(getString(R.string.no_internet));
             }
-        } catch (ClientProtocolException e) {
-            operation.setResponseStatusCode(NO_INTERNET);
-            operation.setResponseError(getString(R.string.no_internet));
-            L.e(TAG, e.toString(), e);
         } catch (IOException e) {
             operation.setResponseStatusCode(NO_INTERNET);
             operation.setResponseError(getString(R.string.no_internet));

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -64,71 +65,75 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                         //Separate main file
                         files = separateFile(notUploadedFile);
-                        if (files != null) {
-                            for (int i = 0; i < files.length; i++) {
+                        for (int i = 0; i < files.length; i++) {
 
-                                L.i(TAG, "Upload file part " + i + ": " + files[i].getName() + " Date: " +
-                                        UIUtils.longToString(System.currentTimeMillis(), 2));
+                            L.i(TAG, "Upload file part " + i + ": " + files[i].getName() + " Date: " +
+                                    UIUtils.longToString(System.currentTimeMillis(), 2));
 
-                                BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
-                                        mainFileLength);
-                                executeRequest(tempOperation);
+                            BaseOperation tempOperation = getSendTempFileOperation(files[i], notUploadedFile,
+                                    mainFileLength);
+                            executeRequest(tempOperation);
 
-                                int responseCode = tempOperation.getResponseStatusCode();
-                                String responseString = tempOperation.getResponseString();
-                                Integer responseErrorCode = tempOperation.getResponseErrorCode();
-                                if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
-                                    L.i(TAG, "Upload file part " + i + " SUCCESS: " + files[i].getName() + " Date: " +
-                                            UIUtils.longToString(System.currentTimeMillis(), 2)
-                                            + " FileCode: " + new JSONObject(responseString).getString("FileCode"));
+                            int responseCode = tempOperation.getResponseStatusCode();
+                            String responseString = tempOperation.getResponseString();
+                            Integer responseErrorCode = tempOperation.getResponseErrorCode();
+                            if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
+                                L.i(TAG, "Upload file part " + i + " SUCCESS: " + files[i].getName() + " Date: " +
+                                        UIUtils.longToString(System.currentTimeMillis(), 2)
+                                        + " FileCode: " + new JSONObject(responseString).getString("FileCode"));
 
-                                    notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
-                                    notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
+                                notUploadedFile.setPortion(notUploadedFile.getPortion() + 1);
+                                notUploadedFile.setFileCode(new JSONObject(responseString).getString("FileCode"));
 
-                                    FilesBL.updatePortionAndFileCode(notUploadedFile.getId(), notUploadedFile
-                                                    .getPortion(),
-                                            notUploadedFile.getFileCode());
+                                FilesBL.updatePortionAndFileCode(notUploadedFile.getId(),
+                                        notUploadedFile.getPortion(), notUploadedFile.getFileCode());
 
-                                    files[i].delete();
-                                    operation.setResponseStatusCode(responseCode);
+                                files[i].delete();
+                                operation.setResponseStatusCode(responseCode);
 
-                                } else if (responseErrorCode != null && (responseErrorCode == BaseNetworkService
-                                        .TASK_NOT_FOUND_ERROR_CODE ||
-                                        responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
-                                        responseErrorCode == BaseNetworkService.FILE_NOT_FOUND)) {
+                            } else if (responseErrorCode != null && (responseErrorCode == BaseNetworkService
+                                    .TASK_NOT_FOUND_ERROR_CODE ||
+                                    responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
+                                    responseErrorCode == BaseNetworkService.FILE_NOT_FOUND)) {
 
-                                    sendLog("Error send package file. ErrorCode = " + responseErrorCode +
-                                            " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog
-                                            .LogType.PACKAGE_UPLOAD);
-                                    files[i].delete();
-                                    operation.setResponseStatusCode(responseCode);
-                                    operation.setResponseErrorCode(responseErrorCode);
-                                    break;
+                                sendLog("Error send package file. ErrorCode = " + responseErrorCode +
+                                        " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog
+                                        .LogType.PACKAGE_UPLOAD);
+                                files[i].delete();
+                                operation.setResponseStatusCode(responseCode);
+                                operation.setResponseErrorCode(responseErrorCode);
+                                break;
 
-                                } else {
-                                    sendLog("Error send package file. ErrorCode = " + responseErrorCode +
-                                            " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog
-                                            .LogType.PACKAGE_UPLOAD);
-                                    operation.setResponseStatusCode(responseCode);
-                                    break;
-                                }
+                            } else {
+                                cleanFiles(files);
+                                sendLog("Error send package file. ErrorCode = " + responseErrorCode +
+                                        " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog
+                                        .LogType.PACKAGE_UPLOAD);
+                                operation.setResponseStatusCode(responseCode);
+                                break;
                             }
                         }
                     } catch (Exception e) {
                         L.e(TAG, "Upload file error" + e.getMessage() + " Date: " +
                                 UIUtils.longToString(System.currentTimeMillis(), 2), e);
-                        operation.setResponseErrorCode(BaseNetworkService.LOCAL_UPLOAD_FILE_ERROR);
+                        cleanFiles(files);
+                        sendLog("Error send package file. Exception = " + e.getMessage(), notUploadedFile, null,
+                                ServerLog.LogType.PACKAGE_UPLOAD);
 
-                        if (files != null) {
-                            for (File file : files) {
-                                FileUtils.deleteQuietly(file);
-                            }
-                        }
+                        operation.setResponseErrorCode(BaseNetworkService.LOCAL_UPLOAD_FILE_ERROR);
                     }
                 } else {
                     executeRequest(operation);
                 }
                 notifyOperationFinished(operation);
+            }
+        }
+    }
+
+    private void cleanFiles(File[] files) {
+        if (files != null) {
+            for (File file : files) {
+                FileUtils.deleteQuietly(file);
             }
         }
     }
@@ -161,72 +166,68 @@ public class UploadFileNetworkService extends BaseNetworkService {
                 " missionId = " + notUploadedFile.getMissionId() +
                 " latitude = " + notUploadedFile.getLatitudeToValidation() +
                 " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
-                " fileExist = " + file.exists() +
-                " fileName = " + file.getName() +
-                " filePath = " + file.getAbsolutePath() +
                 " fileCode = " + notUploadedFile.getFileCode() +
                 " addedToUploadDateTime (MainFile) = " + notUploadedFile.getAddedToUploadDateTime() +
-                " fileSize (byte) = " + file.length() +
-                " portion = " + notUploadedFile.getPortion() + " \n\n " +
+                " portion = " + notUploadedFile.getPortion() + " \n\n ";
+
+        if (file != null) {
+            message +=
+                    " fileExist = " + file.exists() +
+                            " fileName = " + file.getName() +
+                            " filePath = " + file.getAbsolutePath() +
+                            " fileSize (byte) = " + file.length();
+        }
+
+        message +=
                 " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
-                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
-                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
-                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
-                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
-                " useLocationServices = " + preferencesManager.getUseLocationServices() +
-                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
+                        " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
+                        " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
+                        " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
+                        " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
+                        " useLocationServices = " + preferencesManager.getUseLocationServices() +
+                        " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
+
         executeRequest(apiFacade.getSendLogOperation(UploadFileNetworkService.this, userName, message, logType
                 .getType()));
     }
 
-    public File[] separateFile(NotUploadedFile notUploadedFile) {
-        try {
-            System.gc();
-            File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-            byte[] soureByteArray = FileUtils.readFileToByteArray(sourceFile);
+    private File[] separateFile(NotUploadedFile notUploadedFile) throws IOException {
+        System.gc();
+        File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
+        byte[] soureByteArray = FileUtils.readFileToByteArray(sourceFile);
 
-            int portainCount = (int) Math.ceil((double) soureByteArray.length / MAX_BYTE_SIZE);
+        int portainCount = (int) Math.ceil((double) soureByteArray.length / MAX_BYTE_SIZE);
 
-            if (notUploadedFile.getPortion() == portainCount) {
-                notUploadedFile.setPortion(0);
-                notUploadedFile.setFileCode(null);
-            }
-
-            File[] files = new File[portainCount - notUploadedFile.getPortion()];
-
-            for (int i = notUploadedFile.getPortion(); i < portainCount; i++) {
-
-                int startPosition = MAX_BYTE_SIZE * i;
-                int length = MAX_BYTE_SIZE;
-
-                if (startPosition + length > soureByteArray.length) {
-                    length = soureByteArray.length - startPosition;
-                }
-
-                byte[] tempByteArray = new byte[length];
-
-                System.arraycopy(soureByteArray, startPosition, tempByteArray, 0, length);
-
-                File tempFile = SelectImageManager.getTempFile(this);
-
-                try {
-                    FileOutputStream fos = new FileOutputStream(tempFile, false);
-                    fos.write(tempByteArray);
-                    fos.close();
-
-                } catch (Exception e) {
-                    L.e(TAG, "SeparatePartFile error: " + e.getMessage(), e);
-                }
-
-                files[i - notUploadedFile.getPortion()] = tempFile;
-            }
-
-            return files;
-        } catch (Exception e) {
-            L.e(TAG, "SeparateFile error: " + e.getMessage(), e);
+        if (notUploadedFile.getPortion() == portainCount) {
+            notUploadedFile.setPortion(0);
+            notUploadedFile.setFileCode(null);
         }
 
-        return null;
+        File[] files = new File[portainCount - notUploadedFile.getPortion()];
+
+        for (int i = notUploadedFile.getPortion(); i < portainCount; i++) {
+
+            int startPosition = MAX_BYTE_SIZE * i;
+            int length = MAX_BYTE_SIZE;
+
+            if (startPosition + length > soureByteArray.length) {
+                length = soureByteArray.length - startPosition;
+            }
+
+            byte[] tempByteArray = new byte[length];
+
+            System.arraycopy(soureByteArray, startPosition, tempByteArray, 0, length);
+
+            File tempFile = SelectImageManager.getTempFile(this);
+
+            FileOutputStream fos = new FileOutputStream(tempFile, false);
+            fos.write(tempByteArray);
+            fos.close();
+
+            files[i - notUploadedFile.getPortion()] = tempFile;
+        }
+
+        return files;
     }
 
     protected String getRequestJson(BaseOperation operation) {
