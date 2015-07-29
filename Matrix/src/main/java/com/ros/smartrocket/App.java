@@ -6,7 +6,6 @@ import android.location.Location;
 import android.text.format.DateUtils;
 import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
-import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.nru.androidremotedebug.DebugService;
 import com.ros.smartrocket.db.entity.MyAccount;
@@ -34,10 +33,6 @@ public class App extends Application {
 
         if (BuildConfig.DEBUG) {
             DebugService.startServer(this);
-        }
-
-        if (BuildConfig.RUN_CRASHLYTICS) {
-            Crashlytics.start(this);
         }
 
         if (BuildConfig.USE_BAIDU) {
