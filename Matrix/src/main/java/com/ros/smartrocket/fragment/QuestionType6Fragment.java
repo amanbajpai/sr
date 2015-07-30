@@ -24,6 +24,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.L;
 
 /**
  * Numeric question type
@@ -105,14 +106,16 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             String answerText = answerEditText.getText().toString().trim();
-            double answerNumber = -1;
+            Double answerNumber = null;
 
-            if (!TextUtils.isEmpty(answerText)) {
+            try {
                 answerNumber = Double.valueOf(answerText);
+            } catch (NumberFormatException e) {
+                L.d("Parse", "Not a Double " + answerText);
             }
 
-            boolean selected = !TextUtils.isEmpty(answerText) && answerNumber >= question.getMinValue()
-                    && answerNumber <= question.getMaxValue();
+            boolean selected = answerNumber != null
+                    && answerNumber >= question.getMinValue() && answerNumber <= question.getMaxValue();
 
             answerSelectedListener.onAnswerSelected(selected);
         }

@@ -875,12 +875,18 @@ public class UIUtils {
         return capitalize(manufacturer);
     }
 
+    /**
+     *  Tries to take second part of device model string, if it starts with manufacture string.
+     *  Otherwise returns model string.
+     *
+      * @return device model
+     */
     public static String getDeviceModel() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
 
-        if (model.startsWith(manufacturer)) {
-            return model.substring(manufacturer.length() + 1, model.length());
+        if (model.startsWith(manufacturer) && model.length() + 1 > manufacturer.length()) {
+            return model.substring(manufacturer.length() + 1);
         } else {
             return model;
         }
