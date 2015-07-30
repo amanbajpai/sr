@@ -55,6 +55,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private String cityName;
     private String groupCode = "";
     private RadioGroup genderRadioGroup;
+    private RadioButton maleRadioButton;
+    private RadioButton femaleRadioButton;
     private Double latitude;
     private Double longitude;
     private Spinner educationLevelSpinner;
@@ -102,7 +104,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
+
         genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
+        maleRadioButton = (RadioButton) findViewById(R.id.maleRadioButton);
+        femaleRadioButton = (RadioButton) findViewById(R.id.femaleRadioButton);
+        maleRadioButton.setOnClickListener(this);
+        femaleRadioButton.setOnClickListener(this);
 
         emailValidationText = (TextView) findViewById(R.id.emailValidationText);
         passwordValidationText = (TextView) findViewById(R.id.passwordValidationText);
@@ -211,6 +218,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 UIUtils.setEditTextColorByState(this, emailEditText, UIUtils.isEmailValid(email));
                 UIUtils.setEmailEditTextImageByState(emailEditText, UIUtils.isEmailValid(email));
 
+                UIUtils.setRadioButtonsByState(maleRadioButton, femaleRadioButton,
+                        genderRadioGroup.getCheckedRadioButtonId() != -1);
+
                 boolean isPasswordValid = UIUtils.isPasswordValid(password);
                 UIUtils.setEditTextColorByState(this, passwordEditText, isPasswordValid);
                 UIUtils.setPasswordEditTextImageByState(passwordEditText, isPasswordValid);
@@ -228,9 +238,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                 if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || !UIUtils.isEmailValid(email)
                         || selectedBirthDay == null || !UIUtils.isPasswordValid(password) || educationLevel == 0 ||
-                        employmentStatus == 0 || !agreeCheckBox.isChecked()/* || photoBitmap == null*/) {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
+                        employmentStatus == 0 || !agreeCheckBox.isChecked()
+                        || genderRadioGroup.getCheckedRadioButtonId() == -1) {
 
+                    UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
 
                     firstNameEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, firstNameEditText));
                     lastNameEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this, lastNameEditText));
@@ -306,6 +317,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.cancelButton:
                 finish();
+                break;
+            case R.id.maleRadioButton:
+                // go through
+            case R.id.femaleRadioButton:
+                UIUtils.setRadioButtonsByState(maleRadioButton, femaleRadioButton, true);
                 break;
             default:
                 break;

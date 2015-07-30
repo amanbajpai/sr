@@ -9,6 +9,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import cn.jpush.android.api.InstrumentedActivity;
+import io.fabric.sdk.android.Fabric;
 
 public class LaunchActivity extends InstrumentedActivity {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -19,7 +20,6 @@ public class LaunchActivity extends InstrumentedActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
 
         Intent intent;
         if (!TextUtils.isEmpty(PreferencesManager.getInstance().getToken())

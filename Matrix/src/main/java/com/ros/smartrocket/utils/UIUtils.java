@@ -597,6 +597,16 @@ public class UIUtils {
         }
     }
 
+    public static void setRadioButtonsByState(RadioButton maleButton, RadioButton femaleButton, boolean isValid) {
+        if (isValid) {
+            maleButton.setButtonDrawable(R.drawable.radio_button_male_normal_selector);
+            femaleButton.setButtonDrawable(R.drawable.radio_button_female_normal_selector);
+        } else {
+            maleButton.setButtonDrawable(R.drawable.radio_button_male_error);
+            femaleButton.setButtonDrawable(R.drawable.radio_button_female_error);
+        }
+    }
+
     public static void setEmailEditTextImageByState(EditText editText, boolean isValidState) {
         if (isValidState) {
             editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mail_icon_select, 0, 0, 0);
@@ -875,12 +885,18 @@ public class UIUtils {
         return capitalize(manufacturer);
     }
 
+    /**
+     *  Tries to take second part of device model string, if it starts with manufacture string.
+     *  Otherwise returns model string.
+     *
+      * @return device model
+     */
     public static String getDeviceModel() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
 
-        if (model.startsWith(manufacturer)) {
-            return model.substring(manufacturer.length() + 1, model.length());
+        if (model.startsWith(manufacturer) && model.length() + 1 > manufacturer.length()) {
+            return model.substring(manufacturer.length() + 1);
         } else {
             return model;
         }

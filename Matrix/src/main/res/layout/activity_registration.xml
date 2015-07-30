@@ -59,7 +59,7 @@
                     style="@style/MaleRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:checked="false" />
                 <RadioButton
                     android:id="@+id/femaleRadioButton"
                     style="@style/FemaleRadioButton"

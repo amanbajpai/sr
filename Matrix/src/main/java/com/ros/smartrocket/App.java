@@ -15,6 +15,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Calendar;
 
@@ -36,15 +37,13 @@ public class App extends Application {
             DebugService.startServer(this);
         }
 
-        if (BuildConfig.RUN_CRASHLYTICS) {
-            Crashlytics.start(this);
-        }
-
         if (BuildConfig.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());
 
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         }
+
+        Fabric.with(this, new Crashlytics());
 
         instance = this;
 
