@@ -170,8 +170,8 @@
     <string name="your_version_outdated">Your version of SmartRocket is Outdated. Please update it to access the application</string>
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">Location services</string>
-    <string name="turn_on_location_dialog_text">To use SmartRocket, you must TURN ON Location Services in your
-        smartphone settings.</string>
+    <string name="turn_on_location_dialog_text">To use SmartRocket, you must TURN ON both Location source (GPS and
+        Network) in your smartphone settings.</string>
     <!-- TURN ON NETWORK DIALOG -->
     <string name="turn_on_network_dialog_title">Network services</string>
     <string name="turn_on_network_dialog_text">To use SmartRocket, you must TURN ON Network Services in your

@@ -163,7 +163,7 @@
     <string name="your_version_outdated">请立即为智慧飞船应用进行版本更新，方能成功认领。</string>
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">定位服务</string>
-    <string name="turn_on_location_dialog_text">要使用智慧飞船，您必须允许智能电话设定内的定位服务。</string>
+    <string name="turn_on_location_dialog_text">若想使用智慧飞船，请必须确保手机设定内的全球定位和网络已经开启。</string>
     <!-- NOT ALL FILES SENT DIALOG -->
     <string name="not_all_files_sent_dialog_title">注意！</string>
     <string name="not_all_files_sent_dialog_text">目前不能登录，因为其他账户的数据正在上传中。请先登录正在上传的账户，完成上传过程。</string>
