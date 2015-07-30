@@ -162,7 +162,7 @@
     <string name="your_version_outdated">請立即為SmartRocket進行版本更新，才能成功認領。</string>
     <!-- TURN ON LOCATION DIALOG -->
     <string name="turn_on_location_dialog_title">定位服務</string>
-    <string name="turn_on_location_dialog_text">要使用SmartRocket，你必須開啓智能電話設定内的定位服務。</string>
+    <string name="turn_on_location_dialog_text">若要使用SmartRocket，請必須確保手機設定内的GPS和網絡正在運行中。</string>
     <!-- NOT ALL FILES SENT DIALOG -->
     <string name="not_all_files_sent_dialog_title">注意！</string>
     <string name="not_all_files_sent_dialog_text">目前不能登入，因爲其他賬戶的數據仍在傳送中。請先登入正在傳送的賬戶，完成傳送過程。</string>
