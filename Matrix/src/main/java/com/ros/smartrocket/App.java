@@ -6,6 +6,7 @@ import android.location.Location;
 import android.text.format.DateUtils;
 import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.nru.androidremotedebug.DebugService;
 import com.ros.smartrocket.db.entity.MyAccount;
@@ -14,6 +15,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Calendar;
 
@@ -40,6 +42,8 @@ public class App extends Application {
 
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         }
+
+        Fabric.with(this, new Crashlytics());
 
         instance = this;
 

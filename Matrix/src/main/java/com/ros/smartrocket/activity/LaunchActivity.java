@@ -20,7 +20,6 @@ public class LaunchActivity extends InstrumentedActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
 
         Intent intent;
         if (!TextUtils.isEmpty(PreferencesManager.getInstance().getToken())
