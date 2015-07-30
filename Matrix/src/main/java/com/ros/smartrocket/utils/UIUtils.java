@@ -597,6 +597,16 @@ public class UIUtils {
         }
     }
 
+    public static void setRadioButtonsByState(RadioButton maleButton, RadioButton femaleButton, boolean isValid) {
+        if (isValid) {
+            maleButton.setButtonDrawable(R.drawable.radio_button_male_normal_selector);
+            femaleButton.setButtonDrawable(R.drawable.radio_button_female_normal_selector);
+        } else {
+            maleButton.setButtonDrawable(R.drawable.radio_button_male_error);
+            femaleButton.setButtonDrawable(R.drawable.radio_button_female_error);
+        }
+    }
+
     public static void setEmailEditTextImageByState(EditText editText, boolean isValidState) {
         if (isValidState) {
             editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mail_icon_select, 0, 0, 0);
