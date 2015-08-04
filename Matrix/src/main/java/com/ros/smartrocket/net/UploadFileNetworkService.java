@@ -54,9 +54,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                     try {
                         File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
-                        if (!sourceFile.exists()) {
-                            InputStream inputStream = getAssets().open("images/no_image5.jpg");
-                            FileUtils.copyInputStreamToFile(inputStream, sourceFile);
+                        if (!sourceFile.exists() || sourceFile.length() == 0) {
+                            writeNoImageToSourceFile(sourceFile);
                         }
 
                         long mainFileLength = sourceFile.length();
@@ -65,6 +64,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                         //Separate main file
                         files = separateFile(notUploadedFile);
+
                         for (int i = 0; i < files.length; i++) {
 
                             L.i(TAG, "Upload file part " + i + ": " + files[i].getName() + " Date: " +
@@ -128,6 +128,11 @@ public class UploadFileNetworkService extends BaseNetworkService {
                 notifyOperationFinished(operation);
             }
         }
+    }
+
+    private void writeNoImageToSourceFile(File sourceFile) throws IOException {
+        InputStream inputStream = getAssets().open("images/no_image5.jpg");
+        FileUtils.copyInputStreamToFile(inputStream, sourceFile);
     }
 
     private void cleanFiles(File[] files) {
