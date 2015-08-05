@@ -28,9 +28,9 @@ public class EmailRedirectActivity extends Activity {
                     String token = data.getQueryParameter("token");
 
                     startActivity(IntentUtils.getActivateAccountIntent(this, email, token));
-                } else if(params.size() > 2 && Keys.FORGOT_PASS.equals(params.get(0))){
-                    String email = params.get(1);
-                    String token = params.get(2);
+                } else if(params.size() > 1 && Keys.FORGOT_PASS.equals(params.get(1))){
+                    String email = data.getQueryParameter("email");
+                    String token = data.getQueryParameter("token");
 
                     startActivity(IntentUtils.getSetNewPasswordIntent(this, email, token));
                 }
