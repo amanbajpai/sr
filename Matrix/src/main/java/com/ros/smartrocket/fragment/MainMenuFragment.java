@@ -237,7 +237,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         switch (v.getId()) {
             case R.id.photoImageView:
-                selectImageManager.showSelectImageDialog(getActivity(), false);
+                selectImageManager.showSelectImageDialog(getActivity(), false, SelectImageManager.PREFIX_PROFILE);
                 selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
                     @Override
                     public void onStartLoading() {
@@ -323,7 +323,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
         selectImageManager.onActivityResult(requestCode, resultCode, intent);
     }
 

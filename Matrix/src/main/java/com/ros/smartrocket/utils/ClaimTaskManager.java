@@ -139,7 +139,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     break;
             }
         }
-
     }
 
     public void downloadInstructionQuestionFile(final int startFrom, final List<Question> questions) {

@@ -223,7 +223,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
             System.arraycopy(soureByteArray, startPosition, tempByteArray, 0, length);
 
-            File tempFile = SelectImageManager.getTempFile(this);
+            File tempFile = SelectImageManager.getTempFile(this, notUploadedFile.getTaskId().toString());
 
             FileOutputStream fos = new FileOutputStream(tempFile, false);
             fos.write(tempByteArray);

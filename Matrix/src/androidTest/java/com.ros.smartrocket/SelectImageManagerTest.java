@@ -1,14 +1,9 @@
 package com.ros.smartrocket;
 
 import android.app.Dialog;
-import android.content.Context;
-
 import com.ros.smartrocket.activity.LaunchActivity;
-import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.utils.SelectImageManager;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +25,7 @@ public class SelectImageManagerTest {
     public void testImageManager() {
         SelectImageManager selectImageManager = SelectImageManager.getInstance();
 
-        Dialog dialog = selectImageManager.showSelectImageDialog(activity, true);
+        Dialog dialog = selectImageManager.showSelectImageDialog(activity, true, SelectImageManager.PREFIX_PROFILE);
         Assert.assertTrue(dialog.isShowing());
         dialog.dismiss();
         Assert.assertTrue(!dialog.isShowing());
