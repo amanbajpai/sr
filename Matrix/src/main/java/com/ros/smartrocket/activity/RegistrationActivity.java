@@ -176,7 +176,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 });
                 break;
             case R.id.profilePhotoImageView:
-                selectImageManager.showSelectImageDialog(this, true);
+                selectImageManager.showSelectImageDialog(this, true, SelectImageManager.PREFIX_PROFILE);
                 selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
                     @Override
                     public void onStartLoading() {
@@ -397,7 +397,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
         selectImageManager.onActivityResult(requestCode, resultCode, intent);
     }
 

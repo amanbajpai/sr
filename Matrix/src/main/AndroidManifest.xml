@@ -64,11 +64,12 @@
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter >
-        </activity >
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.ReferralCasesActivity"
             android:configChanges="locale"
@@ -124,11 +125,12 @@
             android:launchMode="singleTop"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppThemeGreen" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
-        </activity >
+        </activity>
         <activity
             android:name=".activity.SettingsActivity"
             android:configChanges="locale" />
@@ -141,7 +143,7 @@
         <activity
             android:name=".activity.EmailRedirectActivity"
             android:configChanges="locale" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -150,8 +152,8 @@
                 <data
                     android:host="crew.smart-rocket.net"
                     android:scheme="http" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -160,8 +162,8 @@
                 <data
                     android:host="dev.agents.matrix.osiris.pp.ciklum.com"
                     android:scheme="http" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -170,8 +172,8 @@
                 <data
                     android:host="agent.staging.redoceansolutions.com"
                     android:scheme="http" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -180,8 +182,8 @@
                 <data
                     android:host="smart-rocket.com"
                     android:scheme="http" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -190,8 +192,8 @@
                 <data
                     android:host="crew.smartrocket.cn"
                     android:scheme="http" />
-            </intent-filter >
-        </activity >
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.CheckLocationFailedActivity"
             android:configChanges="locale" />
@@ -230,32 +232,36 @@
         <service
             android:name=".net.NetworkService"
             android:exported="false" />
+
         <provider
             android:name=".db.AppContentProvider"
             android:authorities="${applicationId}"
             android:exported="false" />
         <!-- Used for install referral measurement -->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
+
         <receiver
             android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
             android:exported="false" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
         <!-- GCM -->
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category android:name="${applicationId}" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
+
         <service android:name=".GCMIntentService" />
-        <!--<receiver
+        <!--
+        <receiver
             android:name=".gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
@@ -263,21 +269,24 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-        <service android:name=".gcm.GcmIntentService" />-->
+        <service android:name=".gcm.GcmIntentService" />
+        -->
         <receiver
             android:name=".net.GlobalReceiver"
             android:exported="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data
                     android:path="${applicationId}"
                     android:scheme="package" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".net.TaskReminderService"
             android:exported="true" />
@@ -306,7 +315,7 @@
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc" />
-        <!-- JPUSH Required  SDK-->
+        <!-- JPUSH Required  SDK -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
@@ -316,57 +325,57 @@
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-            </intent-filter >
-        </service >
-        <!-- JPUSH Required SDK-->
+            </intent-filter>
+        </service>
+        <!-- JPUSH Required SDK -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <!--Required  显示通知栏 -->
+                <!-- Required  显示通知栏 -->
                 <category android:name="com.ros.smartrocket" />
-            </intent-filter >
-            <intent-filter >
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter >
+            </intent-filter>
             <!-- Optional -->
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
                 <data android:scheme="package" />
-            </intent-filter >
-        </receiver >
-        <!-- JPUSH Required SDK-->
+            </intent-filter>
+        </receiver>
+        <!-- JPUSH Required SDK -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <!--Required  用户注册SDK的intent-->
+                <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <!--Required  用户接收SDK消息的intent-->
+                <!-- Required  用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!--Required  用户接收SDK通知栏信息的intent-->
+                <!-- Required  用户接收SDK通知栏信息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <!--Required  用户打开自定义通知栏的intent-->
+                <!-- Required  用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.ros.smartrocket" />
-            </intent-filter >
-        </receiver >
+            </intent-filter>
+        </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
@@ -374,5 +383,11 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="${jPushAppKey}" />
-    </application >
-</manifest >
+
+        <service
+            android:name=".service.CleanFilesIntentService"
+            android:exported="false" >
+        </service>
+    </application>
+
+</manifest>

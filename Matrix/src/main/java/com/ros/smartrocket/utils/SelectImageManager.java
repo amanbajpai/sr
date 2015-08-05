@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,9 @@ import java.util.Calendar;
 import java.util.Random;
 
 public class SelectImageManager {
+    public static final String EXTRA_PREFIX = "extra_task_id";
+    public static final String PREFIX_PROFILE = "profile";
+
     private static final String TAG = SelectImageManager.class.getSimpleName();
     public static final int GALLERY = 101;
     public static final int CAMERA = 102;
@@ -41,8 +45,8 @@ public class SelectImageManager {
             new int[]{90, HORIZONTAL}, new int[]{0, NONE}, new int[]{90, NONE}};
 
     private final static PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private static SelectImageManager instance = null;
     private OnImageCompleteListener imageCompleteListener;
+    private static SelectImageManager instance = null;
     private Activity activity;
 
     // Configuration
@@ -77,10 +81,10 @@ public class SelectImageManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
-    public void startCamera(Activity activity) {
+    public void startCamera(Activity activity, String prefix) {
         this.activity = activity;
 
-        lastFile = getTempFile(activity);
+        lastFile = getTempFile(activity, prefix);
         lastFileFromGallery = false;
 
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -100,7 +104,7 @@ public class SelectImageManager {
     }
 
 
-    public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton) {
+    public Dialog showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final String prefix) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
         v.findViewById(R.id.gallery).setOnClickListener(new OnClickListener() {
@@ -115,7 +119,7 @@ public class SelectImageManager {
             @Override
             public void onClick(View v) {
                 selectImageDialog.dismiss();
-                startCamera(activity);
+                startCamera(activity, prefix);
             }
         });
 
@@ -155,6 +159,7 @@ public class SelectImageManager {
         Bitmap resultBitmap = null;
         try {
             if (intent != null && intent.getData() != null) {
+                final String prefix = intent.getStringExtra(EXTRA_PREFIX);
                 Uri uri = intent.getData();
                 if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
                     String unusablePath = intent.getData().getPath();
@@ -186,13 +191,13 @@ public class SelectImageManager {
                         Bitmap image = Picasso.with(activity).load(imagePath).resize(MAX_SIZE_IN_PX, MAX_SIZE_IN_PX)
                                 .get();
 
-                        lastFile = saveBitmapToFile(activity, image);
+                        lastFile = saveBitmapToFile(activity, image, prefix);
                         image.recycle();
 
                         lastFileFromGallery = true;
                         resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
                     } else {
-                        lastFile = copyFileToTempFolder(activity, new File(imagePath));
+                        lastFile = copyFileToTempFolder(activity, new File(imagePath), prefix);
                         lastFileFromGallery = true;
 
                         resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
@@ -204,7 +209,7 @@ public class SelectImageManager {
                     Bitmap image = BitmapFactory.decodeFileDescriptor(parcelFileDescriptor.getFileDescriptor());
                     parcelFileDescriptor.close();
 
-                    lastFile = saveBitmapToFile(activity, image);
+                    lastFile = saveBitmapToFile(activity, image, prefix);
                     image.recycle();
                     lastFileFromGallery = true;
                     resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
@@ -427,8 +432,8 @@ public class SelectImageManager {
         return file;
     }
 
-    public static File copyFileToTempFolder(Context context, File file) {
-        File resultFile = getTempFile(context);
+    public static File copyFileToTempFolder(Context context, File file, String prefix) {
+        File resultFile = getTempFile(context, prefix);
 
         InputStream in = null;
         OutputStream out = null;
@@ -474,13 +479,14 @@ public class SelectImageManager {
         return resultString;
     }
 
-    public static File getTempFile(Context context) {
+    public static File getTempFile(Context context, @Nullable String prefix) {
         File dir = StorageManager.getImageStoreDir(context);
-        return new File(dir, Calendar.getInstance().getTimeInMillis() + "" + RANDOM.nextInt() + ".jpg");
+        return new File(dir, prefix + "_" + Calendar.getInstance().getTimeInMillis() + "_"
+                + RANDOM.nextInt(Integer.MAX_VALUE) + ".jpg");
     }
 
-    public File saveBitmapToFile(Context context, Bitmap bitmap) {
-        File resultFile = getTempFile(context);
+    public File saveBitmapToFile(Context context, Bitmap bitmap, @Nullable String prefix) {
+        File resultFile = getTempFile(context, prefix);
 
         try {
             FileOutputStream fos = new FileOutputStream(resultFile, false);

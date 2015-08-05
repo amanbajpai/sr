@@ -39,7 +39,6 @@ import java.util.Arrays;
  * Multiple photo question type
  */
 public class QuestionType7Fragment extends BaseQuestionFragment implements View.OnClickListener {
-
     private static final String STATE_PHOTO = "STATE_PHOTO";
     private static final String STATE_SELECTED_FRAME = "current_selected_photo";
 
@@ -289,12 +288,15 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (mCurrentPhotoPath != null) {
             intent = new Intent();
             intent.setData(Uri.fromFile(new File(mCurrentPhotoPath)));
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
             selectImageManager.onActivityResult(requestCode, resultCode, intent);
         } else if (intent != null && intent.getData() != null) {
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
             selectImageManager.onActivityResult(requestCode, resultCode, intent);
         }
     }
@@ -322,13 +324,13 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 }
             case R.id.rePhotoButton:
                 if (question.getPhotoSource() == 0) {
-                    File fileToPhoto = SelectImageManager.getTempFile(getActivity());
+                    File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
                     mCurrentPhotoPath = fileToPhoto.getAbsolutePath();
                     selectImageManager.startCamera(getActivity(), fileToPhoto);
                 } else if (question.getPhotoSource() == 1) {
                     selectImageManager.startGallery(getActivity());
                 } else {
-                    selectImageManager.showSelectImageDialog(getActivity(), true);
+                    selectImageManager.showSelectImageDialog(getActivity(), true, question.getTaskId().toString());
                 }
                 break;
             case R.id.deletePhotoButton:

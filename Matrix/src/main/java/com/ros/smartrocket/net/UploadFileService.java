@@ -293,8 +293,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ",
                         notUploadedFile);
 
-                new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).delete();
-
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
@@ -309,7 +307,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         " ErrorText = " + operation.getResponseError(), notUploadedFile);
 
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
-                new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).delete();
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError() + " Date: " +

@@ -25,6 +25,7 @@ import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.NotificationActivity;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
+import com.ros.smartrocket.service.CleanFilesIntentService;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -129,11 +130,12 @@ public class NotificationUtils {
                 case VALIDATED:
                     NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText,
                             taskName, locationName, missionAddress);
+                    CleanFilesIntentService.start(context, String.valueOf(taskId));
                     break;
                 case REJECTED:
                     NotificationUtils.startRejectNotificationActivity(context, presetValidationText, validationText,
-                            taskName, locationName,
-                            missionAddress);
+                            taskName, locationName, missionAddress);
+                    CleanFilesIntentService.start(context, String.valueOf(taskId));
                     break;
                 default:
                     break;
