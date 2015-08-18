@@ -438,4 +438,17 @@
         If you logout now, the transfer will stop and will continue when you next log in</string>
     <string name="logout_attention_dialog_logout">Log Out</string>
     <string name="logout_attention_dialog_cancel">Cancel</string>
+    <!-- NUMBERS -->
+    <string name="key_one">1</string>
+    <string name="key_two">2</string>
+    <string name="key_three">3</string>
+    <string name="key_four">4</string>
+    <string name="key_five">5</string>
+    <string name="key_six">6</string>
+    <string name="key_seven">7</string>
+    <string name="key_eight">8</string>
+    <string name="key_nine">9</string>
+    <string name="key_zero">0</string>
+    <string name="key_dot">.</string>
+    <string name="key_backspace">&lt;--</string>
 </resources>
