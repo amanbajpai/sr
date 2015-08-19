@@ -32,7 +32,7 @@ import com.ros.smartrocket.utils.L;
  * Numeric question type
  */
 public class QuestionType6Fragment extends BaseQuestionFragment {
-//    private EditText answerEditText;
+    public static final String EXTRA_TEXT_VIEW_NUMBER = "com.ros.smartrocket.EXTRA_TEXT_VIEW_NUMBER";
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
@@ -55,6 +55,10 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
         }
 
+        if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_TEXT_VIEW_NUMBER)) {
+            answerTextView.setText(savedInstanceState.getString(EXTRA_TEXT_VIEW_NUMBER));
+        }
+
         handler = new DbHandler(getActivity().getContentResolver());
 
         TextView questionText = (TextView) view.findViewById(R.id.questionText);
@@ -70,7 +74,6 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         }
 
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
-//        answerEditText = (EditText) view.findViewById(R.id.answerEditText);
 
         if (question.getPatternType() == 1) {
             // Decimal question
@@ -86,6 +89,12 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(EXTRA_TEXT_VIEW_NUMBER, answerTextView.getText().toString());
+        super.onSaveInstanceState(outState);
     }
 
     @SuppressWarnings("unused")

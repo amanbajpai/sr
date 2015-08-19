@@ -10,19 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/question_header"/>
-    <!--<com.ros.smartrocket.views.CustomEditTextView-->
-        <!--android:id="@+id/answerEditText"-->
-        <!--style="@style/EditText"-->
-        <!--android:layout_below="@id/headerQuestion6"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:hint="@string/enter_here"-->
-        <!--android:inputType="numberDecimal|numberSigned"-->
-        <!--android:padding="10dp"-->
-        <!--android:singleLine="true"-->
-        <!--android:visibility="gone"-->
-        <!--android:textSize="@dimen/text_size_15sp"/>-->
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/answerTextView"
         style="@style/EditText"
