@@ -1,27 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ros.smartrocket.fragment.QuestionType6Fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:orientation="vertical">
-
-    <LinearLayout
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/headerQuestion6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <include layout="@layout/question_header" />
-
-        <com.ros.smartrocket.views.CustomEditTextView
-            android:id="@+id/answerEditText"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/enter_here"
-            android:inputType="numberDecimal|numberSigned"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textSize="@dimen/text_size_15sp" />
+        layout="@layout/question_header"/>
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/answerTextView"
+        style="@style/EditText"
+        android:background="@drawable/field"
+        android:textSize="@dimen/text_size_15sp"
+        android:hint="@string/enter_here"
+        android:singleLine="true"
+        android:layout_below="@id/headerQuestion6"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/layoutNineZero"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyNineBtn"
+            android:text="@string/key_nine"
+            style="@style/Key"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyZeroBtn"
+            android:text="@string/key_zero"
+            style="@style/KeyLeftMargin"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyDotBtn"
+            android:text="@string/key_dot"
+            style="@style/KeyLeftMargin"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyBackspaceBtn"
+            android:text="@string/key_backspace"
+            style="@style/KeyLeftMargin"/>
     </LinearLayout>
-</ScrollView>
+    <LinearLayout
+        android:id="@+id/layoutFiveEight"
+        android:layout_above="@id/layoutNineZero"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/buttons_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyFiveBtn"
+            android:text="@string/key_five"
+            style="@style/Key"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keySixBtn"
+            android:text="@string/key_six"
+            style="@style/KeyLeftMargin"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keySevenBtn"
+            android:text="@string/key_seven"
+            style="@style/KeyLeftMargin"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyEightBtn"
+            android:text="@string/key_eight"
+            style="@style/KeyLeftMargin"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutOneFour"
+        android:layout_above="@id/layoutFiveEight"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/buttons_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyOneBtn"
+            android:text="@string/key_one"
+            style="@style/Key"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyTwoBtn"
+            android:text="@string/key_two"
+            style="@style/KeyLeftMargin"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyThreeBtn"
+            android:text="@string/key_three"
+            style="@style/KeyLeftMargin"/>
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/keyFourBtn"
+            android:text="@string/key_four"
+            style="@style/KeyLeftMargin"/>
+    </LinearLayout>
+</RelativeLayout>

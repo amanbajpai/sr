@@ -6,16 +6,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -30,12 +32,16 @@ import com.ros.smartrocket.utils.L;
  * Numeric question type
  */
 public class QuestionType6Fragment extends BaseQuestionFragment {
-    private EditText answerEditText;
+    public static final String EXTRA_TEXT_VIEW_NUMBER = "com.ros.smartrocket.EXTRA_TEXT_VIEW_NUMBER";
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
-
     private AsyncQueryHandler handler;
+
+    @Bind(R.id.answerTextView)
+    TextView answerTextView;
+    @Bind(R.id.keyDotBtn)
+    Button dotButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,9 +49,14 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_6, null);
+        ButterKnife.bind(this, view);
 
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_TEXT_VIEW_NUMBER)) {
+            answerTextView.setText(savedInstanceState.getString(EXTRA_TEXT_VIEW_NUMBER));
         }
 
         handler = new DbHandler(getActivity().getContentResolver());
@@ -63,12 +74,14 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         }
 
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
-        answerEditText = (EditText) view.findViewById(R.id.answerEditText);
 
-        if (question.getPatternType() != 1) {
-            answerEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        if (question.getPatternType() == 1) {
+            // Decimal question
+            dotButton.setText(R.string.key_dot);
+        } else {
+            // Numeric question without dot
+            dotButton.setText("");
         }
-        setEditTextWatcher(answerEditText);
 
         questionText.setText(question.getQuestion());
         conditionText.setText(getString(R.string.write_your_number, question.getMinValue(),
@@ -76,6 +89,43 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
         AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(EXTRA_TEXT_VIEW_NUMBER, answerTextView.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick({R.id.keyOneBtn, R.id.keyTwoBtn, R.id.keyThreeBtn, R.id.keyFourBtn, R.id.keyFiveBtn, R.id.keySixBtn,
+            R.id.keySevenBtn, R.id.keyEightBtn, R.id.keyNineBtn, R.id.keyZeroBtn})
+    public void onCipherClick(View v) {
+        Button view = (Button) v;
+        String text = view.getText().toString();
+
+        answerTextView.setText(answerTextView.getText() + text);
+        refreshNextButton();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.keyDotBtn)
+    void onDotClick() {
+        String text = answerTextView.getText().toString();
+        if (!text.contains(".") && question.getPatternType() == 1) {
+            answerTextView.setText(text + ".");
+            refreshNextButton();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.keyBackspaceBtn)
+    void onBackspaceClick() {
+        String text = answerTextView.getText().toString();
+        if (text.length() > 0) {
+            answerTextView.setText(text.substring(0, text.length() - 1));
+            refreshNextButton();
+        }
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -92,7 +142,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
 
                     QuestionType6Fragment.this.question.setAnswers(answers);
                     if (answers[0].getChecked()) {
-                        answerEditText.setText(answers[0].getValue());
+                        answerTextView.setText(answers[0].getValue());
                     }
 
                     refreshNextButton();
@@ -105,7 +155,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
 
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
-            String answerText = answerEditText.getText().toString().trim();
+            String answerText = answerTextView.getText().toString().trim();
             Double answerNumber = null;
 
             try {
@@ -147,7 +197,7 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
     public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer answer = question.getAnswers()[0];
-            answer.setValue(answerEditText.getText().toString());
+            answer.setValue(answerTextView.getText().toString());
             answer.setChecked(true);
 
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
