@@ -103,7 +103,6 @@ public class QuestionType6Fragment extends BaseQuestionFragment {
     public void onCipherClick(View v) {
         Button view = (Button) v;
         String text = view.getText().toString();
-        L.v("QuestionType6Fragment.onClick", text);
 
         answerTextView.setText(answerTextView.getText() + text);
         refreshNextButton();
