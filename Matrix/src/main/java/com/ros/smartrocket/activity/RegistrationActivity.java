@@ -35,7 +35,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
 
-    private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ImageView profilePhotoImageView;
     private EditText firstNameEditText;
@@ -176,30 +175,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 });
                 break;
             case R.id.profilePhotoImageView:
-                selectImageManager.showSelectImageDialog(this, true, SelectImageManager.PREFIX_PROFILE);
-                selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
-                    @Override
-                    public void onStartLoading() {
-                        setSupportProgressBarIndeterminateVisibility(true);
-                    }
-
-                    @Override
-                    public void onImageComplete(Bitmap bitmap) {
-                        RegistrationActivity.this.photoBitmap = bitmap;
-                        if (bitmap != null) {
-                            profilePhotoImageView.setImageBitmap(bitmap);
-                        } else {
-                            profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-                        }
-                        setSupportProgressBarIndeterminateVisibility(false);
-                    }
-
-                    @Override
-                    public void onSelectImageError(int imageFrom) {
-                        setSupportProgressBarIndeterminateVisibility(false);
-                        DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
-                    }
-                });
+                SelectImageManager.showSelectImageDialog(this, true, SelectImageManager.PREFIX_PROFILE,
+                        imageCompleteListener);
                 break;
             case R.id.confirmButton:
                 String firstName = firstNameEditText.getText().toString().trim();
@@ -400,7 +377,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-        selectImageManager.onActivityResult(requestCode, resultCode, intent);
+        SelectImageManager.onActivityResult(requestCode, resultCode, intent, this, imageCompleteListener);
     }
 
     @Override
@@ -442,4 +419,29 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         removeNetworkOperationListener(this);
         super.onStop();
     }
+
+    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager
+            .OnImageCompleteListener() {
+        @Override
+        public void onStartLoading() {
+            setSupportProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        public void onImageComplete(SelectImageManager.ImageFileClass image) {
+            RegistrationActivity.this.photoBitmap = image.bitmap;
+            if (image.bitmap != null) {
+                profilePhotoImageView.setImageBitmap(image.bitmap);
+            } else {
+                profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+            }
+            setSupportProgressBarIndeterminateVisibility(false);
+        }
+
+        @Override
+        public void onSelectImageError(int imageFrom) {
+            setSupportProgressBarIndeterminateVisibility(false);
+            DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
+        }
+    };
 }

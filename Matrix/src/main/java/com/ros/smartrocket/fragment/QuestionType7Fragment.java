@@ -39,10 +39,11 @@ import java.util.Arrays;
  * Multiple photo question type
  */
 public class QuestionType7Fragment extends BaseQuestionFragment implements View.OnClickListener {
-    private static final String STATE_PHOTO = "STATE_PHOTO";
+    private static final String STATE_PHOTO = "com.ros.smartrocket.STATE_PHOTO";
+    private static final String EXTRA_LAST_PHOTO_FILE = "com.ros.smartrocket.EXTRA_LAST_PHOTO_FILE";
+    private static final String EXTRA_IS_PHOTO_FROM_GALLERY = "com.ros.smartrocket.EXTRA_IS_PHOTO_FROM_GALLERY";
     private static final String STATE_SELECTED_FRAME = "current_selected_photo";
 
-    private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private LayoutInflater localInflater;
     private ImageButton rePhotoButton;
     private ImageButton deletePhotoButton;
@@ -57,7 +58,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     private AsyncQueryHandler handler;
     private int currentSelectedPhoto = 0;
     private CustomProgressDialog progressDialog;
-    private String mCurrentPhotoPath;
+    private File mCurrentPhotoFile;
+    private File lastPhotoFile;
+    private boolean isLastFileFromGallery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,18 +117,22 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            mCurrentPhotoPath = savedInstanceState.getString(STATE_PHOTO);
+            mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
             currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
+            lastPhotoFile = (File) savedInstanceState.getSerializable(EXTRA_LAST_PHOTO_FILE);
+            isLastFileFromGallery = savedInstanceState.getBoolean(EXTRA_IS_PHOTO_FROM_GALLERY);
         }
-        selectImageManager.setImageCompleteListener(imageCompleteListener);
+//        selectImageManager.setImageCompleteListener(imageCompleteListener);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (mCurrentPhotoPath != null) {
-            outState.putString(STATE_PHOTO, mCurrentPhotoPath);
+        if (mCurrentPhotoFile != null) {
+            outState.putSerializable(STATE_PHOTO, mCurrentPhotoFile);
             outState.putInt(STATE_SELECTED_FRAME, currentSelectedPhoto);
         }
+        outState.putSerializable(EXTRA_LAST_PHOTO_FILE, lastPhotoFile);
+        outState.putBoolean(EXTRA_IS_PHOTO_FROM_GALLERY, isLastFileFromGallery);
         super.onSaveInstanceState(outState);
     }
 
@@ -290,14 +297,14 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (mCurrentPhotoPath != null) {
+        if (mCurrentPhotoFile != null) {
             intent = new Intent();
-            intent.setData(Uri.fromFile(new File(mCurrentPhotoPath)));
+            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            selectImageManager.onActivityResult(requestCode, resultCode, intent);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity(), imageCompleteListener);
         } else if (intent != null && intent.getData() != null) {
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            selectImageManager.onActivityResult(requestCode, resultCode, intent);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity(), imageCompleteListener);
         }
     }
 
@@ -309,28 +316,31 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     String filePath;
                     boolean rotateByExif;
                     if (!isBitmapConfirmed) {
-                        filePath = Uri.fromFile(selectImageManager.getLastFile()).getPath();
-                        rotateByExif = !selectImageManager.isLastFileFromGallery();
+                        filePath = lastPhotoFile.getPath();
+                        rotateByExif = !isLastFileFromGallery;
                     } else {
                         Answer answer = question.getAnswers()[currentSelectedPhoto];
                         filePath = answer.getFileUri();
                         rotateByExif = false;
                     }
 
-                    if(!TextUtils.isEmpty(filePath)) {
+                    if (!TextUtils.isEmpty(filePath)) {
                         startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif));
                     }
                     break;
                 }
             case R.id.rePhotoButton:
                 if (question.getPhotoSource() == 0) {
+                    // From camera
                     File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
-                    mCurrentPhotoPath = fileToPhoto.getAbsolutePath();
-                    selectImageManager.startCamera(getActivity(), fileToPhoto);
+                    mCurrentPhotoFile = fileToPhoto;
+                    SelectImageManager.startCamera(getActivity(), fileToPhoto);
                 } else if (question.getPhotoSource() == 1) {
-                    selectImageManager.startGallery(getActivity());
+                    // From gallery
+                    SelectImageManager.startGallery(getActivity());
                 } else {
-                    selectImageManager.showSelectImageDialog(getActivity(), true, question.getTaskId().toString());
+                    SelectImageManager.showSelectImageDialog(getActivity(), true, question.getTaskId().toString(),
+                            imageCompleteListener);
                 }
                 break;
             case R.id.deletePhotoButton:
@@ -381,9 +391,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     public void confirmButtonPressAction(Location location) {
-        File sourceImageFile = selectImageManager.getLastFile();
-        File resultImageFile = selectImageManager.getScaledFile(sourceImageFile,
-                SelectImageManager.SIZE_IN_PX_2_MP, 0);
+        File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile,
+                SelectImageManager.SIZE_IN_PX_2_MP, 0, isLastFileFromGallery);
 
         if (resultImageFile.exists()) {
             Answer answer = question.getAnswers()[currentSelectedPhoto];
@@ -439,12 +448,14 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         }
 
         @Override
-        public void onImageComplete(Bitmap bitmap) {
-            isBitmapAdded = bitmap != null;
+        public void onImageComplete(SelectImageManager.ImageFileClass image) {
+            lastPhotoFile = image.imageFile;
+            isLastFileFromGallery = image.isFileFromGallery;
+            isBitmapAdded = image.bitmap != null;
             isBitmapConfirmed = false;
 
-            if (bitmap != null) {
-                photoImageView.setImageBitmap(bitmap);
+            if (image.bitmap != null) {
+                photoImageView.setImageBitmap(image.bitmap);
             } else {
                 photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
             }
