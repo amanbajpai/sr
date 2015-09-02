@@ -136,6 +136,12 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideProgressDialog();
+    }
+
     class DbHandler extends AsyncQueryHandler {
 
         public DbHandler(ContentResolver cr) {
