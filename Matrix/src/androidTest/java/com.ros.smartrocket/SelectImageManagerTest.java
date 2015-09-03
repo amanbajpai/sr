@@ -25,7 +25,8 @@ public class SelectImageManagerTest {
     public void testImageManager() {
         SelectImageManager selectImageManager = SelectImageManager.getInstance();
 
-        Dialog dialog = selectImageManager.showSelectImageDialog(activity, true, SelectImageManager.PREFIX_PROFILE);
+        Dialog dialog = selectImageManager.showSelectImageDialog(activity, true, SelectImageManager.PREFIX_PROFILE,
+                imageCompleteListener);
         Assert.assertTrue(dialog.isShowing());
         dialog.dismiss();
         Assert.assertTrue(!dialog.isShowing());

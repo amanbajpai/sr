@@ -37,7 +37,6 @@ import java.util.ArrayList;
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private SelectImageManager selectImageManager = SelectImageManager.getInstance();
     private ResponseReceiver localReceiver;
     private AsyncQueryHandler handler;
     private ImageView photoImageView;
@@ -237,42 +236,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         switch (v.getId()) {
             case R.id.photoImageView:
-                selectImageManager.showSelectImageDialog(getActivity(), false, SelectImageManager.PREFIX_PROFILE);
-                selectImageManager.setImageCompleteListener(new SelectImageManager.OnImageCompleteListener() {
-                    @Override
-                    public void onStartLoading() {
-                        uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                                R.anim.rotate));
-                        uploadPhotoProgressImage.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onImageComplete(Bitmap bitmap) {
-                        if (bitmap != null) {
-                            uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                                    R.anim.rotate));
-                            uploadPhotoProgressImage.setVisibility(View.VISIBLE);
-
-                            photoImageView.setImageBitmap(bitmap);
-
-                            UploadPhoto uploadPhotoEntity = new UploadPhoto();
-                            uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(bitmap));
-
-                            apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
-
-                        } else {
-                            photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-                        }
-                    }
-
-                    @Override
-                    public void onSelectImageError(int imageFrom) {
-                        uploadPhotoProgressImage.clearAnimation();
-                        uploadPhotoProgressImage.setVisibility(View.GONE);
-
-                        DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-                    }
-                });
+                SelectImageManager.showSelectImageDialog(getActivity(), false, SelectImageManager.PREFIX_PROFILE,
+                        imageCompleteListener);
                 break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
@@ -326,7 +291,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-        selectImageManager.onActivityResult(requestCode, resultCode, intent);
+        SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity(), imageCompleteListener);
     }
 
     @Override
@@ -348,4 +313,41 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         }
         super.onDestroy();
     }
+
+    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager
+            .OnImageCompleteListener() {
+        @Override
+        public void onStartLoading() {
+            uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                    R.anim.rotate));
+            uploadPhotoProgressImage.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onImageComplete(SelectImageManager.ImageFileClass image) {
+            if (image.bitmap != null) {
+                uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                        R.anim.rotate));
+                uploadPhotoProgressImage.setVisibility(View.VISIBLE);
+
+                photoImageView.setImageBitmap(image.bitmap);
+
+                UploadPhoto uploadPhotoEntity = new UploadPhoto();
+                uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(image.bitmap));
+
+                apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
+
+            } else {
+                photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+            }
+        }
+
+        @Override
+        public void onSelectImageError(int imageFrom) {
+            uploadPhotoProgressImage.clearAnimation();
+            uploadPhotoProgressImage.setVisibility(View.GONE);
+
+            DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+        }
+    };
 }

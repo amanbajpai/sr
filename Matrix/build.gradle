@@ -118,7 +118,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode buildNumber
-        versionName '2.1.3'
+        versionName '2.1.4'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!((\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "(\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR))? VERSION_NAME : String.valueOf(VERSION_CODE)"
@@ -170,6 +170,7 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
             buildConfigField "String", "BAIDU_API_KEY", "\"n0GLOKAhMcokvNddHSdFnqPh\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
@@ -187,6 +188,7 @@ android {
         }
 
         release {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
             buildConfigField "String", "BAIDU_API_KEY", "\"hc5VEmGKRDw7ls2ZpGz18n6g\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
@@ -207,44 +209,38 @@ android {
     productFlavors {
         Dev {
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Staging {
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
-            versionCode 10020
+            versionCode 10021
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         ChinaDev {
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaStaging {
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaProduction {
-            versionCode 10020
+            versionCode 10021
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""

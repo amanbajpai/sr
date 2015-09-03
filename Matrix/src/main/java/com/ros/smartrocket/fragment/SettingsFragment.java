@@ -15,7 +15,6 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -88,7 +87,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         view.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startActivity(IntentUtils.getEmailIntent("Log", "dmma@ciklum.com", UIUtils.getLogs()));
+                startActivity(IntentUtils.getEmailIntent("Log", "kuar@ciklum.com", UIUtils.getLogs()));
                 return false;
             }
         });

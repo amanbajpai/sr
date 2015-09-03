@@ -68,7 +68,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        L.i(TAG, "onCreate");
+        L.v(TAG, "onCreate " + this);
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
@@ -98,33 +98,52 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        L.i(TAG, "onRestoreInstanceState");
+        L.v(TAG, "onRestoreInstanceState");
         isAlreadyStarted = savedInstanceState.getBoolean(KEY_IS_STARTED, false);
         if (isAlreadyStarted) {
             restoreFragment();
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        L.v(TAG, "onSaveInstanceState");
+        outState.putBoolean(KEY_IS_STARTED, true);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        L.v(TAG, "onDestroy " + this);
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+
     private BaseQuestionFragment restoreFragment() {
-        L.i(TAG, "restoreFragment");
+        L.v(TAG, "restoreFragment");
         BaseQuestionFragment restoredCurrentFragment = (BaseQuestionFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentLayout);
         if (restoredCurrentFragment != null) {
-            L.i(TAG, "restoreFragment not null");
+            L.v(TAG, "restoreFragment not null");
             currentFragment = restoredCurrentFragment;
             currentFragment.setAnswerPageLoadingFinishedListener(this);
             currentFragment.setAnswerSelectedListener(this);
         }
         return restoredCurrentFragment;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        L.i(TAG, "onSaveInstanceState");
-        outState.putBoolean(KEY_IS_STARTED, true);
-        super.onSaveInstanceState(outState);
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -159,7 +178,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
                         }
                     } else {
-                        finish();
+                        finishQuestionsActivity();
                     }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
@@ -184,6 +203,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
     }
 
+    private void finishQuestionsActivity() {
+        L.v(TAG, "!!!!! ===== FINISH ===== !!!!!");
+        finish();
+    }
+
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
         mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
         if (questionType != Question.QuestionType.PHOTO.getTypeId()
@@ -199,7 +223,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
             if (currentQuestion != null) {
-                L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+                L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
                 int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
 
@@ -235,7 +259,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
             if (currentQuestion != null) {
-                L.i(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+                L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
                 int previousQuestionOrderId = (currentQuestion.getPreviousQuestionOrderId() != null &&
                         currentQuestion.getPreviousQuestionOrderId() != 0) ? currentQuestion.getPreviousQuestionOrderId() : 1;
@@ -252,12 +276,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         TasksBL.updateTaskStatusId(taskId, missionId, Task.TaskStatusId.SCHEDULED.getStatusId());
 
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, true, isRedo));
-        finish();
+        finishQuestionsActivity();
     }
 
     public void startFragment(Question question) {
         if (question != null) {
-            L.i(TAG, "startFragment. orderId:" + question.getOrderId());
+            L.v(TAG, "startFragment. orderId:" + question.getOrderId() + " " + this);
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getType(), question.getOrderId());
 
@@ -336,7 +360,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     }
                 } catch (Exception e) {
                     L.e(TAG, "Error replace question type fragment", e);
-                    finish();
+                    finishQuestionsActivity();
                 }
             }
         } else {
@@ -357,7 +381,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
 
                 startActivity(IntentUtils.getQuitQuestionIntent(this, question));
-                finish();
+                finishQuestionsActivity();
             }
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
@@ -405,7 +429,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                finishQuestionsActivity();
                 return true;
             case R.id.quiteTask:
                 if (task.getWaveId() != null && task.getId() != null) {
@@ -431,17 +455,5 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         View view = actionBar.getCustomView();
         ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.question_title);
         return true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
     }
 }
