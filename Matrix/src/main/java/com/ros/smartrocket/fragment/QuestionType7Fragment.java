@@ -121,8 +121,11 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
             lastPhotoFile = (File) savedInstanceState.getSerializable(EXTRA_LAST_PHOTO_FILE);
             isLastFileFromGallery = savedInstanceState.getBoolean(EXTRA_IS_PHOTO_FROM_GALLERY);
+
+            if (lastPhotoFile != null && lastPhotoFile.exists()) {
+                photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
+            }
         }
-//        selectImageManager.setImageCompleteListener(imageCompleteListener);
     }
 
     @Override
