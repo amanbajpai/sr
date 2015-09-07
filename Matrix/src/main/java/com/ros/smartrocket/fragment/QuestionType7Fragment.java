@@ -24,13 +24,12 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
+import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.location.MatrixLocationManager;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.SelectImageManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
+import de.greenrobot.event.EventBus;
 
 import java.io.File;
 import java.util.Arrays;
@@ -43,6 +42,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     private static final String EXTRA_LAST_PHOTO_FILE = "com.ros.smartrocket.EXTRA_LAST_PHOTO_FILE";
     private static final String EXTRA_IS_PHOTO_FROM_GALLERY = "com.ros.smartrocket.EXTRA_IS_PHOTO_FROM_GALLERY";
     private static final String STATE_SELECTED_FRAME = "current_selected_photo";
+    private static final String TAG = "Question 7";
 
     private LayoutInflater localInflater;
     private ImageButton rePhotoButton;
@@ -64,6 +64,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        L.v(TAG, "onCreateView " + this);
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         localInflater = inflater.cloneInContext(contextThemeWrapper);
 
@@ -104,18 +105,12 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         confirmButton.setOnClickListener(this);
 
         if (question.getMaximumPhotos() > 1) {
-            questionText.setText(question.getQuestion() + getString(R.string.maximum_photo, question.getMaximumPhotos()));
+            questionText.setText(question.getQuestion() + getString(R.string.maximum_photo, question.getMaximumPhotos
+                    ()));
         } else {
             questionText.setText(question.getQuestion());
         }
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
             currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
@@ -126,6 +121,21 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
             }
         }
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideProgressDialog();
     }
 
     @Override
@@ -140,10 +150,89 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        hideProgressDialog();
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
+
+    @Override
+    public void onDestroy() {
+        L.v(TAG, "onDestroy " + this);
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(PhotoEvent event) {
+        L.v(TAG, "Event " + event.type);
+        switch (event.type) {
+            case START_LOADING:
+                showProgressDialog();
+                break;
+            case IMAGE_COMPLETE:
+                L.v(TAG, "onImageComplete");
+                lastPhotoFile = event.image.imageFile;
+                isLastFileFromGallery = event.image.isFileFromGallery;
+                isBitmapAdded = event.image.bitmap != null;
+                isBitmapConfirmed = false;
+
+                if (event.image.bitmap != null) {
+                    L.v(TAG, "Set Bitmap not null " + QuestionType7Fragment.this);
+                    photoImageView.setImageBitmap(event.image.bitmap);
+                } else {
+                    photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                }
+
+                refreshRePhotoButton();
+                refreshDeletePhotoButton();
+                refreshConfirmButton();
+                refreshNextButton();
+
+                hideProgressDialog();
+                break;
+            case SELECT_IMAGE_ERROR:
+                hideProgressDialog();
+                DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+                break;
+        }
+    }
+
+//    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener
+//            () {
+//        @Override
+//        public void onStartLoading() {
+//            showProgressDialog();
+//        }
+//
+//        @Override
+//        public void onImageComplete(SelectImageManager.ImageFileClass image) {
+//            L.v(TAG, "onImageComplete");
+//            lastPhotoFile = image.imageFile;
+//            isLastFileFromGallery = image.isFileFromGallery;
+//            isBitmapAdded = image.bitmap != null;
+//            isBitmapConfirmed = false;
+//
+//            if (image.bitmap != null) {
+//                L.v(TAG, "Set Bitmap not null " + QuestionType7Fragment.this);
+//                photoImageView.setImageBitmap(image.bitmap);
+//            } else {
+//                photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+//            }
+//
+//            refreshRePhotoButton();
+//            refreshDeletePhotoButton();
+//            refreshConfirmButton();
+//            refreshNextButton();
+//
+//            hideProgressDialog();
+//        }
+//
+//        @Override
+//        public void onSelectImageError(int imageFrom) {
+//            hideProgressDialog();
+//            DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+//        }
+//    };
 
     class DbHandler extends AsyncQueryHandler {
 
@@ -155,6 +244,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
                 case AnswerDbSchema.Query.TOKEN_QUERY:
+                    L.v(TAG, "onQueryComplete " + QuestionType7Fragment.this);
                     Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
 
                     if (answers.length == 0) {
@@ -192,7 +282,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     if (question.getAnswers().length == question.getMaximumPhotos()) {
                         question.setAnswers(addEmptyAnswer(question.getAnswers()));
                     }
-                    AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+                    AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question
+                            .getId());
                     break;
                 default:
                     break;
@@ -224,6 +315,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             isBitmapAdded = false;
             isBitmapConfirmed = false;
 
+            L.v(TAG, "selectGalleryPhoto " + position + " set bitmap null " + QuestionType7Fragment.this);
             photoImageView.setImageBitmap(null);
             photoImageView.setBackgroundResource(R.drawable.camera_icon);
         }
@@ -310,10 +402,10 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             intent = new Intent();
             intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity(), imageCompleteListener);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
         } else if (intent != null && intent.getData() != null) {
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity(), imageCompleteListener);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
         }
     }
 
@@ -348,8 +440,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     // From gallery
                     SelectImageManager.startGallery(getActivity());
                 } else {
-                    SelectImageManager.showSelectImageDialog(getActivity(), true, question.getTaskId().toString(),
-                            imageCompleteListener);
+                    SelectImageManager.showSelectImageDialog(getActivity(), true, question.getTaskId().toString());
                 }
                 break;
             case R.id.deletePhotoButton:
@@ -449,40 +540,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
 
         return resultAnswerArray;
     }
-
-    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener() {
-        @Override
-        public void onStartLoading() {
-            showProgressDialog();
-        }
-
-        @Override
-        public void onImageComplete(SelectImageManager.ImageFileClass image) {
-            lastPhotoFile = image.imageFile;
-            isLastFileFromGallery = image.isFileFromGallery;
-            isBitmapAdded = image.bitmap != null;
-            isBitmapConfirmed = false;
-
-            if (image.bitmap != null) {
-                photoImageView.setImageBitmap(image.bitmap);
-            } else {
-                photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-            }
-
-            refreshRePhotoButton();
-            refreshDeletePhotoButton();
-            refreshConfirmButton();
-            refreshNextButton();
-
-            hideProgressDialog();
-        }
-
-        @Override
-        public void onSelectImageError(int imageFrom) {
-            hideProgressDialog();
-            DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-        }
-    };
 
     @Override
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {

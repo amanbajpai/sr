@@ -61,6 +61,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private int questionsToAnswerCount = 0;
     private boolean isRedo = false;
     private boolean isAlreadyStarted;
+    private boolean isDestroyed;
 
     public QuestionsActivity() {
     }
@@ -69,6 +70,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         L.v(TAG, "onCreate " + this);
+        isDestroyed = false;
+
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
@@ -129,6 +132,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @Override
     protected void onDestroy() {
         L.v(TAG, "onDestroy " + this);
+        isDestroyed = true;
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
@@ -138,7 +142,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         BaseQuestionFragment restoredCurrentFragment = (BaseQuestionFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentLayout);
         if (restoredCurrentFragment != null) {
-            L.v(TAG, "restoreFragment not null");
+            L.v(TAG, "restoreFragment not null " + restoredCurrentFragment);
             currentFragment = restoredCurrentFragment;
             currentFragment.setAnswerPageLoadingFinishedListener(this);
             currentFragment.setAnswerSelectedListener(this);
@@ -259,7 +263,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
             if (currentQuestion != null) {
-                L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+                L.v(TAG, "startPreviousQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
 
                 int previousQuestionOrderId = (currentQuestion.getPreviousQuestionOrderId() != null &&
                         currentQuestion.getPreviousQuestionOrderId() != 0) ? currentQuestion.getPreviousQuestionOrderId() : 1;
@@ -280,8 +284,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startFragment(Question question) {
+        L.v(TAG, "startFragment." + this + " Destroyed " + isDestroyed);
+        if (isDestroyed) {
+            return;
+        }
+
         if (question != null) {
-            L.v(TAG, "startFragment. orderId:" + question.getOrderId() + " " + this);
+            L.v(TAG, "startFragment. orderId:" + question.getOrderId());
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getType(), question.getOrderId());
 

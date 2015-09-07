@@ -21,11 +21,13 @@ import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
+import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
+import de.greenrobot.event.EventBus;
 
 /**
  * Activity for first Agents registration into system
@@ -175,8 +177,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 });
                 break;
             case R.id.profilePhotoImageView:
-                SelectImageManager.showSelectImageDialog(this, true, SelectImageManager.PREFIX_PROFILE,
-                        imageCompleteListener);
+                SelectImageManager.showSelectImageDialog(this, true, SelectImageManager.PREFIX_PROFILE);
                 break;
             case R.id.confirmButton:
                 String firstName = firstNameEditText.getText().toString().trim();
@@ -377,7 +378,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-        SelectImageManager.onActivityResult(requestCode, resultCode, intent, this, imageCompleteListener);
+        SelectImageManager.onActivityResult(requestCode, resultCode, intent, this);
     }
 
     @Override
@@ -412,36 +413,35 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         addNetworkOperationListener(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         removeNetworkOperationListener(this);
+        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
-    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager
-            .OnImageCompleteListener() {
-        @Override
-        public void onStartLoading() {
-            setSupportProgressBarIndeterminateVisibility(true);
+    @SuppressWarnings("unused")
+    public void onEventMainThread(PhotoEvent event) {
+        switch (event.type) {
+            case START_LOADING:
+                setSupportProgressBarIndeterminateVisibility(true);
+                break;
+            case IMAGE_COMPLETE:
+                RegistrationActivity.this.photoBitmap = event.image.bitmap;
+                if (event.image.bitmap != null) {
+                    profilePhotoImageView.setImageBitmap(event.image.bitmap);
+                } else {
+                    profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                }
+                setSupportProgressBarIndeterminateVisibility(false);
+                break;
+            case SELECT_IMAGE_ERROR:
+                setSupportProgressBarIndeterminateVisibility(false);
+                DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
+                break;
         }
-
-        @Override
-        public void onImageComplete(SelectImageManager.ImageFileClass image) {
-            RegistrationActivity.this.photoBitmap = image.bitmap;
-            if (image.bitmap != null) {
-                profilePhotoImageView.setImageBitmap(image.bitmap);
-            } else {
-                profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-            }
-            setSupportProgressBarIndeterminateVisibility(false);
-        }
-
-        @Override
-        public void onSelectImageError(int imageFrom) {
-            setSupportProgressBarIndeterminateVisibility(false);
-            DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
-        }
-    };
+    }
 }
