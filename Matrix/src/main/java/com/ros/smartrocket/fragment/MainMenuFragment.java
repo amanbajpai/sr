@@ -24,12 +24,14 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.UploadPhoto;
 import com.ros.smartrocket.dialog.LevelUpDialog;
+import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
+import de.greenrobot.event.EventBus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -236,8 +238,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         switch (v.getId()) {
             case R.id.photoImageView:
-                SelectImageManager.showSelectImageDialog(getActivity(), false, SelectImageManager.PREFIX_PROFILE,
-                        imageCompleteListener);
+                SelectImageManager.showSelectImageDialog(getActivity(), false, SelectImageManager.PREFIX_PROFILE);
                 break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
@@ -291,18 +292,20 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-        SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity(), imageCompleteListener);
+        SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
     }
 
     @Override
     public void onStart() {
         super.onStart();
         ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -314,40 +317,37 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         super.onDestroy();
     }
 
-    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager
-            .OnImageCompleteListener() {
-        @Override
-        public void onStartLoading() {
-            uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                    R.anim.rotate));
-            uploadPhotoProgressImage.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onImageComplete(SelectImageManager.ImageFileClass image) {
-            if (image.bitmap != null) {
+    @SuppressWarnings("unused")
+    public void onEventMainThread(PhotoEvent event) {
+        switch (event.type) {
+            case START_LOADING:
                 uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                         R.anim.rotate));
                 uploadPhotoProgressImage.setVisibility(View.VISIBLE);
+                break;
+            case IMAGE_COMPLETE:
+                if (event.image.bitmap != null) {
+                    uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.rotate));
+                    uploadPhotoProgressImage.setVisibility(View.VISIBLE);
 
-                photoImageView.setImageBitmap(image.bitmap);
+                    photoImageView.setImageBitmap(event.image.bitmap);
 
-                UploadPhoto uploadPhotoEntity = new UploadPhoto();
-                uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(image.bitmap));
+                    UploadPhoto uploadPhotoEntity = new UploadPhoto();
+                    uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(event.image.bitmap));
 
-                apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
+                    apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
 
-            } else {
-                photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-            }
+                } else {
+                    photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                }
+                break;
+            case SELECT_IMAGE_ERROR:
+                uploadPhotoProgressImage.clearAnimation();
+                uploadPhotoProgressImage.setVisibility(View.GONE);
+
+                DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
+                break;
         }
-
-        @Override
-        public void onSelectImageError(int imageFrom) {
-            uploadPhotoProgressImage.clearAnimation();
-            uploadPhotoProgressImage.setVisibility(View.GONE);
-
-            DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-        }
-    };
+    }
 }

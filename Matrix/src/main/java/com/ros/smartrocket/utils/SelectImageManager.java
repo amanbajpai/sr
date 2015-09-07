@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.eventbus.PhotoEvent;
+import de.greenrobot.event.EventBus;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -47,27 +49,14 @@ public final class SelectImageManager {
             new int[]{90, HORIZONTAL}, new int[]{0, NONE}, new int[]{90, NONE}};
 
     private final static PreferencesManager preferencesManager = PreferencesManager.getInstance();
-//    private OnImageCompleteListener imageCompleteListener;
-//    private static SelectImageManager instance = null;
-//    private Activity activity;
 
     // Configuration
     private static final int MAX_SIZE_IN_PX = 700;
     public static final int SIZE_IN_PX_2_MP = 1600;
     public static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
-//    private Dialog selectImageDialog;
 
     private static final int ONE_KB_IN_B = 1024;
-    //    private File lastFile;
-//    private Boolean lastFileFromGallery = true;
     private static final Random RANDOM = new Random();
-
-//    public static SelectImageManager getInstance() {
-//        if (instance == null) {
-//            instance = new SelectImageManager();
-//        }
-//        return instance;
-//    }
 
     private SelectImageManager() {
     }
@@ -97,8 +86,7 @@ public final class SelectImageManager {
         activity.startActivityForResult(i, CAMERA);
     }
 
-    public static void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final String prefix,
-                                      final OnImageCompleteListener imageCompleteListener) {
+    public static void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final String prefix) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
 
@@ -128,7 +116,7 @@ public final class SelectImageManager {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                imageCompleteListener.onImageComplete(null);
+                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE));
             }
         });
 
@@ -142,10 +130,9 @@ public final class SelectImageManager {
         dialog.show();
     }
 
-    public static void onActivityResult(int requestCode, int resultCode, Intent intent, Context context,
-                                        OnImageCompleteListener imageCompleteListener) {
+    public static void onActivityResult(int requestCode, int resultCode, Intent intent, Context context) {
         if (resultCode == Activity.RESULT_OK) {
-            new GetBitmapAsyncTask(requestCode, intent, context, imageCompleteListener).execute();
+            new GetBitmapAsyncTask(requestCode, intent, context).execute();
         }
     }
 
@@ -452,14 +439,6 @@ public final class SelectImageManager {
         return resultFile;
     }
 
-//    public File getLastFile() {
-//        return lastFile;
-//    }
-
-//    public Boolean isLastFileFromGallery() {
-//        return lastFileFromGallery;
-//    }
-
     /// ======================================================================================================= ///
     /// =========================================== INTERNAL CLASSES ========================================== ///
     /// ======================================================================================================= ///
@@ -468,22 +447,17 @@ public final class SelectImageManager {
         private Intent intent;
         private int requestCode;
         private Context context;
-        private OnImageCompleteListener imageCompleteListener;
 
-        public GetBitmapAsyncTask(int requestCode, Intent intent, Context context, OnImageCompleteListener
-                imageCompleteListener) {
+        public GetBitmapAsyncTask(int requestCode, Intent intent, Context context) {
             this.intent = intent;
             this.requestCode = requestCode;
             this.context = context;
-            this.imageCompleteListener = imageCompleteListener;
         }
 
         @Override
         protected void onPreExecute() {
-            if (imageCompleteListener != null) {
-                imageCompleteListener.onStartLoading();
-            }
-        }
+            EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.START_LOADING));
+       }
 
         @Override
         protected ImageFileClass doInBackground(Void... params) {
@@ -505,13 +479,13 @@ public final class SelectImageManager {
 
         @Override
         protected void onPostExecute(ImageFileClass image) {
-            if (imageCompleteListener != null) {
                 if (image.bitmap != null && image.imageFile != null) {
-                    imageCompleteListener.onImageComplete(image);
+                    EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
                 } else {
-                    imageCompleteListener.onSelectImageError(requestCode);
+                    EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR,
+                            requestCode));
                 }
-            }
+//            }
         }
     }
 
@@ -526,20 +500,4 @@ public final class SelectImageManager {
             this.isFileFromGallery = isFileFromGallery;
         }
     }
-
-    public interface OnImageCompleteListener {
-        void onStartLoading();
-
-        void onImageComplete(ImageFileClass image);
-
-        void onSelectImageError(int imageFrom);
-    }
-
-//    public OnImageCompleteListener getImageCompleteListener() {
-//        return imageCompleteListener;
-//    }
-//
-//    public void setImageCompleteListener(OnImageCompleteListener imageCompleteListener) {
-//        this.imageCompleteListener = imageCompleteListener;
-//    }
 }
