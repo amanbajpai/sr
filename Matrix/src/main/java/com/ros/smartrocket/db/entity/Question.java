@@ -1,10 +1,8 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.utils.L;
 
 import java.io.Serializable;
 
@@ -126,7 +124,6 @@ public class Question extends BaseEntity implements Serializable {
             result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
         }
 
-        L.d("question", result.toString());
         return result;
     }
 

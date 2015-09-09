@@ -121,6 +121,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
             }
         }
+
         AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
 
         return view;
@@ -197,43 +198,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         }
     }
 
-//    SelectImageManager.OnImageCompleteListener imageCompleteListener = new SelectImageManager.OnImageCompleteListener
-//            () {
-//        @Override
-//        public void onStartLoading() {
-//            showProgressDialog();
-//        }
-//
-//        @Override
-//        public void onImageComplete(SelectImageManager.ImageFileClass image) {
-//            L.v(TAG, "onImageComplete");
-//            lastPhotoFile = image.imageFile;
-//            isLastFileFromGallery = image.isFileFromGallery;
-//            isBitmapAdded = image.bitmap != null;
-//            isBitmapConfirmed = false;
-//
-//            if (image.bitmap != null) {
-//                L.v(TAG, "Set Bitmap not null " + QuestionType7Fragment.this);
-//                photoImageView.setImageBitmap(image.bitmap);
-//            } else {
-//                photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-//            }
-//
-//            refreshRePhotoButton();
-//            refreshDeletePhotoButton();
-//            refreshConfirmButton();
-//            refreshNextButton();
-//
-//            hideProgressDialog();
-//        }
-//
-//        @Override
-//        public void onSelectImageError(int imageFrom) {
-//            hideProgressDialog();
-//            DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-//        }
-//    };
-
     class DbHandler extends AsyncQueryHandler {
 
         public DbHandler(ContentResolver cr) {
@@ -254,7 +218,9 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     }
 
                     refreshPhotoGallery(question.getAnswers());
-                    selectGalleryPhoto(0);
+                    if (!isBitmapAdded) {
+                        selectGalleryPhoto(0);
+                    }
                     hideProgressDialog();
                     break;
                 default:
