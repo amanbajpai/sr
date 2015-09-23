@@ -74,19 +74,13 @@ public final class SelectImageManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
-    public static void startCamera(Activity activity, String prefix) {
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(activity, prefix)));
-        activity.startActivityForResult(i, CAMERA);
-    }
-
     public static void startCamera(Activity activity, File filePath) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
         activity.startActivityForResult(i, CAMERA);
     }
 
-    public static void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final String prefix) {
+    public static void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final File file) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
 
@@ -107,7 +101,7 @@ public final class SelectImageManager {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                startCamera(activity, prefix);
+                startCamera(activity, file);
             }
         });
 

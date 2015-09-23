@@ -399,14 +399,14 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             case R.id.rePhotoButton:
                 if (question.getPhotoSource() == 0) {
                     // From camera
-                    File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
-                    mCurrentPhotoFile = fileToPhoto;
-                    SelectImageManager.startCamera(getActivity(), fileToPhoto);
+                    mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
+                    SelectImageManager.startCamera(getActivity(), mCurrentPhotoFile);
                 } else if (question.getPhotoSource() == 1) {
                     // From gallery
                     SelectImageManager.startGallery(getActivity());
                 } else {
-                    SelectImageManager.showSelectImageDialog(getActivity(), true, question.getTaskId().toString());
+                    File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
+                    SelectImageManager.showSelectImageDialog(getActivity(), true, fileToPhoto);
                 }
                 break;
             case R.id.deletePhotoButton:

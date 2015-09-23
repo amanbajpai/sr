@@ -33,10 +33,13 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
 import de.greenrobot.event.EventBus;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
+    private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
+
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private ResponseReceiver localReceiver;
@@ -52,6 +55,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private TextView minLevelExperience;
     private TextView maxLevelExperience;
     private SeekBar levelProgressBar;
+    private File mCurrentPhotoFile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +63,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PHOTO)) {
+            mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
+        }
 
         handler = new DbHandler(getActivity().getContentResolver());
 
@@ -102,6 +110,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         TasksBL.getMyTasksForMapFromDB(handler);
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STATE_PHOTO, mCurrentPhotoFile);
+        super.onSaveInstanceState(outState);
     }
 
     public void setData(MyAccount myAccount) {
@@ -238,7 +252,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         switch (v.getId()) {
             case R.id.photoImageView:
-                SelectImageManager.showSelectImageDialog(getActivity(), false, SelectImageManager.PREFIX_PROFILE);
+                mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
+                SelectImageManager.showSelectImageDialog(getActivity(), false, mCurrentPhotoFile);
                 break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
@@ -291,8 +306,15 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-        SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+        if (intent != null && intent.getData() != null) {
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+        } else if (mCurrentPhotoFile != null) {
+            intent = new Intent();
+            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+        }
     }
 
     @Override
@@ -326,9 +348,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 uploadPhotoProgressImage.setVisibility(View.VISIBLE);
                 break;
             case IMAGE_COMPLETE:
-                if (event.image.bitmap != null) {
-                    uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.rotate));
+                if (event.image != null && event.image.bitmap != null) {
+                    uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
                     uploadPhotoProgressImage.setVisibility(View.VISIBLE);
 
                     photoImageView.setImageBitmap(event.image.bitmap);
@@ -337,7 +358,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(event.image.bitmap));
 
                     apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
-
                 } else {
                     photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                 }

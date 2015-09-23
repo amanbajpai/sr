@@ -5,10 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,11 +26,15 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
 import de.greenrobot.event.EventBus;
 
+import java.io.File;
+
 /**
  * Activity for first Agents registration into system
  */
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
+    private static final String STATE_PHOTO = "com.ros.smartrocket.RegistrationActivity.STATE_PHOTO";
+
     private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
 
@@ -66,6 +67,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private CustomProgressDialog progressDialog;
     private int currentTermsAndConditionsVersion = 1;
     private String promoCode;
+    private File mCurrentPhotoFile;
 
     public RegistrationActivity() {
     }
@@ -121,17 +123,16 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         ((ToggleButton) findViewById(R.id.showPasswordToggleButton)).setOnCheckedChangeListener(this);
 
         educationLevelSpinner = (Spinner) findViewById(R.id.educationLevelSpinner);
-        ArrayAdapter educationLevelAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
+        ArrayAdapter educationLevelAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner, R.id.name,
                 educationLevel);
         educationLevelSpinner.setAdapter(educationLevelAdapter);
 
         employmentStatusSpinner = (Spinner) findViewById(R.id.employmentStatusSpinner);
-        ArrayAdapter employmentStatusAdapter = new ArrayAdapter<String>(this, R.layout.list_item_spinner, R.id.name,
+        ArrayAdapter employmentStatusAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner, R.id.name,
                 employmentStatus);
         employmentStatusSpinner.setAdapter(employmentStatusAdapter);
 
         agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);
-
 
         findViewById(R.id.termsAndConditionsButton).setOnClickListener(this);
         findViewById(R.id.confirmButton).setOnClickListener(this);
@@ -143,20 +144,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         checkDeviceSettingsByOnResume(false);
 
         apiFacade.getCurrentTermsAndConditionVersion(this);
-    }
 
-    public void setAgreeCheckBoxText() {
-        SpannableString ss = new SpannableString(getString(R.string.i_agree_with_matrix_term));
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                startActivity(IntentUtils.getTermsAndConditionIntent(RegistrationActivity.this,
-                        currentTermsAndConditionsVersion));
-            }
-        };
-        ss.setSpan(clickableSpan, 22, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        agreeCheckBox.setText(ss);
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PHOTO)) {
+            mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
+        }
     }
 
     @Override
@@ -177,7 +168,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 });
                 break;
             case R.id.profilePhotoImageView:
-                SelectImageManager.showSelectImageDialog(this, true, SelectImageManager.PREFIX_PROFILE);
+                mCurrentPhotoFile = SelectImageManager.getTempFile(this, SelectImageManager.PREFIX_PROFILE);
+                SelectImageManager.showSelectImageDialog(this, true, mCurrentPhotoFile);
                 break;
             case R.id.confirmButton:
                 String firstName = firstNameEditText.getText().toString().trim();
@@ -354,7 +346,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
@@ -376,9 +367,22 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STATE_PHOTO, mCurrentPhotoFile);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-        SelectImageManager.onActivityResult(requestCode, resultCode, intent, this);
+        if (intent != null && intent.getData() != null) {
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, this);
+        } else if (mCurrentPhotoFile != null) {
+            intent = new Intent();
+            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, this);
+        }
     }
 
     @Override
@@ -430,8 +434,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 setSupportProgressBarIndeterminateVisibility(true);
                 break;
             case IMAGE_COMPLETE:
-                RegistrationActivity.this.photoBitmap = event.image.bitmap;
-                if (event.image.bitmap != null) {
+                if (event.image != null && event.image.bitmap != null) {
+                    RegistrationActivity.this.photoBitmap = event.image.bitmap;
                     profilePhotoImageView.setImageBitmap(event.image.bitmap);
                 } else {
                     profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
