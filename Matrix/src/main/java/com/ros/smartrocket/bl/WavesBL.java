@@ -95,7 +95,9 @@ public class WavesBL {
                 task.setIcon(projectIcon);
                 task.setCountryName(countryName);
                 task.setDescription(wave.getDescription());
-                task.setExperienceOffer(wave.getExperienceOffer());
+                if (task.getExperienceOffer() == null || task.getExperienceOffer() == 0.0) {
+                    task.setExperienceOffer(wave.getExperienceOffer());
+                }
                 task.setStartedStatusSent(task.getStatusId() != null
                         && Task.TaskStatusId.NONE.getStatusId() != task.getStatusId()
                         && Task.TaskStatusId.CLAIMED.getStatusId() != task.getStatusId());
