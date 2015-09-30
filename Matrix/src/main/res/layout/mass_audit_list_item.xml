@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <View
+        android:id="@+id/massAuditImageThumb"
+        android:background="@color/blue"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_width="@dimen/mass_audit_image_size"
+        android:layout_height="@dimen/mass_audit_image_size"/>
+    <View
+        android:id="@+id/massAuditTickButton"
+        android:background="@color/green"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="@dimen/mass_audit_image_size"
+        android:layout_height="@dimen/mass_audit_image_size"/>
+    <View
+        android:id="@+id/massAuditCrossButton"
+        android:layout_toLeftOf="@id/massAuditTickButton"
+        android:background="@color/red"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="@dimen/mass_audit_image_size"
+        android:layout_height="@dimen/mass_audit_image_size"/>
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/massAuditItemTitle"
+        android:layout_toRightOf="@id/massAuditImageThumb"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/massAuditCrossButton"
+        style="@style/QuestionText"
+        tools:text="Wrigley's Doublemint chewing gum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

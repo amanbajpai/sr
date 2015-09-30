@@ -38,4 +38,5 @@
 
     <!-- Layout -->
     <dimen name="buttons_margin">10dp</dimen>
+    <dimen name="mass_audit_image_size">40dp</dimen>
 </resources>

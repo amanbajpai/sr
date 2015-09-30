@@ -4,6 +4,7 @@
     <color name="black">#ff000000</color>
     <color name="black_light">#222222</color>
     <color name="grey">#999999</color>
+    <color name="separator_grey">#f2f2f2</color>
     <color name="grey_dark">#4f5051</color>
     <color name="grey_middle">#d9d9d9</color>
     <color name="grey_light">#f2f2f2</color>
