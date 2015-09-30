@@ -308,6 +308,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Get Tasks from local db
      */
     private void loadTasksFromLocalDb() {
+        Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
             if (getActivity() != null) {
                 ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
@@ -320,18 +321,21 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 if (getActivity() != null) {
                     ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                     if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
+                        Log.d(TAG, "getAllNotMyTasksFromDB [waveId  =  " + viewItemId + "]");
                         TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
                     } else if (mode == Keys.MapViewMode.MY_TASKS) {
+                        Log.d(TAG, "getMyTasksForMapFromDB [waveId  =  " + viewItemId + "]");
                         TasksBL.getMyTasksForMapFromDB(handler);
                     } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
-                        TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton.isChecked());
-                        Log.d(TAG, "loadTasksFromLocalDb() [waveId  =  " + viewItemId + "]");
+                        Log.d(TAG, "getNotMyTasksFromDBbyWaveId [waveId  =  " + viewItemId + "]");
+                        TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton
+                                .isChecked());
                     } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
+                        Log.d(TAG, "getTaskFromDBbyID [taskId  =  " + viewItemId + "]");
                         TasksBL.getTaskFromDBbyID(handler, viewItemId, 0);
-                        Log.d(TAG, "loadTasksFromLocalDb() [taskId  =  " + viewItemId + "]");
                     }
 
-                    Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
+                    Log.i(TAG, "RUN loadTasksFromLocalDb() [mode  =  " + mode + "]");
                 }
             }
         }, 1000);

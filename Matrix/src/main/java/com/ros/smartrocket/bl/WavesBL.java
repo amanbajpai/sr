@@ -15,6 +15,7 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -137,7 +138,8 @@ public class WavesBL {
                 vals.add(task.toContentValues());
             }
             ContentValues[] bulk = new ContentValues[vals.size()];
-            contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
+            int inserted = contentResolver.bulkInsert(TaskDbSchema.CONTENT_URI, vals.toArray(bulk));
+            L.i("WAVES BL", "INSERTED " + inserted + " BULK SIZE " + bulk.length);
         }
     }
 

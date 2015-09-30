@@ -75,6 +75,7 @@ public class NetworkService extends BaseNetworkService {
                 switch (url) {
                     case WSUrl.GET_WAVES_ID:
                         Waves waves = gson.fromJson(responseString, Waves.class);
+                        L.i("Network Service", "WAVES FROM SERVER " + waves.getWaves().length);
 
                         try {
                             //Get tasks with 'scheduled' status id
