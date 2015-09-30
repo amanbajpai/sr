@@ -221,7 +221,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
         }
         Production {
-            versionCode 10021
+            versionCode 10022
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
@@ -240,7 +240,7 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
         }
         ChinaProduction {
-            versionCode 10021
+            versionCode 10022
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
