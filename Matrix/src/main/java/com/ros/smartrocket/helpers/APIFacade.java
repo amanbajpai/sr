@@ -582,18 +582,6 @@ public class APIFacade {
      * @param activity - current activity
      */
     public void sendAliPaySms(Activity activity, String phone) {
-//        AliPayAccount sendTaskId = new AliPayAccount();
-//        sendTaskId.setAccName("aawunplus@gmail.com");
-//        sendTaskId.setPhone("+852 6979 7840");
-//
-//        BaseOperation operation = new BaseOperation();
-//        operation.setUrl(WSUrl.REJECT_TASK);
-//        operation.setTag(Keys.REJECT_TASK_OPERATION_TAG);
-//        operation.setMethod(BaseOperation.Method.POST);
-//        operation.getEntities().add(sendTaskId);
-//        ((BaseActivity) activity).sendNetworkOperation(operation);
-
-
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.SEND_ALIPAY_SMS, phone);
         operation.setTag(Keys.SEND_ALIPAY_SMS_OPERATION_TAG);
@@ -611,12 +599,6 @@ public class APIFacade {
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(aliPayAccount);
         ((BaseActivity) activity).sendNetworkOperation(operation);
-
-//        BaseOperation operation = new BaseOperation();
-//        operation.setUrl(WSUrl.SEND_ALIPAY_SMS, phone);
-//        operation.setTag(Keys.SEND_ALIPAY_SMS_OPERATION_TAG);
-//        operation.setMethod(BaseOperation.Method.GET);
-//        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
 

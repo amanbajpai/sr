@@ -37,7 +37,6 @@ import com.ros.smartrocket.utils.UIUtils;
 public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener {
 
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ViewGroup view;
     private EditText loginEditText, phoneEditText, smsEditText;
     private Button loginButton, sendCodeButton;
     private ImageView refreshButton;
@@ -87,26 +86,11 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
             }
         }
 
-//        if (BuildConfig.DEBUG) {
-//            loginEditText.setText("jackjmcg@gmail.com");
-//            phoneEditText.setText("13681846165");
-//        }
-
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-
-//        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-//        actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayShowCustomEnabled(true);
-//
-//        View view = actionBar.getCustomView();
-//        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_payment_details);
-//        initRefreshButton();
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -125,8 +109,6 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-//        if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-//            ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
 
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
