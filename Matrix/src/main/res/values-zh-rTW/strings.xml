@@ -398,6 +398,18 @@
     <string name="cashing_out_are_you_sure">確定進行餘額提款？</string>
     <string name="cashing_out_continue">繼續</string>
     <string name="cashing_out_success">提款處理中，款項將會於今日完結的時候轉賬到你所提名的網上賬戶。</string>
+
+    <string name="cashing_out_payment_details">提款資料</string>
+    <string name="cashing_out_update_payment_details_3_lines">更新提款資料</string>
+
+    <string name="hint_your_registered_alipay_acc_name">支付寶賬戶實名</string>
+    <string name="hint_your_registered_alipay_phone">支付寶賬戶的手機號碼</string>
+    <string name="update_payment_details_click_to_obtain_sms">點擊獲取驗證碼SMS</string>
+    <string name="save_and_close">儲存及關閉</string>
+    <string name="update_payment_text">提款前，請輸入你的支付寶賬戶實名和手機號碼，進行SMS驗證。提款資料能夠隨時作出修改。</string>
+    <string name="hint_enter_sms_code">輸入驗證碼</string>
+    <string name="update_alipay_wait_for_sms">在十分鐘之内，將收到驗證碼SMS。收到後，請輸入驗證碼。</string>
+
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">注意！</string>
     <string name="turn_on_wifi_dialog_text1">任務暫時未能提交。請回到有Wifi覆蓋的範圍，或於設定内取消“只透過WiFi傳送數據”，

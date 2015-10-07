@@ -232,6 +232,10 @@ public class NetworkService extends BaseNetworkService {
                         Sharing sharing = gson.fromJson(responseString, Sharing.class);
                         operation.responseEntities.add(sharing);
                         break;
+                    case WSUrl.GET_ALIPAY_ACCOUNT_ID:
+                        AliPayAccount aliPayAccount = gson.fromJson(responseString, AliPayAccount.class);
+                        operation.responseEntities.add(aliPayAccount);
+                        break;
                     default:
                         break;
                 }

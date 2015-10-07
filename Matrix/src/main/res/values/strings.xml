@@ -426,7 +426,16 @@
     <string name="cashing_out_success">Your Cash Out is being processed and will be transferred
         to your payment account at the end of the day</string>
     <string name="cashing_out_payment_in_progress">You also have %1$s of payments in progress</string>
-    <string name="cashing_out_update_payment_details">Update\nPayment\nDetails</string>
+    <string name="cashing_out_payment_details">Payment Details</string>
+    <string name="cashing_out_update_payment_details_3_lines">Update\nPayment\nDetails</string>
+
+    <string name="hint_your_registered_alipay_acc_name">Your registered AliPay account name</string>
+    <string name="hint_your_registered_alipay_phone">Your registered AliPay mobile number</string>
+    <string name="update_payment_details_click_to_obtain_sms">Click to receive SMS code</string>
+    <string name="save_and_close">Save and Close</string>
+    <string name="update_payment_text">To Cash Out your Balance you must enter a valid\nAliPay account name and mobile phone number\nand confirm with an SMS code.\nYou can edit these at any time</string>
+    <string name="hint_enter_sms_code">Enter code</string>
+    <string name="update_alipay_wait_for_sms">You will receive an SMS with a code within 1-10 minutes. Please enter this code into the appropriate field</string>
 
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">ATTENTION!</string>
@@ -453,4 +462,5 @@
     <string name="key_zero">0</string>
     <string name="key_dot">.</string>
     <string name="key_backspace">&lt;--</string>
+
 </resources>

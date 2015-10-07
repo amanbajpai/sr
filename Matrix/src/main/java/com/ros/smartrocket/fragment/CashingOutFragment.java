@@ -3,6 +3,7 @@ package com.ros.smartrocket.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -55,7 +57,6 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
 
         apiFacade.getMyAccount(getActivity());
 
-
         return view;
     }
 
@@ -66,6 +67,14 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         TextView currentBalance = (TextView) view.findViewById(R.id.currentBalance);
         TextView minBalance = (TextView) view.findViewById(R.id.minBalance);
         TextView paymentInProgress = (TextView) view.findViewById(R.id.paymentInProgress);
+
+        Button editPayment = (Button) view.findViewById(R.id.updatePaymentBtn);
+        if (BuildConfig.CHINESE) {
+            editPayment.setOnClickListener(this);
+            editPayment.setVisibility(View.VISIBLE);
+        }else {
+            editPayment.setVisibility(View.GONE);
+        }
 
         if (myAccount.getBalance() >= myAccount.getMinimalWithdrawAmount()
                 && !myAccount.getCashoutRequested()) {
@@ -111,6 +120,12 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         switch (v.getId()) {
             case R.id.cashOutButton:
                 getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
+                break;
+            case R.id.updatePaymentBtn:
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(android.R.id.content, new UpdateAliPayDetailsFragment());
+                fragmentTransaction.addToBackStack(UpdateAliPayDetailsFragment.class.getSimpleName());
+                fragmentTransaction.commit();
                 break;
             default:
                 break;

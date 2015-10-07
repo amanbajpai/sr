@@ -404,6 +404,18 @@
     <string name="cashing_out_are_you_sure">您是否肯定进行余额提款？</string>
     <string name="cashing_out_continue">继续</string>
     <string name="cashing_out_success">提款处理中，款项将会于今天完结的时候转账到您所提名的在线账户。</string>
+
+    <string name="cashing_out_update_payment_details_3_lines">更新提现信息</string>
+    <string name="cashing_out_payment_details">提现信息</string>
+    <string name="hint_your_registered_alipay_acc_name">支付宝账户实名</string>
+    <string name="hint_your_registered_alipay_phone">支付宝账号的手机号吗</string>
+    <string name="update_payment_details_click_to_obtain_sms">点击获取验证码短信</string>
+    <string name="save_and_close">储存并关闭</string>
+    <string name="update_payment_text">提现前，请输入您的支付宝账户实名和手机号吗，进行短信验证。提现信息能夠随时作出修改。</string>
+    <string name="hint_enter_sms_code">输入验证码</string>
+    <string name="update_alipay_wait_for_sms">在十分钟内，将收到验证码短信。收到后，请输入验证码。</string>
+
+
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">注意！</string>
     <string name="turn_on_wifi_dialog_text1">任务暂时未能提交。请回到有无线上网(Wifi)覆盖的范围，

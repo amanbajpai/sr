@@ -213,12 +213,14 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
+            buildConfigField "boolean", "CHINESE", "false"
         }
         Staging {
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
+            buildConfigField "boolean", "CHINESE", "false"
         }
         Production {
             versionCode 10022
@@ -226,18 +228,23 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
+            buildConfigField "boolean", "CHINESE", "false"
         }
         ChinaDev {
             buildConfigField "boolean", "USE_BAIDU", "true"
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
+//            buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
+
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
+            buildConfigField "boolean", "CHINESE", "true"
         }
         ChinaStaging {
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
+            buildConfigField "boolean", "CHINESE", "true"
         }
         ChinaProduction {
             versionCode 10022
@@ -245,6 +252,7 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
+            buildConfigField "boolean", "CHINESE", "true"
         }
     }
 }
