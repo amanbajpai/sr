@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/forgotPasswordButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/update_payment_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            custom:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/buttons_margin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@color/grey_light"
+                android:contentDescription="@string/app_name"
+                android:padding="14dp"
+                android:src="@drawable/mail_icon" />
+
+            <com.ros.smartrocket.views.CustomEditTextView
+                android:id="@+id/loginEditText"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/hint_your_registered_alipay_acc_name"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@color/grey_light"
+                android:contentDescription="@string/app_name"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:src="@drawable/pass_icon" />
+
+            <com.ros.smartrocket.views.CustomEditTextView
+                    android:id="@+id/phoneEditText"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/hint_your_registered_alipay_phone" />
+        </LinearLayout>
+
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/loginButton"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_red_selector"
+            android:text="@string/update_payment_details_click_to_obtain_sms"
+            custom:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@color/grey_light"
+                android:contentDescription="@string/app_name"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:src="@drawable/pass_icon" />
+
+            <com.ros.smartrocket.views.CustomEditTextView
+                android:id="@+id/codeEditText"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/hint_enter_sms_code" />
+        </LinearLayout>
+
+        <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/sendCodeButton"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/save_and_close"
+            custom:textStyle="bold" />
+
+
+    </LinearLayout>
+</ScrollView>
