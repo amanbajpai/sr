@@ -39,6 +39,8 @@ public class MyAccount extends BaseEntity {
     private Integer termsAndConditionsVersion;
     @SerializedName("InPaymentProcess")
     private Double inPaymentProcess;
+    @SerializedName("AliPayAccountExists")
+    private Boolean aliPayAccountExists;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -71,7 +73,6 @@ public class MyAccount extends BaseEntity {
     public void setToNextLevel(Integer toNextLevel) {
         this.toNextLevel = toNextLevel;
     }
-
 
     public String getName() {
         return name;
@@ -175,5 +176,13 @@ public class MyAccount extends BaseEntity {
 
     public void setInPaymentProcess(Double inPaymentProcess) {
         this.inPaymentProcess = inPaymentProcess;
+    }
+
+    public Boolean getAliPayAccountExists() {
+        return aliPayAccountExists;
+    }
+
+    public void setAliPayAccountExists(Boolean aliPayAccountExists) {
+        this.aliPayAccountExists = aliPayAccountExists;
     }
 }

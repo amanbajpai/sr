@@ -76,6 +76,10 @@ public interface Keys {
     String CASHING_OUT_OPERATION_TAG = "cashing_out_operation_tag";
     String GET_SHARING_DATA_OPERATION_TAG = "get_sharing_data_operation_tag";
     String GET_NEW_TOKEN_OPERATION_TAG = "get_new_token_operation_tag";
+    String GET_ALIPAY_ACCOUNT_OPERATION_TAG = "get_alipay_operation_tag";
+    String INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG = "integrate_alipay_operation_tag";
+    String SEND_ALIPAY_SMS_OPERATION_TAG = "send_alipay_sms_operation_tag";
+
 
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";

@@ -563,4 +563,43 @@ public class APIFacade {
         intent.putExtra(NetworkService.KEY_OPERATION, operation);
         context.startService(intent);
     }
+
+    /**
+     * @param activity - current activity
+     */
+    public void getAliPayAccount(Activity activity) {
+        Token token = new Token();
+        token.setToken(preferencesManager.getToken());
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_ALIPAY_ACCOUNT);
+        operation.setTag(Keys.GET_ALIPAY_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     */
+    public void sendAliPaySms(Activity activity, String phone) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SEND_ALIPAY_SMS, phone);
+        operation.setTag(Keys.SEND_ALIPAY_SMS_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+     /**
+     * @param activity - current activity
+     */
+    public void integrateAliPayAccount(Activity activity, AliPayAccount aliPayAccount) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_ALIPAY_ACCOUNT);
+        operation.setTag(Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(aliPayAccount);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+
 }
