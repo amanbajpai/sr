@@ -515,4 +515,14 @@ public class IntentUtils {
     public static Intent getCashOutSuccessIntent(Context context) {
         return new Intent(context, CashingOutSuccessActivity.class);
     }
+
+    /**
+     * Return intent for opening Notifications List screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getNotificationsIntent(Context context) {
+        return new Intent(context, PushNotificationActivity.class);
+    }
 }

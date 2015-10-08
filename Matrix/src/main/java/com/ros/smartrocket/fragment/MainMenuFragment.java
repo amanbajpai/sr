@@ -92,6 +92,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myAccountButton).setOnClickListener(this);
+        view.findViewById(R.id.notificationsButton).setOnClickListener(this);
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
@@ -274,6 +275,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 break;
             case R.id.myAccountButton:
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
+                break;
+            case R.id.notificationsButton:
+                getActivity().startActivity(IntentUtils.getNotificationsIntent(getActivity()));
                 break;
             case R.id.shareButton:
                 //((MainActivity) getActivity()).startFragment(new ShareFragment());
