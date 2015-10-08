@@ -29,7 +29,6 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Created by macbook on 02.10.15.
@@ -82,7 +81,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
             apiFacade.getAliPayAccount(getActivity());
             startProgress();
             if (BuildConfig.DEBUG) {
-                Toast.makeText(getActivity(), "Fetching AliPay Account info...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.fetching_alipay_account_info), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -117,13 +116,13 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
                 phoneEditText.setText(aliPayAccount.getPhone());
                 clearProgress();
             } else if (Keys.SEND_ALIPAY_SMS_OPERATION_TAG.equals(operation.getTag())) {
-                UIUtils.showSimpleToast(getActivity(), getResources().getString(R.string.update_alipay_wait_for_sms));
+                Toast.makeText(getActivity(), getResources().getString(R.string.update_alipay_wait_for_sms), 10000).show();
                 clearProgress();
                 sendCodeButton.setEnabled(true);
                 smsEditText.setFocusableInTouchMode(true);
             } else if (Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
                 clearProgress();
-                UIUtils.showSimpleToast(getActivity(), "AliPay Account integrated successfully!!");
+                Toast.makeText(getActivity(), getResources().getString(R.string.alipay_account_integrated_successfully), Toast.LENGTH_LONG).show();
                 MyAccount myAccount = App.getInstance().getMyAccount();
                 myAccount.setAliPayAccountExists(true);
                 App.getInstance().setMyAccount(myAccount);
@@ -131,7 +130,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
             }
         } else {
             clearProgress();
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+            Toast.makeText(getActivity(), operation.getResponseError(), Toast.LENGTH_LONG).show();
             loginEditText.setFocusableInTouchMode(true);
             phoneEditText.setFocusableInTouchMode(true);
             loginButton.setEnabled(true);
@@ -168,7 +167,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
                 break;
             case R.id.sendCodeButton:
                 if (smsEditText.getText().toString().isEmpty()) {
-                    smsEditText.setError("Required Field");
+                    smsEditText.setError(getResources().getString(R.string.required_field));
                 } else {
                     AliPayAccount aliPayAccount = new AliPayAccount();
                     aliPayAccount.setAccName(loginEditText.getText().toString());
@@ -184,11 +183,11 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
     private boolean validateFields() {
         boolean ok = true;
         if (loginEditText.getText().toString().isEmpty()) {
-            loginEditText.setError("Required Field");
+            loginEditText.setError(getResources().getString(R.string.required_field));
             ok = false;
         }
         if (phoneEditText.getText().toString().isEmpty()) {
-            phoneEditText.setError("Required Field");
+            phoneEditText.setError(getResources().getString(R.string.required_field));
             ok = false;
         }
         return ok;

@@ -409,6 +409,9 @@
     <string name="update_payment_text">提款前，請輸入你的支付寶賬戶實名和手機號碼，進行SMS驗證。提款資料能夠隨時作出修改。</string>
     <string name="hint_enter_sms_code">輸入驗證碼</string>
     <string name="update_alipay_wait_for_sms">在十分鐘之内，將收到驗證碼SMS。收到後，請輸入驗證碼。</string>
+    <string name="required_field">必須輸入資料</string>
+    <string name="alipay_account_integrated_successfully">支付寶戶口連接成功!!</string>
+    <string name="fetching_alipay_account_info">處理支付寶戶口資料中...</string>
 
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">注意！</string>
