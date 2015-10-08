@@ -117,13 +117,13 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
                 phoneEditText.setText(aliPayAccount.getPhone());
                 clearProgress();
             } else if (Keys.SEND_ALIPAY_SMS_OPERATION_TAG.equals(operation.getTag())) {
-                UIUtils.showSimpleToast(getActivity(), getResources().getString(R.string.update_alipay_wait_for_sms));
+                Toast.makeText(getActivity(), getResources().getString(R.string.update_alipay_wait_for_sms), 10000).show();
                 clearProgress();
                 sendCodeButton.setEnabled(true);
                 smsEditText.setFocusableInTouchMode(true);
             } else if (Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
                 clearProgress();
-                UIUtils.showSimpleToast(getActivity(), "AliPay Account integrated successfully!!");
+                Toast.makeText(getActivity(), "AliPay Account integrated successfully!!", Toast.LENGTH_LONG).show();
                 MyAccount myAccount = App.getInstance().getMyAccount();
                 myAccount.setAliPayAccountExists(true);
                 App.getInstance().setMyAccount(myAccount);
@@ -131,7 +131,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
             }
         } else {
             clearProgress();
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+            Toast.makeText(getActivity(), operation.getResponseError(), Toast.LENGTH_LONG).show();
             loginEditText.setFocusableInTouchMode(true);
             phoneEditText.setFocusableInTouchMode(true);
             loginButton.setEnabled(true);

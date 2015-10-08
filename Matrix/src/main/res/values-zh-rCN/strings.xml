@@ -414,6 +414,9 @@
     <string name="update_payment_text">提现前，请输入您的支付宝账户实名和手机号吗，进行短信验证。提现信息能夠随时作出修改。</string>
     <string name="hint_enter_sms_code">输入验证码</string>
     <string name="update_alipay_wait_for_sms">在十分钟内，将收到验证码短信。收到后，请输入验证码。</string>
+    <string name="required_field">此项为必填的</string>
+    <string name="alipay_account_integrated_successfully">支付宝账户连接成功!!</string>
+    <string name="fetching_alipay_account_info">处理支付宝账户信息中...</string>
 
 
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
