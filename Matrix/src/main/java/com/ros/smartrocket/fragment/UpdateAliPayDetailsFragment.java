@@ -116,7 +116,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
                 phoneEditText.setText(aliPayAccount.getPhone());
                 clearProgress();
             } else if (Keys.SEND_ALIPAY_SMS_OPERATION_TAG.equals(operation.getTag())) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.update_alipay_wait_for_sms), 10000).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.update_alipay_wait_for_sms), Toast.LENGTH_LONG).show();
                 clearProgress();
                 sendCodeButton.setEnabled(true);
                 smsEditText.setFocusableInTouchMode(true);
