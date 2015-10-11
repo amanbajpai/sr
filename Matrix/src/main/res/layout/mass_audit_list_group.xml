@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/massAuditGroupTitle"
     style="@style/QuestionText"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     tools:text="Wrigley's Doublemint chewing gum"
+    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>

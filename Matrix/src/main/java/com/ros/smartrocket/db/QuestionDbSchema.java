@@ -10,7 +10,7 @@ public interface QuestionDbSchema {
 
     String SORT_ORDER_DESC = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC";
 
-    public enum Columns {
+    enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         WAVE_ID("waveId", DBType.NUMERIC),
@@ -40,6 +40,9 @@ public interface QuestionDbSchema {
 
         ROUTING("routing", DBType.NUMERIC),
         INSTRUCTION_FILE_URI("instructionFileUri", DBType.TEXT),
+
+        PARENT_QUESTION_ID("parentQuestionId", DBType.NUMERIC),
+        CATEGORIES("categories", DBType.TEXT),
 
         DELETED("deleted", DBType.INT);
 
@@ -73,7 +76,7 @@ public interface QuestionDbSchema {
         }
     }
 
-    public interface Query {
+    interface Query {
         int TOKEN_QUERY = 21;
         //int TOKEN_INSERT = 22;
         //int TOKEN_UPDATE = 23;
@@ -107,7 +110,10 @@ public interface QuestionDbSchema {
 
                 Table.QUESTION.getName() + "." + Columns.ROUTING.getName(),
                 Table.QUESTION.getName() + "." + Columns.INSTRUCTION_FILE_URI.getName(),
-                Table.QUESTION.getName() + "." + Columns.NEXT_ANSWERED_QUESTION_ID.getName()
+                Table.QUESTION.getName() + "." + Columns.NEXT_ANSWERED_QUESTION_ID.getName(),
+
+                Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName()
 
 
         };
@@ -141,5 +147,8 @@ public interface QuestionDbSchema {
         int ROUTING = 24;
         int INSTRUCTION_FILE_URI = 25;
         int NEXT_ANSWERED_QUESTION_ID = 26;
+
+        int PARENT_QUESTION_ID = 27;
+        int CATEGORIES = 28;
     }
 }

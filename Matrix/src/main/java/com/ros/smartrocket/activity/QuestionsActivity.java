@@ -341,6 +341,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 case INSTRUCTION:
                     currentFragment = new QuestionType8Fragment();
                     break;
+                case MASS_AUDIT:
+                    currentFragment = new QuestionTypeMassAuditFragment();
+                    break;
                 default:
                     break;
             }

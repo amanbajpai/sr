@@ -11,11 +11,11 @@ public class Question extends BaseEntity implements Serializable {
 
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
-        VIDEO(7), NUMBER(8), INSTRUCTION(9);
+        VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10);
 
         private int typeId;
 
-        private QuestionType(int typeId) {
+        QuestionType(int typeId) {
             this.typeId = typeId;
         }
 
@@ -64,13 +64,20 @@ public class Question extends BaseEntity implements Serializable {
     private String validationComment;
     @SerializedName("PresetValidationText")
     private String presetValidationText;
+    @SerializedName("ParentQuestionId")
+    private Integer parentQuestionId;
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
-    private String askIf = "";
+    @SkipFieldInContentValues
+    @SerializedName("Categories")
+    private Category[] categoriesArray;
+    private String categories = "";
+
     @SkipFieldInContentValues
     @SerializedName("AskIf")
     private AskIf[] askIfArray;
+    private String askIf = "";
 
     private String taskLocation = "";
     @SkipFieldInContentValues
@@ -122,6 +129,10 @@ public class Question extends BaseEntity implements Serializable {
 
             result.setAskIfArray(AskIf.getAskIfArray(result.getAskIf()));
             result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
+
+            result.setParentQuestionId(c.getInt(QuestionDbSchema.Query.PARENT_QUESTION_ID));
+            result.setCategories(c.getString(QuestionDbSchema.Query.CATEGORIES));
+            result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
         }
 
         return result;
@@ -356,4 +367,27 @@ public class Question extends BaseEntity implements Serializable {
         this.nextAnsweredQuestionId = nextAnsweredQuestionId;
     }
 
+    public Integer getParentQuestionId() {
+        return parentQuestionId;
+    }
+
+    public void setParentQuestionId(Integer parentQuestionId) {
+        this.parentQuestionId = parentQuestionId;
+    }
+
+    public Category[] getCategoriesArray() {
+        return categoriesArray;
+    }
+
+    public void setCategoriesArray(Category[] categoriesArray) {
+        this.categoriesArray = categoriesArray;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
 }

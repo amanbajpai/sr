@@ -187,9 +187,15 @@ public class NetworkService extends BaseNetworkService {
                         for (Question question : questions.getQuestions()) {
                             question.setTaskId(taskId);
                             question.setMissionId(missionId);
+
                             AskIf[] askIfArray = question.getAskIfArray();
                             if (askIfArray != null) {
                                 question.setAskIf(gson.toJson(askIfArray));
+                            }
+
+                            Category[] categoriesArray = question.getCategoriesArray();
+                            if (categoriesArray != null) {
+                                question.setCategories(gson.toJson(categoriesArray));
                             }
 
                             TaskLocation taskLocation = question.getTaskLocationObject();
