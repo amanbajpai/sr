@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
@@ -8,16 +7,18 @@
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/massAuditQuestionText"
         style="@style/QuestionText"
-        tools:text="Please mark the listing status for this product. Tick all listed."
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"/>
     <View
+        android:layout_marginTop="25dp"
         android:background="@color/separator_grey"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <ExpandableListView
         android:id="@+id/massAuditExpandableListView"
+        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
 </LinearLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources >
+<resources>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="black_light">#222222</color>
@@ -24,10 +24,8 @@
     <color name="violet">#4c1e8a</color>
     <color name="violet_dark">#320f61</color>
     <color name="violet_light">#7241b6</color>
-
     <color name="map_radius_stroke">#ca1f1f</color>
     <color name="map_radius_fill">#07ff0033</color>
-
     <!--<color name="white_transparence">#a9949494</color>-->
     <color name="black_transparence">#aa000000</color>
-</resources >
+</resources>

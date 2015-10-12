@@ -14,7 +14,7 @@
     <RadioButton
         android:id="@+id/massAuditTickButton"
         android:button="@null"
-        android:background="@drawable/mass_audit_green_tick_bg"
+        android:background="@drawable/mass_audit_green_bg"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_width="@dimen/mass_audit_image_size"
@@ -23,7 +23,7 @@
         android:id="@+id/massAuditCrossButton"
         android:button="@null"
         android:layout_toLeftOf="@id/massAuditTickButton"
-        android:background="@drawable/mass_audit_red_cross_bg"
+        android:background="@drawable/mass_audit_red_bg"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
         android:layout_width="@dimen/mass_audit_image_size"

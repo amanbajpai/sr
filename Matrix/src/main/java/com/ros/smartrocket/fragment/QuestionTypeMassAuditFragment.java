@@ -57,6 +57,7 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
 
         return view;
     }
+
     @Override
     public boolean saveQuestion() {
         return true;
