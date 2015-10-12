@@ -5,17 +5,16 @@
     android:padding="5dp"
     android:layout_width="match_parent"
     android:layout_height="50dp">
-    <View
+    <ImageView
         android:id="@+id/massAuditImageThumb"
-        android:background="@color/blue"
+        android:src="@drawable/mass_audit_image"
         android:layout_centerVertical="true"
-        android:layout_width="@dimen/mass_audit_image_size"
-        android:layout_height="@dimen/mass_audit_image_size"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <RadioButton
         android:id="@+id/massAuditTickButton"
         android:button="@null"
         android:background="@drawable/mass_audit_green_bg"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_width="@dimen/mass_audit_image_size"
         android:layout_height="@dimen/mass_audit_image_size"/>
@@ -24,7 +23,6 @@
         android:button="@null"
         android:layout_toLeftOf="@id/massAuditTickButton"
         android:background="@drawable/mass_audit_red_bg"
-        android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
         android:layout_width="@dimen/mass_audit_image_size"
         android:layout_height="@dimen/mass_audit_image_size"/>
