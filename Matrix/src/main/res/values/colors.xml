@@ -8,6 +8,7 @@
     <color name="grey_dark">#4f5051</color>
     <color name="grey_middle">#d9d9d9</color>
     <color name="grey_light">#f2f2f2</color>
+    <color name="mass_audit_grey">#f4f4f4</color>
     <color name="green">#637f11</color>
     <color name="green_dark">#637f10</color>
     <color name="green_light">#8cad2a</color>

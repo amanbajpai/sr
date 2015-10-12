@@ -77,6 +77,9 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         TextView titleView = (TextView) convertView.findViewById(R.id.massAuditItemTitle);
         titleView.setText(categories[groupPosition].getProducts()[childPosition].getName());
 
+        View bg = convertView.findViewById(R.id.massAuditItemBg);
+        bg.setBackgroundResource(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey);
+
         return convertView;
     }
 

@@ -1,8 +1,8 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +24,6 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
 
-    private AsyncQueryHandler handler;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
@@ -37,83 +35,46 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
 
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
-            questionTextView.setText(question != null ? question.getQuestion() : "");
         }
 
         if (question != null) {
             listView.setAdapter(new MassAuditExpandableListAdapter(getActivity(), question.getCategoriesArray()));
+            questionTextView.setText(question.getQuestion());
+
+            if (!TextUtils.isEmpty(question.getPresetValidationText())) {
+                TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
+                presetValidationComment.setText(question.getPresetValidationText());
+                presetValidationComment.setVisibility(View.VISIBLE);
+            }
+            if (!TextUtils.isEmpty(question.getValidationComment())) {
+                TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
+                validationComment.setText(question.getValidationComment());
+                validationComment.setVisibility(View.VISIBLE);
+            }
         }
 
-//        handler = new DbHandler(getActivity().getContentResolver());
-//        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+        refreshNextButton();
 
         return view;
     }
-
-//    class DbHandler extends AsyncQueryHandler {
-//
-//        public DbHandler(ContentResolver cr) {
-//            super(cr);
-//        }
-//
-//        @Override
-//        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-//            switch (token) {
-//                case AnswerDbSchema.Query.TOKEN_QUERY:
-//                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
-//                    QuestionTypeMassAuditFragment.this.question.setAnswers(answers);
-////                    adapter.setData(question.getAnswers());
-//
-////                    refreshNextButton();
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
-
-//    public void refreshNextButton() {
-//        if (answerSelectedListener != null) {
-//            boolean selected = false;
-//            for (Answer answer : adapter.getData()) {
-//                if (answer.getChecked()) {
-//                    selected = true;
-//                    break;
-//                }
-//            }
-//            answerSelectedListener.onAnswerSelected(selected);
-//        }
-//
-//        if (answerPageLoadingFinishedListener != null) {
-//            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
-//        }
-//    }
-
-//    @Override
-//    public boolean saveQuestion() {
-//        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
-//            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
-//    @Override
-//    public void clearAnswer() {
-//        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
-//            Answer[] answers = question.getAnswers();
-//            for (Answer answer : answers) {
-//                answer.setChecked(false);
-//            }
-//
-//            AnswersBL.updateAnswersToDB(handler, answers);
-//        }
-//    }
+    @Override
+    public boolean saveQuestion() {
+        return true;
+    }
 
     @Override
     public Question getQuestion() {
         return question;
+    }
+
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            answerSelectedListener.onAnswerSelected(true);
+        }
+
+        if (answerPageLoadingFinishedListener != null) {
+            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
+        }
     }
 
     @Override
