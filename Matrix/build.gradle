@@ -118,7 +118,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode buildNumber
+        versionCode buildNumber + 10000
         versionName '2.1.4'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!((\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
@@ -223,7 +223,6 @@ android {
             buildConfigField "boolean", "CHINESE", "false"
         }
         Production {
-            versionCode 10022
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
@@ -247,7 +246,6 @@ android {
             buildConfigField "boolean", "CHINESE", "true"
         }
         ChinaProduction {
-            versionCode 10022
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
