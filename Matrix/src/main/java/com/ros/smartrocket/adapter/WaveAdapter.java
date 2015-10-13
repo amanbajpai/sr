@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Wave;
@@ -93,6 +94,7 @@ public class WaveAdapter extends BaseAdapter {
         holder.locations.setText(String.valueOf(wave.getTaskCount()));
         holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
                 wave.getNearTaskCurrencySign(), null, null));
+
         holder.exp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
 
         Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, wave.getNearTaskDistance(),
@@ -104,6 +106,9 @@ public class WaveAdapter extends BaseAdapter {
         holder.textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
         holder.photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
+//        if (BuildConfig.DEBUG && position % 2 == 0) {
+//            wave.setContainsDifferentRate(true);
+//        }
 
         if (WavesBL.isPreClaimWave(wave)) {
             holder.listItem.setBackgroundResource(R.drawable.mission_violet_bg);
@@ -114,7 +119,12 @@ public class WaveAdapter extends BaseAdapter {
             holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.violet));
             holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.violet_light));
 
-            holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+            if (wave.isContainsDifferentRate()) {
+                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, R.drawable.plus_18, 0);
+            } else {
+                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+            }
+
             holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
             holder.locations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_violet, 0, 0, 0);
             holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
@@ -128,7 +138,12 @@ public class WaveAdapter extends BaseAdapter {
             holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
             holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
 
-            holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+            if (wave.isContainsDifferentRate()) {
+                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, R.drawable.plus_18, 0);
+            } else {
+                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+            }
+
             holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
             holder.locations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_green, 0, 0, 0);
             holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
