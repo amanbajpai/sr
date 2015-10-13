@@ -121,14 +121,6 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                                 }
                             }
 
-                            if (oldVersion < 27) { //12.10
-                                if (table.getName() == Table.WAVE.getName()) {
-                                    db.execSQL(" ALTER TABLE " + table.getName() +
-                                            " ADD COLUMN " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName() +
-                                            " " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getType().getName());
-                                }
-                            }
-
                             L.i(TAG, "Save contentValues: " + contentValues.toString());
                             tableContent.add(contentValues);
 
@@ -159,6 +151,15 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                 db.endTransaction();
             }
 
+        }
+
+        if (oldVersion < 27) { //12.10
+            db.beginTransaction();
+            db.execSQL(" ALTER TABLE " + Table.WAVE.getName() +
+                    " ADD COLUMN " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName() +
+                    " " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getType().getName());
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
 }
