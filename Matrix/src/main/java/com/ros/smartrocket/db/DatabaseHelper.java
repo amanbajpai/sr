@@ -153,22 +153,22 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
 
         }
 
-        if (oldVersion < 27) { //12.10
+//        if (oldVersion < 27) { //12.10
+////            db.beginTransaction();
 //            db.beginTransaction();
-            db.beginTransaction();
-            try {
-                db.execSQL(" ALTER TABLE " + Table.WAVE.getName() +
-                        " ADD COLUMN " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName() +
-                        " " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getType().getName());
-                db.setTransactionSuccessful();
-            } catch (Exception e) {
-                L.e(TAG, "Error Adding column to table: " + Table.WAVE.getName() + " Exception text: " + e.getLocalizedMessage(), e);
-            } finally {
-                db.endTransaction();
-            }
-
-//            db.setTransactionSuccessful();
-//            db.endTransaction();
-        }
+//            try {
+//                db.execSQL(" ALTER TABLE " + Table.WAVE.getName() +
+//                        " ADD COLUMN " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName() +
+//                        " " + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getType().getName());
+//                db.setTransactionSuccessful();
+//            } catch (Exception e) {
+//                L.e(TAG, "Error Adding column to table: " + Table.WAVE.getName() + " Exception text: " + e.getLocalizedMessage(), e);
+//            } finally {
+//                db.endTransaction();
+//            }
+//
+////            db.setTransactionSuccessful();
+////            db.endTransaction();
+//        }
     }
 }
