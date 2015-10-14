@@ -1,8 +1,10 @@
 package com.ros.smartrocket.fragment;
 
+import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +14,13 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
+import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+
+import java.util.List;
 
 /**
  * Mass Audit question type
@@ -23,6 +29,7 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
     private Question question;
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
+    private AsyncQueryHandler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +40,8 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
         ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.massAuditExpandableListView);
         TextView questionTextView = (TextView) view.findViewById(R.id.massAuditQuestionText);
 
+        handler = new DbHandler(getActivity().getContentResolver());
+
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable(Keys.QUESTION);
         }
@@ -40,22 +49,19 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
         if (question != null) {
             listView.setAdapter(new MassAuditExpandableListAdapter(getActivity(), question.getCategoriesArray()));
             questionTextView.setText(question.getQuestion());
-
-            if (!TextUtils.isEmpty(question.getPresetValidationText())) {
-                TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
-                presetValidationComment.setText(question.getPresetValidationText());
-                presetValidationComment.setVisibility(View.VISIBLE);
-            }
-            if (!TextUtils.isEmpty(question.getValidationComment())) {
-                TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
-                validationComment.setText(question.getValidationComment());
-                validationComment.setVisibility(View.VISIBLE);
-            }
         }
 
         refreshNextButton();
 
+        QuestionsBL.getChildQuestionsListFromDB(handler, question.getTaskId(), question.getId());
+
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     @Override
@@ -87,4 +93,23 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
     public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
                                                              answerPageLoadingFinishedListener) {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
-    }}
+    }
+
+    static class DbHandler extends AsyncQueryHandler {
+
+        public DbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case QuestionDbSchema.Query.TOKEN_QUERY:
+                    List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}

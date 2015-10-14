@@ -183,54 +183,16 @@ public class NetworkService extends BaseNetworkService {
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
+                        // TODO Ask i
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
-                            question.setTaskId(taskId);
-                            question.setMissionId(missionId);
+                            insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
 
-                            AskIf[] askIfArray = question.getAskIfArray();
-                            if (askIfArray != null) {
-                                question.setAskIf(gson.toJson(askIfArray));
-                            }
-
-                            Category[] categoriesArray = question.getCategoriesArray();
-                            if (categoriesArray != null) {
-                                question.setCategories(gson.toJson(categoriesArray));
-                            }
-
-                            TaskLocation taskLocation = question.getTaskLocationObject();
-                            if (taskLocation != null) {
-                                taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
-                                question.setTaskLocation(gson.toJson(taskLocation));
-                            }
-                            if (WSUrl.GET_REDO_QUESTION_ID == url) {
-                                question.setOrderId(i);
-                            }
-                            contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
-
-                            contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                                    AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID
-                                            + "=?",
-                                    new String[]{String.valueOf(question.getId()), String.valueOf(taskId)}
-                            );
-
-                            if (question.getAnswers() != null) {
-                                for (Answer answer : question.getAnswers()) {
-                                    answer.setRandomId();
-                                    answer.setQuestionId(question.getId());
-                                    answer.setTaskId(taskId);
-                                    answer.setMissionId(missionId);
-                                    contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+                            if (question.getChildrenQuestions() != null) {
+                                for (Question childQuestion : question.getChildrenQuestions()) {
+                                    insertQuestion(gson, contentResolver, url, taskId, missionId, i, childQuestion);
                                 }
-                            } else {
-                                Answer answer = new Answer();
-                                answer.setRandomId();
-                                answer.setQuestionId(question.getId());
-                                answer.setTaskId(taskId);
-                                answer.setMissionId(missionId);
-                                contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                             }
-                            i++;
                         }
 
                         break;
@@ -285,5 +247,55 @@ public class NetworkService extends BaseNetworkService {
             }
         }
 
+    }
+
+    private int insertQuestion(Gson gson, ContentResolver contentResolver, int url, int taskId, int missionId, int i, Question question) {
+        question.setTaskId(taskId);
+        question.setMissionId(missionId);
+
+        AskIf[] askIfArray = question.getAskIfArray();
+        if (askIfArray != null) {
+            question.setAskIf(gson.toJson(askIfArray));
+        }
+
+        Category[] categoriesArray = question.getCategoriesArray();
+        if (categoriesArray != null) {
+            question.setCategories(gson.toJson(categoriesArray));
+        }
+
+        TaskLocation taskLocation = question.getTaskLocationObject();
+        if (taskLocation != null) {
+            taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+            question.setTaskLocation(gson.toJson(taskLocation));
+        }
+        if (WSUrl.GET_REDO_QUESTION_ID == url) {
+            question.setOrderId(i);
+        }
+        contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
+
+        contentResolver.delete(AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID
+                        + "=?",
+                new String[]{String.valueOf(question.getId()), String.valueOf(taskId)}
+        );
+
+        if (question.getAnswers() != null) {
+            for (Answer answer : question.getAnswers()) {
+                answer.setRandomId();
+                answer.setQuestionId(question.getId());
+                answer.setTaskId(taskId);
+                answer.setMissionId(missionId);
+                contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+            }
+        } else {
+            Answer answer = new Answer();
+            answer.setRandomId();
+            answer.setQuestionId(question.getId());
+            answer.setTaskId(taskId);
+            answer.setMissionId(missionId);
+            contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+        }
+        i++;
+        return i;
     }
 }

@@ -69,10 +69,15 @@ public class Question extends BaseEntity implements Serializable {
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
+    // Mass Audit
     @SkipFieldInContentValues
     @SerializedName("Categories")
     private Category[] categoriesArray;
     private String categories = "";
+
+    @SkipFieldInContentValues
+    @SerializedName("Children")
+    private Question[] childrenQuestions;
 
     @SkipFieldInContentValues
     @SerializedName("AskIf")
@@ -389,5 +394,13 @@ public class Question extends BaseEntity implements Serializable {
 
     public String getCategories() {
         return categories;
+    }
+
+    public Question[] getChildrenQuestions() {
+        return childrenQuestions;
+    }
+
+    public void setChildrenQuestions(Question[] childrenQuestions) {
+        this.childrenQuestions = childrenQuestions;
     }
 }

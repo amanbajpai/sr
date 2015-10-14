@@ -34,24 +34,29 @@ public class QuestionsBL {
      */
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
                                               Integer missionId) {
-        handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.MISSION_ID + "=?",
+        handler.startQuery(
+                QuestionDbSchema.Query.TOKEN_QUERY,
+                null,
+                QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION,
+                QuestionDbSchema.Columns.WAVE_ID + "=? and "
+                        + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                        + QuestionDbSchema.Columns.MISSION_ID + "=? and "
+                        + QuestionDbSchema.Columns.PARENT_QUESTION_ID + " is null",
                 new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
                 QuestionDbSchema.SORT_ORDER_DESC
         );
     }
 
-    /**
-     * Make request for getting Question list
-     *
-     * @param waveId - current waveId
-     */
-    public static void getQuestionsListFromDB(Integer waveId, Integer taskId, Integer missionId) {
-        App.getInstance().getContentResolver().query(QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
+    public static void getChildQuestionsListFromDB(AsyncQueryHandler handler, Integer taskId,
+                                                   Integer parentQuestionId) {
+        handler.startQuery(
+                QuestionDbSchema.Query.TOKEN_QUERY,
+                null,
+                QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION,
+                QuestionDbSchema.Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=?",
+                new String[]{String.valueOf(taskId), String.valueOf(parentQuestionId)},
                 QuestionDbSchema.SORT_ORDER_DESC
         );
     }
