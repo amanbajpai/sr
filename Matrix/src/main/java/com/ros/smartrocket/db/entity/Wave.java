@@ -112,6 +112,7 @@ public class Wave extends BaseEntity {
 
 
     private transient Boolean containsDifferentRate = false;
+    private transient Double rate;
 
 
     public Wave() {
@@ -162,6 +163,7 @@ public class Wave extends BaseEntity {
 
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.Query.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.Query.CONTAINS_DIFFERENT_RATE) == 1);
+            result.setRate(c.getDouble(WaveDbSchema.Query.RATE));
         }
         return result;
     }
@@ -216,6 +218,7 @@ public class Wave extends BaseEntity {
 
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.QueryWaveByDistance.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.QueryWaveByDistance.CONTAINS_DIFFERENT_RATE) == 1);
+            result.setRate(c.getDouble(WaveDbSchema.QueryWaveByDistance.RATE));
 
         }
         return result;
@@ -518,5 +521,13 @@ public class Wave extends BaseEntity {
 
     public void setContainsDifferentRate(boolean containsDifferentRate) {
         this.containsDifferentRate = containsDifferentRate;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 }

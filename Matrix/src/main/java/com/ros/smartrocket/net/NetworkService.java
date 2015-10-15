@@ -115,6 +115,17 @@ public class NetworkService extends BaseNetworkService {
                                 }
                             }
 
+                            for (int i = 0; i < tempWaves.length; i++) {
+                                Task[] tempTasks = tempWaves[i].getTasks();
+                                double min = tempTasks[0].getPrice();
+                                for (int j = 0; j < tempTasks.length; j++) {
+                                    if ((double)tempTasks[j].getPrice() < min) {
+                                        min = (double)tempTasks[j].getPrice();
+                                    }
+                                }
+                                tempWaves[i].setRate(min);
+                            }
+
                             TasksBL.removeNotMyTask(contentResolver);
                             WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, false);
 
