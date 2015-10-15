@@ -120,11 +120,10 @@ public class WaveAdapter extends BaseAdapter {
             holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.violet_light));
 
             if (wave.isContainsDifferentRate()) {
-                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, R.drawable.plus_18, 0);
-            } else {
-                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
+                holder.price.append("+");
             }
 
+            holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
             holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
             holder.locations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_violet, 0, 0, 0);
             holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
@@ -139,11 +138,10 @@ public class WaveAdapter extends BaseAdapter {
             holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
 
             if (wave.isContainsDifferentRate()) {
-                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, R.drawable.plus_18, 0);
-            } else {
-                holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
+                holder.price.append("+");
             }
 
+            holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
             holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
             holder.locations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_green, 0, 0, 0);
             holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);

@@ -108,7 +108,7 @@ public class NetworkService extends BaseNetworkService {
                             for (int i = 0; i < tempWaves.length; i++) {
                                 Task[] tempTasks = tempWaves[i].getTasks();
                                 for (int j = 1; j < tempTasks.length; j++) {
-                                    if (tempTasks[j].getPrice() != tempTasks[j - 1].getPrice()) {
+                                    if ((double)tempTasks[j].getPrice() != (double)tempTasks[j - 1].getPrice()) {
                                         tempWaves[i].setContainsDifferentRate(true);
                                         break;
                                     }
