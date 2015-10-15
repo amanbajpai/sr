@@ -188,8 +188,8 @@ public class NetworkService extends BaseNetworkService {
                         for (Question question : questions.getQuestions()) {
                             insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
 
-                            if (question.getChildrenQuestions() != null) {
-                                for (Question childQuestion : question.getChildrenQuestions()) {
+                            if (question.getChildQuestions() != null) {
+                                for (Question childQuestion : question.getChildQuestions()) {
                                     insertQuestion(gson, contentResolver, url, taskId, missionId, i, childQuestion);
                                 }
                             }

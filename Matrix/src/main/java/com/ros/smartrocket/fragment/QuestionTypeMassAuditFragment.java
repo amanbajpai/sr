@@ -30,6 +30,7 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     private AsyncQueryHandler handler;
+    private TextView mainSubQuestionTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
 
         ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.massAuditExpandableListView);
         TextView questionTextView = (TextView) view.findViewById(R.id.massAuditQuestionText);
+        mainSubQuestionTextView = (TextView) view.findViewById(R.id.massAuditMainSubQuestionText);
 
         handler = new DbHandler(getActivity().getContentResolver());
 
@@ -95,7 +97,7 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 
-    static class DbHandler extends AsyncQueryHandler {
+    class DbHandler extends AsyncQueryHandler {
 
         public DbHandler(ContentResolver cr) {
             super(cr);
@@ -106,6 +108,12 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
             switch (token) {
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+                    question.setChildQuestions(questions.toArray(new Question[questions.size()]));
+
+                    Question mainSub = QuestionsBL.getMainSubQuestion(question);
+                    if (mainSub != null) {
+                        mainSubQuestionTextView.setText(mainSub.getQuestion());
+                    }
                     break;
                 default:
                     break;

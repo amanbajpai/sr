@@ -5,6 +5,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -474,6 +475,19 @@ public class QuestionsBL {
             }
         }
         return result;
+    }
+
+    @Nullable
+    public static Question getMainSubQuestion(Question question) {
+        if (question.getChildQuestions() != null) {
+            for (Question childQuestion : question.getChildQuestions()) {
+                if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
+                    return childQuestion;
+                }
+            }
+        }
+
+        return null;
     }
 
     public static List<Question> getInstructionQuestionList(List<Question> questions) {

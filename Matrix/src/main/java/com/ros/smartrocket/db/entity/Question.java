@@ -11,7 +11,7 @@ public class Question extends BaseEntity implements Serializable {
 
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
-        VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10);
+        VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10), MAIN_SUB_QUESTION(11);
 
         private int typeId;
 
@@ -396,11 +396,11 @@ public class Question extends BaseEntity implements Serializable {
         return categories;
     }
 
-    public Question[] getChildrenQuestions() {
+    public Question[] getChildQuestions() {
         return childrenQuestions;
     }
 
-    public void setChildrenQuestions(Question[] childrenQuestions) {
+    public void setChildQuestions(Question[] childrenQuestions) {
         this.childrenQuestions = childrenQuestions;
     }
 }
