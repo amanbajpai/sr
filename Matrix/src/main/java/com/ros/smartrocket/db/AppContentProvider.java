@@ -155,7 +155,8 @@ public class AppContentProvider extends ContentProvider {
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_START_DATE_TIME.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.CAN_BE_PRE_CLAIMED.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName()
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName(),
 
                 };
 
