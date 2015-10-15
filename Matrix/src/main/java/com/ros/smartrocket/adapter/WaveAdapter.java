@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Wave;
@@ -94,6 +93,9 @@ public class WaveAdapter extends BaseAdapter {
         holder.locations.setText(String.valueOf(wave.getTaskCount()));
         holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
                 wave.getNearTaskCurrencySign(), null, null));
+        if (wave.isContainsDifferentRate()) {
+            holder.price.append("+");
+        }
 
         holder.exp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
 
@@ -106,10 +108,6 @@ public class WaveAdapter extends BaseAdapter {
         holder.textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
         holder.photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
 
-//        if (BuildConfig.DEBUG && position % 2 == 0) {
-//            wave.setContainsDifferentRate(true);
-//        }
-
         if (WavesBL.isPreClaimWave(wave)) {
             holder.listItem.setBackgroundResource(R.drawable.mission_violet_bg);
 
@@ -118,10 +116,6 @@ public class WaveAdapter extends BaseAdapter {
 
             holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.violet));
             holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.violet_light));
-
-            if (wave.isContainsDifferentRate()) {
-                holder.price.append("+");
-            }
 
             holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
             holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
@@ -136,10 +130,6 @@ public class WaveAdapter extends BaseAdapter {
 
             holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
             holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
-
-            if (wave.isContainsDifferentRate()) {
-                holder.price.append("+");
-            }
 
             holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
             holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);

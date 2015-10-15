@@ -74,10 +74,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         waveList.setOnItemClickListener(this);
         waveList.setAdapter(adapter);
 
-        ProgressBar progressBar = new ProgressBar(getActivity());
-        progressBar.setIndeterminate(true);
-        progressBar.setIndeterminateDrawable(getResources().getDrawable(R.drawable.ic_map_pin));
-
         showHideMissionButton = (Button) view.findViewById(R.id.showHideMissionButton);
         showHideMissionButton.setOnClickListener(this);
 

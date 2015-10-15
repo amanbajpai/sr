@@ -71,20 +71,15 @@
             android:paddingRight="5dp"
             android:paddingTop="5dp">
 
-            <FrameLayout
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/price"
+                style="@style/TaskAndWaveOptionStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/price"
-                    style="@style/TaskAndWaveOptionStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/wallet_green"
-                    android:textSize="@dimen/text_size_12sp"
-                    custom:textStyle="bold" />
-            </FrameLayout>
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/wallet_green"
+                android:textSize="@dimen/text_size_12sp"
+                custom:textStyle="bold" />
 
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/exp"
