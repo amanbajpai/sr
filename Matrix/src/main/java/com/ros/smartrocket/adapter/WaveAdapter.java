@@ -91,8 +91,10 @@ public class WaveAdapter extends BaseAdapter {
         holder.name.setText(wave.getName());
         UIUtils.showWaveTypeIcon(activity, holder.image, wave.getIcon());
         holder.locations.setText(String.valueOf(wave.getTaskCount()));
-        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
+        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getRate(),
                 wave.getNearTaskCurrencySign(), null, null));
+//        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
+//                wave.getNearTaskCurrencySign(), null, null));
         if (wave.isContainsDifferentRate()) {
             holder.price.append("+");
         }
