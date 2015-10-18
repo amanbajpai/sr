@@ -4,7 +4,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.3.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
         classpath 'org.robolectric:robolectric-gradle-plugin:0.14.+'
@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'robolectric'
+//apply plugin: 'robolectric'
 //apply plugin: 'jacoco'
 apply plugin: 'android-cq'
 
@@ -25,18 +25,18 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-robolectric {
-    include '**/*Test.class'
-    exclude '**/espresso/**/*.class'
-
-    // Specify max number of processes (default is 1)
-    maxParallelForks = 4
-
-    // use afterTest to listen to the test execution results
-    afterTest { descriptor, result ->
-        println "Executing test for ${descriptor.name} with result: ${result.resultType}"
-    }
-}
+//robolectric {
+//    include '**/*Test.class'
+//    exclude '**/espresso/**/*.class'
+//
+//    // Specify max number of processes (default is 1)
+//    maxParallelForks = 4
+//
+//    // use afterTest to listen to the test execution results
+//    afterTest { descriptor, result ->
+//        println "Executing test for ${descriptor.name} with result: ${result.resultType}"
+//    }
+//}
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
     def coverageSourceDirs = ['src/main/java']
@@ -119,7 +119,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode buildNumber + 10000
-        versionName '2.1.4'
+        versionName '2.1.5'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!((\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "(\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR))? VERSION_NAME : String.valueOf(VERSION_CODE)"

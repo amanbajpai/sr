@@ -49,6 +49,9 @@ public interface WaveDbSchema {
         LONG_START_DATE_TIME("longStartDateTime", DBType.NUMERIC),
         DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK("downloadMediaWhenClaimingTask", DBType.INT),
 
+        CONTAINS_DIFFERENT_RATE("containsDifferentRate", DBType.INT),
+        RATE("rate", DBType.FLOAT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -109,7 +112,9 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
                 Table.WAVE.getName() + "." + Columns.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
                 Table.WAVE.getName() + "." + Columns.CAN_BE_PRE_CLAIMED.getName(),
-                Table.WAVE.getName() + "." + Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName()
+                Table.WAVE.getName() + "." + Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName(),
+                Table.WAVE.getName() + "." + Columns.CONTAINS_DIFFERENT_RATE.getName(),
+                Table.WAVE.getName() + "." + Columns.RATE.getName()
         };
 
         int _ID = 0;
@@ -141,6 +146,8 @@ public interface WaveDbSchema {
         int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 26;
         int CAN_BE_PRE_CLAIMED = 27;
         int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 28;
+        int CONTAINS_DIFFERENT_RATE = 29;
+        int RATE = 30;
     }
 
     interface QueryWaveByDistance {
@@ -183,5 +190,7 @@ public interface WaveDbSchema {
         int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 32;
         int CAN_BE_PRE_CLAIMED = 33;
         int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 34;
+        int CONTAINS_DIFFERENT_RATE = 35;
+        int RATE = 36;
     }
 }
