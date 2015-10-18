@@ -274,8 +274,8 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
             if (preferencesManager.getUseLocationServices() && lastLocation.getTime()
                     < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2
-                    && ((!Config.USE_BAIDU && (locationClient == null || (locationClient != null && !locationClient.isConnected())))
-                    || (Config.USE_BAIDU && (baiduLocationClient == null || (baiduLocationClient != null && !baiduLocationClient.isStarted()))))) {
+                    && ((!Config.USE_BAIDU && (locationClient == null || !locationClient.isConnected()))
+                    || (Config.USE_BAIDU && (baiduLocationClient == null || !baiduLocationClient.isStarted())))) {
                 lastLocation = null;
                 startLocationClient();
             }
