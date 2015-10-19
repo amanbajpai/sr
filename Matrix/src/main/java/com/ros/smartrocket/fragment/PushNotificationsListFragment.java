@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.db.entity.Notification;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by macbook on 08.10.15.
  */
 public class PushNotificationsListFragment extends Fragment {
 
-    private List<Notification> notifications;
+    private ArrayList<Notification> notifications;
     private ListView notificationsListView;
 
 
@@ -45,6 +46,8 @@ public class PushNotificationsListFragment extends Fragment {
 
         notifications = NotificationBL.createFakeNotifications();
 
+        NotificationAdapter adapter = new NotificationAdapter(getActivity(), notifications);
+        notificationsListView.setAdapter(adapter);
 
 
     }

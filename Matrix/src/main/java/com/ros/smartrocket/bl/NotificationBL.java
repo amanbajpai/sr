@@ -50,7 +50,7 @@ public class NotificationBL {
         return result;
     }
 
-    public static List<Notification> createFakeNotifications() {
+    public static ArrayList<Notification> createFakeNotifications() {
         ArrayList<Notification> result = new ArrayList<>();
         result.add(new Notification(1, 1, "test1", 1));
         result.add(new Notification(2, 2, "test2 test2 test2 test2 test2 test2 ", 0));
