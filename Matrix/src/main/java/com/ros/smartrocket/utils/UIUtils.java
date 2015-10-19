@@ -652,7 +652,7 @@ public class UIUtils {
     }
 
     public static String getTimeInDayHoursMinutes(Context context, long timeInMillisecond) {
-        int days = (int) Math.floor(timeInMillisecond / DateUtils.DAY_IN_MILLIS);
+        int days = (int) (timeInMillisecond / DateUtils.DAY_IN_MILLIS);
         int hours = (int) Math.floor((timeInMillisecond - DateUtils.DAY_IN_MILLIS * days) / DateUtils.HOUR_IN_MILLIS);
         int minutes = (int) Math.floor((timeInMillisecond - DateUtils.DAY_IN_MILLIS * days
                 - DateUtils.HOUR_IN_MILLIS * hours) / DateUtils.MINUTE_IN_MILLIS);

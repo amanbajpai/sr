@@ -13,15 +13,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.VideoView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.QuestionsActivity;
@@ -271,7 +266,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     break;
                 }
             case R.id.rePhotoButton:
-                System.gc();
+//                System.gc();
 
                 if (question.getVideoSource() == 0) {
                     selectVideoManager.startCamera(getActivity());
