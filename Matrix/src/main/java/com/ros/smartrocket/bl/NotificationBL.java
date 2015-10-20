@@ -1,9 +1,7 @@
 package com.ros.smartrocket.bl;
 
-import android.content.AsyncQueryHandler;
 import android.database.Cursor;
 
-import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
 
 import java.util.ArrayList;
@@ -19,25 +17,10 @@ public class NotificationBL {
     }
 
     /**
-     * Make request for getting Answer list
-     *
-     * @param handler    - Handler for getting response from DB
-     * @param questionId - question id
-     */
-    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Integer
-            questionId) {
-        handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema
-                        .Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)}, AnswerDbSchema.SORT_ORDER_ASC
-        );
-    }
-
-    /**
      * Convert cursor to Answer list
      *
      * @param cursor - all fields cursor
-     * @return ArrayList<Answer>
+     * @return ArrayList<Notification>
      */
     public static List<Notification> convertCursorToNotificationList(Cursor cursor) {
         List<Notification> result = new ArrayList<Notification>();

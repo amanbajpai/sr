@@ -18,6 +18,7 @@ public interface NotificationDbSchema {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         MESSAGE("message", DBType.TEXT),
+        SUBJECT("subject", DBType.TEXT),
         READ("read", DBType.NUMERIC);
 
         private String columnName;
@@ -57,13 +58,15 @@ public interface NotificationDbSchema {
                 Table.NOTIFICATION.getName() + "." + Columns.ID.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.ID.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.MESSAGE.getName(),
+                Table.NOTIFICATION.getName() + "." + Columns.SUBJECT.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.READ.getName(),
         };
 
         int _ID = 0;
         int ID = 1;
         int MESSAGE = 2;
-        int READ = 3;
+        int SUBJECT = 3;
+        int READ = 4;
     }
 
 }

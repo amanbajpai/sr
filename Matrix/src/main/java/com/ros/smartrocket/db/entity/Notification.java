@@ -1,5 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.ros.smartrocket.db.NotificationDbSchema;
@@ -29,6 +30,7 @@ public class Notification extends BaseEntity {
             result.set_id(c.getInt(NotificationDbSchema.Query._ID));
             result.setId(c.getInt(NotificationDbSchema.Query.ID));
             result.setMessage(c.getString(NotificationDbSchema.Query.MESSAGE));
+            result.setMessage(c.getString(NotificationDbSchema.Query.SUBJECT));
             result.setRead(c.getInt(NotificationDbSchema.Query.READ));
         }
 
@@ -60,4 +62,5 @@ public class Notification extends BaseEntity {
     public void setRead(Integer read) {
         this.read = read;
     }
+
 }
