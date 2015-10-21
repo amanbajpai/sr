@@ -486,6 +486,16 @@ public class IntentUtils {
     }
 
     /**
+     * Send broadcast for refresh push notifications list
+     *
+     * @param context - current context
+     */
+    public static void refreshPushNotificationsList(Context context) {
+        Intent intent = new Intent(Keys.REFRESH_PUSH_NOTIFICATION_LIST);
+        context.sendBroadcast(intent);
+    }
+
+    /**
      * Return intent for opening Cash Out screen
      *
      * @param context - context

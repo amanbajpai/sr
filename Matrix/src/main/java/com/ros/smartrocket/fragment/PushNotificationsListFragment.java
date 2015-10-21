@@ -1,29 +1,57 @@
 package com.ros.smartrocket.fragment;
 
+import android.app.ProgressDialog;
+import android.content.AsyncQueryHandler;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.BuildConfig;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
+import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
+import com.ros.smartrocket.db.entity.PushBulkMessage;
+import com.ros.smartrocket.db.entity.PushSettings;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
 /**
  * Created by macbook on 08.10.15.
  */
-public class PushNotificationsListFragment extends Fragment {
+public class PushNotificationsListFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private ArrayList<Notification> notifications;
     private ListView notificationsListView;
-
+    private View testPushBtn;
+    private CheckBox allowPushCheckBox;
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private ProgressDialog progressDialog;
+    private DbHandler handler;
+    private NotificationAdapter adapter;
+    private PushReceiver localReceiver;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,13 +70,127 @@ public class PushNotificationsListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        handler = new DbHandler(getActivity().getContentResolver());
+
         notificationsListView = (ListView) view.findViewById(R.id.notificationsList);
 
         notifications = NotificationBL.createFakeNotifications();
 
-        NotificationAdapter adapter = new NotificationAdapter(getActivity(), notifications);
+        adapter = new NotificationAdapter(getActivity(), notifications);
         notificationsListView.setAdapter(adapter);
 
+        if (BuildConfig.DEBUG) {
+            testPushBtn = view.findViewById(R.id.testPush);
+            testPushBtn.setVisibility(View.VISIBLE);
+            testPushBtn.setOnClickListener(this);
+            allowPushCheckBox = (CheckBox) view.findViewById(R.id.allowPush);
+            allowPushCheckBox.setVisibility(View.VISIBLE);
+            allowPushCheckBox.setChecked(App.getInstance().getMyAccount().getAllowPushNotification());
+            allowPushCheckBox.setOnCheckedChangeListener(this);
+            progressDialog = new ProgressDialog(getActivity());
+        }
 
+        NotificationBL.getNotificationsFromDB(handler);
+
+        localReceiver = new PushReceiver();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Keys.REFRESH_PUSH_NOTIFICATION_LIST);
+        getActivity().registerReceiver(localReceiver, intentFilter);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        getActivity().unregisterReceiver(localReceiver);
+        super.onStop();
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+            if (Keys.TEST_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
+                Toast.makeText(getActivity(), "push sent", Toast.LENGTH_LONG).show();
+            }
+            if (Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
+                Toast.makeText(getActivity(), "push allowed!", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+            }
+        } else {
+            progressDialog.dismiss();
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.testPush:
+                PushBulkMessage pushBulkMessage = new PushBulkMessage();
+                pushBulkMessage.setSubject("Test Subject");
+//                pushBulkMessage.setText("Test Message");
+                pushBulkMessage.setText("<!DOCTYPE html>\n" +
+                        "<html>\n" +
+                        "<body>\n" +
+                        "\n" +
+                        "<h1>My First Heading</h1>\n" +
+                        "\n" +
+                        "<p>My first paragraph.</p>\n" +
+                        "\n" +
+                        "</body>\n" +
+                        "</html>");
+                PushSettings pushSettings = new PushSettings();
+                pushSettings.addId(10401);
+                pushBulkMessage.setSettings(pushSettings);
+
+                apiFacade.testPushNotification(getActivity(), pushBulkMessage);
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        switch (compoundButton.getId()) {
+            case R.id.allowPush:
+                apiFacade.allowPushNotification(getActivity(), b);
+                progressDialog.show();
+                break;
+        }
+    }
+
+    class DbHandler extends AsyncQueryHandler {
+        public DbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case NotificationDbSchema.Query.TOKEN_QUERY:
+                    notifications.clear();
+                    notifications.addAll(NotificationBL.convertCursorToNotificationList(cursor));
+                    adapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public class PushReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (Keys.REFRESH_PUSH_NOTIFICATION_LIST.equals(action)) {
+                NotificationBL.getNotificationsFromDB(handler);
+            }
+        }
     }
 }

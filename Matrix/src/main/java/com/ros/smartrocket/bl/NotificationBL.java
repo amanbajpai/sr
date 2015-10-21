@@ -1,8 +1,12 @@
 package com.ros.smartrocket.bl;
 
+import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
 import android.database.Cursor;
 
+import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
+import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +39,28 @@ public class NotificationBL {
 
     public static ArrayList<Notification> createFakeNotifications() {
         ArrayList<Notification> result = new ArrayList<>();
-        result.add(new Notification(1, 1, "test1", 1));
-        result.add(new Notification(2, 2, "test2 test2 test2 test2 test2 test2 ", 0));
-        result.add(new Notification(3, 3, "test3 test3 test3 test3 test3 test3 ", 1));
-        result.add(new Notification(4, 4, "test4 test4 test4 test4 test4 test4 ", 1));
-        result.add(new Notification(5, 5, "test5 test5 test5 test5 test5 test5 ", 0));
+        result.add(new Notification(1, 1, "test1", true));
+        result.add(new Notification(2, 2, "test2 test2 test2 test2 test2 test2 ", false));
+        result.add(new Notification(3, 3, "test3 test3 test3 test3 test3 test3 ", true));
+        result.add(new Notification(4, 4, "test4 test4 test4 test4 test4 test4 ", false));
+        result.add(new Notification(5, 5, "test5 test5 test5 test5 test5 test5 ", false));
         return result;
+    }
+
+    public static void saveNotification(ContentResolver contentResolver, Notification notification) {
+        contentResolver.insert(NotificationDbSchema.CONTENT_URI, notification.toContentValues());
+        L.i("NOTIFICATION BL", "INSERTED");
+    }
+
+    public static void getNotificationFromDB(AsyncQueryHandler handler, Integer notifId) {
+        handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns._ID + "=?",
+                new String[]{String.valueOf(notifId)}, NotificationDbSchema.SORT_ORDER_ASC_LIMIT_1);
+    }
+
+    public static void getNotificationsFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Query.PROJECTION, null,
+                null, NotificationDbSchema.SORT_ORDER_DESC);
     }
 }

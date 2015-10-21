@@ -44,6 +44,9 @@ public interface Keys {
     String REFRESH_MAIN_MENU = "refresh_main_menu";
     String REFRESH_MAIN_MENU_MY_TASK_COUNT = "refresh_main_menu_my_task_count";
 
+    //Push notification
+    String REFRESH_PUSH_NOTIFICATION_LIST = "refresh_push_notifications_list";
+
     // Operation tags - Using for cache response from NetworkService
     String GET_WAVES_OPERATION_TAG = "get_waves_operation_tag";
     String GET_REFERRAL_CASES_OPERATION_TAG = "get_referral_cases_operation_tag";
@@ -79,6 +82,8 @@ public interface Keys {
     String GET_ALIPAY_ACCOUNT_OPERATION_TAG = "get_alipay_operation_tag";
     String INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG = "integrate_alipay_operation_tag";
     String SEND_ALIPAY_SMS_OPERATION_TAG = "send_alipay_sms_operation_tag";
+    String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
+    String TEST_PUSH_NOTIFICATION_OPERATION_TAG = "test_push_notification_operation_tag";
 
 
     // Supported presentation modes for Tasks

@@ -4,10 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.db.entity.ActivateAccount;
+import com.ros.smartrocket.db.entity.AliPayAccount;
+import com.ros.smartrocket.db.entity.AllowPushNotification;
+import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.CheckLocation;
+import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.PushBulkMessage;
+import com.ros.smartrocket.db.entity.RegisterDevice;
+import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.SaveReferralCase;
+import com.ros.smartrocket.db.entity.SendTaskId;
+import com.ros.smartrocket.db.entity.ServerLog;
+import com.ros.smartrocket.db.entity.SetPassword;
+import com.ros.smartrocket.db.entity.Subscription;
+import com.ros.smartrocket.db.entity.TestPushMessage;
+import com.ros.smartrocket.db.entity.Token;
+import com.ros.smartrocket.db.entity.UploadPhoto;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
@@ -589,7 +607,7 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-     /**
+    /**
      * @param activity - current activity
      */
     public void integrateAliPayAccount(Activity activity, AliPayAccount aliPayAccount) {
@@ -598,6 +616,36 @@ public class APIFacade {
         operation.setTag(Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(aliPayAccount);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     */
+    public void allowPushNotification(Activity activity, boolean allow) {
+        AllowPushNotification allowPushNotification = new AllowPushNotification();
+        if (allow)
+            allowPushNotification.allow();
+        else
+            allowPushNotification.disallow();
+
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.ALLOW_PUSH_NOTIFICATION);
+        operation.setTag(Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(allowPushNotification);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     */
+    public void testPushNotification(Activity activity, PushBulkMessage pushBulkMessage) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.TEST_PUSH_NOTIFICATION);
+        operation.setTag(Keys.TEST_PUSH_NOTIFICATION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(pushBulkMessage);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

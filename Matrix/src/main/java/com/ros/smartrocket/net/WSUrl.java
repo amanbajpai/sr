@@ -41,6 +41,8 @@ public final class WSUrl {
     public static final String SEND_LOG = Config.WEB_SERVICE_URL + "api/Tasks/Log";
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
     public static final String SEND_ALIPAY_SMS = Config.WEB_SERVICE_URL + "api/SMS/AliPayAccountSmsCode?phoneNumber=%s";
+    public static final String ALLOW_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/AllowPushNotification";
+    public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
 
 
     public static final int LOGIN_ID = 1;
@@ -75,6 +77,8 @@ public final class WSUrl {
     public static final int GET_ALIPAY_ACCOUNT_ID = 29;
     public static final int SEND_ALIPAY_SMS_ID = 30;
     public static final int INTEGRATE_ALIPAY_ACCOUNT_ID = 31;
+    public static final int ALLOW_PUSH_NOTIFICATION_ID = 32;
+    public static final int TEST_PUSH_NOTIFICATION_ID = 33;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -109,6 +113,8 @@ public final class WSUrl {
         URLS.put(GET_NEW_TOKEN, GET_NEW_TOKEN_ID);
         URLS.put(SEND_LOG, SEND_LOG_ID);
         URLS.put(GET_ALIPAY_ACCOUNT, GET_ALIPAY_ACCOUNT_ID);
+        URLS.put(ALLOW_PUSH_NOTIFICATION, ALLOW_PUSH_NOTIFICATION_ID);
+        URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
     }
 
     public static int matchUrl(String url) {

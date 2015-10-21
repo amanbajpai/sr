@@ -463,5 +463,7 @@
     <string name="key_zero">0</string>
     <string name="key_dot">.</string>
     <string name="key_backspace">&lt;--</string>
+    <string name="test_push">Test Push Notification</string>
+    <string name="allow_push">Allow Push notif</string>
 
 </resources>

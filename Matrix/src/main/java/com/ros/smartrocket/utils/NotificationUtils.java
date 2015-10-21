@@ -18,14 +18,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.NotificationActivity;
+import com.ros.smartrocket.activity.PushNotificationActivity;
+import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
+import com.ros.smartrocket.db.entity.Notification;
+import com.ros.smartrocket.db.entity.PushBulkMessage;
 import com.ros.smartrocket.service.CleanFilesIntentService;
+
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -143,6 +150,30 @@ public class NotificationUtils {
         } catch (Exception e) {
             L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Show push notification
+     *
+     * @param context    - current context
+     * @param jsonObject - message Json object
+     */
+    public static void showAndSavePushNotification(Context context, String jsonObject) {
+
+        try {
+            Gson gson = new Gson();
+            Notification notification = gson.fromJson(jsonObject, Notification.class);
+
+            Intent intent = new Intent(context, PushNotificationActivity.class);
+            generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
+
+            NotificationBL.saveNotification(context.getContentResolver(), notification);
+
+            IntentUtils.refreshPushNotificationsList(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**

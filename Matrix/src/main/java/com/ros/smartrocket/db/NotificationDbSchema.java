@@ -19,7 +19,9 @@ public interface NotificationDbSchema {
         ID("id", DBType.NUMERIC),
         MESSAGE("message", DBType.TEXT),
         SUBJECT("subject", DBType.TEXT),
-        READ("read", DBType.NUMERIC);
+        READ("read", DBType.NUMERIC),
+
+        DELETED("deleted", DBType.INT);
 
         private String columnName;
         private DBType type;
@@ -52,10 +54,9 @@ public interface NotificationDbSchema {
     }
 
     interface Query {
-        int TOKEN_QUERY = 51;
+        int TOKEN_QUERY = 71;
 
         String[] PROJECTION = {Table.NOTIFICATION.getName() + "." + Columns._ID.getName(),
-                Table.NOTIFICATION.getName() + "." + Columns.ID.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.ID.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.MESSAGE.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.SUBJECT.getName(),
