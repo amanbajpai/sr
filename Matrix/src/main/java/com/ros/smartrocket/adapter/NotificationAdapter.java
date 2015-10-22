@@ -1,15 +1,17 @@
 package com.ros.smartrocket.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Notification;
+import com.ros.smartrocket.utils.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -20,8 +22,10 @@ public class NotificationAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
     private ArrayList<Notification> notifications;
+    private Resources resources;
 
     public NotificationAdapter(Context context, ArrayList<Notification> notifications) {
+        resources = context.getResources();
         layoutInflater = LayoutInflater.from(context);
         this.notifications = notifications;
     }
@@ -38,7 +42,7 @@ public class NotificationAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return notifications.get(i).getId();
+        return notifications.get(i).get_id();
     }
 
     @Override
@@ -50,19 +54,29 @@ public class NotificationAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.list_item_notification, null);
 
 //            viewHolder.imageView = (ImageView) view.findViewById(R.id)
-            viewHolder.textView = (TextView) view.findViewById(R.id.description);
+            viewHolder.subject = (TextView) view.findViewById(R.id.subject);
+            viewHolder.text = (TextView) view.findViewById(R.id.text);
+            viewHolder.timestamp = (TextView) view.findViewById(R.id.time);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.textView.setText(notifications.get(i).getMessage());
+        if (notifications.get(i).getRead()) {
+            view.setBackgroundColor(resources.getColor(R.color.white));
+        } else {
+            view.setBackgroundColor(resources.getColor(R.color.notification_unread));
+        }
+
+        viewHolder.subject.setText(notifications.get(i).getSubject());
+        viewHolder.text.setText(Html.fromHtml(notifications.get(i).getMessage()));
+        viewHolder.timestamp.setText(TimeUtils.getFormattedTimestamp(notifications.get(i).getTimestamp()));
 
         return view;
     }
 
     private class ViewHolder {
-        ImageView imageView;
-        TextView textView;
+        //        ImageView imageView;
+        TextView subject, text, timestamp;
     }
 }

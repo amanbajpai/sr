@@ -44,7 +44,7 @@
         android:layout_height="match_parent"
         android:background="@color/grey_middle"
         android:cacheColorHint="@android:color/transparent"
-        android:divider="@android:color/transparent"
+        android:dividerHeight="1dp"
         tools:listitem="@layout/list_item_notification" />
 
 

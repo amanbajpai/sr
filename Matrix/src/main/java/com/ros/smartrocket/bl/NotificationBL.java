@@ -39,20 +39,30 @@ public class NotificationBL {
 
     public static ArrayList<Notification> createFakeNotifications() {
         ArrayList<Notification> result = new ArrayList<>();
-        result.add(new Notification(1, 1, "test1", true));
-        result.add(new Notification(2, 2, "test2 test2 test2 test2 test2 test2 ", false));
-        result.add(new Notification(3, 3, "test3 test3 test3 test3 test3 test3 ", true));
-        result.add(new Notification(4, 4, "test4 test4 test4 test4 test4 test4 ", false));
-        result.add(new Notification(5, 5, "test5 test5 test5 test5 test5 test5 ", false));
+        result.add(new Notification("test1", true));
+        result.add(new Notification("test2 test2 test2 test2 test2 test2 ", false));
+        result.add(new Notification("test3 test3 test3 test3 test3 test3 ", true));
+        result.add(new Notification("test4 test4 test4 test4 test4 test4 ", false));
+        result.add(new Notification("test5 test5 test5 test5 test5 test5 ", false));
         return result;
     }
 
     public static void saveNotification(ContentResolver contentResolver, Notification notification) {
+        if (notification.getTimestamp() == 0){
+            notification.setTimestamp(System.currentTimeMillis());
+        }
         contentResolver.insert(NotificationDbSchema.CONTENT_URI, notification.toContentValues());
         L.i("NOTIFICATION BL", "INSERTED");
     }
 
-    public static void getNotificationFromDB(AsyncQueryHandler handler, Integer notifId) {
+    public static void updateNotification(ContentResolver contentResolver, Notification notification) {
+        contentResolver.update(NotificationDbSchema.CONTENT_URI, notification.toContentValues(),
+                NotificationDbSchema.Columns._ID + "=?",
+                new String[]{String.valueOf(notification.get_id())});
+        L.i("NOTIFICATION BL", "UPDATED");
+    }
+
+    public static void getNotificationFromDB(AsyncQueryHandler handler, long notifId) {
         handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
                 NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns._ID + "=?",
                 new String[]{String.valueOf(notifId)}, NotificationDbSchema.SORT_ORDER_ASC_LIMIT_1);

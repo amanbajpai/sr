@@ -10,8 +10,6 @@ import com.ros.smartrocket.db.NotificationDbSchema;
  */
 public class Notification extends BaseEntity {
 
-    private Integer id;
-
     @SerializedName("Text")
     private String message;
 
@@ -19,13 +17,12 @@ public class Notification extends BaseEntity {
     private String subject;
 
     private Boolean read = false;
+    private Long timestamp = (long) 0;
 
     public Notification() {
     }
 
-    public Notification(long _id, Integer id, String message, Boolean read) {
-        set_id(_id);
-        this.id = id;
+    public Notification(String message, Boolean read) {
         this.message = message;
         this.read = read;
     }
@@ -34,23 +31,14 @@ public class Notification extends BaseEntity {
         Notification result = new Notification();
         if (c.getCount() > 0) {
             result.set_id(c.getInt(NotificationDbSchema.Query._ID));
-            result.setId(c.getInt(NotificationDbSchema.Query.ID));
+            result.setId(c.getInt(NotificationDbSchema.Query._ID));
             result.setMessage(c.getString(NotificationDbSchema.Query.MESSAGE));
-            result.setMessage(c.getString(NotificationDbSchema.Query.SUBJECT));
+            result.setSubject(c.getString(NotificationDbSchema.Query.SUBJECT));
             result.setRead(c.getInt(NotificationDbSchema.Query.READ) == 1);
+            result.setTimestamp(c.getLong(NotificationDbSchema.Query.TIMESTAMP));
         }
 
         return result;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getSubject() {
@@ -77,4 +65,11 @@ public class Notification extends BaseEntity {
         this.read = read;
     }
 
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

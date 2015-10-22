@@ -7,7 +7,7 @@ import android.net.Uri;
  */
 public interface NotificationDbSchema {
 
-    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
+//    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table
             .NOTIFICATION.getName()).build();
 
@@ -16,10 +16,11 @@ public interface NotificationDbSchema {
 
     public enum Columns {
         _ID("_id", DBType.PRIMARY),
-        ID("id", DBType.NUMERIC),
+        ID("id", DBType.INT),
         MESSAGE("message", DBType.TEXT),
         SUBJECT("subject", DBType.TEXT),
         READ("read", DBType.NUMERIC),
+        TIMESTAMP("timestamp", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -61,6 +62,7 @@ public interface NotificationDbSchema {
                 Table.NOTIFICATION.getName() + "." + Columns.MESSAGE.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.SUBJECT.getName(),
                 Table.NOTIFICATION.getName() + "." + Columns.READ.getName(),
+                Table.NOTIFICATION.getName() + "." + Columns.TIMESTAMP.getName(),
         };
 
         int _ID = 0;
@@ -68,6 +70,7 @@ public interface NotificationDbSchema {
         int MESSAGE = 2;
         int SUBJECT = 3;
         int READ = 4;
+        int TIMESTAMP = 5;
     }
 
 }

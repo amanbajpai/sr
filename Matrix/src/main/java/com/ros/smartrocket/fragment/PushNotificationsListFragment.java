@@ -10,10 +10,12 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -41,7 +43,7 @@ import java.util.ArrayList;
 /**
  * Created by macbook on 08.10.15.
  */
-public class PushNotificationsListFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class PushNotificationsListFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemClickListener {
 
     private ArrayList<Notification> notifications;
     private ListView notificationsListView;
@@ -78,6 +80,7 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
 
         adapter = new NotificationAdapter(getActivity(), notifications);
         notificationsListView.setAdapter(adapter);
+        notificationsListView.setOnItemClickListener(this);
 
         if (BuildConfig.DEBUG) {
             testPushBtn = view.findViewById(R.id.testPush);
@@ -161,6 +164,17 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
                 progressDialog.show();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(android.R.id.content, PushNotificationFragment.getInstance(notifications.get(i).get_id()));
+        fragmentTransaction.addToBackStack(PushNotificationFragment.class.getSimpleName());
+        fragmentTransaction.commit();
+
+//        getActivity().getSupportFragmentManager().beginTransaction().add(android.R.id.content, PushNotificationFragment.getInstance(notifications.get(i).get_id())).commit();
     }
 
     class DbHandler extends AsyncQueryHandler {
