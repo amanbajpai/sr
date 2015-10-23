@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Category;
@@ -12,10 +13,12 @@ import com.ros.smartrocket.db.entity.Category;
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private final Category[] categories;
+    private final View.OnClickListener tickListener;
 
-    public MassAuditExpandableListAdapter(Context context, Category[] categories) {
+    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener) {
         this.context = context;
         this.categories = categories;
+        this.tickListener = tickListener;
     }
 
     @Override
@@ -79,6 +82,9 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
         View bg = convertView.findViewById(R.id.massAuditItemBg);
         bg.setBackgroundResource(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey);
+
+        RadioButton tickButton = (RadioButton) convertView.findViewById(R.id.massAuditTickButton);
+        tickButton.setOnClickListener(tickListener);
 
         return convertView;
     }

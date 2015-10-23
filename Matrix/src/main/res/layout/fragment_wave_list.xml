@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/black_transparence"
+        android:background="@color/black_transparency"
         android:visibility="gone">
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/showHideMissionButton"

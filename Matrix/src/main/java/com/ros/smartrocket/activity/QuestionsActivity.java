@@ -330,16 +330,16 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType7Fragment();
                     break;
                 case OPEN_COMMENT:
-                    currentFragment = new QuestionType4Fragment();
+                    currentFragment = new QuestionTypeOpenCommentFragment();
                     break;
                 case VIDEO:
                     currentFragment = new QuestionType5Fragment();
                     break;
                 case NUMBER:
-                    currentFragment = new QuestionType6Fragment();
+                    currentFragment = new QuestionTypeNumberFragment();
                     break;
                 case INSTRUCTION:
-                    currentFragment = new QuestionType8Fragment();
+                    currentFragment = new QuestionTypeInstructionFragment();
                     break;
                 case MASS_AUDIT:
                     currentFragment = new QuestionTypeMassAuditFragment();

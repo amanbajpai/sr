@@ -238,7 +238,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/black_transparence"
+        android:background="@color/black_transparency"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="5dp">

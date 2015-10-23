@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.Button;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.FontUtils;
 
@@ -25,11 +24,12 @@ public class CustomButton extends Button {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomButton);
         int textStyle = a.getInt(R.styleable.CustomButton_textStyle, 0);
 
-        String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
-
-        Typeface t = FontUtils.loadFontFromAsset(getContext().getAssets(), fontAssetPath);
-        if (t != null) {
-            setTypeface(t);
+        if (!isInEditMode()) {
+            String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
+            Typeface t = FontUtils.loadFontFromAsset(getContext().getAssets(), fontAssetPath);
+            if (t != null) {
+                setTypeface(t);
+            }
         }
 
         a.recycle();

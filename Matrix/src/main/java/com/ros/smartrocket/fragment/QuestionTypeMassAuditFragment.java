@@ -19,6 +19,7 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.L;
 
 import java.util.List;
 
@@ -49,7 +50,8 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
         }
 
         if (question != null) {
-            listView.setAdapter(new MassAuditExpandableListAdapter(getActivity(), question.getCategoriesArray()));
+            listView.setAdapter(new MassAuditExpandableListAdapter(getActivity(),
+                    question.getCategoriesArray(), tickListener));
             questionTextView.setText(question.getQuestion());
         }
 
@@ -97,6 +99,10 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
         this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
     }
 
+    /// ======================================================================================================== ///
+    /// ================================================ CLASSES =============================================== ///
+    /// ======================================================================================================== ///
+
     class DbHandler extends AsyncQueryHandler {
 
         public DbHandler(ContentResolver cr) {
@@ -120,4 +126,18 @@ public class QuestionTypeMassAuditFragment extends BaseQuestionFragment {
             }
         }
     }
+
+    private View.OnClickListener tickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            L.v("CLICK", v.toString());
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.subquestionsLayout,
+                            SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
+                                    mainSubQuestionTextView.getText().toString(), "#subtitle#" ))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
 }
