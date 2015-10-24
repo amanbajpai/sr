@@ -26,9 +26,11 @@ public class CleanFilesIntentService extends IntentService {
             File dir = StorageManager.getImageStoreDir(this);
             FileFilter fileFilter = new WildcardFileFilter(prefix + "_*_*.jpg");
             File[] files = dir.listFiles(fileFilter);
-            for (File file : files) {
-                L.v("FILE TO DELETE", file.toString());
-                file.delete();
+            if (files != null) {
+                for (File file : files) {
+                    L.v("FILE TO DELETE", file.toString());
+                    file.delete();
+                }
             }
         }
     }

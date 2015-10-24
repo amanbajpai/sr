@@ -276,7 +276,7 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
                     break;
                 }
             case R.id.rePhotoButton:
-                System.gc();
+//                System.gc();
 
                 if (question.getVideoSource() == 0) {
                     selectVideoManager.startCamera(getActivity());

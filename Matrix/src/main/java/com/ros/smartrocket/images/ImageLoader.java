@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
@@ -23,11 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -69,7 +64,7 @@ public class ImageLoader {
     private static final int LOADING_SMALL_IMAGE_RES_ID = R.drawable.loading_small;
     private static final int NO_IMAGE_RES_ID = R.drawable.no_image;
 
-    public static ImageLoader getInstance() {
+    public synchronized static ImageLoader getInstance() {
         if (instance == null) {
             instance = new ImageLoader();
         }
