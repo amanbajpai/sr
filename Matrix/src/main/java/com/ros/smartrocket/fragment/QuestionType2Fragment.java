@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerRadioButtonAdapter;
@@ -50,7 +49,7 @@ public class QuestionType2Fragment extends BaseQuestionFragment implements Adapt
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        ViewGroup headerView = (ViewGroup) localInflater.inflate(R.layout.question_header, null);
+        ViewGroup headerView = (ViewGroup) localInflater.inflate(R.layout.include_question_header_with_condition, null);
 
         ListView list = (ListView) view.findViewById(R.id.answerList);
         list.addHeaderView(headerView);

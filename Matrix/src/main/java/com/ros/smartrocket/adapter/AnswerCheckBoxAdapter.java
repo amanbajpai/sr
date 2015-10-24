@@ -1,18 +1,13 @@
 package com.ros.smartrocket.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
@@ -36,11 +31,12 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         }
     }
 
-    public AnswerCheckBoxAdapter(Activity activity, OnAnswerSelectedListener answerSelectedListener) {
-        this.inflater = LayoutInflater.from(activity);
+    public AnswerCheckBoxAdapter(Context context, OnAnswerSelectedListener answerSelectedListener) {
+        this.inflater = LayoutInflater.from(context);
         this.answerSelectedListener = answerSelectedListener;
     }
 
+    @Override
     public int getCount() {
         if (answers != null) {
             return answers.length;
@@ -49,10 +45,12 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         }
     }
 
+    @Override
     public Answer getItem(int position) {
         return answers[position];
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -66,6 +64,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         return answers;
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {

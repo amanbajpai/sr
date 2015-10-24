@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.question.QuestionTypeInstructionBL;
-import com.ros.smartrocket.bl.question.QuestionTypeNumberBL;
-import com.ros.smartrocket.bl.question.QuestionTypeOpenCommentBL;
+import com.ros.smartrocket.bl.question.QuestionInstructionBL;
+import com.ros.smartrocket.bl.question.QuestionNumberBL;
+import com.ros.smartrocket.bl.question.QuestionOpenCommentBL;
 import com.ros.smartrocket.db.entity.Question;
 
 public class SubQuestionsMassAuditAdapter extends BaseAdapter {
@@ -27,13 +27,16 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
 
         if (type == Question.QuestionType.NUMBER.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_number, null);
-            new QuestionTypeNumberBL(convertView, items[position], null);
+            QuestionNumberBL bl = new QuestionNumberBL();
+            bl.initView(convertView, items[position], null);
         } else if (type == Question.QuestionType.OPEN_COMMENT.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_type_instruction, null);
-            new QuestionTypeOpenCommentBL(convertView, items[position]);
+            convertView = inflater.inflate(R.layout.item_question_type_open_comment, null);
+            QuestionOpenCommentBL bl = new QuestionOpenCommentBL();
+            bl.initView(convertView, items[position], savedInstanceState);
         } else if (type == Question.QuestionType.INSTRUCTION.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_instruction, null);
-            new QuestionTypeInstructionBL(convertView, items[position]);
+            QuestionInstructionBL bl = new QuestionInstructionBL();
+            bl.initView(convertView, items[position], savedInstanceState);
         }
 
         return convertView;
@@ -46,7 +49,7 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 
     @Override

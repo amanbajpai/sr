@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -19,7 +20,7 @@ import com.ros.smartrocket.utils.SelectImageManager;
 
 import java.io.File;
 
-public final class QuestionTypeInstructionBL extends QuestionTypeBaseBL {
+public final class QuestionInstructionBL extends QuestionBaseBL {
     private Activity activity;
 
     @Bind(R.id.photo)
@@ -27,8 +28,9 @@ public final class QuestionTypeInstructionBL extends QuestionTypeBaseBL {
     @Bind(R.id.video)
     VideoView videoView;
 
-    public QuestionTypeInstructionBL(View view, Question question) {
-        super(view, question);
+    @Override
+    public void initView(View view, Question question, Bundle savedInstanceState) {
+        super.initView(view, question, savedInstanceState);
         activity = (Activity) view.getContext();
 
         if (!TextUtils.isEmpty(question.getPhotoUrl())) {
@@ -87,7 +89,6 @@ public final class QuestionTypeInstructionBL extends QuestionTypeBaseBL {
     }
 
     public void setVideoInstructionFile(final File file) {
-        //videoView.setMediaController(new CustomMediaController(getActivity()));
         videoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -113,22 +114,5 @@ public final class QuestionTypeInstructionBL extends QuestionTypeBaseBL {
                 }
             }
         });
-    }
-
-    public void refreshNextButton() {
-        if (answerSelectedListener != null) {
-            answerSelectedListener.onAnswerSelected(true);
-        }
-
-        if (answerPageLoadingFinishedListener != null) {
-            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
-        }
-    }
-
-    public boolean saveQuestion() {
-        return true;
-    }
-
-    public void clearAnswer() {
     }
 }

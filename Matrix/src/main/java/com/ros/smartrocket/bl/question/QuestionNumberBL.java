@@ -15,7 +15,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.utils.L;
 
-public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
+public final class QuestionNumberBL extends QuestionBaseBL {
     public static final String EXTRA_TEXT_VIEW_NUMBER = "com.ros.smartrocket.EXTRA_TEXT_VIEW_NUMBER";
 
     @Bind(R.id.answerTextView)
@@ -23,8 +23,9 @@ public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
     @Bind(R.id.keyDotBtn)
     Button dotButton;
 
-    public QuestionTypeNumberBL(View view, Question question, Bundle savedInstanceState) {
-        super(view, question);
+    @Override
+    public void initView(View view, Question question, Bundle savedInstanceState) {
+        super.initView(view, question, savedInstanceState);
         Context context = view.getContext();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_TEXT_VIEW_NUMBER)) {
@@ -44,6 +45,7 @@ public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
                 question.getMinValue(), question.getMaxValue()));
     }
 
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(EXTRA_TEXT_VIEW_NUMBER, answerTextView.getText().toString());
     }
@@ -81,6 +83,7 @@ public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
         }
     }
 
+    @Override
     public boolean saveQuestion(AsyncQueryHandler handler) {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer answer = question.getAnswers()[0];
@@ -94,6 +97,7 @@ public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
         }
     }
 
+    @Override
     public void clearAnswer(AsyncQueryHandler handler) {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer[] answers = question.getAnswers();
@@ -105,6 +109,7 @@ public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
         }
     }
 
+    @Override
     public void fillViewWithAnswers(Answer[] answers) {
         question.setAnswers(answers);
         if (answers[0].getChecked()) {
@@ -114,6 +119,7 @@ public final class QuestionTypeNumberBL extends QuestionTypeBaseBL {
         refreshNextButton();
     }
 
+    @Override
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             String answerText = answerTextView.getText().toString().trim();

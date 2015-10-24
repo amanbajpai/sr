@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Question;
@@ -71,5 +72,11 @@ public class SubQuestionsMassAuditFragment extends Fragment {
         SubQuestionsMassAuditAdapter adapter = new SubQuestionsMassAuditAdapter(getActivity(),
                 goodQuestions.toArray(new Question[goodQuestions.size()]));
         listView.setAdapter(adapter);
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.cancelSubQuestionsButton)
+    void cancelClick() {
+        getFragmentManager().popBackStack();
     }
 }

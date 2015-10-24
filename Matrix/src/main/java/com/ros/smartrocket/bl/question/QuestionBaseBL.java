@@ -1,35 +1,45 @@
 package com.ros.smartrocket.bl.question;
 
+import android.content.AsyncQueryHandler;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
-public class QuestionTypeBaseBL {
+public class QuestionBaseBL {
     protected OnAnswerSelectedListener answerSelectedListener;
     protected OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     protected Question question;
 
-    protected QuestionTypeBaseBL(View view, Question question) {
+    @Bind(R.id.questionText)
+    TextView questionText;
+    @Bind(R.id.presetValidationComment)
+    TextView presetValidationComment;
+    @Bind(R.id.validationComment)
+    TextView validationComment;
+
+    public void initView(View view, Question question, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         this.question = question;
 
-        TextView questionText = (TextView) view.findViewById(R.id.questionText);
+        questionText.setText(question.getQuestion());
+
         if (!TextUtils.isEmpty(question.getPresetValidationText())) {
-            TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
             presetValidationComment.setText(question.getPresetValidationText());
             presetValidationComment.setVisibility(View.VISIBLE);
         }
+
         if (!TextUtils.isEmpty(question.getValidationComment())) {
-            TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
-        questionText.setText(question.getQuestion());
     }
 
     public Question getQuestion() {
@@ -42,5 +52,28 @@ public class QuestionTypeBaseBL {
 
     public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener listener) {
         this.answerPageLoadingFinishedListener = listener;
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
+    public boolean saveQuestion(AsyncQueryHandler handler) {
+        return true;
+    }
+
+    public void clearAnswer(AsyncQueryHandler handler) {
+    }
+
+    public void fillViewWithAnswers(Answer[] answers) {
+    }
+
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            answerSelectedListener.onAnswerSelected(true);
+        }
+
+        if (answerPageLoadingFinishedListener != null) {
+            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
+        }
     }
 }

@@ -5,14 +5,7 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:orientation="vertical">
-    <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/massAuditQuestionText"
-        style="@style/QuestionText"
-        tools:text="Mass Audit"
-        android:textSize="16sp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <include layout="@layout/include_question_header"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/massAuditMainSubQuestionText"
         style="@style/QuestionText"

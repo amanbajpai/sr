@@ -321,7 +321,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             switch (QuestionsBL.getQuestionType(question.getType())) {
                 case MULTIPLE_CHOICE:
-                    currentFragment = new QuestionType1Fragment();
+                    currentFragment = new QuestionMultipleChooseFragment();
                     break;
                 case SINGLE_CHOICE:
                     currentFragment = new QuestionType2Fragment();
@@ -330,19 +330,19 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionType7Fragment();
                     break;
                 case OPEN_COMMENT:
-                    currentFragment = new QuestionTypeOpenCommentFragment();
+                    currentFragment = new QuestionOpenCommentFragment();
                     break;
                 case VIDEO:
                     currentFragment = new QuestionType5Fragment();
                     break;
                 case NUMBER:
-                    currentFragment = new QuestionTypeNumberFragment();
+                    currentFragment = new QuestionNumberFragment();
                     break;
                 case INSTRUCTION:
-                    currentFragment = new QuestionTypeInstructionFragment();
+                    currentFragment = new QuestionInstructionFragment();
                     break;
                 case MASS_AUDIT:
-                    currentFragment = new QuestionTypeMassAuditFragment();
+                    currentFragment = new QuestionMassAuditFragment();
                     break;
                 default:
                     break;
