@@ -24,6 +24,11 @@ public abstract class BaseQuestionFragment extends Fragment {
 
     public abstract int getLayoutResId();
 
+    public BaseQuestionFragment(QuestionBaseBL questionBL) {
+        super();
+        this.questionBL = questionBL;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);

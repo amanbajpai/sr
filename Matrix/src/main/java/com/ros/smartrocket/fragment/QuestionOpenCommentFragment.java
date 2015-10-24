@@ -15,6 +15,10 @@ import com.ros.smartrocket.db.entity.Question;
  * Open comment question type
  */
 public class QuestionOpenCommentFragment extends BaseQuestionFragment {
+    public QuestionOpenCommentFragment() {
+        super(new QuestionOpenCommentBL());
+    }
+
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_question_open_comment;
@@ -23,7 +27,6 @@ public class QuestionOpenCommentFragment extends BaseQuestionFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        questionBL = new QuestionOpenCommentBL();
         handler = new DbHandler(getActivity().getContentResolver());
 
         Question question = questionBL.getQuestion();

@@ -1,7 +1,7 @@
 package com.ros.smartrocket.bl.question;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -21,14 +21,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @Bind(R.id.massAuditExpandableListView)
     ExpandableListView listView;
 
-    private FragmentActivity activity;
-
     @Override
     public void initView(View view, Question question, Bundle savedInstanceState) {
         super.initView(view, question, savedInstanceState);
 
-        activity = (FragmentActivity) view.getContext();
-        listView.setAdapter(new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(), tickListener));
+        Context context = view.getContext();
+        listView.setAdapter(new MassAuditExpandableListAdapter(context, question.getCategoriesArray(), tickListener));
 
         refreshNextButton();
     }
@@ -37,7 +35,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         @Override
         public void onClick(View v) {
             L.v("CLICK", v.toString());
-            activity.getSupportFragmentManager().beginTransaction()
+            getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.subquestionsLayout,
                             SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
                                     mainSubQuestionTextView.getText().toString(), "#subtitle#"))

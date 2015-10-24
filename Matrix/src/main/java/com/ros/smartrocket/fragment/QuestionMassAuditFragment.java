@@ -4,6 +4,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -15,11 +16,15 @@ import java.util.List;
  * Mass Audit question type
  */
 public class QuestionMassAuditFragment extends BaseQuestionFragment {
+    public QuestionMassAuditFragment() {
+        super(new QuestionMassAuditBL());
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        questionBL = new QuestionMassAuditBL();
         handler = new DbHandler(getActivity().getContentResolver());
+        questionBL.setActivity(getActivity());
 
         Question question = questionBL.getQuestion();
         QuestionsBL.getChildQuestionsListFromDB(handler, question.getTaskId(), question.getId());
@@ -27,7 +32,7 @@ public class QuestionMassAuditFragment extends BaseQuestionFragment {
 
     @Override
     public int getLayoutResId() {
-        return 0;
+        return R.layout.fragment_question_mass_audit;
     }
 
     public class DbHandler extends AsyncQueryHandler {

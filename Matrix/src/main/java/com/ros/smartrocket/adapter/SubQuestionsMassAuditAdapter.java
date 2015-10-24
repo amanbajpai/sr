@@ -32,11 +32,11 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         } else if (type == Question.QuestionType.OPEN_COMMENT.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_open_comment, null);
             QuestionOpenCommentBL bl = new QuestionOpenCommentBL();
-            bl.initView(convertView, items[position], savedInstanceState);
+            bl.initView(convertView, items[position], null);
         } else if (type == Question.QuestionType.INSTRUCTION.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_instruction, null);
             QuestionInstructionBL bl = new QuestionInstructionBL();
-            bl.initView(convertView, items[position], savedInstanceState);
+            bl.initView(convertView, items[position], null);
         }
 
         return convertView;

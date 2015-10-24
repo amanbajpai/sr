@@ -15,10 +15,13 @@ import com.ros.smartrocket.db.entity.Question;
  * Multiple choose question type
  */
 public class QuestionMultipleChooseFragment extends BaseQuestionFragment {
+    public QuestionMultipleChooseFragment() {
+        super(new QuestionMultipleChooseBL());
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        questionBL = new QuestionMultipleChooseBL();
         handler = new DbHandler(getActivity().getContentResolver());
 
         Question question = questionBL.getQuestion();

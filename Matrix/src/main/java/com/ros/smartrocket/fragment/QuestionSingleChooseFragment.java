@@ -6,22 +6,22 @@ import android.database.Cursor;
 import android.os.Bundle;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.question.QuestionNumberBL;
+import com.ros.smartrocket.bl.question.QuestionSingleChooseBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 
 /**
- * Numeric question type
+ * Single choose question type
  */
-public class QuestionNumberFragment extends BaseQuestionFragment {
-    public QuestionNumberFragment() {
-        super(new QuestionNumberBL());
+public class QuestionSingleChooseFragment extends BaseQuestionFragment {
+    public QuestionSingleChooseFragment() {
+        super(new QuestionSingleChooseBL());
     }
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_question_number;
+        return R.layout.fragment_question_single_choose;
     }
 
     @Override
@@ -34,6 +34,7 @@ public class QuestionNumberFragment extends BaseQuestionFragment {
     }
 
     class DbHandler extends AsyncQueryHandler {
+
         public DbHandler(ContentResolver cr) {
             super(cr);
         }

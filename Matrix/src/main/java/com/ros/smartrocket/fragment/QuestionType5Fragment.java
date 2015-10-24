@@ -13,19 +13,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.VideoView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
@@ -57,6 +53,15 @@ public class QuestionType5Fragment extends BaseQuestionFragment implements View.
     private OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     private AsyncQueryHandler handler;
+
+    public QuestionType5Fragment() {
+        super(new QuestionBaseBL());
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_question_type_5;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

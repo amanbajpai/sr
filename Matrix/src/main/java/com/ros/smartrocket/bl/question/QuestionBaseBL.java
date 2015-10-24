@@ -2,6 +2,7 @@ package com.ros.smartrocket.bl.question;
 
 import android.content.AsyncQueryHandler;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class QuestionBaseBL {
     protected OnAnswerSelectedListener answerSelectedListener;
     protected OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     protected Question question;
+    private FragmentActivity activity;
 
     @Bind(R.id.questionText)
     TextView questionText;
@@ -75,5 +77,13 @@ public class QuestionBaseBL {
         if (answerPageLoadingFinishedListener != null) {
             answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
         }
+    }
+
+    public FragmentActivity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(FragmentActivity activity) {
+        this.activity = activity;
     }
 }

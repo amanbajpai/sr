@@ -324,7 +324,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionMultipleChooseFragment();
                     break;
                 case SINGLE_CHOICE:
-                    currentFragment = new QuestionType2Fragment();
+                    currentFragment = new QuestionSingleChooseFragment();
                     break;
                 case PHOTO:
                     currentFragment = new QuestionType7Fragment();

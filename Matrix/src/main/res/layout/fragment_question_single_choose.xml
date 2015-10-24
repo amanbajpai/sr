@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:orientation="vertical">
-
+    <include layout="@layout/include_question_header_with_condition"/>
     <ListView
         android:id="@+id/answerList"
         android:layout_width="match_parent"

@@ -20,6 +20,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
@@ -61,6 +62,15 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     private File mCurrentPhotoFile;
     private File lastPhotoFile;
     private boolean isLastFileFromGallery;
+
+    public QuestionType7Fragment() {
+        super(new QuestionBaseBL());
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_question_type_7;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
