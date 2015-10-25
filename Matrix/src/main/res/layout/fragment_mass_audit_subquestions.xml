@@ -33,14 +33,16 @@
             android:background="@color/separator_grey"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-        <ListView
-            android:id="@+id/massAuditSubquestionsListView"
+        <ScrollView
             android:layout_weight="1"
-            android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:cacheColorHint="@android:color/transparent"
-            android:divider="@color/grey_light"
-            android:dividerHeight="5dp" />
+            android:layout_height="0dp">
+            <LinearLayout
+                android:id="@+id/massAuditSubquestionsLayout"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+        </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"

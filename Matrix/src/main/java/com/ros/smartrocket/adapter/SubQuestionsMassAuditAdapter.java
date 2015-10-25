@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.question.QuestionInstructionBL;
-import com.ros.smartrocket.bl.question.QuestionNumberBL;
-import com.ros.smartrocket.bl.question.QuestionOpenCommentBL;
+import com.ros.smartrocket.bl.question.*;
 import com.ros.smartrocket.db.entity.Question;
 
 public class SubQuestionsMassAuditAdapter extends BaseAdapter {
@@ -25,20 +23,25 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int type = getItemViewType(position);
 
+        QuestionBaseBL bl = new QuestionBaseBL();
         if (type == Question.QuestionType.NUMBER.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_number, null);
-            QuestionNumberBL bl = new QuestionNumberBL();
-            bl.initView(convertView, items[position], null);
+            bl = new QuestionNumberBL();
         } else if (type == Question.QuestionType.OPEN_COMMENT.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_open_comment, null);
-            QuestionOpenCommentBL bl = new QuestionOpenCommentBL();
-            bl.initView(convertView, items[position], null);
+            bl = new QuestionOpenCommentBL();
         } else if (type == Question.QuestionType.INSTRUCTION.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_type_instruction, null);
-            QuestionInstructionBL bl = new QuestionInstructionBL();
-            bl.initView(convertView, items[position], null);
+            bl = new QuestionInstructionBL();
+        } else if (type == Question.QuestionType.SINGLE_CHOICE.getTypeId()) {
+            convertView = inflater.inflate(R.layout.item_question_choose, null);
+            bl = new QuestionSingleChooseBL();
+        } else if (type == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()) {
+            convertView = inflater.inflate(R.layout.item_question_choose, null);
+            bl = new QuestionMultipleChooseBL();
         }
 
+        bl.initView(convertView, items[position], null);
         return convertView;
     }
 
@@ -49,7 +52,7 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return items.length;
     }
 
     @Override

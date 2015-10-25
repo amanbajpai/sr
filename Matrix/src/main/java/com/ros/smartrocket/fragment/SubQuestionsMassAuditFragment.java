@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,8 +25,8 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     public static final String KEY_TITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_TITLE";
     public static final String KEY_SUBTITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_SUBTITLE";
     
-    @Bind(R.id.massAuditSubquestionsListView)
-    ListView listView;
+    @Bind(R.id.massAuditSubquestionsLayout)
+    LinearLayout subQuestionsLayout;
     @Bind(R.id.massAuditSubQuestionsTitle)
     TextView titleTextView;
     @Bind(R.id.massAuditSubQuestionsSubtitle)
@@ -64,6 +64,8 @@ public class SubQuestionsMassAuditFragment extends Fragment {
         for (Question question : questions) {
             if (question.getType() == Question.QuestionType.NUMBER.getTypeId()
                     || question.getType() == Question.QuestionType.OPEN_COMMENT.getTypeId()
+                    || question.getType() == Question.QuestionType.SINGLE_CHOICE.getTypeId()
+                    || question.getType() == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()
                     || question.getType() == Question.QuestionType.INSTRUCTION.getTypeId()) {
                 goodQuestions.add(question);
             }
@@ -71,7 +73,10 @@ public class SubQuestionsMassAuditFragment extends Fragment {
 
         SubQuestionsMassAuditAdapter adapter = new SubQuestionsMassAuditAdapter(getActivity(),
                 goodQuestions.toArray(new Question[goodQuestions.size()]));
-        listView.setAdapter(adapter);
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View item = adapter.getView(i, null, null);
+            subQuestionsLayout.addView(item);
+        }
     }
 
     @SuppressWarnings("unused")
