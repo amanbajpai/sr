@@ -333,7 +333,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionOpenCommentFragment();
                     break;
                 case VIDEO:
-                    currentFragment = new QuestionType5Fragment();
+                    currentFragment = new QuestionVideoFragment();
                     break;
                 case NUMBER:
                     currentFragment = new QuestionNumberFragment();

@@ -1,7 +1,6 @@
 package com.ros.smartrocket.bl.question;
 
 import android.annotation.SuppressLint;
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +42,8 @@ public final class QuestionNumberBL extends QuestionBaseBL {
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
         conditionText.setText(context.getString(R.string.write_your_number,
                 question.getMinValue(), question.getMaxValue()));
+
+        loadAnswers();
     }
 
     @Override
@@ -84,7 +85,7 @@ public final class QuestionNumberBL extends QuestionBaseBL {
     }
 
     @Override
-    public boolean saveQuestion(AsyncQueryHandler handler) {
+    public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer answer = question.getAnswers()[0];
             answer.setValue(answerTextView.getText().toString());
@@ -98,7 +99,7 @@ public final class QuestionNumberBL extends QuestionBaseBL {
     }
 
     @Override
-    public void clearAnswer(AsyncQueryHandler handler) {
+    public void clearAnswer() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer[] answers = question.getAnswers();
             for (Answer answer : answers) {

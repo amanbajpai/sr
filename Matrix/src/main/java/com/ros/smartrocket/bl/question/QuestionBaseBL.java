@@ -1,6 +1,9 @@
 package com.ros.smartrocket.bl.question;
 
 import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
@@ -17,6 +22,7 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 public class QuestionBaseBL {
     protected OnAnswerSelectedListener answerSelectedListener;
     protected OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
+    protected AsyncQueryHandler handler;
     protected Question question;
     private FragmentActivity activity;
 
@@ -30,6 +36,7 @@ public class QuestionBaseBL {
     public void initView(View view, Question question, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         this.question = question;
+        this.handler = new BaseDbHandler(view.getContext().getContentResolver());
 
         questionText.setText(question.getQuestion());
 
@@ -42,6 +49,14 @@ public class QuestionBaseBL {
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void destroyView() {
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    public void loadAnswers() {
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
     }
 
     public Question getQuestion() {
@@ -57,16 +72,23 @@ public class QuestionBaseBL {
     }
 
     public void onSaveInstanceState(Bundle outState) {
+        // Do nothing
     }
 
-    public boolean saveQuestion(AsyncQueryHandler handler) {
+    public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
+        return false;
+    }
+
+    public boolean saveQuestion() {
         return true;
     }
 
-    public void clearAnswer(AsyncQueryHandler handler) {
+    public void clearAnswer() {
+        // Do nothing
     }
 
-    public void fillViewWithAnswers(Answer[] answers) {
+    protected void fillViewWithAnswers(Answer[] answers) {
+        // Do nothing
     }
 
     public void refreshNextButton() {
@@ -85,5 +107,38 @@ public class QuestionBaseBL {
 
     public void setActivity(FragmentActivity activity) {
         this.activity = activity;
+    }
+
+    class BaseDbHandler extends AsyncQueryHandler {
+        public BaseDbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case AnswerDbSchema.Query.TOKEN_QUERY:
+                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
+                    fillViewWithAnswers(answers);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        protected void onUpdateComplete(int token, Object cookie, int result) {
+            switch (token) {
+                case AnswerDbSchema.Query.TOKEN_UPDATE:
+                    answersUpdate();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    protected void answersUpdate() {
     }
 }

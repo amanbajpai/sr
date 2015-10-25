@@ -1,6 +1,5 @@
 package com.ros.smartrocket.bl.question;
 
-import android.content.AsyncQueryHandler;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -25,6 +24,8 @@ public final class QuestionOpenCommentBL extends QuestionBaseBL {
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(question.getMaximumCharacters());
         answerEditText.setFilters(filterArray);
+
+        loadAnswers();
     }
 
     public void setEditTextWatcher(EditText editText) {
@@ -59,7 +60,7 @@ public final class QuestionOpenCommentBL extends QuestionBaseBL {
     }
 
     @Override
-    public boolean saveQuestion(AsyncQueryHandler handler) {
+    public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer answer = question.getAnswers()[0];
             answer.setValue(answerEditText.getText().toString());
@@ -73,7 +74,7 @@ public final class QuestionOpenCommentBL extends QuestionBaseBL {
     }
 
     @Override
-    public void clearAnswer(AsyncQueryHandler handler) {
+    public void clearAnswer() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer[] answers = question.getAnswers();
             for (Answer answer : answers) {

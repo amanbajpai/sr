@@ -66,6 +66,7 @@ public class SubQuestionsMassAuditFragment extends Fragment {
                     || question.getType() == Question.QuestionType.OPEN_COMMENT.getTypeId()
                     || question.getType() == Question.QuestionType.SINGLE_CHOICE.getTypeId()
                     || question.getType() == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()
+                    || question.getType() == Question.QuestionType.VIDEO.getTypeId()
                     || question.getType() == Question.QuestionType.INSTRUCTION.getTypeId()) {
                 goodQuestions.add(question);
             }

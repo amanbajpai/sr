@@ -39,9 +39,13 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         } else if (type == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_choose, null);
             bl = new QuestionMultipleChooseBL();
+        } else if (type == Question.QuestionType.VIDEO.getTypeId()) {
+            convertView = inflater.inflate(R.layout.fragment_question_video, null);
+            bl = new QuestionVideoBL();
         }
 
         bl.initView(convertView, items[position], null);
+        bl.loadAnswers();
         return convertView;
     }
 

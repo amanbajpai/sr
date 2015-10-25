@@ -1,7 +1,7 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.AsyncQueryHandler;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
@@ -20,7 +20,6 @@ import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
  */
 public abstract class BaseQuestionFragment extends Fragment {
     protected QuestionBaseBL questionBL;
-    protected AsyncQueryHandler handler;
 
     public abstract int getLayoutResId();
 
@@ -48,19 +47,24 @@ public abstract class BaseQuestionFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!questionBL.onActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        questionBL.destroyView();
         super.onDestroy();
     }
 
     public boolean saveQuestion() {
-        return questionBL.saveQuestion(handler);
+        return questionBL.saveQuestion();
     }
 
     public void clearAnswer() {
-        questionBL.clearAnswer(handler);
+        questionBL.clearAnswer();
     }
 
     public Question getQuestion() {

@@ -71,6 +71,11 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
         refreshNextButton();
     }
 
+    @Override
+    public void loadAnswers() {
+        // Do nothing
+    }
+
     public void setImageInstructionFile(final File file) {
         Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
         photoImageView.setImageBitmap(bitmap);

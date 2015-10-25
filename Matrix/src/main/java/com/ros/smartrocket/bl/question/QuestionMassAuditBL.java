@@ -31,6 +31,11 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         refreshNextButton();
     }
 
+    @Override
+    public void loadAnswers() {
+        // Do nothing
+    }
+
     private View.OnClickListener tickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

@@ -23,7 +23,7 @@ public class QuestionMassAuditFragment extends BaseQuestionFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        handler = new DbHandler(getActivity().getContentResolver());
+        DbHandler handler = new DbHandler(getActivity().getContentResolver());
         questionBL.setActivity(getActivity());
 
         Question question = questionBL.getQuestion();

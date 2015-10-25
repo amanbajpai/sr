@@ -1,8 +1,5 @@
 package com.ros.smartrocket.bl.question;
 
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +12,6 @@ import butterknife.Bind;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerBaseAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 
@@ -57,19 +53,11 @@ public class QuestionBaseChooseBL extends QuestionBaseBL {
             listView.setOnItemClickListener(itemClickListener);
         }
 
-        AsyncQueryHandler handler = new DbHandler(view.getContext().getContentResolver());
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+        loadAnswers();
     }
 
     @Override
-    public void fillViewWithAnswers(Answer[] answers) {
-        question.setAnswers(answers);
-        adapter.setData(question.getAnswers());
-        refreshNextButton();
-    }
-
-    @Override
-    public boolean saveQuestion(AsyncQueryHandler handler) {
+    public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
@@ -79,7 +67,7 @@ public class QuestionBaseChooseBL extends QuestionBaseBL {
     }
 
     @Override
-    public void clearAnswer(AsyncQueryHandler handler) {
+    public void clearAnswer() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer[] answers = question.getAnswers();
             for (Answer answer : answers) {
@@ -108,22 +96,10 @@ public class QuestionBaseChooseBL extends QuestionBaseBL {
         }
     }
 
-    class DbHandler extends AsyncQueryHandler {
-
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case AnswerDbSchema.Query.TOKEN_QUERY:
-                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
-                    fillViewWithAnswers(answers);
-                    break;
-                default:
-                    break;
-            }
-        }
+    @Override
+    protected void fillViewWithAnswers(Answer[] answers) {
+        question.setAnswers(answers);
+        adapter.setData(question.getAnswers());
+        refreshNextButton();
     }
 }
