@@ -465,5 +465,6 @@
     <string name="key_backspace">&lt;--</string>
     <string name="test_push">Test Push Notification</string>
     <string name="allow_push">Allow Push notif</string>
+    <string name="delete">Delete</string>
 
 </resources>

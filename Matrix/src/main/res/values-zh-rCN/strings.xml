@@ -426,4 +426,5 @@
     <string name="logout_attention_dialog_text">任务正在发送。如果现在离开，发送将暂停，下次登录才继续。</string>
     <string name="logout_attention_dialog_logout">登出</string>
     <string name="logout_attention_dialog_cancel">取消</string>
+    <string name="delete">Delete</string>
 </resources>

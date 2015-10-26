@@ -64,11 +64,12 @@ public class GCMIntentService extends GCMBaseIntentService {
                 NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
             }
 
-            if (App.getInstance().getMyAccount().getAllowPushNotification()
-                    && messageJsonObject.contains("Subject")){
-                NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
-            }
             apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
+        }
+
+        if (App.getInstance().getMyAccount().getAllowPushNotification()
+                && messageJsonObject.contains("Subject")){
+            NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
         }
     }
 

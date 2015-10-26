@@ -2,8 +2,10 @@ package com.ros.smartrocket.bl;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 
+import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.utils.L;
@@ -37,6 +39,15 @@ public class NotificationBL {
         return result;
     }
 
+    public static int convertCursorToUnreadNotificationsCount(Cursor cursor) {
+        int result = 0;
+        if (cursor != null) {
+            result = cursor.getCount();
+        }
+
+        return result;
+    }
+
     public static ArrayList<Notification> createFakeNotifications() {
         ArrayList<Notification> result = new ArrayList<>();
         result.add(new Notification("test1", true));
@@ -48,7 +59,7 @@ public class NotificationBL {
     }
 
     public static void saveNotification(ContentResolver contentResolver, Notification notification) {
-        if (notification.getTimestamp() == 0){
+        if (notification.getTimestamp() == 0) {
             notification.setTimestamp(System.currentTimeMillis());
         }
         contentResolver.insert(NotificationDbSchema.CONTENT_URI, notification.toContentValues());
@@ -62,6 +73,13 @@ public class NotificationBL {
         L.i("NOTIFICATION BL", "UPDATED");
     }
 
+    public static void deleteNotification(ContentResolver contentResolver, long notifId) {
+        contentResolver.delete(NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Columns._ID + "=?",
+                new String[]{String.valueOf(notifId)});
+        L.i("NOTIFICATION BL", "REMOVED");
+    }
+
     public static void getNotificationFromDB(AsyncQueryHandler handler, long notifId) {
         handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
                 NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns._ID + "=?",
@@ -72,5 +90,15 @@ public class NotificationBL {
         handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
                 NotificationDbSchema.Query.PROJECTION, null,
                 null, NotificationDbSchema.SORT_ORDER_DESC);
+    }
+
+    public static void getUnreadNotificationsFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns.READ + "=?",
+                new String[]{String.valueOf(0)}, NotificationDbSchema.SORT_ORDER_DESC);
+    }
+
+    public static void removeAllNotifications(Context context) {
+        context.getContentResolver().delete(NotificationDbSchema.CONTENT_URI, null, null);
     }
 }

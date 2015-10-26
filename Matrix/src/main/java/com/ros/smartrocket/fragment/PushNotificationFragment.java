@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ public class PushNotificationFragment extends Fragment {
 
     private DbHandler handler;
     private TextView subject, time, text;
+    private long notificationId;
 
     @Deprecated
     public PushNotificationFragment() {
@@ -66,9 +70,23 @@ public class PushNotificationFragment extends Fragment {
 
         handler = new DbHandler(getActivity().getContentResolver());
 
-        NotificationBL.getNotificationFromDB(handler, getArguments().getLong(ID));
+        notificationId = getArguments().getLong(ID);
+        NotificationBL.getNotificationFromDB(handler, notificationId);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_delete, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete) {
+            NotificationBL.deleteNotification(getActivity().getContentResolver(), notificationId);
+            getActivity().onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void updateUI(Notification notification) {
 
