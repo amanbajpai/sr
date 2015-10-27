@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -29,6 +30,7 @@ import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.db.NotificationDbSchema;
+import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.db.entity.PushBulkMessage;
 import com.ros.smartrocket.db.entity.PushSettings;
@@ -43,12 +45,11 @@ import java.util.ArrayList;
 /**
  * Created by macbook on 08.10.15.
  */
-public class PushNotificationsListFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, CompoundButton.OnCheckedChangeListener, AdapterView.OnItemClickListener {
+public class PushNotificationsListFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ArrayList<Notification> notifications;
     private ListView notificationsListView;
     private View testPushBtn;
-    private CheckBox allowPushCheckBox;
     private APIFacade apiFacade = APIFacade.getInstance();
     private ProgressDialog progressDialog;
     private DbHandler handler;
@@ -76,8 +77,7 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
 
         notificationsListView = (ListView) view.findViewById(R.id.notificationsList);
 
-        notifications = NotificationBL.createFakeNotifications();
-
+        notifications = new ArrayList<>();
         adapter = new NotificationAdapter(getActivity(), notifications);
         notificationsListView.setAdapter(adapter);
         notificationsListView.setOnItemClickListener(this);
@@ -86,10 +86,6 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
             testPushBtn = view.findViewById(R.id.testPush);
             testPushBtn.setVisibility(View.VISIBLE);
             testPushBtn.setOnClickListener(this);
-            allowPushCheckBox = (CheckBox) view.findViewById(R.id.allowPush);
-            allowPushCheckBox.setVisibility(View.VISIBLE);
-            allowPushCheckBox.setChecked(App.getInstance().getMyAccount().getAllowPushNotification());
-            allowPushCheckBox.setOnCheckedChangeListener(this);
             progressDialog = new ProgressDialog(getActivity());
         }
 
@@ -120,10 +116,6 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
             if (Keys.TEST_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
                 Toast.makeText(getActivity(), "push sent", Toast.LENGTH_LONG).show();
             }
-            if (Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
-                Toast.makeText(getActivity(), "push allowed!", Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
-            }
         } else {
             progressDialog.dismiss();
             UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
@@ -152,16 +144,6 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
                 pushBulkMessage.setSettings(pushSettings);
 
                 apiFacade.testPushNotification(getActivity(), pushBulkMessage);
-                break;
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        switch (compoundButton.getId()) {
-            case R.id.allowPush:
-                apiFacade.allowPushNotification(getActivity(), b);
-                progressDialog.show();
                 break;
         }
     }

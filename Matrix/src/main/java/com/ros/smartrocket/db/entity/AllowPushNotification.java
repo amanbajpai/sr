@@ -17,4 +17,8 @@ public class AllowPushNotification extends BaseEntity {
     public void disallow(){
         allow = false;
     }
+
+    public Boolean getAllow() {
+        return allow;
+    }
 }

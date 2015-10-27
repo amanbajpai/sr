@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    style="@style/CustomDialog"
+    android:orientation="vertical" >
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:drawablePadding="10dp"
+        style="@style/DialogTitle"
+        android:background="@color/red"
+        custom:textStyle="bold" />
+    <com.ros.smartrocket.views.CustomTextView
+        style="@style/DialogText"
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:lineSpacingExtra="5dp"
+        android:layout_margin="20dp" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="54dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/leftButton"
+                style="@style/DialogButton"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/red"
+                custom:textStyle="bold" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/grey" />
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/rightButton"
+                style="@style/DialogButton"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:textColor="@color/green"
+                android:layout_weight="1"
+                custom:textStyle="bold" />
+        </LinearLayout >
+    </LinearLayout >
 </LinearLayout>
