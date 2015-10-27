@@ -432,11 +432,14 @@
     <string name="hint_your_registered_alipay_acc_name">Your registered AliPay account name</string>
     <string name="hint_your_registered_alipay_phone">Your registered AliPay mobile number</string>
     <string name="update_payment_details_click_to_obtain_sms">Click to receive SMS code</string>
+    <string name="update_payment_details_save_and_close">Save and Close</string>
     <string name="save_and_close">Save and Close</string>
     <string name="update_payment_text">To Cash Out your Balance you must enter a valid AliPay account name and mobile phone number and confirm with an SMS code. You can edit these at any time</string>
     <string name="hint_enter_sms_code">Enter code</string>
     <string name="update_alipay_wait_for_sms">You will receive an SMS with a code within 1-10 minutes. Please enter this code into the appropriate field</string>
     <string name="required_field">Required field</string>
+    <string name="enter_valid_alipay_username">Enter valid AliPay username.</string>
+    <string name="enter_valid_email_phone">Enter valid email or phone number.</string>
     <string name="alipay_account_integrated_successfully">AliPay Account integrated successfully!!</string>
     <string name="fetching_alipay_account_info">Fetching AliPay Account info...</string>
 

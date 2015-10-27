@@ -66,12 +66,13 @@
                 android:src="@drawable/pass_icon" />
 
             <com.ros.smartrocket.views.CustomEditTextView
-                    android:id="@+id/phoneEditText"
+                android:id="@+id/userIdEditText"
                 style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="@string/hint_your_registered_alipay_phone" />
+                android:hint="@string/hint_your_registered_alipay_phone"
+                android:inputType="textEmailAddress" />
         </LinearLayout>
 
         <com.ros.smartrocket.views.CustomButton
@@ -80,46 +81,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/button_red_selector"
-            android:text="@string/update_payment_details_click_to_obtain_sms"
-            custom:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:background="@color/grey_light"
-                android:contentDescription="@string/app_name"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:src="@drawable/pass_icon" />
-
-            <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/codeEditText"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="@string/hint_enter_sms_code" />
-        </LinearLayout>
-
-        <com.ros.smartrocket.views.CustomButton
-            android:id="@+id/sendCodeButton"
-            style="@style/Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:background="@drawable/button_green_selector"
-            android:text="@string/save_and_close"
+            android:text="@string/update_payment_details_save_and_close"
             custom:textStyle="bold" />
-
 
     </LinearLayout>
 </ScrollView>

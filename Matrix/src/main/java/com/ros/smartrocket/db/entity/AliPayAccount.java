@@ -9,19 +9,10 @@ public class AliPayAccount extends BaseEntity {
 
     @SerializedName("AliPayAccountName")
     private String accName;
-    @SerializedName("AliPayPhoneNumber")
-    private String phone;
+    @SerializedName("AlipayUserId")
+    private String userId;
     @SerializedName("SmsCode")
-    private String smsCode;
-
-
-    public String getSmsCode() {
-        return smsCode;
-    }
-
-    public void setSmsCode(String smsCode) {
-        this.smsCode = smsCode;
-    }
+    private String smsCode = null;
 
     public String getAccName() {
         return accName;
@@ -31,11 +22,11 @@ public class AliPayAccount extends BaseEntity {
         this.accName = accName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
