@@ -4,7 +4,6 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="10dp">
 
     <com.ros.smartrocket.views.CustomTextView
@@ -25,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/buttons_margin"
-        android:layout_below="@+id/forgotPasswordButton"
+        android:layout_below="@id/forgotPasswordButton"
         android:orientation="horizontal">
 
         <ImageView
@@ -34,7 +33,6 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@color/grey_light"
-            android:contentDescription="@string/app_name"
             android:padding="14dp"
             android:src="@drawable/user_icon_gray" />
 
@@ -53,7 +51,7 @@
         android:id="@+id/email_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_container"
+        android:layout_below="@id/login_container"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
@@ -63,7 +61,6 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@color/grey_light"
-            android:contentDescription="@string/app_name"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:src="@drawable/mail_icon" />
