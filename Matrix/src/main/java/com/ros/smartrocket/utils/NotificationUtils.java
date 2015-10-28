@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -30,7 +31,6 @@ import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.db.entity.PushBulkMessage;
 import com.ros.smartrocket.service.CleanFilesIntentService;
 
 import org.json.JSONObject;
@@ -342,12 +342,13 @@ public class NotificationUtils {
      */
     public static Boolean generateNotification(Context context, String title, String message, Intent intent) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.drawable.ic_launcher);
+        mBuilder.setSmallIcon(R.drawable.ic_notification);
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
         mBuilder.setAutoCancel(true);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);
         mBuilder.setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(Html.fromHtml(message)));
+                .bigText(Html.fromHtml(message).toString()));
 
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(sound);
