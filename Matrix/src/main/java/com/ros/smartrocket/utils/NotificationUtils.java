@@ -35,7 +35,9 @@ import com.ros.smartrocket.service.CleanFilesIntentService;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utils class for easy work with UI Views
@@ -164,10 +166,21 @@ public class NotificationUtils {
             Gson gson = new Gson();
             Notification notification = gson.fromJson(jsonObject, Notification.class);
 
-            Intent intent = new Intent(context, PushNotificationActivity.class);
-            generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
-
             NotificationBL.saveNotification(context.getContentResolver(), notification);
+
+            List<Notification> notifications = NotificationBL.convertCursorToNotificationList(NotificationBL.getUnreadNotificationsFromDB(context.getContentResolver()));
+            if (notifications.size() == 1){
+                Intent intent = new Intent(context, PushNotificationActivity.class);
+                generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
+            }else {
+                String title = "Notifications pending..";
+                StringBuilder body = new StringBuilder();
+                for (Notification n:notifications){
+                    body.append(n.getMessage()).append("\n");
+                }
+                Intent intent = new Intent(context, PushNotificationActivity.class);
+                generateNotification(context, title, body.toString(), intent);
+            }
 
             IntentUtils.refreshPushNotificationsList(context);
         } catch (Exception e) {
@@ -349,6 +362,7 @@ public class NotificationUtils {
         mBuilder.setContentText(message);
         mBuilder.setStyle(new NotificationCompat.BigTextStyle()
                 .bigText(Html.fromHtml(message).toString()));
+
 
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(sound);

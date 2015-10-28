@@ -98,6 +98,12 @@ public class NotificationBL {
                 new String[]{String.valueOf(0)}, NotificationDbSchema.SORT_ORDER_DESC);
     }
 
+    public static Cursor getUnreadNotificationsFromDB(ContentResolver contentResolver) {
+        return contentResolver.query(NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns.READ + "=?",
+                new String[]{String.valueOf(0)}, NotificationDbSchema.SORT_ORDER_DESC);
+    }
+
     public static void removeAllNotifications(Context context) {
         context.getContentResolver().delete(NotificationDbSchema.CONTENT_URI, null, null);
     }
