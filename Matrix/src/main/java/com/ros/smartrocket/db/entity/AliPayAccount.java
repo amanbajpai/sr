@@ -12,7 +12,7 @@ public class AliPayAccount extends BaseEntity {
     @SerializedName("AlipayUserId")
     private String userId;
     @SerializedName("SmsCode")
-    private String smsCode = null;
+    private String smsCode;
 
     public String getAccName() {
         return accName;

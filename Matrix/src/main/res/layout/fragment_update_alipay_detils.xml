@@ -17,7 +17,7 @@
             android:background="@color/orange"
             android:gravity="left"
             android:padding="20dp"
-            android:text="@string/update_payment_text2"
+            android:text="@string/update_payment_text_header"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14sp"
             custom:textStyle="bold" />
