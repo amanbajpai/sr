@@ -418,6 +418,12 @@
     <string name="alipay_account_integrated_successfully">支付宝账户连接成功!!</string>
     <string name="fetching_alipay_account_info">处理支付宝账户信息中...</string>
 
+    <string name="update_payment_text2">\t提款前，请先输入您支付宝的信息:\n1) 支付宝实名\n2) 支付宝账号（手机或邮箱）\n\t需要时，可以回来这里作出修改。</string>
+    <string name="enter_valid_alipay_username">实名[或账号]看来有错误，请作出修改。</string>
+    <string name="enter_valid_email_phone">实名[或账号]看来有错误，请作出修改。</string>
+    <string name="hint_your_registered_alipay_phone_or_email">您注册的支付宝账号（手机或邮箱)</string>
+    <string name="update_payment_details_save_and_close">储存并关闭</string>
+
 
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">注意！</string>
