@@ -1,10 +1,10 @@
 package com.ros.smartrocket.bl.question;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -21,17 +21,14 @@ import com.ros.smartrocket.utils.SelectImageManager;
 import java.io.File;
 
 public final class QuestionInstructionBL extends QuestionBaseBL {
-    private Activity activity;
-
     @Bind(R.id.photo)
     ImageView photoImageView;
     @Bind(R.id.video)
     VideoView videoView;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState) {
-        super.initView(view, question, savedInstanceState);
-        activity = (Activity) view.getContext();
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
+        super.initView(view, question, savedInstanceState, activity);
 
         if (!TextUtils.isEmpty(question.getPhotoUrl())) {
             photoImageView.setVisibility(View.VISIBLE);

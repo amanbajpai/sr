@@ -35,9 +35,33 @@ public abstract class BaseQuestionFragment extends Fragment {
         ViewGroup view = (ViewGroup) localInflater.inflate(getLayoutResId(), null);
 
         Question question = (Question) getArguments().getSerializable(Keys.QUESTION);
-        questionBL.initView(view, question, savedInstanceState);
+        questionBL.initView(view, question, savedInstanceState, getActivity());
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        questionBL.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        questionBL.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        questionBL.onStop();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        questionBL.destroyView();
+        super.onDestroy();
     }
 
     @Override
@@ -53,11 +77,6 @@ public abstract class BaseQuestionFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        questionBL.destroyView();
-        super.onDestroy();
-    }
 
     public boolean saveQuestion() {
         return questionBL.saveQuestion();

@@ -2,6 +2,7 @@ package com.ros.smartrocket.bl.question;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -22,8 +23,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     ExpandableListView listView;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState) {
-        super.initView(view, question, savedInstanceState);
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
+        super.initView(view, question, savedInstanceState, activity);
 
         Context context = view.getContext();
         listView.setAdapter(new MassAuditExpandableListAdapter(context, question.getCategoriesArray(), tickListener));

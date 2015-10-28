@@ -14,9 +14,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Question;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Subquestions fragment
  */
@@ -55,28 +52,16 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         
-        Question[] questions = (Question[]) getArguments().getSerializable(KEY_QUES);
         titleTextView.setText(getArguments().getString(KEY_TITLE));
         subtitleTextView.setText(getArguments().getString(KEY_SUBTITLE));
-        
-        //TODO Debug
-        List<Question> goodQuestions = new ArrayList<>();
-        for (Question question : questions) {
-            if (question.getType() == Question.QuestionType.NUMBER.getTypeId()
-                    || question.getType() == Question.QuestionType.OPEN_COMMENT.getTypeId()
-                    || question.getType() == Question.QuestionType.SINGLE_CHOICE.getTypeId()
-                    || question.getType() == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()
-                    || question.getType() == Question.QuestionType.VIDEO.getTypeId()
-                    || question.getType() == Question.QuestionType.INSTRUCTION.getTypeId()) {
-                goodQuestions.add(question);
-            }
-        }
 
-        SubQuestionsMassAuditAdapter adapter = new SubQuestionsMassAuditAdapter(getActivity(),
-                goodQuestions.toArray(new Question[goodQuestions.size()]));
+        Question[] questions = (Question[]) getArguments().getSerializable(KEY_QUES);
+        SubQuestionsMassAuditAdapter adapter = new SubQuestionsMassAuditAdapter(getActivity(), questions);
         for (int i = 0; i < adapter.getCount(); i++) {
             View item = adapter.getView(i, null, null);
-            subQuestionsLayout.addView(item);
+            if (item != null) {
+                subQuestionsLayout.addView(item);
+            }
         }
     }
 

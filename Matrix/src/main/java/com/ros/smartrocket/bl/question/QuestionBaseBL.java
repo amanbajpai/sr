@@ -24,7 +24,8 @@ public class QuestionBaseBL {
     protected OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     protected AsyncQueryHandler handler;
     protected Question question;
-    private FragmentActivity activity;
+    protected Bundle savedInstanceState;
+    protected FragmentActivity activity;
 
     @Bind(R.id.questionText)
     TextView questionText;
@@ -33,10 +34,12 @@ public class QuestionBaseBL {
     @Bind(R.id.validationComment)
     TextView validationComment;
 
-    public void initView(View view, Question question, Bundle savedInstanceState) {
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
         ButterKnife.bind(this, view);
+        this.savedInstanceState = savedInstanceState;
         this.question = question;
-        this.handler = new BaseDbHandler(view.getContext().getContentResolver());
+        this.activity = activity;
+        this.handler = new BaseDbHandler(activity.getContentResolver());
 
         questionText.setText(question.getQuestion());
 
@@ -53,6 +56,18 @@ public class QuestionBaseBL {
 
     public void destroyView() {
         handler.removeCallbacksAndMessages(null);
+    }
+
+    public void onStart() {
+        // Do nothing
+    }
+
+    public void onPause() {
+        // Do nothing
+    }
+
+    public void onStop() {
+        // Do nothing
     }
 
     public void loadAnswers() {
@@ -87,10 +102,6 @@ public class QuestionBaseBL {
         // Do nothing
     }
 
-    protected void fillViewWithAnswers(Answer[] answers) {
-        // Do nothing
-    }
-
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             answerSelectedListener.onAnswerSelected(true);
@@ -116,29 +127,36 @@ public class QuestionBaseBL {
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case AnswerDbSchema.Query.TOKEN_QUERY:
-                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
-                    fillViewWithAnswers(answers);
-                    break;
-                default:
-                    break;
+            if (token == AnswerDbSchema.Query.TOKEN_QUERY) {
+                Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
+                fillViewWithAnswers(answers);
             }
         }
 
         @Override
         protected void onUpdateComplete(int token, Object cookie, int result) {
-            switch (token) {
-                case AnswerDbSchema.Query.TOKEN_UPDATE:
-                    answersUpdate();
-                    break;
-                default:
-                    break;
+            if (token == AnswerDbSchema.Query.TOKEN_UPDATE) {
+                answersUpdate();
             }
         }
 
+        @Override
+        protected void onDeleteComplete(int token, Object cookie, int result) {
+            if (token == AnswerDbSchema.Query.TOKEN_DELETE) {
+                answersDeleteComplete();
+            }
+        }
+    }
+
+    protected void answersDeleteComplete() {
+        // Nothing to do
     }
 
     protected void answersUpdate() {
+        // Nothing to do
+    }
+
+    protected void fillViewWithAnswers(Answer[] answers) {
+        // Do nothing
     }
 }

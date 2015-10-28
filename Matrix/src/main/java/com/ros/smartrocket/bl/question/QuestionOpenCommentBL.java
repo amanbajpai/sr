@@ -1,6 +1,7 @@
 package com.ros.smartrocket.bl.question;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -18,8 +19,8 @@ public final class QuestionOpenCommentBL extends QuestionBaseBL {
     EditText answerEditText;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState) {
-        super.initView(view, question, savedInstanceState);
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
+        super.initView(view, question, savedInstanceState, activity);
         setEditTextWatcher(answerEditText);
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(question.getMaximumCharacters());

@@ -1,33 +1,27 @@
-package com.ros.smartrocket.fragment;
+package com.ros.smartrocket.bl.question;
 
-import android.content.*;
-import android.database.Cursor;
+import android.annotation.SuppressLint;
+import android.content.ContentUris;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.eventbus.PhotoEvent;
-import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
-import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.*;
 import de.greenrobot.event.EventBus;
@@ -38,67 +32,33 @@ import java.util.Arrays;
 /**
  * Multiple photo question type
  */
-public class QuestionType7Fragment extends BaseQuestionFragment implements View.OnClickListener {
+public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListener {
     private static final String STATE_PHOTO = "com.ros.smartrocket.STATE_PHOTO";
     private static final String EXTRA_LAST_PHOTO_FILE = "com.ros.smartrocket.EXTRA_LAST_PHOTO_FILE";
     private static final String EXTRA_IS_PHOTO_FROM_GALLERY = "com.ros.smartrocket.EXTRA_IS_PHOTO_FROM_GALLERY";
     private static final String STATE_SELECTED_FRAME = "current_selected_photo";
-    private static final String TAG = "Question 7";
+    private static final String TAG = "Question Photo";
 
-    private LayoutInflater localInflater;
     private ImageButton rePhotoButton;
     private ImageButton deletePhotoButton;
     private ImageButton confirmButton;
     private ImageView photoImageView;
     private LinearLayout galleryLayout;
-    private boolean isBitmapAdded = false;
-    private boolean isBitmapConfirmed = false;
-    private Question question;
-    private OnAnswerSelectedListener answerSelectedListener;
-    private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
-    private AsyncQueryHandler handler;
-    private int currentSelectedPhoto = 0;
     private CustomProgressDialog progressDialog;
+
     private File mCurrentPhotoFile;
     private File lastPhotoFile;
+
+    private int currentSelectedPhoto = 0;
     private boolean isLastFileFromGallery;
+    private boolean isBitmapAdded = false;
+    private boolean isBitmapConfirmed = false;
 
-    public QuestionType7Fragment() {
-        super(new QuestionBaseBL());
-    }
-
+    @SuppressLint("SetTextI18n")
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_question_type_7;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        L.v(TAG, "onCreateView " + this);
-        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
-        localInflater = inflater.cloneInContext(contextThemeWrapper);
-
-        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_question_type_7, null);
-
-        if (getArguments() != null) {
-            question = (Question) getArguments().getSerializable(Keys.QUESTION);
-        }
-
-        handler = new DbHandler(getActivity().getContentResolver());
-
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
+        super.initView(view, question, savedInstanceState, activity);
         showProgressDialog();
-
-        TextView questionText = (TextView) view.findViewById(R.id.questionText);
-        if (!TextUtils.isEmpty(question.getPresetValidationText())) {
-            TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
-            presetValidationComment.setText(question.getPresetValidationText());
-            presetValidationComment.setVisibility(View.VISIBLE);
-        }
-        if (!TextUtils.isEmpty(question.getValidationComment())) {
-            TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
-            validationComment.setText(question.getValidationComment());
-            validationComment.setVisibility(View.VISIBLE);
-        }
 
         galleryLayout = (LinearLayout) view.findViewById(R.id.galleryLayout);
 
@@ -115,8 +75,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         confirmButton.setOnClickListener(this);
 
         if (question.getMaximumPhotos() > 1) {
-            questionText.setText(question.getQuestion() + getString(R.string.maximum_photo, question.getMaximumPhotos
-                    ()));
+            String string = getActivity().getString(R.string.maximum_photo, question.getMaximumPhotos());
+            questionText.setText(question.getQuestion() + string);
         } else {
             questionText.setText(question.getQuestion());
         }
@@ -132,21 +92,22 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             }
         }
 
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
-
-        return view;
+        loadAnswers();
     }
 
     @Override
     public void onStart() {
-        super.onStart();
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         hideProgressDialog();
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -161,16 +122,20 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
+    public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (mCurrentPhotoFile != null) {
+            intent = new Intent();
+            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+            return true;
+        } else if (intent != null && intent.getData() != null) {
+            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
+            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+            return true;
+        }
 
-    @Override
-    public void onDestroy() {
-        L.v(TAG, "onDestroy " + this);
-        handler.removeCallbacksAndMessages(null);
-        super.onDestroy();
+        return false;
     }
 
     @SuppressWarnings("unused")
@@ -188,7 +153,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                 isBitmapConfirmed = false;
 
                 if (event.image.bitmap != null) {
-                    L.v(TAG, "Set Bitmap not null " + QuestionType7Fragment.this);
+                    L.v(TAG, "Set Bitmap not null " + QuestionPhotoBL.this);
                     photoImageView.setImageBitmap(event.image.bitmap);
                 } else {
                     photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
@@ -208,63 +173,34 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         }
     }
 
-    class DbHandler extends AsyncQueryHandler {
-
-        public DbHandler(ContentResolver cr) {
-            super(cr);
+    @Override
+    protected void fillViewWithAnswers(Answer[] answers) {
+        if (answers.length == 0) {
+            question.setAnswers(addEmptyAnswer(answers));
+        } else {
+            question.setAnswers(answers);
         }
 
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case AnswerDbSchema.Query.TOKEN_QUERY:
-                    L.v(TAG, "onQueryComplete " + QuestionType7Fragment.this);
-                    Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
-
-                    if (answers.length == 0) {
-                        question.setAnswers(addEmptyAnswer(answers));
-                    } else {
-                        question.setAnswers(answers);
-                    }
-
-                    refreshPhotoGallery(question.getAnswers());
-                    if (!isBitmapAdded) {
-                        selectGalleryPhoto(0);
-                    }
-                    hideProgressDialog();
-                    break;
-                default:
-                    break;
-            }
+        refreshPhotoGallery(question.getAnswers());
+        if (!isBitmapAdded) {
+            selectGalleryPhoto(0);
         }
+        hideProgressDialog();
+    }
 
-        @Override
-        protected void onUpdateComplete(int token, Object cookie, int result) {
-            switch (token) {
-                case AnswerDbSchema.Query.TOKEN_UPDATE:
-                    if (getActivity() != null && !getActivity().isFinishing()) {
-                        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-                    }
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    protected void answersUpdate() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
         }
+    }
 
-        @Override
-        protected void onDeleteComplete(int token, Object cookie, int result) {
-            switch (token) {
-                case AnswerDbSchema.Query.TOKEN_DELETE:
-                    if (question.getAnswers().length == question.getMaximumPhotos()) {
-                        question.setAnswers(addEmptyAnswer(question.getAnswers()));
-                    }
-                    AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question
-                            .getId());
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    protected void answersDeleteComplete() {
+        if (question.getAnswers().length == question.getMaximumPhotos()) {
+            question.setAnswers(addEmptyAnswer(question.getAnswers()));
         }
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
     }
 
     public void selectGalleryPhoto(int position) {
@@ -291,7 +227,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
             isBitmapAdded = false;
             isBitmapConfirmed = false;
 
-            L.v(TAG, "selectGalleryPhoto " + position + " set bitmap null " + QuestionType7Fragment.this);
+            L.v(TAG, "selectGalleryPhoto " + position + " set bitmap null " + QuestionPhotoBL.this);
             photoImageView.setImageBitmap(null);
             photoImageView.setBackgroundResource(R.drawable.camera_icon);
         }
@@ -302,6 +238,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         refreshNextButton();
     }
 
+    @Override
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             boolean selected = isBitmapAdded && isBitmapConfirmed;
@@ -347,11 +284,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public boolean saveQuestion() {
-        return true;
-    }
-
-    @Override
     public void clearAnswer() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             Answer[] answers = question.getAnswers();
@@ -373,19 +305,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (mCurrentPhotoFile != null) {
-            intent = new Intent();
-            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
-            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
-        } else if (intent != null && intent.getData() != null) {
-            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.photo:
@@ -402,7 +321,8 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
                     }
 
                     if (!TextUtils.isEmpty(filePath)) {
-                        startActivity(IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif));
+                        Intent intent = IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif);
+                        getActivity().startActivity(intent);
                     }
                     break;
                 }
@@ -517,17 +437,6 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
         return resultAnswerArray;
     }
 
-    @Override
-    public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
-        this.answerSelectedListener = answerSelectedListener;
-    }
-
-    @Override
-    public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener
-                                                             answerPageLoadingFinishedListener) {
-        this.answerPageLoadingFinishedListener = answerPageLoadingFinishedListener;
-    }
-
     public void refreshPhotoGallery(Answer[] answers) {
         galleryLayout.removeAllViews();
 
@@ -538,7 +447,7 @@ public class QuestionType7Fragment extends BaseQuestionFragment implements View.
     }
 
     public void addItemToGallery(final int position, Answer answer) {
-        View convertView = localInflater.inflate(R.layout.list_item_photo_gallery, null);
+        View convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_photo_gallery, null);
         ImageView photo = (ImageView) convertView.findViewById(R.id.image);
         ImageView imageFrame = (ImageView) convertView.findViewById(R.id.imageFrame);
 

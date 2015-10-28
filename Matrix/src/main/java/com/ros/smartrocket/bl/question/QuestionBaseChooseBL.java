@@ -3,6 +3,7 @@ package com.ros.smartrocket.bl.question;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -27,9 +28,10 @@ public class QuestionBaseChooseBL extends QuestionBaseBL {
     @Bind(R.id.choiceListLayout)
     LinearLayout answerLayout;
 
-    public void initView(View view, Question question, Bundle savedInstanceState, int stringId,
-                         AdapterView.OnItemClickListener itemClickListener, final AnswerBaseAdapter adapter) {
-        super.initView(view, question, savedInstanceState);
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity,
+                         int stringId, AdapterView.OnItemClickListener itemClickListener,
+                         final AnswerBaseAdapter adapter) {
+        super.initView(view, question, savedInstanceState, activity);
 
         this.adapter = adapter;
         conditionText.setText(stringId);

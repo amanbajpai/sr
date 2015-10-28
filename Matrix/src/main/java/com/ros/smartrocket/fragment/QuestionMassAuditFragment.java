@@ -24,7 +24,6 @@ public class QuestionMassAuditFragment extends BaseQuestionFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         DbHandler handler = new DbHandler(getActivity().getContentResolver());
-        questionBL.setActivity(getActivity());
 
         Question question = questionBL.getQuestion();
         QuestionsBL.getChildQuestionsListFromDB(handler, question.getTaskId(), question.getId());

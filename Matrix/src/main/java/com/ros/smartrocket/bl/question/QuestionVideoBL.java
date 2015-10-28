@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -41,8 +42,8 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     private VideoView videoView;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState) {
-        super.initView(view, question, savedInstanceState);
+    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
+        super.initView(view, question, savedInstanceState, activity);
 
         videoView = (VideoView) view.findViewById(R.id.video);
         videoView.setOnCompletionListener(this);
