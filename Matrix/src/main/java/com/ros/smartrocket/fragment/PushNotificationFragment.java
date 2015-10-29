@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,6 +66,8 @@ public class PushNotificationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         text = (TextView) view.findViewById(R.id.text);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+
         subject = (TextView) view.findViewById(R.id.subject);
         time = (TextView) view.findViewById(R.id.time);
 
