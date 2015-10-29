@@ -168,6 +168,8 @@ public class NotificationUtils {
             NotificationBL.saveNotification(context.getContentResolver(), notification);
 
             List<Notification> notifications = NotificationBL.convertCursorToNotificationList(NotificationBL.getUnreadNotificationsFromDB(context.getContentResolver()));
+            PreferencesManager.getInstance().setShowPushNotifStar(true);
+
             if (notifications.size() == 1) {
                 Intent intent = new Intent(context, PushNotificationActivity.class);
                 generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
@@ -179,6 +181,7 @@ public class NotificationUtils {
             }
 
             IntentUtils.refreshPushNotificationsList(context);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

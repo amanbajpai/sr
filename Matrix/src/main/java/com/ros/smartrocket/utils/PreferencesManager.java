@@ -7,6 +7,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -281,6 +282,14 @@ public class PreferencesManager {
 
     public void setIsFirstLogin(boolean isFirstLogin) {
         setBoolean(Keys.IS_FIRST_LOGIN, isFirstLogin);
+    }
+
+    public void setShowPushNotifStar(boolean b) {
+        setBoolean(Keys.SHOW_PUSH_NOTIF_STAR, b);
+    }
+
+    public boolean showPushNotifStar() {
+        return getBoolean(Keys.SHOW_PUSH_NOTIF_STAR, false);
     }
 
     public int getInt(String key, int defaultValue) {

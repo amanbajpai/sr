@@ -107,6 +107,7 @@ public interface Keys {
     String LEFT_BUTTON_RES_ID = "left_button_res_id";
     String RIGHT_BUTTON_RES_ID = "right_button_res_id";
     String SHOW_LEFT_BUTTON = "show_left_button";
+    String SHOW_PUSH_NOTIF_STAR = "show_push_notif_star";
 
     /**
      * All possible view modes on map

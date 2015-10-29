@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.ros.smartrocket.fragment.PushNotificationsListFragment;
+import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
  * Created by macbook on 08.10.15.
@@ -20,6 +21,8 @@ public class PushNotificationActivity extends BaseActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(android.R.id.content, new PushNotificationsListFragment()).commit();
         }
+
+        PreferencesManager.getInstance().setShowPushNotifStar(false);
     }
 
     @Override
