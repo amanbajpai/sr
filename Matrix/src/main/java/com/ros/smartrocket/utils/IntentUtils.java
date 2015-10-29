@@ -67,6 +67,18 @@ public class IntentUtils {
     }
 
     /**
+     * Return intent for opening Login screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getLoginIntentForPushNotificationsActivity(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, true);
+        return intent;
+    }
+
+    /**
      * Return intent for opening Main screen
      *
      * @param context - context
