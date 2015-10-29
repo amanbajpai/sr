@@ -1,9 +1,7 @@
 package com.ros.smartrocket.bl.question;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import butterknife.OnClick;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.utils.L;
 
 public final class QuestionNumberBL extends QuestionBaseBL {
@@ -24,10 +21,7 @@ public final class QuestionNumberBL extends QuestionBaseBL {
     Button dotButton;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
-        super.initView(view, question, savedInstanceState, activity);
-        Context context = view.getContext();
-
+    public void configureView() {
         if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_TEXT_VIEW_NUMBER)) {
             answerTextView.setText(savedInstanceState.getString(EXTRA_TEXT_VIEW_NUMBER));
         }
@@ -41,7 +35,7 @@ public final class QuestionNumberBL extends QuestionBaseBL {
         }
 
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
-        conditionText.setText(context.getString(R.string.write_your_number,
+        conditionText.setText(activity.getString(R.string.write_your_number,
                 question.getMinValue(), question.getMaxValue()));
 
         loadAnswers();

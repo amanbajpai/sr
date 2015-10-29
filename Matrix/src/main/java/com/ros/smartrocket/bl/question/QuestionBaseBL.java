@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +27,8 @@ public class QuestionBaseBL {
     protected Question question;
     protected Bundle savedInstanceState;
     protected FragmentActivity activity;
+    protected Fragment fragment;
+    protected View view;
 
     @Bind(R.id.questionText)
     TextView questionText;
@@ -34,11 +37,14 @@ public class QuestionBaseBL {
     @Bind(R.id.validationComment)
     TextView validationComment;
 
-    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
+    public final void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity,
+                         Fragment fragment) {
         ButterKnife.bind(this, view);
         this.savedInstanceState = savedInstanceState;
         this.question = question;
         this.activity = activity;
+        this.fragment = fragment;
+        this.view = view;
         this.handler = new BaseDbHandler(activity.getContentResolver());
 
         questionText.setText(question.getQuestion());
@@ -52,6 +58,12 @@ public class QuestionBaseBL {
             validationComment.setText(question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
+
+        configureView();
+    }
+
+    protected void configureView() {
+        // Do nothing
     }
 
     public void destroyView() {
@@ -158,5 +170,9 @@ public class QuestionBaseBL {
 
     protected void fillViewWithAnswers(Answer[] answers) {
         // Do nothing
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
     }
 }

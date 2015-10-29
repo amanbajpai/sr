@@ -5,9 +5,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -18,7 +16,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -42,10 +39,8 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     private VideoView videoView;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
-        super.initView(view, question, savedInstanceState, activity);
-
-        videoView = (VideoView) view.findViewById(R.id.video);
+    public void configureView() {
+        videoView = (VideoView) view.findViewById(R.id.videoQuestion);
         videoView.setOnCompletionListener(this);
 
         videoView.setOnTouchListener(new View.OnTouchListener() {
@@ -193,7 +188,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.video:
+            case R.id.videoQuestion:
                 if (isVideoAdded) {
                     if (videoView.isPlaying()) {
                         pauseVideo();

@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -56,8 +55,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
-        super.initView(view, question, savedInstanceState, activity);
+    public void configureView() {
         showProgressDialog();
 
         galleryLayout = (LinearLayout) view.findViewById(R.id.galleryLayout);
@@ -96,13 +94,13 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     @Override
-    public void onStart() {
-        EventBus.getDefault().register(this);
+    public void onPause() {
+        hideProgressDialog();
     }
 
     @Override
-    public void onPause() {
-        hideProgressDialog();
+    public void onStart() {
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -330,13 +328,13 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 if (question.getPhotoSource() == 0) {
                     // From camera
                     mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
-                    SelectImageManager.startCamera(getActivity(), mCurrentPhotoFile);
+                    SelectImageManager.startCamera(fragment, mCurrentPhotoFile);
                 } else if (question.getPhotoSource() == 1) {
                     // From gallery
-                    SelectImageManager.startGallery(getActivity());
+                    SelectImageManager.startGallery(fragment);
                 } else {
                     File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
-                    SelectImageManager.showSelectImageDialog(getActivity(), true, fileToPhoto);
+                    SelectImageManager.showSelectImageDialog(fragment, true, fileToPhoto);
                 }
                 break;
             case R.id.deletePhotoButton:

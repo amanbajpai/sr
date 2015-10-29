@@ -39,7 +39,8 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/massAuditRadioGroup"
         style="@style/QuestionText"
-        tools:text="Wrigley's Doublemint chewing gum"
+        tools:text="Wrigley's Double mint chewing gum"
+        android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

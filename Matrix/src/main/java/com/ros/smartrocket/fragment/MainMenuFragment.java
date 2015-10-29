@@ -253,7 +253,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         switch (v.getId()) {
             case R.id.photoImageView:
                 mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
-                SelectImageManager.showSelectImageDialog(getActivity(), false, mCurrentPhotoFile);
+                SelectImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
                 break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);

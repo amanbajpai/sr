@@ -1,26 +1,21 @@
 package com.ros.smartrocket.bl.question;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import butterknife.Bind;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Question;
 
 public final class QuestionOpenCommentBL extends QuestionBaseBL {
     @Bind(R.id.answerEditText)
     EditText answerEditText;
 
     @Override
-    public void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity) {
-        super.initView(view, question, savedInstanceState, activity);
+    public void configureView() {
         setEditTextWatcher(answerEditText);
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(question.getMaximumCharacters());

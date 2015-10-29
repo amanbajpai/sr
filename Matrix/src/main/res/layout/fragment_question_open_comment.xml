@@ -5,5 +5,5 @@
     android:layout_weight="1"
     android:orientation="vertical">
     <include
-        layout="@layout/item_question_type_open_comment"/>
+        layout="@layout/item_question_open_comment"/>
 </ScrollView>
