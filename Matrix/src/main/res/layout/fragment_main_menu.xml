@@ -286,7 +286,7 @@
                 style="@style/MainMenuButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/menu_portal"
+                android:drawableLeft="@drawable/loudspeaker"
                 android:text="@string/notifications"
                 custom:textStyle="bold" />
 
