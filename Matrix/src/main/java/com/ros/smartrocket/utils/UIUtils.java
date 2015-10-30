@@ -831,9 +831,9 @@ public class UIUtils {
                     }
                 } else {
                     if (!task.getIsHide()) {
-                        iconResId = R.drawable.pin_green;
+                        iconResId = R.drawable.pin_green_new;
                     } else {
-                        iconResId = R.drawable.pin_green_hidden;
+                        iconResId = R.drawable.pin_green_new;
                     }
                 }
                 break;
