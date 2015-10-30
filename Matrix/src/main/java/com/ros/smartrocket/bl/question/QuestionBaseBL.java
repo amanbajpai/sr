@@ -16,6 +16,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
@@ -29,6 +30,7 @@ public class QuestionBaseBL {
     protected FragmentActivity activity;
     protected Fragment fragment;
     protected View view;
+    protected Product product;
 
     @Bind(R.id.questionText)
     TextView questionText;
@@ -38,9 +40,10 @@ public class QuestionBaseBL {
     TextView validationComment;
 
     public final void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity,
-                         Fragment fragment) {
+                               Fragment fragment, Product product) {
         ButterKnife.bind(this, view);
         this.savedInstanceState = savedInstanceState;
+        this.product = product;
         this.question = question;
         this.activity = activity;
         this.fragment = fragment;
@@ -83,7 +86,13 @@ public class QuestionBaseBL {
     }
 
     public void loadAnswers() {
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+        Integer productId = product != null ? product.getId() : null;
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(),
+                question.getId(), productId);
+    }
+
+    protected Integer getProductId() {
+        return product != null ? product.getId() : null;
     }
 
     public Question getQuestion() {

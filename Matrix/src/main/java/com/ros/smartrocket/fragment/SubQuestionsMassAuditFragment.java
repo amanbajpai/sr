@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
 public class SubQuestionsMassAuditFragment extends Fragment {
     public static final String KEY_QUES = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_QUESTIONS";
     public static final String KEY_TITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_TITLE";
-    public static final String KEY_SUBTITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_SUBTITLE";
+    public static final String KEY_PRODUCT = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT";
     
     @Bind(R.id.massAuditSubquestionsLayout)
     LinearLayout subQuestionsLayout;
@@ -35,11 +36,11 @@ public class SubQuestionsMassAuditFragment extends Fragment {
 
     private SubQuestionsMassAuditAdapter adapter;
 
-    public static Fragment makeInstance(Question[] questions, String title, String subtitle) {
+    public static Fragment makeInstance(Question[] questions, String title, Product product) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_QUES, questions);
         bundle.putString(KEY_TITLE, title);
-        bundle.putString(KEY_SUBTITLE, subtitle);
+        bundle.putSerializable(KEY_PRODUCT, product);
 
         Fragment fragment = new SubQuestionsMassAuditFragment();
         fragment.setArguments(bundle);
@@ -57,9 +58,11 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Product product = (Product) getArguments().getSerializable(KEY_PRODUCT);
         
         titleTextView.setText(getArguments().getString(KEY_TITLE));
-        subtitleTextView.setText(getArguments().getString(KEY_SUBTITLE));
+        subtitleTextView.setText(product != null ? product.getName() : "");
 
         Question[] questions = (Question[]) getArguments().getSerializable(KEY_QUES);
         List<Question> questionsWithoutMain = new ArrayList<>();
@@ -72,7 +75,7 @@ public class SubQuestionsMassAuditFragment extends Fragment {
         }
 
         adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
-                questionsWithoutMain.toArray(new Question[questionsWithoutMain.size()]));
+                questionsWithoutMain.toArray(new Question[questionsWithoutMain.size()]), product);
         for (int i = 0; i < adapter.getCount(); i++) {
             View item = adapter.getView(i, null, subQuestionsLayout);
             if (item != null && item.getParent() == null) {

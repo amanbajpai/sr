@@ -35,7 +35,7 @@ public abstract class BaseQuestionFragment extends Fragment {
         ViewGroup view = (ViewGroup) localInflater.inflate(getLayoutResId(), null);
 
         Question question = (Question) getArguments().getSerializable(Keys.QUESTION);
-        questionBL.initView(view, question, savedInstanceState, getActivity(), this);
+        questionBL.initView(view, question, savedInstanceState, getActivity(), this, null);
 
         return view;
     }

@@ -21,6 +21,8 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * IntentService for API communication
@@ -88,7 +90,7 @@ public class NetworkService extends BaseNetworkService {
                             for (int i = 0; i < tempWaves.length; i++) {
                                 Task[] tempTasks = tempWaves[i].getTasks();
                                 for (int j = 1; j < tempTasks.length; j++) {
-                                    if ((double)tempTasks[j].getPrice() != (double)tempTasks[j - 1].getPrice()) {
+                                    if ((double) tempTasks[j].getPrice() != (double) tempTasks[j - 1].getPrice()) {
                                         tempWaves[i].setContainsDifferentRate(true);
                                         break;
                                     }
@@ -99,8 +101,8 @@ public class NetworkService extends BaseNetworkService {
                                 Task[] tempTasks = tempWaves[i].getTasks();
                                 double min = tempTasks[0].getPrice();
                                 for (int j = 0; j < tempTasks.length; j++) {
-                                    if ((double)tempTasks[j].getPrice() < min) {
-                                        min = (double)tempTasks[j].getPrice();
+                                    if ((double) tempTasks[j].getPrice() < min) {
+                                        min = (double) tempTasks[j].getPrice();
                                     }
                                 }
                                 tempWaves[i].setRate(min);
@@ -207,14 +209,16 @@ public class NetworkService extends BaseNetworkService {
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
-                        // TODO Ask i
+                        // TODO Ask about i
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
-                            insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
+                            insertQuestion(gson, contentResolver, url, taskId, missionId, i, question, null);
 
                             if (question.getChildQuestions() != null) {
+                                List<Product> productList = makeProductList(question);
                                 for (Question childQuestion : question.getChildQuestions()) {
-                                    insertQuestion(gson, contentResolver, url, taskId, missionId, i, childQuestion);
+                                    insertQuestion(gson, contentResolver, url, taskId,
+                                            missionId, i, childQuestion, productList);
                                 }
                             }
                         }
@@ -273,7 +277,23 @@ public class NetworkService extends BaseNetworkService {
 
     }
 
-    private int insertQuestion(Gson gson, ContentResolver contentResolver, int url, int taskId, int missionId, int i, Question question) {
+    private List<Product> makeProductList(Question question) {
+        List<Product> productList = new ArrayList<>();
+
+        Category[] categoriesArray = question.getCategoriesArray();
+        if (categoriesArray != null) {
+            for (Category category : categoriesArray) {
+                if (category.getProducts() != null) {
+                    Collections.addAll(productList, category.getProducts());
+                }
+            }
+        }
+
+        return productList;
+    }
+
+    private int insertQuestion(Gson gson, ContentResolver contentResolver, int url, int taskId, int missionId, int i,
+                               Question question, List<Product> productList) {
         question.setTaskId(taskId);
         question.setMissionId(missionId);
 
@@ -298,28 +318,44 @@ public class NetworkService extends BaseNetworkService {
         contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
 
         contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID
-                        + "=?",
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
                 new String[]{String.valueOf(question.getId()), String.valueOf(taskId)}
         );
 
-        if (question.getAnswers() != null) {
-            for (Answer answer : question.getAnswers()) {
-                answer.setRandomId();
-                answer.setQuestionId(question.getId());
-                answer.setTaskId(taskId);
-                answer.setMissionId(missionId);
-                contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+        if (productList != null) {
+            // Insert answers for MassAudit subquestions
+            for (Product product : productList) {
+                if (question.getAnswers() != null) {
+                    for (Answer answer : question.getAnswers()) {
+                        insertAnswer(contentResolver, taskId, missionId, question, answer, product.getId());
+                    }
+                } else {
+                    Answer answer = new Answer();
+                    insertAnswer(contentResolver, taskId, missionId, question, answer, product.getId());
+                }
             }
         } else {
-            Answer answer = new Answer();
-            answer.setRandomId();
-            answer.setQuestionId(question.getId());
-            answer.setTaskId(taskId);
-            answer.setMissionId(missionId);
-            contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+            if (question.getAnswers() != null) {
+                for (Answer answer : question.getAnswers()) {
+                    insertAnswer(contentResolver, taskId, missionId, question, answer, null);
+                }
+            } else {
+                Answer answer = new Answer();
+                insertAnswer(contentResolver, taskId, missionId, question, answer, null);
+            }
         }
+
         i++;
         return i;
+    }
+
+    private void insertAnswer(ContentResolver contentResolver, int taskId, int missionId,
+                              Question question, Answer answer, Integer productId) {
+        answer.setRandomId();
+        answer.setProductId(productId);
+        answer.setQuestionId(question.getId());
+        answer.setTaskId(taskId);
+        answer.setMissionId(missionId);
+        contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
     }
 }

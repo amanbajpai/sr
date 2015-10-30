@@ -9,7 +9,7 @@ public interface AnswerDbSchema {
 
     String SORT_ORDER_ASC = Table.ANSWER.getName() + "." + Columns._ID.getName() + " ASC";
 
-    public enum Columns {
+    enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         QUESTION_ID("questionId", DBType.NUMERIC),
@@ -27,6 +27,7 @@ public interface AnswerDbSchema {
         LONGITUDE("longitude", DBType.TEXT),
         LATITUDE("latitude", DBType.TEXT),
 
+        PRODUCT_ID("productId", DBType.NUMERIC),
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -77,7 +78,8 @@ public interface AnswerDbSchema {
                 Table.ANSWER.getName() + "." + Columns.FILE_SIZE_B.getName(),
                 Table.ANSWER.getName() + "." + Columns.FILE_NAME.getName(),
                 Table.ANSWER.getName() + "." + Columns.LONGITUDE.getName(),
-                Table.ANSWER.getName() + "." + Columns.LATITUDE.getName()
+                Table.ANSWER.getName() + "." + Columns.LATITUDE.getName(),
+                Table.ANSWER.getName() + "." + Columns.PRODUCT_ID.getName(),
         };
 
         int _ID = 0;
@@ -94,5 +96,6 @@ public interface AnswerDbSchema {
         int FILE_NAME = 11;
         int LONGITUDE = 12;
         int LATITUDE = 13;
+        int PRODUCT_ID = 14;
     }
 }

@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Category;
+import com.ros.smartrocket.db.entity.Product;
 
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
@@ -70,20 +71,23 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup
-            parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
+                             ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.mass_audit_list_item, null);
         }
 
+        Product product = categories[groupPosition].getProducts()[childPosition];
+
         TextView titleView = (TextView) convertView.findViewById(R.id.massAuditItemTitle);
-        titleView.setText(categories[groupPosition].getProducts()[childPosition].getName());
+        titleView.setText(product.getName());
 
         View bg = convertView.findViewById(R.id.massAuditItemBg);
         bg.setBackgroundResource(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey);
 
         RadioButton tickButton = (RadioButton) convertView.findViewById(R.id.massAuditTickButton);
+        tickButton.setTag(product);
         tickButton.setOnClickListener(tickListener);
 
         return convertView;

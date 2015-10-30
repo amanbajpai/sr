@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.*;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 
 import java.util.ArrayList;
@@ -21,12 +22,15 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
     private final FragmentActivity activity;
     private final Fragment fragment;
     private final Question[] items;
+    private final Product product;
     private List<QuestionBaseBL> blList;
 
-    public SubQuestionsMassAuditAdapter(FragmentActivity activity, Fragment fragment, Question[] items) {
+    public SubQuestionsMassAuditAdapter(FragmentActivity activity, Fragment fragment, Question[] items,
+                                        Product product) {
         this.activity = activity;
         this.fragment = fragment;
         this.items = items;
+        this.product = product;
         this.blList = new ArrayList<>();
     }
 
@@ -61,7 +65,7 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         }
 
         if (bl != null) {
-            bl.initView(convertView, items[position], null, activity, fragment);
+            bl.initView(convertView, items[position], null, activity, fragment, product);
             bl.loadAnswers();
             blList.add(bl);
         }

@@ -7,9 +7,9 @@ import butterknife.Bind;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
-import com.ros.smartrocket.utils.L;
 
 import java.util.List;
 
@@ -33,11 +33,13 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     private View.OnClickListener tickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            L.v("CLICK", v.toString());
+            Product product = (Product) v.getTag();
+            Question mainSubQuestion = QuestionsBL.getMainSubQuestion(question);
+            String title = mainSubQuestion != null ? mainSubQuestion.getQuestion() : "";
+
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.subquestionsLayout,
-                            SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
-                                    mainSubQuestionTextView.getText().toString(), "#subtitle#"))
+                            SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(), title, product))
                     .addToBackStack(null).commit();
         }
     };

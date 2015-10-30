@@ -198,7 +198,8 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         if (question.getAnswers().length == question.getMaximumPhotos()) {
             question.setAnswers(addEmptyAnswer(question.getAnswers()));
         }
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
+                getProductId());
     }
 
     public void selectGalleryPhoto(int position) {
