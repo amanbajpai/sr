@@ -170,12 +170,19 @@ public class NotificationUtils {
             List<Notification> notifications = NotificationBL.convertCursorToNotificationList(NotificationBL.getUnreadNotificationsFromDB(context.getContentResolver()));
             PreferencesManager.getInstance().setShowPushNotifStar(true);
 
-            if (notifications.size() == 1) {
-                Intent intent = new Intent(context, PushNotificationActivity.class);
-                generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
+            if (!PreferencesManager.getInstance().getToken().isEmpty()) {
+                if (notifications.size() == 1) {
+                    Intent intent = new Intent(context, PushNotificationActivity.class);
+                    generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
+                } else {
+                    String title = "New SmartRocket notifications";
+                    String body = "You have new notifications. Click to open";
+                    Intent intent = new Intent(context, PushNotificationActivity.class);
+                    generateNotification(context, title, body, intent);
+                }
             } else {
-                String title = "New SmartRocket notifications";
-                String body = "You have new notifications.<br>Click to open";
+                String title = "New notification";
+                String body = "";
                 Intent intent = new Intent(context, PushNotificationActivity.class);
                 generateNotification(context, title, body, intent);
             }

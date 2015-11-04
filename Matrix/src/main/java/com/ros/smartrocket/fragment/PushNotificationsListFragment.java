@@ -38,6 +38,7 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -45,13 +46,10 @@ import java.util.ArrayList;
 /**
  * Created by macbook on 08.10.15.
  */
-public class PushNotificationsListFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener, AdapterView.OnItemClickListener {
+public class PushNotificationsListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private ArrayList<Notification> notifications;
     private ListView notificationsListView;
-    private View testPushBtn;
-    private APIFacade apiFacade = APIFacade.getInstance();
-    private ProgressDialog progressDialog;
     private DbHandler handler;
     private NotificationAdapter adapter;
     private PushReceiver localReceiver;
@@ -82,13 +80,6 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
         notificationsListView.setAdapter(adapter);
         notificationsListView.setOnItemClickListener(this);
 
-        if (BuildConfig.DEBUG) {
-            testPushBtn = view.findViewById(R.id.testPush);
-            testPushBtn.setVisibility(View.VISIBLE);
-            testPushBtn.setOnClickListener(this);
-            progressDialog = new ProgressDialog(getActivity());
-        }
-
         NotificationBL.getNotificationsFromDB(handler);
 
         localReceiver = new PushReceiver();
@@ -97,7 +88,6 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
     @Override
     public void onStart() {
         super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.REFRESH_PUSH_NOTIFICATION_LIST);
         getActivity().registerReceiver(localReceiver, intentFilter);
@@ -105,47 +95,8 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
 
     @Override
     public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
         getActivity().unregisterReceiver(localReceiver);
         super.onStop();
-    }
-
-    @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.TEST_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
-                Toast.makeText(getActivity(), "push sent", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            progressDialog.dismiss();
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.testPush:
-                PushBulkMessage pushBulkMessage = new PushBulkMessage();
-                pushBulkMessage.setSubject("Test Subject");
-//                pushBulkMessage.setText("Test Message");
-                pushBulkMessage.setText("<!DOCTYPE html>\n" +
-                        "<html>\n" +
-                        "<body>\n" +
-                        "\n" +
-                        "<h1>My First Heading</h1>\n" +
-                        "\n" +
-                        "<p>My first paragraph.</p>\n" +
-                        "\n" +
-                        "</body>\n" +
-                        "</html>");
-                PushSettings pushSettings = new PushSettings();
-                pushSettings.addId(10401);
-                pushBulkMessage.setSettings(pushSettings);
-
-                apiFacade.testPushNotification(getActivity(), pushBulkMessage);
-                break;
-        }
     }
 
     @Override
@@ -187,6 +138,8 @@ public class PushNotificationsListFragment extends Fragment implements NetworkOp
             if (Keys.REFRESH_PUSH_NOTIFICATION_LIST.equals(action)) {
                 NotificationBL.getNotificationsFromDB(handler);
             }
+
+            PreferencesManager.getInstance().setShowPushNotifStar(false);
         }
     }
 }

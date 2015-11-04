@@ -6,22 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.ros.smartrocket.views.CustomButton
-        android:id="@+id/testPush"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/button_cash_out_selector"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="5dp"
-        android:text="@string/test_push"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_44sp"
-        android:visibility="gone" />
-
     <ListView
         android:id="@+id/notificationsList"
         android:layout_width="match_parent"
@@ -30,6 +14,5 @@
         android:cacheColorHint="@android:color/transparent"
         android:dividerHeight="1dp"
         tools:listitem="@layout/list_item_notification" />
-
 
 </LinearLayout>
