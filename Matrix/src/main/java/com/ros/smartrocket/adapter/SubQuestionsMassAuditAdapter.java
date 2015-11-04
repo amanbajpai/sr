@@ -72,6 +72,16 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public boolean saveQuestions() {
+        boolean success = true;
+
+        for (QuestionBaseBL bl : blList) {
+            success = bl.saveQuestion() && success;
+        }
+
+        return success;
+    }
+
     public void onPause() {
         for (QuestionBaseBL bl : blList) {
             bl.onPause();

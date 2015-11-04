@@ -51,9 +51,27 @@ public class AnswersBL {
      * Make request for getting Answer list
      *  @param handler - Handler for getting response from DB
      * @param questionId - question id
+     */
+    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
+                                            Integer questionId) {
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)},
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+
+    /**
+     * Make request for getting Answer list
+     *  @param handler - Handler for getting response from DB
+     * @param questionId - question id
      * @param productId - Product Id
      */
-
     public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
                                             Integer questionId, Integer productId) {
         handler.startQuery(

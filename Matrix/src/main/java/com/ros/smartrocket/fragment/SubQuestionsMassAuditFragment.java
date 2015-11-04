@@ -126,4 +126,12 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     void cancelClick() {
         getFragmentManager().popBackStack();
     }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.submitSubQuestionsButton)
+    void submitClick() {
+        if (adapter.saveQuestions()) {
+            getFragmentManager().popBackStack();
+        }
+    }
 }

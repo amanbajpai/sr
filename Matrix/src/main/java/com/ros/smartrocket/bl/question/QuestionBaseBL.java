@@ -86,9 +86,12 @@ public class QuestionBaseBL {
     }
 
     public void loadAnswers() {
-        Integer productId = product != null ? product.getId() : null;
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(),
-                question.getId(), productId);
+        if (product != null) {
+            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
+                    product.getId());
+        } else {
+            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+        }
     }
 
     protected Integer getProductId() {
