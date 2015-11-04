@@ -399,6 +399,7 @@
     <string name="cashing_out_are_you_sure">確定進行餘額提款？</string>
     <string name="cashing_out_continue">繼續</string>
     <string name="cashing_out_success">提款處理中，款項將會於今日完結的時候轉賬到你所提名的網上賬戶。</string>
+    <string name="cashing_out_payment_in_progress">目前还有 %1$s 的款项在处理中</string>
 
     <string name="cashing_out_payment_details">提款資料</string>
     <string name="cashing_out_update_payment_details_3_lines">更新提款資料</string>

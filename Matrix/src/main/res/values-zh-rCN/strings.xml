@@ -408,6 +408,7 @@
 
     <string name="cashing_out_update_payment_details_3_lines">更新提现信息</string>
     <string name="cashing_out_payment_details">提现信息</string>
+    <string name="cashing_out_payment_in_progress">目前还有 %1$s 的款项在处理中</string>
     <string name="hint_your_registered_alipay_acc_name">支付宝账户实名</string>
     <string name="hint_your_registered_alipay_phone">支付宝账号的手机号吗</string>
     <string name="update_payment_details_click_to_obtain_sms">点击获取验证码短信</string>
