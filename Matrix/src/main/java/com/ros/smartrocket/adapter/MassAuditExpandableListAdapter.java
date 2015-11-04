@@ -8,18 +8,26 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
+
+import java.util.HashMap;
 
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private final Category[] categories;
     private final View.OnClickListener tickListener;
+    private final View.OnClickListener crossListener;
+    private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
 
-    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener) {
+    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
+                                          View.OnClickListener crossListener) {
         this.context = context;
         this.categories = categories;
         this.tickListener = tickListener;
+        this.crossListener = crossListener;
     }
 
     @Override
@@ -86,15 +94,41 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         View bg = convertView.findViewById(R.id.massAuditItemBg);
         bg.setBackgroundResource(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey);
 
+        RadioButton crossButton = (RadioButton) convertView.findViewById(R.id.massAuditCrossButton);
         RadioButton tickButton = (RadioButton) convertView.findViewById(R.id.massAuditTickButton);
+
+        Answer tickAnswer = answersMap.get(product.getId()).getTickAnswer();
+        Answer crossAnswer = answersMap.get(product.getId()).getCrossAnswer();
+        if (tickAnswer != null && crossAnswer != null) {
+            setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
+            // TODO Clarify answers order
+            tickButton.setChecked(tickAnswer.getChecked());
+            crossButton.setChecked(crossAnswer.getChecked());
+        } else {
+            setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
+        }
+
         tickButton.setTag(product);
         tickButton.setOnClickListener(tickListener);
 
+        crossButton.setTag(product);
+        crossButton.setOnClickListener(crossListener);
+
         return convertView;
+    }
+
+    private void setButtonsVisibility(View tickButton, View crossButton, int visibility) {
+        tickButton.setVisibility(visibility);
+        crossButton.setVisibility(visibility);
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void setData(HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap) {
+        this.answersMap = answersMap;
+        notifyDataSetChanged();
     }
 }

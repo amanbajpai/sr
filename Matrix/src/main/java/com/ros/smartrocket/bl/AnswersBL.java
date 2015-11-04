@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
@@ -392,5 +393,16 @@ public class AnswersBL {
 
     public static void removeAllAnswers(Context context) {
         context.getContentResolver().delete(AnswerDbSchema.CONTENT_URI, null, null);
+    }
+
+    @Nullable
+    public static Answer getAnswer(Answer[] answers, Integer id, String value) {
+        for (Answer answer : answers) {
+            if (answer.getProductId().equals(id) && answer.getValue().equals(value)) {
+                return answer;
+            }
+        }
+
+        return null;
     }
 }
