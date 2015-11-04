@@ -173,7 +173,7 @@ public class NotificationUtils {
             if (!PreferencesManager.getInstance().getToken().isEmpty()) {
                 if (notifications.size() == 1) {
                     Intent intent = new Intent(context, PushNotificationActivity.class);
-                    generateNotification(context, notification.getSubject(), notification.getMessage(), intent);
+                    generateNotification(context, notification.getSubject(), Html.fromHtml(notification.getMessage()).toString(), intent);
                 } else {
                     String title = "New SmartRocket notifications";
                     String body = "You have new notifications. Click to open";
