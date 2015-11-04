@@ -50,7 +50,8 @@ public class AnswersBL {
 
     /**
      * Make request for getting Answer list
-     *  @param handler - Handler for getting response from DB
+     *
+     * @param handler    - Handler for getting response from DB
      * @param questionId - question id
      */
     public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
@@ -69,9 +70,30 @@ public class AnswersBL {
 
     /**
      * Make request for getting Answer list
-     *  @param handler - Handler for getting response from DB
+     *
+     * @param handler    - Handler for getting response from DB
      * @param questionId - question id
-     * @param productId - Product Id
+     */
+    public static void getMainSubQuestionAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
+                                                           Integer questionId) {
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)},
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+
+    /**
+     * Make request for getting Answer list
+     *
+     * @param handler    - Handler for getting response from DB
+     * @param questionId - question id
+     * @param productId  - Product Id
      */
     public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
                                             Integer questionId, Integer productId) {
@@ -135,7 +157,8 @@ public class AnswersBL {
      * @return List<NotUploadedFile>
      */
 
-    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, Integer missionId, String taskName, long endDateTime) {
+    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, Integer missionId, String taskName,
+                                                                 long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
@@ -375,7 +398,8 @@ public class AnswersBL {
     public static void clearTaskUserAnswers(Activity activity, int taskId, int missionId) {
         activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.TASK_ID + "=? and "
-                        + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf(taskId)}
+                        + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf
+                        (taskId)}
         );
 
         ContentValues contentValues = new ContentValues();

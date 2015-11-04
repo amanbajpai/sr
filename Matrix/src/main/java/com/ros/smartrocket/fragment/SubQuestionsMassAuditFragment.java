@@ -15,6 +15,8 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
+import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     TextView subtitleTextView;
 
     private SubQuestionsMassAuditAdapter adapter;
+    private Product product;
 
     public static Fragment makeInstance(Question[] questions, String title, Product product) {
         Bundle bundle = new Bundle();
@@ -59,7 +62,7 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Product product = (Product) getArguments().getSerializable(KEY_PRODUCT);
+        product = (Product) getArguments().getSerializable(KEY_PRODUCT);
         
         titleTextView.setText(getArguments().getString(KEY_TITLE));
         subtitleTextView.setText(product != null ? product.getName() : "");
@@ -131,6 +134,7 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     @OnClick(R.id.submitSubQuestionsButton)
     void submitClick() {
         if (adapter.saveQuestions()) {
+            EventBus.getDefault().post(new SubQuestionsSubmitEvent(product != null ? product.getId() : 0));
             getFragmentManager().popBackStack();
         }
     }

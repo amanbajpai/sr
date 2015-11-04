@@ -18,11 +18,11 @@ import java.util.HashMap;
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private final Category[] categories;
-    private final View.OnClickListener tickListener;
+    private final View.OnTouchListener tickListener;
     private final View.OnClickListener crossListener;
     private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
 
-    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
+    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnTouchListener tickListener,
                                           View.OnClickListener crossListener) {
         this.context = context;
         this.categories = categories;
@@ -109,7 +109,8 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         }
 
         tickButton.setTag(product);
-        tickButton.setOnClickListener(tickListener);
+//        tickButton.setOnClickListener(tickListener);
+        tickButton.setOnTouchListener(tickListener);
 
         crossButton.setTag(product);
         crossButton.setOnClickListener(crossListener);
