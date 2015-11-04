@@ -91,8 +91,14 @@ public class WaveAdapter extends BaseAdapter {
         holder.name.setText(wave.getName());
         UIUtils.showWaveTypeIcon(activity, holder.image, wave.getIcon());
         holder.locations.setText(String.valueOf(wave.getTaskCount()));
-        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
+        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getRate(),
                 wave.getNearTaskCurrencySign(), null, null));
+//        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
+//                wave.getNearTaskCurrencySign(), null, null));
+        if (wave.isContainsDifferentRate()) {
+            holder.price.append("+");
+        }
+
         holder.exp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
 
         Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, wave.getNearTaskDistance(),
@@ -103,7 +109,6 @@ public class WaveAdapter extends BaseAdapter {
 
         holder.textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
         holder.photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
-
 
         if (WavesBL.isPreClaimWave(wave)) {
             holder.listItem.setBackgroundResource(R.drawable.mission_violet_bg);

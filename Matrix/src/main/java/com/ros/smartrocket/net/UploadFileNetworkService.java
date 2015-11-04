@@ -197,7 +197,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
     }
 
     private File[] separateFile(NotUploadedFile notUploadedFile) throws IOException {
-        System.gc();
+//        System.gc();
         File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
         byte[] soureByteArray = FileUtils.readFileToByteArray(sourceFile);
 

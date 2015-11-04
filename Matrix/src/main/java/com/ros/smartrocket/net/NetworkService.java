@@ -101,6 +101,30 @@ public class NetworkService extends BaseNetworkService {
                             scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
                             hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
+                            waves.getWaves()[0].getTasks()[0].getPrice();
+
+                            Wave[] tempWaves = waves.getWaves();
+                            for (int i = 0; i < tempWaves.length; i++) {
+                                Task[] tempTasks = tempWaves[i].getTasks();
+                                for (int j = 1; j < tempTasks.length; j++) {
+                                    if ((double)tempTasks[j].getPrice() != (double)tempTasks[j - 1].getPrice()) {
+                                        tempWaves[i].setContainsDifferentRate(true);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            for (int i = 0; i < tempWaves.length; i++) {
+                                Task[] tempTasks = tempWaves[i].getTasks();
+                                double min = tempTasks[0].getPrice();
+                                for (int j = 0; j < tempTasks.length; j++) {
+                                    if ((double)tempTasks[j].getPrice() < min) {
+                                        min = (double)tempTasks[j].getPrice();
+                                    }
+                                }
+                                tempWaves[i].setRate(min);
+                            }
+
                             TasksBL.removeNotMyTask(contentResolver);
                             WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, false);
 
@@ -255,14 +279,6 @@ public class NetworkService extends BaseNetworkService {
                         AliPayAccount aliPayAccount = gson.fromJson(responseString, AliPayAccount.class);
                         operation.responseEntities.add(aliPayAccount);
                         break;
-//                    case WSUrl.ALLOW_PUSH_NOTIFICATION_ID:
-//                        AllowPushNotification allowPushNotification = gson.fromJson(responseString, AllowPushNotification.class);
-//                        operation.responseEntities.add(allowPushNotification);
-//                        break;
-//                    case WSUrl.TEST_PUSH_NOTIFICATION_ID:
-////                        AllowPushNotification allowPushNotification = gson.fromJson(responseString, AllowPushNotification.class);
-////                        operation.responseEntities.add(allowPushNotification);
-//                        break;
                     default:
                         break;
                 }

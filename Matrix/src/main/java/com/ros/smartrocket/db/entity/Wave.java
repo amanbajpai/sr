@@ -111,6 +111,10 @@ public class Wave extends BaseEntity {
     private String nearTaskCurrencySign;
 
 
+    private transient Boolean containsDifferentRate = false;
+    private transient Double rate;
+
+
     public Wave() {
     }
 
@@ -158,6 +162,8 @@ public class Wave extends BaseEntity {
             result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.Query.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.Query.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
+            result.setContainsDifferentRate(c.getInt(WaveDbSchema.Query.CONTAINS_DIFFERENT_RATE) == 1);
+            result.setRate(c.getDouble(WaveDbSchema.Query.RATE));
         }
         return result;
     }
@@ -211,6 +217,8 @@ public class Wave extends BaseEntity {
             result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.QueryWaveByDistance.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
+            result.setContainsDifferentRate(c.getInt(WaveDbSchema.QueryWaveByDistance.CONTAINS_DIFFERENT_RATE) == 1);
+            result.setRate(c.getDouble(WaveDbSchema.QueryWaveByDistance.RATE));
 
         }
         return result;
@@ -507,4 +515,19 @@ public class Wave extends BaseEntity {
         this.downloadMediaWhenClaimingTask = downloadMediaWhenClaimingTask;
     }
 
+    public boolean isContainsDifferentRate() {
+        return containsDifferentRate;
+    }
+
+    public void setContainsDifferentRate(boolean containsDifferentRate) {
+        this.containsDifferentRate = containsDifferentRate;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
 }
