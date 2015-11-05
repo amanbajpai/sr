@@ -53,7 +53,6 @@ public class NotificationAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.list_item_notification, null);
 
-//            viewHolder.imageView = (ImageView) view.findViewById(R.id)
             viewHolder.subject = (TextView) view.findViewById(R.id.subject);
             viewHolder.text = (TextView) view.findViewById(R.id.text);
             viewHolder.timestamp = (TextView) view.findViewById(R.id.time);
@@ -76,7 +75,6 @@ public class NotificationAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        //        ImageView imageView;
         TextView subject, text, timestamp;
     }
 }
