@@ -7,7 +7,7 @@ import android.net.Uri;
  */
 public interface NotificationDbSchema {
 
-//    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
+    //    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table
             .NOTIFICATION.getName()).build();
 

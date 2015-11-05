@@ -232,11 +232,9 @@
         <service
             android:name=".net.NetworkService"
             android:exported="false" />
-
         <activity
             android:name=".activity.PushNotificationActivity"
-            android:configChanges="locale" />
-
+            android:configChanges="locale"/>
         <provider
             android:name=".db.AppContentProvider"
             android:authorities="${applicationId}"

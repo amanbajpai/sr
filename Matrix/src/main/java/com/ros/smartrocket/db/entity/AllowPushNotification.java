@@ -10,11 +10,11 @@ public class AllowPushNotification extends BaseEntity {
     @SerializedName("AllowPushNotification")
     private Boolean allow;
 
-    public void allow(){
+    public void allow() {
         allow = true;
     }
 
-    public void disallow(){
+    public void disallow() {
         allow = false;
     }
 

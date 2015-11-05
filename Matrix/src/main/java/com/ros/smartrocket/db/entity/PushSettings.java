@@ -20,7 +20,7 @@ public class PushSettings extends BaseEntity {
         this.agentIds = agentIds;
     }
 
-    public void addId(int id){
-        agentIds.add((Integer)id);
+    public void addId(int id) {
+        agentIds.add((Integer) id);
     }
 }
