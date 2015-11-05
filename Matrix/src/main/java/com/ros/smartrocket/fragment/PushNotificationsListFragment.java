@@ -21,6 +21,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
+import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.utils.PreferencesManager;
 
@@ -99,9 +100,11 @@ public class PushNotificationsListFragment extends Fragment implements AdapterVi
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            notifications.clear();
-            notifications.addAll(NotificationBL.convertCursorToNotificationList(cursor));
-            adapter.notifyDataSetChanged();
+            if (token == NotificationDbSchema.Query.TOKEN_QUERY) {
+                notifications.clear();
+                notifications.addAll(NotificationBL.convertCursorToNotificationList(cursor));
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
