@@ -45,6 +45,8 @@
                 android:layout_width="match_parent"/>
         </ScrollView>
         <LinearLayout
+            android:id="@+id/bottomSubQuestionsButtons"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -63,6 +65,7 @@
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/submitSubQuestionsButton"
                 style="@style/Button"
+                android:enabled="false"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_width="0dp"

@@ -84,7 +84,7 @@ public class QuestionBaseChooseBL extends QuestionBaseBL {
                     break;
                 }
             }
-            answerSelectedListener.onAnswerSelected(selected);
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {

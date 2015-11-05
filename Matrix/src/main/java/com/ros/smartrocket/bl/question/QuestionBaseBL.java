@@ -128,7 +128,7 @@ public class QuestionBaseBL {
 
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
-            answerSelectedListener.onAnswerSelected(true);
+            answerSelectedListener.onAnswerSelected(true, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {

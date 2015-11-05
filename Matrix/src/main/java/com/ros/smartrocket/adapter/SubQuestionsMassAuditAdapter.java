@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +13,20 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.*;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubQuestionsMassAuditAdapter extends BaseAdapter {
     private final FragmentActivity activity;
-    private final Fragment fragment;
+    private final SubQuestionsMassAuditFragment fragment;
     private final Question[] items;
     private final Product product;
     private List<QuestionBaseBL> blList;
 
-    public SubQuestionsMassAuditAdapter(FragmentActivity activity, Fragment fragment, Question[] items,
-                                        Product product) {
+    public SubQuestionsMassAuditAdapter(FragmentActivity activity, SubQuestionsMassAuditFragment fragment,
+                                        Question[] items, Product product) {
         this.activity = activity;
         this.fragment = fragment;
         this.items = items;
@@ -65,6 +65,8 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         }
 
         if (bl != null) {
+            bl.setAnswerPageLoadingFinishedListener(fragment);
+            bl.setAnswerSelectedListener(fragment);
             bl.initView(convertView, items[position], null, activity, fragment, product);
             bl.loadAnswers();
             blList.add(bl);

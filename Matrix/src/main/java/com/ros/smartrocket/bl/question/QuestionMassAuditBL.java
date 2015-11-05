@@ -64,7 +64,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                     break;
                 }
             }
-            answerSelectedListener.onAnswerSelected(selected);
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {

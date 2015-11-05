@@ -130,7 +130,7 @@ public final class QuestionNumberBL extends QuestionBaseBL {
             boolean selected = answerNumber != null
                     && answerNumber >= question.getMinValue() && answerNumber <= question.getMaxValue();
 
-            answerSelectedListener.onAnswerSelected(selected);
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {

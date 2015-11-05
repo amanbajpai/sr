@@ -80,7 +80,7 @@ public class AnswerRadioButtonAdapter extends AnswerBaseAdapter {
                                 break;
                             }
                         }
-                        answerSelectedListener.onAnswerSelected(selected);
+                        answerSelectedListener.onAnswerSelected(selected, answer.getQuestionId());
                     }
                 }
             });

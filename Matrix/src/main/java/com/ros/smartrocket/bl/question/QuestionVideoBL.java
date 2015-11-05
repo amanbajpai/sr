@@ -110,7 +110,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
             Answer answer = question.getAnswers()[0];
             boolean selected = answer.getFileUri() != null;
 
-            answerSelectedListener.onAnswerSelected(selected);
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {
@@ -222,7 +222,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
                             isVideoAdded = !TextUtils.isEmpty(videoPath);
                             isVideoConfirmed = false;
-                            answerSelectedListener.onAnswerSelected(false);
+                            answerSelectedListener.onAnswerSelected(false, question.getId());
 
                             if (!TextUtils.isEmpty(videoPath)) {
                                 playPauseVideo(videoPath);

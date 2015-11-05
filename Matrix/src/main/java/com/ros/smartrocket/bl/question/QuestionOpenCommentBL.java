@@ -47,7 +47,7 @@ public final class QuestionOpenCommentBL extends QuestionBaseBL {
         if (answerSelectedListener != null) {
             boolean selected = !TextUtils.isEmpty(answerEditText.getText().toString().trim());
 
-            answerSelectedListener.onAnswerSelected(selected);
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {

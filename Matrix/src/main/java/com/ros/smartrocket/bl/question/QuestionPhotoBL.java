@@ -241,7 +241,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             boolean selected = isBitmapAdded && isBitmapConfirmed;
-            answerSelectedListener.onAnswerSelected(selected);
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {

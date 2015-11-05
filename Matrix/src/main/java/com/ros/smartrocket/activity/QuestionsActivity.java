@@ -139,9 +139,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (currentFragment != null) {
-//            currentFragment.onActivityResult(requestCode, resultCode, data);
-//        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -429,7 +426,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-    public void onAnswerSelected(Boolean selected) {
+    public void onAnswerSelected(Boolean selected, int questionId) {
         nextButton.setEnabled(selected);
     }
 

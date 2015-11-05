@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -16,15 +17,20 @@ import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
+import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Subquestions fragment
  */
-public class SubQuestionsMassAuditFragment extends Fragment {
+public class SubQuestionsMassAuditFragment extends Fragment implements
+        OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
     public static final String KEY_QUES = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_QUESTIONS";
     public static final String KEY_TITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_TITLE";
     public static final String KEY_PRODUCT = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT";
@@ -35,9 +41,15 @@ public class SubQuestionsMassAuditFragment extends Fragment {
     TextView titleTextView;
     @Bind(R.id.massAuditSubQuestionsSubtitle)
     TextView subtitleTextView;
+    @Bind(R.id.bottomSubQuestionsButtons)
+    View bottomSubQuestions;
+    @Bind(R.id.submitSubQuestionsButton)
+    Button submitButton;
 
     private SubQuestionsMassAuditAdapter adapter;
     private Product product;
+    private int loadedSubQuestionsCount;
+    private Set<Integer> set = new HashSet<>();
 
     public static Fragment makeInstance(Question[] questions, String title, Product product) {
         Bundle bundle = new Bundle();
@@ -76,6 +88,7 @@ public class SubQuestionsMassAuditFragment extends Fragment {
                 }
             }
         }
+
 
         adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
                 questionsWithoutMain.toArray(new Question[questionsWithoutMain.size()]), product);
@@ -137,5 +150,24 @@ public class SubQuestionsMassAuditFragment extends Fragment {
             EventBus.getDefault().post(new SubQuestionsSubmitEvent(product != null ? product.getId() : 0));
             getFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    public void onAnswerPageLoadingFinished() {
+        loadedSubQuestionsCount++;
+        if (loadedSubQuestionsCount == adapter.getCount()) {
+            bottomSubQuestions.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onAnswerSelected(Boolean selected, int questionId) {
+        if (selected) {
+            set.add(questionId);
+        } else {
+            set.remove(questionId);
+        }
+
+        submitButton.setEnabled(set.size() == adapter.getCount());
     }
 }

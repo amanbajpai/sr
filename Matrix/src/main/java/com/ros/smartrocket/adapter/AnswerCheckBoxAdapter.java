@@ -65,7 +65,7 @@ public class AnswerCheckBoxAdapter extends AnswerBaseAdapter {
                                 break;
                             }
                         }
-                        answerSelectedListener.onAnswerSelected(selected);
+                        answerSelectedListener.onAnswerSelected(selected, answer.getQuestionId());
                     }
                 }
             });
