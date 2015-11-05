@@ -29,8 +29,6 @@ public class WriteDataHelper {
         preferencesManager.removeToken();
 
         context.stopService(new Intent(context, TaskReminderService.class));
-
-//        GCMRegistrar.unregister(context);
     }
 
     public static void prepareLogin(Context context, String currentEmail) {
@@ -93,7 +91,6 @@ public class WriteDataHelper {
             GCMRegistrar.unregister(context);
 
         }
-
 
     }
 }

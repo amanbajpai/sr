@@ -624,10 +624,11 @@ public class APIFacade {
      */
     public void allowPushNotification(Activity activity, boolean allow) {
         AllowPushNotification allowPushNotification = new AllowPushNotification();
-        if (allow)
+        if (allow) {
             allowPushNotification.allow();
-        else
+        } else {
             allowPushNotification.disallow();
+        }
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.ALLOW_PUSH_NOTIFICATION);

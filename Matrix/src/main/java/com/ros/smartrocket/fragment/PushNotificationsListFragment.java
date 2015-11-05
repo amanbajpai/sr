@@ -1,6 +1,5 @@
 package com.ros.smartrocket.fragment;
 
-import android.app.ProgressDialog;
 import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -16,30 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
-import com.ros.smartrocket.db.NotificationDbSchema;
-import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.db.entity.PushBulkMessage;
-import com.ros.smartrocket.db.entity.PushSettings;
-import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.net.BaseNetworkService;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -107,7 +90,6 @@ public class PushNotificationsListFragment extends Fragment implements AdapterVi
         fragmentTransaction.addToBackStack(PushNotificationFragment.class.getSimpleName());
         fragmentTransaction.commit();
 
-//        getActivity().getSupportFragmentManager().beginTransaction().add(android.R.id.content, PushNotificationFragment.getInstance(notifications.get(i).get_id())).commit();
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -117,15 +99,9 @@ public class PushNotificationsListFragment extends Fragment implements AdapterVi
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case NotificationDbSchema.Query.TOKEN_QUERY:
-                    notifications.clear();
-                    notifications.addAll(NotificationBL.convertCursorToNotificationList(cursor));
-                    adapter.notifyDataSetChanged();
-                    break;
-                default:
-                    break;
-            }
+            notifications.clear();
+            notifications.addAll(NotificationBL.convertCursorToNotificationList(cursor));
+            adapter.notifyDataSetChanged();
         }
     }
 

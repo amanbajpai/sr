@@ -175,14 +175,14 @@ public class NotificationUtils {
                     Intent intent = new Intent(context, PushNotificationActivity.class);
                     generateNotification(context, notification.getSubject(), Html.fromHtml(notification.getMessage()).toString(), intent);
                 } else {
-                    String title = "New SmartRocket notifications";
-                    String body = "You have new notifications. Click to open";
+                    String title = context.getString(R.string.new_push_notifications_header);
+                    String body = context.getString(R.string.new_push_notifications_body);
                     Intent intent = new Intent(context, PushNotificationActivity.class);
                     generateNotification(context, title, body, intent);
                 }
             } else {
-                String title = "New notification";
-                String body = "";
+                String title = context.getString(R.string.new_push_notification);
+                String body = new String();
                 Intent intent = new Intent(context, PushNotificationActivity.class);
                 generateNotification(context, title, body, intent);
             }
