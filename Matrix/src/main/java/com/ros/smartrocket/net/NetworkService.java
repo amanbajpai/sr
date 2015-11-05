@@ -15,7 +15,26 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.db.entity.AliPayAccount;
+import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.AskIf;
+import com.ros.smartrocket.db.entity.BaseEntity;
+import com.ros.smartrocket.db.entity.CheckLocationResponse;
+import com.ros.smartrocket.db.entity.ClaimTaskResponse;
+import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Questions;
+import com.ros.smartrocket.db.entity.ReferralCases;
+import com.ros.smartrocket.db.entity.RegistrationResponse;
+import com.ros.smartrocket.db.entity.ResponseError;
+import com.ros.smartrocket.db.entity.Sharing;
+import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.TaskLocation;
+import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
+import com.ros.smartrocket.db.entity.Token;
+import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
@@ -231,6 +250,10 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.GET_ALIPAY_ACCOUNT_ID:
                         AliPayAccount aliPayAccount = gson.fromJson(responseString, AliPayAccount.class);
                         operation.responseEntities.add(aliPayAccount);
+                        break;
+                    case WSUrl.ALLOW_PUSH_NOTIFICATION_ID:
+                        AllowPushNotification allowPushNotification = gson.fromJson(responseString, AllowPushNotification.class);
+                        operation.responseEntities.add(allowPushNotification);
                         break;
                     default:
                         break;

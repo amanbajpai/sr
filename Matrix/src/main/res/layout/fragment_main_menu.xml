@@ -1,77 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:padding="10dp"
             android:background="@color/grey_light"
-            android:orientation="horizontal" >
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/photoImageView"
-                    android:layout_height="40dp"
                     android:layout_width="40dp"
-                    android:contentDescription="@string/app_name"
+                    android:layout_height="40dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="centerCrop"
                     android:src="@drawable/cam" />
+
                 <ImageView
                     android:id="@+id/uploadPhotoProgressImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/round_progress"
-                    android:background="@android:color/transparent"
                     android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/round_progress"
                     android:visibility="gone" />
-            </FrameLayout >
+            </FrameLayout>
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/nameTextView"
-                android:layout_marginLeft="20dp"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@android:color/transparent"
+                android:text="@string/app_name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16sp"
-                android:text="@string/app_name"
-                android:background="@android:color/transparent"
                 custom:textStyle="bold" />
-        </LinearLayout >
+        </LinearLayout>
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/findTasksButton"
             style="@style/MainMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/find_mission"
             android:drawableLeft="@drawable/menu_search"
+            android:text="@string/find_mission"
             custom:textStyle="bold" />
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/myTasksCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_red_selector"
+                android:paddingBottom="1dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:paddingBottom="1dp"
-                android:textColor="@color/white"
-                android:text="@string/zero" />
+                android:text="@string/zero"
+                android:textColor="@color/white" />
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/myTasksButton"
                 style="@style/MainMenuButton"
@@ -79,203 +90,257 @@
                 android:layout_height="wrap_content"
                 android:text="@string/my_missions"
                 custom:textStyle="bold" />
-        </LinearLayout >
+        </LinearLayout>
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:id="@+id/cashingOutLayout"
             android:layout_width="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
             <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_red_selector"
+                android:paddingBottom="1dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:paddingBottom="1dp"
-                android:textColor="@color/white"
-                android:text="@string/dollar_symbol" />
+                android:text="@string/dollar_symbol"
+                android:textColor="@color/white" />
+
             <com.ros.smartrocket.views.CustomTextView
                 style="@style/MainMenuButton"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cashing_out_title"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/balanceTextView"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:paddingTop="3dp"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_light"
+                android:gravity="right"
                 android:paddingBottom="3dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                custom:textStyle="bold"
-                android:gravity="right"
-                android:background="@color/grey_light"
+                android:paddingTop="3dp"
+                android:text="@string/balance_0"
                 android:textColor="@color/red"
                 android:textSize="@dimen/text_size_15sp"
-                android:text="@string/balance_0" />
-        </LinearLayout >
+                custom:textStyle="bold" />
+        </LinearLayout>
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingTop="10dp"
+            android:orientation="vertical"
             android:paddingBottom="10dp"
-            android:orientation="vertical" >
+            android:paddingTop="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal" >
+                android:paddingRight="10dp">
+
                 <com.ros.smartrocket.views.CustomTextView
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    custom:textStyle="bold"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@string/rocket_points"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_size_15sp"
-                    android:text="@string/rocket_points" />
+                    custom:textStyle="bold" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/rocketPointNumberTextView"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:paddingTop="3dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey_light"
+                    android:gravity="right"
                     android:paddingBottom="3dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    custom:textStyle="bold"
-                    android:gravity="right"
-                    android:background="@color/grey_light"
+                    android:paddingTop="3dp"
+                    android:text="@string/level_0"
                     android:textColor="@color/red"
                     android:textSize="@dimen/text_size_15sp"
-                    android:text="@string/level_0" />
-            </LinearLayout >
+                    custom:textStyle="bold" />
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/levelLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal" >
+                android:paddingRight="10dp">
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/levelName"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    custom:textStyle="bold"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@string/level_name"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_size_15sp"
-                    android:text="@string/level_name" />
+                    custom:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/levelIcon"
-                    android:layout_height="26dp"
                     android:layout_width="wrap_content"
-                    android:contentDescription="@string/app_name"
+                    android:layout_height="26dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/badge" />
-            </LinearLayout >
+            </LinearLayout>
+
             <SeekBar
                 android:id="@+id/levelProgressBar"
-                android:progressDrawable="@drawable/seekbar"
-                android:indeterminateDrawable="@drawable/seekbar"
                 android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="-20dp"
                 android:layout_marginTop="15dp"
+                android:indeterminateDrawable="@drawable/seekbar"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_height="50dp"
-                android:thumbOffset="6dp"
-                android:layout_gravity="bottom"
+                android:progress="0"
+                android:progressDrawable="@drawable/seekbar"
                 android:thumb="@drawable/menu_man"
-                android:layout_marginBottom="-20dp"
-                android:progress="0" />
+                android:thumbOffset="6dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal" >
+                android:paddingRight="10dp">
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/minLevelExperience"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@string/level_0"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/text_size_12sp"
-                    android:text="@string/level_0" />
+                    android:textSize="@dimen/text_size_12sp" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/maxLevelExperience"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
+                    android:text="@string/level_0"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/text_size_12sp"
-                    android:text="@string/level_0" />
-            </LinearLayout >
-        </LinearLayout >
+                    android:textSize="@dimen/text_size_12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/myAccountButton"
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/my_portal"
             android:drawableLeft="@drawable/menu_portal"
+            android:text="@string/my_portal"
             custom:textStyle="bold" />
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:id="@+id/notificationsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.ros.smartrocket.views.CustomTextView
+                style="@style/MainMenuButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/loudspeaker"
+                android:text="@string/notifications"
+                custom:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/notificationsIndicator"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_notif_red_circle"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/shareButton"
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/share"
             android:drawableLeft="@drawable/menu_share"
             android:drawablePadding="10dp"
+            android:text="@string/share"
             custom:textStyle="bold" />
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/supportButton"
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/support"
             android:drawableLeft="@drawable/menu_support"
+            android:text="@string/support"
             custom:textStyle="bold" />
+
         <View
             style="@style/mainMenuDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/settingsButton"
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/settings"
             android:drawableLeft="@drawable/menu_settings"
+            android:text="@string/settings"
             custom:textStyle="bold" />
-    </LinearLayout >
-</ScrollView >
+    </LinearLayout>
+</ScrollView>

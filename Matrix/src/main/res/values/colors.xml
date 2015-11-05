@@ -28,4 +28,5 @@
     <color name="map_radius_fill">#07ff0033</color>
     <!--<color name="white_transparence">#a9949494</color>-->
     <color name="black_transparency">#aa000000</color>
-</resources>
+    <color name="notification_unread">#FFEEEC</color>
+</resources >

@@ -41,6 +41,8 @@ public class MyAccount extends BaseEntity {
     private Double inPaymentProcess;
     @SerializedName("AliPayAccountExists")
     private Boolean aliPayAccountExists;
+    @SerializedName("AllowPushNotification")
+    private Boolean allowPushNotification;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -184,5 +186,17 @@ public class MyAccount extends BaseEntity {
 
     public void setAliPayAccountExists(Boolean aliPayAccountExists) {
         this.aliPayAccountExists = aliPayAccountExists;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Boolean getAllowPushNotification() {
+        return allowPushNotification;
+    }
+
+    public void setAllowPushNotification(Boolean allowPushNotification) {
+        this.allowPushNotification = allowPushNotification;
     }
 }

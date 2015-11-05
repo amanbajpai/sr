@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ros.smartrocket"
-    android:installLocation="auto" >
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -59,11 +59,11 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme"
-        tools:replace="allowBackup, label" >
+        tools:replace="allowBackup, label">
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -124,7 +124,7 @@
             android:configChanges="locale"
             android:launchMode="singleTop"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppThemeGreen" >
+            android:theme="@style/AppThemeGreen">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -142,7 +142,7 @@
             android:configChanges="locale" />
         <activity
             android:name=".activity.EmailRedirectActivity"
-            android:configChanges="locale" >
+            android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -233,6 +233,10 @@
             android:name=".net.NetworkService"
             android:exported="false" />
 
+        <activity
+            android:name=".activity.PushNotificationActivity"
+            android:configChanges="locale" />
+
         <provider
             android:name=".db.AppContentProvider"
             android:authorities="${applicationId}"
@@ -242,7 +246,7 @@
 
         <receiver
             android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -250,7 +254,7 @@
         <!-- GCM -->
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -273,8 +277,8 @@
         -->
         <receiver
             android:name=".net.GlobalReceiver"
-            android:exported="true" >
-            <intent-filter android:priority="1000" >
+            android:exported="true">
+            <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -324,7 +328,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -335,8 +339,8 @@
         <!-- JPUSH Required SDK -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
-            <intent-filter android:priority="1000" >
+            android:enabled="true">
+            <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!-- Required  显示通知栏 -->
                 <category android:name="com.ros.smartrocket" />
@@ -358,7 +362,7 @@
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".JPushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
                 <!-- Required  用户注册SDK的intent -->
@@ -386,8 +390,7 @@
 
         <service
             android:name=".service.CleanFilesIntentService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
     </application>
 
 </manifest>

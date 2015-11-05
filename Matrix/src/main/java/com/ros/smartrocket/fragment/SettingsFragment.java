@@ -1,5 +1,6 @@
 package com.ros.smartrocket.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -9,13 +10,32 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.db.entity.AllowPushNotification;
+import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.helpers.WriteDataHelper;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -28,8 +48,10 @@ import java.util.Locale;
  * Setting fragment with all application related settings
  */
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener,
-        AdapterView.OnItemSelectedListener {
+        AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private APIFacade apiFacade = APIFacade.getInstance();
+
     private static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
     private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK"};
     private static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
@@ -54,6 +76,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private ToggleButton saveImageToggleButton;
     private ToggleButton useOnlyWifiToggleButton;
     private ToggleButton deadlineReminderToggleButton;
+
+    private ProgressDialog progressDialog;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -93,7 +117,22 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         });
 
         setData();
+
+        progressDialog = new ProgressDialog(getActivity());
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        super.onStop();
     }
 
     public void setData() {
@@ -217,6 +256,22 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     }
 
     @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+            if (Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
+                MyAccount myAccount = App.getInstance().getMyAccount();
+                AllowPushNotification allowPushNotification = (AllowPushNotification) operation.getEntities().get(0);
+                myAccount.setAllowPushNotification(allowPushNotification.getAllow());
+                App.getInstance().setMyAccount(myAccount);
+                progressDialog.dismiss();
+            }
+        } else {
+            progressDialog.dismiss();
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+        }
+    }
+
+    @Override
     public void onCheckedChanged(CompoundButton v, boolean isChecked) {
         switch (v.getId()) {
             case R.id.deadlineReminderToggleButton:
@@ -234,6 +289,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 }
                 break;
             case R.id.pushMessagesToggleButton:
+                apiFacade.allowPushNotification(getActivity(), isChecked);
+                progressDialog.show();
                 preferencesManager.setUsePushMessages(isChecked);
                 changeTaskReminderServiceStatus();
                 break;
@@ -354,11 +411,11 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             case R.id.logout:
                 /*int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
                 if (notUploadedFileCount == 0) {*/
-                    WriteDataHelper.prepareLogout(getActivity());
+                WriteDataHelper.prepareLogout(getActivity());
 
-                    getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
-                    getActivity().finish();
-                    getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
+                getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
+                getActivity().finish();
+                getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
                 /*} else {
                     DialogUtils.showLogOutAttantionDialog(getActivity());
                 }*/

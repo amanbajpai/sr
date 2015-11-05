@@ -1,17 +1,27 @@
 package com.ros.smartrocket.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.helpers.FragmentHelper;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 /**
@@ -27,6 +37,7 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
     private LinearLayout mapButton;
     private LinearLayout listButton;
     public static boolean stopRefreshProgress;
+    private PushReceiver localReceiver;
 
     public AllTaskFragment() {
     }
@@ -56,6 +67,8 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
         Log.i(TAG, "onCreateView() [contentType  =  " + contentType + "]");
 
         showDefaultFragment();
+
+        localReceiver = new PushReceiver();
         return view;
     }
 
@@ -137,6 +150,9 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
             case R.id.listButton:
                 showList();
                 break;
+            case R.id.starButton:
+                startActivity(IntentUtils.getNotificationsIntent(getActivity()));
+                break;
             default:
                 break;
         }
@@ -161,6 +177,44 @@ public class AllTaskFragment extends Fragment implements OnClickListener {
             ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.my_missions);
         }
 
+        if (PreferencesManager.getInstance().showPushNotifStar()) {
+            view.findViewById(R.id.starButton).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.starButton).setOnClickListener(this);
+        } else {
+            view.findViewById(R.id.starButton).setVisibility(View.GONE);
+            view.findViewById(R.id.starButton).setOnClickListener(null);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Keys.REFRESH_PUSH_NOTIFICATION_LIST);
+        getActivity().registerReceiver(localReceiver, intentFilter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().supportInvalidateOptionsMenu();
+    }
+
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(localReceiver);
+        super.onStop();
+    }
+
+    private class PushReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getActivity().supportInvalidateOptionsMenu();
+        }
+    }
+
+
 }

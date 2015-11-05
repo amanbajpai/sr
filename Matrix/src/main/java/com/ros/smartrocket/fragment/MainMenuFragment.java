@@ -1,25 +1,37 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.*;
+import android.content.AsyncQueryHandler;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.*;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.UploadPhoto;
@@ -30,12 +42,19 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
-import de.greenrobot.event.EventBus;
+import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.MultipassUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
@@ -92,6 +111,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myAccountButton).setOnClickListener(this);
+        view.findViewById(R.id.notificationsButton).setOnClickListener(this);
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
@@ -101,6 +121,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.REFRESH_MAIN_MENU);
         intentFilter.addAction(Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT);
+        intentFilter.addAction(Keys.REFRESH_PUSH_NOTIFICATION_LIST);
 
         getActivity().registerReceiver(localReceiver, intentFilter);
 
@@ -197,6 +218,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 apiFacade.getMyAccount(getActivity());
             } else if (Keys.REFRESH_MAIN_MENU_MY_TASK_COUNT.equals(action)) {
                 TasksBL.getMyTasksForMainMenuFromDB(handler);
+            } else if (Keys.REFRESH_PUSH_NOTIFICATION_LIST.equals(action)) {
+                NotificationBL.getUnreadNotificationsFromDB(handler);
             }
         }
     }
@@ -212,6 +235,13 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     int tasksCount = TasksBL.convertCursorToTasksCount(cursor);
                     myTasksCount.setText(String.valueOf(tasksCount));
+                    break;
+                case NotificationDbSchema.Query.TOKEN_QUERY:
+                    if (NotificationBL.convertCursorToUnreadNotificationsCount(cursor) > 0) {
+                        getView().findViewById(R.id.notificationsIndicator).setVisibility(View.VISIBLE);
+                    } else {
+                        getView().findViewById(R.id.notificationsIndicator).setVisibility(View.GONE);
+                    }
                     break;
                 default:
                     break;
@@ -275,6 +305,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.myAccountButton:
                 getActivity().startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
                 break;
+            case R.id.notificationsButton:
+                getActivity().startActivity(IntentUtils.getNotificationsIntent(getActivity()));
+                break;
             case R.id.shareButton:
                 //((MainActivity) getActivity()).startFragment(new ShareFragment());
                 getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
@@ -322,6 +355,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         super.onStart();
         ((BaseActivity) getActivity()).addNetworkOperationListener(this);
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        NotificationBL.getUnreadNotificationsFromDB(handler);
     }
 
     @Override

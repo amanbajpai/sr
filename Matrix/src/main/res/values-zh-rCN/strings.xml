@@ -48,6 +48,7 @@
     <string name="find_mission">新的任务</string>
     <string name="my_missions">我的任务</string>
     <string name="my_portal">我的网站</string>
+    <string name="notifications">通知</string>
     <string name="settings">设定</string>
     <string name="support">支援</string>
     <string name="share">分享</string>
@@ -407,6 +408,7 @@
 
     <string name="cashing_out_update_payment_details_3_lines">更新提现信息</string>
     <string name="cashing_out_payment_details">提现信息</string>
+    <string name="cashing_out_payment_in_progress">目前还有 %1$s 的款项在处理中</string>
     <string name="hint_your_registered_alipay_acc_name">支付宝账户实名</string>
     <string name="hint_your_registered_alipay_phone">支付宝账号的手机号吗</string>
     <string name="update_payment_details_click_to_obtain_sms">点击获取验证码短信</string>
@@ -435,4 +437,5 @@
     <string name="logout_attention_dialog_text">任务正在发送。如果现在离开，发送将暂停，下次登录才继续。</string>
     <string name="logout_attention_dialog_logout">登出</string>
     <string name="logout_attention_dialog_cancel">取消</string>
+    <string name="delete">Delete</string>
 </resources>
