@@ -31,9 +31,11 @@ import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.db.entity.Sharing;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Token;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -278,6 +280,10 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.GET_ALIPAY_ACCOUNT_ID:
                         AliPayAccount aliPayAccount = gson.fromJson(responseString, AliPayAccount.class);
                         operation.responseEntities.add(aliPayAccount);
+                        break;
+                    case WSUrl.ALLOW_PUSH_NOTIFICATION_ID:
+                        AllowPushNotification allowPushNotification = gson.fromJson(responseString, AllowPushNotification.class);
+                        operation.responseEntities.add(allowPushNotification);
                         break;
                     default:
                         break;
