@@ -11,33 +11,26 @@
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <RadioGroup
-        android:id="@+id/massAuditRadioGroup"
+    <ImageView
+        android:id="@+id/massAuditTickButton"
+        android:src="@drawable/mass_audit_green_unchecked"
         android:layout_alignParentRight="true"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-        <RadioButton
-            android:id="@+id/massAuditCrossButton"
-            android:button="@null"
-            android:background="@drawable/mass_audit_red_bg"
-            android:layout_marginRight="5dp"
-            android:layout_width="@dimen/mass_audit_image_size"
-            android:layout_height="@dimen/mass_audit_image_size"/>
-        <RadioButton
-            android:id="@+id/massAuditTickButton"
-            android:button="@null"
-            android:background="@drawable/mass_audit_green_bg"
-            android:layout_width="@dimen/mass_audit_image_size"
-            android:layout_height="@dimen/mass_audit_image_size"/>
-    </RadioGroup>
+        android:layout_width="@dimen/mass_audit_image_size"
+        android:layout_height="@dimen/mass_audit_image_size"/>
+    <ImageView
+        android:id="@+id/massAuditCrossButton"
+        android:src="@drawable/mass_audit_red_unchecked"
+        android:layout_toLeftOf="@id/massAuditTickButton"
+        android:layout_marginRight="5dp"
+        android:layout_width="@dimen/mass_audit_image_size"
+        android:layout_height="@dimen/mass_audit_image_size"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/massAuditItemTitle"
         android:layout_toRightOf="@id/massAuditImageThumb"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/massAuditRadioGroup"
+        android:layout_toLeftOf="@id/massAuditCrossButton"
         style="@style/QuestionText"
         tools:text="Wrigley's Double mint chewing gum"
         android:background="@null"

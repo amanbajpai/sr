@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.RadioButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
@@ -18,11 +18,11 @@ import java.util.HashMap;
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private final Category[] categories;
-    private final View.OnTouchListener tickListener;
+    private final View.OnClickListener tickListener;
     private final View.OnClickListener crossListener;
     private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
 
-    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnTouchListener tickListener,
+    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
                                           View.OnClickListener crossListener) {
         this.context = context;
         this.categories = categories;
@@ -94,23 +94,26 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         View bg = convertView.findViewById(R.id.massAuditItemBg);
         bg.setBackgroundResource(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey);
 
-        RadioButton crossButton = (RadioButton) convertView.findViewById(R.id.massAuditCrossButton);
-        RadioButton tickButton = (RadioButton) convertView.findViewById(R.id.massAuditTickButton);
+        ImageView crossButton = (ImageView) convertView.findViewById(R.id.massAuditCrossButton);
+        ImageView tickButton = (ImageView) convertView.findViewById(R.id.massAuditTickButton);
 
         Answer tickAnswer = answersMap.get(product.getId()).getTickAnswer();
         Answer crossAnswer = answersMap.get(product.getId()).getCrossAnswer();
         if (tickAnswer != null && crossAnswer != null) {
             setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
             // TODO Clarify answers order
-            tickButton.setChecked(tickAnswer.getChecked());
-            crossButton.setChecked(crossAnswer.getChecked());
+            tickButton.setImageResource(tickAnswer.getChecked()
+                    ? R.drawable.mass_audit_green_checked
+                    : R.drawable.mass_audit_green_unchecked);
+            crossButton.setImageResource(crossAnswer.getChecked()
+                    ? R.drawable.mass_audit_red_checked
+                    : R.drawable.mass_audit_red_unchecked);
         } else {
             setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
         }
 
         tickButton.setTag(product);
-//        tickButton.setOnClickListener(tickListener);
-        tickButton.setOnTouchListener(tickListener);
+        tickButton.setOnClickListener(tickListener);
 
         crossButton.setTag(product);
         crossButton.setOnClickListener(crossListener);

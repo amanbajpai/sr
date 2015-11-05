@@ -2,7 +2,6 @@ package com.ros.smartrocket.bl.question;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
                 tickListener, crossListener);
         listView.setAdapter(adapter);
-        refreshNextButton();
     }
 
     @Override
@@ -44,6 +42,34 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         answersMap = convertToMap(answers);
         adapter.setData(answersMap);
         refreshNextButton();
+    }
+
+    @Override
+    public boolean saveQuestion() {
+        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            boolean selected = true;
+            for (TickCrossAnswerPair pair : answersMap.values()) {
+                if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
+                    selected = false;
+                    break;
+                }
+            }
+            answerSelectedListener.onAnswerSelected(selected);
+        }
+
+        if (answerPageLoadingFinishedListener != null) {
+            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
+        }
     }
 
     @Override
@@ -66,7 +92,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         Question mainSub = QuestionsBL.getMainSubQuestion(question);
         if (mainSub != null) {
             mainSubQuestionTextView.setText(mainSub.getQuestion());
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), mainSub.getId());
+            AnswersBL.getAnswersListFromDB(handler, mainSub.getTaskId(), mainSub.getMissionId(), mainSub.getId());
         }
     }
 
@@ -99,6 +125,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         answersMap.get(event.productId).getTickAnswer().setChecked(true);
         answersMap.get(event.productId).getCrossAnswer().setChecked(false);
         adapter.notifyDataSetChanged();
+        refreshNextButton();
     }
 
     private View.OnClickListener crossListener = new View.OnClickListener() {
@@ -109,27 +136,23 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
             pair.getTickAnswer().setChecked(false);
             pair.getCrossAnswer().setChecked(true);
+            adapter.notifyDataSetChanged();
+            refreshNextButton();
         }
     };
 
-    private View.OnTouchListener tickListener = new View.OnTouchListener() {
+    private View.OnClickListener tickListener = new View.OnClickListener() {
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                Product itemProduct = (Product) v.getTag();
+        public void onClick(View v) {
+            Product itemProduct = (Product) v.getTag();
 
-                Question mainSubQuestion = QuestionsBL.getMainSubQuestion(question);
-                String title = mainSubQuestion != null ? mainSubQuestion.getQuestion() : "";
+            Question mainSubQuestion = QuestionsBL.getMainSubQuestion(question);
+            String title = mainSubQuestion != null ? mainSubQuestion.getQuestion() : "";
 
-                Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(), title,
-                        itemProduct);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
-
-                return true;
-            }
-
-            return false;
+            Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(), title,
+                    itemProduct);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
         }
     };
 
