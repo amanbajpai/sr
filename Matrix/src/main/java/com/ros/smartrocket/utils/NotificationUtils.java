@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,17 +19,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.activity.NotificationActivity;
+import com.ros.smartrocket.activity.PushNotificationActivity;
+import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
+import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.service.CleanFilesIntentService;
+
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utils class for easy work with UI Views
@@ -143,6 +151,48 @@ public class NotificationUtils {
         } catch (Exception e) {
             L.e(TAG, "ShowTaskStatusChangedNotification error" + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Show push notification
+     *
+     * @param context    - current context
+     * @param jsonObject - message Json object
+     */
+    public static void showAndSavePushNotification(Context context, String jsonObject) {
+
+        try {
+            Gson gson = new Gson();
+            Notification notification = gson.fromJson(jsonObject, Notification.class);
+
+            NotificationBL.saveNotification(context.getContentResolver(), notification);
+
+            List<Notification> notifications = NotificationBL.convertCursorToNotificationList(NotificationBL.getUnreadNotificationsFromDB(context.getContentResolver()));
+            PreferencesManager.getInstance().setShowPushNotifStar(true);
+
+            if (!PreferencesManager.getInstance().getToken().isEmpty()) {
+                if (notifications.size() == 1) {
+                    Intent intent = new Intent(context, PushNotificationActivity.class);
+                    generateNotification(context, notification.getSubject(), Html.fromHtml(notification.getMessage()).toString(), intent);
+                } else {
+                    String title = context.getString(R.string.new_push_notifications_header);
+                    String body = context.getString(R.string.new_push_notifications_body);
+                    Intent intent = new Intent(context, PushNotificationActivity.class);
+                    generateNotification(context, title, body, intent);
+                }
+            } else {
+                String title = context.getString(R.string.new_push_notification);
+                String body = new String();
+                Intent intent = new Intent(context, PushNotificationActivity.class);
+                generateNotification(context, title, body, intent);
+            }
+
+            IntentUtils.refreshPushNotificationsList(context);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -311,12 +361,14 @@ public class NotificationUtils {
      */
     public static Boolean generateNotification(Context context, String title, String message, Intent intent) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.drawable.ic_launcher);
+        mBuilder.setSmallIcon(R.drawable.ic_notification);
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
         mBuilder.setAutoCancel(true);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);
         mBuilder.setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(Html.fromHtml(message)));
+                .bigText(Html.fromHtml(message).toString()));
+
 
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(sound);

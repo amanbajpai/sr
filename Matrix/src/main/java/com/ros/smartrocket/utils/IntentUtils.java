@@ -67,6 +67,18 @@ public class IntentUtils {
     }
 
     /**
+     * Return intent for opening Login screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getLoginIntentForPushNotificationsActivity(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, true);
+        return intent;
+    }
+
+    /**
      * Return intent for opening Main screen
      *
      * @param context - context
@@ -486,6 +498,16 @@ public class IntentUtils {
     }
 
     /**
+     * Send broadcast for refresh push notifications list
+     *
+     * @param context - current context
+     */
+    public static void refreshPushNotificationsList(Context context) {
+        Intent intent = new Intent(Keys.REFRESH_PUSH_NOTIFICATION_LIST);
+        context.sendBroadcast(intent);
+    }
+
+    /**
      * Return intent for opening Cash Out screen
      *
      * @param context - context
@@ -514,5 +536,15 @@ public class IntentUtils {
      */
     public static Intent getCashOutSuccessIntent(Context context) {
         return new Intent(context, CashingOutSuccessActivity.class);
+    }
+
+    /**
+     * Return intent for opening Notifications List screen
+     *
+     * @param context - context
+     * @return Intent
+     */
+    public static Intent getNotificationsIntent(Context context) {
+        return new Intent(context, PushNotificationActivity.class);
     }
 }

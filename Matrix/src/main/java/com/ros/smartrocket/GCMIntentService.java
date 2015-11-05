@@ -60,10 +60,16 @@ public class GCMIntentService extends GCMBaseIntentService {
         L.d(TAG, "Received message [message=" + messageJsonObject + "]");
 
         if (!TextUtils.isEmpty(preferencesManager.getToken())) {
-            if (preferencesManager.getUsePushMessages()) {
+            if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName")) {
                 NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
             }
+
             apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
+        }
+
+        if (App.getInstance().getMyAccount().getAllowPushNotification()
+                && messageJsonObject.contains("Subject")){
+            NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
         }
     }
 

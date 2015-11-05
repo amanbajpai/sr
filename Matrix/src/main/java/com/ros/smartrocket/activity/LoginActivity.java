@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -29,6 +34,9 @@ import com.ros.smartrocket.utils.UIUtils;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
+
+    public static String START_PUSH_NOTIFICATIONS_ACTIVITY = "start_push_notif";
+
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private EditText emailEditText;
@@ -100,7 +108,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 dismissProgressDialog();
                 finish();
-                startActivity(new Intent(this, MainActivity.class));
+                if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                    startActivity(new Intent(this, MainActivity.class));
+                }
             } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
                 CheckLocationResponse checkLocationResponse =
                         (CheckLocationResponse) operation.getResponseEntities().get(0);
