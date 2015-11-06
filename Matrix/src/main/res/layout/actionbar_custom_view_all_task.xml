@@ -12,16 +12,18 @@
         custom:textStyle="bold" />
     <ImageView
         android:id="@+id/starButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
         android:layout_marginRight="10dp"
-        android:src="@drawable/star"
-        android:visibility="gone"/>
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/notification_white"
+        android:visibility="visible"/>
     <ImageView
         android:id="@+id/refreshButton"
         android:contentDescription="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginRight="10dp"
         android:src="@drawable/refresh_icon" />
 </LinearLayout >
