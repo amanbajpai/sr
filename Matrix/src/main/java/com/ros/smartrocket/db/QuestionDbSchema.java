@@ -9,6 +9,7 @@ public interface QuestionDbSchema {
             .getName()).build();
 
     String SORT_ORDER_DESC = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC";
+    String SORT_ORDER_SUBQUESTIONS = Table.QUESTION.getName() + "." + Columns.ORDER_ID.getName();
 
     enum Columns {
         _ID("_id", DBType.PRIMARY),

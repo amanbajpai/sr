@@ -58,7 +58,7 @@ public class QuestionsBL {
                 QuestionDbSchema.Query.PROJECTION,
                 QuestionDbSchema.Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=?",
                 new String[]{String.valueOf(taskId), String.valueOf(parentQuestionId)},
-                QuestionDbSchema.SORT_ORDER_DESC
+                QuestionDbSchema.SORT_ORDER_SUBQUESTIONS
         );
     }
 
