@@ -1,5 +1,6 @@
 package com.ros.smartrocket.bl.question;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
+    public static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
     public static final int TICK = 1;
     public static final int CROSS = 2;
 
@@ -31,8 +33,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private MassAuditExpandableListAdapter adapter;
     private HashMap<Integer, TickCrossAnswerPair> answersMap;
-    private int buttonClicked;
     private Question mainSub;
+    private int buttonClicked;
 
     @Override
     public void configureView() {
@@ -45,6 +47,10 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         listView.setAdapter(adapter);
 
         mainSubQuestionTextView = (TextView) view.findViewById(R.id.massAuditMainSubQuestionText);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUTTON_CLICKED)) {
+            buttonClicked = savedInstanceState.getInt(STATE_BUTTON_CLICKED);
+        }
     }
 
     @Override
@@ -81,6 +87,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         if (answerPageLoadingFinishedListener != null) {
             answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_BUTTON_CLICKED, buttonClicked);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -134,6 +146,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @SuppressWarnings("unused")
     public void onEventMainThread(SubQuestionsSubmitEvent event) {
         updateTickCrossState(event.productId);
+        saveQuestion();
     }
 
     private View.OnClickListener crossListener = new View.OnClickListener() {
