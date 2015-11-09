@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -32,11 +31,8 @@ public class QuestionBaseBL {
     protected View view;
     protected Product product;
 
-    @Bind(R.id.questionText)
     TextView questionText;
-    @Bind(R.id.presetValidationComment)
     TextView presetValidationComment;
-    @Bind(R.id.validationComment)
     TextView validationComment;
 
     public final void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity,
@@ -50,19 +46,24 @@ public class QuestionBaseBL {
         this.view = view;
         this.handler = new BaseDbHandler(activity.getContentResolver());
 
-        questionText.setText(question.getQuestion());
+        configureView();
+        validateView();
+    }
 
-        if (!TextUtils.isEmpty(question.getPresetValidationText())) {
-            presetValidationComment.setText(question.getPresetValidationText());
+    protected void validateView() {
+        questionText = (TextView) view.findViewById(R.id.questionText);
+        presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
+        validationComment = (TextView) view.findViewById(R.id.validationComment);
+
+        questionText.setText(this.question.getQuestion());
+        if (!TextUtils.isEmpty(this.question.getPresetValidationText())) {
+            presetValidationComment.setText(this.question.getPresetValidationText());
             presetValidationComment.setVisibility(View.VISIBLE);
         }
-
-        if (!TextUtils.isEmpty(question.getValidationComment())) {
-            validationComment.setText(question.getValidationComment());
+        if (!TextUtils.isEmpty(this.question.getValidationComment())) {
+            validationComment.setText(this.question.getValidationComment());
             validationComment.setVisibility(View.VISIBLE);
         }
-
-        configureView();
     }
 
     protected void configureView() {

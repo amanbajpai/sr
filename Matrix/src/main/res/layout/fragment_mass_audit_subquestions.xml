@@ -13,26 +13,6 @@
         android:layout_margin="@dimen/buttons_margin"
         android:background="@color/white"
         android:orientation="vertical">
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/massAuditSubQuestionsTitle"
-            style="@style/QuestionText"
-            tools:text="Mass Audit"
-            android:textSize="16sp"
-            android:paddingTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/massAuditSubQuestionsSubtitle"
-            style="@style/QuestionText"
-            tools:text="Please mark..."
-            android:paddingTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <View
-            android:paddingTop="5dp"
-            android:background="@color/separator_grey"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
         <ScrollView
             android:id="@+id/massAuditSubquestionsScroll"
             android:layout_weight="1"
@@ -42,7 +22,28 @@
                 android:id="@+id/massAuditSubquestionsLayout"
                 android:orientation="vertical"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent">
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/massAuditSubQuestionsTitle"
+                    style="@style/QuestionText"
+                    tools:text="Mass Audit"
+                    android:textSize="16sp"
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <com.ros.smartrocket.views.CustomTextView
+                    android:id="@+id/massAuditSubQuestionsSubtitle"
+                    style="@style/QuestionText"
+                    tools:text="Please mark..."
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:paddingTop="5dp"
+                    android:background="@color/separator_grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+            </LinearLayout>
         </ScrollView>
         <LinearLayout
             android:id="@+id/bottomSubQuestionsButtons"

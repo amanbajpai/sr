@@ -72,13 +72,6 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         confirmButton = (ImageButton) view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
 
-        if (question.getMaximumPhotos() > 1) {
-            String string = getActivity().getString(R.string.maximum_photo, question.getMaximumPhotos());
-            questionText.setText(question.getQuestion() + string);
-        } else {
-            questionText.setText(question.getQuestion());
-        }
-
         if (savedInstanceState != null) {
             mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
             currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
@@ -88,6 +81,17 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             if (lastPhotoFile != null && lastPhotoFile.exists()) {
                 photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
             }
+        }
+    }
+
+    @Override
+    protected void validateView() {
+        super.validateView();
+        if (question.getMaximumPhotos() > 1) {
+            String string = getActivity().getString(R.string.maximum_photo, question.getMaximumPhotos());
+            questionText.setText(question.getQuestion() + string);
+        } else {
+            questionText.setText(question.getQuestion());
         }
 
         loadAnswers();

@@ -24,8 +24,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     public static final int TICK = 1;
     public static final int CROSS = 2;
 
-
-    @Bind(R.id.massAuditMainSubQuestionText)
     TextView mainSubQuestionTextView;
     @Bind(R.id.massAuditExpandableListView)
     ExpandableListView listView;
@@ -37,9 +35,15 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     @Override
     public void configureView() {
+        View headerView = getActivity().getLayoutInflater().inflate(
+                R.layout.include_mass_audit_question_header, listView, false);
+        listView.addHeaderView(headerView);
+
         adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
                 tickListener, crossListener);
         listView.setAdapter(adapter);
+
+        mainSubQuestionTextView = (TextView) view.findViewById(R.id.massAuditMainSubQuestionText);
     }
 
     @Override
