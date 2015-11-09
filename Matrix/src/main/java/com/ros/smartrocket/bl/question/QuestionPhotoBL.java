@@ -427,6 +427,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         answer.setQuestionId(question.getId());
         answer.setTaskId(question.getTaskId());
         answer.setMissionId(question.getMissionId());
+        answer.setProductId(product != null ? product.getId() : 0);
 
         //Save empty answer to DB
         Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());

@@ -89,7 +89,6 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
             }
         }
 
-
         adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
                 questionsWithoutMain.toArray(new Question[questionsWithoutMain.size()]), product);
         for (int i = 0; i < adapter.getCount(); i++) {
