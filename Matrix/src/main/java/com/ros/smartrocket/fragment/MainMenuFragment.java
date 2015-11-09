@@ -223,9 +223,11 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     break;
                 case NotificationDbSchema.Query.TOKEN_QUERY:
                     if (NotificationBL.convertCursorToUnreadNotificationsCount(cursor) > 0) {
-                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_blue, 0, 0, 0);
+                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_blue, 0,
+                                0, 0);
                     } else {
-                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_empty, 0, 0, 0);
+                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_empty,
+                                0, 0, 0);
                     }
                     break;
                 default:
