@@ -44,6 +44,7 @@ public interface QuestionDbSchema {
 
         PARENT_QUESTION_ID("parentQuestionId", DBType.NUMERIC),
         CATEGORIES("categories", DBType.TEXT),
+        ACTION("action", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -114,7 +115,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.NEXT_ANSWERED_QUESTION_ID.getName(),
 
                 Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
-                Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName()
+                Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
+                Table.QUESTION.getName() + "." + Columns.ACTION.getName()
 
 
         };
@@ -151,5 +153,6 @@ public interface QuestionDbSchema {
 
         int PARENT_QUESTION_ID = 27;
         int CATEGORIES = 28;
+        int ACTION = 29;
     }
 }

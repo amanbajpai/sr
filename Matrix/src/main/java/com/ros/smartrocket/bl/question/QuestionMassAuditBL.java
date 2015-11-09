@@ -21,6 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
+    public static final int TICK = 1;
+    public static final int CROSS = 2;
+
+
     @Bind(R.id.massAuditMainSubQuestionText)
     TextView mainSubQuestionTextView;
     @Bind(R.id.massAuditExpandableListView)
@@ -28,6 +32,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private MassAuditExpandableListAdapter adapter;
     private HashMap<Integer, TickCrossAnswerPair> answersMap;
+    private int buttonClicked;
+    private Question mainSub;
 
     @Override
     public void configureView() {
@@ -89,7 +95,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     public void subQuestionsLoaded(List<Question> questions) {
         question.setChildQuestions(questions.toArray(new Question[questions.size()]));
-        Question mainSub = QuestionsBL.getMainSubQuestion(question);
+        mainSub = QuestionsBL.getMainSubQuestion(question);
         if (mainSub != null) {
             mainSubQuestionTextView.setText(mainSub.getQuestion());
             AnswersBL.getAnswersListFromDB(handler, mainSub.getTaskId(), mainSub.getMissionId(), mainSub.getId());
@@ -122,39 +128,49 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     @SuppressWarnings("unused")
     public void onEventMainThread(SubQuestionsSubmitEvent event) {
-        answersMap.get(event.productId).getTickAnswer().setChecked(true);
-        answersMap.get(event.productId).getCrossAnswer().setChecked(false);
-        adapter.notifyDataSetChanged();
-        refreshNextButton();
+        updateTickCrossState(event.productId);
     }
 
     private View.OnClickListener crossListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Product itemProduct = (Product) v.getTag();
-            TickCrossAnswerPair pair = answersMap.get(itemProduct.getId());
-
-            pair.getTickAnswer().setChecked(false);
-            pair.getCrossAnswer().setChecked(true);
-            adapter.notifyDataSetChanged();
-            refreshNextButton();
+            buttonClicked = CROSS;
+            handleTickCrossTick((Product) v.getTag());
         }
     };
 
     private View.OnClickListener tickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Product itemProduct = (Product) v.getTag();
-
-            Question mainSubQuestion = QuestionsBL.getMainSubQuestion(question);
-            String title = mainSubQuestion != null ? mainSubQuestion.getQuestion() : "";
-
-            Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(), title,
-                    itemProduct);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
+            buttonClicked = TICK;
+            handleTickCrossTick((Product) v.getTag());
         }
     };
+
+    private void startSubQuestionsFragment(Product item) {
+        String title = mainSub != null ? mainSub.getQuestion() : "";
+        Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(), title, item);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
+    }
+
+    private void handleTickCrossTick(Product itemProduct) {
+        if ((buttonClicked == TICK && mainSub.getAction() == Question.ACTION_TICK)
+                || (buttonClicked == CROSS && mainSub.getAction() == Question.ACTION_CROSS)
+                || (mainSub.getAction() == Question.ACTION_BOTH)) {
+            startSubQuestionsFragment(itemProduct);
+        } else {
+            updateTickCrossState(itemProduct.getId());
+        }
+    }
+
+    private void updateTickCrossState(int productId) {
+        TickCrossAnswerPair pair = answersMap.get(productId);
+        pair.getTickAnswer().setChecked(buttonClicked == TICK);
+        pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
+        adapter.notifyDataSetChanged();
+        refreshNextButton();
+    }
 
     public static class TickCrossAnswerPair {
         private Answer tickAnswer;

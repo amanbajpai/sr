@@ -9,6 +9,19 @@ import java.io.Serializable;
 public class Question extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
+    public static final int ACTION_TICK = 0;
+    public static final int ACTION_CROSS = 1;
+    public static final int ACTION_BOTH = 2;
+    public static final int ACTION_NOTHING = 3;
+
+    public Integer getAction() {
+        return action;
+    }
+
+    public void setAction(Integer action) {
+        this.action = action;
+    }
+
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
         VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10), MAIN_SUB_QUESTION(11);
@@ -74,6 +87,8 @@ public class Question extends BaseEntity implements Serializable {
     @SerializedName("Categories")
     private Category[] categoriesArray;
     private String categories = "";
+    @SerializedName("Action")
+    private Integer action;
 
     @SkipFieldInContentValues
     @SerializedName("Children")
@@ -138,6 +153,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setParentQuestionId(c.getInt(QuestionDbSchema.Query.PARENT_QUESTION_ID));
             result.setCategories(c.getString(QuestionDbSchema.Query.CATEGORIES));
             result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
+            result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
         }
 
         return result;
