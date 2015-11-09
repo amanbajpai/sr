@@ -56,6 +56,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private TextView levelName;
     private TextView minLevelExperience;
     private TextView maxLevelExperience;
+    private TextView notificationsButton;
     private SeekBar levelProgressBar;
     private File mCurrentPhotoFile;
 
@@ -82,6 +83,8 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         levelName = (TextView) view.findViewById(R.id.levelName);
         minLevelExperience = (TextView) view.findViewById(R.id.minLevelExperience);
         maxLevelExperience = (TextView) view.findViewById(R.id.maxLevelExperience);
+        notificationsButton = (TextView) view.findViewById(R.id.notificationsButton);
+        notificationsButton.setOnClickListener(this);
         levelProgressBar = (SeekBar) view.findViewById(R.id.levelProgressBar);
         levelProgressBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -94,7 +97,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         view.findViewById(R.id.findTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myTasksButton).setOnClickListener(this);
         view.findViewById(R.id.myAccountButton).setOnClickListener(this);
-        view.findViewById(R.id.notificationsButton).setOnClickListener(this);
         view.findViewById(R.id.shareButton).setOnClickListener(this);
         view.findViewById(R.id.supportButton).setOnClickListener(this);
         view.findViewById(R.id.settingsButton).setOnClickListener(this);
@@ -221,9 +223,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     break;
                 case NotificationDbSchema.Query.TOKEN_QUERY:
                     if (NotificationBL.convertCursorToUnreadNotificationsCount(cursor) > 0) {
-                        getView().findViewById(R.id.notificationsIndicator).setVisibility(View.VISIBLE);
+                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_blue, 0, 0, 0);
                     } else {
-                        getView().findViewById(R.id.notificationsIndicator).setVisibility(View.GONE);
+                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_empty, 0, 0, 0);
                     }
                     break;
                 default:
