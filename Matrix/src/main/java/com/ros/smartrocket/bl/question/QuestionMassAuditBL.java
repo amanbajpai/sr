@@ -11,6 +11,7 @@ import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
@@ -139,7 +140,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         @Override
         public void onClick(View v) {
             buttonClicked = CROSS;
-            handleTickCrossTick((Product) v.getTag());
+            handleTickCrossTick((CategoryProductPair) v.getTag());
         }
     };
 
@@ -147,24 +148,24 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         @Override
         public void onClick(View v) {
             buttonClicked = TICK;
-            handleTickCrossTick((Product) v.getTag());
+            handleTickCrossTick((CategoryProductPair) v.getTag());
         }
     };
 
-    private void startSubQuestionsFragment(Product item) {
-        String title = mainSub != null ? mainSub.getQuestion() : "";
-        Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(), title, item);
+    private void startSubQuestionsFragment(CategoryProductPair item) {
+        Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
+                item.category.getCategoryName(), item.product);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
     }
 
-    private void handleTickCrossTick(Product itemProduct) {
+    private void handleTickCrossTick(CategoryProductPair pair) {
         if ((buttonClicked == TICK && mainSub.getAction() == Question.ACTION_TICK)
                 || (buttonClicked == CROSS && mainSub.getAction() == Question.ACTION_CROSS)
                 || (mainSub.getAction() == Question.ACTION_BOTH)) {
-            startSubQuestionsFragment(itemProduct);
+            startSubQuestionsFragment(pair);
         } else {
-            updateTickCrossState(itemProduct.getId());
+            updateTickCrossState(pair.product.getId());
         }
     }
 
@@ -194,6 +195,16 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
         public void setCrossAnswer(Answer crossAnswer) {
             this.crossAnswer = crossAnswer;
+        }
+    }
+
+    public static class CategoryProductPair {
+        public final Category category;
+        public final Product product;
+
+        public CategoryProductPair(Category category, Product product) {
+            this.category = category;
+            this.product = product;
         }
     }
 }

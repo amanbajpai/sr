@@ -86,7 +86,8 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             convertView = inflater.inflate(R.layout.mass_audit_list_item, null);
         }
 
-        Product product = categories[groupPosition].getProducts()[childPosition];
+        Category category = categories[groupPosition];
+        Product product = category.getProducts()[childPosition];
 
         TextView titleView = (TextView) convertView.findViewById(R.id.massAuditItemTitle);
         titleView.setText(product.getName());
@@ -112,10 +113,11 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
         }
 
-        tickButton.setTag(product);
+        QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product);
+        tickButton.setTag(pair);
         tickButton.setOnClickListener(tickListener);
 
-        crossButton.setTag(product);
+        crossButton.setTag(pair);
         crossButton.setOnClickListener(crossListener);
 
         return convertView;
