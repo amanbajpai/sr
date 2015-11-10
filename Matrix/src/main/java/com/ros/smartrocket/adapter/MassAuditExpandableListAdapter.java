@@ -21,13 +21,15 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     private final View.OnClickListener tickListener;
     private final View.OnClickListener crossListener;
     private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
+    private View.OnClickListener thumbListener;
 
     public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
-                                          View.OnClickListener crossListener) {
+                                          View.OnClickListener crossListener, View.OnClickListener thumbListener) {
         this.context = context;
         this.categories = categories;
         this.tickListener = tickListener;
         this.crossListener = crossListener;
+        this.thumbListener = thumbListener;
     }
 
     @Override
@@ -119,6 +121,10 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
         crossButton.setTag(pair);
         crossButton.setOnClickListener(crossListener);
+
+        View thumb = convertView.findViewById(R.id.massAuditImageThumb);
+        thumb.setTag(category.getProducts()[childPosition].getImage());
+        thumb.setOnClickListener(thumbListener);
 
         return convertView;
     }
