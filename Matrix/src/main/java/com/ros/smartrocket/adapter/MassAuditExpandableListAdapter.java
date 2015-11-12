@@ -1,6 +1,7 @@
 package com.ros.smartrocket.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,6 +124,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         crossButton.setOnClickListener(crossListener);
 
         View thumb = convertView.findViewById(R.id.massAuditImageThumb);
+        thumb.setVisibility(TextUtils.isEmpty(product.getImage()) ? View.GONE : View.VISIBLE);
         thumb.setTag(category.getProducts()[childPosition].getImage());
         thumb.setOnClickListener(thumbListener);
 
