@@ -129,7 +129,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         return convertView;
     }
 
-    private void setButtonsVisibility(View tickButton, ImageView crossButton, int visibility) {
+    private void setButtonsVisibility(ImageView tickButton, ImageView crossButton, int visibility) {
         tickButton.setVisibility(View.VISIBLE);
         crossButton.setVisibility(visibility);
 //        crossButton.setImageResource(visibility == View.VISIBLE ? R.drawable.);
