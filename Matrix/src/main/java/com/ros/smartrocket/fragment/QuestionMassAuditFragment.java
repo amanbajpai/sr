@@ -4,6 +4,10 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
@@ -16,13 +20,23 @@ import java.util.List;
  * Mass Audit question type
  */
 public class QuestionMassAuditFragment extends BaseQuestionFragment {
+
+    public static final String IS_REDO_FLAG = "is_redo";
+
     public QuestionMassAuditFragment() {
         super(new QuestionMassAuditBL());
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((QuestionMassAuditBL) questionBL).setIsRedo(getArguments().getBoolean(IS_REDO_FLAG));
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         DbHandler handler = new DbHandler(getActivity().getContentResolver());
 
         Question question = questionBL.getQuestion();

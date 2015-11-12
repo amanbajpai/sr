@@ -341,39 +341,35 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putSerializable(Keys.QUESTION, question);
 
-//            if (question.getParentQuestionId() == null) {
-
-                switch (QuestionsBL.getQuestionType(question.getType())) {
-                    case MULTIPLE_CHOICE:
-                        currentFragment = new QuestionMultipleChooseFragment();
-                        break;
-                    case SINGLE_CHOICE:
-                        currentFragment = new QuestionSingleChooseFragment();
-                        break;
-                    case PHOTO:
-                        currentFragment = new QuestionPhotoFragment();
-                        break;
-                    case OPEN_COMMENT:
-                        currentFragment = new QuestionOpenCommentFragment();
-                        break;
-                    case VIDEO:
-                        currentFragment = new QuestionVideoFragment();
-                        break;
-                    case NUMBER:
-                        currentFragment = new QuestionNumberFragment();
-                        break;
-                    case INSTRUCTION:
-                        currentFragment = new QuestionInstructionFragment();
-                        break;
-                    case MASS_AUDIT:
-                        currentFragment = new QuestionMassAuditFragment();
-                        break;
-                    default:
-                        break;
-                }
-//            } else {
-//                currentFragment = new QuestionMassAuditFragment();
-//            }
+            switch (QuestionsBL.getQuestionType(question.getType())) {
+                case MULTIPLE_CHOICE:
+                    currentFragment = new QuestionMultipleChooseFragment();
+                    break;
+                case SINGLE_CHOICE:
+                    currentFragment = new QuestionSingleChooseFragment();
+                    break;
+                case PHOTO:
+                    currentFragment = new QuestionPhotoFragment();
+                    break;
+                case OPEN_COMMENT:
+                    currentFragment = new QuestionOpenCommentFragment();
+                    break;
+                case VIDEO:
+                    currentFragment = new QuestionVideoFragment();
+                    break;
+                case NUMBER:
+                    currentFragment = new QuestionNumberFragment();
+                    break;
+                case INSTRUCTION:
+                    currentFragment = new QuestionInstructionFragment();
+                    break;
+                case MASS_AUDIT:
+                    currentFragment = new QuestionMassAuditFragment();
+                    fragmentBundle.putBoolean(QuestionMassAuditFragment.IS_REDO_FLAG, isRedo);
+                    break;
+                default:
+                    break;
+            }
 
             if (currentFragment != null) {
                 currentFragment.setAnswerPageLoadingFinishedListener(this);

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
@@ -35,8 +36,10 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private MassAuditExpandableListAdapter adapter;
     private HashMap<Integer, TickCrossAnswerPair> answersMap;
+    private HashMap<Integer, Boolean> answersReDoMap;
     private Question mainSub;
     private int buttonClicked;
+    private boolean isRedo = false;
 
     @Override
     public void configureView() {
@@ -44,12 +47,14 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 R.layout.include_mass_audit_question_header, listView, false);
         listView.addHeaderView(headerView);
 
-        if (answersMap != null) {
+        Toast.makeText(getActivity(), "isReDo = " + isRedo, Toast.LENGTH_LONG).show();
+
+        if (!isRedo) {
             adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                    tickListener, crossListener);
+                    tickListener, crossListener, isRedo);
         } else {
             adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                    editListener, crossListener);
+                    editListener, crossListener, isRedo);
         }
         listView.setAdapter(adapter);
 
@@ -63,8 +68,13 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @Override
     protected void fillViewWithAnswers(Answer[] answers) {
         question.setAnswers(answers);
-        answersMap = convertToMap(answers);
-        adapter.setData(answersMap);
+        if (!isRedo) {
+            answersMap = convertToMap(answers);
+            adapter.setData(answersMap);
+        } else {
+            answersReDoMap = convertToReDoMap(answers);
+            adapter.setReDoData(answersReDoMap);
+        }
         refreshNextButton();
     }
 
@@ -73,6 +83,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
+        } else if (question != null && answersReDoMap != null && answersReDoMap.size() > 0) {
+            return true;
         } else {
             return false;
         }
@@ -80,15 +92,28 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     @Override
     public void refreshNextButton() {
-        if (answerSelectedListener != null) {
-            boolean selected = true;
-            for (TickCrossAnswerPair pair : answersMap.values()) {
-                if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
-                    selected = false;
-                    break;
+        if (!isRedo) {
+            if (answerSelectedListener != null) {
+                boolean selected = true;
+                for (TickCrossAnswerPair pair : answersMap.values()) {
+                    if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
+                        selected = false;
+                        break;
+                    }
                 }
+                answerSelectedListener.onAnswerSelected(selected, question.getId());
             }
-            answerSelectedListener.onAnswerSelected(selected, question.getId());
+        } else {
+            if (answerSelectedListener != null) {
+                boolean selected = true;
+                for (Boolean checked : answersReDoMap.values()) {
+                    if (!checked) {
+                        selected = false;
+                        break;
+                    }
+                }
+                answerSelectedListener.onAnswerSelected(selected, question.getId());
+            }
         }
 
         if (answerPageLoadingFinishedListener != null) {
@@ -146,14 +171,36 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         return map;
     }
 
+    @NonNull
+    private HashMap<Integer, Boolean> convertToReDoMap(Answer[] answers) {
+        HashMap<Integer, Boolean> map = new HashMap<>();
+
+        for (Answer answer : answers) {
+            if (map.get(answer.getProductId()) == null) {
+                map.put(answer.getProductId(), answer.getValue().equals("1") ? true : false);
+            }
+        }
+
+        return map;
+    }
+
     /// ======================================================================================================== ///
     /// ========================================== LISTENERS =================================================== ///
     /// ======================================================================================================== ///
 
     @SuppressWarnings("unused")
     public void onEventMainThread(SubQuestionsSubmitEvent event) {
-        updateTickCrossState(event.productId);
-        saveQuestion();
+        if (!isRedo) {
+            updateTickCrossState(event.productId);
+            saveQuestion();
+        } else {
+            if (answersReDoMap == null) {
+                answersReDoMap = new HashMap<>();
+            }
+            answersReDoMap.put(event.productId, true);
+            adapter.setReDoData(answersReDoMap);
+            refreshNextButton();
+        }
     }
 
     private View.OnClickListener crossListener = new View.OnClickListener() {
@@ -175,9 +222,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     private View.OnClickListener editListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            buttonClicked = TICK;
-//            handleTickCrossTick((CategoryProductPair) v.getTag());
-
             handleEditTick((CategoryProductPair) v.getTag());
         }
     };
@@ -200,24 +244,25 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     }
 
     private void handleEditTick(CategoryProductPair pair) {
-//        if ((buttonClicked == TICK && mainSub.getAction() == Question.ACTION_TICK)
-//                || (buttonClicked == CROSS && mainSub.getAction() == Question.ACTION_CROSS)
-//                || (mainSub.getAction() == Question.ACTION_BOTH)) {
-//            startSubQuestionsFragment(pair);
-//        } else {
-//            updateTickCrossState(pair.product.getId());
-//        }
-
         startSubQuestionsFragment(pair);
 
     }
 
     private void updateTickCrossState(int productId) {
-        TickCrossAnswerPair pair = answersMap.get(productId);
-        pair.getTickAnswer().setChecked(buttonClicked == TICK);
-        pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
+        if (!isRedo) {
+            TickCrossAnswerPair pair = answersMap.get(productId);
+            pair.getTickAnswer().setChecked(buttonClicked == TICK);
+            pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
+        } else {
+
+        }
+
         adapter.notifyDataSetChanged();
         refreshNextButton();
+    }
+
+    public void setIsRedo(boolean b) {
+        isRedo = b;
     }
 
     public static class TickCrossAnswerPair {

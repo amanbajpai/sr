@@ -1,7 +1,6 @@
 package com.ros.smartrocket.adapter;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +22,16 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     private final View.OnClickListener tickListener;
     private final View.OnClickListener crossListener;
     private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
+    private HashMap<Integer, Boolean> answersReDoMap;
+    private boolean isRedo;
 
     public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
-                                          View.OnClickListener crossListener) {
+                                          View.OnClickListener crossListener, boolean isRedo) {
         this.context = context;
         this.categories = categories;
         this.tickListener = tickListener;
         this.crossListener = crossListener;
+        this.isRedo = isRedo;
     }
 
     @Override
@@ -100,7 +102,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         ImageView crossButton = (ImageView) convertView.findViewById(R.id.massAuditCrossButton);
         ImageView tickButton = (ImageView) convertView.findViewById(R.id.massAuditTickButton);
 
-        if (answersMap != null) {
+        if (!isRedo) {
             Answer tickAnswer = answersMap.get(product.getId()).getTickAnswer();
             Answer crossAnswer = answersMap.get(product.getId()).getCrossAnswer();
             if (tickAnswer != null && crossAnswer != null) {
@@ -117,6 +119,13 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             }
         } else {
             setButtonsVisibility(tickButton, crossButton, View.GONE);
+            if (answersReDoMap == null) {
+                tickButton.setImageResource(R.drawable.mass_audit_green_edit);
+            } else {
+                tickButton.setImageResource(answersReDoMap.get(product.getId())
+                        ? R.drawable.mass_audit_green_checked
+                        : R.drawable.mass_audit_green_edit);
+            }
         }
 
         QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product);
@@ -142,6 +151,11 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
     public void setData(HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap) {
         this.answersMap = answersMap;
+        notifyDataSetChanged();
+    }
+
+    public void setReDoData(HashMap<Integer, Boolean> answersMap) {
+        this.answersReDoMap = answersMap;
         notifyDataSetChanged();
     }
 }
