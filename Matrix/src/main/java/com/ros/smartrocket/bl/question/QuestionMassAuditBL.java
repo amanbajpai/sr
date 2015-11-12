@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import butterknife.Bind;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -17,10 +17,12 @@ import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
-import de.greenrobot.event.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
+
+import butterknife.Bind;
+import de.greenrobot.event.EventBus;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
     public static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
@@ -42,8 +44,13 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 R.layout.include_mass_audit_question_header, listView, false);
         listView.addHeaderView(headerView);
 
-        adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                tickListener, crossListener);
+        if (answersMap != null) {
+            adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
+                    tickListener, crossListener);
+        } else {
+            adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
+                    editListener, crossListener);
+        }
         listView.setAdapter(adapter);
 
         mainSubQuestionTextView = (TextView) view.findViewById(R.id.massAuditMainSubQuestionText);
@@ -165,6 +172,16 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         }
     };
 
+    private View.OnClickListener editListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+//            buttonClicked = TICK;
+//            handleTickCrossTick((CategoryProductPair) v.getTag());
+
+            handleEditTick((CategoryProductPair) v.getTag());
+        }
+    };
+
     private void startSubQuestionsFragment(CategoryProductPair item) {
         Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
                 item.category.getCategoryName(), item.product);
@@ -180,6 +197,19 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         } else {
             updateTickCrossState(pair.product.getId());
         }
+    }
+
+    private void handleEditTick(CategoryProductPair pair) {
+//        if ((buttonClicked == TICK && mainSub.getAction() == Question.ACTION_TICK)
+//                || (buttonClicked == CROSS && mainSub.getAction() == Question.ACTION_CROSS)
+//                || (mainSub.getAction() == Question.ACTION_BOTH)) {
+//            startSubQuestionsFragment(pair);
+//        } else {
+//            updateTickCrossState(pair.product.getId());
+//        }
+
+        startSubQuestionsFragment(pair);
+
     }
 
     private void updateTickCrossState(int productId) {

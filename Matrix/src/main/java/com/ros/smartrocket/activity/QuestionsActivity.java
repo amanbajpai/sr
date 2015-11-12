@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -22,14 +27,26 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.fragment.*;
+import com.ros.smartrocket.fragment.BaseQuestionFragment;
+import com.ros.smartrocket.fragment.QuestionInstructionFragment;
+import com.ros.smartrocket.fragment.QuestionMassAuditFragment;
+import com.ros.smartrocket.fragment.QuestionMultipleChooseFragment;
+import com.ros.smartrocket.fragment.QuestionNumberFragment;
+import com.ros.smartrocket.fragment.QuestionOpenCommentFragment;
+import com.ros.smartrocket.fragment.QuestionPhotoFragment;
+import com.ros.smartrocket.fragment.QuestionSingleChooseFragment;
+import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.List;
 
@@ -324,34 +341,39 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putSerializable(Keys.QUESTION, question);
 
-            switch (QuestionsBL.getQuestionType(question.getType())) {
-                case MULTIPLE_CHOICE:
-                    currentFragment = new QuestionMultipleChooseFragment();
-                    break;
-                case SINGLE_CHOICE:
-                    currentFragment = new QuestionSingleChooseFragment();
-                    break;
-                case PHOTO:
-                    currentFragment = new QuestionPhotoFragment();
-                    break;
-                case OPEN_COMMENT:
-                    currentFragment = new QuestionOpenCommentFragment();
-                    break;
-                case VIDEO:
-                    currentFragment = new QuestionVideoFragment();
-                    break;
-                case NUMBER:
-                    currentFragment = new QuestionNumberFragment();
-                    break;
-                case INSTRUCTION:
-                    currentFragment = new QuestionInstructionFragment();
-                    break;
-                case MASS_AUDIT:
-                    currentFragment = new QuestionMassAuditFragment();
-                    break;
-                default:
-                    break;
-            }
+//            if (question.getParentQuestionId() == null) {
+
+                switch (QuestionsBL.getQuestionType(question.getType())) {
+                    case MULTIPLE_CHOICE:
+                        currentFragment = new QuestionMultipleChooseFragment();
+                        break;
+                    case SINGLE_CHOICE:
+                        currentFragment = new QuestionSingleChooseFragment();
+                        break;
+                    case PHOTO:
+                        currentFragment = new QuestionPhotoFragment();
+                        break;
+                    case OPEN_COMMENT:
+                        currentFragment = new QuestionOpenCommentFragment();
+                        break;
+                    case VIDEO:
+                        currentFragment = new QuestionVideoFragment();
+                        break;
+                    case NUMBER:
+                        currentFragment = new QuestionNumberFragment();
+                        break;
+                    case INSTRUCTION:
+                        currentFragment = new QuestionInstructionFragment();
+                        break;
+                    case MASS_AUDIT:
+                        currentFragment = new QuestionMassAuditFragment();
+                        break;
+                    default:
+                        break;
+                }
+//            } else {
+//                currentFragment = new QuestionMassAuditFragment();
+//            }
 
             if (currentFragment != null) {
                 currentFragment.setAnswerPageLoadingFinishedListener(this);

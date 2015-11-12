@@ -1,12 +1,14 @@
 package com.ros.smartrocket.adapter;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
 import com.ros.smartrocket.db.entity.Answer;
@@ -98,19 +100,23 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         ImageView crossButton = (ImageView) convertView.findViewById(R.id.massAuditCrossButton);
         ImageView tickButton = (ImageView) convertView.findViewById(R.id.massAuditTickButton);
 
-        Answer tickAnswer = answersMap.get(product.getId()).getTickAnswer();
-        Answer crossAnswer = answersMap.get(product.getId()).getCrossAnswer();
-        if (tickAnswer != null && crossAnswer != null) {
-            setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
-            // TODO Clarify answers order
-            tickButton.setImageResource(tickAnswer.getChecked()
-                    ? R.drawable.mass_audit_green_checked
-                    : R.drawable.mass_audit_green_unchecked);
-            crossButton.setImageResource(crossAnswer.getChecked()
-                    ? R.drawable.mass_audit_red_checked
-                    : R.drawable.mass_audit_red_unchecked);
+        if (answersMap != null) {
+            Answer tickAnswer = answersMap.get(product.getId()).getTickAnswer();
+            Answer crossAnswer = answersMap.get(product.getId()).getCrossAnswer();
+            if (tickAnswer != null && crossAnswer != null) {
+                setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
+                // TODO Clarify answers order
+                tickButton.setImageResource(tickAnswer.getChecked()
+                        ? R.drawable.mass_audit_green_checked
+                        : R.drawable.mass_audit_green_unchecked);
+                crossButton.setImageResource(crossAnswer.getChecked()
+                        ? R.drawable.mass_audit_red_checked
+                        : R.drawable.mass_audit_red_unchecked);
+            } else {
+                setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
+            }
         } else {
-            setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
+            setButtonsVisibility(tickButton, crossButton, View.GONE);
         }
 
         QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product);
@@ -123,9 +129,10 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         return convertView;
     }
 
-    private void setButtonsVisibility(View tickButton, View crossButton, int visibility) {
-        tickButton.setVisibility(visibility);
+    private void setButtonsVisibility(View tickButton, ImageView crossButton, int visibility) {
+        tickButton.setVisibility(View.VISIBLE);
         crossButton.setVisibility(visibility);
+//        crossButton.setImageResource(visibility == View.VISIBLE ? R.drawable.);
     }
 
     @Override
