@@ -47,8 +47,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 R.layout.include_mass_audit_question_header, listView, false);
         listView.addHeaderView(headerView);
 
-        Toast.makeText(getActivity(), "isReDo = " + isRedo, Toast.LENGTH_LONG).show();
-
         if (!isRedo) {
             adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
                     tickListener, crossListener, isRedo);
