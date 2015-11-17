@@ -371,7 +371,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                TasksBL.updateTaskStatusId(taskId, task.getMissionId(), Task.TaskStatusId.STARTED.getStatusId());
+                TasksBL.updateTaskStatusId(taskId, task.getMissionId(),
+                        isRedo ? Task.TaskStatusId.RE_DO_TASK.getStatusId() : Task.TaskStatusId.STARTED.getStatusId());
 
                 startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
                 finish();
