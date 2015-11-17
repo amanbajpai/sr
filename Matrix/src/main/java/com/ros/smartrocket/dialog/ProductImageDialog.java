@@ -1,8 +1,12 @@
 package com.ros.smartrocket.dialog;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +16,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
-import com.squareup.picasso.Picasso;
+import com.ros.smartrocket.utils.SelectImageManager;
+
+import java.io.File;
 
 public final class ProductImageDialog extends DialogFragment {
     public static final String KEY = "com.ros.smartrocket.dialog.ProductImageDialog.KEY";
@@ -38,7 +46,9 @@ public final class ProductImageDialog extends DialogFragment {
 
         String url = getArguments().getString(KEY);
         L.v("IMAGE", url);
-        Picasso.with(getActivity()).load(url).into(imageView);
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+
+        ImageLoader.getInstance().getFileByUrlAsync(url, completeListener);
 
         return view;
     }
@@ -48,4 +58,30 @@ public final class ProductImageDialog extends DialogFragment {
     void closeClick() {
         dismiss();
     }
+
+    private ImageLoader.OnFileLoadCompleteListener completeListener = new ImageLoader.OnFileLoadCompleteListener() {
+        @Override
+        public void onFileLoadComplete(final File file) {
+            setImageInstructionFile(file);
+        }
+    };
+
+    public void setImageInstructionFile(final File file) {
+        Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
+        imageView.setImageBitmap(bitmap);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(file.getPath())) {
+                    Activity activity = getActivity();
+                    activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath(), false));
+                }
+            }
+        });
+
+        if (getActivity() != null) {
+            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+        }
+    }
+
 }
