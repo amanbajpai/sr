@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
@@ -36,7 +35,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private MassAuditExpandableListAdapter adapter;
     private HashMap<Integer, TickCrossAnswerPair> answersMap;
-    private HashMap<Integer, Boolean> answersReDoMap;
+    private HashMap<Integer, Boolean> answersReDoMap = new HashMap<>();
     private Question mainSub;
     private int buttonClicked;
     private boolean isRedo = false;
@@ -53,6 +52,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         } else {
             adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
                     editListener, crossListener, isRedo);
+            refreshNextButton();
         }
         listView.setAdapter(adapter);
 
@@ -106,7 +106,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 //            if (answersReDoMap.size()<)
 
             if (answerSelectedListener != null) {
-                boolean selected = true;
+                boolean selected = answersReDoMap.isEmpty() ? false : true;
                 for (Boolean checked : answersReDoMap.values()) {
                     if (!checked) {
                         selected = false;
@@ -195,9 +195,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             updateTickCrossState(event.productId);
             saveQuestion();
         } else {
-            if (answersReDoMap == null) {
-                answersReDoMap = new HashMap<>();
-            }
             answersReDoMap.put(event.productId, true);
             adapter.setReDoData(answersReDoMap);
             refreshNextButton();
