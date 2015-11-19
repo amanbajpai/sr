@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -15,9 +16,12 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class QuestionsBL {
@@ -499,5 +503,15 @@ public class QuestionsBL {
             }
         }
         return resultQuestionList;
+    }
+
+    public static Question[] sortQuestionsByOrderId(Question[] questions) {
+        Arrays.sort(questions, new Comparator<Question>() {
+            public int compare(Question o1, Question o2) {
+                return o1.getOrderId() - o2.getOrderId();
+            }
+        });
+
+        return questions;
     }
 }

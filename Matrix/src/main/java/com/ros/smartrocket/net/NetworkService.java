@@ -209,18 +209,22 @@ public class NetworkService extends BaseNetworkService {
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
+                        questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
+
                         // TODO Ask about i
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
-                            insertQuestion(gson, contentResolver, url, taskId, missionId, i, question, null);
+                            i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question, null);
 
                             if (question.getChildQuestions() != null) {
                                 List<Product> productList = makeProductList(question);
+                                int j = 1;
                                 for (Question childQuestion : question.getChildQuestions()) {
-                                    insertQuestion(gson, contentResolver, url, taskId,
-                                            missionId, i, childQuestion, productList);
+                                    j = insertQuestion(gson, contentResolver, url, taskId,
+                                            missionId, j, childQuestion, productList);
                                 }
                             }
+
                         }
 
                         break;

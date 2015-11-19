@@ -70,6 +70,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             answersMap = convertToMap(answers);
             adapter.setData(answersMap);
         } else {
+
             answersReDoMap = convertToReDoMap(answers);
             adapter.setReDoData(answersReDoMap);
         }
@@ -102,6 +103,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 answerSelectedListener.onAnswerSelected(selected, question.getId());
             }
         } else {
+//            if (answersReDoMap.size()<)
+
             if (answerSelectedListener != null) {
                 boolean selected = true;
                 for (Boolean checked : answersReDoMap.values()) {

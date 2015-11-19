@@ -122,9 +122,13 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             if (answersReDoMap == null) {
                 tickButton.setImageResource(R.drawable.mass_audit_green_edit);
             } else {
-                tickButton.setImageResource(answersReDoMap.get(product.getId())
-                        ? R.drawable.mass_audit_green_checked
-                        : R.drawable.mass_audit_green_edit);
+                try {
+                    tickButton.setImageResource(answersReDoMap.get(product.getId())
+                            ? R.drawable.mass_audit_green_checked
+                            : R.drawable.mass_audit_green_edit);
+                } catch (Exception e) {
+                    tickButton.setImageResource(R.drawable.mass_audit_green_edit);
+                }
             }
         }
 
