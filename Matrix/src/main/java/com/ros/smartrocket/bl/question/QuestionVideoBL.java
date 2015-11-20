@@ -64,18 +64,6 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     }
 
     @Override
-    public void clearAnswer() {
-        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
-            Answer[] answers = question.getAnswers();
-            for (Answer answer : answers) {
-                answer.setChecked(false);
-            }
-
-            AnswersBL.updateAnswersToDB(handler, answers);
-        }
-    }
-
-    @Override
     public void fillViewWithAnswers(Answer[] answers) {
         question.setAnswers(answers);
 

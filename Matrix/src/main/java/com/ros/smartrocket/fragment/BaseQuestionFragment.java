@@ -81,10 +81,6 @@ public abstract class BaseQuestionFragment extends Fragment {
         return questionBL.saveQuestion();
     }
 
-    public void clearAnswer() {
-        questionBL.clearAnswer();
-    }
-
     public Question getQuestion() {
         return questionBL.getQuestion();
     }

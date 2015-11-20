@@ -34,16 +34,20 @@ public class QuestionsBL {
      * @param waveId  - current waveId
      */
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
-                                              Integer missionId) {
+                                              Integer missionId, boolean includeChildQuestions) {
+        String selection = QuestionDbSchema.Columns.WAVE_ID + "=? and "
+                + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                + QuestionDbSchema.Columns.MISSION_ID + "=?";
+
+        if (!includeChildQuestions) {
+            selection += " and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + " is null";
+        }
         handler.startQuery(
                 QuestionDbSchema.Query.TOKEN_QUERY,
                 null,
                 QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION,
-                QuestionDbSchema.Columns.WAVE_ID + "=? and "
-                        + QuestionDbSchema.Columns.TASK_ID + "=? and "
-                        + QuestionDbSchema.Columns.MISSION_ID + "=? and "
-                        + QuestionDbSchema.Columns.PARENT_QUESTION_ID + " is null",
+                selection,
                 new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
                 QuestionDbSchema.SORT_ORDER_DESC
         );

@@ -184,7 +184,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                             apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
                         } else {
-                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
+                            QuestionsBL.getQuestionsListFromDB(
+                                    handler, task.getWaveId(), taskId, task.getMissionId(), false);
                         }
                     } else {
                         finishQuestionsActivity();
@@ -391,7 +392,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
-                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
+                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                         taskId, task.getMissionId());
@@ -410,7 +411,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.previousButton:
-                //currentFragment.clearAnswer();
                 startPreviousQuestionFragment();
                 isAlreadyStarted = false;
                 break;
