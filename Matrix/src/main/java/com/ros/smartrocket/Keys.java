@@ -153,6 +153,7 @@ public interface Keys {
     String LAST_NOT_ANSWERED_QUESTION_ORDER_ID = "last_not_answered_question_order_id";
     String FIRSTLY_SELECTION = "firstly_selection";
     String IS_REDO = "is_redo";
+    String IS_REDO_REOPEN = "is_redo_reopen";
 
     //NotUploadFile Service
     String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_files";

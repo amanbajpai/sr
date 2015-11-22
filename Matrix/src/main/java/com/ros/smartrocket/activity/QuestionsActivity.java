@@ -199,7 +199,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             nextButton.setPadding(padding, padding, padding, padding);
                             previousButton.setPadding(padding, padding, padding, padding);
 
-                            apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
+                            if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
+                                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
+                            }else{
+                                apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
+                            }
                         } else {
                             QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
                         }

@@ -71,7 +71,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             adapter.setData(answersMap);
         } else {
 
-            answersReDoMap = convertToReDoMap(answers);
+            answersReDoMap.putAll(convertToReDoMap(answers));
             adapter.setReDoData(answersReDoMap);
         }
         refreshNextButton();
@@ -83,6 +83,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
         } else if (question != null && answersReDoMap != null && answersReDoMap.size() > 0) {
+//            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
         } else {
             return false;
@@ -103,14 +104,16 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 answerSelectedListener.onAnswerSelected(selected, question.getId());
             }
         } else {
-//            if (answersReDoMap.size()<)
-
             if (answerSelectedListener != null) {
-                boolean selected = answersReDoMap.isEmpty() ? false : true;
-                for (Boolean checked : answersReDoMap.values()) {
-                    if (!checked) {
-                        selected = false;
-                        break;
+                boolean selected = true;
+                if (answersReDoMap.size() < QuestionsBL.getProductsFromCategoriesCount(question.getCategoriesArray())) {
+                    selected = false;
+                } else {
+                    for (Boolean checked : answersReDoMap.values()) {
+                        if (!checked) {
+                            selected = false;
+                            break;
+                        }
                     }
                 }
                 answerSelectedListener.onAnswerSelected(selected, question.getId());
@@ -149,6 +152,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         if (mainSub != null) {
             mainSubQuestionTextView.setText(mainSub.getQuestion());
             AnswersBL.getAnswersListFromDB(handler, mainSub.getTaskId(), mainSub.getMissionId(), mainSub.getId());
+        } else {
+            AnswersBL.getSubQuestionsAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getChildQuestions());
         }
     }
 
@@ -178,7 +183,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
         for (Answer answer : answers) {
             if (map.get(answer.getProductId()) == null) {
-                map.put(answer.getProductId(), answer.getValue().equals("1") ? true : false);
+                map.put(answer.getProductId(), answer.getChecked() ? true : false);
             }
         }
 

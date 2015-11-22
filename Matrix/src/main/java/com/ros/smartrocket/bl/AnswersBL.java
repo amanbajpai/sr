@@ -10,10 +10,13 @@ import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -71,20 +74,104 @@ public class AnswersBL {
     /**
      * Make request for getting Answer list
      *
-     * @param handler    - Handler for getting response from DB
-     * @param questionId - question id
+     * @param handler - Handler for getting response from DB
      */
-    public static void getMainSubQuestionAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
-                                                           Integer questionId) {
+    public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Category[] categories) {
+
+        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
+                .append(AnswerDbSchema.Columns.MISSION_ID + "=? and ");
+
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> args = new ArrayList<>();
+        args.add(String.valueOf(taskId));
+        args.add(String.valueOf(missionId));
+
+        for (int i = 0; i < categories.length; i++) {
+            Product[] tempProducts = categories[i].getProducts();
+            for (int j = 0; j < tempProducts.length; j++) {
+                products.add(tempProducts[j]);
+            }
+        }
+
+        for (int i = 0; i < products.size(); i++) {
+            where.append(AnswerDbSchema.Columns.PRODUCT_ID + " =? ");
+            if (i != products.size() - 1) {
+                where.append(" or ");
+            }
+
+            args.add(String.valueOf(products.get(i).getId()));
+        }
+
+
+//        handler.startQuery(
+//                AnswerDbSchema.Query.TOKEN_QUERY,
+//                null,
+//                AnswerDbSchema.CONTENT_URI,
+//                AnswerDbSchema.Query.PROJECTION,
+//                AnswerDbSchema.Columns.TASK_ID + "=? and "
+//                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+//                        + AnswerDbSchema.Columns.PRODUCT_ID + " =?",
+//                new String[]{String.valueOf(taskId), String.valueOf(missionId), "1,2,3"},
+//                AnswerDbSchema.SORT_ORDER_ASC);
+
         handler.startQuery(
                 AnswerDbSchema.Query.TOKEN_QUERY,
                 null,
                 AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
-                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
-                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)},
+                where.toString(),
+                args.toArray(new String[args.size()]),
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+ /**
+     * Make request for getting Answer list
+     *
+     * @param handler - Handler for getting response from DB
+     */
+
+    public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Question[] questions) {
+
+        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
+                .append(AnswerDbSchema.Columns.MISSION_ID + "=? and (");
+
+        ArrayList<String> args = new ArrayList<>();
+        args.add(String.valueOf(taskId));
+        args.add(String.valueOf(missionId));
+
+        for (int i = 0; i < questions.length; i++) {
+            where.append(AnswerDbSchema.Columns.QUESTION_ID + " =? ");
+            if (i != questions.length - 1) {
+                where.append(" or ");
+            }
+
+            args.add(String.valueOf(questions[i].getId()));
+        }
+
+//        where.append(AnswerDbSchema.Columns.QUESTION_ID + "=? ");
+//        args.add(String.valueOf(questions[0].getId()));
+
+        where.append(" ) and ").append(AnswerDbSchema.Columns.CHECKED + "=? ");
+        args.add(String.valueOf(1));
+
+
+//        handler.startQuery(
+//                AnswerDbSchema.Query.TOKEN_QUERY,
+//                null,
+//                AnswerDbSchema.CONTENT_URI,
+//                AnswerDbSchema.Query.PROJECTION,
+//                AnswerDbSchema.Columns.TASK_ID + "=? and "
+//                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+//                        + AnswerDbSchema.Columns.PRODUCT_ID + " =?",
+//                new String[]{String.valueOf(taskId), String.valueOf(missionId), "1,2,3"},
+//                AnswerDbSchema.SORT_ORDER_ASC);
+
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                where.toString(),
+                args.toArray(new String[args.size()]),
                 AnswerDbSchema.SORT_ORDER_ASC);
     }
 

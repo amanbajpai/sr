@@ -12,6 +12,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AskIf;
+import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
@@ -513,5 +514,13 @@ public class QuestionsBL {
         });
 
         return questions;
+    }
+
+    public static int getProductsFromCategoriesCount(Category[] categories) {
+        int count = 0;
+        for (int i = 0; i < categories.length; i++) {
+            count += categories[i].getProducts().length;
+        }
+        return count;
     }
 }
