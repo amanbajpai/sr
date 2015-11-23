@@ -265,6 +265,25 @@ public class QuestionsBL {
     }
 
     /**
+     * Get Question by id
+     *
+     * @param questions - question list
+     * @param id - questionId
+     * @return Question
+     */
+    public static Question getQuestionById(List<Question> questions, int id) {
+        Question result = null;
+        for (Question question : questions) {
+            if (question.getId() == id) {
+                result = question;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Get Question by orderId
      *
      * @param questions - question list
