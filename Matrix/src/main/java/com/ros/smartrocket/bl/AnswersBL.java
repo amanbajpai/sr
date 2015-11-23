@@ -232,9 +232,12 @@ public class AnswersBL {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
-                        AnswerDbSchema.Columns.MISSION_ID + "=?"
+                        AnswerDbSchema.Columns.MISSION_ID + "=? and " +
+                        AnswerDbSchema.Columns.VALUE + " IS NOT NULL and " +
+                        AnswerDbSchema.Columns.VALUE + " !=? "
+
                 /* and " + AnswerDbSchema.Columns.FILE_URI + " IS NULL"*/,
-                new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId)}, null);
+                new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId), ""}, null);
 
         return convertCursorToAnswerList(cursor);
     }
