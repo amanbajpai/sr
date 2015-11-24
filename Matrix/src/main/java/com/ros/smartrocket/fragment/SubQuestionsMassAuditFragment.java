@@ -23,7 +23,6 @@ import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,6 +49,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     private Product product;
     private int loadedSubQuestionsCount;
     private Set<Integer> set = new HashSet<>();
+    private Set<Integer> requiredQuestionsSet = new HashSet<>();
 
     public static Fragment makeInstance(Question[] questions, String title, Product product) {
         Bundle bundle = new Bundle();
@@ -80,17 +80,23 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         subtitleTextView.setText(product != null ? product.getName() : "");
 
         Question[] questions = (Question[]) getArguments().getSerializable(KEY_QUES);
-        List<Question> questionsWithoutMain = new ArrayList<>();
+        ArrayList<Question> childQuestions = new ArrayList<>();
         if (questions != null) {
             for (Question question : questions) {
                 if (question.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
-                    questionsWithoutMain.add(question);
+                    childQuestions.add(question);
                 }
             }
         }
 
+        for (Question question : childQuestions) {
+            if (question.isRequired()) {
+                requiredQuestionsSet.add(question.getId());
+            }
+        }
+
         adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
-                questionsWithoutMain.toArray(new Question[questionsWithoutMain.size()]), product);
+                childQuestions.toArray(new Question[childQuestions.size()]), product);
         for (int i = 0; i < adapter.getCount(); i++) {
             View item = adapter.getView(i, null, subQuestionsLayout);
             if (item != null && item.getParent() == null) {
@@ -167,6 +173,6 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
             set.remove(questionId);
         }
 
-        submitButton.setEnabled(set.size() == adapter.getCount());
+        submitButton.setEnabled(set.containsAll(requiredQuestionsSet));
     }
 }

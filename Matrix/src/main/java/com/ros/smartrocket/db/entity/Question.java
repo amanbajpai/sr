@@ -14,14 +14,6 @@ public class Question extends BaseEntity implements Serializable {
     public static final int ACTION_BOTH = 2;
     public static final int ACTION_NOTHING = 3;
 
-    public Integer getAction() {
-        return action;
-    }
-
-    public void setAction(Integer action) {
-        this.action = action;
-    }
-
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
         VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10), MAIN_SUB_QUESTION(11);
@@ -77,8 +69,6 @@ public class Question extends BaseEntity implements Serializable {
     private String validationComment;
     @SerializedName("PresetValidationText")
     private String presetValidationText;
-    @SerializedName("ParentQuestionId")
-    private Integer parentQuestionId;
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
@@ -89,6 +79,10 @@ public class Question extends BaseEntity implements Serializable {
     private String categories = "";
     @SerializedName("Action")
     private Integer action;
+    @SerializedName("ParentQuestionId")
+    private Integer parentQuestionId;
+    @SerializedName("IsRequired")
+    private Boolean isRequired;
 
     @SkipFieldInContentValues
     @SerializedName("Children")
@@ -154,6 +148,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setCategories(c.getString(QuestionDbSchema.Query.CATEGORIES));
             result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
             result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
+            result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
         }
 
         return result;
@@ -418,5 +413,21 @@ public class Question extends BaseEntity implements Serializable {
 
     public void setChildQuestions(Question[] childrenQuestions) {
         this.childrenQuestions = childrenQuestions;
+    }
+
+    public Integer getAction() {
+        return action;
+    }
+
+    public void setAction(Integer action) {
+        this.action = action;
+    }
+
+    public Boolean isRequired() {
+        return isRequired;
+    }
+
+    public void setRequired(Boolean isRequired) {
+        this.isRequired = isRequired;
     }
 }

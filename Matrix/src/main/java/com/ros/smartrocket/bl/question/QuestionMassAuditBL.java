@@ -15,6 +15,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.dialog.ProductImageDialog;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
 
@@ -48,10 +49,10 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
         if (!isRedo) {
             adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                    tickListener, crossListener, isRedo);
+                    tickListener, crossListener, thumbListener, isRedo);
         } else {
             adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                    editListener, crossListener, isRedo);
+                    editListener, crossListener, thumbListener, isRedo);
             refreshNextButton();
         }
         listView.setAdapter(adapter);
@@ -226,6 +227,14 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         @Override
         public void onClick(View v) {
             handleEditTick((CategoryProductPair) v.getTag());
+        }
+    };
+
+    private View.OnClickListener thumbListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String url = (String) v.getTag();
+            ProductImageDialog.showDialog(activity.getSupportFragmentManager(), url);
         }
     };
 

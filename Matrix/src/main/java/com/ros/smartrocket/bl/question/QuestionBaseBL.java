@@ -123,10 +123,6 @@ public class QuestionBaseBL {
         return true;
     }
 
-    public void clearAnswer() {
-        // Do nothing
-    }
-
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
             answerSelectedListener.onAnswerSelected(true, question.getId());

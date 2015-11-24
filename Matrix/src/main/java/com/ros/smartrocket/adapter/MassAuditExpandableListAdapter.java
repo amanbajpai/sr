@@ -1,6 +1,7 @@
 package com.ros.smartrocket.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +25,15 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
     private HashMap<Integer, Boolean> answersReDoMap;
     private boolean isRedo;
+    private View.OnClickListener thumbListener;
 
     public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
-                                          View.OnClickListener crossListener, boolean isRedo) {
+                                          View.OnClickListener crossListener, View.OnClickListener thumbListener, boolean isRedo) {
         this.context = context;
         this.categories = categories;
         this.tickListener = tickListener;
         this.crossListener = crossListener;
+        this.thumbListener = thumbListener;
         this.isRedo = isRedo;
     }
 
@@ -138,6 +141,11 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
         crossButton.setTag(pair);
         crossButton.setOnClickListener(crossListener);
+
+        View thumb = convertView.findViewById(R.id.massAuditImageThumb);
+        thumb.setVisibility(TextUtils.isEmpty(product.getImage()) ? View.GONE : View.VISIBLE);
+        thumb.setTag(category.getProducts()[childPosition].getImage());
+        thumb.setOnClickListener(thumbListener);
 
         return convertView;
     }

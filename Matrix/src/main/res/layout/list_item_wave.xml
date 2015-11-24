@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <LinearLayout
         android:id="@+id/listItem"
         android:layout_width="match_parent"
@@ -15,7 +14,6 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/mission_green_bg"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,15 +21,13 @@
             android:gravity="center_vertical"
             android:minHeight="48dp"
             android:orientation="horizontal">
-
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/app_name" />
-
+                android:contentDescription="@string/app_name"/>
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/name"
                 style="@style/WaveListTitle"
@@ -39,17 +35,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
-                custom:textStyle="bold" />
-
+                custom:textStyle="bold"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/arrow_grey_big" />
+                android:src="@drawable/arrow_grey_big"/>
         </LinearLayout>
-
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/statusText"
             android:layout_width="match_parent"
@@ -57,8 +51,7 @@
             android:background="@color/grey_light"
             android:padding="8dp"
             android:textColor="@color/grey"
-            android:textSize="@dimen/text_size_13p6sp" />
-
+            android:textSize="@dimen/text_size_13p6sp"/>
         <LinearLayout
             android:id="@+id/optionLayout"
             android:layout_width="match_parent"
@@ -70,7 +63,6 @@
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp">
-
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/price"
                 style="@style/TaskAndWaveOptionStyle"
@@ -79,8 +71,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/wallet_green"
                 android:textSize="@dimen/text_size_12sp"
-                custom:textStyle="bold" />
-
+                custom:textStyle="bold"/>
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/exp"
                 style="@style/TaskAndWaveOptionStyle"
@@ -89,8 +80,7 @@
                 android:layout_weight="1.1"
                 android:drawableLeft="@drawable/rocket_green"
                 android:textSize="@dimen/text_size_12sp"
-                custom:textStyle="bold" />
-
+                custom:textStyle="bold"/>
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/locations"
                 style="@style/TaskAndWaveOptionStyle"
@@ -99,34 +89,34 @@
                 android:layout_weight="1.2"
                 android:drawableLeft="@drawable/location_green"
                 android:textSize="@dimen/text_size_12sp"
-                custom:textStyle="bold" />
-
+                custom:textStyle="bold"/>
             <View
                 android:id="@+id/optionDivider"
+                android:visibility="gone"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="15dp"
-                android:background="@color/green_dark" />
-
+                android:background="@color/green_dark"/>
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/textQuestionsCount"
                 style="@style/TaskAndWaveOptionStyle"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:drawableLeft="@drawable/quote_green"
                 android:textSize="@dimen/text_size_12sp"
-                custom:textStyle="bold" />
-
+                custom:textStyle="bold"/>
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/photoQuestionsCount"
                 style="@style/TaskAndWaveOptionStyle"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:drawableLeft="@drawable/camera_green"
                 android:textSize="@dimen/text_size_12sp"
-                custom:textStyle="bold" />
+                custom:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -45,6 +45,7 @@ public interface QuestionDbSchema {
         PARENT_QUESTION_ID("parentQuestionId", DBType.NUMERIC),
         CATEGORIES("categories", DBType.TEXT),
         ACTION("action", DBType.NUMERIC),
+        IS_REQUIRED("isRequired", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -84,7 +85,8 @@ public interface QuestionDbSchema {
         //int TOKEN_UPDATE = 23;
         //int TOKEN_DELETE = 24;
 
-        String[] PROJECTION = {Table.QUESTION.getName() + "." + Columns._ID.getName(),
+        String[] PROJECTION = {
+                Table.QUESTION.getName() + "." + Columns._ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.WAVE_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.TASK_ID.getName(),
@@ -116,9 +118,8 @@ public interface QuestionDbSchema {
 
                 Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
-                Table.QUESTION.getName() + "." + Columns.ACTION.getName()
-
-
+                Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
+                Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName()
         };
 
         int _ID = 0;
@@ -154,5 +155,6 @@ public interface QuestionDbSchema {
         int PARENT_QUESTION_ID = 27;
         int CATEGORIES = 28;
         int ACTION = 29;
+        int IS_REQUIRED = 30;
     }
 }
