@@ -1,8 +1,10 @@
 package com.ros.smartrocket;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
@@ -15,6 +17,8 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.tendcloud.tenddata.TCAgent;
+
 import io.fabric.sdk.android.Fabric;
 
 import java.util.Calendar;
@@ -42,6 +46,8 @@ public class App extends Application {
 
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         }
+
+        TCAgent.init(this);
 
         Fabric.with(this, new Crashlytics());
 
@@ -131,5 +137,11 @@ public class App extends Application {
      */
     public MatrixLocationManager getLocationManager() {
         return locationManager;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 }

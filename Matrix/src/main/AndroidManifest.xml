@@ -388,6 +388,13 @@
             android:name="JPUSH_APPKEY"
             android:value="${jPushAppKey}" />
 
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="5BF23DC93A19BA33C9984729D825E53C" />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="default" />
+
         <service
             android:name=".service.CleanFilesIntentService"
             android:exported="false"></service>
