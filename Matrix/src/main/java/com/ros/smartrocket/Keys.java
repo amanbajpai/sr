@@ -176,4 +176,9 @@ public interface Keys {
     //NotUploadFile Service
     String ACTION_START_REMINDER_TIMER = "start_reminder_timer";
     String ACTION_STOP_REMINDER_TIMER = "stop_reminder_timer";
+
+    /* ------------ GCM parameters -----------------------*/
+    String TALKING_DATA_ROW = "1068797126043F9E289911065DBB39D1";
+    String TALKING_DATA_CHINA = "5BF23DC93A19BA33C9984729D825E53C";
+
 }

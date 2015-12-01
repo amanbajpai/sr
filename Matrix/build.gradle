@@ -67,6 +67,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
 dependencies {
     // Google Play Services
     compile 'com.google.android.gms:play-services:6.1.71'
+//    compile 'com.google.android.gms:play-services-gcm:6.1.71'
+//    compile 'com.google.android.gms:play-services-location:6.1.71'
+//    compile 'com.google.android.gms:play-services-maps:6.1.71'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -106,6 +109,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
         transitive = true;
     }
+    compile 'com.android.support:multidex:1.0.0'
 }
 
 android {
@@ -129,6 +133,9 @@ android {
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
         buildConfigField "String", "KNOWLEDGE_BASE_URL", "\"https://smartrocket.desk.com/\""
         buildConfigField "String", "SHARE_URL", "\"http://smart-rocket.com/crew/\""
+
+        multiDexEnabled = true
+
     }
 
     jacoco {
@@ -137,6 +144,10 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
     packagingOptions {

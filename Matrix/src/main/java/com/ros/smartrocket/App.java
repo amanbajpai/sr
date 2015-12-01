@@ -1,10 +1,12 @@
 package com.ros.smartrocket;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
-import cn.jpush.android.api.JPushInterface;
+
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
@@ -15,9 +17,12 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import io.fabric.sdk.android.Fabric;
+import com.tendcloud.tenddata.TCAgent;
 
 import java.util.Calendar;
+
+import cn.jpush.android.api.JPushInterface;
+import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
@@ -42,6 +47,8 @@ public class App extends Application {
 
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         }
+
+        TCAgent.init(this, BuildConfig.USE_BAIDU ? Keys.TALKING_DATA_CHINA : Keys.TALKING_DATA_ROW, "");
 
         Fabric.with(this, new Crashlytics());
 
@@ -131,5 +138,11 @@ public class App extends Application {
      */
     public MatrixLocationManager getLocationManager() {
         return locationManager;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 }
