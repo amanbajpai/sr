@@ -200,7 +200,6 @@ android {
         }
 
         release {
-            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
             buildConfigField "String", "BAIDU_API_KEY", "\"hc5VEmGKRDw7ls2ZpGz18n6g\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
@@ -220,13 +219,15 @@ android {
 
     productFlavors {
         Dev {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "boolean", "USE_BAIDU", "false"
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://predev.api.matrix.osiris.pp.ciklum.com/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
         }
         Staging {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
@@ -234,6 +235,7 @@ android {
             buildConfigField "boolean", "CHINESE", "false"
         }
         Production {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
@@ -241,15 +243,15 @@ android {
             buildConfigField "boolean", "CHINESE", "false"
         }
         ChinaDev {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "boolean", "USE_BAIDU", "true"
-//            buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
-
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
             buildConfigField "boolean", "CHINESE", "true"
         }
         ChinaStaging {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
@@ -257,6 +259,7 @@ android {
             buildConfigField "boolean", "CHINESE", "true"
         }
         ChinaProduction {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
