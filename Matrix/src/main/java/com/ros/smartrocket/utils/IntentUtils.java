@@ -38,6 +38,22 @@ public class IntentUtils {
     }
 
     /**
+     * Return intent for reopening Re-Do Questions screen
+     * In this case API call won't be performed
+     *
+     * @param context - context
+     * @param taskId  - current taskId
+     * @return Intent
+     */
+    public static Intent getReCheckReDoQuestionsIntent(Context context, int taskId, int missionId) {
+        Intent intent = new Intent(context, QuestionsActivity.class);
+        intent.putExtra(Keys.TASK_ID, taskId);
+        intent.putExtra(Keys.MISSION_ID, missionId);
+        intent.putExtra(Keys.IS_REDO_REOPEN, true);
+        return intent;
+    }
+
+    /**
      * Return intent for opening Task detail screen
      *
      * @param context - context

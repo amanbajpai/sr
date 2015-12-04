@@ -4,20 +4,17 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/notification_unread"
         android:padding="20dp">
-
         <ImageView
             android:id="@+id/image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@null"
-            android:src="@drawable/rocket_green" />
-
+            android:src="@drawable/rocket_green"/>
         <TextView
             android:id="@+id/subject"
             android:layout_width="match_parent"
@@ -27,8 +24,7 @@
             android:layout_toLeftOf="@+id/time"
             android:layout_toRightOf="@+id/image"
             android:singleLine="true"
-            android:textIsSelectable="false" />
-
+            android:textIsSelectable="false"/>
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
@@ -39,14 +35,12 @@
             android:background="@null"
             android:gravity="right"
             android:singleLine="true"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"/>
     </RelativeLayout>
-
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:textIsSelectable="false" />
-
+        android:textIsSelectable="false"/>
 </LinearLayout>

@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-
     <ListView
         android:id="@+id/notificationsList"
         android:layout_width="match_parent"
@@ -13,6 +12,5 @@
         android:background="@color/grey_middle"
         android:cacheColorHint="@android:color/transparent"
         android:dividerHeight="1dp"
-        tools:listitem="@layout/list_item_notification" />
-
+        tools:listitem="@layout/list_item_notification"/>
 </LinearLayout>

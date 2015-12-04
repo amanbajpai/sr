@@ -21,10 +21,12 @@ import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.BaseEntity;
+import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
@@ -42,6 +44,8 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * IntentService for API communication
@@ -109,7 +113,7 @@ public class NetworkService extends BaseNetworkService {
                             for (int i = 0; i < tempWaves.length; i++) {
                                 Task[] tempTasks = tempWaves[i].getTasks();
                                 for (int j = 1; j < tempTasks.length; j++) {
-                                    if ((double)tempTasks[j].getPrice() != (double)tempTasks[j - 1].getPrice()) {
+                                    if ((double) tempTasks[j].getPrice() != (double) tempTasks[j - 1].getPrice()) {
                                         tempWaves[i].setContainsDifferentRate(true);
                                         break;
                                     }
@@ -120,8 +124,8 @@ public class NetworkService extends BaseNetworkService {
                                 Task[] tempTasks = tempWaves[i].getTasks();
                                 double min = tempTasks[0].getPrice();
                                 for (int j = 0; j < tempTasks.length; j++) {
-                                    if ((double)tempTasks[j].getPrice() < min) {
-                                        min = (double)tempTasks[j].getPrice();
+                                    if ((double) tempTasks[j].getPrice() < min) {
+                                        min = (double) tempTasks[j].getPrice();
                                     }
                                 }
                                 tempWaves[i].setRate(min);
@@ -228,48 +232,25 @@ public class NetworkService extends BaseNetworkService {
 
                         Questions questions = gson.fromJson(responseString, Questions.class);
 
+                        questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
+
+                        // TODO Ask about i
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
-                            question.setTaskId(taskId);
-                            question.setMissionId(missionId);
-                            AskIf[] askIfArray = question.getAskIfArray();
-                            if (askIfArray != null) {
-                                question.setAskIf(gson.toJson(askIfArray));
+                            if (i != 1 && question.getShowBackButton()) {
+                                question.setPreviousQuestionOrderId(i-1);
                             }
+                            i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question, null);
 
-                            TaskLocation taskLocation = question.getTaskLocationObject();
-                            if (taskLocation != null) {
-                                taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
-                                question.setTaskLocation(gson.toJson(taskLocation));
-                            }
-                            if (WSUrl.GET_REDO_QUESTION_ID == url) {
-                                question.setOrderId(i);
-                            }
-                            contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
-
-                            contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                                    AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID
-                                            + "=?",
-                                    new String[]{String.valueOf(question.getId()), String.valueOf(taskId)}
-                            );
-
-                            if (question.getAnswers() != null) {
-                                for (Answer answer : question.getAnswers()) {
-                                    answer.setRandomId();
-                                    answer.setQuestionId(question.getId());
-                                    answer.setTaskId(taskId);
-                                    answer.setMissionId(missionId);
-                                    contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+                            if (question.getChildQuestions() != null) {
+                                List<Product> productList = makeProductList(question);
+                                int j = 1;
+                                for (Question childQuestion : question.getChildQuestions()) {
+                                    j = insertQuestion(gson, contentResolver, url, taskId,
+                                            missionId, j, childQuestion, productList);
                                 }
-                            } else {
-                                Answer answer = new Answer();
-                                answer.setRandomId();
-                                answer.setQuestionId(question.getId());
-                                answer.setTaskId(taskId);
-                                answer.setMissionId(missionId);
-                                contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
                             }
-                            i++;
+
                         }
 
                         break;
@@ -282,7 +263,8 @@ public class NetworkService extends BaseNetworkService {
                         operation.responseEntities.add(aliPayAccount);
                         break;
                     case WSUrl.ALLOW_PUSH_NOTIFICATION_ID:
-                        AllowPushNotification allowPushNotification = gson.fromJson(responseString, AllowPushNotification.class);
+                        AllowPushNotification allowPushNotification = gson.fromJson(responseString,
+                                AllowPushNotification.class);
                         operation.responseEntities.add(allowPushNotification);
                         break;
                     default:
@@ -328,5 +310,87 @@ public class NetworkService extends BaseNetworkService {
             }
         }
 
+    }
+
+    private List<Product> makeProductList(Question question) {
+        List<Product> productList = new ArrayList<>();
+
+        Category[] categoriesArray = question.getCategoriesArray();
+        if (categoriesArray != null) {
+            for (Category category : categoriesArray) {
+                if (category.getProducts() != null) {
+                    Collections.addAll(productList, category.getProducts());
+                }
+            }
+        }
+
+        return productList;
+    }
+
+    private int insertQuestion(Gson gson, ContentResolver contentResolver, int url, int taskId, int missionId, int i,
+                               Question question, List<Product> productList) {
+        question.setTaskId(taskId);
+        question.setMissionId(missionId);
+
+        AskIf[] askIfArray = question.getAskIfArray();
+        if (askIfArray != null) {
+            question.setAskIf(gson.toJson(askIfArray));
+        }
+
+        Category[] categoriesArray = question.getCategoriesArray();
+        if (categoriesArray != null) {
+            question.setCategories(gson.toJson(categoriesArray));
+        }
+
+        TaskLocation taskLocation = question.getTaskLocationObject();
+        if (taskLocation != null) {
+            taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
+            question.setTaskLocation(gson.toJson(taskLocation));
+        }
+        if (WSUrl.GET_REDO_QUESTION_ID == url) {
+            question.setOrderId(i);
+        }
+        contentResolver.insert(QuestionDbSchema.CONTENT_URI, question.toContentValues());
+
+        contentResolver.delete(AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(question.getId()), String.valueOf(taskId)}
+        );
+
+        if (productList != null) {
+            // Insert answers for MassAudit subquestions
+            for (Product product : productList) {
+                if (question.getAnswers() != null) {
+                    for (Answer answer : question.getAnswers()) {
+                        insertAnswer(contentResolver, taskId, missionId, question, answer, product.getId());
+                    }
+                } else {
+                    Answer answer = new Answer();
+                    insertAnswer(contentResolver, taskId, missionId, question, answer, product.getId());
+                }
+            }
+        } else {
+            if (question.getAnswers() != null) {
+                for (Answer answer : question.getAnswers()) {
+                    insertAnswer(contentResolver, taskId, missionId, question, answer, null);
+                }
+            } else {
+                Answer answer = new Answer();
+                insertAnswer(contentResolver, taskId, missionId, question, answer, null);
+            }
+        }
+
+        i++;
+        return i;
+    }
+
+    private void insertAnswer(ContentResolver contentResolver, int taskId, int missionId,
+                              Question question, Answer answer, Integer productId) {
+        answer.setRandomId();
+        answer.setProductId(productId);
+        answer.setQuestionId(question.getId());
+        answer.setTaskId(taskId);
+        answer.setMissionId(missionId);
+        contentResolver.insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
     }
 }

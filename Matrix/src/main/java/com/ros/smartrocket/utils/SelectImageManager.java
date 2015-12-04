@@ -15,6 +15,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,17 +75,44 @@ public final class SelectImageManager {
         activity.startActivityForResult(i, GALLERY);
     }
 
+    public static void startGallery(Fragment fragment) {
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (!IntentUtils.isIntentAvailable(fragment.getActivity(), i)) {
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("photo/*");
+        }
+        fragment.startActivityForResult(i, GALLERY);
+    }
+
     public static void startCamera(Activity activity, File filePath) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
         activity.startActivityForResult(i, CAMERA);
     }
 
+    public static void startCamera(Fragment sourceFragment, File filePath) {
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+        sourceFragment.startActivityForResult(i, CAMERA);
+    }
+
+    public static void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
+                                              final File file) {
+        showSelectImageDialog(showRemoveButton, file, fragment, null);
+    }
+
     public static void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final File file) {
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        showSelectImageDialog(showRemoveButton, file, null, activity);
+    }
+
+    private static void showSelectImageDialog(final boolean showRemoveButton, final File file,
+                                             final Fragment fragment, final Activity activity) {
+        Activity contextActivity = fragment != null ? fragment.getActivity() : activity;
+
+        LayoutInflater inflater = (LayoutInflater) contextActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
 
-        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(contextActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setContentView(v);
@@ -93,7 +121,11 @@ public final class SelectImageManager {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                startGallery(activity);
+                if (fragment != null) {
+                    startGallery(fragment);
+                } else {
+                    startGallery(activity);
+                }
             }
         });
 
@@ -101,7 +133,11 @@ public final class SelectImageManager {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                startCamera(activity, file);
+                if (fragment != null) {
+                    startCamera(fragment, file);
+                } else {
+                    startCamera(activity, file);
+                }
             }
         });
 
@@ -451,7 +487,7 @@ public final class SelectImageManager {
         @Override
         protected void onPreExecute() {
             EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.START_LOADING));
-       }
+        }
 
         @Override
         protected ImageFileClass doInBackground(Void... params) {
@@ -473,12 +509,12 @@ public final class SelectImageManager {
 
         @Override
         protected void onPostExecute(ImageFileClass image) {
-                if (image.bitmap != null && image.imageFile != null) {
-                    EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
-                } else {
-                    EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR,
-                            requestCode));
-                }
+            if (image.bitmap != null && image.imageFile != null) {
+                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
+            } else {
+                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR,
+                        requestCode));
+            }
 //            }
         }
     }

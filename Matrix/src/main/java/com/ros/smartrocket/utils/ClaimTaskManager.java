@@ -126,9 +126,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
             switch (token) {
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+                    List<Question> instructionQuestions = QuestionsBL.getInstructionQuestionList(questions);
 
-                    if (!questions.isEmpty()) {
-                        List<Question> instructionQuestions = QuestionsBL.getInstructionQuestionList(questions);
+                    if (!instructionQuestions.isEmpty()) {
                         downloadInstructionQuestionFile(0, instructionQuestions);
                     } else {
                         apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
@@ -204,9 +204,11 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
                         Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
                         if (wave.getDownloadMediaWhenClaimingTask()) {
-                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), task.getId(), task.getMissionId());
+                            QuestionsBL.getQuestionsListFromDB(
+                                    handler, task.getWaveId(), task.getId(), task.getMissionId(), true);
                         } else {
-                            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+                            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude
+                                    ());
                         }
                     }
 
@@ -248,7 +250,8 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
                 String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
 
-                new BookTaskSuccessDialog(activity, task, dateTime, new BookTaskSuccessDialog.DialogButtonClickListener() {
+                new BookTaskSuccessDialog(activity, task, dateTime, new BookTaskSuccessDialog
+                        .DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed(Dialog dialog) {
                         showProgressBar();

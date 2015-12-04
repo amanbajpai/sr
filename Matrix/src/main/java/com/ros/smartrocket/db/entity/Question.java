@@ -9,13 +9,18 @@ import java.io.Serializable;
 public class Question extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
+    public static final int ACTION_TICK = 0;
+    public static final int ACTION_CROSS = 1;
+    public static final int ACTION_BOTH = 2;
+    public static final int ACTION_NOTHING = 3;
+
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
-        VIDEO(7), NUMBER(8), INSTRUCTION(9);
+        VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10), MAIN_SUB_QUESTION(11);
 
         private int typeId;
 
-        private QuestionType(int typeId) {
+        QuestionType(int typeId) {
             this.typeId = typeId;
         }
 
@@ -67,10 +72,26 @@ public class Question extends BaseEntity implements Serializable {
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
-    private String askIf = "";
+    // Mass Audit
+    @SkipFieldInContentValues
+    @SerializedName("Categories")
+    private Category[] categoriesArray;
+    private String categories = "";
+    @SerializedName("Action")
+    private Integer action;
+    @SerializedName("ParentQuestionId")
+    private Integer parentQuestionId;
+    @SerializedName("IsRequired")
+    private Boolean isRequired;
+
+    @SkipFieldInContentValues
+    @SerializedName("Children")
+    private Question[] childrenQuestions;
+
     @SkipFieldInContentValues
     @SerializedName("AskIf")
     private AskIf[] askIfArray;
+    private String askIf = "";
 
     private String taskLocation = "";
     @SkipFieldInContentValues
@@ -122,6 +143,12 @@ public class Question extends BaseEntity implements Serializable {
 
             result.setAskIfArray(AskIf.getAskIfArray(result.getAskIf()));
             result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
+
+            result.setParentQuestionId(c.getInt(QuestionDbSchema.Query.PARENT_QUESTION_ID));
+            result.setCategories(c.getString(QuestionDbSchema.Query.CATEGORIES));
+            result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
+            result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
+            result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
         }
 
         return result;
@@ -356,4 +383,51 @@ public class Question extends BaseEntity implements Serializable {
         this.nextAnsweredQuestionId = nextAnsweredQuestionId;
     }
 
+    public Integer getParentQuestionId() {
+        return parentQuestionId;
+    }
+
+    public void setParentQuestionId(Integer parentQuestionId) {
+        this.parentQuestionId = parentQuestionId;
+    }
+
+    public Category[] getCategoriesArray() {
+        return categoriesArray;
+    }
+
+    public void setCategoriesArray(Category[] categoriesArray) {
+        this.categoriesArray = categoriesArray;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public Question[] getChildQuestions() {
+        return childrenQuestions;
+    }
+
+    public void setChildQuestions(Question[] childrenQuestions) {
+        this.childrenQuestions = childrenQuestions;
+    }
+
+    public Integer getAction() {
+        return action;
+    }
+
+    public void setAction(Integer action) {
+        this.action = action;
+    }
+
+    public Boolean isRequired() {
+        return isRequired;
+    }
+
+    public void setRequired(Boolean isRequired) {
+        this.isRequired = isRequired;
+    }
 }

@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -32,7 +31,6 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.service.CleanFilesIntentService;
-
 import org.json.JSONObject;
 
 import java.util.Iterator;

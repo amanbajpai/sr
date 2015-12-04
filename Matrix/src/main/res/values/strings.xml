@@ -474,9 +474,8 @@
     <string name="test_push">Test Push Notification</string>
     <string name="allow_push">Allow Push notif</string>
     <string name="delete">Delete</string>
-
     <string name="new_push_notifications_header">New SmartRocket notifications</string>
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
     <string name="new_push_notification">New notification</string>
-
+    <string name="close">CLOSE</string>
 </resources>

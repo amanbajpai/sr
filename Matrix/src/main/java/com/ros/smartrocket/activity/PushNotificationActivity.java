@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.Window;
-
 import com.ros.smartrocket.fragment.PushNotificationsListFragment;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -18,7 +17,7 @@ public class PushNotificationActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(TextUtils.isEmpty(PreferencesManager.getInstance().getToken())){
+        if (TextUtils.isEmpty(PreferencesManager.getInstance().getToken())) {
             startActivity(IntentUtils.getLoginIntentForPushNotificationsActivity(this));
         }
 
@@ -26,7 +25,8 @@ public class PushNotificationActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(android.R.id.content, new PushNotificationsListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, new
+                    PushNotificationsListFragment()).commit();
         }
 
         PreferencesManager.getInstance().setShowPushNotifStar(false);

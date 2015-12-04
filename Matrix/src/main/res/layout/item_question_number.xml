@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.QuestionNumberFragment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/include_question_header_with_condition"/>
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/answerTextView"
+        style="@style/EditText"
+        android:background="@drawable/field"
+        android:textSize="@dimen/text_size_15sp"
+        android:hint="@string/enter_here"
+        android:singleLine="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <include
+        layout="@layout/include_keyboard"/>
+</LinearLayout>

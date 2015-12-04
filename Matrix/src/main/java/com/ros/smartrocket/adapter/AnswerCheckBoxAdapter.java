@@ -1,71 +1,24 @@
 package com.ros.smartrocket.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
-public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
-    private Answer[] answers;
-    private LayoutInflater inflater;
-    private OnAnswerSelectedListener answerSelectedListener;
-
-    public static class ViewHolder {
-        private TextView name;
-        private CheckBox checkBox;
-        private EditText otherAnswerEditText;
-
-        public CheckBox getCheckBox() {
-            return checkBox;
-        }
-
-        public TextView getName() {
-            return name;
-        }
+public class AnswerCheckBoxAdapter extends AnswerBaseAdapter {
+    public AnswerCheckBoxAdapter(Context context, OnAnswerSelectedListener answerSelectedListener) {
+        super(context, answerSelectedListener);
     }
 
-    public AnswerCheckBoxAdapter(Activity activity, OnAnswerSelectedListener answerSelectedListener) {
-        this.inflater = LayoutInflater.from(activity);
-        this.answerSelectedListener = answerSelectedListener;
-    }
-
-    public int getCount() {
-        if (answers != null) {
-            return answers.length;
-        } else {
-            return 0;
-        }
-    }
-
-    public Answer getItem(int position) {
-        return answers[position];
-    }
-
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public void setData(final Answer[] answers) {
-        this.answers = answers;
-        notifyDataSetChanged();
-    }
-
-    public Answer[] getData() {
-        return answers;
-    }
-
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
@@ -112,7 +65,7 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
                                 break;
                             }
                         }
-                        answerSelectedListener.onAnswerSelected(selected);
+                        answerSelectedListener.onAnswerSelected(selected, answer.getQuestionId());
                     }
                 }
             });
@@ -123,5 +76,19 @@ public class AnswerCheckBoxAdapter extends BaseAdapter implements ListAdapter {
         }
 
         return convertView;
+    }
+
+    public static class ViewHolder {
+        private TextView name;
+        private CheckBox checkBox;
+        private EditText otherAnswerEditText;
+
+        public CheckBox getCheckBox() {
+            return checkBox;
+        }
+
+        public TextView getName() {
+            return name;
+        }
     }
 }

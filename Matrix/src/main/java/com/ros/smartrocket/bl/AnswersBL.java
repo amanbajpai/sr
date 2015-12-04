@@ -8,12 +8,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
-import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -54,14 +57,145 @@ public class AnswersBL {
      * @param handler    - Handler for getting response from DB
      * @param questionId - question id
      */
+    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
+                                            Integer questionId) {
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)},
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
 
-    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Integer
-            questionId) {
-        handler.startQuery(AnswerDbSchema.Query.TOKEN_QUERY, null, AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION, AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema
-                        .Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)}, AnswerDbSchema.SORT_ORDER_ASC
-        );
+    /**
+     * Make request for getting Answer list
+     *
+     * @param handler - Handler for getting response from DB
+     */
+    public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Category[] categories) {
+
+        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
+                .append(AnswerDbSchema.Columns.MISSION_ID + "=? and ");
+
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> args = new ArrayList<>();
+        args.add(String.valueOf(taskId));
+        args.add(String.valueOf(missionId));
+
+        for (int i = 0; i < categories.length; i++) {
+            Product[] tempProducts = categories[i].getProducts();
+            for (int j = 0; j < tempProducts.length; j++) {
+                products.add(tempProducts[j]);
+            }
+        }
+
+        for (int i = 0; i < products.size(); i++) {
+            where.append(AnswerDbSchema.Columns.PRODUCT_ID + " =? ");
+            if (i != products.size() - 1) {
+                where.append(" or ");
+            }
+
+            args.add(String.valueOf(products.get(i).getId()));
+        }
+
+
+//        handler.startQuery(
+//                AnswerDbSchema.Query.TOKEN_QUERY,
+//                null,
+//                AnswerDbSchema.CONTENT_URI,
+//                AnswerDbSchema.Query.PROJECTION,
+//                AnswerDbSchema.Columns.TASK_ID + "=? and "
+//                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+//                        + AnswerDbSchema.Columns.PRODUCT_ID + " =?",
+//                new String[]{String.valueOf(taskId), String.valueOf(missionId), "1,2,3"},
+//                AnswerDbSchema.SORT_ORDER_ASC);
+
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                where.toString(),
+                args.toArray(new String[args.size()]),
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+ /**
+     * Make request for getting Answer list
+     *
+     * @param handler - Handler for getting response from DB
+     */
+
+    public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Question[] questions) {
+
+        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
+                .append(AnswerDbSchema.Columns.MISSION_ID + "=? and (");
+
+        ArrayList<String> args = new ArrayList<>();
+        args.add(String.valueOf(taskId));
+        args.add(String.valueOf(missionId));
+
+        for (int i = 0; i < questions.length; i++) {
+            where.append(AnswerDbSchema.Columns.QUESTION_ID + " =? ");
+            if (i != questions.length - 1) {
+                where.append(" or ");
+            }
+
+            args.add(String.valueOf(questions[i].getId()));
+        }
+
+//        where.append(AnswerDbSchema.Columns.QUESTION_ID + "=? ");
+//        args.add(String.valueOf(questions[0].getId()));
+
+        where.append(" ) and ").append(AnswerDbSchema.Columns.CHECKED + "=? ");
+        args.add(String.valueOf(1));
+
+
+//        handler.startQuery(
+//                AnswerDbSchema.Query.TOKEN_QUERY,
+//                null,
+//                AnswerDbSchema.CONTENT_URI,
+//                AnswerDbSchema.Query.PROJECTION,
+//                AnswerDbSchema.Columns.TASK_ID + "=? and "
+//                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+//                        + AnswerDbSchema.Columns.PRODUCT_ID + " =?",
+//                new String[]{String.valueOf(taskId), String.valueOf(missionId), "1,2,3"},
+//                AnswerDbSchema.SORT_ORDER_ASC);
+
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                where.toString(),
+                args.toArray(new String[args.size()]),
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+
+    /**
+     * Make request for getting Answer list
+     *
+     * @param handler    - Handler for getting response from DB
+     * @param questionId - question id
+     * @param productId  - Product Id
+     */
+    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
+                                            Integer questionId, Integer productId) {
+        handler.startQuery(
+                AnswerDbSchema.Query.TOKEN_QUERY,
+                null,
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+                        + AnswerDbSchema.Columns.PRODUCT_ID + "=?",
+                new String[]{String.valueOf(questionId), String.valueOf(taskId),
+                        String.valueOf(missionId), String.valueOf(productId)},
+                AnswerDbSchema.SORT_ORDER_ASC);
     }
 
     /**
@@ -110,7 +244,8 @@ public class AnswersBL {
      * @return List<NotUploadedFile>
      */
 
-    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, Integer missionId, String taskName, long endDateTime) {
+    public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, Integer missionId, String taskName,
+                                                                 long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
@@ -184,9 +319,12 @@ public class AnswersBL {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor cursor = resolver.query(AnswerDbSchema.CONTENT_URI, AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
-                        AnswerDbSchema.Columns.MISSION_ID + "=?"
+                        AnswerDbSchema.Columns.MISSION_ID + "=? and " +
+                        AnswerDbSchema.Columns.VALUE + " IS NOT NULL and " +
+                        AnswerDbSchema.Columns.VALUE + " !=? "
+
                 /* and " + AnswerDbSchema.Columns.FILE_URI + " IS NULL"*/,
-                new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId)}, null);
+                new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId), ""}, null);
 
         return convertCursorToAnswerList(cursor);
     }
@@ -350,7 +488,8 @@ public class AnswersBL {
     public static void clearTaskUserAnswers(Activity activity, int taskId, int missionId) {
         activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.TASK_ID + "=? and "
-                        + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf(taskId)}
+                        + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf
+                        (taskId)}
         );
 
         ContentValues contentValues = new ContentValues();
@@ -368,5 +507,16 @@ public class AnswersBL {
 
     public static void removeAllAnswers(Context context) {
         context.getContentResolver().delete(AnswerDbSchema.CONTENT_URI, null, null);
+    }
+
+    @Nullable
+    public static Answer getAnswer(Answer[] answers, Integer id, String value) {
+        for (Answer answer : answers) {
+            if (answer.getProductId().equals(id) && answer.getValue().equals(value)) {
+                return answer;
+            }
+        }
+
+        return null;
     }
 }

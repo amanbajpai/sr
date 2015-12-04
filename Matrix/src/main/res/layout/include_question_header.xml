@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/questionText"
+        style="@style/QuestionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"/>
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/presetValidationComment"
+        style="@style/QuestionValidationComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"/>
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/validationComment"
+        style="@style/QuestionValidationComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"/>
+</LinearLayout>

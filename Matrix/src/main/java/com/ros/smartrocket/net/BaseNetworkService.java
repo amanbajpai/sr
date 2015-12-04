@@ -7,6 +7,8 @@ import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
@@ -84,7 +86,7 @@ public abstract class BaseNetworkService extends IntentService {
             if (entity == null) {
                 json = getRequestJson(operation);
                 if (json != null) {
-//                    L.i(TAG, "Request body: " + json);
+                    L.i(TAG, "Request body: " + json);
                     entity = new StringEntity(json, "UTF-8");
                     contentTypeHeader = new BasicHeader("Content-type", "application/json");
                 }

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:padding="10dp"
-        android:background="@color/black_transparence"
+        android:background="@color/black_transparency"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
         <com.ros.smartrocket.views.CustomButton

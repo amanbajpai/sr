@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -22,14 +27,26 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.fragment.*;
+import com.ros.smartrocket.fragment.BaseQuestionFragment;
+import com.ros.smartrocket.fragment.QuestionInstructionFragment;
+import com.ros.smartrocket.fragment.QuestionMassAuditFragment;
+import com.ros.smartrocket.fragment.QuestionMultipleChooseFragment;
+import com.ros.smartrocket.fragment.QuestionNumberFragment;
+import com.ros.smartrocket.fragment.QuestionOpenCommentFragment;
+import com.ros.smartrocket.fragment.QuestionPhotoFragment;
+import com.ros.smartrocket.fragment.QuestionSingleChooseFragment;
+import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.List;
 
@@ -137,6 +154,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         super.onDestroy();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private BaseQuestionFragment restoreFragment() {
         L.v(TAG, "restoreFragment");
         BaseQuestionFragment restoredCurrentFragment = (BaseQuestionFragment) getSupportFragmentManager()
@@ -177,9 +199,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             nextButton.setPadding(padding, padding, padding, padding);
                             previousButton.setPadding(padding, padding, padding, padding);
 
-                            apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
+                            if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
+                                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
+                            } else {
+                                apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
+                            }
                         } else {
-                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
+                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
                         }
                     } else {
                         finishQuestionsActivity();
@@ -321,25 +347,29 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             switch (QuestionsBL.getQuestionType(question.getType())) {
                 case MULTIPLE_CHOICE:
-                    currentFragment = new QuestionType1Fragment();
+                    currentFragment = new QuestionMultipleChooseFragment();
                     break;
                 case SINGLE_CHOICE:
-                    currentFragment = new QuestionType2Fragment();
+                    currentFragment = new QuestionSingleChooseFragment();
                     break;
                 case PHOTO:
-                    currentFragment = new QuestionType7Fragment();
+                    currentFragment = new QuestionPhotoFragment();
                     break;
                 case OPEN_COMMENT:
-                    currentFragment = new QuestionType4Fragment();
+                    currentFragment = new QuestionOpenCommentFragment();
                     break;
                 case VIDEO:
-                    currentFragment = new QuestionType5Fragment();
+                    currentFragment = new QuestionVideoFragment();
                     break;
                 case NUMBER:
-                    currentFragment = new QuestionType6Fragment();
+                    currentFragment = new QuestionNumberFragment();
                     break;
                 case INSTRUCTION:
-                    currentFragment = new QuestionType8Fragment();
+                    currentFragment = new QuestionInstructionFragment();
+                    break;
+                case MASS_AUDIT:
+                    currentFragment = new QuestionMassAuditFragment();
+                    fragmentBundle.putBoolean(QuestionMassAuditFragment.IS_REDO_FLAG, isRedo);
                     break;
                 default:
                     break;
@@ -383,7 +413,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
                     || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
-                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId());
+                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                         taskId, task.getMissionId());
@@ -402,7 +432,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.previousButton:
-                //currentFragment.clearAnswer();
                 startPreviousQuestionFragment();
                 isAlreadyStarted = false;
                 break;
@@ -418,20 +447,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-    public void onAnswerSelected(Boolean selected) {
+    public void onAnswerSelected(Boolean selected, int questionId) {
         nextButton.setEnabled(selected);
     }
 
     @Override
     public void onAnswerPageLoadingFinished() {
         buttonsLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (currentFragment != null) {
-            currentFragment.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     @Override

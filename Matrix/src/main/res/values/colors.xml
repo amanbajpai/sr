@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources >
+<resources>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="black_light">#222222</color>
     <color name="grey">#999999</color>
+    <color name="separator_grey">#f2f2f2</color>
     <color name="grey_dark">#4f5051</color>
     <color name="grey_middle">#d9d9d9</color>
     <color name="grey_light">#f2f2f2</color>
+    <color name="mass_audit_grey">#f4f4f4</color>
     <color name="green">#637f11</color>
     <color name="green_dark">#637f10</color>
     <color name="green_light">#8cad2a</color>
@@ -22,13 +24,9 @@
     <color name="violet">#4c1e8a</color>
     <color name="violet_dark">#320f61</color>
     <color name="violet_light">#7241b6</color>
-
     <color name="map_radius_stroke">#ca1f1f</color>
     <color name="map_radius_fill">#07ff0033</color>
-
     <!--<color name="white_transparence">#a9949494</color>-->
-    <color name="black_transparence">#aa000000</color>
-
-
+    <color name="black_transparency">#aa000000</color>
     <color name="notification_unread">#FFEEEC</color>
-</resources >
+</resources>

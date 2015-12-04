@@ -9,8 +9,9 @@ public interface QuestionDbSchema {
             .getName()).build();
 
     String SORT_ORDER_DESC = Table.QUESTION.getName() + "." + Columns._ID.getName() + " DESC";
+    String SORT_ORDER_SUBQUESTIONS = Table.QUESTION.getName() + "." + Columns.ORDER_ID.getName();
 
-    public enum Columns {
+    enum Columns {
         _ID("_id", DBType.PRIMARY),
         ID("id", DBType.NUMERIC),
         WAVE_ID("waveId", DBType.NUMERIC),
@@ -40,6 +41,11 @@ public interface QuestionDbSchema {
 
         ROUTING("routing", DBType.NUMERIC),
         INSTRUCTION_FILE_URI("instructionFileUri", DBType.TEXT),
+
+        PARENT_QUESTION_ID("parentQuestionId", DBType.NUMERIC),
+        CATEGORIES("categories", DBType.TEXT),
+        ACTION("action", DBType.NUMERIC),
+        IS_REQUIRED("isRequired", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -73,13 +79,14 @@ public interface QuestionDbSchema {
         }
     }
 
-    public interface Query {
+    interface Query {
         int TOKEN_QUERY = 21;
         //int TOKEN_INSERT = 22;
         //int TOKEN_UPDATE = 23;
         //int TOKEN_DELETE = 24;
 
-        String[] PROJECTION = {Table.QUESTION.getName() + "." + Columns._ID.getName(),
+        String[] PROJECTION = {
+                Table.QUESTION.getName() + "." + Columns._ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.WAVE_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.TASK_ID.getName(),
@@ -107,9 +114,12 @@ public interface QuestionDbSchema {
 
                 Table.QUESTION.getName() + "." + Columns.ROUTING.getName(),
                 Table.QUESTION.getName() + "." + Columns.INSTRUCTION_FILE_URI.getName(),
-                Table.QUESTION.getName() + "." + Columns.NEXT_ANSWERED_QUESTION_ID.getName()
+                Table.QUESTION.getName() + "." + Columns.NEXT_ANSWERED_QUESTION_ID.getName(),
 
-
+                Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
+                Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
+                Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName()
         };
 
         int _ID = 0;
@@ -141,5 +151,10 @@ public interface QuestionDbSchema {
         int ROUTING = 24;
         int INSTRUCTION_FILE_URI = 25;
         int NEXT_ANSWERED_QUESTION_ID = 26;
+
+        int PARENT_QUESTION_ID = 27;
+        int CATEGORIES = 28;
+        int ACTION = 29;
+        int IS_REQUIRED = 30;
     }
 }

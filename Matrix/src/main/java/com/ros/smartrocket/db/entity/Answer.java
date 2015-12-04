@@ -15,6 +15,8 @@ public class Answer extends BaseEntity implements Serializable {
     private Integer questionId;
     @SerializedName("TaskId")
     private Integer taskId;
+    @SerializedName("ProductId")
+    private Integer productId;
     @SerializedName("Answer")
     private String answer;
 
@@ -54,6 +56,7 @@ public class Answer extends BaseEntity implements Serializable {
             result.setFileName(c.getString(AnswerDbSchema.Query.FILE_NAME));
             result.setLongitude(c.getDouble(AnswerDbSchema.Query.LONGITUDE));
             result.setLatitude(c.getDouble(AnswerDbSchema.Query.LATITUDE));
+            result.setProductId(c.getInt(AnswerDbSchema.Query.PRODUCT_ID));
         }
 
         return result;
@@ -161,4 +164,11 @@ public class Answer extends BaseEntity implements Serializable {
         this.latitude = latitude;
     }
 
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
 }

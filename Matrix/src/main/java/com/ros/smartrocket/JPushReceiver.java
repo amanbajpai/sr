@@ -86,7 +86,7 @@ public class JPushReceiver extends BroadcastReceiver {
         }
 
         if (App.getInstance().getMyAccount().getAllowPushNotification()
-                && messageJsonObject.contains("Subject")){
+                && messageJsonObject.contains("Subject")) {
             NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
         }
     }

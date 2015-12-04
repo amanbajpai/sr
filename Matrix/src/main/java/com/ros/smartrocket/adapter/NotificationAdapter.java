@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.utils.TimeUtils;
