@@ -1,10 +1,11 @@
 package com.ros.smartrocket.activity;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
@@ -27,7 +28,9 @@ public class QuitQuestionActivity extends BaseActivity implements
         if (getIntent() != null) {
             question = (Question) getIntent().getSerializableExtra(Keys.QUESTION);
         }
-        ((TextView) findViewById(R.id.quitQuestionText)).setText(question.getQuestion());
+        TextView textView = (TextView) findViewById(R.id.quitQuestionText);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setText(Html.fromHtml(question.getQuestion()));
         findViewById(R.id.okButton).setOnClickListener(this);
 
         TasksBL.removeTasksByWaveId(getContentResolver(), question.getWaveId());

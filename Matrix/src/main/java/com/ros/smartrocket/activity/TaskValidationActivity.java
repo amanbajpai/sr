@@ -9,8 +9,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -155,9 +157,9 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
                     if (!questions.isEmpty()) {
                         Question question = questions.get(0);
-                        closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted,
-                                "\n" + question.getQuestion()));
-
+                        String string = getString(R.string.task_has_not_yet_submitted, "\n" + question.getQuestion());
+                        closingQuestionText.setMovementMethod(LinkMovementMethod.getInstance());
+                        closingQuestionText.setText(Html.fromHtml(string));
                     } else {
                         closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted, ""));
                     }

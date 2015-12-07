@@ -3,10 +3,12 @@ package com.ros.smartrocket.bl.question;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-
+import butterknife.Bind;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -18,12 +20,10 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.dialog.ProductImageDialog;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
+import de.greenrobot.event.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
-
-import butterknife.Bind;
-import de.greenrobot.event.EventBus;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
     public static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
@@ -151,7 +151,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         question.setChildQuestions(questions.toArray(new Question[questions.size()]));
         mainSub = QuestionsBL.getMainSubQuestion(question);
         if (mainSub != null) {
-            mainSubQuestionTextView.setText(mainSub.getQuestion());
+            mainSubQuestionTextView.setMovementMethod(LinkMovementMethod.getInstance());
+            mainSubQuestionTextView.setText(Html.fromHtml(mainSub.getQuestion()));
             AnswersBL.getAnswersListFromDB(handler, mainSub.getTaskId(), mainSub.getMissionId(), mainSub.getId());
         } else {
             AnswersBL.getSubQuestionsAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getChildQuestions());

@@ -8,7 +8,9 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -84,14 +86,16 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void validateView() {
         super.validateView();
+        questionText.setMovementMethod(LinkMovementMethod.getInstance());
         if (question.getMaximumPhotos() > 1) {
             String string = getActivity().getString(R.string.maximum_photo, question.getMaximumPhotos());
-            questionText.setText(question.getQuestion() + string);
+            questionText.setText(Html.fromHtml(question.getQuestion() + string));
         } else {
-            questionText.setText(question.getQuestion());
+            questionText.setText(Html.fromHtml(question.getQuestion()));
         }
 
         loadAnswers();

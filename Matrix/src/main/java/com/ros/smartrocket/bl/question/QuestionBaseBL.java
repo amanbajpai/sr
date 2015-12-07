@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -55,7 +57,8 @@ public class QuestionBaseBL {
         presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
         validationComment = (TextView) view.findViewById(R.id.validationComment);
 
-        questionText.setText(this.question.getQuestion());
+        questionText.setMovementMethod(LinkMovementMethod.getInstance());
+        questionText.setText(Html.fromHtml(this.question.getQuestion()));
         if (!TextUtils.isEmpty(this.question.getPresetValidationText())) {
             presetValidationComment.setText(this.question.getPresetValidationText());
             presetValidationComment.setVisibility(View.VISIBLE);

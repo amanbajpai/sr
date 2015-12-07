@@ -35,7 +35,7 @@ public class Question extends BaseEntity implements Serializable {
     private Integer waveId;
     @SerializedName("TaskId")
     private Integer taskId;
-    @SerializedName("Question")
+    @SerializedName("QuestionFormatted")
     private String question = "";
     @SerializedName("Type")
     private Integer type;
