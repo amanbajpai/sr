@@ -38,6 +38,8 @@ import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 public class MapHelper {
@@ -418,6 +420,36 @@ public class MapHelper {
         return bitmap;
     }
 
+    public static Bitmap getPinWithTextBitmap(Resources res, int resourceId, String text, Paint largePaint, Paint mediumPaint, Paint smallPaint) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            options.inMutable = true;
+        }
+        Bitmap bitmap = BitmapFactory.decodeResource(res, resourceId, options);
+        if (!bitmap.isMutable()) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+
+        Paint paint;
+        float originY;
+        if (text.length() < CLUSTER_SIZE_100) {
+            paint = largePaint;
+            originY = bitmap.getHeight() * 0.6f;
+        } else if (text.length() < CLUSTER_SIZE_1000) {
+            paint = mediumPaint;
+            originY = bitmap.getHeight() * 0.56f;
+        } else {
+            paint = smallPaint;
+            originY = bitmap.getHeight() * 0.52f;
+        }
+
+        canvas.drawText(text, bitmap.getWidth() * 0.5f, bitmap.getHeight() * 0.4f, paint);
+        return bitmap;
+    }
+
     public static Paint getMediumClasterPaint(Context context) {
         Paint clusterPaintMedium = new Paint();
         clusterPaintMedium.setColor(context.getResources().getColor(R.color.green));
@@ -439,6 +471,30 @@ public class MapHelper {
     public static Paint getLargeClasterPaint(Context context) {
         Paint clusterPaintLarge = new Paint(getMediumClasterPaint(context));
         clusterPaintLarge.setTextSize(context.getResources().getDimension(R.dimen.text_size_26sp));
+        return clusterPaintLarge;
+    }
+
+    public static Paint getMediumPinPaint(Context context) {
+        Paint clusterPaintMedium = new Paint();
+        clusterPaintMedium.setColor(context.getResources().getColor(R.color.white));
+        clusterPaintMedium.setAlpha(CLUSTER_PAINT_ALPHA);
+        clusterPaintMedium.setTextAlign(Paint.Align.CENTER);
+        clusterPaintMedium.setTypeface(FontUtils.loadFontFromAsset(context.getAssets(),
+                FontUtils.getFontAssetPath(3)));
+        clusterPaintMedium.setTextSize(context.getResources().getDimension(R.dimen.text_size_9sp));
+
+        return clusterPaintMedium;
+    }
+
+    public static Paint getSmallPinPaint(Context context) {
+        Paint clusterPaintSmall = new Paint(getMediumPinPaint(context));
+        clusterPaintSmall.setTextSize(context.getResources().getDimension(R.dimen.text_size_8sp));
+        return clusterPaintSmall;
+    }
+
+    public static Paint getLargePinPaint(Context context) {
+        Paint clusterPaintLarge = new Paint(getMediumPinPaint(context));
+        clusterPaintLarge.setTextSize(context.getResources().getDimension(R.dimen.text_size_12sp));
         return clusterPaintLarge;
     }
 

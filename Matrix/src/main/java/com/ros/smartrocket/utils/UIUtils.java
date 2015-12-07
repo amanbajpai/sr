@@ -825,35 +825,35 @@ public class UIUtils {
             case STARTED:
                 if (TasksBL.isPreClaimTask(task)) {
                     if (!task.getIsHide()) {
-                        iconResId = R.drawable.pin_violet;
+                        iconResId = R.drawable.pin_violet_new;
                     } else {
-                        iconResId = R.drawable.pin_violet_hidden;
+                        iconResId = R.drawable.pin_violet_hidden_new;
                     }
                 } else {
                     if (!task.getIsHide()) {
-                        iconResId = R.drawable.pin_green;
+                        iconResId = R.drawable.pin_green_new;
                     } else {
-                        iconResId = R.drawable.pin_green_hidden;
+                        iconResId = R.drawable.pin_green_hidden_new;
                     }
                 }
                 break;
             case SCHEDULED:
             case PENDING:
-                iconResId = R.drawable.pin_blue;
+                iconResId = R.drawable.pin_blue_new;
                 break;
             case COMPLETED:
             case VALIDATION:
-                iconResId = R.drawable.pin_grey;
+                iconResId = R.drawable.pin_grey_hidden_new;
                 break;
             case RE_DO_TASK:
-                iconResId = R.drawable.pin_red;
+                iconResId = R.drawable.pin_red_new;
                 break;
             case VALIDATED:
-                iconResId = R.drawable.pin_yellow;
+                iconResId = R.drawable.pin_yellow_new;
                 break;
 
             default:
-                iconResId = R.drawable.pin_green;
+                iconResId = R.drawable.pin_green_new;
                 break;
         }
 
