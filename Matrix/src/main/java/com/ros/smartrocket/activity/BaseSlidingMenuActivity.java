@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.MainMenuFragment;
 
@@ -91,12 +89,4 @@ public class BaseSlidingMenuActivity extends BaseActivity {
             mDrawerLayout.openDrawer(leftDrawer);
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mainMenuFragment != null) {
-            mainMenuFragment.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
 }

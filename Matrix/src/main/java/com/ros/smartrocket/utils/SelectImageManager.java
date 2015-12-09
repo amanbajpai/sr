@@ -509,13 +509,11 @@ public final class SelectImageManager {
 
         @Override
         protected void onPostExecute(ImageFileClass image) {
-            if (image.bitmap != null && image.imageFile != null) {
+            if (image != null && image.bitmap != null && image.imageFile != null) {
                 EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
             } else {
-                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR,
-                        requestCode));
+                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR, requestCode));
             }
-//            }
         }
     }
 
