@@ -2,9 +2,9 @@ package com.ros.smartrocket.map;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
-
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -16,6 +16,9 @@ import com.twotoasters.baiduclusterkraf.ClusterPoint;
 import com.twotoasters.baiduclusterkraf.MarkerOptionsChooser;
 
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
     //private static final String TAG = TaskBaiduOptionsChooser.class.getSimpleName();
@@ -23,9 +26,8 @@ public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
     private static final float ANCHOR_MARKER_V = 1.0f;
 
     private final WeakReference<Context> contextRef;
-    private final Paint clusterPaintLarge;
-    private final Paint clusterPaintMedium;
-    private final Paint clusterPaintSmall;
+    private final Paint clusterPaintLarge, clusterPaintMedium, clusterPaintSmall;
+    private final Paint pinPaintLarge, pinPaintMedium, pinPaintSmall;
 
     public TaskBaiduOptionsChooser(Context context) {
         this.contextRef = new WeakReference<>(context);
@@ -33,11 +35,19 @@ public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
         clusterPaintMedium = MapHelper.getMediumClasterPaint(context);
         clusterPaintSmall = MapHelper.getSmallClasterPaint(context);
         clusterPaintLarge = MapHelper.getLargeClasterPaint(context);
+
+        pinPaintMedium = MapHelper.getMediumPinPaint(context);
+        pinPaintSmall = MapHelper.getSmallPinPaint(context);
+        pinPaintLarge = MapHelper.getLargePinPaint(context);
     }
 
     @Override
     public void choose(MarkerOptions markerOptions, ClusterPoint clusterPoint) {
         Context context = contextRef.get();
+
+        DecimalFormat precision = (DecimalFormat) NumberFormat.getNumberInstance(new Locale("en", "UK"));
+        precision.applyPattern("##.##");
+
         if (context != null) {
             Resources res = context.getResources();
             boolean isCluster = clusterPoint.size() > 1;
@@ -51,7 +61,9 @@ public class TaskBaiduOptionsChooser extends MarkerOptionsChooser {
             } else {
                 Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-                icon = BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(data));
+                Bitmap bitmap = MapHelper.getPinWithTextBitmap(res, UIUtils.getPinResId(data),
+                        precision.format(data.getPrice()), pinPaintLarge, pinPaintMedium, pinPaintSmall);
+                icon = BitmapDescriptorFactory.fromBitmap(bitmap);
                 title = data.getName();
 
                 Bundle bundle = new Bundle();

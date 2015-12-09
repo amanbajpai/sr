@@ -2,6 +2,7 @@ package com.ros.smartrocket.map;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -42,8 +43,7 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
     public void choose(MarkerOptions markerOptions, ClusterPoint clusterPoint) {
         Context context = contextRef.get();
 
-        DecimalFormat precision = (DecimalFormat)
-                NumberFormat.getNumberInstance(new Locale("en", "UK"));
+        DecimalFormat precision = (DecimalFormat) NumberFormat.getNumberInstance(new Locale("en", "UK"));
         precision.applyPattern("##.##");
 
         if (context != null) {
@@ -59,18 +59,9 @@ public class TaskOptionsChooser extends MarkerOptionsChooser {
             } else {
                 Task data = (Task) clusterPoint.getPointAtOffset(0).getTag();
 
-                int clusterSize = clusterPoint.size();
-//                icon = BitmapDescriptorFactory.fromResource(UIUtils.getPinResId(data));
-
-                icon = BitmapDescriptorFactory.fromBitmap(MapHelper.getPinWithTextBitmap(res, UIUtils.getPinResId(data),
-                        precision.format(data.getPrice()), pinPaintLarge, pinPaintMedium, pinPaintSmall));
-
-//                View marker = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-//                TextView numTxt = (TextView) marker.findViewById(R.id.num_txt);
-//                numTxt.setText("27");
-//
-//
-//                .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker))));
+                Bitmap bitmap = MapHelper.getPinWithTextBitmap(res, UIUtils.getPinResId(data),
+                        precision.format(data.getPrice()), pinPaintLarge, pinPaintMedium, pinPaintSmall);
+                icon = BitmapDescriptorFactory.fromBitmap(bitmap);
 
                 title = data.getName();
                 markerOptions.snippet(data.getId() + "_" + data.getWaveId() + "_" + data.getStatusId()
