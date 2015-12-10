@@ -98,7 +98,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
                 childQuestions.toArray(new Question[childQuestions.size()]), product);
         for (int i = 0; i < adapter.getCount(); i++) {
-            View item = adapter.getView(i, null, subQuestionsLayout);
+            View item = adapter.getView(i, null, subQuestionsLayout, savedInstanceState);
             if (item != null && item.getParent() == null) {
                 subQuestionsLayout.addView(item);
             }

@@ -3,12 +3,10 @@ package com.ros.smartrocket.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.*;
 import com.ros.smartrocket.db.entity.Product;
@@ -18,7 +16,7 @@ import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubQuestionsMassAuditAdapter extends BaseAdapter {
+public class SubQuestionsMassAuditAdapter {
     private final FragmentActivity activity;
     private final SubQuestionsMassAuditFragment fragment;
     private final Question[] items;
@@ -34,9 +32,7 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         this.blList = new ArrayList<>();
     }
 
-    @Nullable
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent, Bundle savedInstanceState) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int type = getItemViewType(position);
 
@@ -67,7 +63,7 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         if (bl != null) {
             bl.setAnswerPageLoadingFinishedListener(fragment);
             bl.setAnswerSelectedListener(fragment);
-            bl.initView(convertView, items[position], null, activity, fragment, product);
+            bl.initView(convertView, items[position], savedInstanceState, activity, fragment, product);
             bl.loadAnswers();
             blList.add(bl);
         }
@@ -123,28 +119,15 @@ public class SubQuestionsMassAuditAdapter extends BaseAdapter {
         return handled;
     }
 
-    @Override
     public int getItemViewType(int position) {
         return items[position].getType();
     }
 
-    @Override
-    public int getViewTypeCount() {
-        return items.length;
-    }
-
-    @Override
     public int getCount() {
         return items.length;
     }
 
-    @Override
     public Question getItem(int position) {
         return items[position];
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 }

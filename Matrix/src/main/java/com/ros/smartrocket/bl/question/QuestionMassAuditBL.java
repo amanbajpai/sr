@@ -47,34 +47,29 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 R.layout.include_mass_audit_question_header, listView, false);
         listView.addHeaderView(headerView);
 
-        if (!isRedo) {
-            adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                    tickListener, crossListener, thumbListener, isRedo);
-        } else {
-            adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                    editListener, crossListener, thumbListener, isRedo);
-            refreshNextButton();
-        }
-        listView.setAdapter(adapter);
-
         mainSubQuestionTextView = (TextView) view.findViewById(R.id.massAuditMainSubQuestionText);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUTTON_CLICKED)) {
             buttonClicked = savedInstanceState.getInt(STATE_BUTTON_CLICKED);
+        }
+        if (isRedo) {
+            refreshNextButton();
         }
     }
 
     @Override
     protected void fillViewWithAnswers(Answer[] answers) {
         question.setAnswers(answers);
+        adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
+                tickListener, crossListener, thumbListener, isRedo);
         if (!isRedo) {
             answersMap = convertToMap(answers);
             adapter.setData(answersMap);
         } else {
-
             answersReDoMap.putAll(convertToReDoMap(answers));
             adapter.setReDoData(answersReDoMap);
         }
+        listView.setAdapter(adapter);
         refreshNextButton();
     }
 
@@ -155,7 +150,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             mainSubQuestionTextView.setText(Html.fromHtml(mainSub.getQuestion()));
             AnswersBL.getAnswersListFromDB(handler, mainSub.getTaskId(), mainSub.getMissionId(), mainSub.getId());
         } else {
-            AnswersBL.getSubQuestionsAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getChildQuestions());
+            AnswersBL.getSubQuestionsAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(),
+                    question.getChildQuestions());
         }
     }
 
