@@ -1,32 +1,19 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.AsyncQueryHandler;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
-import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.R;
+import com.ros.smartrocket.*;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.bl.NotificationBL;
@@ -42,19 +29,12 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.BytesBitmap;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.MultipassUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.SelectImageManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
+import de.greenrobot.event.EventBus;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
-import de.greenrobot.event.EventBus;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
@@ -326,8 +306,15 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 String customerEmail = preferencesManager.getLastEmail();
                 String customerName = preferencesManager.getLastEmail();
 
-                MultipassUtils multipassUtils = new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
-                getActivity().startActivity(IntentUtils.getBrowserIntent(multipassUtils.buildUrl()));
+                String url;
+                if (BuildConfig.CHINESE) {
+                    url = Config.CHINESE_SUPPORT_URL;
+                } else {
+                    MultipassUtils multipassUtils =
+                            new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
+                    url = multipassUtils.buildUrl();
+                }
+                getActivity().startActivity(IntentUtils.getBrowserIntent(url));
                 break;
             case R.id.settingsButton:
                 //((MainActivity) getActivity()).startFragment(new SettingsFragment());

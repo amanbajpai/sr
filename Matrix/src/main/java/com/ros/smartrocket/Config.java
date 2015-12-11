@@ -4,12 +4,11 @@ package com.ros.smartrocket;
 import android.text.format.DateUtils;
 
 public class Config {
-    public static final String ANDROID_API_KEY = BuildConfig.ANDROID_API_KEY;
     public static final String BAIDU_API_KEY = BuildConfig.BAIDU_API_KEY;
     public static final String SERVER_API_KEY = BuildConfig.SERVER_API_KEY;
     public static final String GCM_SENDER_ID = BuildConfig.GCM_SENDER_ID;
-    public static final String KNOWLEDGE_BASE_URL = "https://smartrocket.desk.com/customer/authentication/multipass/callback?multipass=%1$s&signature=%2$s";
     public static final String SHARE_URL = "http://smart-rocket.com/crew/";
+    public static final String CHINESE_SUPPORT_URL = "http://smart-rocket.com/zh-hans/support/";
 
     public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 0;
     public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 0;
@@ -23,5 +22,5 @@ public class Config {
     public static String GEOCODER_URL = BuildConfig.GEOCODER_URL;
 
     public static boolean LOG_ENABLED = BuildConfig.LOG_ENABLED;
-    public static boolean USE_BAIDU = BuildConfig.USE_BAIDU;
+    public static boolean USE_BAIDU = BuildConfig.CHINESE;
 }
