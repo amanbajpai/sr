@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import android.location.Location;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
-
+import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
@@ -18,11 +18,9 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.tendcloud.tenddata.TCAgent;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Calendar;
-
-import cn.jpush.android.api.JPushInterface;
-import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
@@ -42,13 +40,13 @@ public class App extends Application {
             DebugService.startServer(this);
         }
 
-        if (BuildConfig.USE_BAIDU) {
+        if (Config.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());
 
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         }
 
-        TCAgent.init(this, BuildConfig.USE_BAIDU ? Keys.TALKING_DATA_CHINA : Keys.TALKING_DATA_ROW, "");
+        TCAgent.init(this, Config.USE_BAIDU ? Keys.TALKING_DATA_CHINA : Keys.TALKING_DATA_ROW, "");
 
         Fabric.with(this, new Crashlytics());
 

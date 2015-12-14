@@ -131,7 +131,6 @@ android {
         buildConfigField "String", "ANDROID_API_KEY", "\"AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI\""
         buildConfigField "String", "SERVER_API_KEY", "\"AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM\""
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
-        buildConfigField "String", "KNOWLEDGE_BASE_URL", "\"https://smartrocket.desk.com/\""
         buildConfigField "String", "SHARE_URL", "\"http://smart-rocket.com/crew/\""
 
         multiDexEnabled = true

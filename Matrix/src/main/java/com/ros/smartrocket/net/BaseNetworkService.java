@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.L;
@@ -144,7 +145,7 @@ public abstract class BaseNetworkService extends IntentService {
         try {
             JSONObject settingJsonObject = new JSONObject();
             settingJsonObject.put("CurrentVersion", BuildConfig.VERSION_NAME);
-            if (BuildConfig.USE_BAIDU) {
+            if (Config.USE_BAIDU) {
                 settingJsonObject.put("Region", "AsiaChina");
             } else {
                 settingJsonObject.put("Region", "Asia");

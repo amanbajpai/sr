@@ -13,10 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
-import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.R;
+import com.ros.smartrocket.*;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.bl.NotificationBL;
@@ -311,8 +308,15 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 String customerEmail = preferencesManager.getLastEmail();
                 String customerName = preferencesManager.getLastEmail();
 
-                MultipassUtils multipassUtils = new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
-                getActivity().startActivity(IntentUtils.getBrowserIntent(multipassUtils.buildUrl()));
+                String url;
+                if (BuildConfig.CHINESE) {
+                    url = Config.CHINESE_SUPPORT_URL;
+                } else {
+                    MultipassUtils multipassUtils =
+                            new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
+                    url = multipassUtils.buildUrl();
+                }
+                getActivity().startActivity(IntentUtils.getBrowserIntent(url));
                 break;
             case R.id.settingsButton:
                 //((MainActivity) getActivity()).startFragment(new SettingsFragment());

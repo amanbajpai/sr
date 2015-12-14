@@ -5,7 +5,7 @@ import android.net.Uri;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.ros.smartrocket.BuildConfig;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
@@ -37,7 +37,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
     public UploadFileNetworkService() {
         super("NetworkService");
 
-        if (!BuildConfig.USE_BAIDU) {
+        if (!Config.USE_BAIDU) {
             MAX_BYTE_SIZE = 32 * 1000;
         }
     }
