@@ -65,11 +65,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
 }
 
 dependencies {
-    // Google Play Services
     compile 'com.google.android.gms:play-services:6.1.71'
-//    compile 'com.google.android.gms:play-services-gcm:6.1.71'
-//    compile 'com.google.android.gms:play-services-location:6.1.71'
-//    compile 'com.google.android.gms:play-services-maps:6.1.71'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -219,7 +215,6 @@ android {
     productFlavors {
         Dev {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
-            buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
@@ -227,7 +222,6 @@ android {
         }
         Staging {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
-            buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
@@ -235,7 +229,6 @@ android {
         }
         Production {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
-            buildConfigField "boolean", "USE_BAIDU", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
@@ -243,7 +236,6 @@ android {
         }
         ChinaDev {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
-            buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
@@ -251,7 +243,6 @@ android {
         }
         ChinaStaging {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
-            buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
@@ -259,7 +250,6 @@ android {
         }
         ChinaProduction {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
-            buildConfigField "boolean", "USE_BAIDU", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
