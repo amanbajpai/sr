@@ -13,6 +13,6 @@ public class QuestionMultipleChooseFragment extends BaseQuestionFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_question_multiple_choose;
+        return R.layout.fragment_question_choose;
     }
 }

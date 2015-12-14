@@ -1,11 +1,8 @@
 package com.ros.smartrocket.bl.question;
 
 import android.database.DataSetObserver;
-import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.Bind;
 import com.ros.smartrocket.R;
@@ -18,36 +15,24 @@ public class QuestionBaseChooseBL extends QuestionBaseBL {
 
     @Bind(R.id.conditionText)
     TextView conditionText;
-    @Nullable
-    @Bind(R.id.answerList)
-    ListView listView;
-    @Nullable
     @Bind(R.id.choiceListLayout)
     LinearLayout answerLayout;
 
-    public void configureView(int stringId, AdapterView.OnItemClickListener itemClickListener,
-                         final AnswerBaseAdapter adapter) {
+    public void configureView(int stringId, final AnswerBaseAdapter adapter) {
         this.adapter = adapter;
         conditionText.setText(stringId);
 
         adapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {
-                if (answerLayout != null) {
-                    answerLayout.removeAllViews();
-                    for (int i = 0; i < adapter.getCount(); i++) {
-                        View item = adapter.getView(i, null, null);
-                        item.setOnClickListener(new MyClickListener(i));
-                        answerLayout.addView(item);
-                    }
+                answerLayout.removeAllViews();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    View item = adapter.getView(i, null, null);
+                    item.setOnClickListener(new MyClickListener(i));
+                    answerLayout.addView(item);
                 }
             }
         });
-
-        if (listView != null) {
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(itemClickListener);
-        }
 
         loadAnswers();
     }
