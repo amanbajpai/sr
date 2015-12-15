@@ -5,19 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -157,7 +147,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
 
     private boolean validateFields() {
         boolean ok = true;
-        if (!ValidationUtils.containsLettersOnly(loginEditText.getText().toString())) {
+        if (loginEditText.getText().toString().trim().isEmpty()) {
             loginEditText.setError(getResources().getString(R.string.enter_valid_alipay_username));
             ok = false;
         }

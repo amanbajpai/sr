@@ -1,14 +1,6 @@
 package com.ros.smartrocket.utils;
 
-/**
- * Created by macbook on 27.10.15.
- */
 public class ValidationUtils {
-
-    public static boolean containsLettersOnly(String s) {
-        String regex = "[a-zA-Z\\u4e00-\\u9eff]+";
-        return s.matches(regex) || s.matches(regex);
-    }
 
     public static boolean containsNumbersOnly(String s) {
         String regex = "[0-9]+";
