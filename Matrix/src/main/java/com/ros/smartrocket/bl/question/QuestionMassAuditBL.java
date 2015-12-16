@@ -78,9 +78,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
-        } else if (question != null && answersReDoMap != null && answersReDoMap.size() > 0) {
-//            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-            return true;
         } else {
             return false;
         }
@@ -215,15 +212,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     private View.OnClickListener tickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            buttonClicked = TICK;
-            handleTickCrossTick((CategoryProductPair) v.getTag());
-        }
-    };
-
-    private View.OnClickListener editListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            handleEditTick((CategoryProductPair) v.getTag());
+            if (isRedo) {
+                handleEditTick((CategoryProductPair) v.getTag());
+            } else {
+                buttonClicked = TICK;
+                handleTickCrossTick((CategoryProductPair) v.getTag());
+            }
         }
     };
 
