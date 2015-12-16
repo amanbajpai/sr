@@ -256,8 +256,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             TickCrossAnswerPair pair = answersMap.get(productId);
             pair.getTickAnswer().setChecked(buttonClicked == TICK);
             pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
-        } else {
-
         }
 
         adapter.notifyDataSetChanged();
