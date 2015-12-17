@@ -78,9 +78,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
-        } else {
-            return false;
-        }
+        } else return question != null && answersReDoMap != null && answersReDoMap.size() > 0;
     }
 
     @Override
