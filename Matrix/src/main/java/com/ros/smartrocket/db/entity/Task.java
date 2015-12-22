@@ -1,5 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
@@ -9,11 +10,12 @@ import com.ros.smartrocket.db.TaskDbSchema;
  * Data model of Task entity
  */
 public class Task extends BaseEntity {
+    @SkipFieldInContentValues
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum TaskStatusId {
-        CAN_PRE_CLAIM(-1), NONE(0), CLAIMED(1), STARTED(2), VALIDATION(3), RE_DO_TASK(4), PENDING(5), VALIDATED(6), COMPLETED(7),
-        SCHEDULED(8), REJECTED(9), IN_PAYMENT_PROCESS(11), PAID(12), WITHDRAW(14);
+        CAN_PRE_CLAIM(-1), NONE(0), CLAIMED(1), STARTED(2), VALIDATION(3), RE_DO_TASK(4), PENDING(5), VALIDATED(6),
+        COMPLETED(7), SCHEDULED(8), REJECTED(9), IN_PAYMENT_PROCESS(11), PAID(12), WITHDRAW(14);
 
         private int statusId;
 
@@ -183,6 +185,58 @@ public class Task extends BaseEntity {
             result.setLongitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LONGITUDE_TO_VALIDATION));
         }
         return result;
+    }
+
+    @Override
+    public ContentValues toContentValues() {
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("countryName", countryName);
+        contentValues.put("rejectedAt", rejectedAt);
+        contentValues.put("startedStatusSent", startedStatusSent);
+        contentValues.put("experienceOffer", experienceOffer);
+        contentValues.put("userId", userId);
+        contentValues.put("locationName", locationName);
+        contentValues.put("missionId", missionId);
+        contentValues.put("endDateTime", endDateTime);
+        contentValues.put("claimed", claimed);
+        contentValues.put("isHide", isHide);
+        contentValues.put("submittedAt", submittedAt);
+        contentValues.put("isMy", isMy);
+        contentValues.put("status", status);
+        contentValues.put("id", getId());
+        contentValues.put("longClaimDateTime", longClaimDateTime);
+        contentValues.put("noPhotoQuestionsCount", noPhotoQuestionsCount);
+        contentValues.put("longEndDateTime", longEndDateTime);
+        contentValues.put("statusId", statusId);
+        contentValues.put("remakeTill", remakeTill);
+        contentValues.put("longitudeToValidation", longitudeToValidation);
+        contentValues.put("approvedAt", approvedAt);
+        contentValues.put("waveId", waveId);
+        contentValues.put("photoQuestionsCount", photoQuestionsCount);
+        contentValues.put("started", started);
+        contentValues.put("longExpireTimeoutForClaimedTask", longExpireTimeoutForClaimedTask);
+        contentValues.put("currencySign", currencySign);
+        contentValues.put("address", address);
+        contentValues.put("icon", icon);
+        contentValues.put("expireDateTime", expireDateTime);
+        contentValues.put("startDateTime", startDateTime);
+        contentValues.put("longitude", longitude);
+        contentValues.put("longExpireDateTime", longExpireDateTime);
+        contentValues.put("latitudeToValidation", latitudeToValidation);
+        contentValues.put("redoDate", redoDate);
+        contentValues.put("price", price);
+        contentValues.put("description", description);
+        contentValues.put("name", name);
+        contentValues.put("longPreClaimedTaskExpireAfterStart", longPreClaimedTaskExpireAfterStart);
+        contentValues.put("latitude", latitude);
+        contentValues.put("deleted", isDeleted());
+        contentValues.put("longRedoDateTime", longRedoDateTime);
+        contentValues.put("language", language);
+        contentValues.put("distance", distance);
+        contentValues.put("longStartDateTime", longStartDateTime);
+
+        return contentValues;
     }
 
     public Integer getMissionId() {

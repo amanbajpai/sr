@@ -2,9 +2,15 @@ package com.ros.smartrocket.utils;
 
 public final class Timing {
     public static final double DOUBLE = 1e6d;
+    private final String tag;
     private long startTime;
 
     public Timing() {
+        this("");
+    }
+
+    public Timing(String tag) {
+        this.tag = tag;
         startTime = System.nanoTime();
     }
 
@@ -13,6 +19,6 @@ public final class Timing {
         long diff = currentTime - startTime;
         startTime = currentTime;
 
-        return String.format("Passed %.1fms", diff / DOUBLE);
+        return String.format("%s %.1fms", tag, diff / DOUBLE);
     }
 }

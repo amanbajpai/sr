@@ -1,11 +1,11 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
-
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.WaveDbSchema;
 
 public class Wave extends BaseEntity {
+    @SkipFieldInContentValues
     private static final long serialVersionUID = 5410835468659163958L;
 
     public enum WaveTypes {

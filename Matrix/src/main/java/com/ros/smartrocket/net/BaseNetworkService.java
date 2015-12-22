@@ -12,9 +12,7 @@ import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
-import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -169,6 +167,7 @@ public abstract class BaseNetworkService extends IntentService {
     }
 
     protected void executeRequest(BaseOperation operation) {
+        Timing timing = new Timing();
         L.i(TAG, operation.getMethod() + " request to URL: " + operation.getRequestUrl());
         try {
             HttpUriRequest request = prepareRequest(operation);
@@ -193,7 +192,9 @@ public abstract class BaseNetworkService extends IntentService {
             L.e(TAG, e.toString(), e);
         }
 
+        MyLog.v("BaseNetworkService.executeRequest", timing.measure(), operation.getRequestUrl());
         processResponse(operation);
+        MyLog.v("BaseNetworkService.processRequest", timing.measure(), operation.getRequestUrl());
     }
 
     protected BaseOperation readResponseToOperation(HttpResponse response, BaseOperation operation)
@@ -205,10 +206,9 @@ public abstract class BaseNetworkService extends IntentService {
             responseString = getStringFromInputStream(ungzippedContent);
         }
         operation.setResponseString(responseString);
-        L.i(TAG,
-                "Response status code: " + operation.getResponseStatusCode() + "\nResponse: "
-                        + operation.getResponseString()
-        );
+        int size = responseString != null ? responseString.length() * 2 : 0;
+        L.i(TAG, "Response code: " + operation.getResponseStatusCode() + " Size: " + size + "B"
+                + "\nResponse: " + operation.getResponseString());
         // logToFile(operation);
         return operation;
     }

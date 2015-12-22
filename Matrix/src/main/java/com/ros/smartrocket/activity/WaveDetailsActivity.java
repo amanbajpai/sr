@@ -21,6 +21,7 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
@@ -30,7 +31,8 @@ import java.util.Locale;
 /**
  * Activity for view Task detail information
  */
-public class WaveDetailsActivity extends BaseActivity implements View.OnClickListener, ClaimTaskManager.ClaimTaskListener {
+public class WaveDetailsActivity extends BaseActivity implements
+        View.OnClickListener, ClaimTaskManager.ClaimTaskListener {
     private AsyncQueryHandler handler;
     private ClaimTaskManager claimTaskManager;
 
@@ -73,12 +75,15 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private TextView showMissionMapText;
 
+    private CustomProgressDialog progressDialog;
+
     public WaveDetailsActivity() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_wave_details);
 
@@ -134,6 +139,7 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
         WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
+        showProgressBar();
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -146,6 +152,8 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
             switch (token) {
                 case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
+                        dismissProgressBar();
+
                         wave = WavesBL.convertCursorToWaveWithTask(cursor);
 
                         setWaveData(wave);
@@ -380,6 +388,22 @@ public class WaveDetailsActivity extends BaseActivity implements View.OnClickLis
         if (claimTaskManager != null) {
             claimTaskManager.onStop();
         }
+        dismissProgressBar();
         super.onStop();
+    }
+
+    public void showProgressBar() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
+        progressDialog = CustomProgressDialog.show(this);
+        progressDialog.setCancelable(false);
+    }
+
+    public void dismissProgressBar() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

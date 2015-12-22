@@ -78,6 +78,7 @@ public class CustomProgressDialog extends Dialog {
         return null;
     }
 
+    @Override
     public void dismiss() {
         try {
             super.dismiss();
