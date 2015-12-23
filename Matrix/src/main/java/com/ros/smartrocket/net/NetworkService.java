@@ -19,6 +19,7 @@ import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.MyLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,28 +85,26 @@ public class NetworkService extends BaseNetworkService {
                             scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
                             hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
 
-                            waves.getWaves()[0].getTasks()[0].getPrice();
-
                             Wave[] tempWaves = waves.getWaves();
-                            for (int i = 0; i < tempWaves.length; i++) {
-                                Task[] tempTasks = tempWaves[i].getTasks();
+                            for (Wave tempWave : tempWaves) {
+                                Task[] tempTasks = tempWave.getTasks();
                                 for (int j = 1; j < tempTasks.length; j++) {
                                     if ((double) tempTasks[j].getPrice() != (double) tempTasks[j - 1].getPrice()) {
-                                        tempWaves[i].setContainsDifferentRate(true);
+                                        tempWave.setContainsDifferentRate(true);
                                         break;
                                     }
                                 }
                             }
 
-                            for (int i = 0; i < tempWaves.length; i++) {
-                                Task[] tempTasks = tempWaves[i].getTasks();
+                            for (Wave tempWave : tempWaves) {
+                                Task[] tempTasks = tempWave.getTasks();
                                 double min = tempTasks[0].getPrice();
-                                for (int j = 0; j < tempTasks.length; j++) {
-                                    if ((double) tempTasks[j].getPrice() < min) {
-                                        min = (double) tempTasks[j].getPrice();
+                                for (Task tempTask : tempTasks) {
+                                    if (tempTask.getPrice() < min) {
+                                        min = tempTask.getPrice();
                                     }
                                 }
-                                tempWaves[i].setRate(min);
+                                tempWave.setRate(min);
                             }
 
                             TasksBL.removeNotMyTask(contentResolver);
@@ -116,10 +115,10 @@ public class NetworkService extends BaseNetworkService {
                             TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
 
                         } catch (Exception e) {
+                            MyLog.logStackTrace(e);
                             L.e(TAG, "Error updating data TASK and WAVE DB");
                             operation.setResponseErrorCode(DEVICE_INTEERNAL_ERROR);
                         }
-
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:
@@ -140,6 +139,7 @@ public class NetworkService extends BaseNetworkService {
                             TasksBL.updateTasksByContentValues(contentResolver, validLocationTaskContentValuesMap);
 
                         } catch (Exception e) {
+                            MyLog.logStackTrace(e);
                             L.e(TAG, "Error updating data TASK and WAVE DB");
                             operation.setResponseErrorCode(DEVICE_INTEERNAL_ERROR);
                         }
