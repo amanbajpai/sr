@@ -498,16 +498,15 @@ public class DialogUtils {
     }
 
     /**
-     * Age verification Dialog message
+     * Ask user to confirm changing first and last name
      *
-     * @param activity - current activity
+     * @param context - current context
      */
-    public static Dialog showLogOutAttantionDialog(final Activity activity) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(activity, 0, R.drawable.info_icon,
-                activity.getText(R.string.logout_attention_dialog_title),
-                activity.getText(R.string.logout_attention_dialog_text),
-                R.string.logout_attention_dialog_cancel, R.string.logout_attention_dialog_logout);
-        dialog.setCancelable(false);
+    public static Dialog showAreYouSureFirstLastNameDialog(final Context context, String firstName, String lastName) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
+                context.getText(R.string.dialog_attention),
+                context.getString(R.string.dialog_are_you_sure_first_last_name_text, firstName, lastName),
+                R.string.cancel, R.string.confirm);
         dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
@@ -517,15 +516,24 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-
-                WriteDataHelper.prepareLogout(activity);
-
-                activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
-                activity.finish();
-                activity.sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
             }
         });
 
+        return dialog;
+    }
+
+    /**
+     * Notify user, that Id Card is supported
+     *
+     * @param context - current context
+     */
+    public static Dialog showIdCardIsSupportedDialog(final Context context,
+                                                     DefaultInfoDialog.DialogButtonClickListener clickListener) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.green, R.drawable.info_icon,
+                context.getText(R.string.id_card_is_supported_dialog_title),
+                context.getText(R.string.id_card_is_supported_dialog_text),
+                R.string.cancel, R.string.update);
+        dialog.setOnDialogButtonClickListener(clickListener);
         return dialog;
     }
 }

@@ -196,6 +196,16 @@
     <string name="registration_success_dialog_text3">You must click this link in order to complete registration and
         login to SmartRocket. If you cannot find our message, please check your junk/ spam folder.</string>
     <string name="registration_success_dialog_ok">OK</string>
+    <!-- ID CARDS -->
+    <string name="id_card_is_supported_dialog_title">ID Card is supported</string>
+    <string name="id_card_is_supported_dialog_text">This mission supports ID Card\n\nPlease update your name and photo in your profile</string>
+    <string name="update_first_last_name_dialog_title">Attention! You can update your name only once per 6 months.</string>
+    <string name="update">Update</string>
+    <string name="confirm">Confirm</string>
+    <string name="dialog_first_name">First Name</string>
+    <string name="dialog_last_name">Last Name</string>
+    <string name="dialog_attention">Attention!</string>
+    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
     <!-- CLAIM TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title">Mission claimed</string>
     <string name="book_task_success_dialog_title2">Mission pre-claimed</string>
@@ -453,7 +463,6 @@
         and then open the Mission again and click “Submit Now”.</string>
     <string name="turn_on_wifi_dialog_ok">OK</string>
     <!-- AGE VERIFICATION DIALOG -->
-    <string name="logout_attention_dialog_title">Attention!</string>
     <string name="logout_attention_dialog_text">A mission is currently being sent to the server.
         If you logout now, the transfer will stop and will continue when you next log in</string>
     <string name="logout_attention_dialog_logout">Log Out</string>

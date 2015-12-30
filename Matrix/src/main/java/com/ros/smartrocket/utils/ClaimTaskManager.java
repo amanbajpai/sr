@@ -19,9 +19,7 @@ import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
-import com.ros.smartrocket.dialog.WithdrawTaskDialog;
+import com.ros.smartrocket.dialog.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -55,6 +53,199 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
         handler = new DbHandler(activity.getContentResolver());
 
+        activity.addNetworkOperationListener(this);
+    }
+
+    /// ======================================================================================================== ///
+    /// ===================================== DB AND NETWORK CALLBACKS ========================================= ///
+    /// ======================================================================================================== ///
+
+    class DbHandler extends AsyncQueryHandler {
+        public DbHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            switch (token) {
+                case QuestionDbSchema.Query.TOKEN_QUERY:
+                    List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
+                    List<Question> instructionQuestions = QuestionsBL.getInstructionQuestionList(questions);
+
+                    if (!instructionQuestions.isEmpty()) {
+                        downloadInstructionQuestionFile(0, instructionQuestions);
+                    } else {
+                        apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
+
+                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
+                    @Override
+                    public void getLocationStart() {
+                    }
+
+                    @Override
+                    public void getLocationInProcess() {
+                    }
+
+                    @Override
+                    public void getLocationSuccess(Location location) {
+                        if (activity == null) {
+                            return;
+                        }
+
+                        ClaimTaskManager.this.location = location;
+
+                        Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
+                        if (wave.getDownloadMediaWhenClaimingTask()) {
+                            QuestionsBL.getQuestionsListFromDB(
+                                    handler, task.getWaveId(), task.getId(), task.getMissionId(), true);
+                        } else {
+                            apiFacade.claimTask(activity, task.getId(),
+                                    location.getLatitude(), location.getLongitude());
+                        }
+                    }
+
+                    @Override
+                    public void getLocationFail(String errorText) {
+                        UIUtils.showSimpleToast(App.getInstance(), errorText);
+                    }
+                });
+            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                dismissProgressBar();
+                ClaimTaskResponse claimTaskResponse = (ClaimTaskResponse) operation.getResponseEntities().get(0);
+
+                long startTimeInMillisecond = task.getLongStartDateTime();
+                long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
+                long claimTimeInMillisecond = calendar.getTimeInMillis();
+                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
+
+                long missionDueMillisecond;
+                if (TasksBL.isPreClaimTask(task)) {
+                    missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
+                } else {
+                    missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
+                }
+
+                task.setMissionId(claimTaskResponse.getMissionId());
+                task.setStatusId(Task.TaskStatusId.CLAIMED.getStatusId());
+                task.setIsMy(true);
+                task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
+                task.setLongClaimDateTime(claimTimeInMillisecond);
+
+                task.setExpireDateTime(UIUtils.longToString(missionDueMillisecond, 2));
+                task.setLongExpireDateTime(missionDueMillisecond);
+
+                TasksBL.updateTask(handler, task, null);
+
+                QuestionsBL.setMissionId(task.getWaveId(), task.getId(), task.getMissionId());
+                AnswersBL.setMissionId(task.getId(), task.getMissionId());
+
+                String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
+
+                if (claimTaskResponse.isUpdateRequired()) {
+                    showIdCardIsSupportedDialog();
+                } else {
+                    showClaimDialog(dateTime);
+                }
+
+            } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                dismissProgressBar();
+
+                changeStatusToUnClaimed();
+
+            } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                dismissProgressBar();
+
+                changeStatusToStarted(true);
+            }
+        } else {
+            dismissProgressBar();
+
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
+                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
+                DialogUtils.showMaximumMissionDialog(activity);
+            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
+                    && operation.getResponseErrorCode() != null
+                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
+                UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
+            } else {
+
+                UIUtils.showSimpleToast(activity, operation.getResponseError());
+            }
+        }
+    }
+
+    /// ======================================================================================================== ///
+    /// =============================================== DIALOGS ================================================ ///
+    /// ======================================================================================================== ///
+
+    private void showClaimDialog(String dateTime) {
+        new BookTaskSuccessDialog(activity, task, dateTime, new BookTaskSuccessDialog
+                .DialogButtonClickListener() {
+            @Override
+            public void onCancelButtonPressed(Dialog dialog) {
+                showProgressBar();
+                apiFacade.unclaimTask(activity, task.getId(), task.getMissionId());
+            }
+
+            @Override
+            public void onStartLaterButtonPressed(Dialog dialog) {
+                claimTaskListener.onStartLater(task);
+            }
+
+            @Override
+            public void onStartNowButtonPressed(Dialog dialog) {
+                startTask();
+            }
+        });
+    }
+
+    private void showIdCardIsSupportedDialog() {
+        DialogUtils.showIdCardIsSupportedDialog(activity, new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                showUpdateFirstLastNameDialog();
+            }
+        });
+    }
+
+    private void showUpdateFirstLastNameDialog() {
+        Dialog dialog = new UpdateFirstLastNameDialog(activity,
+                new UpdateFirstLastNameDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onCancelButtonPressed() {
+
+                    }
+
+                    @Override
+                    public void onUpdateButtonPressed() {
+                        DialogUtils.showAreYouSureFirstLastNameDialog(activity, "FIRST", "LAST");
+                    }
+                });
+        dialog.show();
+    }
+
+
+    public void onStop() {
         activity.addNetworkOperationListener(this);
     }
 
@@ -116,31 +307,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         claimTaskListener.onUnClaimed(task);
     }
 
-    class DbHandler extends AsyncQueryHandler {
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case QuestionDbSchema.Query.TOKEN_QUERY:
-                    List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
-                    List<Question> instructionQuestions = QuestionsBL.getInstructionQuestionList(questions);
-
-                    if (!instructionQuestions.isEmpty()) {
-                        downloadInstructionQuestionFile(0, instructionQuestions);
-                    } else {
-                        apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public void downloadInstructionQuestionFile(final int startFrom, final List<Question> questions) {
         final Question question = questions.get(startFrom);
 
@@ -180,121 +346,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         });
     }
 
-    @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())) {
-
-                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
-                    @Override
-                    public void getLocationStart() {
-                    }
-
-                    @Override
-                    public void getLocationInProcess() {
-                    }
-
-                    @Override
-                    public void getLocationSuccess(Location location) {
-                        if (activity == null) {
-                            return;
-                        }
-
-                        ClaimTaskManager.this.location = location;
-
-                        Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
-                        if (wave.getDownloadMediaWhenClaimingTask()) {
-                            QuestionsBL.getQuestionsListFromDB(
-                                    handler, task.getWaveId(), task.getId(), task.getMissionId(), true);
-                        } else {
-                            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude
-                                    ());
-                        }
-                    }
-
-                    @Override
-                    public void getLocationFail(String errorText) {
-                        UIUtils.showSimpleToast(App.getInstance(), errorText);
-                    }
-                });
-            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressBar();
-
-                ClaimTaskResponse claimTaskResponse = (ClaimTaskResponse) operation.getResponseEntities().get(0);
-
-                long startTimeInMillisecond = task.getLongStartDateTime();
-                long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
-                long claimTimeInMillisecond = calendar.getTimeInMillis();
-                long timeoutInMillisecond = task.getLongExpireTimeoutForClaimedTask();
-
-                long missionDueMillisecond;
-                if (TasksBL.isPreClaimTask(task)) {
-                    missionDueMillisecond = startTimeInMillisecond + preClaimedExpireInMillisecond;
-                } else {
-                    missionDueMillisecond = claimTimeInMillisecond + timeoutInMillisecond;
-                }
-
-                task.setMissionId(claimTaskResponse.getMissionId());
-                task.setStatusId(Task.TaskStatusId.CLAIMED.getStatusId());
-                task.setIsMy(true);
-                task.setClaimed(UIUtils.longToString(claimTimeInMillisecond, 2));
-                task.setLongClaimDateTime(claimTimeInMillisecond);
-
-                task.setExpireDateTime(UIUtils.longToString(missionDueMillisecond, 2));
-                task.setLongExpireDateTime(missionDueMillisecond);
-
-                TasksBL.updateTask(handler, task, null);
-
-                QuestionsBL.setMissionId(task.getWaveId(), task.getId(), task.getMissionId());
-                AnswersBL.setMissionId(task.getId(), task.getMissionId());
-
-                String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
-
-                new BookTaskSuccessDialog(activity, task, dateTime, new BookTaskSuccessDialog
-                        .DialogButtonClickListener() {
-                    @Override
-                    public void onCancelButtonPressed(Dialog dialog) {
-                        showProgressBar();
-                        apiFacade.unclaimTask(activity, task.getId(), task.getMissionId());
-                    }
-
-                    @Override
-                    public void onStartLaterButtonPressed(Dialog dialog) {
-                        claimTaskListener.onStartLater(task);
-                    }
-
-                    @Override
-                    public void onStartNowButtonPressed(Dialog dialog) {
-                        startTask();
-                    }
-                });
-
-            } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressBar();
-
-                changeStatusToUnClaimed();
-
-            } else if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressBar();
-
-                changeStatusToStarted(true);
-            }
-        } else {
-            dismissProgressBar();
-
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
-                DialogUtils.showMaximumMissionDialog(activity);
-            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
-                    && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
-                UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
-            } else {
-
-                UIUtils.showSimpleToast(activity, operation.getResponseError());
-            }
-        }
-    }
 
     public void showProgressBar() {
         if (progressDialog != null) {
@@ -309,10 +360,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-    }
-
-    public void onStop() {
-        activity.addNetworkOperationListener(this);
     }
 
     public interface ClaimTaskListener {
