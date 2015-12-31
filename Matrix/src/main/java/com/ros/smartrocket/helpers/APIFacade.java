@@ -153,19 +153,19 @@ public class APIFacade {
 
     /**
      * @param activity    - current activity
-     * @param uploadPhoto - photo to upload
+     * @param updateUser - photo to upload
      */
-    public void uploadPhoto(Activity activity, UploadPhoto uploadPhoto) {
+    public void updateUser(Activity activity, UpdateUser updateUser) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UPLOAD_PHOTO);
-        operation.setTag(Keys.UPLOAD_PHOTO_OPERATION_TAG);
+        operation.setUrl(WSUrl.UPDATE_USER);
+        operation.setTag(Keys.UPDATE_USER_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(uploadPhoto);
+        operation.getEntities().add(updateUser);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void checkLocationForRegistration(Activity activity, String country, String city, String district, double latitude,
-                                             double longitude) {
+    public void checkLocationForRegistration(Activity activity, String country, String city, String district,
+                                             double latitude, double longitude) {
         CheckLocation checkLocationEntity = new CheckLocation();
         checkLocationEntity.setCountry(country);
         checkLocationEntity.setCity(city);

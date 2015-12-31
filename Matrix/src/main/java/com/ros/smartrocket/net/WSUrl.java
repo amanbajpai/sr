@@ -6,17 +6,34 @@ import java.util.HashMap;
 
 
 public final class WSUrl {
+    // Authorize
     public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
-    public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ForgotPassword?email=%s&language=%s";
-    public static final String GET_CURRENT_T_AND_C = Config.WEB_SERVICE_URL + "GetTermsAndConditionsCurrentVersion";
+    public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL +
+            "api/Authorize/ForgotPassword?email=%s&language=%s";
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
-    public static final String UPLOAD_PHOTO = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
+    public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
+    public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
+    public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
+    public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account?language=%s";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
-    public static final String GET_WAVES = Config.WEB_SERVICE_URL + "api/Waves?latitude=%s&longitude=%s&radius=%s&language=%s";
+    public static final String GET_REFERRAL_CASES = Config.WEB_SERVICE_URL
+            + "api/Authorize/ReferralCases?countryId=%s&language=%s";
+    public static final String SAVE_REFERRAL_CASE = Config.WEB_SERVICE_URL + "api/Authorize/ReferralCase";
+    public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
+    public static final String ALLOW_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/AllowPushNotification";
+    public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
+
+    // Waves
+    public static final String GET_WAVES = Config.WEB_SERVICE_URL +
+            "api/Waves?latitude=%s&longitude=%s&radius=%s&language=%s";
     public static final String GET_WAVE_TASKS = Config.WEB_SERVICE_URL + "api/Waves/%s/Tasks";
+    public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
+            + "api/Waves/Questionnaire?waveId=%s&language=%s&taskId=%s";
+
+    // Tasks
     public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String CLAIM_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Claim";
     public static final String SEND_ANSWERS = Config.WEB_SERVICE_URL + "api/Tasks/Answers?missionId=%s&language=%s";
@@ -24,25 +41,17 @@ public final class WSUrl {
     public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String START_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Start";
     public static final String REJECT_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Reject";
-    public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
-    public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
-    public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account?language=%s";
-    public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
-            + "api/Waves/Questionnaire?waveId=%s&language=%s&taskId=%s";
     public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
             + "api/Tasks/Re-Do-Questions?taskId=%s&missionId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
-    public static final String GET_REFERRAL_CASES = Config.WEB_SERVICE_URL
-            + "api/Authorize/ReferralCases?countryId=%s&language=%s";
-    public static final String SAVE_REFERRAL_CASE = Config.WEB_SERVICE_URL + "api/Authorize/ReferralCase";
+    public static final String SEND_LOG = Config.WEB_SERVICE_URL + "api/Tasks/Log";
+
+    // Other
+    public static final String GET_CURRENT_T_AND_C = Config.WEB_SERVICE_URL + "GetTermsAndConditionsCurrentVersion";
     public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "WithdrawMoney";
     public static final String GET_SHARING_DATA = Config.WEB_SERVICE_URL + "api/Socials/SharingData?language=%s";
-    public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
-    public static final String SEND_LOG = Config.WEB_SERVICE_URL + "api/Tasks/Log";
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
     public static final String SEND_ALIPAY_SMS = Config.WEB_SERVICE_URL + "api/SMS/AliPayAccountSmsCode?phoneNumber=%s";
-    public static final String ALLOW_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/AllowPushNotification";
-    public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
 
 
     public static final int LOGIN_ID = 1;
@@ -105,7 +114,7 @@ public final class WSUrl {
         URLS.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
         URLS.put(ACTIVATE_ACCOUNT, ACTIVATE_ACCOUNT_ID);
-        URLS.put(UPLOAD_PHOTO, UPLOAD_PHOTO_ID);
+        URLS.put(UPDATE_USER, UPLOAD_PHOTO_ID);
         URLS.put(GET_CURRENT_T_AND_C, GET_CURRENT_T_AND_C_ID);
         URLS.put(SET_PASSWORD, SET_PASSWORD_ID);
         URLS.put(CASHING_OUT, CASHING_OUT_ID);

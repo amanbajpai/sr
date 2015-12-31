@@ -43,6 +43,10 @@ public class MyAccount extends BaseEntity {
     private Boolean aliPayAccountExists;
     @SerializedName("AllowPushNotification")
     private Boolean allowPushNotification;
+    @SerializedName("FirstName")
+    private String firstName;
+    @SerializedName("LastName")
+    private String lastName;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -198,5 +202,13 @@ public class MyAccount extends BaseEntity {
 
     public void setAllowPushNotification(Boolean allowPushNotification) {
         this.allowPushNotification = allowPushNotification;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

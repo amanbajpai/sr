@@ -2,18 +2,22 @@ package com.ros.smartrocket.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.EditText;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.UIUtils;
 
 /**
- * Dialog for notify user, that ID Card is supported
+ * Dialog for updating user's first and last name
  */
 public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickListener {
-    private static final String TAG = UpdateFirstLastNameDialog.class.getSimpleName();
     private DialogButtonClickListener buttonClickListener;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
 
     public UpdateFirstLastNameDialog(Activity activity, DialogButtonClickListener buttonClickListener) {
         super(activity);
@@ -29,6 +33,8 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
 
         findViewById(R.id.cancelButton).setOnClickListener(this);
         findViewById(R.id.updateButton).setOnClickListener(this);
+        firstNameEditText = (EditText) findViewById(R.id.dialogFirstNameEditText);
+        lastNameEditText = (EditText) findViewById(R.id.dialogLastNameEditText);
     }
 
     @Override
@@ -39,8 +45,16 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
                 buttonClickListener.onCancelButtonPressed();
                 break;
             case R.id.updateButton:
-                dismiss();
-                buttonClickListener.onUpdateButtonPressed();
+                String firstName = firstNameEditText.getText().toString().trim();
+                String lastName = lastNameEditText.getText().toString().trim();
+
+                if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)) {
+                    UIUtils.showSimpleToast(getContext(), R.string.fill_in_all_fields);
+                } else {
+                    dismiss();
+                    buttonClickListener.onUpdateButtonPressed(firstName, lastName);
+                }
+
                 break;
             default:
                 break;
@@ -50,6 +64,6 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
     public interface DialogButtonClickListener {
         void onCancelButtonPressed();
 
-        void onUpdateButtonPressed();
+        void onUpdateButtonPressed(String firstName, String lastName);
     }
 }

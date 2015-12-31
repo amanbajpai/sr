@@ -15,10 +15,7 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.ClaimTaskResponse;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.dialog.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -45,6 +42,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
     private CustomProgressDialog progressDialog;
 
     private Task task;
+    private String claimDialogDateTime;
 
     public ClaimTaskManager(@Nonnull BaseActivity activity, @Nonnull Task task, ClaimTaskListener claimTaskListener) {
         this.activity = activity;
@@ -127,6 +125,10 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 dismissProgressBar();
                 ClaimTaskResponse claimTaskResponse = (ClaimTaskResponse) operation.getResponseEntities().get(0);
 
+//                if (BuildConfig.DEBUG) {
+//                    claimTaskResponse.setUpdateRequired(true);
+//                }
+
                 long startTimeInMillisecond = task.getLongStartDateTime();
                 long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
@@ -153,12 +155,12 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 QuestionsBL.setMissionId(task.getWaveId(), task.getId(), task.getMissionId());
                 AnswersBL.setMissionId(task.getId(), task.getMissionId());
 
-                String dateTime = UIUtils.longToString(missionDueMillisecond, 3);
+                claimDialogDateTime = UIUtils.longToString(missionDueMillisecond, 3);
 
                 if (claimTaskResponse.isUpdateRequired()) {
                     showIdCardIsSupportedDialog();
                 } else {
-                    showClaimDialog(dateTime);
+                    showClaimDialog(claimDialogDateTime);
                 }
 
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
@@ -170,6 +172,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 dismissProgressBar();
 
                 changeStatusToStarted(true);
+            } else if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
+                dismissProgressBar();
+                showClaimDialog(claimDialogDateTime);
             }
         } else {
             dismissProgressBar();
@@ -182,7 +187,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
                 UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
             } else {
-
                 UIUtils.showSimpleToast(activity, operation.getResponseError());
             }
         }
@@ -218,6 +222,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+                updateTheSameUserName();
             }
 
             @Override
@@ -233,15 +238,46 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed() {
-
+                        updateTheSameUserName();
                     }
 
                     @Override
-                    public void onUpdateButtonPressed() {
-                        DialogUtils.showAreYouSureFirstLastNameDialog(activity, "FIRST", "LAST");
+                    public void onUpdateButtonPressed(String firstName, String lastName) {
+                        showAreYouSureDialog(firstName, lastName);
                     }
                 });
         dialog.show();
+    }
+
+    private void showAreYouSureDialog(String firstName, String lastName) {
+        DialogUtils.showAreYouSureUserNameDialog(activity, firstName, lastName,
+                new UpdateFirstLastNameDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onCancelButtonPressed() {
+                        updateTheSameUserName();
+                    }
+
+                    @Override
+                    public void onUpdateButtonPressed(String firstName, String lastName) {
+                        showProgressBar();
+
+                        UpdateUser updateUser = new UpdateUser();
+                        updateUser.setFirstName(firstName);
+                        updateUser.setLastName(lastName);
+
+                        apiFacade.updateUser(activity, updateUser);
+                    }
+                });
+    }
+
+    private void updateTheSameUserName() {
+        UpdateUser updateUser = new UpdateUser();
+        showProgressBar();
+
+        updateUser.setFirstName(App.getInstance().getMyAccount().getFirstName());
+        updateUser.setLastName(App.getInstance().getMyAccount().getLastName());
+
+        apiFacade.updateUser(activity, updateUser);
     }
 
 

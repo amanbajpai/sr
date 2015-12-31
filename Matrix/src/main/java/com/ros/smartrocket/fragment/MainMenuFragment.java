@@ -21,7 +21,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.db.entity.UploadPhoto;
+import com.ros.smartrocket.db.entity.UpdateUser;
 import com.ros.smartrocket.dialog.LevelUpDialog;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -242,11 +242,11 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     MyAccount myAccount = responseEntities.get(0);
                     setData(myAccount);
                 }
-            } else if (Keys.UPLOAD_PHOTO_OPERATION_TAG.equals(operation.getTag())) {
+            } else if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
                 finishUploadingPhoto();
             }
         } else {
-            if (Keys.UPLOAD_PHOTO_OPERATION_TAG.equals(operation.getTag())) {
+            if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
                 finishUploadingPhoto();
             }
             UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
@@ -384,10 +384,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
                     photoImageView.setImageBitmap(event.image.bitmap);
 
-                    UploadPhoto uploadPhotoEntity = new UploadPhoto();
-                    uploadPhotoEntity.setPhotoBase64(BytesBitmap.getBase64String(event.image.bitmap));
+                    UpdateUser updateUserEntity = new UpdateUser();
+                    updateUserEntity.setPhotoBase64(BytesBitmap.getBase64String(event.image.bitmap));
 
-                    apiFacade.uploadPhoto(getActivity(), uploadPhotoEntity);
+                    apiFacade.updateUser(getActivity(), updateUserEntity);
                 } else {
                     photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                 }

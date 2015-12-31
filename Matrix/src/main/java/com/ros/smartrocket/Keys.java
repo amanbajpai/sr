@@ -59,7 +59,7 @@ public interface Keys {
     String FORGOT_PASSWORD_OPERATION_TAG = "forgot_password_operation_tag";
     String GET_CURRENT_T_AND_C_OPERATION_TAG = "get_current_t_and_c_operation_tag";
     String REGISTRATION_OPERATION_TAG = "registration_operation_tag";
-    String UPLOAD_PHOTO_OPERATION_TAG = "upload_photo_operation_tag";
+    String UPDATE_USER_OPERATION_TAG = "upload_photo_operation_tag";
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
     String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";

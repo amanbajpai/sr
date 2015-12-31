@@ -13,6 +13,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.dialog.QuiteTaskDialog;
+import com.ros.smartrocket.dialog.UpdateFirstLastNameDialog;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
@@ -502,7 +503,10 @@ public class DialogUtils {
      *
      * @param context - current context
      */
-    public static Dialog showAreYouSureFirstLastNameDialog(final Context context, String firstName, String lastName) {
+    public static Dialog showAreYouSureUserNameDialog(final Context context, final String firstName,
+                                                      final String lastName,
+                                                      final UpdateFirstLastNameDialog.DialogButtonClickListener
+                                                              listener) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
                 context.getText(R.string.dialog_attention),
                 context.getString(R.string.dialog_are_you_sure_first_last_name_text, firstName, lastName),
@@ -511,11 +515,13 @@ public class DialogUtils {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+                listener.onCancelButtonPressed();
             }
 
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
+                listener.onUpdateButtonPressed(firstName, lastName);
             }
         });
 
