@@ -64,6 +64,7 @@ public class NetworkService extends BaseNetworkService {
         return json;
     }
 
+    @Override
     protected void processResponse(BaseOperation operation) {
         Gson gson = new Gson();
         int responseCode = operation.getResponseStatusCode();

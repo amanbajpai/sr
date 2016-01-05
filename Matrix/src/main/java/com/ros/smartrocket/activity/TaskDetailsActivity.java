@@ -597,6 +597,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     mapImageViewClick();
                 }
                 break;
+            case R.id.idCardButton:
+                Intent intent = new Intent(this, IdCardActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -660,7 +664,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         menu.clear();
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setCustomView(R.layout.actionbar_custom_view_task_details);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
@@ -670,6 +674,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
             titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
+
+        actionBarView.findViewById(R.id.idCardButton).setOnClickListener(this);
+
         return true;
     }
 

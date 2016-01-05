@@ -52,6 +52,10 @@ public interface WaveDbSchema {
         CONTAINS_DIFFERENT_RATE("containsDifferentRate", DBType.INT),
         RATE("rate", DBType.FLOAT),
 
+        ID_CARD_STATUS("idCardStatus", DBType.INT),
+        ID_CARD_LOGO("idCardLogo", DBType.TEXT),
+        ID_CARD_TEXT("idCardText", DBType.TEXT),
+
         DELETED("deleted", DBType.INT);
 
         private String columnName;
@@ -114,7 +118,11 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.CAN_BE_PRE_CLAIMED.getName(),
                 Table.WAVE.getName() + "." + Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName(),
                 Table.WAVE.getName() + "." + Columns.CONTAINS_DIFFERENT_RATE.getName(),
-                Table.WAVE.getName() + "." + Columns.RATE.getName()
+                Table.WAVE.getName() + "." + Columns.RATE.getName(),
+
+                Table.WAVE.getName() + "." + Columns.ID_CARD_STATUS.getName(),
+                Table.WAVE.getName() + "." + Columns.ID_CARD_LOGO.getName(),
+                Table.WAVE.getName() + "." + Columns.ID_CARD_TEXT.getName()
         };
 
         int _ID = 0;
@@ -148,6 +156,9 @@ public interface WaveDbSchema {
         int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 28;
         int CONTAINS_DIFFERENT_RATE = 29;
         int RATE = 30;
+        int ID_CARD_STATUS = 31;
+        int ID_CARD_LOGO = 32;
+        int ID_CARD_TEXT = 33;
     }
 
     interface QueryWaveByDistance {

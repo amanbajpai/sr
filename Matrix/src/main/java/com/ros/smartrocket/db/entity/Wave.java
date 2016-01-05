@@ -80,6 +80,15 @@ public class Wave extends BaseEntity {
     @SerializedName("DownloadMediaWhenClaimingTask")
     private Boolean downloadMediaWhenClaimingTask;
 
+    // Id Card
+
+    @SerializedName("IdCardStatus")
+    private int idCardStatus;
+    @SerializedName("IdCardLogo")
+    private String idCardLogo;
+    @SerializedName("IdCardText")
+    private String idCardText;
+
     @SkipFieldInContentValues
     @SerializedName("Tasks")
     private Task[] tasks;
@@ -149,7 +158,8 @@ public class Wave extends BaseEntity {
             result.setExpectedStartDateTime(c.getString(WaveDbSchema.Query.EXPECTED_START_DATE_TIME));
             result.setExperienceOffer(c.getDouble(WaveDbSchema.Query.EXPERIENCE_OFFER));
 
-            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query.LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
+            result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.Query
+                    .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query.PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
@@ -164,6 +174,10 @@ public class Wave extends BaseEntity {
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.Query.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.Query.CONTAINS_DIFFERENT_RATE) == 1);
             result.setRate(c.getDouble(WaveDbSchema.Query.RATE));
+
+            result.setIdCardStatus(c.getInt(WaveDbSchema.Query.ID_CARD_STATUS));
+            result.setIdCardLogo(c.getString(WaveDbSchema.Query.ID_CARD_LOGO));
+            result.setIdCardText(c.getString(WaveDbSchema.Query.ID_CARD_TEXT));
         }
         return result;
     }
@@ -529,5 +543,29 @@ public class Wave extends BaseEntity {
 
     public void setRate(Double rate) {
         this.rate = rate;
+    }
+
+    public int getIdCardStatus() {
+        return idCardStatus;
+    }
+
+    public void setIdCardStatus(int idCardStatus) {
+        this.idCardStatus = idCardStatus;
+    }
+
+    public String getIdCardLogo() {
+        return idCardLogo;
+    }
+
+    public void setIdCardLogo(String idCardLogo) {
+        this.idCardLogo = idCardLogo;
+    }
+
+    public String getIdCardText() {
+        return idCardText;
+    }
+
+    public void setIdCardText(String idCardText) {
+        this.idCardText = idCardText;
     }
 }
