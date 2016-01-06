@@ -598,8 +598,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.idCardButton:
-                Intent intent = new Intent(this, IdCardActivity.class);
-                startActivity(intent);
+                IdCardActivity.launch(this, wave);
                 break;
             default:
                 break;
