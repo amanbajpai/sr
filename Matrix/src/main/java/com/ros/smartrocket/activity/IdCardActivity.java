@@ -26,7 +26,7 @@ public class IdCardActivity extends Activity {
     @Bind(R.id.idCardAgentName)
     TextView agentName;
     @Bind(R.id.idCardAgentId)
-    TextView agentid;
+    TextView agentId;
 
     public static void launch(Context context, Wave wave) {
         Intent intent = new Intent(context, IdCardActivity.class);
