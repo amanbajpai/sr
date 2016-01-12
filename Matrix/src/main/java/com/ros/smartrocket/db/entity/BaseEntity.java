@@ -1,9 +1,9 @@
 package com.ros.smartrocket.db.entity;
 
 import android.content.ContentValues;
-
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.utils.FieldType;
+import com.ros.smartrocket.utils.MyLog;
 
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
@@ -109,9 +109,8 @@ public abstract class BaseEntity implements Serializable {
                     L.d("BaseEntity.toContentValues", "Field: \"" + fieldName + "\" from entity: \""
                             + this.getClass().getSimpleName() + "\" not added to ContentValues");
                 }*/
-            } catch (ClassNotFoundException e) {
-            } catch (IllegalArgumentException e) {
-            } catch (IllegalAccessException e) {
+            } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
+                MyLog.logStackTrace(e);
             }
         }
 

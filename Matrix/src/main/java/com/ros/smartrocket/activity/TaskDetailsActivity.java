@@ -25,6 +25,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
@@ -287,6 +288,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setWaveData(Wave wave) {
+        MyLog.v("TaskDetailsActivity.setWaveData", wave.getIdCardStatus());
         if (titleTextView != null) {
             titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }

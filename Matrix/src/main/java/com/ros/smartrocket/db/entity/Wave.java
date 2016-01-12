@@ -83,7 +83,7 @@ public class Wave extends BaseEntity {
     // Id Card
 
     @SerializedName("IdCardStatus")
-    private int idCardStatus;
+    private Integer idCardStatus;
     @SerializedName("IdCardLogo")
     private String idCardLogo;
     @SerializedName("IdCardText")
