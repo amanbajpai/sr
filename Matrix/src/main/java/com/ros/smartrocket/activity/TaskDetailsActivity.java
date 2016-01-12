@@ -290,7 +290,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         if (titleTextView != null) {
             titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         }
-        idCardView.setVisibility(wave.getIdCardStatus() == 1 ? View.VISIBLE : View.GONE);
+        if (idCardView != null) {
+            idCardView.setVisibility(wave.getIdCardStatus() == 1 ? View.VISIBLE : View.GONE);
+        }
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
