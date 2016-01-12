@@ -81,7 +81,6 @@ public class Wave extends BaseEntity {
     private Boolean downloadMediaWhenClaimingTask;
 
     // Id Card
-
     @SerializedName("IdCardStatus")
     private Integer idCardStatus;
     @SerializedName("IdCardLogo")

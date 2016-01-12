@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,7 +54,7 @@ public class IdCardActivity extends Activity {
         }
 
         Picasso.with(getApplicationContext()).load(wave.getIdCardLogo()).into(logo);
-        text.setText(wave.getIdCardText());
+        text.setText(Html.fromHtml(wave.getIdCardText()));
         agentName.setText(myAccount.getName());
         agentId.setText(getString(R.string.id_card_agent_id, myAccount.getId()));
     }
