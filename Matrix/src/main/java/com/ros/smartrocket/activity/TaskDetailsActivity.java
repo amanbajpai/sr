@@ -202,9 +202,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     break;
                 case WaveDbSchema.Query.TOKEN_QUERY:
                     wave = WavesBL.convertCursorToWave(cursor);
-
                     bookTaskButton.setEnabled(!TasksBL.isPreClaimTask(task) || wave.getIsCanBePreClaimed());
-
                     setWaveData(wave);
                     break;
                 default:
@@ -289,7 +287,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setWaveData(Wave wave) {
-        titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        if (titleTextView != null) {
+            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        }
         idCardView.setVisibility(wave.getIdCardStatus() == 1 ? View.VISIBLE : View.GONE);
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }

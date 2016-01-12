@@ -48,7 +48,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private Integer taskId;
     private Integer missionId;
     private Task task = new Task();
-    private Wave wave = new Wave();
+    private Wave wave;
 
     private ProgressBar mainProgressBar;
     private TextView questionOf;
@@ -202,7 +202,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     break;
                 case WaveDbSchema.Query.TOKEN_QUERY:
                     wave = WavesBL.convertCursorToWave(cursor);
-                    idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
+                    if (idCardMenuItem != null) {
+                        idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
+                    }
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
@@ -474,6 +476,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_questions, menu);
         idCardMenuItem = menu.findItem(R.id.idCardMenuItem);
+        if (wave != null) {
+            idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
+        }
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
