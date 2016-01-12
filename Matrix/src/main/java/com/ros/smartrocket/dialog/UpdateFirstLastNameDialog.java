@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.EditText;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.utils.UIUtils;
 
 /**
@@ -33,8 +35,12 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
 
         findViewById(R.id.cancelButton).setOnClickListener(this);
         findViewById(R.id.updateButton).setOnClickListener(this);
+
+        final MyAccount myAccount = App.getInstance().getMyAccount();
         firstNameEditText = (EditText) findViewById(R.id.dialogFirstNameEditText);
+        firstNameEditText.setText(myAccount.getFirstName());
         lastNameEditText = (EditText) findViewById(R.id.dialogLastNameEditText);
+        lastNameEditText.setText(myAccount.getLastName());
     }
 
     @Override

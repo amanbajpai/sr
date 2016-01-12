@@ -22,7 +22,9 @@ import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.UpdateUser;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.LevelUpDialog;
+import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.images.ImageLoader;
@@ -36,7 +38,8 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
+public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
+        ShowProgressDialogInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
 
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -56,6 +59,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private TextView notificationsButton;
     private SeekBar levelProgressBar;
     private File mCurrentPhotoFile;
+    private CustomProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,6 +165,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         }
 
         nameTextView.setText(myAccount.getName());
+        nameTextView.setOnClickListener(this);
         balanceTextView.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
                 myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
@@ -251,6 +256,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             }
             UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
+        dismissProgressBar();
     }
 
     public void finishUploadingPhoto() {
@@ -268,6 +274,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             case R.id.photoImageView:
                 mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
                 SelectImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
+                break;
+            case R.id.nameTextView:
+                DialogUtils.showUpdateFirstLastNameDialog(getActivity(), apiFacade, this);
                 break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
@@ -358,6 +367,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     public void onStop() {
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
         EventBus.getDefault().unregister(this);
+        dismissProgressBar();
         super.onStop();
     }
 
@@ -398,6 +408,22 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
                 DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
                 break;
+        }
+    }
+
+    @Override
+    public void showDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
+        progressDialog = CustomProgressDialog.show(getActivity());
+        progressDialog.setCancelable(false);
+    }
+
+    public void dismissProgressBar() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 }

@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
     <item
+        android:id="@+id/idCardMenuItem"
+        android:icon="@drawable/id_card_icon"
+        yourapp:showAsAction="always"
+        android:title="@string/id_card"/>
+    <item
         android:id="@+id/quiteTask"
         android:icon="@drawable/quit_icon"
         yourapp:showAsAction="always"

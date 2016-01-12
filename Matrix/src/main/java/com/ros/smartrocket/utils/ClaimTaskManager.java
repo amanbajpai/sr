@@ -15,8 +15,14 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.*;
-import com.ros.smartrocket.dialog.*;
+import com.ros.smartrocket.db.entity.ClaimTaskResponse;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
+import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
+import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -28,7 +34,7 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
-public class ClaimTaskManager implements NetworkOperationListenerInterface {
+public class ClaimTaskManager implements NetworkOperationListenerInterface, ShowProgressDialogInterface {
     private BaseActivity activity;
     private APIFacade apiFacade = APIFacade.getInstance();
     private AsyncQueryHandler handler;
@@ -125,10 +131,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 dismissProgressBar();
                 ClaimTaskResponse claimTaskResponse = (ClaimTaskResponse) operation.getResponseEntities().get(0);
 
-//                if (BuildConfig.DEBUG) {
-//                    claimTaskResponse.setUpdateRequired(true);
-//                }
-
                 long startTimeInMillisecond = task.getLongStartDateTime();
                 long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
@@ -158,7 +160,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 claimDialogDateTime = UIUtils.longToString(missionDueMillisecond, 3);
 
                 if (claimTaskResponse.isUpdateRequired()) {
-                    showIdCardIsSupportedDialog();
+                    DialogUtils.showIdCardIsSupportedDialog(activity, apiFacade, this);
                 } else {
                     showClaimDialog(claimDialogDateTime);
                 }
@@ -201,7 +203,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
                 .DialogButtonClickListener() {
             @Override
             public void onCancelButtonPressed(Dialog dialog) {
-                showProgressBar();
+                showDialog();
                 apiFacade.unclaimTask(activity, task.getId(), task.getMissionId());
             }
 
@@ -217,82 +219,18 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         });
     }
 
-    private void showIdCardIsSupportedDialog() {
-        DialogUtils.showIdCardIsSupportedDialog(activity, new DefaultInfoDialog.DialogButtonClickListener() {
-            @Override
-            public void onLeftButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-                updateTheSameUserName();
-            }
-
-            @Override
-            public void onRightButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-                showUpdateFirstLastNameDialog();
-            }
-        });
-    }
-
-    private void showUpdateFirstLastNameDialog() {
-        Dialog dialog = new UpdateFirstLastNameDialog(activity,
-                new UpdateFirstLastNameDialog.DialogButtonClickListener() {
-                    @Override
-                    public void onCancelButtonPressed() {
-                        updateTheSameUserName();
-                    }
-
-                    @Override
-                    public void onUpdateButtonPressed(String firstName, String lastName) {
-                        showAreYouSureDialog(firstName, lastName);
-                    }
-                });
-        dialog.show();
-    }
-
-    private void showAreYouSureDialog(String firstName, String lastName) {
-        DialogUtils.showAreYouSureUserNameDialog(activity, firstName, lastName,
-                new UpdateFirstLastNameDialog.DialogButtonClickListener() {
-                    @Override
-                    public void onCancelButtonPressed() {
-                        updateTheSameUserName();
-                    }
-
-                    @Override
-                    public void onUpdateButtonPressed(String firstName, String lastName) {
-                        showProgressBar();
-
-                        UpdateUser updateUser = new UpdateUser();
-                        updateUser.setFirstName(firstName);
-                        updateUser.setLastName(lastName);
-
-                        apiFacade.updateUser(activity, updateUser);
-                    }
-                });
-    }
-
-    private void updateTheSameUserName() {
-        UpdateUser updateUser = new UpdateUser();
-        showProgressBar();
-
-        updateUser.setFirstName(App.getInstance().getMyAccount().getFirstName());
-        updateUser.setLastName(App.getInstance().getMyAccount().getLastName());
-
-        apiFacade.updateUser(activity, updateUser);
-    }
-
-
     public void onStop() {
         activity.addNetworkOperationListener(this);
     }
 
     public void claimTask() {
-        showProgressBar();
+        showDialog();
         apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
     }
 
     public void startTask() {
         if (UIUtils.isOnline(activity)) {
-            showProgressBar();
+            showDialog();
             apiFacade.startTask(activity, task.getWaveId(), task.getId(), task.getMissionId());
         } else {
             changeStatusToStarted(false);
@@ -309,7 +247,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
 
             @Override
             public void onYesButtonPressed(Dialog dialog) {
-                showProgressBar();
+                showDialog();
                 apiFacade.unclaimTask(activity, task.getId(), task.getMissionId());
             }
         });
@@ -382,8 +320,8 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface {
         });
     }
 
-
-    public void showProgressBar() {
+    @Override
+    public void showDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }

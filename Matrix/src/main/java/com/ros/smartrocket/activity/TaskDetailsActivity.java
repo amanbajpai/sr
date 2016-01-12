@@ -91,6 +91,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout taskOptionsLayout;
 
     private TextView titleTextView;
+    private View idCardView;
 
     public TaskDetailsActivity() {
     }
@@ -187,7 +188,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         task = TasksBL.convertCursorToTask(cursor);
-                        claimTaskManager = new ClaimTaskManager(TaskDetailsActivity.this, task, TaskDetailsActivity.this);
+                        claimTaskManager = new ClaimTaskManager(TaskDetailsActivity.this, task, TaskDetailsActivity
+                                .this);
 
                         setTaskData(task);
                         WavesBL.getWaveFromDB(handler, task.getWaveId());
@@ -219,13 +221,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         int missionDueResId;
         int dueInResId;
 
-        /*if (TasksBL.isPreClaimTask(task)) {
-            missionDueResId = R.string.mission_due_pre_claim;
-            dueInResId = R.string.due_in_pre_claim;
-        } else {*/
         missionDueResId = R.string.mission_due;
         dueInResId = R.string.due_in;
-        //}
 
         startTimeText.setText(task.getIsMy() ? R.string.available : R.string.start_time);
         deadlineTimeText.setText(task.getIsMy() ? missionDueResId : R.string.deadline_time);
@@ -250,7 +247,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             taskDistance.setText(UIUtils.convertMToKm(this, getDistanceForTask(task), R.string.task_distance_away,
                     false));
         } else {
-            //taskAddress.setVisibility(View.GONE);
             taskAddress.setText(R.string.no_mission_address);
             taskDistance.setVisibility(View.GONE);
         }
@@ -293,10 +289,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void setWaveData(Wave wave) {
-        if (titleTextView != null) {
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
-        }
-
+        titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        idCardView.setVisibility(wave.getIdCardStatus() == 1 ? View.VISIBLE : View.GONE);
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
     }
 
@@ -309,7 +303,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 expireTimeLayout.setVisibility(View.GONE);
 
                 statusLayout.setVisibility(View.VISIBLE);
-                if(Task.TaskStatusId.COMPLETED == TasksBL.getTaskStatusType(task.getStatusId())){
+                if (Task.TaskStatusId.COMPLETED == TasksBL.getTaskStatusType(task.getStatusId())) {
                     statusTextView.setText(getString(R.string.mission_transmitting));
                 } else {
                     statusTextView.setText(getString(R.string.in_validation_task));
@@ -669,12 +663,10 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
         View actionBarView = actionBar.getCustomView();
 
-        if (wave != null) {
-            titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
-        }
-
-        actionBarView.findViewById(R.id.idCardButton).setOnClickListener(this);
+        titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
+        titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
+        idCardView = actionBarView.findViewById(R.id.idCardButton);
+        idCardView.setOnClickListener(this);
 
         return true;
     }

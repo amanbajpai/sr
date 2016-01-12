@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -43,9 +45,16 @@ public class IdCardActivity extends Activity {
         Wave wave = (Wave) getIntent().getSerializableExtra(ARG_WAVE);
         final MyAccount myAccount = App.getInstance().getMyAccount();
 
-        Picasso.with(getApplicationContext()).load(myAccount.getPhotoUrl()).into(userPhoto);
+        if (TextUtils.isEmpty(myAccount.getPhotoUrl())) {
+            userPhoto.setVisibility(View.GONE);
+        } else {
+            userPhoto.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(myAccount.getPhotoUrl()).into(userPhoto);
+        }
+
         Picasso.with(getApplicationContext()).load(wave.getIdCardLogo()).into(logo);
         text.setText(wave.getIdCardText());
         agentName.setText(myAccount.getName());
+        agentId.setText(getString(R.string.id_card_agent_id, myAccount.getId()));
     }
 }

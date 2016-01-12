@@ -8,45 +8,31 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.fragment.BaseQuestionFragment;
-import com.ros.smartrocket.fragment.QuestionInstructionFragment;
-import com.ros.smartrocket.fragment.QuestionMassAuditFragment;
-import com.ros.smartrocket.fragment.QuestionMultipleChooseFragment;
-import com.ros.smartrocket.fragment.QuestionNumberFragment;
-import com.ros.smartrocket.fragment.QuestionOpenCommentFragment;
-import com.ros.smartrocket.fragment.QuestionPhotoFragment;
-import com.ros.smartrocket.fragment.QuestionSingleChooseFragment;
-import com.ros.smartrocket.fragment.QuestionVideoFragment;
+import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.fragment.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 
 import java.util.List;
 
@@ -62,6 +48,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private Integer taskId;
     private Integer missionId;
     private Task task = new Task();
+    private Wave wave = new Wave();
 
     private ProgressBar mainProgressBar;
     private TextView questionOf;
@@ -79,6 +66,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private boolean isRedo = false;
     private boolean isAlreadyStarted;
     private boolean isDestroyed;
+
+    private MenuItem idCardMenuItem;
 
     public QuestionsActivity() {
     }
@@ -186,7 +175,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                     if (task != null) {
                         setTitle(task.getName());
-
+                        WavesBL.getWaveFromDB(handler, task.getWaveId());
                         UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
 
                         isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
@@ -210,6 +199,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     } else {
                         finishQuestionsActivity();
                     }
+                    break;
+                case WaveDbSchema.Query.TOKEN_QUERY:
+                    wave = WavesBL.convertCursorToWave(cursor);
+                    idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
                     break;
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
@@ -467,6 +460,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     DialogUtils.showQuiteTaskDialog(this, task.getWaveId(), task.getId(), task.getMissionId());
                 }
                 return true;
+            case R.id.idCardMenuItem:
+                IdCardActivity.launch(this, wave);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -477,6 +473,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         menu.clear();
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_questions, menu);
+        idCardMenuItem = menu.findItem(R.id.idCardMenuItem);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);

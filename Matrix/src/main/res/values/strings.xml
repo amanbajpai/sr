@@ -268,6 +268,7 @@
     <string name="enter_here">Enter here</string>
     <string name="please_write_in">Other – please write in</string>
     <string name="quite_mission">QUIT MISSION</string>
+    <string name="id_card">ID CARD</string>
     <string name="quite_mission_cancel">CANCEL</string>
     <string name="question_of">QUESTION %1$s OF %2$s</string>
     <string name="choose_one_answer">CHOOSE ONE ANSWER</string>
@@ -485,4 +486,5 @@
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
     <string name="new_push_notification">New notification</string>
     <string name="close">CLOSE</string>
+    <string name="id_card_agent_id">ID: %d</string>
 </resources>
