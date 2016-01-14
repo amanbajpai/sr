@@ -9,24 +9,21 @@
     android:layout_width="match_parent">
     <LinearLayout
         android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v7.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:columnCount="2">
+            app:rowCount="3"
+            app:columnCount="3">
             <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:paddingRight="16dp"
-                app:layout_column="0"
-                app:layout_row="0"
-                app:layout_gravity="fill"
-                app:layout_columnWeight="1"
-                app:layout_rowSpan="2">
+                android:padding="16dp"
+                app:layout_columnWeight="2"
+                app:layout_rowSpan="3">
                 <ImageView
                     android:id="@+id/idCardUserPhoto"
                     android:layout_width="match_parent"
@@ -49,26 +46,31 @@
                     android:textSize="@dimen/text_size_13p6sp"
                     custom:textStyle="bold"/>
             </LinearLayout>
+            <View
+                app:layout_rowSpan="3"
+                android:background="@drawable/id_card_dash"
+                android:layout_height="match_parent"
+                android:layout_width="2dp"/>
             <ImageView
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="3"
                 android:id="@+id/idCardLogo"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="16dp"
-                tools:src="@drawable/badge"
-                app:layout_column="1"
-                app:layout_row="0"
-                app:layout_gravity="fill"
-                app:layout_rowWeight="1"
-                app:layout_columnWeight="2"/>
+                android:layout_margin="16dp"
+                tools:src="@drawable/badge"/>
+            <View
+                app:layout_columnWeight="3"
+                android:background="@drawable/id_card_dash"
+                android:layout_height="1dp"
+                android:layout_width="0dp"/>
             <ImageView
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="3"
                 android:src="@drawable/sr_mono_red"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_column="1"
-                app:layout_row="1"
-                app:layout_gravity="fill"
-                app:layout_rowWeight="1"
-                app:layout_columnWeight="2"/>
+                android:layout_margin="16dp"/>
         </android.support.v7.widget.GridLayout>
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/idCardText"
