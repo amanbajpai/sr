@@ -5,6 +5,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -29,7 +30,6 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
@@ -50,7 +50,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
     private Task task;
     private String claimDialogDateTime;
 
-    public ClaimTaskManager(@Nonnull BaseActivity activity, @Nonnull Task task, ClaimTaskListener claimTaskListener) {
+    public ClaimTaskManager(@NonNull BaseActivity activity, @NonNull Task task, ClaimTaskListener claimTaskListener) {
         this.activity = activity;
         this.task = task;
         this.claimTaskListener = claimTaskListener;

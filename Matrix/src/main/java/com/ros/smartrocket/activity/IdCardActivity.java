@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,6 +56,8 @@ public class IdCardActivity extends Activity {
 
         Picasso.with(getApplicationContext()).load(wave.getIdCardLogo()).into(logo);
         text.setText(Html.fromHtml(wave.getIdCardText()));
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+
         agentName.setText(myAccount.getName());
         agentId.setText(getString(R.string.id_card_agent_id, myAccount.getId()));
     }
