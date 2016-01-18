@@ -487,4 +487,5 @@
     <string name="new_push_notification">New notification</string>
     <string name="close">CLOSE</string>
     <string name="id_card_agent_id">ID: %d</string>
+    <string name="identification_card">Identification Card</string>
 </resources>

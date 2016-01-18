@@ -8,12 +8,24 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
     <LinearLayout
+        android:background="@drawable/id_card_border_dash_line"
+        android:padding="5dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <com.ros.smartrocket.views.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/identification_card"
+            android:textSize="@dimen/text_size_34sp"
+            android:textColor="@color/white"
+            android:background="@color/id_card_border"
+            android:padding="6dp"
+            android:gravity="center"
+            custom:textStyle="bold"/>
         <android.support.v7.widget.GridLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             app:rowCount="3"
             app:columnCount="3">
             <LinearLayout
@@ -48,9 +60,10 @@
             </LinearLayout>
             <View
                 app:layout_rowSpan="3"
-                android:background="@drawable/id_card_dash"
+                android:layerType="software"
+                android:background="@drawable/id_card_vertical_dash_line"
                 android:layout_height="match_parent"
-                android:layout_width="2dp"/>
+                android:layout_width="4dp"/>
             <ImageView
                 app:layout_rowWeight="1"
                 app:layout_columnWeight="3"
@@ -61,8 +74,9 @@
                 tools:src="@drawable/badge"/>
             <View
                 app:layout_columnWeight="3"
-                android:background="@drawable/id_card_dash"
-                android:layout_height="1dp"
+                android:layerType="software"
+                android:background="@drawable/id_card_horizontal_dash_line"
+                android:layout_height="4dp"
                 android:layout_width="0dp"/>
             <ImageView
                 app:layout_rowWeight="1"
@@ -72,10 +86,15 @@
                 android:layout_height="0dp"
                 android:layout_margin="16dp"/>
         </android.support.v7.widget.GridLayout>
+        <View
+            android:layerType="software"
+            android:background="@drawable/id_card_horizontal_dash_line"
+            android:layout_height="4dp"
+            android:layout_width="match_parent"/>
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/idCardText"
             tools:text="Some text"
-            android:layout_marginTop="16dp"
+            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_13p6sp"/>
