@@ -433,4 +433,16 @@
     <string name="logout_attention_dialog_logout">登出</string>
     <string name="logout_attention_dialog_cancel">取消</string>
     <string name="delete">Delete</string>
+    <!-- ID CARDS -->
+    <string name="id_card_is_supported_dialog_title">職員證</string>
+    <string name="id_card_is_supported_dialog_text">這個任務需要你的職員證。\n\n請到「個人檔案」更新你的姓名及相片。</string>
+    <string name="update_first_last_name_dialog_title">注意！每六個月才能更換姓名一次。</string>
+    <string name="update">更新</string>
+    <string name="confirm">Confirm</string>
+    <string name="dialog_first_name">名字（例如：大文）</string>
+    <string name="dialog_last_name">姓氏（例如：陳）</string>
+    <string name="dialog_attention">注意！</string>
+    <string name="id_card_agent_id">ID: %d</string>
+    <string name="identification_card">職員證</string>
+    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
 </resources>

@@ -196,16 +196,6 @@
     <string name="registration_success_dialog_text3">You must click this link in order to complete registration and
         login to SmartRocket. If you cannot find our message, please check your junk/ spam folder.</string>
     <string name="registration_success_dialog_ok">OK</string>
-    <!-- ID CARDS -->
-    <string name="id_card_is_supported_dialog_title">ID Card is supported</string>
-    <string name="id_card_is_supported_dialog_text">This mission supports ID Card\n\nPlease update your name and photo in your profile</string>
-    <string name="update_first_last_name_dialog_title">Attention! You can update your name only once per 6 months.</string>
-    <string name="update">Update</string>
-    <string name="confirm">Confirm</string>
-    <string name="dialog_first_name">First Name</string>
-    <string name="dialog_last_name">Last Name</string>
-    <string name="dialog_attention">Attention!</string>
-    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
     <!-- CLAIM TASK SUCCESS DIALOG -->
     <string name="book_task_success_dialog_title">Mission claimed</string>
     <string name="book_task_success_dialog_title2">Mission pre-claimed</string>
@@ -486,6 +476,16 @@
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
     <string name="new_push_notification">New notification</string>
     <string name="close">CLOSE</string>
+    <!-- ID CARDS -->
+    <string name="id_card_is_supported_dialog_title">ID Card is supported</string>
+    <string name="id_card_is_supported_dialog_text">This mission supports ID Card\n\nPlease update your name and photo in your profile</string>
+    <string name="update_first_last_name_dialog_title">Attention! You can update your name only once per 6 months.</string>
+    <string name="update">Update</string>
+    <string name="confirm">Confirm</string>
+    <string name="dialog_first_name">First Name</string>
+    <string name="dialog_last_name">Last Name</string>
+    <string name="dialog_attention">Attention!</string>
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">Identification Card</string>
+    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
 </resources>
