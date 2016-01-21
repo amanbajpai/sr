@@ -443,11 +443,11 @@
     <string name="id_card_is_supported_dialog_text">这个任务需要你的职员证。\n\n请到「个人档案」更新你的姓名及相片。</string>
     <string name="update_first_last_name_dialog_title">注意！每六个月才能更换姓名一次。</string>
     <string name="update">更新</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">确认</string>
     <string name="dialog_first_name">名字（例如：小船）</string>
     <string name="dialog_last_name">姓氏（例如：张）</string>
     <string name="dialog_attention">注意！</string>
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">职员证</string>
-    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
+    <string name="dialog_are_you_sure_first_last_name_text">请确认名字更新为 %1$s %2$s?</string>
 </resources>
