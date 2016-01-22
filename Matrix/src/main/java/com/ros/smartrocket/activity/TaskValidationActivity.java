@@ -175,7 +175,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         setSupportProgressBarIndeterminateVisibility(false);
 
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS ||
-                operation.getResponseStatusCode() == BaseNetworkService.TASK_ALREADY_SUBMITTED) {
+                operation.getResponseErrorCode() == BaseNetworkService.TASK_ALREADY_SUBMITTED) {
             if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStartedStatusSent(true);
                 TasksBL.updateTask(handler, task);
@@ -354,8 +354,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      * @return
      */
     public boolean isReadyToSend() {
-        return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this) && preferencesManager.getUseLocationServices()
-                && !UIUtils.isMockLocationEnabled(this);
+        return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
+                && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this);
     }
 
     public void finishActivity() {

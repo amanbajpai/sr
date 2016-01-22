@@ -7,11 +7,16 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import java.io.Serializable;
 
 public class Question extends BaseEntity implements Serializable {
+    @SkipFieldInContentValues
     private static final long serialVersionUID = -4706526633427191907L;
 
+    @SkipFieldInContentValues
     public static final int ACTION_TICK = 0;
+    @SkipFieldInContentValues
     public static final int ACTION_CROSS = 1;
+    @SkipFieldInContentValues
     public static final int ACTION_BOTH = 2;
+    @SkipFieldInContentValues
     public static final int ACTION_NOTHING = 3;
 
     public enum QuestionType {

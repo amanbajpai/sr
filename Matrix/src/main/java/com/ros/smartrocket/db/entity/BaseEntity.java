@@ -17,12 +17,15 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class BaseEntity implements Serializable {
+    @SkipFieldInContentValues
     private static final long serialVersionUID = 7257189225671374288L;
+    @SkipFieldInContentValues
     private static Random random = new Random();
 
     /**
      * Database _id field. Required for AdapterViews
      */
+    @SkipFieldInContentValues
     private transient long _id;
 
     /**
@@ -57,9 +60,7 @@ public abstract class BaseEntity implements Serializable {
         for (Field field : fields) {
             String fieldName = field.getName();
             try {
-                if (field.isAnnotationPresent(SkipFieldInContentValues.class)) {
-                    /*L.d("BaseEntity.toContentValues", "Field: \"" + fieldName + "\" from entity: \""
-                            + this.getClass().getSimpleName() + "\" skipped by annotation");*/
+                if (field.isAnnotationPresent(SkipFieldInContentValues.class) || fieldName.equals("shadow$_monitor_")) {
                     continue;
                 }
                 Class<?> cls;
@@ -105,11 +106,9 @@ public abstract class BaseEntity implements Serializable {
                     }
                 } else if (key != null) {
                     contentValues.putNull(fieldName);
-                }/* else {
-                    L.d("BaseEntity.toContentValues", "Field: \"" + fieldName + "\" from entity: \""
-                            + this.getClass().getSimpleName() + "\" not added to ContentValues");
-                }*/
+                }
             } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
+                MyLog.v("BaseEntity.toContentValues.Exception", fieldName);
                 MyLog.logStackTrace(e);
             }
         }
