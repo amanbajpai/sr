@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
@@ -60,5 +61,11 @@ public class IdCardActivity extends Activity {
 
         agentName.setText(myAccount.getName());
         agentId.setText(getString(R.string.id_card_agent_id, myAccount.getId()));
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.idCardBackButton)
+    void onBackClick() {
+        finish();
     }
 }
