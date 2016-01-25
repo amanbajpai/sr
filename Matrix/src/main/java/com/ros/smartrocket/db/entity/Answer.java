@@ -7,6 +7,7 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import java.io.Serializable;
 
 public class Answer extends BaseEntity implements Serializable {
+    @SkipFieldInContentValues
     private static final long serialVersionUID = -4706526633427191907L;
 
     @SerializedName("MissionId")

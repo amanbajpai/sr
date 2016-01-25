@@ -51,16 +51,19 @@ public class UploadFileNetworkService extends BaseNetworkService {
                     NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
                     File[] files = null;
+                    boolean isStubFile = false;
 
                     try {
                         File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
                         if (!sourceFile.exists() || sourceFile.length() == 0) {
+                            isStubFile = true;
                             writeNoImageToSourceFile(sourceFile);
                         }
 
                         long mainFileLength = sourceFile.length();
 
-                        sendLog("Start send Main file", notUploadedFile, sourceFile, ServerLog.LogType.FILE_UPLOAD);
+                        sendLog("Start send Main file", notUploadedFile, sourceFile, isStubFile,
+                                ServerLog.LogType.FILE_UPLOAD);
 
                         //Separate main file
                         files = separateFile(notUploadedFile);
@@ -91,14 +94,14 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                 files[i].delete();
                                 operation.setResponseStatusCode(responseCode);
 
-                            } else if (responseErrorCode != null && (responseErrorCode == BaseNetworkService
-                                    .TASK_NOT_FOUND_ERROR_CODE ||
+                            } else if (responseErrorCode != null
+                                    && (responseErrorCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
                                     responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
                                     responseErrorCode == BaseNetworkService.FILE_NOT_FOUND)) {
 
                                 sendLog("Error send package file. ErrorCode = " + responseErrorCode +
-                                        " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog
-                                        .LogType.PACKAGE_UPLOAD);
+                                                " ErrorText = " + responseString, notUploadedFile,
+                                        files[i], isStubFile, ServerLog.LogType.PACKAGE_UPLOAD);
                                 files[i].delete();
                                 operation.setResponseStatusCode(responseCode);
                                 operation.setResponseErrorCode(responseErrorCode);
@@ -107,8 +110,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
                             } else {
                                 cleanFiles(files);
                                 sendLog("Error send package file. ErrorCode = " + responseErrorCode +
-                                        " ErrorText = " + responseString, notUploadedFile, files[i], ServerLog
-                                        .LogType.PACKAGE_UPLOAD);
+                                                " ErrorText = " + responseString, notUploadedFile, files[i], isStubFile,
+                                        ServerLog.LogType.PACKAGE_UPLOAD);
                                 operation.setResponseStatusCode(responseCode);
                                 break;
                             }
@@ -118,7 +121,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                 UIUtils.longToString(System.currentTimeMillis(), 2), e);
                         cleanFiles(files);
                         sendLog("Error send package file. Exception = " + e.getMessage(), notUploadedFile, null,
-                                ServerLog.LogType.PACKAGE_UPLOAD);
+                                isStubFile, ServerLog.LogType.PACKAGE_UPLOAD);
 
                         operation.setResponseErrorCode(BaseNetworkService.LOCAL_UPLOAD_FILE_ERROR);
                     }
@@ -163,7 +166,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
         return operation;
     }
 
-    public void sendLog(String command, NotUploadedFile notUploadedFile, File file, ServerLog.LogType logType) {
+    public void sendLog(String command, NotUploadedFile notUploadedFile, File file, boolean isStubFile,
+                        ServerLog.LogType logType) {
         String userName = preferencesManager.getLastEmail();
 
         String message = command +
@@ -173,7 +177,8 @@ public class UploadFileNetworkService extends BaseNetworkService {
                 " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
                 " fileCode = " + notUploadedFile.getFileCode() +
                 " addedToUploadDateTime (MainFile) = " + notUploadedFile.getAddedToUploadDateTime() +
-                " portion = " + notUploadedFile.getPortion() + " \n\n ";
+                " portion = " + notUploadedFile.getPortion() +
+                " isStubFile = " + isStubFile + " \n\n ";
 
         if (file != null) {
             message +=
