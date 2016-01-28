@@ -97,7 +97,7 @@ public final class SelectImageManager {
     }
 
     public static void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
-                                              final File file) {
+                                             final File file) {
         showSelectImageDialog(showRemoveButton, file, fragment, null);
     }
 
@@ -106,7 +106,7 @@ public final class SelectImageManager {
     }
 
     private static void showSelectImageDialog(final boolean showRemoveButton, final File file,
-                                             final Fragment fragment, final Activity activity) {
+                                              final Fragment fragment, final Activity activity) {
         Activity contextActivity = fragment != null ? fragment.getActivity() : activity;
 
         LayoutInflater inflater = (LayoutInflater) contextActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -180,9 +180,9 @@ public final class SelectImageManager {
                 resultBitmap = getScaledBitmapByByteSize(resultBitmap, maxSizeInByte);
             }
 
-            if (rotateByExif) {
-                resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
-            }
+//            if (rotateByExif) {
+            resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
+//            }
         } catch (Exception e) {
             L.e(TAG, "PrepareBitmap error" + e.getMessage(), e);
         }
@@ -387,35 +387,30 @@ public final class SelectImageManager {
     private static Bitmap rotateByExif(String imagePath, Bitmap bitmap) {
         try {
             ExifInterface oldExif = new ExifInterface(imagePath);
-            int index = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
-            int degrees = OPERATIONS[index][0];
-
+            final int rotation = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
+            final int rotationInDegrees = exifToDegrees(rotation);
             Matrix matrix = new Matrix();
-
-            if (index == 8) {
-                float[] mirrorY = {-1, 0, 0, 0, 1, 0, 0, 0, 1};
-                matrix = new Matrix();
-
-                Matrix matrixMirrorY = new Matrix();
-                matrixMirrorY.setValues(mirrorY);
-
-                matrix.postConcat(matrixMirrorY);
-
-                matrix.postRotate(degrees);
-            } else {
-                matrix.postRotate(degrees);
+            if (rotationInDegrees != 0) {
+                matrix.preRotate(rotationInDegrees);
             }
 
-            /*if (degrees == 0) {
-                return bitmap;
-            } else {*/
             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            //}
         } catch (Exception e) {
             L.e(TAG, "RotateByExif error" + e.getMessage(), e);
         }
 
         return bitmap;
+    }
+
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
     }
 
     private static File copyFileToTempFolder(Context context, File file, String prefix) {
