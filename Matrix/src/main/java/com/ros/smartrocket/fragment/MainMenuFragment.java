@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.ros.smartrocket.*;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
@@ -60,6 +61,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private SeekBar levelProgressBar;
     private File mCurrentPhotoFile;
     private CustomProgressDialog progressDialog;
+    private MyAccount myAccount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,6 +128,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     public void setData(MyAccount myAccount) {
+        this.myAccount = myAccount;
         String photoUrl = myAccount.getPhotoUrl();
         if (!TextUtils.isEmpty(photoUrl)) {
             ImageLoader.getInstance().loadBitmap(photoUrl, ImageLoader.SMALL_IMAGE_VAR,
@@ -276,7 +279,11 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 SelectImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
                 break;
             case R.id.nameTextView:
-                DialogUtils.showUpdateFirstLastNameDialog(getActivity(), apiFacade, this);
+                if (myAccount != null && myAccount.getIsUpdateNameRequired()) {
+                    DialogUtils.showUpdateFirstLastNameDialog(getActivity(), apiFacade, this);
+                } else {
+                    UIUtils.showSimpleToast(getContext(), R.string.update_name_not_allowed, Toast.LENGTH_LONG);
+                }
                 break;
             case R.id.findTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
@@ -302,12 +309,10 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 getActivity().startActivity(IntentUtils.getNotificationsIntent(getActivity()));
                 break;
             case R.id.shareButton:
-                //((MainActivity) getActivity()).startFragment(new ShareFragment());
                 getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.cashingOutLayout:
-                //((MainActivity) getActivity()).startFragment(new CashingOutFragment());
                 getActivity().startActivity(IntentUtils.getCashOutIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;

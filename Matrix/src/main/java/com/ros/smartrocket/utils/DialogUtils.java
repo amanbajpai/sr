@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -536,47 +535,13 @@ public class DialogUtils {
     /// ============================================== ID CARD ================================================= ///
     /// ======================================================================================================== ///
 
-    /**
-     * Notify user, that Id Card is supported
-     *
-     * @param activity activity
-     * @param apiFacade api facade
-     * @param progressDialog progress dialog
-     */
-    public static void showIdCardIsSupportedDialog(final Activity activity,final APIFacade apiFacade,
-                                                   final ShowProgressDialogInterface progressDialog) {
-        DialogUtils.showIdCardIsSupportedDialog(activity, new DefaultInfoDialog.DialogButtonClickListener() {
-            @Override
-            public void onLeftButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-                updateTheSameUserName(activity, apiFacade, progressDialog);
-            }
-
-            @Override
-            public void onRightButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-                showUpdateFirstLastNameDialog(activity, apiFacade, progressDialog);
-            }
-        });
-    }
-
-    private static Dialog showIdCardIsSupportedDialog(final Context context,
-                                                      DefaultInfoDialog.DialogButtonClickListener clickListener) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.green, R.drawable.id_icon,
-                context.getText(R.string.id_card_is_supported_dialog_title),
-                context.getText(R.string.id_card_is_supported_dialog_text),
-                R.string.cancel, R.string.update);
-        dialog.setOnDialogButtonClickListener(clickListener);
-        return dialog;
-    }
-
     public static void showUpdateFirstLastNameDialog(final Activity activity, final APIFacade apiFacade,
                                                      final ShowProgressDialogInterface progressDialog) {
         Dialog dialog = new UpdateFirstLastNameDialog(activity,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
                     @Override
                     public void onCancelButtonPressed() {
-                        updateTheSameUserName(activity, apiFacade, progressDialog);
+                        // nothing
                     }
 
                     @Override
@@ -588,12 +553,13 @@ public class DialogUtils {
     }
 
     private static void showAreYouSureDialog(final Activity activity, final APIFacade apiFacade, String firstName,
-                                            String lastName, final ShowProgressDialogInterface progressDialog) {
+                                             String lastName, final ShowProgressDialogInterface progressDialog) {
         DialogUtils.showAreYouSureUserNameDialog(activity, firstName, lastName,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
+
                     @Override
                     public void onCancelButtonPressed() {
-                        updateTheSameUserName(activity, apiFacade, progressDialog);
+                        // nothing
                     }
 
                     @Override
@@ -607,16 +573,5 @@ public class DialogUtils {
                         apiFacade.updateUser(activity, updateUser);
                     }
                 });
-    }
-
-    private static void updateTheSameUserName(Activity activity, APIFacade apiFacade,
-                                              final ShowProgressDialogInterface progressDialog) {
-        UpdateUser updateUser = new UpdateUser();
-        progressDialog.showDialog();
-
-        updateUser.setFirstName(App.getInstance().getMyAccount().getFirstName());
-        updateUser.setLastName(App.getInstance().getMyAccount().getLastName());
-
-        apiFacade.updateUser(activity, updateUser);
     }
 }

@@ -159,12 +159,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
                 claimDialogDateTime = UIUtils.longToString(missionDueMillisecond, 3);
 
-                if (claimTaskResponse.isUpdateRequired()) {
-                    DialogUtils.showIdCardIsSupportedDialog(activity, apiFacade, this);
-                } else {
-                    showClaimDialog(claimDialogDateTime);
-                }
-
+                showClaimDialog(claimDialogDateTime);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 dismissProgressBar();
 

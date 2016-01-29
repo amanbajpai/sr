@@ -477,9 +477,8 @@
     <string name="new_push_notification">New notification</string>
     <string name="close">CLOSE</string>
     <!-- ID CARDS -->
-    <string name="id_card_is_supported_dialog_title">ID Card is supported</string>
-    <string name="id_card_is_supported_dialog_text">This mission supports ID Card\n\nPlease update your name and photo in your profile</string>
-    <string name="update_first_last_name_dialog_title">Attention! You can update your name only once per 6 months.</string>
+    <string name="update_first_last_name_dialog_title">You can only change your name once. Please use your real name because we will provide digital ID cards for some projects.</string>
+    <string name="update_name_not_allowed">You have already changed your name once and can no longer change your name. Contact support@smart-rocket.com if required.</string>
     <string name="update">Update</string>
     <string name="confirm">Confirm</string>
     <string name="dialog_first_name">First Name</string>

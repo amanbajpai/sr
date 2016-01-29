@@ -47,6 +47,8 @@ public class MyAccount extends BaseEntity {
     private String firstName;
     @SerializedName("LastName")
     private String lastName;
+    @SerializedName("IsUpdateNameRequired")
+    private Boolean isUpdateNameRequired;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -210,5 +212,13 @@ public class MyAccount extends BaseEntity {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Boolean getIsUpdateNameRequired() {
+        return isUpdateNameRequired;
+    }
+
+    public void setIsUpdateNameRequired(Boolean isUpdateNameRequired) {
+        this.isUpdateNameRequired = isUpdateNameRequired;
     }
 }
