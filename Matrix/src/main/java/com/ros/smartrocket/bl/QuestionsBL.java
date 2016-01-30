@@ -5,19 +5,14 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.AskIf;
-import com.ros.smartrocket.db.entity.Category;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.TaskLocation;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -188,6 +183,20 @@ public class QuestionsBL {
                                                 String fileUri) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(QuestionDbSchema.Columns.INSTRUCTION_FILE_URI.getName(), fileUri);
+
+        String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
+                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.ID + "=? and "
+                + QuestionDbSchema.Columns.MISSION_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId),
+                String.valueOf(questionId), String.valueOf(missionId)};
+
+        App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
+    public static void updateQuestionCategories(Integer waveId, Integer taskId, Integer missionId, Integer questionId,
+                                                String categories) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionDbSchema.Columns.CATEGORIES.getName(), categories);
 
         String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
                 .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.ID + "=? and "
@@ -518,11 +527,21 @@ public class QuestionsBL {
         return null;
     }
 
+    @NonNull
     public static List<Question> getInstructionQuestionList(List<Question> questions) {
+        return getQuestionList(questions, Question.QuestionType.INSTRUCTION.getTypeId());
+    }
+
+    @NonNull
+    public static List<Question> getMassAuditQuestionList(List<Question> questions) {
+        return getQuestionList(questions, Question.QuestionType.MASS_AUDIT.getTypeId());
+    }
+
+    @NonNull
+    private static List<Question> getQuestionList(List<Question> questions, int type) {
         List<Question> resultQuestionList = new ArrayList<>();
         for (Question question : questions) {
-            if (question.getType() == Question.QuestionType.INSTRUCTION.getTypeId() && (!TextUtils.isEmpty(question
-                    .getPhotoUrl()) || !TextUtils.isEmpty(question.getVideoUrl()))) {
+            if (question.getType() == type) {
                 resultQuestionList.add(question);
             }
         }

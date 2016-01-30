@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
 import com.ros.smartrocket.db.entity.Answer;
@@ -144,7 +143,8 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
         View thumb = convertView.findViewById(R.id.massAuditImageThumb);
         thumb.setVisibility(TextUtils.isEmpty(product.getImage()) ? View.GONE : View.VISIBLE);
-        thumb.setTag(category.getProducts()[childPosition].getImage());
+        String image = TextUtils.isEmpty(product.getCachedImage()) ? product.getImage() : product.getCachedImage();
+        thumb.setTag(image);
         thumb.setOnClickListener(thumbListener);
 
         return convertView;

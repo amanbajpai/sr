@@ -5,8 +5,10 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -16,10 +18,7 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.ClaimTaskResponse;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
@@ -29,12 +28,19 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
 public class ClaimTaskManager implements NetworkOperationListenerInterface, ShowProgressDialogInterface {
+    private final OkHttpClient client = new OkHttpClient();
+
     private BaseActivity activity;
     private APIFacade apiFacade = APIFacade.getInstance();
     private AsyncQueryHandler handler;
@@ -49,6 +55,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
     private Task task;
     private String claimDialogDateTime;
+
+    private boolean instructionMediaLoaded;
+    private boolean massAuditMediaLoaded;
 
     public ClaimTaskManager(@NonNull BaseActivity activity, @NonNull Task task, ClaimTaskListener claimTaskListener) {
         this.activity = activity;
@@ -75,11 +84,14 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                 case QuestionDbSchema.Query.TOKEN_QUERY:
                     List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
                     List<Question> instructionQuestions = QuestionsBL.getInstructionQuestionList(questions);
+                    List<Question> massAuditQuestions = QuestionsBL.getMassAuditQuestionList(questions);
 
                     if (!instructionQuestions.isEmpty()) {
                         downloadInstructionQuestionFile(0, instructionQuestions);
-                    } else {
-                        apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
+                    }
+
+                    if (!massAuditQuestions.isEmpty()) {
+                        downloadMassAuditProductFile(massAuditQuestions);
                     }
 
                     break;
@@ -190,6 +202,113 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
     }
 
     /// ======================================================================================================== ///
+    /// ========================================== DOWNLOAD MEDIA ============================================== ///
+    /// ======================================================================================================== ///
+
+    public void downloadInstructionQuestionFile(final int startFrom, final List<Question> questions) {
+        final Question question = questions.get(startFrom);
+
+        String fileUrl = "";
+        FileProcessingManager.FileType fileType = null;
+        if (!TextUtils.isEmpty(question.getPhotoUrl())) {
+            fileUrl = question.getPhotoUrl();
+            fileType = FileProcessingManager.FileType.IMAGE;
+        } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
+            fileUrl = question.getVideoUrl();
+            fileType = FileProcessingManager.FileType.VIDEO;
+        }
+
+        if (!fileUrl.isEmpty() && fileType != null) {
+            fileProcessingManager.getFileByUrl(fileUrl, fileType, new FileProcessingManager.OnLoadFileListener() {
+                @Override
+                public void onStartFileLoading() {
+                    // nothing
+                }
+
+                @Override
+                public void onFileLoaded(File file) {
+                    QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getTaskId(),
+                            question.getMissionId(), question.getId(), file.getPath());
+
+                    if (questions.size() == startFrom + 1) {
+                        instructionMediaLoaded = true;
+                        tryToClaim();
+                    } else {
+                        downloadInstructionQuestionFile(startFrom + 1, questions);
+                    }
+                }
+
+                @Override
+                public void onFileLoadingError() {
+                    UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
+                    dismissProgressBar();
+                }
+            });
+        }
+    }
+
+    public void downloadMassAuditProductFile(final List<Question> questions) {
+        new LoadProductFilesAsyncTask(questions).execute();
+    }
+
+    private class LoadProductFilesAsyncTask extends AsyncTask<Void, Integer, Void> {
+        private final List<Question> questions;
+
+        public LoadProductFilesAsyncTask(List<Question> questions) {
+            this.questions = questions;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for (Question question : questions) {
+                for (Category category : question.getCategoriesArray()) {
+                    if (category.getProducts() == null) continue;
+                    for (Product product : category.getProducts()) {
+                        loadProductImage(product);
+                    }
+                }
+                QuestionsBL.updateQuestionCategories(question.getWaveId(), question.getTaskId(),
+                        question.getMissionId(), question.getId(), new Gson().toJson(question.getCategoriesArray()));
+            }
+
+            return null;
+        }
+
+        private void loadProductImage(Product product) {
+            if (!TextUtils.isEmpty(product.getImage())) {
+                try {
+                    Request request = new Request.Builder().url(product.getImage()).build();
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
+                        File resultFile = FileProcessingManager.getTempFile(fileType, null, true);
+                        FileUtils.copyInputStreamToFile(response.body().byteStream(), resultFile);
+
+                        product.setCachedImage(resultFile.getAbsolutePath());
+                    } else {
+                        UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
+                        dismissProgressBar();
+                    }
+                } catch (IOException e) {
+                    MyLog.logStackTrace(e);
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            massAuditMediaLoaded = true;
+            tryToClaim();
+        }
+    }
+
+    private void tryToClaim() {
+        if (instructionMediaLoaded && massAuditMediaLoaded) {
+            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+        }
+    }
+
+    /// ======================================================================================================== ///
     /// =============================================== DIALOGS ================================================ ///
     /// ======================================================================================================== ///
 
@@ -274,45 +393,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
         AnswersBL.removeAnswersByTaskId(activity, task.getId());
 
         claimTaskListener.onUnClaimed(task);
-    }
-
-    public void downloadInstructionQuestionFile(final int startFrom, final List<Question> questions) {
-        final Question question = questions.get(startFrom);
-
-        String fileUrl = "";
-        FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
-        if (!TextUtils.isEmpty(question.getPhotoUrl())) {
-            fileUrl = question.getPhotoUrl();
-        } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
-            fileUrl = question.getVideoUrl();
-            fileType = FileProcessingManager.FileType.VIDEO;
-        }
-
-        fileProcessingManager.getFileByUrl(fileUrl, fileType, new FileProcessingManager.OnLoadFileListener() {
-            @Override
-            public void onStartFileLoading() {
-
-            }
-
-            @Override
-            public void onFileLoaded(File file) {
-                QuestionsBL.updateInstructionFileUri(question.getWaveId(),
-                        question.getTaskId(), question.getMissionId(), question.getId(),
-                        file.getPath());
-
-                if (questions.size() == startFrom + 1) {
-                    apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
-                } else {
-                    downloadInstructionQuestionFile(startFrom + 1, questions);
-                }
-            }
-
-            @Override
-            public void onFileLoadingError() {
-                UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
-                dismissProgressBar();
-            }
-        });
     }
 
     @Override

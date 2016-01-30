@@ -1,13 +1,14 @@
 package com.ros.smartrocket.utils;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.TextUtils;
 import com.ros.smartrocket.BuildConfig;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
@@ -71,7 +72,7 @@ public class FileProcessingManager {
         return cacheDir;
     }
 
-    public File createSubDir(File baseDir, String newDirName) {
+    public static File createSubDir(File baseDir, String newDirName) {
         File newDir = new File(baseDir, newDirName);
 
         if (!newDir.exists()) {
@@ -80,7 +81,7 @@ public class FileProcessingManager {
         return newDir;
     }
 
-    public File getTempFile(FileType fileType, String fileName, boolean useExternalStorage) {
+    public static File getTempFile(FileType fileType, String fileName, boolean useExternalStorage) {
         File file = null;
         try {
             if (TextUtils.isEmpty(fileName)) {
@@ -98,99 +99,6 @@ public class FileProcessingManager {
             L.e(TAG, "Error get Temp File");
         }
         return file;
-    }
-
-    public File getRawRsourceAsFile(Activity activity, int resId, File fileToSave) {
-        if (!fileToSave.exists()) {
-            InputStream is;
-            OutputStream os;
-            try {
-                is = activity.getResources().openRawResource(resId);
-                os = new FileOutputStream(fileToSave);
-                copyStream(is, os);
-                os.close();
-            } catch (Exception e) {
-                L.e(TAG, "Error copyRsourceToFile: " + e);
-            }
-        }
-
-        return fileToSave;
-    }
-
-    public File saveBitmapToFile(Bitmap bitmap, String fileName, FileType fileType) {
-        File resultFile = getTempFile(fileType, fileName, true);
-
-        try {
-            FileOutputStream fos = new FileOutputStream(resultFile, false);
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-            fos.flush();
-            fos.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return resultFile;
-    }
-
-    public File saveStringToFile(String data, String fileName, FileType fileType) {
-        File resultFile = getTempFile(fileType, fileName, true);
-
-        try {
-            OutputStream fos = new FileOutputStream(resultFile);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            osw.write(data);
-            osw.close();
-
-            fos.flush();
-            fos.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return resultFile;
-    }
-
-    public void saveStreamToFile(InputStream is, File file) {
-        try {
-            OutputStream os = new FileOutputStream(file);
-
-            copyStream(is, os);
-            is.close();
-            os.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void copyAndCloseStream(InputStream is, OutputStream os) {
-        try {
-            copyStream(is, os);
-            is.close();
-            os.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public String getStringFromFile(File file) {
-        StringBuilder result = new StringBuilder();
-        try {
-            InputStream is = new FileInputStream(file);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is));
-
-            String line;
-
-            while ((line = r.readLine()) != null) {
-                result.append(line);
-            }
-
-            is.close();
-        } catch (Exception e) {
-            L.e(TAG, "Error getStringFromFile: " + file.getAbsolutePath());
-        }
-        return result.toString();
     }
 
     public void getFileByUrl(String url, FileType fileType, OnLoadFileListener loadFileListener) {
@@ -218,6 +126,7 @@ public class FileProcessingManager {
             }
         }
 
+        @Override
         protected File doInBackground(Void... v) {
             try {
                 URL imageUrl = new URL(url);
@@ -237,6 +146,7 @@ public class FileProcessingManager {
             return resultFile;
         }
 
+        @Override
         protected void onPostExecute(File file) {
             if (loadFileListener != null) {
                 if (file != null) {

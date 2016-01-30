@@ -77,7 +77,7 @@ public class Question extends BaseEntity implements Serializable {
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
-    // Mass Audit
+    // [START Mass Audit]
     @SkipFieldInContentValues
     @SerializedName("Categories")
     private Category[] categoriesArray;
@@ -92,6 +92,7 @@ public class Question extends BaseEntity implements Serializable {
     @SkipFieldInContentValues
     @SerializedName("Children")
     private Question[] childrenQuestions;
+    // [END Mass Audit]
 
     @SkipFieldInContentValues
     @SerializedName("AskIf")
