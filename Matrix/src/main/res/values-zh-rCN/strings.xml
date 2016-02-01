@@ -439,9 +439,8 @@
     <string name="logout_attention_dialog_cancel">取消</string>
     <string name="delete">Delete</string>
     <!-- ID CARDS -->
-    <string name="id_card_is_supported_dialog_title">职员证</string>
-    <string name="id_card_is_supported_dialog_text">这个任务需要你的职员证。\n\n请到「个人档案」更新你的姓名及相片。</string>
-    <string name="update_first_last_name_dialog_title">注意！每六个月才能更换姓名一次。</string>
+    <string name="update_first_last_name_dialog_title">名字只能够更改一次。因为部分项目需要展示电子队员证明，请使用实名。</string>
+    <string name="update_name_not_allowed">您已经修改了名字一次，不允许作出更多修改。请电邮到客服：support@smart-rocket.com。</string>
     <string name="update">更新</string>
     <string name="confirm">确认</string>
     <string name="dialog_first_name">名字（例如：小船）</string>
