@@ -19,6 +19,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.SelectImageManager;
 
 import java.io.File;
@@ -48,7 +49,13 @@ public final class ProductImageDialog extends DialogFragment {
         L.v("IMAGE", url);
         ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
-        ImageLoader.getInstance().getFileByUrlAsync(url, completeListener);
+        if (url != null) {
+            if (url.startsWith("http")) {
+                ImageLoader.getInstance().getFileByUrlAsync(url, completeListener);
+            } else {
+                setImageInstructionFile(new File(url));
+            }
+        }
 
         return view;
     }
@@ -67,6 +74,7 @@ public final class ProductImageDialog extends DialogFragment {
     };
 
     public void setImageInstructionFile(final File file) {
+        MyLog.v("ProductImageDialog.setImageInstructionFile", file);
         Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
         imageView.setImageBitmap(bitmap);
         imageView.setOnClickListener(new View.OnClickListener() {
