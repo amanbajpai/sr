@@ -114,15 +114,13 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode buildNumber + 10000
-        versionName '2.2.2'
+        versionName '2.2.3'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!((\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "(\"Production\".equals(FLAVOR) || \"ChinaProduction\".equals(FLAVOR))? VERSION_NAME : String.valueOf(VERSION_CODE)"
         buildConfigField "String", "JENKINS_BUILD_VERSION", "String.valueOf(" + buildNumber.toInteger() + ")"
-//        buildConfigField "String", "ANDROID_API_KEY", "\"AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI\""
         buildConfigField "String", "SERVER_API_KEY", "\"AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM\""
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
-//        buildConfigField "String", "SHARE_URL", "\"http://smart-rocket.com/crew/\""
 
         multiDexEnabled = true
 
