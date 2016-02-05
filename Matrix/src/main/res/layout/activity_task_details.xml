@@ -137,60 +137,15 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/map_piece_green"/>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/optionsLayout"
+            <com.ros.smartrocket.views.OptionsRow
+                android:id="@+id/taskDetailsOptionsRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:background="@color/green_light"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="5dp"
-                android:paddingTop="10dp">
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/taskPrice"
-                    style="@style/TaskAndWaveOptionStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/wallet_green"
-                    custom:textStyle="bold"/>
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/taskExp"
-                    style="@style/TaskAndWaveOptionStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.1"
-                    android:drawableLeft="@drawable/rocket_green"
-                    custom:textStyle="bold"/>
-                <View
-                    android:id="@+id/optionDivider"
-                    android:visibility="gone"
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/green_dark"/>
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/textQuestionsCount"
-                    android:visibility="gone"
-                    style="@style/TaskAndWaveOptionStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.17"
-                    android:drawableLeft="@drawable/quote_green"
-                    custom:textStyle="bold"/>
-                <com.ros.smartrocket.views.CustomTextView
-                    android:id="@+id/photoQuestionsCount"
-                    android:visibility="gone"
-                    style="@style/TaskAndWaveOptionStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
-                    android:drawableLeft="@drawable/camera_green"
-                    custom:textStyle="bold"/>
-            </LinearLayout>
+                android:paddingTop="10dp"/>
             <LinearLayout
                 android:id="@+id/addressLayout"
                 android:layout_width="match_parent"

@@ -27,9 +27,9 @@ import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.OptionsRow;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Activity for view Task detail information
@@ -47,10 +47,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Wave wave = new Wave();
 
     private ImageView mapImageView;
-    private TextView taskPrice;
-    private TextView taskExp;
-    private TextView textQuestionsCount;
-    private TextView photoQuestionsCount;
     private TextView taskDistance;
 
     private TextView statusTextView;
@@ -67,7 +63,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private LinearLayout descriptionLayout;
     private TextView taskAddress;
-    private View optionDivider;
 
     private TextView locationName;
     private TextView taskDescription;
@@ -89,7 +84,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout statusTimeLayout;
 
     private LinearLayout timeLayout;
-    private LinearLayout taskOptionsLayout;
+    private OptionsRow optionsRow;
 
     private TextView titleTextView;
     private View idCardView;
@@ -121,7 +116,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         statusTimeLayout = (LinearLayout) findViewById(R.id.statusTimeLayout);
 
         timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
-        taskOptionsLayout = (LinearLayout) findViewById(R.id.optionsLayout);
+        optionsRow = (OptionsRow) findViewById(R.id.taskDetailsOptionsRow);
 
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
         deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
@@ -135,13 +130,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         expireText = (TextView) findViewById(R.id.expireText);
         statusTimeText = (TextView) findViewById(R.id.statusTimeText);
 
-        taskPrice = (TextView) findViewById(R.id.taskPrice);
-        taskExp = (TextView) findViewById(R.id.taskExp);
-        textQuestionsCount = (TextView) findViewById(R.id.textQuestionsCount);
-        photoQuestionsCount = (TextView) findViewById(R.id.photoQuestionsCount);
         taskDistance = (TextView) findViewById(R.id.taskDistance);
-        optionDivider = findViewById(R.id.optionDivider);
-
         descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
 
         taskDescription = (TextView) findViewById(R.id.taskDescription);
@@ -227,11 +216,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         deadlineTimeText.setText(task.getIsMy() ? missionDueResId : R.string.deadline_time);
         expireText.setText(task.getIsMy() ? dueInResId : R.string.duration_time);
 
-        taskPrice.setText(UIUtils.getBalanceOrPrice(this, task.getPrice(), task.getCurrencySign(), null, null));
-        textQuestionsCount.setText(String.valueOf(task.getNoPhotoQuestionsCount()));
-        photoQuestionsCount.setText(String.valueOf(task.getPhotoQuestionsCount()));
-        taskExp.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-
+        optionsRow.setData(task);
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
         taskDescription.setText(task.getDescription());
 
@@ -395,15 +380,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     expireTextView.setTextColor(whiteColorResId);
                     statusTimeTextView.setTextColor(whiteColorResId);
 
-                    taskOptionsLayout.setBackgroundColor(violetDarkColorResId);
-                    optionDivider.setBackgroundColor(violetLightColorResId);
                     timeLayout.setBackgroundColor(violetColorResId);
                     buttonsLayout.setBackgroundColor(violetDarkColorResId);
-
-                    taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
-                    taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
-                    textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
-                    photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_violet, 0, 0, 0);
 
                     bookTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
                     startTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
@@ -413,82 +391,24 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                     continueTaskButton.setBackgroundResource(R.drawable.button_violet_selector);
 
                     mapImageView.setImageResource(R.drawable.map_piece_violet);
-                } else {
-                    taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
-                    optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
-
-                    taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                    taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-                    photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
                 }
                 break;
-            case PENDING:
-            case SCHEDULED:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.blue_light2));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.blue));
-
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_blue, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_blue, 0, 0, 0);
-                break;
             case COMPLETED:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.grey_dark));
-
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
-
                 mapImageView.setImageResource(R.drawable.map_piece_grey);
                 break;
             case VALIDATION:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.grey));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.grey_dark));
-
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_lightgrey, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_lightgrey, 0, 0, 0);
-
                 mapImageView.setImageResource(R.drawable.map_piece_grey);
                 break;
             case RE_DO_TASK:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.red));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.red_dark));
                 buttonsLayout.setBackgroundColor(getResources().getColor(R.color.red_dark));
-
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_red, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_red, 0, 0, 0);
-
                 mapImageView.setImageResource(R.drawable.map_piece_red);
                 break;
             case VALIDATED:
             case IN_PAYMENT_PROCESS:
             case PAID:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.orange));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.orange_dark));
-
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_gold, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_gold, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_gold, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_gold, 0, 0, 0);
-
                 mapImageView.setImageResource(R.drawable.map_piece_yellow);
                 break;
             case REJECTED:
-                taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.black_light));
-                optionDivider.setBackgroundColor(getResources().getColor(R.color.black));
-
-                taskPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_grey, 0, 0, 0);
-                taskExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_grey, 0, 0, 0);
-                textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_grey, 0, 0, 0);
-                photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_grey, 0, 0, 0);
-
                 mapImageView.setImageResource(R.drawable.map_piece_black);
                 break;
             default:
