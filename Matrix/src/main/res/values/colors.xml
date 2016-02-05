@@ -16,17 +16,13 @@
     <color name="red_dark">#a8232a</color>
     <color name="blue">#0157b4</color>
     <color name="blue_light">#3495ff</color>
-    <color name="blue_light2">#ff1577ff</color>
     <color name="yellow">#ffc73c</color>
     <color name="orange">#fbae42</color>
     <color name="orange_dark">#ffbf00</color>
-    <color name="orange_light">#ffffe253</color>
     <color name="violet">#4c1e8a</color>
     <color name="violet_dark">#320f61</color>
     <color name="violet_light">#7241b6</color>
     <color name="map_radius_stroke">#ca1f1f</color>
-    <color name="map_radius_fill">#07ff0033</color>
-    <!--<color name="white_transparence">#a9949494</color>-->
     <color name="black_transparency">#aa000000</color>
     <color name="notification_unread">#FFEEEC</color>
     <color name="id_card_border">#5B9CD6</color>
