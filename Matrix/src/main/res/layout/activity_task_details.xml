@@ -140,12 +140,8 @@
             <com.ros.smartrocket.views.OptionsRow
                 android:id="@+id/taskDetailsOptionsRow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"/>
+                android:layout_height="@dimen/options_row_on_details_screen_height"
+                android:layout_marginBottom="5dp"/>
             <LinearLayout
                 android:id="@+id/addressLayout"
                 android:layout_width="match_parent"

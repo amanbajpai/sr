@@ -26,4 +26,12 @@
     <color name="black_transparency">#aa000000</color>
     <color name="notification_unread">#FFEEEC</color>
     <color name="id_card_border">#5B9CD6</color>
+    <!-- icon colors -->
+    <color name="icon_blue">#3495ff</color>
+    <color name="icon_gold">#ffc73e</color>
+    <color name="icon_green">#bcdc5e</color>
+    <color name="icon_grey">#4f5051</color>
+    <color name="icon_grey_light">#f0f0f3</color>
+    <color name="icon_red">#fa5c63</color>
+    <color name="icon_violet">#7341b7</color>
 </resources>

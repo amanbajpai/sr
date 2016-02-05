@@ -102,10 +102,6 @@
         <com.ros.smartrocket.views.OptionsRow
             android:id="@+id/taskItemOptionsRow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"/>
+            android:layout_height="@dimen/options_row_in_list_item_height"/>
     </LinearLayout>
 </FrameLayout>

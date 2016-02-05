@@ -1,6 +1,8 @@
 package com.ros.smartrocket.views;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +22,9 @@ import java.util.Locale;
 import static com.ros.smartrocket.utils.UIUtils.getBalanceOrPrice;
 
 public final class OptionsRow extends LinearLayout {
+    private final static int TOP_BOTTOM_PADDING = 10;
+    private final static int LEFT_RIGHT_PADDING = 15;
+
     private final Context context;
 
     @Bind(R.id.optionsRowPrice)
@@ -28,6 +33,8 @@ public final class OptionsRow extends LinearLayout {
     TextView expTextView;
     @Bind(R.id.optionsRowLocations)
     TextView locationsTextView;
+    @Bind(R.id.optionsRowDuration)
+    TextView durationTextView;
 
     public OptionsRow(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -42,10 +49,15 @@ public final class OptionsRow extends LinearLayout {
 
         setOrientation(HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
+
+        int topBottomDp = UIUtils.getPxFromDp(context, TOP_BOTTOM_PADDING);
+        int leftRightDp = UIUtils.getPxFromDp(context, LEFT_RIGHT_PADDING);
+        setPadding(leftRightDp, 0, leftRightDp, 0);
     }
 
     public void setData(Task task) {
-        int colorResId;
+        int bgColorResId;
+        int iconColorResId;
         int priceResId;
         int expResId;
 
@@ -54,83 +66,102 @@ public final class OptionsRow extends LinearLayout {
             case CLAIMED:
             case STARTED:
                 if (TasksBL.isPreClaimTask(task)) {
-                    colorResId = R.color.violet;
+                    bgColorResId = R.color.violet;
+                    iconColorResId = R.color.icon_violet;
                     priceResId = R.drawable.wallet_violet;
                     expResId = R.drawable.rocket_violet;
                 } else {
-                    colorResId = R.color.green;
+                    bgColorResId = R.color.green;
+                    iconColorResId = R.color.icon_green;
                     priceResId = R.drawable.wallet_green;
                     expResId = R.drawable.rocket_green;
                 }
                 break;
             case SCHEDULED:
             case PENDING:
-                colorResId = R.color.blue;
+                bgColorResId = R.color.blue;
+                iconColorResId = R.color.icon_blue;
                 priceResId = R.drawable.wallet_blue;
                 expResId = R.drawable.rocket_blue;
                 break;
             case COMPLETED:
-                colorResId = R.color.grey;
+                bgColorResId = R.color.grey;
+                iconColorResId = R.color.icon_grey;
                 priceResId = R.drawable.wallet_grey;
                 expResId = R.drawable.rocket_grey;
                 break;
             case VALIDATION:
-                colorResId = R.color.grey;
+                bgColorResId = R.color.grey;
+                iconColorResId = R.color.icon_grey_light;
                 priceResId = R.drawable.wallet_lightgrey;
                 expResId = R.drawable.rocket_lightgrey;
                 break;
             case RE_DO_TASK:
-                colorResId = R.color.red_dark;
+                bgColorResId = R.color.red_dark;
+                iconColorResId = R.color.icon_red;
                 priceResId = R.drawable.wallet_red;
                 expResId = R.drawable.rocket_red;
                 break;
             case VALIDATED:
             case IN_PAYMENT_PROCESS:
             case PAID:
-                colorResId = R.color.orange;
+                bgColorResId = R.color.orange;
+                iconColorResId = R.color.icon_gold;
                 priceResId = R.drawable.wallet_gold;
                 expResId = R.drawable.rocket_gold;
                 break;
             case REJECTED:
-                colorResId = R.color.black_light;
+                bgColorResId = R.color.black_light;
+                iconColorResId = R.color.icon_grey;
                 priceResId = R.drawable.wallet_grey;
                 expResId = R.drawable.rocket_grey;
                 break;
             default:
-                colorResId = R.color.green;
+                bgColorResId = R.color.green;
+                iconColorResId = R.color.icon_green;
                 priceResId = R.drawable.wallet_green;
                 expResId = R.drawable.rocket_green;
                 break;
         }
 
-        setBackgroundColor(getResources().getColor(colorResId));
+        setBackgroundColor(getResources().getColor(bgColorResId));
 
         priceTextView.setCompoundDrawablesWithIntrinsicBounds(priceResId, 0, 0, 0);
         priceTextView.setText(getBalanceOrPrice(task.getPrice(), task.getCurrencySign()));
 
         expTextView.setCompoundDrawablesWithIntrinsicBounds(expResId, 0, 0, 0);
         expTextView.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
+
+        Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
+        if (drawable != null) {
+            drawable.setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
+            durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        }
+        durationTextView.setText("1 hour");
     }
 
     public void setData(Wave wave, boolean isWaveDetails) {
-        int colorResId;
+        int bgColorResId;
         int priceResId;
-        int locationResId;
         int expResId;
+        int locationResId;
+        int iconColorResId;
 
         if (WavesBL.isPreClaimWave(wave)) {
-            colorResId = isWaveDetails ? R.color.violet_dark : R.color.violet;
+            bgColorResId = isWaveDetails ? R.color.violet_dark : R.color.violet;
             priceResId = R.drawable.wallet_violet;
             expResId = R.drawable.rocket_violet;
             locationResId = R.drawable.location_violet;
+            iconColorResId = R.color.icon_violet;
         } else {
-            colorResId = isWaveDetails ? R.color.green_light : R.color.green;
+            bgColorResId = isWaveDetails ? R.color.green_light : R.color.green;
             priceResId = R.drawable.wallet_green;
             expResId = R.drawable.rocket_green;
             locationResId = R.drawable.location_green;
+            iconColorResId = R.color.icon_green;
         }
 
-        setBackgroundColor(getResources().getColor(colorResId));
+        setBackgroundColor(getResources().getColor(bgColorResId));
 
         if (isWaveDetails) {
             priceTextView.setText(UIUtils.getBalanceOrPrice(wave.getNearTaskPrice(), wave.getNearTaskCurrencySign()));
@@ -148,5 +179,12 @@ public final class OptionsRow extends LinearLayout {
         locationsTextView.setVisibility(VISIBLE);
         locationsTextView.setText(String.valueOf(wave.getTaskCount()));
         locationsTextView.setCompoundDrawablesWithIntrinsicBounds(locationResId, 0, 0, 0);
+
+        Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
+        if (drawable != null) {
+            drawable.setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
+            durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        }
+        durationTextView.setText("1 hour");
     }
 }
