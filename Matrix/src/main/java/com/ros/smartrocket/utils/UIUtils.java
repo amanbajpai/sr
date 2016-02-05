@@ -707,12 +707,10 @@ public class UIUtils {
     /**
      * Return price in right format
      *
-     * @param context - current context
      * @param balance - current balance
      * @return String
      */
-    public static String getBalanceOrPrice(Context context, Double balance, String symbol, Integer precision,
-                                           Integer roundingMode) {
+    public static String getBalanceOrPrice(Double balance, String symbol, Integer precision, Integer roundingMode) {
         String result = null;
         if (balance != null && precision != null && roundingMode != null) {
             Double roundedBalance = round(balance, precision, roundingMode);
@@ -723,15 +721,17 @@ public class UIUtils {
             result = symbol + " " + balance;
         }
 
-        /*String balanceString = String.valueOf(balance);
-        int countAfterPoint = balanceString.substring(balanceString.lastIndexOf(".")+1,
-                balanceString.length()).length();
-        if (countAfterPoint > 0) {
-            result = result + String.format(Locale.US, "%.2f", balance);
-        } else {
-            result = result + String.format(Locale.US, "%.0f", balance);
-        }*/
         return result;
+    }
+
+    /**
+     * Return price in right format
+     *
+     * @param balance - current balance
+     * @return String
+     */
+    public static String getBalanceOrPrice(Double balance, String symbol) {
+        return getBalanceOrPrice(balance, symbol, null, null);
     }
 
     public static void setActionBarBackground(ActionBarActivity activity, int statusId, boolean isPreclaim) {

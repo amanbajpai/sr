@@ -2,19 +2,26 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
     <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/optionsPrice"
+        android:id="@+id/optionsRowPrice"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableLeft="@drawable/wallet_green"
         custom:textStyle="bold"/>
     <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/optionsExp"
+        android:id="@+id/optionsRowExp"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.1"
-        android:drawableLeft="@drawable/rocket_green"
+        custom:textStyle="bold"/>
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/optionsRowLocations"
+        style="@style/TaskAndWaveOptionStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.2"
+        android:textSize="@dimen/text_size_12sp"
+        android:visibility="gone"
         custom:textStyle="bold"/>
 </merge>

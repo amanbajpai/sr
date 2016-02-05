@@ -10,18 +10,24 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
 
+import static com.ros.smartrocket.utils.UIUtils.getBalanceOrPrice;
+
 public final class OptionsRow extends LinearLayout {
     private final Context context;
 
-    @Bind(R.id.optionsPrice)
+    @Bind(R.id.optionsRowPrice)
     TextView priceTextView;
-    @Bind(R.id.optionsExp)
+    @Bind(R.id.optionsRowExp)
     TextView expTextView;
+    @Bind(R.id.optionsRowLocations)
+    TextView locationsTextView;
 
     public OptionsRow(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -100,9 +106,47 @@ public final class OptionsRow extends LinearLayout {
         setBackgroundColor(getResources().getColor(colorResId));
 
         priceTextView.setCompoundDrawablesWithIntrinsicBounds(priceResId, 0, 0, 0);
-        priceTextView.setText(UIUtils.getBalanceOrPrice(context, task.getPrice(), task.getCurrencySign(), null, null));
+        priceTextView.setText(getBalanceOrPrice(task.getPrice(), task.getCurrencySign()));
 
         expTextView.setCompoundDrawablesWithIntrinsicBounds(expResId, 0, 0, 0);
         expTextView.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
+    }
+
+    public void setData(Wave wave, boolean isWaveDetails) {
+        int colorResId;
+        int priceResId;
+        int locationResId;
+        int expResId;
+
+        if (WavesBL.isPreClaimWave(wave)) {
+            colorResId = isWaveDetails ? R.color.violet_dark : R.color.violet;
+            priceResId = R.drawable.wallet_violet;
+            expResId = R.drawable.rocket_violet;
+            locationResId = R.drawable.location_violet;
+        } else {
+            colorResId = isWaveDetails ? R.color.green_light : R.color.green;
+            priceResId = R.drawable.wallet_green;
+            expResId = R.drawable.rocket_green;
+            locationResId = R.drawable.location_green;
+        }
+
+        setBackgroundColor(getResources().getColor(colorResId));
+
+        if (isWaveDetails) {
+            priceTextView.setText(UIUtils.getBalanceOrPrice(wave.getNearTaskPrice(), wave.getNearTaskCurrencySign()));
+        } else {
+            priceTextView.setText(getBalanceOrPrice(wave.getRate(), wave.getNearTaskCurrencySign()));
+            if (wave.isContainsDifferentRate()) {
+                priceTextView.append("+");
+            }
+        }
+        priceTextView.setCompoundDrawablesWithIntrinsicBounds(priceResId, 0, 0, 0);
+
+        expTextView.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
+        expTextView.setCompoundDrawablesWithIntrinsicBounds(expResId, 0, 0, 0);
+
+        locationsTextView.setVisibility(VISIBLE);
+        locationsTextView.setText(String.valueOf(wave.getTaskCount()));
+        locationsTextView.setCompoundDrawablesWithIntrinsicBounds(locationResId, 0, 0, 0);
     }
 }

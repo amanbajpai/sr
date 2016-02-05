@@ -38,8 +38,6 @@ import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.*;
 
 public class MapHelper {
@@ -202,7 +200,7 @@ public class MapHelper {
         UIUtils.showWaveTypeIcon(activity, typeIcon, task.getIcon());
 
         title.setText(task.getName());
-        priceText.setText(UIUtils.getBalanceOrPrice(activity, task.getPrice(), task.getCurrencySign(), null, null));
+        priceText.setText(UIUtils.getBalanceOrPrice(task.getPrice(), task.getCurrencySign()));
         pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
         distanceText.setText(UIUtils.convertMToKm(activity, getDistanceToTask(task),
                 R.string.map_popup_distance, false));

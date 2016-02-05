@@ -25,8 +25,7 @@ import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
-
-import java.util.Locale;
+import com.ros.smartrocket.views.OptionsRow;
 
 /**
  * Activity for view Task detail information
@@ -42,13 +41,7 @@ public class WaveDetailsActivity extends BaseActivity implements
     private Wave wave;
     private Task nearTask = new Task();
 
-    private View actionBarView;
     private TextView titleTextView;
-    private TextView projectPrice;
-    private TextView projectExp;
-    private TextView projectLocations;
-    private TextView textQuestionsCount;
-    private TextView photoQuestionsCount;
 
     private LinearLayout descriptionLayout;
     private TextView projectDescription;
@@ -58,12 +51,11 @@ public class WaveDetailsActivity extends BaseActivity implements
     private Button hideAllTasksButton;
     private Button showAllTasksButton;
 
-    private View optionDivider;
     private ImageView mapImageView;
 
-    private LinearLayout timeLayout;
-    private LinearLayout taskOptionsLayout;
+    private OptionsRow optionsRow;
     private LinearLayout buttonsLayout;
+    private LinearLayout timeLayout;
 
     private TextView startTimeTextView;
     private TextView deadlineTimeTextView;
@@ -76,9 +68,6 @@ public class WaveDetailsActivity extends BaseActivity implements
     private TextView showMissionMapText;
 
     private CustomProgressDialog progressDialog;
-
-    public WaveDetailsActivity() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,9 +87,8 @@ public class WaveDetailsActivity extends BaseActivity implements
         handler = new DbHandler(getContentResolver());
 
         timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
-        taskOptionsLayout = (LinearLayout) findViewById(R.id.optionsLayout);
+        optionsRow = (OptionsRow) findViewById(R.id.waveDetailsOptionsRow);
         buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
-        optionDivider = findViewById(R.id.optionDivider);
 
         startTimeText = (TextView) findViewById(R.id.startTimeText);
         deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
@@ -111,12 +99,6 @@ public class WaveDetailsActivity extends BaseActivity implements
         expireTextView = (TextView) findViewById(R.id.expireTextView);
 
         showMissionMapText = (TextView) findViewById(R.id.showMissionMapText);
-
-        projectPrice = (TextView) findViewById(R.id.projectPrice);
-        projectExp = (TextView) findViewById(R.id.projectExp);
-        projectLocations = (TextView) findViewById(R.id.projectLocations);
-        textQuestionsCount = (TextView) findViewById(R.id.textQuestionsCount);
-        photoQuestionsCount = (TextView) findViewById(R.id.photoQuestionsCount);
 
         descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
         projectDescription = (TextView) findViewById(R.id.projectDescription);
@@ -203,16 +185,9 @@ public class WaveDetailsActivity extends BaseActivity implements
         startTimeTextView.setText(UIUtils.longToString(wave.getLongStartDateTime(), 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
-
-        projectPrice.setText(UIUtils.getBalanceOrPrice(this, wave.getNearTaskPrice(), wave.getNearTaskCurrencySign(),
-                null, null));
-        projectExp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
-        projectLocations.setText(String.valueOf(wave.getTaskCount()));
-        textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
-        photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
+        optionsRow.setData(wave, true);
 
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
-
         setColorTheme(wave);
     }
 
@@ -261,38 +236,20 @@ public class WaveDetailsActivity extends BaseActivity implements
 
             showMissionMapText.setTextColor(violetLightColorResId);
 
-            taskOptionsLayout.setBackgroundColor(violetDarkColorResId);
-            optionDivider.setBackgroundColor(violetLightColorResId);
             timeLayout.setBackgroundColor(violetColorResId);
             buttonsLayout.setBackgroundColor(violetDarkColorResId);
-
-            projectPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
-            projectExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
-            projectLocations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_violet, 0, 0, 0);
-            textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
-            photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_violet, 0, 0, 0);
 
             claimNearTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
             hideAllTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
             showAllTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
 
             mapImageView.setImageResource(R.drawable.map_piece_violet);
-        } else {
-            taskOptionsLayout.setBackgroundColor(getResources().getColor(R.color.green_light));
-            optionDivider.setBackgroundColor(getResources().getColor(R.color.green_dark));
-
-            projectPrice.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-            projectExp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-            projectLocations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_green, 0, 0, 0);
-            textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-            photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
         }
-
     }
 
     @Override
     public void onClaimed(Task task) {
-
+        // nothing
     }
 
     @Override
@@ -360,7 +317,7 @@ public class WaveDetailsActivity extends BaseActivity implements
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        actionBarView = actionBar.getCustomView();
+        View actionBarView = actionBar.getCustomView();
 
         if (nearTask != null) {
             titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
