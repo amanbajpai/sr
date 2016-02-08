@@ -1,15 +1,12 @@
 <!-- Comment not used resources -->
 <resources>
     <!-- Common text size -->
-    <!-- <dimen name="text_size_micro">12sp</dimen>-->
     <dimen name="text_size_small">13sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
-
     <dimen name="text_size_8sp">8sp</dimen>
     <dimen name="text_size_9sp">9sp</dimen>
     <dimen name="text_size_11sp">11sp</dimen>
     <dimen name="text_size_12sp">12sp</dimen>
-    <!--<dimen name="text_size_13sp">13sp</dimen>-->
     <dimen name="text_size_13p6sp">13.6sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
     <dimen name="text_size_15sp">15sp</dimen>
@@ -17,7 +14,6 @@
     <dimen name="text_size_17sp">17sp</dimen>
     <dimen name="text_size_18sp">18sp</dimen>
     <dimen name="text_size_20sp">20sp</dimen>
-    <dimen name="text_size_22sp">22sp</dimen>
     <dimen name="text_size_26sp">26sp</dimen>
     <dimen name="text_size_34sp">34sp</dimen>
     <dimen name="text_size_44sp">44sp</dimen>
@@ -30,13 +26,12 @@
     <!-- Photo Question gallery -->
     <dimen name="item_width">65dp</dimen>
     <dimen name="item_height">65dp</dimen>
-    <dimen name="item_frame_width">55dp</dimen>
-    <dimen name="item_frame_height">55dp</dimen>
-    <dimen name="spacing">10dp</dimen>
-
     <integer name="max_video_file_size_byte">90000000</integer>
 
     <!-- Layout -->
     <dimen name="buttons_margin">10dp</dimen>
     <dimen name="mass_audit_image_size">40dp</dimen>
+    <!-- Options Row -->
+    <dimen name="options_row_in_list_item_height">32dp</dimen>
+    <dimen name="options_row_on_details_screen_height">42dp</dimen>
 </resources>

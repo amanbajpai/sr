@@ -57,7 +57,6 @@
     <string name="share">Share</string>
     <string name="rocket_points">Rocket Points</string>
     <string name="level_name">Rank</string>
-    <string name="earnings">Earnings</string>
     <string name="logout">Logout</string>
     <string name="level_0">0</string>
     <string name="balance_0">0$</string>
@@ -104,7 +103,6 @@
     <string name="reminder">Reminder</string>
     <string name="deadline_warning">Mission deadline warning</string>
     <string name="app_version">Application version</string>
-    <string name="confirm_and_save_big">APPLY</string>
     <string name="unlimited">Unlimited</string>
     <string name="term_and_conditions"><u>TERMS &amp; CONDITIONS</u></string>
     <string name="term_and_conditions_title">Terms &amp; Conditions</string>
@@ -134,10 +132,8 @@
     <string name="status">STATUS: </string>
     <string name="deadline_time">DEADLINE: </string>
     <string name="mission_due">MISSION DUE: </string>
-    <string name="mission_due_pre_claim">(Pre-claim) DUE: </string>
     <string name="duration_time">EXPIRY: </string>
     <string name="due_in">DUE IN: </string>
-    <string name="due_in_pre_claim"> (Pre-claim) DUE IN: </string>
     <string name="mission_address">MISSION ADDRESS</string>
     <string name="no_mission_address">This mission has not preset location</string>
     <string name="full_description">MISSION DESCRIPTION</string>
@@ -206,8 +202,6 @@
     <string name="start_later">Start later</string>
     <string name="start_now">Start now</string>
     <string name="book_task_success_dialog_cancel">Cancel</string>
-    <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
-    <string name="pre_claim_task_success_dialog_title">Mission pre-claimed</string>
     <!-- GCM -->
     <string name="gcm_registered">From GCM: device successfully registered!</string>
     <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>
@@ -217,7 +211,6 @@
     <!-- Google Map Fragment -->
     <string name="map_popup_distance">%1$s %2$s</string>
     <!-- Current Location -->
-    <string name="looking_for_location">Checking your current location&#8230;</string>
     <string name="current_location_not_defined">Unable to confirm your current location. Please try again.</string>
     <!-- Select image dialog -->
     <string name="take_picture">Choose picture</string>
@@ -432,14 +425,7 @@
     <string name="cashing_out_update_payment_details_3_lines">Update\nPayment\nDetails</string>
     <string name="hint_your_registered_alipay_acc_name">Your registered AliPay account name</string>
     <string name="hint_your_registered_alipay_phone_or_email">Your registered AliPay ID \n(mobile number or email)</string>
-    <string name="hint_your_registered_alipay_phone">Your registered AliPay mobile number</string>
-    <string name="update_payment_details_click_to_obtain_sms">Click to receive SMS code</string>
     <string name="update_payment_details_save_and_close">Save and Close</string>
-    <string name="save_and_close">Save and Close</string>
-    <string name="update_payment_text">To Cash Out your Balance you must enter a valid AliPay account name and mobile phone number and confirm with an SMS code. You can edit these at any time</string>
-    <string name="hint_enter_sms_code">Enter code</string>
-    <string name="update_alipay_wait_for_sms">You will receive an SMS with a code within 1-10 minutes. Please enter this code into the appropriate field</string>
-    <string name="required_field">Required field</string>
     <string name="update_payment_text_header">\tTo Cash Out your Balance you must enter-\n1) Your AliPay real name\n2) A valid AliPay account ID (this should be a mobile number or email address)\n\tYou can edit these at any time</string>
     <string name="enter_valid_alipay_username">Enter valid AliPay username.</string>
     <string name="enter_valid_email_phone">Enter valid email or phone number.</string>
@@ -451,11 +437,6 @@
         To submit this mission, please connect to a WiFi network or change your settings to allow 3G/4G sending –
         and then open the Mission again and click “Submit Now”.</string>
     <string name="turn_on_wifi_dialog_ok">OK</string>
-    <!-- AGE VERIFICATION DIALOG -->
-    <string name="logout_attention_dialog_text">A mission is currently being sent to the server.
-        If you logout now, the transfer will stop and will continue when you next log in</string>
-    <string name="logout_attention_dialog_logout">Log Out</string>
-    <string name="logout_attention_dialog_cancel">Cancel</string>
     <!-- NUMBERS -->
     <string name="key_one">1</string>
     <string name="key_two">2</string>
@@ -469,8 +450,6 @@
     <string name="key_zero">0</string>
     <string name="key_dot">.</string>
     <string name="key_backspace">&lt;--</string>
-    <string name="test_push">Test Push Notification</string>
-    <string name="allow_push">Allow Push notif</string>
     <string name="delete">Delete</string>
     <string name="new_push_notifications_header">New SmartRocket notifications</string>
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
@@ -487,4 +466,5 @@
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">Identification Card</string>
     <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
+    <string name="approx_mission_duration">"%dm"</string>
 </resources>

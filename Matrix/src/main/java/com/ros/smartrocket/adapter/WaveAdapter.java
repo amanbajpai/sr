@@ -1,7 +1,6 @@
 package com.ros.smartrocket.adapter;
 
 import android.app.Activity;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.OptionsRow;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
+import static android.text.Html.fromHtml;
+import static java.lang.String.format;
 
 public class WaveAdapter extends BaseAdapter {
     private Activity activity;
@@ -29,14 +30,8 @@ public class WaveAdapter extends BaseAdapter {
         private LinearLayout listItem;
         private TextView name;
         private ImageView image;
-        private TextView locations;
-        private TextView price;
-        private TextView exp;
         private TextView statusText;
-        private TextView textQuestionsCount;
-        private TextView photoQuestionsCount;
-        private LinearLayout optionLayout;
-        private View optionDivider;
+        private OptionsRow optionsRow;
     }
 
     public WaveAdapter(Activity activity) {
@@ -44,14 +39,17 @@ public class WaveAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(activity);
     }
 
+    @Override
     public int getCount() {
         return items.size();
     }
 
+    @Override
     public Wave getItem(int position) {
         return items.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -61,85 +59,43 @@ public class WaveAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        ViewHolder vh;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item_wave, null);
-            holder = new ViewHolder();
+            vh = new ViewHolder();
 
-            holder.listItem = (LinearLayout) convertView.findViewById(R.id.listItem);
+            vh.listItem = (LinearLayout) convertView.findViewById(R.id.listItem);
+            vh.name = (TextView) convertView.findViewById(R.id.name);
+            vh.image = (ImageView) convertView.findViewById(R.id.image);
+            vh.statusText = (TextView) convertView.findViewById(R.id.statusText);
+            vh.optionsRow = (OptionsRow) convertView.findViewById(R.id.waveItemOptionsRow);
 
-            holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.image = (ImageView) convertView.findViewById(R.id.image);
-            holder.locations = (TextView) convertView.findViewById(R.id.locations);
-            holder.price = (TextView) convertView.findViewById(R.id.price);
-            holder.exp = (TextView) convertView.findViewById(R.id.exp);
-            holder.statusText = (TextView) convertView.findViewById(R.id.statusText);
-            holder.textQuestionsCount = (TextView) convertView.findViewById(R.id.textQuestionsCount);
-            holder.photoQuestionsCount = (TextView) convertView.findViewById(R.id.photoQuestionsCount);
-
-            holder.optionLayout = (LinearLayout) convertView.findViewById(R.id.optionLayout);
-            holder.optionDivider = convertView.findViewById(R.id.optionDivider);
-
-            convertView.setTag(holder);
+            convertView.setTag(vh);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            vh = (ViewHolder) convertView.getTag();
         }
 
         Wave wave = items.get(position);
 
-        holder.name.setText(wave.getName());
-        UIUtils.showWaveTypeIcon(activity, holder.image, wave.getIcon());
-        holder.locations.setText(String.valueOf(wave.getTaskCount()));
-        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getRate(),
-                wave.getNearTaskCurrencySign(), null, null));
-//        holder.price.setText(UIUtils.getBalanceOrPrice(activity, wave.getNearTaskPrice(),
-//                wave.getNearTaskCurrencySign(), null, null));
-        if (wave.isContainsDifferentRate()) {
-            holder.price.append("+");
-        }
+        vh.name.setText(wave.getName());
+        UIUtils.showWaveTypeIcon(activity, vh.image, wave.getIcon());
+        vh.optionsRow.setData(wave, false);
 
-        holder.exp.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
-
-        Spanned distance = Html.fromHtml(UIUtils.convertMToKm(activity, wave.getNearTaskDistance(),
-                R.string.m_to_km_with_text_mask, true));
-
-        holder.statusText.setText(Html.fromHtml(String.format(activity.getString(R.string.distance_to_nearest_location),
-                distance)));
-
-        holder.textQuestionsCount.setText(String.valueOf(wave.getNoPhotoQuestionsCount()));
-        holder.photoQuestionsCount.setText(String.valueOf(wave.getPhotoQuestionsCount()));
+        Spanned distance = fromHtml(
+                UIUtils.convertMToKm(activity, wave.getNearTaskDistance(), R.string.m_to_km_with_text_mask, true));
+        vh.statusText.setText(fromHtml(format(activity.getString(R.string.distance_to_nearest_location), distance)));
 
         if (WavesBL.isPreClaimWave(wave)) {
-            holder.listItem.setBackgroundResource(R.drawable.mission_violet_bg);
-
-            holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
-            holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-
-            holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.violet));
-            holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.violet_light));
-
-            holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
-            holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
-            holder.locations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_violet, 0, 0, 0);
-            holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_violet, 0, 0, 0);
-            holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_violet, 0, 0, 0);
+            vh.listItem.setBackgroundResource(R.drawable.mission_violet_bg);
+            vh.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
+            vh.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
         } else {
-            holder.listItem.setBackgroundResource(R.drawable.mission_green_bg);
-
-            holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
-            holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-
-            holder.optionLayout.setBackgroundColor(activity.getResources().getColor(R.color.green));
-            holder.optionDivider.setBackgroundColor(activity.getResources().getColor(R.color.green_light));
-
-            holder.price.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-            holder.exp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-            holder.locations.setCompoundDrawablesWithIntrinsicBounds(R.drawable.location_green, 0, 0, 0);
-            holder.textQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.quote_green, 0, 0, 0);
-            holder.photoQuestionsCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.camera_green, 0, 0, 0);
+            vh.listItem.setBackgroundResource(R.drawable.mission_green_bg);
+            vh.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
+            vh.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
         }
-
 
         return convertView;
     }

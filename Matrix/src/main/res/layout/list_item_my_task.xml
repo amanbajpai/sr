@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UselessParent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/listItem"
         android:layout_width="match_parent"
@@ -97,58 +99,9 @@
             android:padding="8dp"
             android:textSize="@dimen/text_size_13p6sp"
             custom:textStyle="bold"/>
-        <LinearLayout
-            android:id="@+id/optionLayout"
+        <com.ros.smartrocket.views.OptionsRow
+            android:id="@+id/taskItemOptionsRow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/green_light"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp">
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/taskPrice"
-                style="@style/TaskAndWaveOptionStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/wallet_green"
-                custom:textStyle="bold"/>
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/taskExp"
-                style="@style/TaskAndWaveOptionStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.2"
-                android:drawableLeft="@drawable/rocket_green"
-                custom:textStyle="bold"/>
-            <View
-                android:visibility="gone"
-                android:id="@+id/optionDivider"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:background="@color/green_dark"/>
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/textQuestionsCount"
-                android:visibility="gone"
-                style="@style/TaskAndWaveOptionStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.3"
-                android:drawableLeft="@drawable/quote_green"
-                custom:textStyle="bold"/>
-            <com.ros.smartrocket.views.CustomTextView
-                android:id="@+id/photoQuestionsCount"
-                android:visibility="gone"
-                style="@style/TaskAndWaveOptionStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.3"
-                android:drawableLeft="@drawable/camera_green"
-                custom:textStyle="bold"/>
-        </LinearLayout>
+            android:layout_height="@dimen/options_row_in_list_item_height"/>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

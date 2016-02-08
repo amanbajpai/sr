@@ -54,7 +54,6 @@
     <string name="share">分享</string>
     <string name="rocket_points">飞船里数</string>
     <string name="level_name">等级</string>
-    <string name="earnings">縂收入</string>
     <string name="logout">离开</string>
     <string name="level_0">0</string>
     <string name="balance_0">0$</string>
@@ -98,7 +97,6 @@
     <string name="reminder">提示</string>
     <string name="deadline_warning">任务到期提示</string>
     <string name="app_version">应用程序版本</string>
-    <string name="confirm_and_save_big">应用</string>
     <string name="unlimited">无限</string>
     <string name="term_and_conditions"><u>使用协议和条款</u></string>
     <string name="term_and_conditions_title">使用协议和条款</string>
@@ -128,10 +126,8 @@
     <string name="status">状况： </string>
     <string name="deadline_time">期限：</string>
     <string name="mission_due">任务到期： </string>
-    <string name="mission_due_pre_claim">（优先认领）任务到期： </string>
     <string name="duration_time">到期： </string>
     <string name="due_in">任务剩余时间： </string>
-    <string name="due_in_pre_claim">（优先认领）剩余时间： </string>
     <string name="mission_address">任务地址</string>
     <string name="no_mission_address">这个任务没有预设位置</string>
     <string name="full_description">任务简介</string>
@@ -194,8 +190,6 @@
     <string name="start_later">稍后开始</string>
     <string name="start_now">现在开始</string>
     <string name="book_task_success_dialog_cancel">取消认领</string>
-    <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
-    <string name="pre_claim_task_success_dialog_title">成功预先认领任务</string>
     <!-- GCM -->
     <string name="gcm_registered">GCM发出：设备成功注册！</string>
     <string name="gcm_unregistered">GCM发出：设备成功取消注册！</string>
@@ -205,7 +199,6 @@
     <!-- Google Map Fragment -->
     <string name="map_popup_distance">%1$s %2$s</string>
     <!-- Current Location -->
-    <string name="looking_for_location">查看您目前的地点&#8230;</string>
     <string name="current_location_not_defined">无法确认您目前的位置。请再试一次。</string>
     <!-- Select image dialog -->
     <string name="take_picture">头像拍摄</string>
@@ -287,8 +280,6 @@
         如果您只使用无线上网(WI-FI)，您可以在“我的任务”里找到这个任务，直到任务成功提交或过期。</string>
     <string name="tree_g_limit_exceeded_dialog_yes">现在以3G提交</string>
     <string name="tree_g_limit_exceeded_dialog_only_wifi">稍后提交</string>
-    <!-- Not uploaded file notification-->
-    <string name="file_waiting_to_upload">档案正在等候上载。</string>
     <!-- NOTIFICATION STATUS TEXT -->
     <!-- Photo can not be added -->
     <string name="add_photo_error_title">上载照片错误。</string>
@@ -405,18 +396,10 @@
     <string name="cashing_out_are_you_sure">您是否肯定进行余额提款？</string>
     <string name="cashing_out_continue">继续</string>
     <string name="cashing_out_success">提款处理中，款项将会于今天完结的时候转账到您所提名的在线账户。</string>
-
     <string name="cashing_out_update_payment_details_3_lines">更新提现信息</string>
     <string name="cashing_out_payment_details">提现信息</string>
     <string name="cashing_out_payment_in_progress">目前还有 %1$s 的款项在处理中</string>
     <string name="hint_your_registered_alipay_acc_name">支付宝账户实名</string>
-    <string name="hint_your_registered_alipay_phone">支付宝账号的手机号吗</string>
-    <string name="update_payment_details_click_to_obtain_sms">点击获取验证码短信</string>
-    <string name="save_and_close">储存并关闭</string>
-    <string name="update_payment_text">提现前，请输入您的支付宝账户实名和手机号吗，进行短信验证。提现信息能夠随时作出修改。</string>
-    <string name="hint_enter_sms_code">输入验证码</string>
-    <string name="update_alipay_wait_for_sms">在十分钟内，将收到验证码短信。收到后，请输入验证码。</string>
-    <string name="required_field">此项为必填的</string>
     <string name="alipay_account_integrated_successfully">支付宝账户连接成功!!</string>
     <string name="fetching_alipay_account_info">处理支付宝账户信息中...</string>
 
@@ -432,11 +415,6 @@
     <string name="turn_on_wifi_dialog_text1">任务暂时未能提交。请回到有无线上网(Wifi)覆盖的范围，
         或前往设定取消“必须使用无线上网传送数据”，然后前往“我的任务”再次尝试提交这个任务。</string>
     <string name="turn_on_wifi_dialog_ok">继续</string>
-    <!-- AGE VERIFICATION DIALOG -->
-    <string name="logout_attention_dialog_title">注意！</string>
-    <string name="logout_attention_dialog_text">任务正在发送。如果现在离开，发送将暂停，下次登录才继续。</string>
-    <string name="logout_attention_dialog_logout">登出</string>
-    <string name="logout_attention_dialog_cancel">取消</string>
     <string name="delete">Delete</string>
     <!-- ID CARDS -->
     <string name="update_first_last_name_dialog_title">名字只能够更改一次。因为部分项目需要展示电子队员证明，请使用实名。</string>

@@ -88,7 +88,7 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
             minBalance.setVisibility(View.VISIBLE);
             minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
-                    UIUtils.getBalanceOrPrice(getActivity(), myAccount.getMinimalWithdrawAmount(),
+                    UIUtils.getBalanceOrPrice(myAccount.getMinimalWithdrawAmount(),
                             myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN)
             ));
         }
@@ -96,12 +96,11 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         if (myAccount.getInPaymentProcess() > 0) {
             paymentInProgress.setVisibility(View.VISIBLE);
             paymentInProgress.setText(getActivity().getString(R.string.cashing_out_payment_in_progress,
-                    UIUtils.getBalanceOrPrice(getActivity(), myAccount.getInPaymentProcess(),
-                            myAccount.getCurrencySign(), null, null)
+                    UIUtils.getBalanceOrPrice(myAccount.getInPaymentProcess(), myAccount.getCurrencySign())
             ));
         }
 
-        currentBalance.setText(UIUtils.getBalanceOrPrice(getActivity(), myAccount.getBalance(),
+        currentBalance.setText(UIUtils.getBalanceOrPrice(myAccount.getBalance(),
                 myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
     }
 

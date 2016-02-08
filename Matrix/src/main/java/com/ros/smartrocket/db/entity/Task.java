@@ -82,10 +82,8 @@ public class Task extends BaseEntity {
     @SerializedName("SubmittedAt")
     private String submittedAt;
 
-    @SerializedName("PhotoQuestionsCount")
-    private Integer photoQuestionsCount;
-    @SerializedName("NoPhotoQuestionsCount")
-    private Integer noPhotoQuestionsCount;
+    @SerializedName("ApproxMissionDuration")
+    private Integer approxMissionDuration;
 
     @SerializedName("CurrencySign")
     private String currencySign;
@@ -174,8 +172,6 @@ public class Task extends BaseEntity {
             result.setSubmittedAt(c.getString(TaskDbSchema.Query.All.SUBMITTED_AT));
             result.setCountryName(c.getString(TaskDbSchema.Query.All.COUNTRY_NAME));
 
-            result.setPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.PHOTO_QUESTIONS_COUNT));
-            result.setNoPhotoQuestionsCount(c.getInt(TaskDbSchema.Query.All.NO_PHOTO_QUESTIONS_COUNT));
             result.setCurrencySign(c.getString(TaskDbSchema.Query.All.CURRENCY_SIGN));
             result.setLocationName(c.getString(TaskDbSchema.Query.All.LOCATION_NAME));
 
@@ -183,6 +179,8 @@ public class Task extends BaseEntity {
 
             result.setLatitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LATITUDE_TO_VALIDATION));
             result.setLongitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LONGITUDE_TO_VALIDATION));
+
+            result.setApproxMissionDuration(c.getInt(TaskDbSchema.Query.All.APPROX_MISSION_DURATION));
         }
         return result;
     }
@@ -206,14 +204,12 @@ public class Task extends BaseEntity {
         contentValues.put("status", status);
         contentValues.put("id", getId());
         contentValues.put("longClaimDateTime", longClaimDateTime);
-        contentValues.put("noPhotoQuestionsCount", noPhotoQuestionsCount);
         contentValues.put("longEndDateTime", longEndDateTime);
         contentValues.put("statusId", statusId);
         contentValues.put("remakeTill", remakeTill);
         contentValues.put("longitudeToValidation", longitudeToValidation);
         contentValues.put("approvedAt", approvedAt);
         contentValues.put("waveId", waveId);
-        contentValues.put("photoQuestionsCount", photoQuestionsCount);
         contentValues.put("started", started);
         contentValues.put("longExpireTimeoutForClaimedTask", longExpireTimeoutForClaimedTask);
         contentValues.put("currencySign", currencySign);
@@ -235,6 +231,7 @@ public class Task extends BaseEntity {
         contentValues.put("language", language);
         contentValues.put("distance", distance);
         contentValues.put("longStartDateTime", longStartDateTime);
+        contentValues.put("approxMissionDuration", approxMissionDuration);
 
         return contentValues;
     }
@@ -466,20 +463,12 @@ public class Task extends BaseEntity {
         this.longClaimDateTime = longClaimDateTime;
     }
 
-    public Integer getNoPhotoQuestionsCount() {
-        return noPhotoQuestionsCount;
+    public Integer getApproxMissionDuration() {
+        return approxMissionDuration;
     }
 
-    public void setNoPhotoQuestionsCount(Integer noPhotoQuestionsCount) {
-        this.noPhotoQuestionsCount = noPhotoQuestionsCount;
-    }
-
-    public Integer getPhotoQuestionsCount() {
-        return photoQuestionsCount;
-    }
-
-    public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
-        this.photoQuestionsCount = photoQuestionsCount;
+    public void setApproxMissionDuration(Integer approxMissionDuration) {
+        this.approxMissionDuration = approxMissionDuration;
     }
 
     public String getCurrencySign() {

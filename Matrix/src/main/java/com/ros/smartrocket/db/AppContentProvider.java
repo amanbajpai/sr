@@ -144,8 +144,6 @@ public class AppContentProvider extends ContentProvider {
                                 + WaveDbSchema.Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                         Table.WAVE.getName() + "."
                                 + WaveDbSchema.Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.PHOTO_QUESTIONS_COUNT.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
                         "(SELECT COUNT(*) FROM " + Table.TASK.getName() + " WHERE "
                                 + TaskDbSchema.Columns.WAVE_ID.getName() + " = " + Table.WAVE.getName() + "."
                                 + WaveDbSchema.Columns.ID.getName() + " AND " + TaskDbSchema.Columns.IS_HIDE.getName()
@@ -158,7 +156,7 @@ public class AppContentProvider extends ContentProvider {
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.RATE.getName(),
-
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.APPROX_MISSION_DURATION.getName()
                 };
 
                 groupBy = Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName();

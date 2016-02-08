@@ -68,9 +68,6 @@ public interface TaskDbSchema {
         LONG_REDO_DATE_TIME("longRedoDateTime", DBType.NUMERIC),
         LONG_CLAIM_DATE_TIME("longClaimDateTime", DBType.NUMERIC),
 
-        PHOTO_QUESTIONS_COUNT("photoQuestionsCount", DBType.INT),
-        NO_PHOTO_QUESTIONS_COUNT("noPhotoQuestionsCount", DBType.INT),
-
         CURRENCY_SIGN("currencySign", DBType.TEXT),
         LOCATION_NAME("locationName", DBType.TEXT),
 
@@ -79,7 +76,10 @@ public interface TaskDbSchema {
         LATITUDE_TO_VALIDATION("latitudeToValidation", DBType.TEXT),
         LONGITUDE_TO_VALIDATION("longitudeToValidation", DBType.TEXT),
 
+        APPROX_MISSION_DURATION("approxMissionDuration", DBType.INT),
+
         DELETED("deleted", DBType.INT);
+
 
         private String columnName;
         private DBType type;
@@ -130,8 +130,6 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.ADDRESS.getName(),
                     Table.TASK.getName() + "." + Columns.DISTANCE.getName(),
                     Table.TASK.getName() + "." + Columns.EXPERIENCE_OFFER.getName(),
-                    Table.TASK.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
-                    Table.TASK.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
 
                     Table.TASK.getName() + "." + Columns.PRICE.getName(),
                     Table.TASK.getName() + "." + Columns.CURRENCY_SIGN.getName(),
@@ -169,7 +167,9 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.LOCATION_NAME.getName(),
 
                     Table.TASK.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
-                    Table.TASK.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName()
+                    Table.TASK.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName(),
+
+                    Table.TASK.getName() + "." + Columns.APPROX_MISSION_DURATION.getName()
             };
 
             int _ID = 0;
@@ -186,46 +186,46 @@ public interface TaskDbSchema {
             int ADDRESS = 11;
             int DISTANCE = 12;
             int EXPERIENCE_OFFER = 13;
-            int PHOTO_QUESTIONS_COUNT = 14;
-            int NO_PHOTO_QUESTIONS_COUNT = 15;
 
-            int PRICE = 16;
-            int CURRENCY_SIGN = 17;
+            int PRICE = 14;
+            int CURRENCY_SIGN = 15;
 
-            int STATUS_ID = 18;
-            int STATUS = 19;
+            int STATUS_ID = 16;
+            int STATUS = 17;
 
-            int IS_MY = 20;
-            int IS_HIDE = 21;
-            int STARTED_STATUS_SENT = 22;
+            int IS_MY = 18;
+            int IS_HIDE = 19;
+            int STARTED_STATUS_SENT = 20;
 
-            int STARTED = 23;
-            int REMAKE_TILL = 24;
+            int STARTED = 21;
+            int REMAKE_TILL = 22;
 
-            int START_DATE_TIME = 25;
-            int END_DATE_TIME = 26;
-            int EXPIRE_DATE_TIME = 27;
-            int CLAIMED = 28;
-            int REDO_DATE = 29;
+            int START_DATE_TIME = 23;
+            int END_DATE_TIME = 24;
+            int EXPIRE_DATE_TIME = 25;
+            int CLAIMED = 26;
+            int REDO_DATE = 27;
 
-            int LONG_START_DATE_TIME = 30;
-            int LONG_END_DATE_TIME = 31;
-            int LONG_EXPIRE_DATE_TIME = 32;
-            int LONG_CLAIM_DATE_TIME = 33;
-            int LONG_REDO_DATE_TIME = 34;
+            int LONG_START_DATE_TIME = 28;
+            int LONG_END_DATE_TIME = 29;
+            int LONG_EXPIRE_DATE_TIME = 30;
+            int LONG_CLAIM_DATE_TIME = 31;
+            int LONG_REDO_DATE_TIME = 32;
 
-            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 35;
-            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 36;
+            int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 33;
+            int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 34;
 
-            int APPROVED_AT = 37;
-            int REJECTED_AT = 38;
-            int SUBMITTED_AT = 39;
+            int APPROVED_AT = 35;
+            int REJECTED_AT = 36;
+            int SUBMITTED_AT = 37;
 
-            int COUNTRY_NAME = 40;
-            int LOCATION_NAME = 41;
+            int COUNTRY_NAME = 38;
+            int LOCATION_NAME = 39;
 
-            int LATITUDE_TO_VALIDATION = 42;
-            int LONGITUDE_TO_VALIDATION = 43;
+            int LATITUDE_TO_VALIDATION = 40;
+            int LONGITUDE_TO_VALIDATION = 41;
+
+            int APPROX_MISSION_DURATION = 42;
         }
     }
 }

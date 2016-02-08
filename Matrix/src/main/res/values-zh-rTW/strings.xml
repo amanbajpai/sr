@@ -54,7 +54,6 @@
     <string name="share">分享</string>
     <string name="rocket_points">飛船里數</string>
     <string name="level_name">等級</string>
-    <string name="earnings">總收入</string>
     <string name="logout">離開</string>
     <string name="level_0">0</string>
     <string name="balance_0">0$</string>
@@ -98,7 +97,6 @@
     <string name="reminder">提示</string>
     <string name="deadline_warning">任務到期提示</string>
     <string name="app_version">應用程式版本</string>
-    <string name="confirm_and_save_big">應用</string>
     <string name="unlimited">無限</string>
     <string name="term_and_conditions"><u>使用協議及條款</u></string>
     <string name="term_and_conditions_title">使用協議及條款</string>
@@ -128,10 +126,8 @@
     <string name="status">狀況： </string>
     <string name="deadline_time">期限：</string>
     <string name="mission_due">任務到期：</string>
-    <string name="mission_due_pre_claim">（優先認領）任務到期： </string>
     <string name="duration_time">到期：</string>
     <string name="due_in">剩餘時間：</string>
-    <string name="due_in_pre_claim">（優先認領）剩餘時間： </string>
     <string name="mission_address">任務地址</string>
     <string name="no_mission_address">這項任務沒有預設位置</string>
     <string name="full_description">任務簡介</string>
@@ -193,8 +189,6 @@
     <string name="start_later">稍後開始</string>
     <string name="start_now">現在開始</string>
     <string name="book_task_success_dialog_cancel">取消認領</string>
-    <!-- PRE-CLAIM TASK SUCCESS DIALOG -->
-    <string name="pre_claim_task_success_dialog_title">成功預先認領任務</string>
     <!-- GCM -->
     <string name="gcm_registered">GCM發出：設備成功註冊！</string>
     <string name="gcm_unregistered">GCM發出：設備成功取消註冊！</string>
@@ -204,7 +198,6 @@
     <!-- Google Map Fragment -->
     <string name="map_popup_distance">%1$s %2$s</string>
     <!-- Current Location -->
-    <string name="looking_for_location">檢視你目前的位置&#8230;</string>
     <string name="current_location_not_defined">無法確認你目前的位置。請再試一次。</string>
     <!-- Select image dialog -->
     <string name="take_picture">頭像拍攝</string>
@@ -400,18 +393,10 @@
     <string name="cashing_out_continue">繼續</string>
     <string name="cashing_out_success">提款處理中，款項將會於今日完結的時候轉賬到你所提名的網上賬戶。</string>
     <string name="cashing_out_payment_in_progress">目前还有 %1$s 的款项在处理中</string>
-
     <string name="cashing_out_payment_details">提款資料</string>
     <string name="cashing_out_update_payment_details_3_lines">更新提款資料</string>
 
     <string name="hint_your_registered_alipay_acc_name">支付寶賬戶實名</string>
-    <string name="hint_your_registered_alipay_phone">支付寶賬戶的手機號碼</string>
-    <string name="update_payment_details_click_to_obtain_sms">點擊獲取驗證碼SMS</string>
-    <string name="save_and_close">儲存及關閉</string>
-    <string name="update_payment_text">提款前，請輸入你的支付寶賬戶實名和手機號碼，進行SMS驗證。提款資料能夠隨時作出修改。</string>
-    <string name="hint_enter_sms_code">輸入驗證碼</string>
-    <string name="update_alipay_wait_for_sms">在十分鐘之内，將收到驗證碼SMS。收到後，請輸入驗證碼。</string>
-    <string name="required_field">必須輸入資料</string>
     <string name="alipay_account_integrated_successfully">支付寶戶口連接成功!!</string>
     <string name="fetching_alipay_account_info">處理支付寶戶口資料中...</string>
 
@@ -427,11 +412,6 @@
     <string name="turn_on_wifi_dialog_text1">任務暫時未能提交。請回到有Wifi覆蓋的範圍，或於設定内取消“只透過WiFi傳送數據”，
         然後於“我的任務”再次提交這個任務。</string>
     <string name="turn_on_wifi_dialog_ok">繼續</string>
-    <!-- AGE VERIFICATION DIALOG -->
-    <string name="logout_attention_dialog_title">注意！</string>
-    <string name="logout_attention_dialog_text">任務正在發送。如果現在離開，發送將暫停，下次登入才繼續。</string>
-    <string name="logout_attention_dialog_logout">登出</string>
-    <string name="logout_attention_dialog_cancel">取消</string>
     <string name="delete">Delete</string>
     <!-- ID CARDS -->
     <string name="update_first_last_name_dialog_title">名字只能作出一次修改。因爲部份項目可能需要展示電子隊員證明，請使用真確全名。</string>
