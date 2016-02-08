@@ -88,10 +88,15 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
                     if (!instructionQuestions.isEmpty()) {
                         downloadInstructionQuestionFile(0, instructionQuestions);
+                    } else {
+                        instructionMediaLoaded = true;
                     }
 
                     if (!massAuditQuestions.isEmpty()) {
                         downloadMassAuditProductFile(massAuditQuestions);
+                    } else {
+                        massAuditMediaLoaded = true;
+                        tryToClaim();
                     }
 
                     break;
@@ -230,20 +235,25 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                     QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getTaskId(),
                             question.getMissionId(), question.getId(), file.getPath());
 
-                    if (questions.size() == startFrom + 1) {
-                        instructionMediaLoaded = true;
-                        tryToClaim();
-                    } else {
-                        downloadInstructionQuestionFile(startFrom + 1, questions);
-                    }
+                    loadNextInstructionFile(questions, startFrom);
                 }
 
                 @Override
                 public void onFileLoadingError() {
-                    UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
-                    dismissProgressBar();
+                    loadNextInstructionFile(questions, startFrom);
                 }
             });
+        } else {
+            loadNextInstructionFile(questions, startFrom);
+        }
+    }
+
+    private void loadNextInstructionFile(List<Question> questions, int startFrom) {
+        if (questions.size() == startFrom + 1) {
+            instructionMediaLoaded = true;
+            tryToClaim();
+        } else {
+            downloadInstructionQuestionFile(startFrom + 1, questions);
         }
     }
 
