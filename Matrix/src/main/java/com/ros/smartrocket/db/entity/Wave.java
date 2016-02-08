@@ -52,10 +52,12 @@ public class Wave extends BaseEntity {
     private Boolean viewableBeforeLive;
     @SerializedName("ExperienceOffer")
     private Double experienceOffer;
-    @SerializedName("PhotoQuestionsCount")
-    private Integer photoQuestionsCount;
-    @SerializedName("NoPhotoQuestionsCount")
-    private Integer noPhotoQuestionsCount;
+    //    @SerializedName("PhotoQuestionsCount")
+//    private Integer photoQuestionsCount;
+//    @SerializedName("NoPhotoQuestionsCount")
+//    private Integer noPhotoQuestionsCount;
+    @SerializedName("ApproxMissionDuration")
+    private Integer approxMissionDuration;
     @SerializedName("Icon")
     private String icon;
 
@@ -162,13 +164,11 @@ public class Wave extends BaseEntity {
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.Query.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.Query.PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
-            result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.PHOTO_QUESTIONS_COUNT));
-            result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.Query.NO_PHOTO_QUESTIONS_COUNT));
-
             result.setIcon(c.getString(WaveDbSchema.Query.ICON));
 
             result.setLongStartDateTime(c.getLong(WaveDbSchema.Query.LONG_START_DATE_TIME));
-            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.Query.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.Query
+                    .LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.Query.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.Query.CONTAINS_DIFFERENT_RATE) == 1);
@@ -177,6 +177,7 @@ public class Wave extends BaseEntity {
             result.setIdCardStatus(c.getInt(WaveDbSchema.Query.ID_CARD_STATUS));
             result.setIdCardLogo(c.getString(WaveDbSchema.Query.ID_CARD_LOGO));
             result.setIdCardText(c.getString(WaveDbSchema.Query.ID_CARD_TEXT));
+            result.setApproxMissionDuration(c.getInt(WaveDbSchema.Query.APPROX_MISSION_DURATION));
         }
         return result;
     }
@@ -220,19 +221,18 @@ public class Wave extends BaseEntity {
                     .EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setPreClaimedTaskExpireAfterStart(c.getInt(WaveDbSchema.QueryWaveByDistance
                     .PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
-            result.setPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.PHOTO_QUESTIONS_COUNT));
-            result.setNoPhotoQuestionsCount(c.getInt(WaveDbSchema.QueryWaveByDistance.NO_PHOTO_QUESTIONS_COUNT));
             result.setIsAllTaskHide(c.getInt(WaveDbSchema.QueryWaveByDistance.IS_ALL_TASK_HIDE) == 1);
             result.setNearTaskCurrencySign(c.getString(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_CURRENCY_SIGN));
             result.setIcon(c.getString(WaveDbSchema.QueryWaveByDistance.ICON));
 
             result.setLongStartDateTime(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_START_DATE_TIME));
-            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.QueryWaveByDistance.LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
+            result.setLongPreClaimedTaskExpireAfterStart(c.getLong(WaveDbSchema.QueryWaveByDistance
+                    .LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START));
 
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.QueryWaveByDistance.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.QueryWaveByDistance.CONTAINS_DIFFERENT_RATE) == 1);
             result.setRate(c.getDouble(WaveDbSchema.QueryWaveByDistance.RATE));
-
+            result.setApproxMissionDuration(WaveDbSchema.QueryWaveByDistance.APPROX_MISSION_DURATION);
         }
         return result;
     }
@@ -437,21 +437,12 @@ public class Wave extends BaseEntity {
         this.country = country;
     }
 
-
-    public Integer getNoPhotoQuestionsCount() {
-        return noPhotoQuestionsCount;
+    public Integer getApproxMissionDuration() {
+        return approxMissionDuration;
     }
 
-    public void setNoPhotoQuestionsCount(Integer noPhotoQuestionsCount) {
-        this.noPhotoQuestionsCount = noPhotoQuestionsCount;
-    }
-
-    public Integer getPhotoQuestionsCount() {
-        return photoQuestionsCount;
-    }
-
-    public void setPhotoQuestionsCount(Integer photoQuestionsCount) {
-        this.photoQuestionsCount = photoQuestionsCount;
+    public void setApproxMissionDuration(Integer approxMissionDuration) {
+        this.approxMissionDuration = approxMissionDuration;
     }
 
     public Long getLongExpireTimeoutForClaimedTask() {

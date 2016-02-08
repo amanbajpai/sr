@@ -112,8 +112,7 @@ public class WavesBL {
                 task.setLongExpireTimeoutForClaimedTask(longExpireTimeoutForClaimedTask);
                 task.setLongPreClaimedTaskExpireAfterStart(longPreClaimedTaskExpireAfterStart);
 
-                task.setPhotoQuestionsCount(wave.getPhotoQuestionsCount());
-                task.setNoPhotoQuestionsCount(wave.getNoPhotoQuestionsCount());
+                task.setApproxMissionDuration(wave.getApproxMissionDuration());
 
                 task.setIsMy(isMy);
 

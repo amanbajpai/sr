@@ -41,9 +41,6 @@ public interface WaveDbSchema {
         LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START("longPreClaimedTaskExpireAfterStart", DBType.NUMERIC),
         CLAIMED("claimed", DBType.TEXT),
 
-        PHOTO_QUESTIONS_COUNT("photoQuestionsCount", DBType.INT),
-        NO_PHOTO_QUESTIONS_COUNT("noPhotoQuestionsCount", DBType.INT),
-
         ICON("icon", DBType.TEXT),
 
         LONG_START_DATE_TIME("longStartDateTime", DBType.NUMERIC),
@@ -55,6 +52,8 @@ public interface WaveDbSchema {
         ID_CARD_STATUS("idCardStatus", DBType.INT),
         ID_CARD_LOGO("idCardLogo", DBType.TEXT),
         ID_CARD_TEXT("idCardText", DBType.TEXT),
+
+        APPROX_MISSION_DURATION("approxMissionDuration", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -108,9 +107,6 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.EXPIRE_TIMEOUT_FOR_CLAIMED_TASK.getName(),
                 Table.WAVE.getName() + "." + Columns.PRE_CLAIMED_TASK_EXPIRE_AFTER_START.getName(),
 
-                Table.WAVE.getName() + "." + Columns.PHOTO_QUESTIONS_COUNT.getName(),
-                Table.WAVE.getName() + "." + Columns.NO_PHOTO_QUESTIONS_COUNT.getName(),
-
                 Table.WAVE.getName() + "." + Columns.ICON.getName(),
 
                 Table.WAVE.getName() + "." + Columns.LONG_START_DATE_TIME.getName(),
@@ -122,7 +118,8 @@ public interface WaveDbSchema {
 
                 Table.WAVE.getName() + "." + Columns.ID_CARD_STATUS.getName(),
                 Table.WAVE.getName() + "." + Columns.ID_CARD_LOGO.getName(),
-                Table.WAVE.getName() + "." + Columns.ID_CARD_TEXT.getName()
+                Table.WAVE.getName() + "." + Columns.ID_CARD_TEXT.getName(),
+                Table.WAVE.getName() + "." + Columns.APPROX_MISSION_DURATION.getName()
         };
 
         int _ID = 0;
@@ -147,18 +144,17 @@ public interface WaveDbSchema {
         int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 19;
         int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 20;
         int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 21;
-        int PHOTO_QUESTIONS_COUNT = 22;
-        int NO_PHOTO_QUESTIONS_COUNT = 23;
-        int ICON = 24;
-        int LONG_START_DATE_TIME = 25;
-        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 26;
-        int CAN_BE_PRE_CLAIMED = 27;
-        int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 28;
-        int CONTAINS_DIFFERENT_RATE = 29;
-        int RATE = 30;
-        int ID_CARD_STATUS = 31;
-        int ID_CARD_LOGO = 32;
-        int ID_CARD_TEXT = 33;
+        int ICON = 22;
+        int LONG_START_DATE_TIME = 23;
+        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 24;
+        int CAN_BE_PRE_CLAIMED = 25;
+        int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 26;
+        int CONTAINS_DIFFERENT_RATE = 27;
+        int RATE = 28;
+        int ID_CARD_STATUS = 29;
+        int ID_CARD_LOGO = 30;
+        int ID_CARD_TEXT = 31;
+        int APPROX_MISSION_DURATION = 32;
     }
 
     interface QueryWaveByDistance {
@@ -192,16 +188,15 @@ public interface WaveDbSchema {
         int LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 23;
         int EXPIRE_TIMEOUT_FOR_CLAIMED_TASK = 24;
         int PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 25;
-        int PHOTO_QUESTIONS_COUNT = 26;
-        int NO_PHOTO_QUESTIONS_COUNT = 27;
-        int IS_ALL_TASK_HIDE = 28;
-        int NEAR_TASK_CURRENCY_SIGN = 29;
-        int ICON = 30;
-        int LONG_START_DATE_TIME = 31;
-        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 32;
-        int CAN_BE_PRE_CLAIMED = 33;
-        int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 34;
-        int CONTAINS_DIFFERENT_RATE = 35;
-        int RATE = 36;
+        int IS_ALL_TASK_HIDE = 26;
+        int NEAR_TASK_CURRENCY_SIGN = 27;
+        int ICON = 28;
+        int LONG_START_DATE_TIME = 29;
+        int LONG_PRE_CLAIMED_TASK_EXPIRE_AFTER_START = 30;
+        int CAN_BE_PRE_CLAIMED = 31;
+        int DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK = 32;
+        int CONTAINS_DIFFERENT_RATE = 33;
+        int RATE = 34;
+        int APPROX_MISSION_DURATION = 35;
     }
 }

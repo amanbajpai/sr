@@ -22,7 +22,6 @@ import java.util.Locale;
 import static com.ros.smartrocket.utils.UIUtils.getBalanceOrPrice;
 
 public final class OptionsRow extends LinearLayout {
-    private final static int TOP_BOTTOM_PADDING = 10;
     private final static int LEFT_RIGHT_PADDING = 15;
 
     private final Context context;
@@ -50,7 +49,6 @@ public final class OptionsRow extends LinearLayout {
         setOrientation(HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
 
-        int topBottomDp = UIUtils.getPxFromDp(context, TOP_BOTTOM_PADDING);
         int leftRightDp = UIUtils.getPxFromDp(context, LEFT_RIGHT_PADDING);
         setPadding(leftRightDp, 0, leftRightDp, 0);
     }
@@ -137,7 +135,8 @@ public final class OptionsRow extends LinearLayout {
             drawable.setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
             durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
-        durationTextView.setText("1 hour");
+        final String s = getContext().getString(R.string.approx_mission_duration, task.getApproxMissionDuration());
+        durationTextView.setText(s);
     }
 
     public void setData(Wave wave, boolean isWaveDetails) {
@@ -185,6 +184,8 @@ public final class OptionsRow extends LinearLayout {
             drawable.setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
             durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
-        durationTextView.setText("1 hour");
+
+        final String s = getContext().getString(R.string.approx_mission_duration, wave.getApproxMissionDuration());
+        durationTextView.setText(s);
     }
 }
