@@ -132,7 +132,7 @@ public final class OptionsRow extends LinearLayout {
 
         Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
         if (drawable != null) {
-            drawable.setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
+            drawable.mutate().setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
             durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
         final String s = getContext().getString(R.string.approx_mission_duration, task.getApproxMissionDuration());

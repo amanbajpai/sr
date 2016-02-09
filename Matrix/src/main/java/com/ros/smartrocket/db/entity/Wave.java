@@ -232,7 +232,7 @@ public class Wave extends BaseEntity {
             result.setDownloadMediaWhenClaimingTask(c.getInt(WaveDbSchema.QueryWaveByDistance.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK) == 1);
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.QueryWaveByDistance.CONTAINS_DIFFERENT_RATE) == 1);
             result.setRate(c.getDouble(WaveDbSchema.QueryWaveByDistance.RATE));
-            result.setApproxMissionDuration(WaveDbSchema.QueryWaveByDistance.APPROX_MISSION_DURATION);
+            result.setApproxMissionDuration(c.getInt(WaveDbSchema.QueryWaveByDistance.APPROX_MISSION_DURATION));
         }
         return result;
     }
