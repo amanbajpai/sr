@@ -148,16 +148,6 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="crew.smart-rocket.net"
-                    android:scheme="http"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
                     android:host="dev.agents.matrix.osiris.pp.ciklum.com"
                     android:scheme="http"/>
             </intent-filter>
@@ -178,7 +168,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="smart-rocket.com"
+                    android:host="crew.smart-rocket.net"
+                    android:pathPrefix="/Account"
                     android:scheme="http"/>
             </intent-filter>
             <intent-filter>
@@ -188,7 +179,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="crew.smartrocket.cn"
+                    android:host="crew.smart-rocket.net"
+                    android:pathPrefix="/Crew"
                     android:scheme="http"/>
             </intent-filter>
         </activity>
