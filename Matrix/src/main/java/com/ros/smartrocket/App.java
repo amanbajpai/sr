@@ -1,16 +1,13 @@
 package com.ros.smartrocket;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
-import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
-import com.nru.androidremotedebug.DebugService;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -35,10 +32,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        if (BuildConfig.DEBUG) {
-            DebugService.startServer(this);
-        }
 
         if (Config.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());
@@ -136,11 +129,5 @@ public class App extends Application {
      */
     public MatrixLocationManager getLocationManager() {
         return locationManager;
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(base);
     }
 }
