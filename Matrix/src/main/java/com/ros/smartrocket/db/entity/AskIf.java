@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.entity;
 
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,6 +8,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ "OrderId": 1, - just ordinal number <br>
+ "SourceType": 5, - {@link com.ros.smartrocket.db.entity.AskIf.ConditionSourceType} <br>
+ "SourceKey": "2", - depends on SourceType. If "SourceType" = 5, then this is "orderId" <br>
+ "Value": "1", - value <br>
+ "Operator": 1, - Equals = 1, NotEquals = 2 <br>
+ "NextConditionOperator": 1 - And = 1, Or = 2 <br>
+ */
 public class AskIf extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4706526633427191907L;
 
