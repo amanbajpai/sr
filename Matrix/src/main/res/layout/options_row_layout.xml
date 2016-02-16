@@ -4,21 +4,21 @@
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowPrice"
         style="@style/TaskAndWaveOptionStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1.2"
+        android:layout_weight="1"
         custom:textStyle="bold"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowExp"
         style="@style/TaskAndWaveOptionStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         custom:textStyle="bold"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowLocations"
         style="@style/TaskAndWaveOptionStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:visibility="gone"
@@ -26,8 +26,7 @@
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowDuration"
         style="@style/TaskAndWaveOptionStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         custom:textStyle="bold"/>
 </merge>
