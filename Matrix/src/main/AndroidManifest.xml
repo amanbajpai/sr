@@ -222,6 +222,7 @@
             android:name=".activity.IdCardActivity"
             android:theme="@style/AppThemeNoActionBar"
             android:screenOrientation="landscape"/>
+
         <service
             android:name=".net.NetworkService"
             android:exported="false"/>
