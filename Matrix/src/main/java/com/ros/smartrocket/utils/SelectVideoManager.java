@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,12 @@ public class SelectVideoManager {
         }
     }
 
+    public static void startCamera(Fragment sourceFragment) {
+        Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(sourceFragment.getContext())));
+        sourceFragment.startActivityForResult(i, CAMERA);
+    }
+
     /**
      * Show dialog for selection
      */
@@ -119,13 +126,7 @@ public class SelectVideoManager {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode == Activity.RESULT_OK) {
-            String path = null;
-            if (requestCode == SelectVideoManager.GALLERY) {
-                path = getVideoPathFromGallery(intent);
-
-            } else if (requestCode == CAMERA) {
-                path = getVideoPathFromCamera(intent);
-            }
+            String path = intent.getData().getPath();
 
             if (videoCompleteListener != null) {
                 if (!TextUtils.isEmpty(path)) {

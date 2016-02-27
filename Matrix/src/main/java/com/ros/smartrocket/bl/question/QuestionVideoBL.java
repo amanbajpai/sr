@@ -18,10 +18,7 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
-import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.SelectVideoManager;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.*;
 
 import java.io.File;
 
@@ -186,10 +183,8 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                     break;
                 }
             case R.id.rePhotoButton:
-//                System.gc();
-
                 if (question.getVideoSource() == 0) {
-                    selectVideoManager.startCamera(getActivity());
+                    SelectVideoManager.startCamera(fragment);
                 } else if (question.getVideoSource() == 1) {
                     selectVideoManager.startGallery(getActivity());
                 } else {
