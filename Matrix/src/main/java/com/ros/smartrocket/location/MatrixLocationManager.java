@@ -281,6 +281,10 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             }
         }
 
+//        lastLocation = new Location("TEST");
+//        lastLocation.setLatitude(23.1259819);
+//        lastLocation.setLongitude(112.9476641);
+
         return lastLocation;
     }
 
