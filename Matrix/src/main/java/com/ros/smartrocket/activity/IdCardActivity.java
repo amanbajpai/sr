@@ -55,9 +55,14 @@ public class IdCardActivity extends Activity {
             Picasso.with(getApplicationContext()).load(myAccount.getPhotoUrl()).into(userPhoto);
         }
 
-        Picasso.with(getApplicationContext()).load(wave.getIdCardLogo()).into(logo);
-        text.setText(Html.fromHtml(wave.getIdCardText()));
-        text.setMovementMethod(LinkMovementMethod.getInstance());
+        if (!TextUtils.isEmpty(wave.getIdCardLogo())) {
+            Picasso.with(getApplicationContext()).load(wave.getIdCardLogo()).into(logo);
+        }
+
+        if (!TextUtils.isEmpty(wave.getIdCardText())) {
+            text.setText(Html.fromHtml(wave.getIdCardText()));
+            text.setMovementMethod(LinkMovementMethod.getInstance());
+        }
 
         agentName.setText(myAccount.getName());
         agentId.setText(getString(R.string.id_card_agent_id, myAccount.getId()));
