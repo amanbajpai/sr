@@ -32,7 +32,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         L.d(TAG, "Device registered: regId = " + registrationId);
         CommonUtilities.displayMessage(context, getString(R.string.gcm_registered));
 
-        if(!Config.USE_BAIDU) {
+        if (!Config.USE_BAIDU) {
             L.d(TAG, "Send registered to server: regId = " + registrationId);
             APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
             PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
@@ -58,17 +58,18 @@ public class GCMIntentService extends GCMBaseIntentService {
         String messageJsonObject = extras.getString("message");
         L.d(TAG, "Received message [message=" + messageJsonObject + "]");
 
-        if (!TextUtils.isEmpty(preferencesManager.getToken())) {
-            if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName")) {
-                NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
+        if (messageJsonObject != null) {
+            if (!TextUtils.isEmpty(preferencesManager.getToken())) {
+                if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName")) {
+                    NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
+                }
+
+                apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
             }
 
-            apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
-        }
-
-        if (App.getInstance().getMyAccount().getAllowPushNotification()
-                && messageJsonObject.contains("Subject")){
-            NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
+            if (App.getInstance().getMyAccount().getAllowPushNotification() && messageJsonObject.contains("Subject")) {
+                NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
+            }
         }
     }
 

@@ -72,24 +72,20 @@ public class MapHelper {
 
         if (mapFragment != null) {
             baiduMap = mapFragment.getBaiduMap();
-            baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-            //baiduMap.setMaxAndMinZoomLevel(0, 19);
-                    /*baiduMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                        @Override
-                        public void onCameraChange(CameraPosition pos) {
-                            zoomLevel = pos.zoom;
-                        }
-                    });*/
-
-            BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.location_icon_small);
-            baiduMap.setMyLocationConfigeration(new MyLocationConfiguration(LocationMode.NORMAL, true, mCurrentMarker));
-            baiduMap.setMyLocationEnabled(true);
+            if (baiduMap != null) {
+                baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+                BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.location_icon_small);
+                baiduMap.setMyLocationConfigeration(
+                        new MyLocationConfiguration(LocationMode.NORMAL, true, mCurrentMarker));
+                baiduMap.setMyLocationEnabled(true);
+            }
         }
 
         return baiduMap;
     }
 
-    public static GoogleMap getGoogleMap(FragmentActivity activity, GoogleMap.OnCameraChangeListener cameraChangeListener) {
+    public static GoogleMap getGoogleMap(FragmentActivity activity, GoogleMap.OnCameraChangeListener
+            cameraChangeListener) {
         GoogleMap googleMap = null;
         TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) activity
                 .getSupportFragmentManager().findFragmentById(R.id.map);
@@ -130,9 +126,13 @@ public class MapHelper {
         }
     }
 
-    public static com.twotoasters.baiduclusterkraf.Options getBaiduClusterkrafOptions(Activity activity, Keys.MapViewMode mode,
-                                                                                      OnShowInfoWindowListener onShowInfoWindowListener,
-                                                                                      com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickListener) {
+    public static com.twotoasters.baiduclusterkraf.Options getBaiduClusterkrafOptions(Activity activity, Keys
+            .MapViewMode mode,
+                                                                                      OnShowInfoWindowListener
+                                                                                              onShowInfoWindowListener,
+                                                                                      com.twotoasters
+                                                                                              .baiduclusterkraf
+                                                                                              .OnMarkerClickDownstreamListener onMarkerClickListener) {
         com.twotoasters.baiduclusterkraf.Options options = new com.twotoasters.baiduclusterkraf.Options(activity);
 
         if (activity != null) {
@@ -143,12 +143,16 @@ public class MapHelper {
             options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
             options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
             options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
-            options.setSinglePointClickBehavior(com.twotoasters.baiduclusterkraf.Options.SinglePointClickBehavior.SHOW_INFO_WINDOW);
-            options.setClusterClickBehavior(com.twotoasters.baiduclusterkraf.Options.ClusterClickBehavior.ZOOM_TO_BOUNDS);
-            options.setClusterInfoWindowClickBehavior(com.twotoasters.baiduclusterkraf.Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
+            options.setSinglePointClickBehavior(com.twotoasters.baiduclusterkraf.Options.SinglePointClickBehavior
+                    .SHOW_INFO_WINDOW);
+            options.setClusterClickBehavior(com.twotoasters.baiduclusterkraf.Options.ClusterClickBehavior
+                    .ZOOM_TO_BOUNDS);
+            options.setClusterInfoWindowClickBehavior(com.twotoasters.baiduclusterkraf.Options
+                    .ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
 
             /*Live hack from library developers ^)*/
-            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
+            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin)
+                    .getIntrinsicHeight());
             options.setMarkerOptionsChooser(new TaskBaiduOptionsChooser(activity));
             options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
 
@@ -168,7 +172,8 @@ public class MapHelper {
             options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
             options.setTransitionInterpolator(new LinearInterpolator());
 
-            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, MapHelper.DIP_DISTANCE_TO_JOIN_CLUSTER));
+            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, MapHelper
+                    .DIP_DISTANCE_TO_JOIN_CLUSTER));
             options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
             options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
             options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
@@ -177,7 +182,8 @@ public class MapHelper {
             options.setClusterInfoWindowClickBehavior(Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
 
             /*Live hack from library developers ^)*/
-            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin).getIntrinsicHeight());
+            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin)
+                    .getIntrinsicHeight());
             options.setMarkerOptionsChooser(new TaskOptionsChooser(activity));
             options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
 
@@ -303,8 +309,10 @@ public class MapHelper {
     /**
      * Check coordinates of pins and change it if they are equals
      */
-    public static ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> getBaiduMapInputPointList(List<Task> list, Location location) {
-        ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> inputPoints = new ArrayList<com.twotoasters.baiduclusterkraf.InputPoint>();
+    public static ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> getBaiduMapInputPointList(List<Task> list,
+                                                                                                   Location location) {
+        ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> inputPoints = new ArrayList<com.twotoasters
+                .baiduclusterkraf.InputPoint>();
         Map<String, String> markerLocationMap = new HashMap<String, String>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -337,7 +345,8 @@ public class MapHelper {
     /**
      * Check coordinates of pins and change it if they are equals
      */
-    public static Double[] getEditedTaskCoordinate(int itemSize, double latitude, double longitude, float coordinateOffset,
+    public static Double[] getEditedTaskCoordinate(int itemSize, double latitude, double longitude, float
+            coordinateOffset,
                                                    Map<String, String> markerLocationMap) {
 
         Double[] location = null;
@@ -388,7 +397,8 @@ public class MapHelper {
         return (float) (Math.log(arg) / Math.log(2.0));
     }
 
-    public static Bitmap getClusterBitmap(Resources res, int resourceId, int clusterSize, Paint largePaint, Paint mediumPaint, Paint smallPaint) {
+    public static Bitmap getClusterBitmap(Resources res, int resourceId, int clusterSize, Paint largePaint, Paint
+            mediumPaint, Paint smallPaint) {
         BitmapFactory.Options options = new BitmapFactory.Options();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -418,7 +428,8 @@ public class MapHelper {
         return bitmap;
     }
 
-    public static Bitmap getPinWithTextBitmap(Resources res, int resourceId, String text, Paint largePaint, Paint mediumPaint, Paint smallPaint) {
+    public static Bitmap getPinWithTextBitmap(Resources res, int resourceId, String text, Paint largePaint, Paint
+            mediumPaint, Paint smallPaint) {
         BitmapFactory.Options options = new BitmapFactory.Options();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
