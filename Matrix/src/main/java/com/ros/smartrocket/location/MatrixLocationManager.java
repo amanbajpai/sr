@@ -212,42 +212,11 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
             ChinaTransformLocation.transformFromChinaToBaiduLocation(location);
             L.i(TAG, "onReceiveLocation() Baidu location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
-/*
-            L.i(TAG, "testLocation() Source location [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
-
-            final Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
-            testLocation.setLongitude(location.getLongitude());
-            testLocation.setLatitude(location.getLatitude());
-
-            ChinaTransformLocation.transformFromWorldToChinaLocation(testLocation);
-            L.i(TAG, "testLocation() China location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
-            ChinaTransformLocation.transformFromWorldToChinaLocation(testLocation);
-            L.i(TAG, "testLocation() China2 location [ " + testLocation.getLatitude() + ", " + testLocation.getLongitude() + "]");
-
-            Location test2Location = new Location(LocationManager.NETWORK_PROVIDER);
-            test2Location.setLongitude(location.getLongitude());
-            test2Location.setLatitude(location.getLatitude());
-
-            ChinaTransformLocation.transformFromWorldToBaiduLocation(test2Location);
-            L.i(TAG, "testLocation() Baidu location [ " + test2Location.getLatitude() + ", " + test2Location.getLongitude() + "]");
-            ChinaTransformLocation.transformFromWorldToBaiduLocation(test2Location);
-            L.i(TAG, "testLocation() Baidu2 location [ " + test2Location.getLatitude() + ", " + test2Location.getLongitude() + "]");*/
-
-            /*Location testLocation = new Location(LocationManager.NETWORK_PROVIDER);
-            testLocation.setLongitude(113.3311329521378);
-            testLocation.setLatitude(23.11220962419907);
-            ChinaTransformLocation.transformFromBaiduToWorldLocation(testLocation);*/
 
             lastLocation = location;
             notifyAllRequestedLocation();
         }
     }
-
-    @Override
-    public void onReceivePoi(BDLocation poiLocation) {
-        L.i(TAG, "onReceivePoi() Location from Baidu location services [ " + poiLocation.getLatitude() + ", " + poiLocation.getLongitude() + "]");
-    }
-
 
     /**
      * Get Last known location.

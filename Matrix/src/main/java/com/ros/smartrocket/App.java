@@ -1,8 +1,10 @@
 package com.ros.smartrocket;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.SDKInitializer;
@@ -53,6 +55,12 @@ public class App extends Application {
         requestToCurrentLocation();
         SettingsFragment.setCurrentLanguage();
         clearMonthLimitIfNeed();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 
     public static App getInstance() {

@@ -545,7 +545,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
             InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
                 public void onInfoWindowClick() {
-
                     MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getMissionId(),
                             task.getStatusId());
                     baiduMap.hideInfoWindow();
@@ -557,7 +556,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             p.y -= 60;
 
             com.baidu.mapapi.model.LatLng llInfo = baiduMap.getProjection().fromScreenLocation(p);
-            InfoWindow mInfoWindow = new InfoWindow(overlayView, llInfo, listener);
+            InfoWindow mInfoWindow = new InfoWindow(com.baidu.mapapi.map.BitmapDescriptorFactory.fromView(overlayView),
+                    llInfo, 0, listener);
             baiduMap.showInfoWindow(mInfoWindow);
 
             return true;

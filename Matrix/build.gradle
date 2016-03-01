@@ -66,6 +66,7 @@ dependencies {
         transitive = true;
     }
     compile fileTree(include: '*.jar', dir: '../libs')
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 android {
@@ -86,6 +87,8 @@ android {
         buildConfigField "String", "JENKINS_BUILD_VERSION", "String.valueOf(" + buildNumber.toInteger() + ")"
         buildConfigField "String", "SERVER_API_KEY", "\"AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM\""
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
+
+        multiDexEnabled = true
     }
 
     jacoco {
@@ -94,6 +97,10 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
     packagingOptions {
