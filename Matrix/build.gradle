@@ -201,7 +201,7 @@ android {
         }
         ChinaStaging {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
             buildConfigField "boolean", "CHINESE", "true"
