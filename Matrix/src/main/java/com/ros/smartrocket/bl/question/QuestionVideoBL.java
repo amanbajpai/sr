@@ -184,7 +184,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                 }
             case R.id.rePhotoButton:
                 if (question.getVideoSource() == 0) {
-                    SelectVideoManager.startCamera(fragment);
+                    selectVideoManager.startCamera(fragment);
                 } else if (question.getVideoSource() == 1) {
                     selectVideoManager.startGallery(getActivity());
                 } else {

@@ -16,18 +16,19 @@
         android:protectionLevel="signature"/>
 
     <uses-permission android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <!-- JPUSH Optional -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <!-- Global receiver -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- Cloud to Device Messaging permissions -->
@@ -254,17 +255,6 @@
             </intent-filter>
         </receiver>
         <service android:name=".GCMIntentService"/>
-        <!--
-        <receiver
-            android:name=".gcm.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-        <service android:name=".gcm.GcmIntentService" />
-        -->
         <receiver
             android:name=".net.GlobalReceiver"
             android:exported="true">
@@ -307,12 +297,22 @@
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc"/>
-        <!-- JPUSH Required  SDK -->
+        <!-- JPUSH Required SDK [START] -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.ros.smartrocket" />
+            </intent-filter>
+        </activity>
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
             android:exported="false"/>
-        <!-- JPUSH Required SDK -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
@@ -327,10 +327,10 @@
         <!-- JPUSH Required SDK -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
-                <!-- Required  显示通知栏 -->
                 <category android:name="com.ros.smartrocket"/>
             </intent-filter>
             <intent-filter>
@@ -346,7 +346,7 @@
             </intent-filter>
         </receiver>
         <!-- JPUSH Required SDK -->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".JPushReceiver"
@@ -368,6 +368,8 @@
                 <category android:name="com.ros.smartrocket"/>
             </intent-filter>
         </receiver>
+        <!-- JPUSH Required SDK [END] -->
+
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"

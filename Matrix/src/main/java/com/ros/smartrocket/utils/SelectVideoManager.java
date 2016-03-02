@@ -70,9 +70,10 @@ public class SelectVideoManager {
         }
     }
 
-    public static void startCamera(Fragment sourceFragment) {
+    public void startCamera(Fragment sourceFragment) {
         Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(sourceFragment.getContext())));
+        lastFile = getTempFile(sourceFragment.getContext());
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
         sourceFragment.startActivityForResult(i, CAMERA);
     }
 
@@ -126,7 +127,7 @@ public class SelectVideoManager {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode == Activity.RESULT_OK) {
-            String path = intent.getData().getPath();
+            String path = lastFile.getPath();
 
             if (videoCompleteListener != null) {
                 if (!TextUtils.isEmpty(path)) {
