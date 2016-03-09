@@ -67,7 +67,10 @@ public class GCMIntentService extends GCMBaseIntentService {
                 apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
             }
 
-            if (App.getInstance().getMyAccount().getAllowPushNotification() && messageJsonObject.contains("Subject")) {
+            if (App.getInstance() != null && App.getInstance().getMyAccount() != null
+                    && App.getInstance().getMyAccount().getAllowPushNotification() != null
+                    && App.getInstance().getMyAccount().getAllowPushNotification()
+                    && messageJsonObject.contains("Subject")) {
                 NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
             }
         }
