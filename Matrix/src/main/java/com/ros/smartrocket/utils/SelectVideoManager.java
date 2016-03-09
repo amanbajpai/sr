@@ -72,7 +72,7 @@ public class SelectVideoManager {
 
     public void startCamera(Fragment sourceFragment) {
         Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        lastFile = getTempFile(sourceFragment.getContext());
+        lastFile = getTempFile(sourceFragment.getActivity());
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(lastFile));
         sourceFragment.startActivityForResult(i, CAMERA);
     }

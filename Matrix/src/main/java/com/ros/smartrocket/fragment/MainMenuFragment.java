@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -14,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.ros.smartrocket.*;
+import com.helpshift.support.Support;
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
+import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.bl.NotificationBL;
@@ -282,7 +285,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 if (myAccount != null && myAccount.getIsUpdateNameRequired()) {
                     DialogUtils.showUpdateFirstLastNameDialog(getActivity(), apiFacade, this);
                 } else {
-                    UIUtils.showSimpleToast(getContext(), R.string.update_name_not_allowed, Toast.LENGTH_LONG);
+                    UIUtils.showSimpleToast(getActivity(), R.string.update_name_not_allowed, Toast.LENGTH_LONG);
                 }
                 break;
             case R.id.findTasksButton:
@@ -317,23 +320,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
-                String uid = preferencesManager.getLastEmail();
-                long validTimeInMillis = DateUtils.DAY_IN_MILLIS;
-                String customerEmail = preferencesManager.getLastEmail();
-                String customerName = preferencesManager.getLastEmail();
-
-                String url;
-                if (BuildConfig.CHINESE) {
-                    url = Config.CHINESE_SUPPORT_URL;
-                } else {
-                    MultipassUtils multipassUtils =
-                            new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
-                    url = multipassUtils.buildUrl();
-                }
-                getActivity().startActivity(IntentUtils.getBrowserIntent(url));
+                Support.showFAQs(getActivity());
                 break;
             case R.id.settingsButton:
-                //((MainActivity) getActivity()).startFragment(new SettingsFragment());
                 getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
                 ((MainActivity) getActivity()).togleMenu();
                 break;
