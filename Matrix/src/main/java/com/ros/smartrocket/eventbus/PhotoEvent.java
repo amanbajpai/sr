@@ -1,8 +1,8 @@
 package com.ros.smartrocket.eventbus;
 
-import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 
-public final class PhotoEvent {
+public class PhotoEvent {
     public enum PhotoEventType {
         START_LOADING, IMAGE_COMPLETE, SELECT_IMAGE_ERROR
     }

@@ -1,4 +1,4 @@
-package com.ros.smartrocket.utils;
+package com.ros.smartrocket.utils.image;
 
 import android.app.Activity;
 import android.content.Context;

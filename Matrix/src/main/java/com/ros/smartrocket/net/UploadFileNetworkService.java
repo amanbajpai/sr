@@ -13,8 +13,9 @@ import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
+
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 

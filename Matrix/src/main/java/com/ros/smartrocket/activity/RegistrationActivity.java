@@ -18,12 +18,16 @@ import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
+import com.ros.smartrocket.eventbus.AvatarEvent;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.image.AvatarImageManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
+
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
@@ -68,6 +72,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private int currentTermsAndConditionsVersion = 1;
     private String promoCode;
     private File mCurrentPhotoFile;
+    private AvatarImageManager avatarImageManager;
 
     public RegistrationActivity() {
     }
@@ -77,7 +82,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_registration);
-
+        avatarImageManager = new AvatarImageManager();
         if (getIntent() != null) {
             districtId = getIntent().getIntExtra(Keys.DISTRICT_ID, 0);
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
@@ -169,7 +174,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.profilePhotoImageView:
                 mCurrentPhotoFile = SelectImageManager.getTempFile(this, SelectImageManager.PREFIX_PROFILE);
-                SelectImageManager.showSelectImageDialog(this, true, mCurrentPhotoFile);
+                avatarImageManager.showSelectImageDialog(this, true, mCurrentPhotoFile);
                 break;
             case R.id.confirmButton:
                 String firstName = firstNameEditText.getText().toString().trim();
@@ -376,12 +381,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (intent != null && intent.getData() != null) {
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, this);
+            avatarImageManager.onActivityResult(requestCode, resultCode, intent, this);
         } else if (mCurrentPhotoFile != null) {
             intent = new Intent();
             intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, this);
+            avatarImageManager.onActivityResult(requestCode, resultCode, intent, this);
         }
     }
 
@@ -428,7 +433,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     }
 
     @SuppressWarnings("unused")
-    public void onEventMainThread(PhotoEvent event) {
+    public void onEventMainThread(AvatarEvent event) {
         switch (event.type) {
             case START_LOADING:
                 setSupportProgressBarIndeterminateVisibility(true);

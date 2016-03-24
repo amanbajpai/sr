@@ -20,7 +20,7 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.MyLog;
-import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
 
