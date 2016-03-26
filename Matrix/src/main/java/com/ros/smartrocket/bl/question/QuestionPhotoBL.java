@@ -25,6 +25,8 @@ import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.image.SelectImageManager;
+
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
@@ -54,12 +56,13 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     private boolean isLastFileFromGallery;
     private boolean isBitmapAdded = false;
     private boolean isBitmapConfirmed = false;
+    private SelectImageManager selectImageManager;
 
     @SuppressLint("SetTextI18n")
     @Override
     public void configureView() {
         showProgressDialog();
-
+        selectImageManager = new SelectImageManager();
         galleryLayout = (LinearLayout) view.findViewById(R.id.galleryLayout);
 
         photoImageView = (ImageView) view.findViewById(R.id.photo);
@@ -133,11 +136,11 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             intent = new Intent();
             intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+            selectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
             return true;
         } else if (intent != null && intent.getData() != null) {
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+            selectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
             return true;
         }
 
@@ -332,7 +335,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                     SelectImageManager.startGallery(fragment);
                 } else {
                     File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
-                    SelectImageManager.showSelectImageDialog(fragment, true, fileToPhoto);
+                    selectImageManager.showSelectImageDialog(fragment, true, fileToPhoto);
                 }
                 break;
             case R.id.deletePhotoButton:

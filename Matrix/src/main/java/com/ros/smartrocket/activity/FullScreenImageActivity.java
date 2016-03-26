@@ -8,8 +8,7 @@ import android.view.MenuItem;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.images.ImageLoader;
-import com.ros.smartrocket.utils.SelectImageManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.ImageEditorView;
 

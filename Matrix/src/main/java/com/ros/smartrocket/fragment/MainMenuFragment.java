@@ -29,6 +29,7 @@ import com.ros.smartrocket.db.entity.UpdateUser;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.LevelUpDialog;
 import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
+import com.ros.smartrocket.eventbus.AvatarEvent;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.images.ImageLoader;
@@ -36,6 +37,9 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.image.AvatarImageManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
+
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
@@ -65,6 +69,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     private File mCurrentPhotoFile;
     private CustomProgressDialog progressDialog;
     private MyAccount myAccount;
+    private AvatarImageManager avatarImageManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +83,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         }
 
         handler = new DbHandler(getActivity().getContentResolver());
+        avatarImageManager = new AvatarImageManager();
 
         photoImageView = (ImageView) view.findViewById(R.id.photoImageView);
         uploadPhotoProgressImage = (ImageView) view.findViewById(R.id.uploadPhotoProgressImage);
@@ -279,7 +285,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         switch (v.getId()) {
             case R.id.photoImageView:
                 mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
-                SelectImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
+                avatarImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
                 break;
             case R.id.nameTextView:
                 if (myAccount != null && myAccount.getIsUpdateNameRequired()) {
@@ -335,12 +341,12 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (intent != null && intent.getData() != null) {
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+            avatarImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
         } else if (mCurrentPhotoFile != null) {
             intent = new Intent();
             intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-            SelectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+            avatarImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
         }
     }
 
@@ -374,7 +380,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     @SuppressWarnings("unused")
-    public void onEventMainThread(PhotoEvent event) {
+    public void onEventMainThread(AvatarEvent event) {
         switch (event.type) {
             case START_LOADING:
                 uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),

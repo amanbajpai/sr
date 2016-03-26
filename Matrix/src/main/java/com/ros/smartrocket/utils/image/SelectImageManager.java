@@ -1,4 +1,4 @@
-package com.ros.smartrocket.utils;
+package com.ros.smartrocket.utils.image;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -21,9 +21,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.eventbus.AvatarEvent;
 import com.ros.smartrocket.eventbus.PhotoEvent;
+import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.StorageManager;
+
 import de.greenrobot.event.EventBus;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -32,7 +41,7 @@ import java.util.Random;
 
 import static com.squareup.picasso.Picasso.with;
 
-public final class SelectImageManager {
+public class SelectImageManager {
     public static final String EXTRA_PREFIX = "com.ros.smartrocket.EXTRA_PREFIX";
     public static final String EXTRA_PHOTO_FILE = "com.ros.smartrocket.EXTRA_PHOTO_FILE";
     public static final String PREFIX_PROFILE = "profile";
@@ -58,9 +67,6 @@ public final class SelectImageManager {
 
     private static final int ONE_KB_IN_B = 1024;
     private static final Random RANDOM = new Random();
-
-    private SelectImageManager() {
-    }
 
     /// ======================================================================================================= ///
     /// ============================================= PUBLIC METHODS ========================================== ///
@@ -96,17 +102,17 @@ public final class SelectImageManager {
         sourceFragment.startActivityForResult(i, CAMERA);
     }
 
-    public static void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
-                                             final File file) {
+    public void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
+                                      final File file) {
         showSelectImageDialog(showRemoveButton, file, fragment, null);
     }
 
-    public static void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final File file) {
+    public void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final File file) {
         showSelectImageDialog(showRemoveButton, file, null, activity);
     }
 
-    private static void showSelectImageDialog(final boolean showRemoveButton, final File file,
-                                              final Fragment fragment, final Activity activity) {
+    private void showSelectImageDialog(final boolean showRemoveButton, final File file,
+                                       final Fragment fragment, final Activity activity) {
         Activity contextActivity = fragment != null ? fragment.getActivity() : activity;
 
         LayoutInflater inflater = (LayoutInflater) contextActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -146,7 +152,7 @@ public final class SelectImageManager {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE));
+                onImageRemoved();
             }
         });
 
@@ -160,7 +166,7 @@ public final class SelectImageManager {
         dialog.show();
     }
 
-    public static void onActivityResult(int requestCode, int resultCode, Intent intent, Context context) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent, Context context) {
         if (resultCode == Activity.RESULT_OK) {
             new GetBitmapAsyncTask(requestCode, intent, context).execute();
         }
@@ -468,7 +474,7 @@ public final class SelectImageManager {
     /// =========================================== INTERNAL CLASSES ========================================== ///
     /// ======================================================================================================= ///
 
-    public static class GetBitmapAsyncTask extends AsyncTask<Void, Void, ImageFileClass> {
+    public class GetBitmapAsyncTask extends AsyncTask<Void, Void, ImageFileClass> {
         private Intent intent;
         private int requestCode;
         private Context context;
@@ -481,7 +487,7 @@ public final class SelectImageManager {
 
         @Override
         protected void onPreExecute() {
-            EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.START_LOADING));
+            onImageStartLoading();
         }
 
         @Override
@@ -505,9 +511,9 @@ public final class SelectImageManager {
         @Override
         protected void onPostExecute(ImageFileClass image) {
             if (image != null && image.bitmap != null && image.imageFile != null) {
-                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
+                onImageCompleteLoading(image);
             } else {
-                EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR, requestCode));
+                onImageErrorLoading(requestCode);
             }
         }
     }
@@ -523,4 +529,21 @@ public final class SelectImageManager {
             this.isFileFromGallery = isFileFromGallery;
         }
     }
+
+    protected void onImageStartLoading() {
+        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.START_LOADING));
+    }
+
+    protected void onImageCompleteLoading(ImageFileClass image) {
+        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
+    }
+
+    protected void onImageErrorLoading(int requestCode) {
+        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR, requestCode));
+    }
+
+    protected void onImageRemoved() {
+        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE));
+    }
+
 }
