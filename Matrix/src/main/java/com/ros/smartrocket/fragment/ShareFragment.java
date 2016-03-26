@@ -7,10 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.ros.smartrocket.Config;
@@ -23,12 +29,10 @@ import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
-import java.io.IOException;
+import com.ros.smartrocket.utils.GoogleUrlShortenManager;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 /**
  * Share app info fragment
@@ -36,6 +40,7 @@ import java.io.IOException;
 public class ShareFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
     private static final String TAG = ShareFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private ViewGroup view;
     private String shortUrl;
@@ -125,32 +130,20 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
 
     public void getShortUrl(String longUrl) {
         //Generate Short url to share
-        GoogleUrlShortenManager.getShortUrl(longUrl, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                MyLog.logStackTrace(e);
-            }
+        googleUrlShortenManager.getShortUrl(getActivity(), longUrl,
+                new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
+                    @Override
+                    public void onShortUrlReady(String url) {
+                        shortUrl = url;
+                        showButtons(sharing.getBitMaskSocialNetwork());
+                    }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                MyLog.v("ShareFragment.onResponse", response.body().string());
-            }
-        });
+                    @Override
+                    public void onGetShortUrlError(String errorString) {
 
-//        googleUrlShortenManager.getShortUrl(getActivity(), longUrl,
-//                new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
-//                    @Override
-//                    public void onShortUrlReady(String url) {
-//                        shortUrl = url;
-//                        showButtons(sharing.getBitMaskSocialNetwork());
-//                    }
-//
-//                    @Override
-//                    public void onGetShortUrlError(String errorString) {
-//
-//                    }
-//                }
-//        );
+                    }
+                }
+        );
     }
 
     @Override

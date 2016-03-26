@@ -258,7 +258,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     }
 
     /**
-     * Send request to get Address from {@link GeoCoderTool}
+     * Send request to get Address from {@link Geocoder}
      *
      * @param location - location to check
      * @param callback - result callback
@@ -367,10 +367,10 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
         @Override
         protected Address doInBackground(Location... params) {
-            GeoCoderTool geoCoder = new GeoCoderTool(Locale.ENGLISH);
+            Geocoder geocoder = new Geocoder(сontext, Locale.ENGLISH);
             Location loc = params[0];
 
-            return geoCoder.getFromLocation(loc.getLatitude(), loc.getLongitude());
+            return geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude());
         }
 
         @Override

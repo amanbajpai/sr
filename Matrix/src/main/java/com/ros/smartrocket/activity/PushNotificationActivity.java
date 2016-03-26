@@ -8,6 +8,9 @@ import com.ros.smartrocket.fragment.PushNotificationsListFragment;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
+/**
+ * Created by macbook on 08.10.15.
+ */
 public class PushNotificationActivity extends BaseActivity {
 
     @Override
@@ -18,7 +21,7 @@ public class PushNotificationActivity extends BaseActivity {
             startActivity(IntentUtils.getLoginIntentForPushNotificationsActivity(this));
         }
 
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
