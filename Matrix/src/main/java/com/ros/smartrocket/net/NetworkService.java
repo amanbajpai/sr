@@ -207,15 +207,13 @@ public class NetworkService extends BaseNetworkService {
                         int missionId = operation.getMissionId();
 
                         QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
-
                         Questions questions = gson.fromJson(responseString, Questions.class);
-
                         questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
 
                         int i = 1;
                         for (Question question : questions.getQuestions()) {
                             if (i != 1 && question.getShowBackButton()) {
-                                question.setPreviousQuestionOrderId(i-1);
+                                question.setPreviousQuestionOrderId(i - 1);
                             }
                             i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question, null);
 
@@ -230,6 +228,9 @@ public class NetworkService extends BaseNetworkService {
 
                         }
 
+                        if (questions.getMissionSize() != null) {
+                            WavesBL.updateWave(waveId, questions.getMissionSize());
+                        }
                         break;
                     case WSUrl.GET_SHARING_DATA_ID:
                         Sharing sharing = gson.fromJson(responseString, Sharing.class);

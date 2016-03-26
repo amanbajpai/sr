@@ -209,4 +209,17 @@ public class WavesBL {
     public static boolean isPreClaimWave(Wave wave) {
         return UIUtils.isoTimeToLong(wave.getStartDateTime()) > Calendar.getInstance().getTimeInMillis();
     }
+
+    /**
+     * Update wave
+     */
+    public static void updateWave(int waveId, int missionSize) {
+        String where = WaveDbSchema.Columns.ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(waveId)};
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(WaveDbSchema.Columns.MISSION_SIZE.getName(), missionSize);
+
+        App.getInstance().getContentResolver().update(WaveDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
 }

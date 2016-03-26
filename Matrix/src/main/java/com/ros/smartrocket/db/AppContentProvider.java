@@ -156,7 +156,8 @@ public class AppContentProvider extends ContentProvider {
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.DOWNLOAD_MEDIA_WHEN_CLAIMING_TASK.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.CONTAINS_DIFFERENT_RATE.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.RATE.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.APPROX_MISSION_DURATION.getName()
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.APPROX_MISSION_DURATION.getName(),
+                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.MISSION_SIZE.getName()
                 };
 
                 groupBy = Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName();

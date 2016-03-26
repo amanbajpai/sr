@@ -502,6 +502,22 @@ public class DialogUtils {
     }
 
     /**
+     * Check download media
+     *
+     * @param context - current context
+     */
+    public static Dialog showDownloadMediaDialog(final Context context, int missionSize,
+                                                 DefaultInfoDialog.DialogButtonClickListener listener) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
+                context.getText(R.string.turn_on_wifi_dialog_title),
+                context.getString(R.string.mission_size_dialog_text, missionSize),
+                R.string.continue_register, R.string.cancel_big);
+        dialog.setOnDialogButtonClickListener(listener);
+
+        return dialog;
+    }
+
+    /**
      * Ask user to confirm changing first and last name
      *
      * @param context - current context

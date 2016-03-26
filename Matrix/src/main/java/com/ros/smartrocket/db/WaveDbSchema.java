@@ -54,6 +54,7 @@ public interface WaveDbSchema {
         ID_CARD_TEXT("idCardText", DBType.TEXT),
 
         APPROX_MISSION_DURATION("approxMissionDuration", DBType.INT),
+        MISSION_SIZE("missionSize", DBType.INT),
 
         DELETED("deleted", DBType.INT);
 
@@ -81,7 +82,8 @@ public interface WaveDbSchema {
     interface Query {
         int TOKEN_QUERY = 10;
 
-        String[] PROJECTION = {Table.WAVE.getName() + "." + Columns._ID.getName(),
+        String[] PROJECTION = {
+                Table.WAVE.getName() + "." + Columns._ID.getName(),
                 Table.WAVE.getName() + "." + Columns.ID.getName(),
                 Table.WAVE.getName() + "." + Columns.NAME.getName(),
                 Table.WAVE.getName() + "." + Columns.DESCRIPTION.getName(),
@@ -119,7 +121,8 @@ public interface WaveDbSchema {
                 Table.WAVE.getName() + "." + Columns.ID_CARD_STATUS.getName(),
                 Table.WAVE.getName() + "." + Columns.ID_CARD_LOGO.getName(),
                 Table.WAVE.getName() + "." + Columns.ID_CARD_TEXT.getName(),
-                Table.WAVE.getName() + "." + Columns.APPROX_MISSION_DURATION.getName()
+                Table.WAVE.getName() + "." + Columns.APPROX_MISSION_DURATION.getName(),
+                Table.WAVE.getName() + "." + Columns.MISSION_SIZE.getName()
         };
 
         int _ID = 0;
@@ -155,6 +158,7 @@ public interface WaveDbSchema {
         int ID_CARD_LOGO = 30;
         int ID_CARD_TEXT = 31;
         int APPROX_MISSION_DURATION = 32;
+        int MISSION_SIZE = 33;
     }
 
     interface QueryWaveByDistance {
@@ -198,5 +202,6 @@ public interface WaveDbSchema {
         int CONTAINS_DIFFERENT_RATE = 33;
         int RATE = 34;
         int APPROX_MISSION_DURATION = 35;
+        int MISSION_SIZE = 36;
     }
 }

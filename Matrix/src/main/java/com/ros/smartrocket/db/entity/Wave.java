@@ -52,10 +52,6 @@ public class Wave extends BaseEntity {
     private Boolean viewableBeforeLive;
     @SerializedName("ExperienceOffer")
     private Double experienceOffer;
-    //    @SerializedName("PhotoQuestionsCount")
-//    private Integer photoQuestionsCount;
-//    @SerializedName("NoPhotoQuestionsCount")
-//    private Integer noPhotoQuestionsCount;
     @SerializedName("ApproxMissionDuration")
     private Integer approxMissionDuration;
     @SerializedName("Icon")
@@ -89,6 +85,9 @@ public class Wave extends BaseEntity {
     private String idCardLogo;
     @SerializedName("IdCardText")
     private String idCardText;
+
+    @SerializedName("MissionSize")
+    private Integer missionSize;
 
     @SkipFieldInContentValues
     @SerializedName("Tasks")
@@ -178,6 +177,7 @@ public class Wave extends BaseEntity {
             result.setIdCardLogo(c.getString(WaveDbSchema.Query.ID_CARD_LOGO));
             result.setIdCardText(c.getString(WaveDbSchema.Query.ID_CARD_TEXT));
             result.setApproxMissionDuration(c.getInt(WaveDbSchema.Query.APPROX_MISSION_DURATION));
+            result.setMissionSize(c.getInt(WaveDbSchema.Query.MISSION_SIZE));
         }
         return result;
     }
@@ -233,6 +233,7 @@ public class Wave extends BaseEntity {
             result.setContainsDifferentRate(c.getInt(WaveDbSchema.QueryWaveByDistance.CONTAINS_DIFFERENT_RATE) == 1);
             result.setRate(c.getDouble(WaveDbSchema.QueryWaveByDistance.RATE));
             result.setApproxMissionDuration(c.getInt(WaveDbSchema.QueryWaveByDistance.APPROX_MISSION_DURATION));
+            result.setMissionSize(c.getInt(WaveDbSchema.QueryWaveByDistance.MISSION_SIZE));
         }
         return result;
     }
@@ -557,5 +558,13 @@ public class Wave extends BaseEntity {
 
     public void setIdCardText(String idCardText) {
         this.idCardText = idCardText;
+    }
+
+    public Integer getMissionSize() {
+        return missionSize;
+    }
+
+    public void setMissionSize(Integer missionSize) {
+        this.missionSize = missionSize;
     }
 }

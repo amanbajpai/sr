@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-    private static final int DB_VERSION = 34;
+    private static final int DB_VERSION = 35;
     private static final String DB_NAME = "matrix_db";
     private static DatabaseHelper instance;
 
@@ -34,23 +34,12 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         StringBuilder sql = new StringBuilder(1024);
         for (Table table : Table.values()) {
-            if (skipTable(table)) {
-                continue;
-            }
             if (appendCreateTableSQL(sql, table)) {
                 continue;
             }
             db.execSQL(sql.toString());
             sql.setLength(0);
         }
-    }
-
-    private boolean skipTable(Table table) {
-        boolean skip = false;
-        /*
-         * switch (table) { case LEAD_SOURCE: skip = true; break; }
-         */
-        return skip;
     }
 
     @Override

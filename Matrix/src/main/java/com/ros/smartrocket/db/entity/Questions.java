@@ -8,6 +8,10 @@ public class Questions extends BaseEntity {
     @SerializedName("Questions")
     private Question[] questions;
 
+    @SkipFieldInContentValues
+    @SerializedName("MissionSize")
+    private Integer missionSize;
+
     public Questions() {
     }
 
@@ -17,5 +21,9 @@ public class Questions extends BaseEntity {
 
     public void setQuestions(Question[] questions) {
         this.questions = questions;
+    }
+
+    public Integer getMissionSize() {
+        return missionSize;
     }
 }

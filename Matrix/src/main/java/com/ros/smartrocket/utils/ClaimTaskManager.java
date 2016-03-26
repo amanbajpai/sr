@@ -19,10 +19,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.*;
-import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
-import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
-import com.ros.smartrocket.dialog.WithdrawTaskDialog;
+import com.ros.smartrocket.dialog.*;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -130,9 +127,23 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                         ClaimTaskManager.this.location = location;
 
                         Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
-                        if (wave.getDownloadMediaWhenClaimingTask()) {
-                            QuestionsBL.getQuestionsListFromDB(
-                                    handler, task.getWaveId(), task.getId(), task.getMissionId(), true);
+                        if (wave.getDownloadMediaWhenClaimingTask() && wave.getMissionSize() != null) {
+                            DialogUtils.showDownloadMediaDialog(activity, wave.getMissionSize(),
+                                    new DefaultInfoDialog.DialogButtonClickListener() {
+                                        @Override
+                                        public void onLeftButtonPressed(Dialog dialog) {
+                                            dialog.dismiss();
+                                            QuestionsBL.getQuestionsListFromDB(handler,
+                                                    task.getWaveId(), task.getId (), task.getMissionId(), true);
+                                        }
+
+                                        @Override
+                                        public void onRightButtonPressed(Dialog dialog) {
+                                            dismissProgressBar();
+                                            dialog.dismiss();
+                                        }
+                                    });
+
                         } else {
                             apiFacade.claimTask(activity, task.getId(),
                                     location.getLatitude(), location.getLongitude());
