@@ -26,6 +26,7 @@ import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayS
  */
 public class DialogUtils {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int ONE_MB = 1024 * 1024;
 
     private DialogUtils() {
     }
@@ -508,9 +509,10 @@ public class DialogUtils {
      */
     public static Dialog showDownloadMediaDialog(final Context context, int missionSize,
                                                  DefaultInfoDialog.DialogButtonClickListener listener) {
+        String size = String.format("%.0fMB", (double) missionSize / ONE_MB);
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
                 context.getText(R.string.turn_on_wifi_dialog_title),
-                context.getString(R.string.mission_size_dialog_text, missionSize),
+                context.getString(R.string.mission_size_dialog_text, size),
                 R.string.continue_register, R.string.cancel_big);
         dialog.setOnDialogButtonClickListener(listener);
 

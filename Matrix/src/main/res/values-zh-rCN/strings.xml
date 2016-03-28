@@ -427,5 +427,5 @@
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">职员证</string>
     <string name="dialog_are_you_sure_first_last_name_text">请确认名字更新为 %1$s %2$s?</string>
-    <string name="mission_size_dialog_text">任务的档案容量为 %dMB，也准备下载到您的手机。如果不想使用自己的数据，请先連接到Wi-Fi网络。</string>
+    <string name="mission_size_dialog_text">任务的档案容量为 %sMB，也准备下载到您的手机。如果不想使用自己的数据，请先連接到Wi-Fi网络。</string>
 </resources>
