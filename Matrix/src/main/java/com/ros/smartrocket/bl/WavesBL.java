@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.text.format.DateUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.db.Table;
@@ -150,10 +151,11 @@ public class WavesBL {
      */
     public static ArrayList<Wave> convertCursorToWaveListByDistance(Cursor cursor) {
         ArrayList<Wave> result = new ArrayList<Wave>();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
                 Wave wave = Wave.fromCursorByDistance(cursor);
                 result.add(wave);
+                cursor.moveToNext();
             }
             cursor.close();
         }
