@@ -127,7 +127,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                         ClaimTaskManager.this.location = location;
 
                         Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
-                        if (wave.getDownloadMediaWhenClaimingTask() && wave.getMissionSize() != null) {
+                        if (wave.getDownloadMediaWhenClaimingTask()
+                                && wave.getMissionSize() != null
+                                && wave.getMissionSize() != 0) {
                             DialogUtils.showDownloadMediaDialog(activity, wave.getMissionSize(),
                                     new DefaultInfoDialog.DialogButtonClickListener() {
                                         @Override
