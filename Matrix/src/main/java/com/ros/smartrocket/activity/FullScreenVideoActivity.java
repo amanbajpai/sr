@@ -11,6 +11,7 @@ import android.widget.VideoView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.UIUtils;
 
 public class FullScreenVideoActivity extends ActionBarActivity implements MediaPlayer.OnCompletionListener {
     //private static final String TAG = FullScreenImageActivity.class.getSimpleName();
@@ -27,7 +28,11 @@ public class FullScreenVideoActivity extends ActionBarActivity implements MediaP
         String videoPath = getIntent().getStringExtra(Keys.VIDEO_FILE_PATH);
 
         videoView = (VideoView) findViewById(R.id.video);
-        videoView.setVideoPath(videoPath);
+        if (videoPath != null) {
+            videoView.setVideoPath(videoPath);
+        } else {
+            UIUtils.showSimpleToast(this, R.string.error);
+        }
         videoView.setOnCompletionListener(this);
         //videoView.setMediaController(new MediaController(this));
         videoView.setOnTouchListener(new View.OnTouchListener() {
