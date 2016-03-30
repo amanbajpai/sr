@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -175,7 +176,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         setSupportProgressBarIndeterminateVisibility(false);
 
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS ||
-                operation.getResponseErrorCode() == BaseNetworkService.TASK_ALREADY_SUBMITTED) {
+                (operation.getResponseErrorCode() != null
+                        && operation.getResponseErrorCode() == BaseNetworkService.TASK_ALREADY_SUBMITTED)) {
             if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 task.setStartedStatusSent(true);
                 TasksBL.updateTask(handler, task);

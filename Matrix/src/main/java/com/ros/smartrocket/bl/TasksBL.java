@@ -339,9 +339,10 @@ public class TasksBL {
      */
     public static List<Task> convertCursorToTasksList(Cursor cursor) {
         List<Task> result = new ArrayList<>();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
                 result.add(Task.fromCursor(cursor));
+                cursor.moveToNext();
             }
             cursor.close();
         }

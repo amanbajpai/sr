@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
@@ -308,15 +309,14 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         switch (v.getId()) {
             case R.id.photo:
                 if (isBitmapAdded) {
-                    String filePath;
-                    boolean rotateByExif;
+                    String filePath = "";
+                    boolean rotateByExif = false;
                     if (!isBitmapConfirmed) {
                         filePath = lastPhotoFile.getPath();
                         rotateByExif = !isLastFileFromGallery;
-                    } else {
+                    } else if (question.getAnswers().length < currentSelectedPhoto) {
                         Answer answer = question.getAnswers()[currentSelectedPhoto];
                         filePath = answer.getFileUri();
-                        rotateByExif = false;
                     }
 
                     if (!TextUtils.isEmpty(filePath)) {
@@ -340,7 +340,9 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 break;
             case R.id.deletePhotoButton:
                 if (isBitmapConfirmed) {
-                    AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
+                    if (question.getAnswers().length < currentSelectedPhoto) {
+                        AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
+                    }
                 } else {
                     isBitmapAdded = false;
                     refreshRePhotoButton();
