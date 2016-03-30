@@ -3,6 +3,7 @@ package com.ros.smartrocket.activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.MenuItem;
 
@@ -29,8 +30,9 @@ public class FullScreenImageActivity extends ActionBarActivity {
         String photoUri = getIntent().getStringExtra(Keys.BITMAP_FILE_PATH);
         boolean rotateByExif = getIntent().getBooleanExtra(Keys.ROTATE_BY_EXIF, false);
 
-        bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, rotateByExif);
-
+        if (!TextUtils.isEmpty(photoUri)) {
+            bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, rotateByExif);
+        }
         if (bitmap != null) {
             ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
             photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));
