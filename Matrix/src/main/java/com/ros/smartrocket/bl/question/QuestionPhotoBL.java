@@ -391,7 +391,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile,
                 SelectImageManager.SIZE_IN_PX_2_MP, 0, isLastFileFromGallery);
 
-        if (resultImageFile.exists()) {
+        if (resultImageFile.exists() && question.getAnswers().length < currentSelectedPhoto) {
             Answer answer = question.getAnswers()[currentSelectedPhoto];
             boolean needAddEmptyAnswer = !answer.getChecked();
 

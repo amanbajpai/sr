@@ -536,7 +536,7 @@ public class Wave extends BaseEntity {
         this.rate = rate;
     }
 
-    public int getIdCardStatus() {
+    public Integer getIdCardStatus() {
         return idCardStatus;
     }
 

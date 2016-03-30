@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+
 import cn.jpush.android.api.JPushInterface;
+
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
@@ -20,38 +22,40 @@ public class JPushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        L.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+        if (bundle != null) {
+            L.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
-        if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-            String registrationId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
+            if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
+                String registrationId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+                Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
 
-            //Send the Registration Id to server...
-            if (Config.USE_BAIDU) {
-                L.d(TAG, "[MyReceiver] Send registered to server: regId = " + registrationId);
-                APIFacade.getInstance().registerGCMId(context, registrationId, 1);
-                preferencesManager.setGCMRegistrationId(registrationId);
+                //Send the Registration Id to server...
+                if (Config.USE_BAIDU) {
+                    L.d(TAG, "[MyReceiver] Send registered to server: regId = " + registrationId);
+                    APIFacade.getInstance().registerGCMId(context, registrationId, 1);
+                    preferencesManager.setGCMRegistrationId(registrationId);
+                }
+
+            } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
+                processCustomMessage(context, bundle);
+
+            } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
+                Log.d(TAG, "ACTION_NOTIFICATION_RECEIVED");
+                int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+                Log.d(TAG, "notifactionId: " + notifactionId);
+
+            } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+                Log.d(TAG, "ACTION_NOTIFICATION_OPENED");
+
+            } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
+                Log.d(TAG, "ACTION_RICHPUSH_CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+
+            } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
+                boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
+                Log.w(TAG, intent.getAction() + " connected state change to " + connected);
+            } else {
+                Log.d(TAG, "Unhandled intent - " + intent.getAction());
             }
-
-        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-            processCustomMessage(context, bundle);
-
-        } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-            Log.d(TAG, "ACTION_NOTIFICATION_RECEIVED");
-            int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.d(TAG, "notifactionId: " + notifactionId);
-
-        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.d(TAG, "ACTION_NOTIFICATION_OPENED");
-
-        } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-            Log.d(TAG, "ACTION_RICHPUSH_CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
-
-        } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
-            boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-            Log.w(TAG, intent.getAction() + " connected state change to " + connected);
-        } else {
-            Log.d(TAG, "Unhandled intent - " + intent.getAction());
         }
     }
 
