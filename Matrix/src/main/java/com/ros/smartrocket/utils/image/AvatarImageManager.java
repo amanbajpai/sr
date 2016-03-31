@@ -13,13 +13,13 @@ public class AvatarImageManager extends SelectImageManager {
     }
 
     @Override
-    protected void onImageCompleteLoading(ImageFileClass image) {
+    protected void onImageCompleteLoading(ImageFileClass image, int requestCode) {
         EventBus.getDefault().post(new AvatarEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
     }
 
     @Override
-    protected void onImageErrorLoading(int requestCode) {
-        EventBus.getDefault().post(new AvatarEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR, requestCode));
+    protected void onImageErrorLoading() {
+        EventBus.getDefault().post(new AvatarEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR));
     }
 
     @Override

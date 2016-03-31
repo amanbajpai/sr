@@ -21,24 +21,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.eventbus.AvatarEvent;
 import com.ros.smartrocket.eventbus.PhotoEvent;
-import com.ros.smartrocket.utils.BytesBitmap;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.StorageManager;
-
+import com.ros.smartrocket.utils.*;
 import de.greenrobot.event.EventBus;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.util.Calendar;
 import java.util.Random;
 
+import static com.ros.smartrocket.utils.image.RequestCodeImageHelper.getLittlePart;
 import static com.squareup.picasso.Picasso.with;
 
 public class SelectImageManager {
@@ -47,10 +40,14 @@ public class SelectImageManager {
     public static final String PREFIX_PROFILE = "profile";
 
     private static final String TAG = SelectImageManager.class.getSimpleName();
-    private static final int NONE = 0;
-    private static final int GALLERY = 101;
-    private static final int CAMERA = 102;
-    private static final int CUSTOM_CAMERA = 103;
+
+    /**
+     * It is used binary mask for request codes. So only 4 bits for size allowed.
+     */
+    private static final int NONE = 0x0;
+    private static final int GALLERY = 0x1;
+    private static final int CAMERA = 0x2;
+    private static final int CUSTOM_CAMERA = 0x3;
 
     private static final int HORIZONTAL = 1;
     private static final int VERTICAL = 2;
@@ -100,6 +97,12 @@ public class SelectImageManager {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
         sourceFragment.startActivityForResult(i, CAMERA);
+    }
+
+    public static void startCamera(Fragment sourceFragment, File filePath, int bigPartCode) {
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+        sourceFragment.startActivityForResult(i, RequestCodeImageHelper.makeRequestCode(bigPartCode, CAMERA));
     }
 
     public void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
@@ -493,10 +496,12 @@ public class SelectImageManager {
         @Override
         protected ImageFileClass doInBackground(Void... params) {
             ImageFileClass image = null;
-            if (requestCode == SelectImageManager.GALLERY) {
-                image = getBitmapFromGallery(intent, context);
+            int littleRequestCode = getLittlePart(requestCode);
 
-            } else if (requestCode == SelectImageManager.CAMERA || requestCode == SelectImageManager.CUSTOM_CAMERA) {
+            if (littleRequestCode == SelectImageManager.GALLERY) {
+                image = getBitmapFromGallery(intent, context);
+            } else if (littleRequestCode == SelectImageManager.CAMERA
+                    || littleRequestCode == SelectImageManager.CUSTOM_CAMERA) {
                 image = getBitmapFromCamera(intent, context);
 
                 if (preferencesManager.getUseSaveImageToCameraRoll() &&
@@ -511,9 +516,9 @@ public class SelectImageManager {
         @Override
         protected void onPostExecute(ImageFileClass image) {
             if (image != null && image.bitmap != null && image.imageFile != null) {
-                onImageCompleteLoading(image);
+                onImageCompleteLoading(image, requestCode);
             } else {
-                onImageErrorLoading(requestCode);
+                onImageErrorLoading();
             }
         }
     }
@@ -534,12 +539,12 @@ public class SelectImageManager {
         EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.START_LOADING));
     }
 
-    protected void onImageCompleteLoading(ImageFileClass image) {
-        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image));
+    protected void onImageCompleteLoading(ImageFileClass image, int requestCode) {
+        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.IMAGE_COMPLETE, image, requestCode));
     }
 
-    protected void onImageErrorLoading(int requestCode) {
-        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR, requestCode));
+    protected void onImageErrorLoading() {
+        EventBus.getDefault().post(new PhotoEvent(PhotoEvent.PhotoEventType.SELECT_IMAGE_ERROR));
     }
 
     protected void onImageRemoved() {
