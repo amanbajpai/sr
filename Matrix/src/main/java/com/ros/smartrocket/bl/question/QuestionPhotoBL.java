@@ -314,7 +314,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                     if (!isBitmapConfirmed) {
                         filePath = lastPhotoFile.getPath();
                         rotateByExif = !isLastFileFromGallery;
-                    } else if (question.getAnswers().length < currentSelectedPhoto) {
+                    } else if (question.getAnswers().length > currentSelectedPhoto) {
                         Answer answer = question.getAnswers()[currentSelectedPhoto];
                         filePath = answer.getFileUri();
                     }
@@ -340,7 +340,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 break;
             case R.id.deletePhotoButton:
                 if (isBitmapConfirmed) {
-                    if (question.getAnswers().length < currentSelectedPhoto) {
+                    if (question.getAnswers().length > currentSelectedPhoto) {
                         AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
                     }
                 } else {
@@ -391,7 +391,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile,
                 SelectImageManager.SIZE_IN_PX_2_MP, 0, isLastFileFromGallery);
 
-        if (resultImageFile.exists() && question.getAnswers().length < currentSelectedPhoto) {
+        if (resultImageFile.exists() && question.getAnswers().length > currentSelectedPhoto) {
             Answer answer = question.getAnswers()[currentSelectedPhoto];
             boolean needAddEmptyAnswer = !answer.getChecked();
 

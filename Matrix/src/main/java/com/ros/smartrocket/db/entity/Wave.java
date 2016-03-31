@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.WaveDbSchema;
 
@@ -537,7 +538,7 @@ public class Wave extends BaseEntity {
     }
 
     public Integer getIdCardStatus() {
-        return idCardStatus;
+        return idCardStatus == null ? 0 : idCardStatus;
     }
 
     public void setIdCardStatus(int idCardStatus) {
