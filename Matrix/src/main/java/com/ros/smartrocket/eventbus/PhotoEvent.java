@@ -9,23 +9,19 @@ public class PhotoEvent {
 
     public final PhotoEventType type;
     public final SelectImageManager.ImageFileClass image;
-    public final int imageFrom;
+    public final Integer requestCode;
 
-    private PhotoEvent(PhotoEventType type, SelectImageManager.ImageFileClass image, int imageFrom) {
+    public PhotoEvent(PhotoEventType type, SelectImageManager.ImageFileClass image, Integer requestCode) {
         this.type = type;
         this.image = image;
-        this.imageFrom = imageFrom;
+        this.requestCode = requestCode;
     }
 
     public PhotoEvent(PhotoEventType type) {
-        this(type, null, -1);
-    }
-
-    public PhotoEvent(PhotoEventType type, int imageFrom) {
-        this(type, null, imageFrom);
+        this(type, null, null);
     }
 
     public PhotoEvent(PhotoEventType type, SelectImageManager.ImageFileClass image) {
-        this(type, image, -1);
+        this(type, image, null);
     }
 }

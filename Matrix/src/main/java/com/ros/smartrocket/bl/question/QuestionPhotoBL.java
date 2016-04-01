@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
@@ -26,8 +25,8 @@ import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
-
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
@@ -156,25 +155,28 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 showProgressDialog();
                 break;
             case IMAGE_COMPLETE:
-                L.v(TAG, "onImageComplete");
-                lastPhotoFile = event.image.imageFile;
-                isLastFileFromGallery = event.image.isFileFromGallery;
-                isBitmapAdded = event.image.bitmap != null;
-                isBitmapConfirmed = false;
+                MyLog.v(TAG, "ImageComplete");
+                if (event.requestCode == null
+                        || RequestCodeImageHelper.getBigPart(event.requestCode) == question.getOrderId()) {
+                    lastPhotoFile = event.image.imageFile;
+                    isLastFileFromGallery = event.image.isFileFromGallery;
+                    isBitmapAdded = event.image.bitmap != null;
+                    isBitmapConfirmed = false;
 
-                if (event.image.bitmap != null) {
-                    L.v(TAG, "Set Bitmap not null " + QuestionPhotoBL.this);
-                    photoImageView.setImageBitmap(event.image.bitmap);
-                } else {
-                    photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                    if (event.image.bitmap != null) {
+                        L.v(TAG, "Set Bitmap not null " + QuestionPhotoBL.this);
+                        photoImageView.setImageBitmap(event.image.bitmap);
+                    } else {
+                        photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                    }
+
+                    refreshRePhotoButton();
+                    refreshDeletePhotoButton();
+                    refreshConfirmButton();
+                    refreshNextButton();
+
+                    hideProgressDialog();
                 }
-
-                refreshRePhotoButton();
-                refreshDeletePhotoButton();
-                refreshConfirmButton();
-                refreshNextButton();
-
-                hideProgressDialog();
                 break;
             case SELECT_IMAGE_ERROR:
                 hideProgressDialog();
@@ -329,7 +331,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 if (question.getPhotoSource() == 0) {
                     // From camera
                     mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
-                    SelectImageManager.startCamera(fragment, mCurrentPhotoFile);
+                    SelectImageManager.startCamera(fragment, mCurrentPhotoFile, question.getOrderId());
                 } else if (question.getPhotoSource() == 1) {
                     // From gallery
                     SelectImageManager.startGallery(fragment);

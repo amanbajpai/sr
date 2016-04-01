@@ -7,10 +7,6 @@ public class AvatarEvent extends PhotoEvent {
         super(type);
     }
 
-    public AvatarEvent(PhotoEventType type, int imageFrom) {
-        super(type, imageFrom);
-    }
-
     public AvatarEvent(PhotoEventType type, SelectImageManager.ImageFileClass image) {
         super(type, image);
     }
