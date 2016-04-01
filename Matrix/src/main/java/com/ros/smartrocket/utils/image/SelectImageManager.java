@@ -105,6 +105,16 @@ public class SelectImageManager {
         sourceFragment.startActivityForResult(i, RequestCodeImageHelper.makeRequestCode(bigPartCode, CAMERA));
     }
 
+    public static void startGallery(Fragment fragment, int bigPartCode) {
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (!IntentUtils.isIntentAvailable(fragment.getActivity(), i)) {
+            i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("photo/*");
+        }
+        fragment.startActivityForResult(i, RequestCodeImageHelper.makeRequestCode(bigPartCode, GALLERY));
+    }
+
+
     public void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
                                       final File file) {
         showSelectImageDialog(showRemoveButton, file, fragment, null);

@@ -334,7 +334,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                     SelectImageManager.startCamera(fragment, mCurrentPhotoFile, question.getOrderId());
                 } else if (question.getPhotoSource() == 1) {
                     // From gallery
-                    SelectImageManager.startGallery(fragment);
+                    SelectImageManager.startGallery(fragment, question.getOrderId());
                 } else {
                     File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
                     selectImageManager.showSelectImageDialog(fragment, true, fileToPhoto);
