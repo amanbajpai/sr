@@ -13,6 +13,8 @@ import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
@@ -123,7 +125,8 @@ public class AnswersBL {
                 args.toArray(new String[args.size()]),
                 AnswerDbSchema.SORT_ORDER_ASC);
     }
- /**
+
+    /**
      * Make request for getting Answer list
      *
      * @param handler - Handler for getting response from DB
@@ -221,6 +224,13 @@ public class AnswersBL {
                 contentValues, AnswerDbSchema.Columns.QUESTION_ID + "=? and " +
                         AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)});
+
+        App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI,
+                contentValues, AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+                        + AnswerDbSchema.Columns.QUESTION_ID +" IN (Select + " + QuestionDbSchema.Columns.ID
+                        + " From " + Table.QUESTION.getName()
+                        + " Where " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=?)",
+        new String[]{String.valueOf(taskId), String.valueOf(missionId), String.valueOf(questionId)});
 
     }
 
