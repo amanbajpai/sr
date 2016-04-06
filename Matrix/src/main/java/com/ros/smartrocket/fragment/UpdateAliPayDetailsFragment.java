@@ -55,6 +55,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
 
         View actionBarCustomView = actionBar.getCustomView();
         ((TextView) actionBarCustomView.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_payment_details);
+        actionBarCustomView.findViewById(R.id.starButton).setVisibility(View.GONE);
         initRefreshButton();
 
         loginEditText = (EditText) view.findViewById(R.id.loginEditText);
