@@ -3,7 +3,7 @@ package com.ros.smartrocket.db;
 import android.net.Uri;
 
 public interface QuestionDbSchema {
-    String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ", " + Columns.WAVE_ID.getName() + ", "
+    String CUSTOM_SQL = ", UNIQUE (" + Columns.PRODUCT_ID.getName() + ", " + Columns.ID.getName() + ", " + Columns.WAVE_ID.getName() + ", "
             + "" + Columns.TASK_ID.getName() + ") ON CONFLICT REPLACE";
     Uri CONTENT_URI = AppContentProvider.BASE_CONTENT_URI.buildUpon().appendPath("entity").appendPath(Table.QUESTION
             .getName()).build();
@@ -46,6 +46,7 @@ public interface QuestionDbSchema {
         CATEGORIES("categories", DBType.TEXT),
         ACTION("action", DBType.NUMERIC),
         IS_REQUIRED("isRequired", DBType.NUMERIC),
+        PRODUCT_ID("productId", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -119,7 +120,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
                 Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
-                Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName()
+                Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName(),
+                Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName()
         };
 
         int _ID = 0;
@@ -156,5 +158,7 @@ public interface QuestionDbSchema {
         int CATEGORIES = 28;
         int ACTION = 29;
         int IS_REQUIRED = 30;
+
+        int PRODUCT_ID = 31;
     }
 }
