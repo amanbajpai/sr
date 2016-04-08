@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Product;
@@ -19,6 +21,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+
 import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
@@ -33,7 +36,8 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     public static final String KEY_QUES = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_QUESTIONS";
     public static final String KEY_TITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_TITLE";
     public static final String KEY_PRODUCT = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT";
-    
+    public static final String KEY_IS_REDO = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_IS_REDO";
+
     @Bind(R.id.massAuditSubquestionsLayout)
     LinearLayout subQuestionsLayout;
     @Bind(R.id.massAuditSubQuestionsTitle)
@@ -47,15 +51,17 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
 
     private SubQuestionsMassAuditAdapter adapter;
     private Product product;
+    private boolean isRedo;
     private int loadedSubQuestionsCount;
     private Set<Integer> set = new HashSet<>();
     private Set<Integer> requiredQuestionsSet = new HashSet<>();
 
-    public static Fragment makeInstance(Question[] questions, String title, Product product) {
+    public static Fragment makeInstance(Question[] questions, String title, Product product, boolean isRedo) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_QUES, questions);
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_PRODUCT, product);
+        bundle.putBoolean(KEY_IS_REDO, isRedo);
 
         Fragment fragment = new SubQuestionsMassAuditFragment();
         fragment.setArguments(bundle);
@@ -75,7 +81,8 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
 
         product = (Product) getArguments().getSerializable(KEY_PRODUCT);
-        
+        isRedo = getArguments().getBoolean(KEY_IS_REDO, false);
+
         titleTextView.setText(getArguments().getString(KEY_TITLE));
         subtitleTextView.setText(product != null ? product.getName() : "");
 
@@ -84,7 +91,14 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         if (questions != null) {
             for (Question question : questions) {
                 if (question.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
-                    childQuestions.add(question);
+                    if (isRedo) {
+                        if (question.getProductId() == product.getId()) {
+                            childQuestions.add(question);
+                        }
+                    } else {
+                        childQuestions.add(question);
+                    }
+
                 }
             }
         }

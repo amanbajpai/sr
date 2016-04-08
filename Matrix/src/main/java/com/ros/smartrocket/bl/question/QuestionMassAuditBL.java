@@ -229,7 +229,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private void startSubQuestionsFragment(CategoryProductPair item) {
         Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
-                item.category.getCategoryName(), item.product);
+                item.category.getCategoryName(), item.product, isRedo);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
     }

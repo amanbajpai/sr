@@ -19,6 +19,8 @@ public class Question extends BaseEntity implements Serializable {
     @SkipFieldInContentValues
     public static final int ACTION_NOTHING = 3;
 
+
+
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
         VIDEO(7), NUMBER(8), INSTRUCTION(9), MASS_AUDIT(10), MAIN_SUB_QUESTION(11);
@@ -36,6 +38,8 @@ public class Question extends BaseEntity implements Serializable {
 
     @SerializedName("MissionId")
     private Integer missionId;
+    @SerializedName("ProductId")
+    private Integer productId;
     @SerializedName("WaveId")
     private Integer waveId;
     @SerializedName("TaskId")
@@ -113,6 +117,14 @@ public class Question extends BaseEntity implements Serializable {
     public Question() {
     }
 
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
     public static Question fromCursor(Cursor c) {
         Question result = new Question();
         if (c.getCount() > 0) {
@@ -155,6 +167,7 @@ public class Question extends BaseEntity implements Serializable {
             result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
             result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
             result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
+            result.setProductId(c.getInt(QuestionDbSchema.Query.PRODUCT_ID));
         }
 
         return result;
