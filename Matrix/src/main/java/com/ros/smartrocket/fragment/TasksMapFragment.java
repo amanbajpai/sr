@@ -16,6 +16,7 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+
 import com.baidu.mapapi.map.*;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -96,6 +97,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private Circle circle;
     private Overlay circleBaidu;
     private boolean isNeedRefresh = true;
+    private View hideMissionsLayout;
+    private  SeekBar seekBarRadius;
 
     public TasksMapFragment() {
     }
@@ -139,6 +142,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         roundImage.setImageResource(Config.USE_BAIDU ? R.drawable.round_baidu : R.drawable.round);
         btnFilter = (ImageView) view.findViewById(R.id.btnFilter);
         btnFilter.setOnClickListener(this);
+        hideMissionsLayout = view.findViewById(R.id.hideMissionsLayout);
 
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
@@ -147,15 +151,8 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
 
         rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
-        SeekBar seekBarRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
+        seekBarRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
         txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
-
-        taskRadius = preferencesManager.getDefaultRadius();
-        sbRadiusProgress = taskRadius / RADIUS_DELTA;
-
-        setRadiusText();
-
-        seekBarRadius.setProgress(sbRadiusProgress);
         seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -203,10 +200,17 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         return view;
     }
 
+    private void initTaskRadius(){
+        taskRadius = preferencesManager.getDefaultRadius();
+        sbRadiusProgress = taskRadius / RADIUS_DELTA;
+        setRadiusText();
+        seekBarRadius.setProgress(sbRadiusProgress);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-
+        initTaskRadius();
         if (!isHidden() && isNeedRefresh) {
             isNeedRefresh = false;
             initMap();
@@ -259,10 +263,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
 
-            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS/* && !Config.USE_BAIDU*/
-                    /*|| mode == Keys.MapViewMode.WAVE_TASKS*/;
+            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS
+                    /* && !Config.USE_BAIDU || mode == Keys.MapViewMode.WAVE_TASKS*/;
             btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
-
+            if (mode == Keys.MapViewMode.WAVE_TASKS){
+                hideMissionsLayout.setVisibility(View.GONE);
+            }
             if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
                 viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
             }
@@ -464,15 +470,19 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 ArrayList<InputPoint> inputPoints = MapHelper.getGoogleMapInputPointList(list, location);
 
                 addGoogleMapPins(inputPoints);
-
-                if (mode == Keys.MapViewMode.ALL_TASKS) {
-                    restoreCameraPositionByRadius(location, taskRadius);
-                    addRadius(location);
-                } else if (mode == Keys.MapViewMode.MY_TASKS) {
-                    restoreCameraPositionByPins(location, inputPoints);
-                } else {
-                    restoreCameraPositionByPins(location, inputPoints);
-                    moveCameraToLocation();
+                switch (mode) {
+                    case ALL_TASKS:
+                    case WAVE_TASKS:
+                        restoreCameraPositionByRadius(location, taskRadius);
+                        addRadius(location);
+                        break;
+                    case MY_TASKS:
+                        restoreCameraPositionByPins(location, inputPoints);
+                        break;
+                    default:
+                        restoreCameraPositionByPins(location, inputPoints);
+                        moveCameraToLocation();
+                        break;
                 }
             }
 
@@ -482,20 +492,24 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
                 addBaiduMapPins(inputPoints);
 
-                if (mode == Keys.MapViewMode.ALL_TASKS) {
-                    restoreCameraPositionByRadius(location, taskRadius);
-                    addRadius(location);
-
-                } else if (mode == Keys.MapViewMode.MY_TASKS) {
-                    restoreCameraPositionByBaiduPins(location, inputPoints);
-                } else {
-                    restoreCameraPositionByBaiduPins(location, inputPoints);
-                    moveCameraToLocation();
+                switch (mode) {
+                    case ALL_TASKS:
+                    case WAVE_TASKS:
+                        restoreCameraPositionByRadius(location, taskRadius);
+                        addRadius(location);
+                        break;
+                    case MY_TASKS:
+                        restoreCameraPositionByBaiduPins(location, inputPoints);
+                        break;
+                    default:
+                        restoreCameraPositionByBaiduPins(location, inputPoints);
+                        moveCameraToLocation();
+                        break;
                 }
             }
         });
 
-        if (isFirstStart && (mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.MY_TASKS)) {
+        if (isFirstStart && mode != Keys.MapViewMode.SINGLE_TASK) {
             moveCameraToLocation();
             isFirstStart = false;
         }
@@ -692,7 +706,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      * Move camera to current location or show Toast message if location not defined.
      */
     private void moveCameraToLocation() {
-        if (mode == Keys.MapViewMode.ALL_TASKS) {
+        if (mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS) {
 
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                 @Override
@@ -714,31 +728,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 }
             });
 
-        } else if (mode == Keys.MapViewMode.MY_TASKS) {
-            MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
-                @Override
-                public void useGoogleMap(GoogleMap googleMap) {
-                    if (restoreCameraByPins != null) {
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
-                                display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150), 100));
-                    }
-                }
-
-                @Override
-                public void useBaiduMap(BaiduMap baiduMap) {
-                    if (restoreCameraByBaiduPins != null) {
-                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(restoreCameraByBaiduPins, display.getWidth(),
-                                display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150));
-                        baiduMap.animateMapStatus(cameraUpdate);
-                    }
-                }
-            });
         } else {
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                 @Override
                 public void useGoogleMap(GoogleMap googleMap) {
                     if (restoreCameraByPins != null) {
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
                                 display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150), 100));
                     }
                 }
