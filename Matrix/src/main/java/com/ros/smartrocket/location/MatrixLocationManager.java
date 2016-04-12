@@ -11,9 +11,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -51,6 +53,10 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     private AsyncQueryHandler handler;
     private LocationManager locationManager;
     private DistancesUpdateListener distancesUpdatedListener;
+    private com.google.android.gms.maps.model.LatLng lastGooglePosition;
+    private LatLng lastBaiduPosition;
+    private float zoomLevel;
+
 
     /**
      * @param context - current context
@@ -524,5 +530,33 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         void getLocationSuccess(Location location);
 
         void getLocationFail(String errorText);
+    }
+
+    public com.google.android.gms.maps.model.LatLng getLastGooglePosition() {
+        return lastGooglePosition;
+    }
+
+    public LatLng getLastBaiduPositionPosition() {
+        return lastBaiduPosition;
+    }
+
+    public float getZoomLevel() {
+        return zoomLevel;
+    }
+
+    public void setLastGooglePosition(com.google.android.gms.maps.model.LatLng position) {
+        lastGooglePosition = position;
+    }
+
+    public void setLastBaiduPosition(LatLng position) {
+        lastBaiduPosition = position;
+    }
+
+    public void setZoomLevel(float zoomLevel) {
+        this.zoomLevel = zoomLevel;
+    }
+
+    public boolean isLastLocationSaved(){
+        return lastBaiduPosition!=null || lastGooglePosition!=null;
     }
 }

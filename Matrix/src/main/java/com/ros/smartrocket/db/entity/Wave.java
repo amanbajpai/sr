@@ -530,7 +530,7 @@ public class Wave extends BaseEntity {
     }
 
     public Double getRate() {
-        return rate;
+        return rate == null ? 0 : rate;
     }
 
     public void setRate(Double rate) {
