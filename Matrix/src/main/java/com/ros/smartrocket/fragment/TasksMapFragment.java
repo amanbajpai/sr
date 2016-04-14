@@ -12,18 +12,38 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.baidu.mapapi.map.*;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.Overlay;
+import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ros.smartrocket.App;
@@ -45,7 +65,12 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.baiduclusterkraf.OnShowInfoWindowListener;
-import com.twotoasters.clusterkraf.*;
+import com.twotoasters.clusterkraf.ClusterPoint;
+import com.twotoasters.clusterkraf.Clusterkraf;
+import com.twotoasters.clusterkraf.InputPoint;
+import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
+import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
+import com.twotoasters.clusterkraf.Options;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +123,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private Overlay circleBaidu;
     private boolean isNeedRefresh = true;
     private View hideMissionsLayout;
-    private  SeekBar seekBarRadius;
+    private SeekBar seekBarRadius;
 
     public TasksMapFragment() {
     }
@@ -200,7 +225,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         return view;
     }
 
-    private void initTaskRadius(){
+    private void initTaskRadius() {
         taskRadius = preferencesManager.getDefaultRadius();
         sbRadiusProgress = taskRadius / RADIUS_DELTA;
         setRadiusText();
@@ -214,9 +239,20 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (!isHidden() && isNeedRefresh) {
             isNeedRefresh = false;
             initMap();
-
             setViewMode(getArguments());
             loadData(true);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (baiduMap != null) {
+            lm.setZoomLevel(baiduMap.getMapStatus().zoom);
+            lm.setLastBaiduPosition(baiduMap.getMapStatus().target);
+        } else if (googleMap != null) {
+            lm.setZoomLevel(googleMap.getCameraPosition().zoom);
+            lm.setLastGooglePosition(googleMap.getCameraPosition().target);
         }
     }
 
@@ -242,7 +278,22 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private void initMap() {
         if (!MapHelper.isMapNotNull(googleMap, baiduMap)) {
             if (Config.USE_BAIDU) {
-                baiduMap = MapHelper.getBaiduMap(getActivity(), zoomLevel);
+                baiduMap = MapHelper.getBaiduMap(getActivity(), new BaiduMap.OnMapStatusChangeListener() {
+                    @Override
+                    public void onMapStatusChangeStart(MapStatus mapStatus) {
+                        // not needed
+                    }
+
+                    @Override
+                    public void onMapStatusChange(MapStatus mapStatus) {
+                        // not needed
+                    }
+
+                    @Override
+                    public void onMapStatusChangeFinish(MapStatus mapStatus) {
+                        zoomLevel = mapStatus.zoom;
+                    }
+                });
             } else {
                 googleMap = MapHelper.getGoogleMap(getActivity(), new GoogleMap.OnCameraChangeListener() {
                     @Override
@@ -266,7 +317,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS
                     /* && !Config.USE_BAIDU || mode == Keys.MapViewMode.WAVE_TASKS*/;
             btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
-            if (mode == Keys.MapViewMode.WAVE_TASKS){
+            if (mode == Keys.MapViewMode.WAVE_TASKS) {
                 hideMissionsLayout.setVisibility(View.GONE);
             }
             if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
@@ -508,11 +559,31 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 }
             }
         });
+        if (mode != Keys.MapViewMode.SINGLE_TASK) {
+            if (lm.isLastLocationSaved()) {
+                zoomLevel=lm.getZoomLevel();
+                MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
+                    @Override
+                    public void useGoogleMap(GoogleMap googleMap) {
+                        if (lm.getLastGooglePosition() != null) {
+                            googleMap.moveCamera(
+                                    CameraUpdateFactory.newCameraPosition(new CameraPosition(lm.getLastGooglePosition(), zoomLevel, 0, 0)));
+                        }
+                    }
 
-        if (isFirstStart && mode != Keys.MapViewMode.SINGLE_TASK) {
-            moveCameraToLocation();
-            isFirstStart = false;
+                    @Override
+                    public void useBaiduMap(BaiduMap baiduMap) {
+                        if (baiduMap != null && getActivity() != null && !getActivity().isFinishing() && lm.getLastBaiduPositionPosition() != null) {
+                            baiduMap.setMapStatus(
+                                    MapStatusUpdateFactory.newLatLngZoom(lm.getLastBaiduPositionPosition(), lm.getZoomLevel() + 1.4f));
+                        }
+                    }
+                });
+            } else if (isFirstStart) {
+                moveCameraToLocation();
+            }
         }
+        isFirstStart = false;
 
         if (preferencesManager.getUseLocationServices()) {
             addMyLocation(location);
@@ -707,7 +778,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
      */
     private void moveCameraToLocation() {
         if (mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS) {
-
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                 @Override
                 public void useGoogleMap(GoogleMap googleMap) {
@@ -910,4 +980,5 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
         super.onStop();
     }
+
 }

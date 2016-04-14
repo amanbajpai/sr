@@ -56,7 +56,7 @@ public class MapHelper {
     private static final int CLUSTER_SIZE_100 = 100;
     private static final int CLUSTER_SIZE_1000 = 1000;
 
-    public static BaiduMap getBaiduMap(FragmentActivity activity, float zoomLevel) {
+    public static BaiduMap getBaiduMap(FragmentActivity activity, BaiduMap.OnMapStatusChangeListener listener) {
         BaiduMap baiduMap = null;
         MapStatus ms = new MapStatus.Builder().build();
 
@@ -78,6 +78,7 @@ public class MapHelper {
                 baiduMap.setMyLocationConfigeration(
                         new MyLocationConfiguration(LocationMode.NORMAL, true, mCurrentMarker));
                 baiduMap.setMyLocationEnabled(true);
+                baiduMap.setOnMapStatusChangeListener(listener);
             }
         }
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.TasksMapFragment;
@@ -41,6 +42,7 @@ public class MapActivity extends BaseActivity {
 
                 Fragment fragment = new TasksMapFragment();
                 fragment.setArguments(bundle);
+                App.getInstance().clearPositionData();
                 getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
             }
         }
