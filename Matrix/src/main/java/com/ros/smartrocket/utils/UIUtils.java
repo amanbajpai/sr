@@ -3,6 +3,7 @@ package com.ros.smartrocket.utils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +24,12 @@ import android.provider.Settings.Secure;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -342,7 +345,7 @@ public class UIUtils {
     }
 
 
-    public static boolean isAllLocationSourceEnabled(Context context){
+    public static boolean isAllLocationSourceEnabled(Context context) {
         return isGpsEnabled(context) && isNetworkEnabled(context);
     }
 
@@ -369,12 +372,24 @@ public class UIUtils {
      * @return boolean
      */
     public static boolean isMockLocationEnabled(Context context) {
-        boolean result = false;
+        boolean isMockLocation = false;
         if (BuildConfig.CHECK_MOCK_LOCATION) {
-            result = !"0".equals(Settings.Secure.getString(context.getContentResolver(),
-                    Settings.Secure.ALLOW_MOCK_LOCATION));
+            try {
+                //if marshmallow
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+                    isMockLocation = (opsManager.checkOp("android:mock_location", android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
+                } else {
+                    isMockLocation = !"0".equals(Settings.Secure.getString(context.getContentResolver(),
+                            Settings.Secure.ALLOW_MOCK_LOCATION));
+                }
+            } catch (Exception e) {
+                Log.e("Mock location enabled", "Exception", e);
+                return isMockLocation;
+            }
         }
-        return result;
+        return isMockLocation;
+
     }
 
     /**
@@ -886,10 +901,10 @@ public class UIUtils {
     }
 
     /**
-     *  Tries to take second part of device model string, if it starts with manufacture string.
-     *  Otherwise returns model string.
+     * Tries to take second part of device model string, if it starts with manufacture string.
+     * Otherwise returns model string.
      *
-      * @return device model
+     * @return device model
      */
     public static String getDeviceModel() {
         String manufacturer = Build.MANUFACTURER;
@@ -1028,7 +1043,7 @@ public class UIUtils {
             if (cm.getActiveNetworkInfo() != null) {
                 return cm.getActiveNetworkInfo().getType();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             L.e(TAG, "getConnectedNetwork. Get type error.");
         }
         return null;
