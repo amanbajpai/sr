@@ -243,6 +243,14 @@
             android:text="@string/book_this_task"
             custom:textStyle="bold"/>
         <com.ros.smartrocket.views.CustomButton
+            android:id="@+id/previewTaskButton"
+            style="@style/TaskDetailButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/button_orange_selector"
+            android:text="@string/preview_task"
+            custom:textStyle="bold"/>
+        <com.ros.smartrocket.views.CustomButton
             android:id="@+id/startTaskButton"
             style="@style/TaskDetailButton"
             android:layout_width="match_parent"

@@ -468,4 +468,7 @@
     <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
     <string name="approx_mission_duration">"%dm"</string>
     <string name="mission_size_dialog_text">This mission file is %sMB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
+
+    <!-- ID CARDS -->
+    <string name="preview_task">PREVIEW</string>
 </resources>
