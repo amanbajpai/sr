@@ -2,6 +2,7 @@ package com.ros.smartrocket.db.entity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -391,7 +392,7 @@ public class Task extends BaseEntity {
     }
 
     public Double getExperienceOffer() {
-        return experienceOffer;
+        return experienceOffer == null ? 0 : experienceOffer;
     }
 
     public void setExperienceOffer(Double experienceOffer) {

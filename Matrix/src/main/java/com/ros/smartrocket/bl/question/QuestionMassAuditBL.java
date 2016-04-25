@@ -8,7 +8,9 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+
 import butterknife.Bind;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -20,6 +22,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.dialog.ProductImageDialog;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
+
 import de.greenrobot.event.EventBus;
 
 import java.util.HashMap;
@@ -70,6 +73,9 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             adapter.setReDoData(answersReDoMap);
         }
         listView.setAdapter(adapter);
+        for (int i = 0; i < adapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
         refreshNextButton();
     }
 

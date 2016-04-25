@@ -408,7 +408,7 @@ public class Wave extends BaseEntity {
     }
 
     public Double getExperienceOffer() {
-        return experienceOffer;
+        return experienceOffer == null ? 0 : experienceOffer;
     }
 
     public void setExperienceOffer(Double experienceOffer) {
