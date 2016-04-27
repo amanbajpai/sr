@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.SparseArray;
 import android.view.View;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.TaskDbSchema;
@@ -112,6 +113,7 @@ public class TasksBL {
                         + " and (" + TaskDbSchema.Columns.LONG_EXPIRE_DATE_TIME + " > " + currentTime
                         + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATION.getStatusId()
                         + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATED.getStatusId()
+                        + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.REJECTED.getStatusId()
                         + ")",
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
