@@ -60,6 +60,7 @@ public class SelectImageManager {
     // Configuration
     private static final int MAX_SIZE_IN_PX = 700;
     public static final int SIZE_IN_PX_2_MP = 1600;
+    public static final int SIZE_THUMB = 300;
     public static final long MAX_SIZE_IN_BYTE = 1 * 1000 * 1000;
 
     private static final int ONE_KB_IN_B = 1024;

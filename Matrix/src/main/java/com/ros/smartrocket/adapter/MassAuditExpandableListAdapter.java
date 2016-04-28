@@ -1,6 +1,7 @@
 package com.ros.smartrocket.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
+import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 
+import java.io.File;
 import java.util.HashMap;
 
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
@@ -141,11 +146,19 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         crossButton.setTag(pair);
         crossButton.setOnClickListener(crossListener);
 
-        View thumb = convertView.findViewById(R.id.massAuditImageThumb);
-        thumb.setVisibility(TextUtils.isEmpty(product.getImage()) ? View.GONE : View.VISIBLE);
+        ImageView thumb = (ImageView) convertView.findViewById(R.id.massAuditImageThumb);
+        thumb.setVisibility(TextUtils.isEmpty(product.getImage()) ? View.INVISIBLE : View.VISIBLE);
         String image = TextUtils.isEmpty(product.getCachedImage()) ? product.getImage() : product.getCachedImage();
         thumb.setTag(image);
-        thumb.setOnClickListener(thumbListener);
+        thumb.setOnClickListener(TextUtils.isEmpty(product.getImage()) ? null : thumbListener);
+        if (!TextUtils.isEmpty(image)) {
+            if (image.startsWith("http")) {
+                ImageLoader.getInstance().displayImage(image, thumb, SelectImageManager.SIZE_THUMB, false, false, R.drawable.mass_audit_image, true);
+            } else {
+                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0, false);
+                thumb.setImageBitmap(bitmap);
+            }
+        }
 
         return convertView;
     }
