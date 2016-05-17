@@ -39,16 +39,18 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         this.crossListener = crossListener;
         this.thumbListener = thumbListener;
         this.isRedo = isRedo;
+        answersMap = new HashMap<>();
     }
 
     @Override
     public int getGroupCount() {
-        return categories.length;
+        return categories != null ? categories.length : 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return categories[groupPosition].getProducts().length;
+        Product[] products = categories[groupPosition].getProducts();
+        return products != null ? products.length : 0;
     }
 
     @Override
@@ -110,19 +112,22 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         ImageView tickButton = (ImageView) convertView.findViewById(R.id.massAuditTickButton);
 
         if (!isRedo) {
-            Answer tickAnswer = answersMap.get(product.getId()).getTickAnswer();
-            Answer crossAnswer = answersMap.get(product.getId()).getCrossAnswer();
-            if (tickAnswer != null && crossAnswer != null) {
-                setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
-                // TODO Clarify answers order
-                tickButton.setImageResource(tickAnswer.getChecked()
-                        ? R.drawable.mass_audit_green_checked
-                        : R.drawable.mass_audit_green_unchecked);
-                crossButton.setImageResource(crossAnswer.getChecked()
-                        ? R.drawable.mass_audit_red_checked
-                        : R.drawable.mass_audit_red_unchecked);
-            } else {
-                setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
+            QuestionMassAuditBL.TickCrossAnswerPair answerPair = answersMap.get(product.getId());
+            if (answerPair != null) {
+                Answer tickAnswer = answerPair.getTickAnswer();
+                Answer crossAnswer = answerPair.getCrossAnswer();
+                if (tickAnswer != null && crossAnswer != null) {
+                    setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
+                    // TODO Clarify answers order
+                    tickButton.setImageResource(tickAnswer.getChecked()
+                            ? R.drawable.mass_audit_green_checked
+                            : R.drawable.mass_audit_green_unchecked);
+                    crossButton.setImageResource(crossAnswer.getChecked()
+                            ? R.drawable.mass_audit_red_checked
+                            : R.drawable.mass_audit_red_unchecked);
+                } else {
+                    setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
+                }
             }
         } else {
             setButtonsVisibility(tickButton, crossButton, View.GONE);

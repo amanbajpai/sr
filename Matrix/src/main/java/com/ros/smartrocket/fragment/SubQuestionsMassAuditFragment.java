@@ -21,6 +21,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.UIUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -49,6 +50,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     @Bind(R.id.submitSubQuestionsButton)
     Button submitButton;
 
+    private LayoutInflater inflater;
     private SubQuestionsMassAuditAdapter adapter;
     private Product product;
     private boolean isRedo;
@@ -73,6 +75,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mass_audit_subquestions, null);
         ButterKnife.bind(this, view);
+        this.inflater = LayoutInflater.from(getContext());
         return view;
     }
 
@@ -111,12 +114,31 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
 
         adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
                 childQuestions.toArray(new Question[childQuestions.size()]), product);
+        int pos = 0;
+        int itemsSize = adapter.getCount() - 1;
         for (int i = 0; i < adapter.getCount(); i++) {
             View item = adapter.getView(i, null, subQuestionsLayout, savedInstanceState);
             if (item != null && item.getParent() == null) {
                 subQuestionsLayout.addView(item);
+                if (pos < itemsSize) {
+                    subQuestionsLayout.addView(getDivider());
+                }
+                pos++;
             }
         }
+    }
+
+    /**
+     * @return divider view
+     */
+    protected View getDivider() {
+        LinearLayout div = (LinearLayout) inflater.inflate(R.layout.divider, null, false);
+        int height = UIUtils.getPxFromDp(getContext(), 1);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+        int margin = UIUtils.getPxFromDp(getContext(), 15);
+        lp.setMargins(0, margin, 0, 0);
+        div.setLayoutParams(lp);
+        return div;
     }
 
     @Override
