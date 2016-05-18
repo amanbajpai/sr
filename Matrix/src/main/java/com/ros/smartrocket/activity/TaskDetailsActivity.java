@@ -435,7 +435,6 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                 continueTaskButton.setVisibility(View.VISIBLE);
                 break;
             case RE_DO_TASK:
-                previewTaskButton.setVisibility(View.VISIBLE);
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.INVISIBLE);
                 redoTaskButton.setVisibility(View.VISIBLE);

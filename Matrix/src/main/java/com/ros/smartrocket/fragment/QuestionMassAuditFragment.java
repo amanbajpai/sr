@@ -21,21 +21,18 @@ import java.util.List;
  */
 public class QuestionMassAuditFragment extends BaseQuestionFragment {
 
-    public static final String IS_REDO_FLAG = "is_redo";
+    public static final String KEY_IS_REDO = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_IS_REDO";
+    public static final String KEY_IS_PREVIEW = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_IS_PREVIEW";
 
     public QuestionMassAuditFragment() {
         super(new QuestionMassAuditBL());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((QuestionMassAuditBL) questionBL).setIsRedo(getArguments().getBoolean(IS_REDO_FLAG));
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((QuestionMassAuditBL) questionBL).setIsRedo(getArguments().getBoolean(KEY_IS_REDO));
+        ((QuestionMassAuditBL) questionBL).setIsPreview(getArguments().getBoolean(KEY_IS_PREVIEW));
 
         DbHandler handler = new DbHandler(getActivity().getContentResolver());
 

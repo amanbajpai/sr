@@ -397,7 +397,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     break;
                 case MASS_AUDIT:
                     currentFragment = new QuestionMassAuditFragment();
-                    fragmentBundle.putBoolean(QuestionMassAuditFragment.IS_REDO_FLAG, isRedo);
+                    fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
+                    fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
                     break;
                 default:
                     break;
