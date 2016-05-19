@@ -1,61 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    style="@style/CustomDialog"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    style="@style/CustomDialog"
-    android:orientation="vertical" >
-    <com.ros.smartrocket.views.CustomTextView
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="64dp"
-        android:drawablePadding="10dp"
-        style="@style/DialogTitle"
-        android:background="@color/red"
-        custom:textStyle="bold" />
-    <com.ros.smartrocket.views.CustomTextView
-        style="@style/DialogText"
-        android:id="@+id/text"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:lineSpacingExtra="5dp"
-        android:layout_margin="20dp" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/title"
+                style="@style/DialogTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="64dp"
+                android:background="@color/red"
+                android:drawablePadding="10dp"
+                custom:textStyle="bold" />
+
+            <com.ros.smartrocket.views.CustomTextView
+                android:id="@+id/text"
+                style="@style/DialogText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="left"
+                android:lineSpacingExtra="5dp" />
+        </LinearLayout>
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="54dp"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/leftButton"
                 style="@style/DialogButton"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_marginRight="5dp"
+                android:layout_weight="1"
                 android:textColor="@color/red"
                 custom:textStyle="bold" />
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/grey" />
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/rightButton"
                 style="@style/DialogButton"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:textColor="@color/green"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textColor="@color/green"
                 custom:textStyle="bold" />
-        </LinearLayout >
-    </LinearLayout >
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

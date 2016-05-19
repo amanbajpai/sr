@@ -2,6 +2,7 @@ package com.ros.smartrocket.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -72,7 +73,9 @@ public class NotificationActivity extends Activity implements OnClickListener {
             titleTextView.setCompoundDrawablesWithIntrinsicBounds(titleIconResId, 0, 0, 0);
         }
 
-        ((TextView) findViewById(R.id.text)).setText(text);
+        TextView message = ((TextView) findViewById(R.id.text));
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        message.setText(text);
 
         TextView leftButton = (TextView) findViewById(R.id.leftButton);
         TextView rightButton = (TextView) findViewById(R.id.rightButton);
