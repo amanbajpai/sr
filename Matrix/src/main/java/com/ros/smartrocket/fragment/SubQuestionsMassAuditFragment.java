@@ -95,7 +95,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
             for (Question question : questions) {
                 if (question.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
                     if (isRedo) {
-                        if (question.getProductId() == product.getId()) {
+                        if (question.getProductId()!=null && question.getProductId().equals(product.getId())) {
                             childQuestions.add(question);
                         }
                     } else {
