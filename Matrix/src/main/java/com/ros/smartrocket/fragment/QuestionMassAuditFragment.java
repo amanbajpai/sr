@@ -40,7 +40,7 @@ public class QuestionMassAuditFragment extends BaseQuestionFragment {
         DbHandler handler = new DbHandler(getActivity().getContentResolver());
 
         Question question = questionBL.getQuestion();
-        QuestionsBL.getChildQuestionsListFromDB(handler, question.getTaskId(), question.getId());
+        QuestionsBL.getChildQuestionsListFromDB(handler, question.getTaskId(), question.getId(), question.getMissionId());
     }
 
     @Override

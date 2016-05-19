@@ -54,14 +54,15 @@ public class QuestionsBL {
     }
 
     public static void getChildQuestionsListFromDB(AsyncQueryHandler handler, Integer taskId,
-                                                   Integer parentQuestionId) {
+                                                   Integer parentQuestionId, Integer missionId) {
         handler.startQuery(
                 QuestionDbSchema.Query.TOKEN_QUERY,
                 null,
                 QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION,
-                QuestionDbSchema.Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=?",
-                new String[]{String.valueOf(taskId), String.valueOf(parentQuestionId)},
+                QuestionDbSchema.Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=? and "
+                +QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(taskId), String.valueOf(parentQuestionId), String.valueOf(missionId)},
                 QuestionDbSchema.SORT_ORDER_SUBQUESTIONS
         );
     }
