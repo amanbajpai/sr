@@ -6,6 +6,8 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.google.gson.Gson;
@@ -298,7 +300,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
             return null;
         }
 
-        private void loadProductImage(Product product) {
+        private void loadProductImage(final Product product) {
             if (!TextUtils.isEmpty(product.getImage())) {
                 try {
                     Request request = new Request.Builder().url(product.getImage()).build();
@@ -309,9 +311,6 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                         FileUtils.copyInputStreamToFile(response.body().byteStream(), resultFile);
 
                         product.setCachedImage(resultFile.getAbsolutePath());
-                    } else {
-                        UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
-                        dismissProgressBar();
                     }
                 } catch (IOException e) {
                     MyLog.logStackTrace(e);
@@ -328,11 +327,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                         FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
                         File resultFile = FileProcessingManager.getTempFile(fileType, null, true);
                         FileUtils.copyInputStreamToFile(response.body().byteStream(), resultFile);
-
                         category.setCachedImage(resultFile.getAbsolutePath());
-                    } else {
-                        UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
-                        dismissProgressBar();
                     }
                 } catch (IOException e) {
                     MyLog.logStackTrace(e);
