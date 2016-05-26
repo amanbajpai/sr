@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ros.smartrocket.views.CustomTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/massAuditGroupTitle"
-    style="@style/QuestionText"
-    android:background="@color/mass_audit_grey"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    tools:text="Wrigley's Doublemint chewing gum"
-    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@color/mass_audit_grey">
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/massAuditGroupTitle"
+        style="@style/QuestionText"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/blue"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingTop="8dp"
+        tools:text="Wrigley's Doublemint chewing gum" />
+    <ImageView
+        android:id="@+id/massAuditCatImageThumb"
+        android:src="@drawable/mass_audit_image"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="40dp"
+        android:adjustViewBounds="true"
+        android:maxHeight="40dp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

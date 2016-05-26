@@ -285,6 +285,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
         protected Void doInBackground(Void... params) {
             for (Question question : questions) {
                 for (Category category : question.getCategoriesArray()) {
+                    loadCategoryImage(category);
                     if (category.getProducts() == null) continue;
                     for (Product product : category.getProducts()) {
                         loadProductImage(product);
@@ -308,6 +309,27 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                         FileUtils.copyInputStreamToFile(response.body().byteStream(), resultFile);
 
                         product.setCachedImage(resultFile.getAbsolutePath());
+                    } else {
+                        UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
+                        dismissProgressBar();
+                    }
+                } catch (IOException e) {
+                    MyLog.logStackTrace(e);
+                }
+            }
+        }
+
+        private void loadCategoryImage(Category category) {
+            if (!TextUtils.isEmpty(category.getImage())) {
+                try {
+                    Request request = new Request.Builder().url(category.getImage()).build();
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        FileProcessingManager.FileType fileType = FileProcessingManager.FileType.IMAGE;
+                        File resultFile = FileProcessingManager.getTempFile(fileType, null, true);
+                        FileUtils.copyInputStreamToFile(response.body().byteStream(), resultFile);
+
+                        category.setCachedImage(resultFile.getAbsolutePath());
                     } else {
                         UIUtils.showSimpleToast(activity, R.string.internet_connection_is_bad);
                         dismissProgressBar();

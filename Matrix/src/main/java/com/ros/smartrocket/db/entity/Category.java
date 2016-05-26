@@ -11,8 +11,11 @@ public class Category extends BaseEntity {
     private Integer categoryId;
     @SerializedName("CategoryName")
     private String categoryName;
+    @SerializedName("Image")
+    private String image;
     @SerializedName("Products")
     private Product[] products;
+    private String cachedImage;
 
     public static Category[] getCategoryArray(String jsonArrayString) {
         Category[] categories = new Category[]{};
@@ -44,5 +47,21 @@ public class Category extends BaseEntity {
 
     public void setProducts(Product[] products) {
         this.products = products;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCachedImage() {
+        return cachedImage;
+    }
+
+    public void setCachedImage(String cachedImage) {
+        this.cachedImage = cachedImage;
     }
 }

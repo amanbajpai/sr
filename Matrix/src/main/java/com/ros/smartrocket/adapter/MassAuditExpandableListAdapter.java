@@ -86,8 +86,21 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         }
 
         TextView titleView = (TextView) convertView.findViewById(R.id.massAuditGroupTitle);
-        titleView.setText(categories[groupPosition].getCategoryName());
-
+        Category category = categories[groupPosition];
+        titleView.setText(category.getCategoryName());
+        ImageView catImage = (ImageView) convertView.findViewById(R.id.massAuditCatImageThumb);
+        catImage.setVisibility(TextUtils.isEmpty(category.getImage()) ? View.INVISIBLE : View.VISIBLE);
+        String image = TextUtils.isEmpty(category.getCachedImage()) ? category.getImage() : category.getCachedImage();
+        catImage.setTag(image);
+        catImage.setOnClickListener(TextUtils.isEmpty(category.getImage()) ? null : thumbListener);
+        if (!TextUtils.isEmpty(image)) {
+            if (image.startsWith("http")) {
+                ImageLoader.getInstance().displayImage(image, catImage, SelectImageManager.SIZE_THUMB, false, false, R.drawable.mass_audit_image, true);
+            } else {
+                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0, false);
+                catImage.setImageBitmap(bitmap);
+            }
+        }
         return convertView;
     }
 
