@@ -7,10 +7,7 @@ import android.location.Location;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 
-import cn.jpush.android.api.JPushInterface;
-
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.model.LatLng;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.entity.MyAccount;
@@ -19,11 +16,11 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import com.tendcloud.tenddata.TCAgent;
-
-import io.fabric.sdk.android.Fabric;
 
 import java.util.Calendar;
+
+import cn.jpush.android.api.JPushInterface;
+import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
@@ -45,7 +42,7 @@ public class App extends Application {
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         }
 
-        TCAgent.init(this, Config.USE_BAIDU ? Keys.TALKING_DATA_CHINA : Keys.TALKING_DATA_ROW, "");
+        AnalyticsWrapper.initAnalytics(this);
 
         Fabric.with(this, new Crashlytics());
 

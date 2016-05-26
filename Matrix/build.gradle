@@ -44,31 +44,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
     }
 }
 
-dependencies {
-    // support
-    compile 'com.google.android.gms:play-services:6.1.71'
-    compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.android.support:gridlayout-v7:23.1.1'
-
-    // Cluster map's pins
-    compile project(':libs:clusterkraf')
-    compile project(':libs:BaiduClusterkraf')
-
-    // other
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.squareup.okhttp3:okhttp:3.0.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'commons-io:commons-io:2.4'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
-        transitive = true;
-    }
-    compile fileTree(include: '*.jar', dir: '../libs')
-    compile 'com.android.support:multidex:1.0.1'
-}
-
 android {
     ext.env = System.getenv()
     ext.buildNumber = env.BUILD_NUMBER ?: '0'
@@ -171,42 +146,42 @@ android {
     }
 
     productFlavors {
-        Dev {
+        dev {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
         }
-        Staging {
+        staging {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
         }
-        Production {
+        production {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
         }
-        ChinaDev {
+        chinaDev {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
             buildConfigField "boolean", "CHINESE", "true"
         }
-        ChinaStaging {
+        chinaStaging {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
             buildConfigField "boolean", "CHINESE", "true"
         }
-        ChinaProduction {
+        chinaProduction {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.red-ocean.cn/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
@@ -214,6 +189,40 @@ android {
             buildConfigField "boolean", "CHINESE", "true"
         }
     }
+}
+
+configurations {
+//    chinaProductionCompile
+//    chinaDevCompile
+//    chinaStagingCompile
+}
+
+dependencies {
+    // support
+    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:gridlayout-v7:23.1.1'
+
+    // Cluster map's pins
+    compile project(':libs:clusterkraf')
+    compile project(':libs:BaiduClusterkraf')
+
+    // other
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'commons-io:commons-io:2.4'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
+        transitive = true;
+    }
+    compile fileTree(include: '*.jar', dir: '../libs')
+    chinaProductionCompile fileTree(include: '*.jar', dir: '../libsChina')
+    chinaDevCompile fileTree(include: '*.jar', dir: '../libsChina')
+    chinaStagingCompile fileTree(include: '*.jar', dir: '../libsChina')
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 repositories {
