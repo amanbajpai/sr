@@ -28,6 +28,8 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class AnswersBL {
@@ -224,15 +226,60 @@ public class AnswersBL {
                 contentValues, AnswerDbSchema.Columns.QUESTION_ID + "=? and " +
                         AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)});
-
         App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI,
                 contentValues, AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=? and "
-                        + AnswerDbSchema.Columns.QUESTION_ID +" IN (Select + " + QuestionDbSchema.Columns.ID
+                        + AnswerDbSchema.Columns.QUESTION_ID + " IN (Select + " + QuestionDbSchema.Columns.ID
                         + " From " + Table.QUESTION.getName()
                         + " Where " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=?)",
-        new String[]{String.valueOf(taskId), String.valueOf(missionId), String.valueOf(questionId)});
-
+                new String[]{String.valueOf(taskId), String.valueOf(missionId), String.valueOf(questionId)});
     }
+
+    public static void clearSubAnswersInDB(Integer taskId, Integer missionId,Integer productId, Question[] questions) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
+        List<Question> subQuestions = getSubQuestions(questions);
+        if (subQuestions != null && !subQuestions.isEmpty()) {
+            App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI,
+                    contentValues, AnswerDbSchema.Columns.TASK_ID + "=? and "
+                            + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+                            + AnswerDbSchema.Columns.PRODUCT_ID + "=? and "
+                            + AnswerDbSchema.Columns.QUESTION_ID + " IN (" + getPlaceholder(subQuestions.size() - 1) + ")",
+                    getSubQuestionParams(subQuestions, taskId, missionId, productId));
+        }
+    }
+
+    private static List<Question> getSubQuestions(Question[] questions) {
+        List<Question> subQuestions = new ArrayList<>();
+        for (Question q : questions) {
+            if (q.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
+                subQuestions.add(q);
+            }
+        }
+        return subQuestions;
+    }
+
+    private static String[] getSubQuestionParams(List<Question> questions, Integer taskId, Integer missionId, Integer productId) {
+        ArrayList<String> params = new ArrayList<>();
+        params.add(String.valueOf(taskId));
+        params.add(String.valueOf(missionId));
+        params.add(String.valueOf(productId));
+        for (Question q : questions) {
+            params.add(String.valueOf(q.getId()));
+        }
+        return params.toArray(new String[params.size()]);
+    }
+
+    private static String getPlaceholder(int count) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= count; i++) {
+            sb.append("?");
+            if (i != count) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
+    }
+
 
     /**
      * Make request for delete Answer
