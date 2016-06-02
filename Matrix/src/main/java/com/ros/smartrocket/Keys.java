@@ -154,6 +154,7 @@ public interface Keys {
     String FIRSTLY_SELECTION = "firstly_selection";
     String IS_REDO = "is_redo";
     String IS_REDO_REOPEN = "is_redo_reopen";
+    String KEY_IS_PREVIEW = "is_preview";
 
     //NotUploadFile Service
     String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_files";

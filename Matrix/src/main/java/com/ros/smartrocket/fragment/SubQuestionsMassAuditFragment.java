@@ -37,7 +37,6 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     public static final String KEY_QUES = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_QUESTIONS";
     public static final String KEY_TITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_TITLE";
     public static final String KEY_PRODUCT = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT";
-    public static final String KEY_IS_REDO = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_IS_REDO";
 
     @Bind(R.id.massAuditSubquestionsLayout)
     LinearLayout subQuestionsLayout;
@@ -54,17 +53,19 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     private SubQuestionsMassAuditAdapter adapter;
     private Product product;
     private boolean isRedo;
+    private boolean isPreview;
     private int loadedSubQuestionsCount;
     private Set<Integer> set = new HashSet<>();
     private Set<Integer> requiredQuestionsSet = new HashSet<>();
 
-    public static Fragment makeInstance(Question[] questions, String title, Product product, boolean isRedo) {
+    public static Fragment makeInstance(Question[] questions, String title, Product product,
+                                        boolean isRedo, boolean isPreview) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_QUES, questions);
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_PRODUCT, product);
-        bundle.putBoolean(KEY_IS_REDO, isRedo);
-
+        bundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
+        bundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
         Fragment fragment = new SubQuestionsMassAuditFragment();
         fragment.setArguments(bundle);
 
@@ -84,7 +85,9 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
 
         product = (Product) getArguments().getSerializable(KEY_PRODUCT);
-        isRedo = getArguments().getBoolean(KEY_IS_REDO, false);
+        isRedo = getArguments().getBoolean(QuestionMassAuditFragment.KEY_IS_REDO, false);
+        isPreview = getArguments().getBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, false);
+        submitButton.setEnabled(isPreview);
 
         titleTextView.setText(getArguments().getString(KEY_TITLE));
         subtitleTextView.setText(product != null ? product.getName() : "");
@@ -187,8 +190,12 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     @SuppressWarnings("unused")
     @OnClick(R.id.submitSubQuestionsButton)
     void submitClick() {
-        if (adapter.saveQuestions()) {
-            EventBus.getDefault().post(new SubQuestionsSubmitEvent(product != null ? product.getId() : 0));
+        if (!isPreview) {
+            if (adapter.saveQuestions()) {
+                EventBus.getDefault().post(new SubQuestionsSubmitEvent(product != null ? product.getId() : 0));
+                getFragmentManager().popBackStack();
+            }
+        } else {
             getFragmentManager().popBackStack();
         }
     }
@@ -203,12 +210,14 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
 
     @Override
     public void onAnswerSelected(Boolean selected, int questionId) {
-        if (selected) {
-            set.add(questionId);
-        } else {
-            set.remove(questionId);
-        }
+        if (!isPreview) {
+            if (selected) {
+                set.add(questionId);
+            } else {
+                set.remove(questionId);
+            }
 
-        submitButton.setEnabled(set.containsAll(requiredQuestionsSet));
+            submitButton.setEnabled(set.containsAll(requiredQuestionsSet));
+        }
     }
 }

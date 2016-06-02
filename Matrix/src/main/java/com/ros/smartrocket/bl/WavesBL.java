@@ -91,7 +91,7 @@ public class WavesBL {
             wave.setLongStartDateTime(UIUtils.isoTimeToLong(wave.getStartDateTime()));
             contentResolver.insert(WaveDbSchema.CONTENT_URI, wave.toContentValues());
 
-            List<ContentValues> vals = new ArrayList<ContentValues>();
+            List<ContentValues> vals = new ArrayList<>();
             for (Task task : wave.getTasks()) {
                 task.setName(wave.getName());
                 task.setIcon(projectIcon);

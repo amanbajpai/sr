@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.view.*;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -25,22 +29,53 @@ import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.fragment.*;
+import com.ros.smartrocket.fragment.BaseQuestionFragment;
+import com.ros.smartrocket.fragment.QuestionInstructionFragment;
+import com.ros.smartrocket.fragment.QuestionMassAuditFragment;
+import com.ros.smartrocket.fragment.QuestionMultipleChooseFragment;
+import com.ros.smartrocket.fragment.QuestionNumberFragment;
+import com.ros.smartrocket.fragment.QuestionOpenCommentFragment;
+import com.ros.smartrocket.fragment.QuestionPhotoFragment;
+import com.ros.smartrocket.fragment.QuestionSingleChooseFragment;
+import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomTextView;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface,
-        View.OnClickListener, OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
+        OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
 
     private static final String TAG = QuestionsActivity.class.getSimpleName();
     private static final String KEY_IS_STARTED = "started";
+
+    @Bind(R.id.mainProgressBar)
+    ProgressBar mainProgressBar;
+    @Bind(R.id.questionOf)
+    CustomTextView questionOf;
+    @Bind(R.id.questionOfLayout)
+    LinearLayout questionOfLayout;
+    @Bind(R.id.previousButton)
+    CustomButton previousButton;
+    @Bind(R.id.nextButton)
+    CustomButton nextButton;
+    @Bind(R.id.buttonsLayout)
+    LinearLayout buttonsLayout;
 
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -50,13 +85,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private Task task = new Task();
     private Wave wave;
 
-    private ProgressBar mainProgressBar;
-    private TextView questionOf;
-    private LinearLayout questionOfLayout;
-
-    private LinearLayout buttonsLayout;
-    private Button previousButton;
-    private Button nextButton;
 
     private AsyncQueryHandler handler;
     private List<Question> questions;
@@ -64,6 +92,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     private int questionsToAnswerCount = 0;
     private boolean isRedo = false;
+    private boolean isPreview = false;
     private boolean isAlreadyStarted;
     private boolean isDestroyed;
 
@@ -81,28 +110,17 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
+        ButterKnife.bind(this);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
             missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
+            isPreview = getIntent().getBooleanExtra(Keys.KEY_IS_PREVIEW, false);
         }
 
         handler = new DbHandler(getContentResolver());
-
-        mainProgressBar = (ProgressBar) findViewById(R.id.mainProgressBar);
-        questionOfLayout = (LinearLayout) findViewById(R.id.questionOfLayout);
-        questionOf = (TextView) findViewById(R.id.questionOf);
-
-        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
-
-        previousButton = (Button) findViewById(R.id.previousButton);
-        previousButton.setOnClickListener(this);
-
-        nextButton = (Button) findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(this);
-
         TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
 
@@ -244,42 +262,55 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.nextButton)
     public void startNextQuestionFragment() {
+        isAlreadyStarted = false;
         if (currentFragment != null) {
-            Question currentQuestion = currentFragment.getQuestion();
-            if (currentQuestion != null) {
-                L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+            boolean shouldStart = isPreview ? isPreview : currentFragment.saveQuestion();
+            if (shouldStart) {
+                Question currentQuestion = currentFragment.getQuestion();
+                if (currentQuestion != null) {
+                    L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+                    Question question = getQuestion(currentQuestion);
 
-                int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
+                    if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
+                        if (!isPreview) {
+                            preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
+                                    task.getMissionId(), question.getOrderId());
+                        }
+                        question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
-                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
-                if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
-                            task.getMissionId(), question.getOrderId());
-                    question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
+                        QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
-                    QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
-
-                    if (currentQuestion.getNextAnsweredQuestionId() != null &&
-                            currentQuestion.getNextAnsweredQuestionId() != 0 &&
-                            !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
-                        for (Question tempQuestion : questions) {
-                            if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
-                                AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), tempQuestion.getId());
+                        if (currentQuestion.getNextAnsweredQuestionId() != null &&
+                                currentQuestion.getNextAnsweredQuestionId() != 0 &&
+                                !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
+                            for (Question tempQuestion : questions) {
+                                if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
+                                    AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), tempQuestion.getId());
+                                }
                             }
                         }
-                    }
-                    currentQuestion.setNextAnsweredQuestionId(question.getId());
-                    QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
+                        currentQuestion.setNextAnsweredQuestionId(question.getId());
+                        QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
 
-                    startFragment(question);
-                } else {
-                    startValidationActivity();
+                        startFragment(question);
+                    } else {
+                        startValidationActivity();
+                    }
                 }
             }
         }
     }
 
+    private Question getQuestion(Question currentQuestion) {
+        int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
+        return QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.previousButton)
     public void startPreviousQuestionFragment() {
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
@@ -288,13 +319,15 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
                 int previousQuestionOrderId = (currentQuestion.getPreviousQuestionOrderId() != null &&
                         currentQuestion.getPreviousQuestionOrderId() != 0) ? currentQuestion.getPreviousQuestionOrderId() : 1;
-                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
-                        task.getMissionId(), previousQuestionOrderId);
-
+                if (!isPreview) {
+                    preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
+                            task.getMissionId(), previousQuestionOrderId);
+                }
                 Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
                 startFragment(question);
             }
         }
+        isAlreadyStarted = false;
     }
 
     public void startValidationActivity() {
@@ -364,7 +397,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     break;
                 case MASS_AUDIT:
                     currentFragment = new QuestionMassAuditFragment();
-                    fragmentBundle.putBoolean(QuestionMassAuditFragment.IS_REDO_FLAG, isRedo);
+                    fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
+                    fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
                     break;
                 default:
                     break;
@@ -424,26 +458,17 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.previousButton:
-                startPreviousQuestionFragment();
-                isAlreadyStarted = false;
-                break;
-            case R.id.nextButton:
-                isAlreadyStarted = false;
-                if (currentFragment.saveQuestion()) {
-                    startNextQuestionFragment();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     public void onAnswerSelected(Boolean selected, int questionId) {
-        nextButton.setEnabled(selected);
+        if (isPreview) {
+            Question nextQuestion = currentFragment == null ? null : getQuestion(currentFragment.getQuestion());
+            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
+                nextButton.setEnabled(false);
+            } else {
+                nextButton.setEnabled(true);
+            }
+        } else {
+            nextButton.setEnabled(selected);
+        }
     }
 
     @Override
@@ -486,7 +511,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         actionBar.setDisplayShowCustomEnabled(true);
 
         View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.question_title);
+        TextView title = (TextView) view.findViewById(R.id.titleTextView);
+        if (isPreview) {
+            title.setTextColor(getResources().getColor(R.color.red));
+            title.setText(getString(R.string.preview_mode));
+        } else {
+            title.setText(R.string.question_title);
+        }
         return true;
     }
 }

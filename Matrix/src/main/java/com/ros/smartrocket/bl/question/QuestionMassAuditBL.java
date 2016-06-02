@@ -43,6 +43,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     private Question mainSub;
     private int buttonClicked;
     private boolean isRedo = false;
+    private boolean isPreview = false;
 
     @Override
     public void configureView() {
@@ -235,7 +236,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private void startSubQuestionsFragment(CategoryProductPair item) {
         Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
-                item.category.getCategoryName(), item.product, isRedo);
+                item.category.getCategoryName(), item.product, isRedo, isPreview);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
     }
@@ -271,6 +272,10 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     public void setIsRedo(boolean b) {
         isRedo = b;
+    }
+
+    public void setIsPreview(boolean preview) {
+        isPreview = preview;
     }
 
     public static class TickCrossAnswerPair {

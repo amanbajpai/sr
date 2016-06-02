@@ -194,6 +194,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
     public void setData(HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap) {
         this.answersMap = answersMap;
+        this.answersMap = answersMap;
         notifyDataSetChanged();
     }
 

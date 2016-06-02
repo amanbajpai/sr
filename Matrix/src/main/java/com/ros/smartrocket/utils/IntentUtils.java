@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.activity.*;
 import com.ros.smartrocket.db.entity.Question;
@@ -34,6 +35,20 @@ public class IntentUtils {
         Intent intent = new Intent(context, QuestionsActivity.class);
         intent.putExtra(Keys.TASK_ID, taskId);
         intent.putExtra(Keys.MISSION_ID, missionId);
+        return intent;
+    }
+
+    /**
+     * Return intent for opening Questions screen in preview mode
+     *
+     * @param context   - context
+     * @param taskId    - current TaskId
+     * @param missionId - current missionId
+     * @return Intent for preview mode
+     */
+    public static Intent getPreviewQuestionsIntent(Context context, int taskId, int missionId) {
+        Intent intent = getQuestionsIntent(context, taskId, missionId);
+        intent.putExtra(Keys.KEY_IS_PREVIEW, true);
         return intent;
     }
 

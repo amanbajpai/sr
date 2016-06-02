@@ -10,10 +10,10 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -27,15 +27,87 @@ import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomTextView;
 import com.ros.smartrocket.views.OptionsRow;
 
 import java.util.Calendar;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Activity for view Task detail information
  */
-public class TaskDetailsActivity extends BaseActivity implements View.OnClickListener,
-        ClaimTaskManager.ClaimTaskListener {
+public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManager.ClaimTaskListener {
+    @Bind(R.id.taskDetailsOptionsRow)
+    OptionsRow optionsRow;
+    @Bind(R.id.statusText)
+    CustomTextView statusText;
+    @Bind(R.id.statusTextView)
+    CustomTextView statusTextView;
+    @Bind(R.id.statusLayout)
+    LinearLayout statusLayout;
+    @Bind(R.id.startTimeText)
+    CustomTextView startTimeText;
+    @Bind(R.id.startTimeTextView)
+    CustomTextView startTimeTextView;
+    @Bind(R.id.startTimeLayout)
+    LinearLayout startTimeLayout;
+    @Bind(R.id.deadlineTimeText)
+    CustomTextView deadlineTimeText;
+    @Bind(R.id.deadlineTimeTextView)
+    CustomTextView deadlineTimeTextView;
+    @Bind(R.id.deadlineTimeLayout)
+    LinearLayout deadlineTimeLayout;
+    @Bind(R.id.expireText)
+    CustomTextView expireText;
+    @Bind(R.id.expireTextView)
+    CustomTextView expireTextView;
+    @Bind(R.id.expireTimeLayout)
+    LinearLayout expireTimeLayout;
+    @Bind(R.id.statusTimeText)
+    CustomTextView statusTimeText;
+    @Bind(R.id.statusTimeTextView)
+    CustomTextView statusTimeTextView;
+    @Bind(R.id.statusTimeLayout)
+    LinearLayout statusTimeLayout;
+    @Bind(R.id.mapImageView)
+    ImageView mapImageView;
+    @Bind(R.id.timeLayout)
+    LinearLayout timeLayout;
+    @Bind(R.id.locationName)
+    CustomTextView locationName;
+    @Bind(R.id.taskAddress)
+    CustomTextView taskAddress;
+    @Bind(R.id.taskDistance)
+    CustomTextView taskDistance;
+    @Bind(R.id.taskDescription)
+    CustomTextView taskDescription;
+    @Bind(R.id.descriptionLayout)
+    LinearLayout descriptionLayout;
+    @Bind(R.id.withdrawTaskButton)
+    CustomButton withdrawTaskButton;
+    @Bind(R.id.bookTaskButton)
+    CustomButton bookTaskButton;
+    @Bind(R.id.startTaskButton)
+    CustomButton startTaskButton;
+    @Bind(R.id.hideTaskButton)
+    CustomButton hideTaskButton;
+    @Bind(R.id.showTaskButton)
+    CustomButton showTaskButton;
+    @Bind(R.id.continueTaskButton)
+    CustomButton continueTaskButton;
+    @Bind(R.id.redoTaskButton)
+    CustomButton redoTaskButton;
+    @Bind(R.id.buttonsLayout)
+    LinearLayout buttonsLayout;
+    @Bind(R.id.previewTaskButton)
+    CustomButton previewTaskButton;
+    private TextView titleTextView;
+    private View idCardView;
+
     private AsyncQueryHandler handler;
     private ClaimTaskManager claimTaskManager;
 
@@ -46,48 +118,6 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
     private Task task;
     private Wave wave = new Wave();
 
-    private ImageView mapImageView;
-    private TextView taskDistance;
-
-    private TextView statusTextView;
-    private TextView startTimeTextView;
-    private TextView deadlineTimeTextView;
-    private TextView expireTextView;
-    private TextView statusTimeTextView;
-
-    private TextView statusText;
-    private TextView startTimeText;
-    private TextView deadlineTimeText;
-    private TextView expireText;
-    private TextView statusTimeText;
-
-    private LinearLayout descriptionLayout;
-    private TextView taskAddress;
-
-    private TextView locationName;
-    private TextView taskDescription;
-
-    private LinearLayout buttonsLayout;
-
-    private Button bookTaskButton;
-    private Button startTaskButton;
-    private Button hideTaskButton;
-    private Button showTaskButton;
-    private Button withdrawTaskButton;
-    private Button continueTaskButton;
-    private Button redoTaskButton;
-
-    private LinearLayout startTimeLayout;
-    private LinearLayout deadlineTimeLayout;
-    private LinearLayout expireTimeLayout;
-    private LinearLayout statusLayout;
-    private LinearLayout statusTimeLayout;
-
-    private LinearLayout timeLayout;
-    private OptionsRow optionsRow;
-
-    private TextView titleTextView;
-    private View idCardView;
 
     public TaskDetailsActivity() {
     }
@@ -97,7 +127,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_details);
-
+        ButterKnife.bind(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
@@ -106,58 +136,8 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
             isPreClaim = getIntent().getBooleanExtra(Keys.IS_PRECLAIM, false);
         }
-
         handler = new DbHandler(getContentResolver());
-
-        startTimeLayout = (LinearLayout) findViewById(R.id.startTimeLayout);
-        deadlineTimeLayout = (LinearLayout) findViewById(R.id.deadlineTimeLayout);
-        expireTimeLayout = (LinearLayout) findViewById(R.id.expireTimeLayout);
-        statusLayout = (LinearLayout) findViewById(R.id.statusLayout);
-        statusTimeLayout = (LinearLayout) findViewById(R.id.statusTimeLayout);
-
-        timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
-        optionsRow = (OptionsRow) findViewById(R.id.taskDetailsOptionsRow);
-
-        startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
-        deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        expireTextView = (TextView) findViewById(R.id.expireTextView);
-        statusTextView = (TextView) findViewById(R.id.statusTextView);
-        statusTimeTextView = (TextView) findViewById(R.id.statusTimeTextView);
-
-        statusText = (TextView) findViewById(R.id.statusText);
-        startTimeText = (TextView) findViewById(R.id.startTimeText);
-        deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
-        expireText = (TextView) findViewById(R.id.expireText);
-        statusTimeText = (TextView) findViewById(R.id.statusTimeText);
-
-        taskDistance = (TextView) findViewById(R.id.taskDistance);
-        descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
-
-        taskDescription = (TextView) findViewById(R.id.taskDescription);
-        locationName = (TextView) findViewById(R.id.locationName);
-        taskAddress = (TextView) findViewById(R.id.taskAddress);
-
-        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
-
-        bookTaskButton = (Button) findViewById(R.id.bookTaskButton);
-        bookTaskButton.setOnClickListener(this);
         bookTaskButton.setEnabled(false);
-        startTaskButton = (Button) findViewById(R.id.startTaskButton);
-        startTaskButton.setOnClickListener(this);
-        hideTaskButton = (Button) findViewById(R.id.hideTaskButton);
-        hideTaskButton.setOnClickListener(this);
-        showTaskButton = (Button) findViewById(R.id.showTaskButton);
-        showTaskButton.setOnClickListener(this);
-        withdrawTaskButton = (Button) findViewById(R.id.withdrawTaskButton);
-        withdrawTaskButton.setOnClickListener(this);
-        continueTaskButton = (Button) findViewById(R.id.continueTaskButton);
-        continueTaskButton.setOnClickListener(this);
-        redoTaskButton = (Button) findViewById(R.id.redoTaskButton);
-        redoTaskButton.setOnClickListener(this);
-
-        mapImageView = (ImageView) findViewById(R.id.mapImageView);
-        mapImageView.setOnClickListener(this);
-
         UIUtils.setActionBarBackground(this, statusId, isPreClaim);
     }
 
@@ -178,6 +158,9 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         task = TasksBL.convertCursorToTask(cursor);
+                        if (claimTaskManager!=null){
+                            removeNetworkOperationListener(claimTaskManager);
+                        }
                         claimTaskManager = new ClaimTaskManager(TaskDetailsActivity.this, task, TaskDetailsActivity
                                 .this);
 
@@ -420,6 +403,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         buttonsLayout.setVisibility(View.GONE);
         bookTaskButton.setVisibility(View.GONE);
         startTaskButton.setVisibility(View.GONE);
+        previewTaskButton.setVisibility(View.GONE);
         hideTaskButton.setVisibility(View.GONE);
         showTaskButton.setVisibility(View.GONE);
         withdrawTaskButton.setVisibility(View.GONE);
@@ -430,6 +414,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
             case NONE:
                 buttonsLayout.setVisibility(View.VISIBLE);
                 bookTaskButton.setVisibility(View.VISIBLE);
+                previewTaskButton.setVisibility(View.VISIBLE);
                 if (UIUtils.isTrue(task.getIsHide())) {
                     showTaskButton.setVisibility(View.VISIBLE);
                 } else {
@@ -440,6 +425,7 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.VISIBLE);
                 startTaskButton.setVisibility(View.VISIBLE);
+                previewTaskButton.setVisibility(View.VISIBLE);
                 if (TasksBL.isPreClaimTask(task)) {
                     startTaskButton.setEnabled(false);
                 } else {
@@ -484,75 +470,72 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getId(), task.getMissionId()));
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bookTaskButton:
-                claimTaskManager.claimTask();
-                break;
-            case R.id.hideTaskButton:
-                hideTaskButtonClick();
-                break;
-            case R.id.showTaskButton:
-                showTaskButtonClick();
-                break;
-            case R.id.withdrawTaskButton:
-                claimTaskManager.unClaimTask();
-                break;
-            case R.id.startTaskButton:
-                claimTaskManager.startTask();
-                break;
-            case R.id.continueTaskButton:
-                if (task != null) {
-                    continueTaskButtonClick();
-                }
-                break;
-            case R.id.redoTaskButton:
-                redoTaskButtonClick();
-                break;
-            case R.id.mapImageView:
-                if (task != null) {
-                    mapImageViewClick();
-                }
-                break;
-            case R.id.idCardButton:
-                IdCardActivity.launch(this, wave);
-                break;
-            default:
-                break;
-        }
+    @SuppressWarnings("unused")
+    @OnClick(R.id.previewTaskButton)
+    public void onPreviewClick() {
+        startActivity(IntentUtils.getPreviewQuestionsIntent(this, task.getId(), task.getMissionId()));
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.startTaskButton)
+    public void startTask() {
+        claimTaskManager.startTask();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.bookTaskButton)
+    public void claimTask() {
+        claimTaskManager.claimTask();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.withdrawTaskButton)
+    public void unClaimTask() {
+        claimTaskManager.unClaimTask();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.hideTaskButton)
     public void hideTaskButtonClick() {
         task.setIsHide(true);
         setButtonsSettings(task);
         TasksBL.setHideTaskOnMapByID(handler, task.getId(), task.getMissionId(), true);
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showTaskButton)
     public void showTaskButtonClick() {
         task.setIsHide(false);
         setButtonsSettings(task);
         TasksBL.setHideTaskOnMapByID(handler, task.getId(), task.getMissionId(), false);
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.continueTaskButton)
     public void continueTaskButtonClick() {
-        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case CLAIMED:
-            case STARTED:
-                startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
-                break;
-            case SCHEDULED:
-                startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, false, false));
-                break;
-            default:
-                break;
+        if (task != null) {
+            switch (TasksBL.getTaskStatusType(task.getStatusId())) {
+                case CLAIMED:
+                case STARTED:
+                    startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
+                    break;
+                case SCHEDULED:
+                    startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, false, false));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.redoTaskButton)
     public void redoTaskButtonClick() {
         startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.mapImageView)
     public void mapImageViewClick() {
         Bundle bundle = new Bundle();
         bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
@@ -590,8 +573,12 @@ public class TaskDetailsActivity extends BaseActivity implements View.OnClickLis
         titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
         titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         idCardView = actionBarView.findViewById(R.id.idCardButton);
-        idCardView.setOnClickListener(this);
-
+        idCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IdCardActivity.launch(TaskDetailsActivity.this, wave);
+            }
+        });
         return true;
     }
 
