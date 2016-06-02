@@ -89,7 +89,7 @@ public class JPushReceiver extends BroadcastReceiver {
             apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
         }
 
-        if (App.getInstance().getMyAccount().getAllowPushNotification()
+        if (App.getInstance().getMyAccount() != null && App.getInstance().getMyAccount().getAllowPushNotification()
                 && messageJsonObject.contains("Subject")) {
             NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
         }

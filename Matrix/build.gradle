@@ -193,11 +193,6 @@ android {
     }
 }
 
-configurations {
-//    chinaProductionCompile
-//    chinaDevCompile
-//    chinaStagingCompile
-}
 
 dependencies {
     // support

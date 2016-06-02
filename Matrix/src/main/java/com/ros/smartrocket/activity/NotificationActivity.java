@@ -27,6 +27,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
 
     private int leftButtonResId;
     private int rightButtonResId;
+    private boolean showLeftButton;
 
     public enum NotificationType {
         none(0), mission_expired(1), mission_approved(2), mission_redo(3), mission_rejected(4), mission_deadline(5);
@@ -60,6 +61,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
             text = getIntent().getCharSequenceExtra(Keys.NOTIFICATION_TEXT);
             leftButtonResId = getIntent().getIntExtra(Keys.LEFT_BUTTON_RES_ID, 0);
             rightButtonResId = getIntent().getIntExtra(Keys.RIGHT_BUTTON_RES_ID, 0);
+            showLeftButton = getIntent().getBooleanExtra(Keys.SHOW_LEFT_BUTTON, false);
         }
 
         TextView titleTextView = (TextView) findViewById(R.id.title);
@@ -80,7 +82,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
         TextView leftButton = (TextView) findViewById(R.id.leftButton);
         TextView rightButton = (TextView) findViewById(R.id.rightButton);
 
-        if (leftButtonResId != 0) {
+        if (showLeftButton && leftButtonResId != 0) {
             leftButton.setText(leftButtonResId);
             leftButton.setOnClickListener(this);
         } else {

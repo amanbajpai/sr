@@ -93,6 +93,10 @@ public class Task extends BaseEntity {
 
     @SerializedName("Icon")
     private String icon;
+    @SerializedName("FeedBackShort")
+    private String feedBackShort;
+    @SerializedName("FeedBackCommentFormatted")
+    private String feedBackCommentFormatted;
 
     private transient Boolean isMy = false;
     private transient Boolean isHide = false;
@@ -182,6 +186,9 @@ public class Task extends BaseEntity {
             result.setLongitudeToValidation(c.getDouble(TaskDbSchema.Query.All.LONGITUDE_TO_VALIDATION));
 
             result.setApproxMissionDuration(c.getInt(TaskDbSchema.Query.All.APPROX_MISSION_DURATION));
+
+            result.setFeedBackShort(c.getString(TaskDbSchema.Query.All.FEEDBACK_SHORT));
+            result.setFeedBackCommentFormatted(c.getString(TaskDbSchema.Query.All.FEEDBACK_COMMENT_FORMATTED));
         }
         return result;
     }
@@ -233,6 +240,8 @@ public class Task extends BaseEntity {
         contentValues.put("distance", distance);
         contentValues.put("longStartDateTime", longStartDateTime);
         contentValues.put("approxMissionDuration", approxMissionDuration);
+        contentValues.put("feedBackShort", feedBackShort);
+        contentValues.put("feedBackCommentFormatted", feedBackCommentFormatted);
 
         return contentValues;
     }
@@ -310,7 +319,7 @@ public class Task extends BaseEntity {
     }
 
     public String getAddress() {
-        return address;
+        return address==null?"":address;
     }
 
     public void setAddress(String address) {
@@ -481,7 +490,7 @@ public class Task extends BaseEntity {
     }
 
     public String getLocationName() {
-        return locationName;
+        return locationName==null?"":locationName;
     }
 
     public void setLocationName(String locationName) {
@@ -567,6 +576,24 @@ public class Task extends BaseEntity {
     public void setExpireDateTime(String expireDateTime) {
         this.expireDateTime = expireDateTime;
     }
+
+    public String getFeedBackShort() {
+        return feedBackShort == null ? "" : feedBackShort;
+    }
+
+    public void setFeedBackShort(String feedBackShort) {
+        this.feedBackShort = feedBackShort;
+    }
+
+
+    public String getFeedBackCommentFormatted() {
+        return feedBackCommentFormatted == null ? "" : feedBackCommentFormatted;
+    }
+
+    public void setFeedBackCommentFormatted(String feedBackCommentFormatted) {
+        this.feedBackCommentFormatted = feedBackCommentFormatted;
+    }
+
 
     /**
      * Return {@link com.google.android.gms.maps.model.LatLng} object with {@link Task}

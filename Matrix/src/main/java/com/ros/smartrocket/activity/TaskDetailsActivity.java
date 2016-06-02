@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +28,7 @@ import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.MyLog;
+import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
@@ -40,7 +43,7 @@ import butterknife.OnClick;
 /**
  * Activity for view Task detail information
  */
-public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManager.ClaimTaskListener {
+public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManager.ClaimTaskListener, View.OnClickListener {
     @Bind(R.id.taskDetailsOptionsRow)
     OptionsRow optionsRow;
     @Bind(R.id.statusText)
@@ -105,6 +108,8 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     LinearLayout buttonsLayout;
     @Bind(R.id.previewTaskButton)
     CustomButton previewTaskButton;
+    @Bind(R.id.feedbackBtn)
+    ImageView feedbackBtn;
     private TextView titleTextView;
     private View idCardView;
 
@@ -158,7 +163,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         task = TasksBL.convertCursorToTask(cursor);
-                        if (claimTaskManager!=null){
+                        if (claimTaskManager != null) {
                             removeNetworkOperationListener(claimTaskManager);
                         }
                         claimTaskManager = new ClaimTaskManager(TaskDetailsActivity.this, task, TaskDetailsActivity
@@ -390,9 +395,11 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
             case IN_PAYMENT_PROCESS:
             case PAID:
                 mapImageView.setImageResource(R.drawable.map_piece_yellow);
+                feedbackBtn.setImageResource(R.drawable.btn_feedback_orange);
                 break;
             case REJECTED:
                 mapImageView.setImageResource(R.drawable.map_piece_black);
+                feedbackBtn.setImageResource(R.drawable.btn_feedback_graphite);
                 break;
             default:
                 break;
@@ -409,6 +416,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         withdrawTaskButton.setVisibility(View.GONE);
         continueTaskButton.setVisibility(View.GONE);
         redoTaskButton.setVisibility(View.GONE);
+        feedbackBtn.setVisibility(View.INVISIBLE);
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case NONE:
@@ -441,6 +449,13 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                 buttonsLayout.setVisibility(View.VISIBLE);
                 withdrawTaskButton.setVisibility(View.INVISIBLE);
                 redoTaskButton.setVisibility(View.VISIBLE);
+                break;
+            case VALIDATED:
+            case IN_PAYMENT_PROCESS:
+            case PAID:
+            case REJECTED:
+                feedbackBtn.setVisibility(View.VISIBLE);
+                feedbackBtn.setOnClickListener(this);
                 break;
             default:
                 break;
@@ -588,5 +603,20 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
             claimTaskManager.onStop();
         }
         super.onStop();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.feedbackBtn) {
+            Intent intent;
+            if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.REJECTED) {
+                intent = NotificationUtils.getRejectedNotificationIntent(this, task.getFeedBackShort(),
+                        task.getFeedBackCommentFormatted(), task.getName(), task.getLocationName(), task.getAddress(), false);
+            } else {
+                intent = NotificationUtils.getApprovedNotificationIntent(this, task.getFeedBackShort(),
+                        task.getFeedBackCommentFormatted(), task.getName(), task.getLocationName(), task.getAddress(), false);
+            }
+            startActivity(intent);
+        }
     }
 }

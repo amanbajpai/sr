@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -31,6 +32,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.service.CleanFilesIntentService;
+
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -264,6 +266,14 @@ public class NotificationUtils {
     public static void startApprovedNotificationActivity(Context context, String presetValidationText,
                                                          String validationText, String missionName,
                                                          String locationName, String missionAddress) {
+        context.startActivity(getApprovedNotificationIntent(context, presetValidationText,
+                validationText, missionName, locationName, missionAddress, true));
+    }
+
+    public static Intent getApprovedNotificationIntent(Context context, String presetValidationText,
+                                                       String validationText, String missionName,
+                                                       String locationName, String missionAddress,
+                                                       boolean showLeftButton) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.approved_mission_notification_text,
                 presetValidationText, validationText, missionName, locationName, missionAddress));
@@ -277,37 +287,8 @@ public class NotificationUtils {
         intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.approved_mission_notification_title));
         intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
         intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
-
-        context.startActivity(intent);
-    }
-
-    /**
-     * Start popup-notification about reject task
-     *
-     * @param context        - current context
-     * @param validationText - current validationText
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
-     */
-    public static void startRejectNotificationActivity(Context context, String presetValidationText,
-                                                       String validationText, String missionName,
-                                                       String locationName, String missionAddress) {
-
-        Spanned notificationText = Html.fromHtml(context.getString(R.string.reject_mission_notification_text,
-                presetValidationText, validationText, missionName, locationName, missionAddress));
-
-        Intent intent = new Intent(context, NotificationActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_rejected.getId());
-        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
-        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
-        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.reject_mission_notification_title));
-        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
-        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
-
-        context.startActivity(intent);
+        intent.putExtra(Keys.SHOW_LEFT_BUTTON, showLeftButton);
+        return intent;
     }
 
     /**
@@ -346,6 +327,43 @@ public class NotificationUtils {
         intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.open_mission);
 
         context.startActivity(intent);
+    }
+
+
+    /**
+     * Start popup-notification about reject task
+     *
+     * @param context        - current context
+     * @param validationText - current validationText
+     * @param missionName    - current missionName
+     * @param locationName   - current locationName
+     * @param missionAddress - current missionAddress
+     */
+    public static void startRejectNotificationActivity(Context context, String presetValidationText,
+                                                       String validationText, String missionName,
+                                                       String locationName, String missionAddress) {
+        context.startActivity(getRejectedNotificationIntent(context, presetValidationText,
+                validationText, missionName, locationName, missionAddress, true));
+    }
+
+    public static Intent getRejectedNotificationIntent(Context context, String presetValidationText,
+                                                       String validationText, String missionName,
+                                                       String locationName, String missionAddress,
+                                                       boolean showLeftButton) {
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.reject_mission_notification_text,
+                presetValidationText, validationText, missionName, locationName, missionAddress));
+
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_rejected.getId());
+        intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
+        intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
+        intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.reject_mission_notification_title));
+        intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
+        intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
+        intent.putExtra(Keys.SHOW_LEFT_BUTTON, showLeftButton);
+        return intent;
     }
 
     /**
