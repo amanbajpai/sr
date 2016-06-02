@@ -469,6 +469,6 @@
     <string name="approx_mission_duration">"%dm"</string>
     <string name="mission_size_dialog_text">This mission file is %sMB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
 
-    <!-- ID CARDS -->
     <string name="preview_task">PREVIEW</string>
+    <string name="preview_mode">PREVIEW MODE</string>
 </resources>

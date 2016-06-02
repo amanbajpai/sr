@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
@@ -25,13 +26,55 @@ import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomTextView;
 import com.ros.smartrocket.views.OptionsRow;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Activity for view Task detail information
  */
 public class WaveDetailsActivity extends BaseActivity implements
         View.OnClickListener, ClaimTaskManager.ClaimTaskListener {
+    @Bind(R.id.startTimeText)
+    CustomTextView startTimeText;
+    @Bind(R.id.deadlineTimeText)
+    CustomTextView deadlineTimeText;
+    @Bind(R.id.expireText)
+    CustomTextView expireText;
+    @Bind(R.id.startTimeTextView)
+    CustomTextView startTimeTextView;
+    @Bind(R.id.deadlineTimeTextView)
+    CustomTextView deadlineTimeTextView;
+    @Bind(R.id.expireTextView)
+    CustomTextView expireTextView;
+    @Bind(R.id.mapImageView)
+    ImageView mapImageView;
+    @Bind(R.id.showMissionMapText)
+    CustomTextView showMissionMapText;
+    @Bind(R.id.timeLayout)
+    LinearLayout timeLayout;
+    @Bind(R.id.waveDetailsOptionsRow)
+    OptionsRow optionsRow;
+    @Bind(R.id.noTaskAddressText)
+    CustomTextView noTaskAddressText;
+    @Bind(R.id.projectDescription)
+    CustomTextView projectDescription;
+    @Bind(R.id.descriptionLayout)
+    LinearLayout descriptionLayout;
+    @Bind(R.id.claimNearTasksButton)
+    CustomButton claimNearTasksButton;
+    @Bind(R.id.showAllTasksButton)
+    CustomButton showAllTasksButton;
+    @Bind(R.id.hideAllTasksButton)
+    CustomButton hideAllTasksButton;
+    @Bind(R.id.previewTaskButton)
+    CustomButton previewTaskButton;
+    @Bind(R.id.buttonsLayout)
+    LinearLayout buttonsLayout;
+    private TextView titleTextView;
     private AsyncQueryHandler handler;
     private ClaimTaskManager claimTaskManager;
 
@@ -41,31 +84,6 @@ public class WaveDetailsActivity extends BaseActivity implements
     private Wave wave;
     private Task nearTask = new Task();
 
-    private TextView titleTextView;
-
-    private LinearLayout descriptionLayout;
-    private TextView projectDescription;
-    private TextView noTaskAddressText;
-
-    private Button claimNearTasksButton;
-    private Button hideAllTasksButton;
-    private Button showAllTasksButton;
-
-    private ImageView mapImageView;
-
-    private OptionsRow optionsRow;
-    private LinearLayout buttonsLayout;
-    private LinearLayout timeLayout;
-
-    private TextView startTimeTextView;
-    private TextView deadlineTimeTextView;
-    private TextView expireTextView;
-
-    private TextView startTimeText;
-    private TextView deadlineTimeText;
-    private TextView expireText;
-
-    private TextView showMissionMapText;
 
     private CustomProgressDialog progressDialog;
 
@@ -75,6 +93,7 @@ public class WaveDetailsActivity extends BaseActivity implements
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_wave_details);
+        ButterKnife.bind(this);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
@@ -89,28 +108,11 @@ public class WaveDetailsActivity extends BaseActivity implements
         timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
         optionsRow = (OptionsRow) findViewById(R.id.waveDetailsOptionsRow);
         buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
-
-        startTimeText = (TextView) findViewById(R.id.startTimeText);
-        deadlineTimeText = (TextView) findViewById(R.id.deadlineTimeText);
-        expireText = (TextView) findViewById(R.id.expireText);
-
-        startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
-        deadlineTimeTextView = (TextView) findViewById(R.id.deadlineTimeTextView);
-        expireTextView = (TextView) findViewById(R.id.expireTextView);
-
-        showMissionMapText = (TextView) findViewById(R.id.showMissionMapText);
-
-        descriptionLayout = (LinearLayout) findViewById(R.id.descriptionLayout);
-        projectDescription = (TextView) findViewById(R.id.projectDescription);
-        noTaskAddressText = (TextView) findViewById(R.id.noTaskAddressText);
-
-        claimNearTasksButton = (Button) findViewById(R.id.claimNearTasksButton);
         claimNearTasksButton.setOnClickListener(this);
         claimNearTasksButton.setEnabled(false);
-        hideAllTasksButton = (Button) findViewById(R.id.hideAllTasksButton);
         hideAllTasksButton.setOnClickListener(this);
-        showAllTasksButton = (Button) findViewById(R.id.showAllTasksButton);
         showAllTasksButton.setOnClickListener(this);
+        previewTaskButton.setOnClickListener(this);
         mapImageView = (ImageView) findViewById(R.id.mapImageView);
         mapImageView.setOnClickListener(this);
 
@@ -150,6 +152,9 @@ public class WaveDetailsActivity extends BaseActivity implements
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         nearTask = TasksBL.convertCursorToTask(cursor);
+                        if (claimTaskManager!=null){
+                            removeNetworkOperationListener(claimTaskManager);
+                        }
                         claimTaskManager = new ClaimTaskManager(WaveDetailsActivity.this, nearTask, WaveDetailsActivity.this);
 
                         claimNearTasksButton.setEnabled(!WavesBL.isPreClaimWave(wave) || wave.getIsCanBePreClaimed());
@@ -208,7 +213,7 @@ public class WaveDetailsActivity extends BaseActivity implements
     public void setButtonsSettings(Task task) {
         if (wave != null && wave.getTaskCount() == 1 && TextUtils.isEmpty(task.getAddress())) {
             claimNearTasksButton.setVisibility(View.VISIBLE);
-
+            previewTaskButton.setVisibility(View.VISIBLE);
             if (task.getIsHide()) {
                 showAllTasksButton.setVisibility(View.VISIBLE);
                 hideAllTasksButton.setVisibility(View.GONE);
@@ -302,6 +307,9 @@ public class WaveDetailsActivity extends BaseActivity implements
                 if (wave != null) {
                     startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
                 }
+                break;
+            case R.id.previewTaskButton:
+                startActivity(IntentUtils.getPreviewQuestionsIntent(this, nearTask.getId(), nearTask.getMissionId()));
                 break;
             default:
                 break;

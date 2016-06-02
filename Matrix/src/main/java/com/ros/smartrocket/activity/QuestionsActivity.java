@@ -514,8 +514,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         TextView title = (TextView) view.findViewById(R.id.titleTextView);
         if (isPreview) {
             title.setTextColor(getResources().getColor(R.color.red));
-            String preview = String.format("%s %s", getString(R.string.question_title).toUpperCase(), getString(R.string.preview_task).toUpperCase());
-            title.setText(preview);
+            title.setText(getString(R.string.preview_mode));
         } else {
             title.setText(R.string.question_title);
         }

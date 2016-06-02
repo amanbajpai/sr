@@ -374,7 +374,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
     }
 
     public void onStop() {
-        activity.addNetworkOperationListener(this);
+        activity.removeNetworkOperationListener(this);
     }
 
     public void claimTask() {

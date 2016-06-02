@@ -158,6 +158,9 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         task = TasksBL.convertCursorToTask(cursor);
+                        if (claimTaskManager!=null){
+                            removeNetworkOperationListener(claimTaskManager);
+                        }
                         claimTaskManager = new ClaimTaskManager(TaskDetailsActivity.this, task, TaskDetailsActivity
                                 .this);
 

@@ -112,7 +112,9 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     public void addNetworkOperationListener(NetworkOperationListenerInterface listener) {
-        networkOperationListeners.add(listener);
+        if (!networkOperationListeners.contains(listener)) {
+            networkOperationListeners.add(listener);
+        }
     }
 
     public void removeNetworkOperationListener(NetworkOperationListenerInterface listener) {

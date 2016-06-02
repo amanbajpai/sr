@@ -427,6 +427,6 @@
     <string name="dialog_are_you_sure_first_last_name_text">請確認名字更新為 %1$s %2$s?</string>
     <string name="mission_size_dialog_text">任務的檔案size為 %sMB，亦即將下載到閣下手機。若不想使用數據，請先連接到Wi-Fi。</string>
 
-    <!-- ID CARDS -->
-    <string name="preview_task">PREVIEW</string>
+    <string name="preview_task">預覽</string>
+    <string name="preview_mode">預覽模式</string>
 </resources>
