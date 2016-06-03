@@ -199,7 +199,7 @@ public class MyAccount extends BaseEntity {
     }
 
     public Boolean getAllowPushNotification() {
-        return allowPushNotification;
+        return allowPushNotification == null ? false : allowPushNotification;
     }
 
     public void setAllowPushNotification(Boolean allowPushNotification) {
@@ -215,7 +215,7 @@ public class MyAccount extends BaseEntity {
     }
 
     public Boolean getIsUpdateNameRequired() {
-        return isUpdateNameRequired;
+        return isUpdateNameRequired == null ? false : isUpdateNameRequired;
     }
 
     public void setIsUpdateNameRequired(Boolean isUpdateNameRequired) {

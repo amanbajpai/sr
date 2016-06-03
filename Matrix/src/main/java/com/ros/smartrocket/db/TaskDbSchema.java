@@ -78,7 +78,11 @@ public interface TaskDbSchema {
 
         APPROX_MISSION_DURATION("approxMissionDuration", DBType.INT),
 
-        DELETED("deleted", DBType.INT);
+        DELETED("deleted", DBType.INT),
+
+        FEEDBACK_SHORT("feedBackShort", DBType.TEXT),
+        FEEDBACK_COMMENT("feedBackComment", DBType.TEXT),
+        FEEDBACK_COMMENT_FORMATTED("feedBackCommentFormatted", DBType.TEXT);
 
 
         private String columnName;
@@ -169,7 +173,10 @@ public interface TaskDbSchema {
                     Table.TASK.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
                     Table.TASK.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName(),
 
-                    Table.TASK.getName() + "." + Columns.APPROX_MISSION_DURATION.getName()
+                    Table.TASK.getName() + "." + Columns.APPROX_MISSION_DURATION.getName(),
+                    Table.TASK.getName() + "." + Columns.FEEDBACK_SHORT.getName(),
+                    Table.TASK.getName() + "." + Columns.FEEDBACK_COMMENT.getName(),
+                    Table.TASK.getName() + "." + Columns.FEEDBACK_COMMENT_FORMATTED.getName()
             };
 
             int _ID = 0;
@@ -226,6 +233,11 @@ public interface TaskDbSchema {
             int LONGITUDE_TO_VALIDATION = 41;
 
             int APPROX_MISSION_DURATION = 42;
+            int FEEDBACK_SHORT = 43;
+            int FEEDBACK_COMMENT = 44;
+            int FEEDBACK_COMMENT_FORMATTED = 45;
+
+
         }
     }
 }
