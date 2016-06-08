@@ -7,12 +7,14 @@ import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Base64;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.*;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -180,7 +182,6 @@ public abstract class BaseNetworkService extends IntentService {
 
                     HttpResponse response = client.execute(request);
                     operation = readResponseToOperation(response, operation);
-                    client.close();
                 }
             } else {
                 operation.setResponseStatusCode(NO_INTERNET);
@@ -190,6 +191,10 @@ public abstract class BaseNetworkService extends IntentService {
             operation.setResponseStatusCode(NO_INTERNET);
             operation.setResponseError(getString(R.string.no_internet));
             L.e(TAG, e.toString(), e);
+        } finally {
+            if (client != null) {
+                client.close();
+            }
         }
 
         MyLog.v("BaseNetworkService.executeRequest", timing.measure(), operation.getRequestUrl());

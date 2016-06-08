@@ -609,12 +609,20 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     public void onClick(View view) {
         if (view.getId() == R.id.feedbackBtn) {
             Intent intent;
+            String feedbackShort = task.getFeedBackShort();
+            String feedbackFormatted = task.getFeedBackCommentFormatted();
+            if (!TextUtils.isEmpty(feedbackShort)) {
+                feedbackShort = "<br><br>" + feedbackShort;
+            }
+            if (!TextUtils.isEmpty(feedbackFormatted)) {
+                feedbackFormatted = "<br><br>" + feedbackFormatted;
+            }
             if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.REJECTED) {
-                intent = NotificationUtils.getRejectedNotificationIntent(this, task.getFeedBackShort(),
-                        task.getFeedBackCommentFormatted(), task.getName(), task.getLocationName(), task.getAddress(), false);
+                intent = NotificationUtils.getRejectedNotificationIntent(this, feedbackShort,
+                        feedbackFormatted, task.getName(), task.getLocationName(), task.getAddress(), false);
             } else {
-                intent = NotificationUtils.getApprovedNotificationIntent(this, task.getFeedBackShort(),
-                        task.getFeedBackCommentFormatted(), task.getName(), task.getLocationName(), task.getAddress(), false);
+                intent = NotificationUtils.getApprovedNotificationIntent(this, feedbackShort,
+                        feedbackFormatted, task.getName(), task.getLocationName(), task.getAddress(), false);
             }
             startActivity(intent);
         }
