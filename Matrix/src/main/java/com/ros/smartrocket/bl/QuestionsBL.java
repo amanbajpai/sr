@@ -8,11 +8,13 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.*;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class QuestionsBL {
                 QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION,
                 QuestionDbSchema.Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=? and "
-                +QuestionDbSchema.Columns.MISSION_ID + "=?",
+                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(taskId), String.valueOf(parentQuestionId), String.valueOf(missionId)},
                 QuestionDbSchema.SORT_ORDER_SUBQUESTIONS
         );
@@ -283,7 +285,7 @@ public class QuestionsBL {
      * Get Question by id
      *
      * @param questions - question list
-     * @param id - questionId
+     * @param id        - questionId
      * @return Question
      */
     public static Question getQuestionById(List<Question> questions, int id) {
@@ -310,21 +312,23 @@ public class QuestionsBL {
         boolean continueLoop = true;
         while (result == null && continueLoop) {
             continueLoop = false;
-            for (Question question : questions) {
-                if (question.getOrderId() == orderId) {
-                    if (checkCondition(question, questions)) {
-                        result = question;
+            if (questions != null) {
+                for (Question question : questions) {
+                    if (question.getOrderId() == orderId) {
+                        if (checkCondition(question, questions)) {
+                            result = question;
 
-                    } else {
-                        int routingOrderId = getOrderIdFromRoutingCondition(question);
-                        if (routingOrderId != 0) {
-                            orderId = routingOrderId;
                         } else {
-                            orderId = orderId + 1;
+                            int routingOrderId = getOrderIdFromRoutingCondition(question);
+                            if (routingOrderId != 0) {
+                                orderId = routingOrderId;
+                            } else {
+                                orderId = orderId + 1;
+                            }
                         }
+                        continueLoop = true;
+                        break;
                     }
-                    continueLoop = true;
-                    break;
                 }
             }
         }

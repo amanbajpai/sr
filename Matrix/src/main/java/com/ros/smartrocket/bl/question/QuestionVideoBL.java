@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.VideoView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -62,26 +63,28 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     @Override
     public void fillViewWithAnswers(Answer[] answers) {
-        question.setAnswers(answers);
+        if (answers != null && answers.length > 0) {
+            question.setAnswers(answers);
 
-        Answer answer = answers[0];
-        if (answer.getChecked() && answer.getFileUri() != null) {
-            isVideoAdded = true;
-            isVideoConfirmed = true;
-            videoPath = Uri.parse(answer.getFileUri()).getPath();
+            Answer answer = answers[0];
+            if (answer.getChecked() && answer.getFileUri() != null) {
+                isVideoAdded = true;
+                isVideoConfirmed = true;
+                videoPath = Uri.parse(answer.getFileUri()).getPath();
 
-            playPauseVideo(videoPath);
-        } else {
-            isVideoAdded = false;
-            isVideoConfirmed = false;
+                playPauseVideo(videoPath);
+            } else {
+                isVideoAdded = false;
+                isVideoConfirmed = false;
 
-            videoView.setVisibility(View.VISIBLE);
-            videoView.setBackgroundResource(R.drawable.camera_video_icon);
+                videoView.setVisibility(View.VISIBLE);
+                videoView.setBackgroundResource(R.drawable.camera_video_icon);
+            }
+
+            refreshRePhotoButton();
+            refreshConfirmButton();
+            refreshNextButton();
         }
-
-        refreshRePhotoButton();
-        refreshConfirmButton();
-        refreshNextButton();
     }
 
     @Override

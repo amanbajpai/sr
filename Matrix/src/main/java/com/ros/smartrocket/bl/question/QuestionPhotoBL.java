@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
@@ -27,6 +29,7 @@ import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.*;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
+
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
@@ -87,6 +90,10 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
             }
         }
+    }
+
+    private boolean isPreview() {
+        return getActivity() != null && getActivity() instanceof QuestionsActivity && ((QuestionsActivity) getActivity()).isPreview();
     }
 
     @SuppressLint("SetTextI18n")
@@ -212,8 +219,14 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         if (question.getAnswers().length == question.getMaximumPhotos()) {
             question.setAnswers(addEmptyAnswer(question.getAnswers()));
         }
-        AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
-                getProductId());
+        if (getProductId() != null) {
+            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
+                    getProductId());
+        } else {
+            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
+        }
+        isBitmapAdded = false;
+        currentSelectedPhoto = 0;
     }
 
     public void selectGalleryPhoto(int position) {
@@ -404,9 +417,9 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             answer.setValue(resultImageFile.getName());
             answer.setLatitude(location.getLatitude());
             answer.setLongitude(location.getLongitude());
-
-            AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-
+            if (!isPreview()) {
+                AnswersBL.updateAnswersToDB(handler, question.getAnswers());
+            }
             if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
                 question.setAnswers(addEmptyAnswer(question.getAnswers()));
             }
@@ -430,10 +443,11 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         answer.setProductId(product != null ? product.getId() : 0);
 
         //Save empty answer to DB
-        Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
-        long id = ContentUris.parseId(uri);
-
-        answer.set_id(id);
+        if (!isPreview()) {
+            Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+            long id = ContentUris.parseId(uri);
+            answer.set_id(id);
+        }
 
         Answer[] resultAnswerArray = Arrays.copyOf(currentAnswerArray, currentAnswerArray.length + 1);
         resultAnswerArray[currentAnswerArray.length] = answer;

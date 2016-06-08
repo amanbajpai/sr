@@ -92,11 +92,16 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     private int questionsToAnswerCount = 0;
     private boolean isRedo = false;
+
     private boolean isPreview = false;
     private boolean isAlreadyStarted;
     private boolean isDestroyed;
 
     private MenuItem idCardMenuItem;
+
+    public boolean isPreview() {
+        return isPreview;
+    }
 
     public QuestionsActivity() {
     }
@@ -483,7 +488,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 finishQuestionsActivity();
                 return true;
             case R.id.quiteTask:
-                if (task.getWaveId() != null && task.getId() != null) {
+                if (isPreview) {
+                    finishQuestionsActivity();
+                } else if (task.getWaveId() != null && task.getId() != null) {
                     DialogUtils.showQuiteTaskDialog(this, task.getWaveId(), task.getId(), task.getMissionId());
                 }
                 return true;
