@@ -910,8 +910,8 @@ public class UIUtils {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
 
-        if (model.startsWith(manufacturer) && model.length() + 1 > manufacturer.length()) {
-            return model.substring(manufacturer.length() + 1);
+        if (model.startsWith(manufacturer)) {
+            return model.replace(manufacturer, "");
         } else {
             return model;
         }

@@ -145,7 +145,9 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     }
 
     public void subQuestionsLoaded(List<Question> questions) {
-        question.setChildQuestions(questions.toArray(new Question[questions.size()]));
+        Question[] subQuestions = new Question[questions.size()];
+        subQuestions = questions.toArray(subQuestions);
+        question.setChildQuestions(subQuestions);
         mainSub = QuestionsBL.getMainSubQuestion(question);
         if (mainSub != null) {
             mainSubQuestionTextView.setMovementMethod(LinkMovementMethod.getInstance());

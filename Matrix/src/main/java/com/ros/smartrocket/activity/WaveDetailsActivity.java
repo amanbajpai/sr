@@ -133,10 +133,10 @@ public class WaveDetailsActivity extends BaseActivity implements
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            dismissProgressBar();
             switch (token) {
                 case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
-                        dismissProgressBar();
 
                         wave = WavesBL.convertCursorToWaveWithTask(cursor);
 
