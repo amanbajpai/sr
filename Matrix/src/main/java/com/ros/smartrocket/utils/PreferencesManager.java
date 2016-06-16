@@ -7,9 +7,13 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+
+import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.db.entity.WaitingUploadTask;
+import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.fragment.TasksMapFragment;
 
 /**
@@ -352,4 +356,21 @@ public class PreferencesManager {
         editor.clear();
         editor.commit();
     }
+
+    public void saveUploadFilesProgress(WaitingUploadTask task, Integer uploadedCount){
+        Gson gson = new Gson();
+        String progress = gson.toJson(new ProgressUpdate(task, uploadedCount));
+        setString(Keys.UPLOAD_FILES_PROGRESS, progress);
+    }
+
+    public ProgressUpdate getUploadProgress(){
+        ProgressUpdate progressUpdate = null;
+        String progress = getString(Keys.UPLOAD_FILES_PROGRESS, "");
+        if (!TextUtils.isEmpty(progress)){
+            Gson gson = new Gson();
+            progressUpdate = gson.fromJson(progress, ProgressUpdate.class);
+        }
+        return progressUpdate;
+    }
+
 }

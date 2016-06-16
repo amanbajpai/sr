@@ -108,6 +108,7 @@ public interface Keys {
     String RIGHT_BUTTON_RES_ID = "right_button_res_id";
     String SHOW_LEFT_BUTTON = "show_left_button";
     String SHOW_PUSH_NOTIF_STAR = "show_push_notif_star";
+    String UPLOAD_FILES_PROGRESS = "upload_files_progress";
 
     /**
      * All possible view modes on map
