@@ -236,7 +236,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {
         //Add files data to DB and start upload
-        WaitingUploadTaskBL.insertWaitingUploadTask(new WaitingUploadTask(task));
+        WaitingUploadTaskBL.insertWaitingUploadTask(new WaitingUploadTask(task, notUploadedFiles.size()));
         for (NotUploadedFile notUploadedFile : notUploadedFiles) {
             notUploadedFile.setUse3G(use3G);
             notUploadedFile.setWaveId(task.getWaveId());

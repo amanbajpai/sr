@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
@@ -292,7 +294,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         UIUtils.longToString(System.currentTimeMillis(), 2));
                 sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ",
                         notUploadedFile);
-
+                WaitingUploadTask task = WaitingUploadTaskBL.getWaitingUploadTask(notUploadedFile.getWaveId(),
+                        notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
@@ -332,7 +335,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     (responseErrorCode != null && responseErrorCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE)) {
                 SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
                 // removing this task from waiting list
-                WaitingUploadTaskBL.deletUploadedTaskFromDbById(sendTask.getWaveId(), sendTask.getTaskId(), sendTask
+                WaitingUploadTaskBL.deleteUploadedTaskFromDbById(sendTask.getWaveId(), sendTask.getTaskId(), sendTask
                         .getMissionId());
 
                 sendValidateLog("Success Validate task. ", sendTask.getTaskId(),
