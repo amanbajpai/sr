@@ -2,9 +2,9 @@ package com.ros.smartrocket.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -37,7 +37,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
-                R.drawable.ic_drawer,
+                //R.drawable.ic_drawer,
                 R.string.app_name,
                 R.string.app_name
         ) {

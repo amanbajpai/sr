@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.helpshift.Core;
+import com.helpshift.support.Support;
 import com.ros.smartrocket.*;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
@@ -35,11 +38,13 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.*;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
+
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
         ShowProgressDialogInterface {
@@ -321,20 +326,21 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
-                String uid = preferencesManager.getLastEmail();
-                long validTimeInMillis = DateUtils.DAY_IN_MILLIS;
-                String customerEmail = preferencesManager.getLastEmail();
-                String customerName = preferencesManager.getLastEmail();
-
-                String url;
-                if (BuildConfig.CHINESE) {
-                    url = Config.CHINESE_SUPPORT_URL;
-                } else {
-                    MultipassUtils multipassUtils =
-                            new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
-                    url = multipassUtils.buildUrl();
-                }
-                getActivity().startActivity(IntentUtils.getBrowserIntent(url));
+                showFAQ();
+//                String uid = preferencesManager.getLastEmail();
+//                long validTimeInMillis = DateUtils.DAY_IN_MILLIS;
+//                String customerEmail = preferencesManager.getLastEmail();
+//                String customerName = preferencesManager.getLastEmail();
+//
+//                String url;
+//                if (BuildConfig.CHINESE) {
+//                    url = Config.CHINESE_SUPPORT_URL;
+//                } else {
+//                    MultipassUtils multipassUtils =
+//                            new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
+//                    url = multipassUtils.buildUrl();
+//                }
+//                getActivity().startActivity(IntentUtils.getBrowserIntent(url));
                 break;
             case R.id.settingsButton:
                 //((MainActivity) getActivity()).startFragment(new SettingsFragment());
@@ -344,6 +350,18 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             default:
                 break;
         }
+    }
+
+    private void showFAQ() {
+        HashMap customMetadata = new HashMap();
+        Core.login(String.valueOf(myAccount.getId()), myAccount.getName(), PreferencesManager.getInstance().getLastEmail());
+        customMetadata.put("Agent Id", myAccount.getId());
+        customMetadata.put("Agent Rank Level", myAccount.getLevelNumber());
+        customMetadata.put("Rocket Points", myAccount.getExperience());
+        HashMap config = new HashMap ();
+        config.put("hideNameAndEmail", true);
+        config.put(Support.CustomMetadataKey, customMetadata);
+        Support.showFAQs(getActivity(), config);
     }
 
     @Override

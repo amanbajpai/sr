@@ -78,7 +78,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_task_validation);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
