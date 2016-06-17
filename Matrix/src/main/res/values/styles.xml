@@ -14,6 +14,17 @@
         <!--<item name="android:background">@color/white</item>-->
     </style>
 
+    <style name="CustomHelpshiftTheme" parent="Helpshift.Theme.Light.DarkActionBar">
+        <item name="colorAccent">@color/orange_dark</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red_dark</item>
+        <item name="hs__separatorColor">@color/orange_dark</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="Helpshift.Theme.Base" parent="CustomHelpshiftTheme"/>
+
     <style name="AppThemeNoActionBar" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
