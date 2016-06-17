@@ -301,7 +301,9 @@ public class NetworkService extends BaseNetworkService {
                                Question question) {
         List<ContentValues> answersValues = new ArrayList<>();
         List<ContentValues> questionValues = new ArrayList<>();
+
         question = prepareQuestion(gson, url, taskId, missionId, i, question);
+
         questionValues.add(question.toContentValues());
 
         contentResolver.delete(AnswerDbSchema.CONTENT_URI,

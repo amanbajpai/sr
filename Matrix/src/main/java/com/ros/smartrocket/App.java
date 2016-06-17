@@ -10,6 +10,9 @@ import android.text.format.DateUtils;
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.helpshift.All;
+import com.helpshift.Core;
+import com.helpshift.support.Support;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -18,6 +21,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import cn.jpush.android.api.JPushInterface;
 import io.fabric.sdk.android.Fabric;
@@ -35,6 +39,14 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        HashMap config = new HashMap();
+        Core.init(All.getInstance());
+        Core.install(this,
+                "61ff0f6188482d2091170a688375265b",
+                "smartrocket.helpshift.com",
+                "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
+                config);
 
         if (Config.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());

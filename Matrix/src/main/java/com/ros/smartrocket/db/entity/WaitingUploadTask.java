@@ -20,11 +20,12 @@ public class WaitingUploadTask extends BaseEntity {
     private Double longitudeToValidation;
     private Double latitudeToValidation;
     private Boolean allFileSent;
+    private Integer filesCount;
 
     public WaitingUploadTask() {
     }
 
-    public WaitingUploadTask(Task task) {
+    public WaitingUploadTask(Task task, int filesCount) {
         this.taskId = task.getId();
         this.missionId = task.getMissionId();
         this.waveId = task.getWaveId();
@@ -33,6 +34,7 @@ public class WaitingUploadTask extends BaseEntity {
         this.longitudeToValidation = task.getLongitudeToValidation();
         this.latitudeToValidation = task.getLatitudeToValidation();
         this.allFileSent = false;
+        this.filesCount = filesCount;
     }
 
     public static WaitingUploadTask fromCursor(Cursor c) {
@@ -50,6 +52,7 @@ public class WaitingUploadTask extends BaseEntity {
             result.setLongitudeToValidation(c.getDouble(WaitingUploadTaskDbSchema.Query.LONGITUDE_TO_VALIDATION));
 
             result.setAllFileSent(c.getInt(WaitingUploadTaskDbSchema.Query.ALL_FILE_SENT) == 1);
+            result.setFilesCount(c.getInt(WaitingUploadTaskDbSchema.Query.FILES_COUNT));
 
         }
         L.d("WaitingValidationTask", result.toString());
@@ -118,5 +121,13 @@ public class WaitingUploadTask extends BaseEntity {
 
     public void setAllFileSent(Boolean allFileSent) {
         this.allFileSent = allFileSent;
+    }
+
+    public int getFilesCount() {
+        return filesCount;
+    }
+
+    public void setFilesCount(int filesCount) {
+        this.filesCount = filesCount;
     }
 }

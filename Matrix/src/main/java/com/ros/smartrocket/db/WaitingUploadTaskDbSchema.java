@@ -21,6 +21,7 @@ public interface WaitingUploadTaskDbSchema {
         LATITUDE_TO_VALIDATION("latitudeToValidation", DBType.TEXT),
         LONGITUDE_TO_VALIDATION("longitudeToValidation", DBType.TEXT),
         ALL_FILE_SENT("allFileSent", DBType.NUMERIC),
+        FILES_COUNT("filesCount", DBType.NUMERIC),
 
         DELETED("deleted", DBType.INT);
 
@@ -66,7 +67,8 @@ public interface WaitingUploadTaskDbSchema {
                 Table.WAITING_UPLOAD_TASK.getName() + "." + Columns.CITY_NAME.getName(),
                 Table.WAITING_UPLOAD_TASK.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
                 Table.WAITING_UPLOAD_TASK.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName(),
-                Table.WAITING_UPLOAD_TASK.getName() + "." + Columns.ALL_FILE_SENT.getName()
+                Table.WAITING_UPLOAD_TASK.getName() + "." + Columns.ALL_FILE_SENT.getName(),
+                Table.WAITING_UPLOAD_TASK.getName() + "." + Columns.FILES_COUNT.getName()
         };
 
         int _ID = 0;
@@ -79,5 +81,6 @@ public interface WaitingUploadTaskDbSchema {
         int LATITUDE_TO_VALIDATION = 7;
         int LONGITUDE_TO_VALIDATION = 8;
         int ALL_FILE_SENT = 9;
+        int FILES_COUNT = 10;
     }
 }

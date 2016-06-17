@@ -37,13 +37,22 @@ public class WaitingUploadTaskBL {
                         "=?", new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
     }
 
-    public static void deletUploadedTaskFromDbById(int waveId, int taskId, int missionId) {
+    public static void deleteUploadedTaskFromDbById(int waveId, int taskId, int missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         resolver.delete(WaitingUploadTaskDbSchema.CONTENT_URI,
                 WaitingUploadTaskDbSchema.Columns.WAVE_ID + "=? and " +
                         WaitingUploadTaskDbSchema.Columns.TASK_ID + "=? and " +
                         WaitingUploadTaskDbSchema.Columns.MISSION_ID +
                         "=?", new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
+    }
+
+    public static WaitingUploadTask getWaitingUploadTask(int waveId, int taskId, int missionId){
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        Cursor c = resolver.query(WaitingUploadTaskDbSchema.CONTENT_URI, WaitingUploadTaskDbSchema.Query.PROJECTION, WaitingUploadTaskDbSchema.Columns.WAVE_ID + "=? and " +
+                WaitingUploadTaskDbSchema.Columns.TASK_ID + "=? and " +
+                WaitingUploadTaskDbSchema.Columns.MISSION_ID +
+                "=?", new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)}, null);
+        return convertCursorToWaitingUploadTask(c);
     }
 
     public static void insertWaitingUploadTask(WaitingUploadTask waitingUploadTask) {

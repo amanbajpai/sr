@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.*;
 import android.widget.*;
+
+import com.helpshift.Core;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -398,7 +400,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         switch (item.getItemId()) {
             case R.id.logout:
                 WriteDataHelper.prepareLogout(getActivity());
-
+                Core.logout();
                 getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
                 getActivity().finish();
                 getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
