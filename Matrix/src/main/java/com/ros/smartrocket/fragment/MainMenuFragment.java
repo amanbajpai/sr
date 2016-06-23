@@ -358,6 +358,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         customMetadata.put("Agent Id", myAccount.getId());
         customMetadata.put("Agent Rank Level", myAccount.getLevelNumber());
         customMetadata.put("Rocket Points", myAccount.getExperience());
+        customMetadata.put("Country", myAccount.getCountryName());
+        customMetadata.put("City", myAccount.getCityName());
+        customMetadata.put("Joining Date", myAccount.getJoined());
         HashMap config = new HashMap ();
         config.put("hideNameAndEmail", true);
         config.put(Support.CustomMetadataKey, customMetadata);
