@@ -2,9 +2,6 @@ package com.ros.smartrocket.utils;
 
 import java.util.Calendar;
 
-/**
- * Created by macbook on 22.10.15.
- */
 public class TimeUtils {
 
     public static String getFormattedTimestamp(long timestamp) {

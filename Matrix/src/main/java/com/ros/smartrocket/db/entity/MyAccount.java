@@ -49,6 +49,13 @@ public class MyAccount extends BaseEntity {
     private String lastName;
     @SerializedName("IsUpdateNameRequired")
     private Boolean isUpdateNameRequired;
+    @SerializedName("CountryName")
+    private String countryName;
+    @SerializedName("CityName")
+    private String cityName;
+    @SerializedName("Joined")
+    private String joined;
+
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -220,5 +227,29 @@ public class MyAccount extends BaseEntity {
 
     public void setIsUpdateNameRequired(Boolean isUpdateNameRequired) {
         this.isUpdateNameRequired = isUpdateNameRequired;
+    }
+
+    public String getJoined() {
+        return joined == null ? "" : joined;
+    }
+
+    public void setJoined(String joined) {
+        this.joined = joined;
+    }
+
+    public String getCityName() {
+        return cityName == null ? "" : cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCountryName() {
+        return countryName == null ? "" : countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }
