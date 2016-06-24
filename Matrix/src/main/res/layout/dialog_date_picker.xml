@@ -7,7 +7,7 @@
     android:orientation="vertical" >
     <com.ros.smartrocket.views.CustomTextView
         android:layout_width="fill_parent"
-        android:layout_height="64dp"
+        android:layout_height="50dp"
         android:text="@string/date_picker_dialog_title_birthday"
         android:drawablePadding="20dp"
         android:drawableLeft="@drawable/calendar_icon"
@@ -17,7 +17,11 @@
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="fill_parent"
-        android:layout_margin="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:calendarViewShown="false" />
     <LinearLayout
@@ -31,7 +35,7 @@
             android:background="@color/grey" />
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="54dp"
+            android:layout_height="50dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal" >
             <com.ros.smartrocket.views.CustomTextView
