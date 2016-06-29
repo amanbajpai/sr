@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
@@ -39,7 +40,6 @@ public class BaseActivity extends ActionBarActivity {
         saveActivityIntent();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         receiver = new NetworkBroadcastReceiver();
         filter = new IntentFilter(NetworkService.BROADCAST_ACTION);
     }

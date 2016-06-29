@@ -374,7 +374,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             config.locale = new Locale(languageCode);
         }
 
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        context.getApplicationContext().getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
     @Override
