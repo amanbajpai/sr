@@ -59,12 +59,14 @@ public class QuestionBaseBL {
 
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
         questionText.setText(Html.fromHtml(this.question.getQuestion()));
+        validationComment.setMovementMethod(LinkMovementMethod.getInstance());
+        presetValidationComment.setMovementMethod(LinkMovementMethod.getInstance());
         if (!TextUtils.isEmpty(this.question.getPresetValidationText())) {
-            presetValidationComment.setText(this.question.getPresetValidationText());
+            presetValidationComment.setText(Html.fromHtml(this.question.getPresetValidationText()));
             presetValidationComment.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(this.question.getValidationComment())) {
-            validationComment.setText(this.question.getValidationComment());
+            validationComment.setText(Html.fromHtml(this.question.getValidationComment()));
             validationComment.setVisibility(View.VISIBLE);
         }
     }

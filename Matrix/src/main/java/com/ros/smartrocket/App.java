@@ -12,6 +12,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
+import com.helpshift.CoreInternal;
 import com.helpshift.support.Support;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;

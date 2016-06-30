@@ -74,7 +74,7 @@ public class Question extends BaseEntity implements Serializable {
     private String photoUrl;
     @SerializedName("Routing")
     private Integer routing;
-    @SerializedName("ValidationComment")
+    @SerializedName("ValidationCommentFormatted")
     private String validationComment;
     @SerializedName("PresetValidationText")
     private String presetValidationText;

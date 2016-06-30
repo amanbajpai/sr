@@ -14,6 +14,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.helpshift.Core;
+import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -368,10 +369,13 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         if ("zh_CN".equals(languageCode) || "en_SG".equals(languageCode)) {
             config.locale = Locale.SIMPLIFIED_CHINESE;
+            Support.setSDKLanguage("zh_CN");
         } else if ("zh".equals(languageCode) || "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode)) {
             config.locale = Locale.TRADITIONAL_CHINESE;
+            Support.setSDKLanguage("zh_TW");
         } else {
             config.locale = new Locale(languageCode);
+            Support.setSDKLanguage("en");
         }
 
         context.getApplicationContext().getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
