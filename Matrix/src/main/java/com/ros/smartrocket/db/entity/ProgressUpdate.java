@@ -1,7 +1,5 @@
 package com.ros.smartrocket.db.entity;
 
-import com.ros.smartrocket.db.entity.WaitingUploadTask;
-
 /**
  * Used for update files upload progress
  */
@@ -13,12 +11,12 @@ public final class ProgressUpdate {
     private Integer totalFilesCount;
     private Integer uploadedFilesCount;
 
-    public ProgressUpdate(WaitingUploadTask task, Integer uploadedCount){
+    public ProgressUpdate(WaitingUploadTask task, Integer notUploadedCount) {
         taskId = task.getTaskId();
         missionId = task.getMissionId();
         waveId = task.getWaveId();
         totalFilesCount = task.getFilesCount();
-        uploadedFilesCount = uploadedCount;
+        uploadedFilesCount = notUploadedCount == 0 ? totalFilesCount : totalFilesCount - notUploadedCount + 1;
     }
 
     public Integer getTaskId() {

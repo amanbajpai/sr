@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.OptionsRow;
 
@@ -23,6 +25,7 @@ public class MyTaskAdapter extends BaseAdapter {
     private Activity activity;
     private List<Task> items = new ArrayList<>();
     private LayoutInflater inflater;
+    private ProgressUpdate progressUpdate;
 
     public static class ViewHolder {
         private LinearLayout listItem;
@@ -63,6 +66,12 @@ public class MyTaskAdapter extends BaseAdapter {
     public void setData(final List<Task> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        progressUpdate = PreferencesManager.getInstance().getUploadProgress();
+        super.notifyDataSetChanged();
     }
 
     @Override
@@ -156,7 +165,11 @@ public class MyTaskAdapter extends BaseAdapter {
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-                holder.statusText.setText(activity.getString(R.string.mission_transmitting));
+                if (progressUpdate!=null && task.getId().equals(progressUpdate.getTaskId())){
+                    holder.statusText.setText(activity.getString(R.string.mission_transmitting, getProgress()));
+                } else {
+                    holder.statusText.setText(activity.getString(R.string.mission_transmitting, ""));
+                }
                 break;
             case VALIDATION:
                 holder.listItem.setBackgroundResource(R.drawable.mission_grey_bg);
@@ -208,6 +221,14 @@ public class MyTaskAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    private String getProgress(){
+        StringBuilder sb = new StringBuilder(" ");
+        sb.append(progressUpdate.getUploadedFilesCount());
+        sb.append("/");
+        sb.append(progressUpdate.getTotalFilesCount());
+        return sb.toString();
     }
 
     private void setTimeLeft(TextView timeLeftTextView, String timeLeft) {

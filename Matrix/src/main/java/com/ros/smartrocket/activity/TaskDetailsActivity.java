@@ -23,12 +23,21 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
+import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.eventbus.UploadProgressEvent;
+import com.ros.smartrocket.fragment.AllTaskFragment;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.NotificationUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
@@ -39,11 +48,13 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Activity for view Task detail information
  */
-public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManager.ClaimTaskListener, View.OnClickListener {
+public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManager.ClaimTaskListener,
+        View.OnClickListener, NetworkOperationListenerInterface {
     @Bind(R.id.taskDetailsOptionsRow)
     OptionsRow optionsRow;
     @Bind(R.id.statusText)
@@ -149,7 +160,25 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                if (handler != null && taskId != null && missionId != null) {
+                    TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
+                }
+            }
+        }
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -280,8 +309,9 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                 expireTimeLayout.setVisibility(View.GONE);
 
                 statusLayout.setVisibility(View.VISIBLE);
+
                 if (Task.TaskStatusId.COMPLETED == TasksBL.getTaskStatusType(task.getStatusId())) {
-                    statusTextView.setText(getString(R.string.mission_transmitting));
+                    statusTextView.setText(getString(R.string.mission_transmitting, getUploadProgress()));
                 } else {
                     statusTextView.setText(getString(R.string.in_validation_task));
                 }
@@ -480,6 +510,12 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
     public void onStarted(Task task) {
         setButtonsSettings(task);
         startActivity(IntentUtils.getQuestionsIntent(TaskDetailsActivity.this, task.getId(), task.getMissionId()));
@@ -602,6 +638,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         if (claimTaskManager != null) {
             claimTaskManager.onStop();
         }
+        removeNetworkOperationListener(this);
         super.onStop();
     }
 
@@ -625,6 +662,30 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                         feedbackFormatted, task.getName(), task.getLocationName(), task.getAddress(), false);
             }
             startActivity(intent);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(UploadProgressEvent event) {
+        if (handler != null && taskId != null && missionId != null) {
+            if (event.isDone()) {
+                sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
+            } else {
+                TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
+            }
+        }
+    }
+
+    private String getUploadProgress() {
+        ProgressUpdate progressUpdate = PreferencesManager.getInstance().getUploadProgress();
+        if (progressUpdate != null && task != null && task.getId().equals(progressUpdate.getTaskId())) {
+            StringBuilder sb = new StringBuilder(" ");
+            sb.append(progressUpdate.getUploadedFilesCount());
+            sb.append("/");
+            sb.append(progressUpdate.getTotalFilesCount());
+            return sb.toString();
+        } else {
+            return "";
         }
     }
 }

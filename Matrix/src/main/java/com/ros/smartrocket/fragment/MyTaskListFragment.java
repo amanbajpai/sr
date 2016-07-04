@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -21,6 +22,8 @@ import com.ros.smartrocket.adapter.MyTaskAdapter;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.eventbus.PhotoEvent;
+import com.ros.smartrocket.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
@@ -28,6 +31,8 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Fragment - display my tasks in {@link android.widget.ListView}
@@ -74,7 +79,6 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onResume() {
         super.onResume();
-
         if (!isHidden()) {
             getMyTasks(true);
         }
@@ -169,13 +173,17 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.refreshButton:
-                getMyTasks(true);
-                IntentUtils.refreshProfileAndMainMenu(getActivity());
-                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
+                refreshData();
                 break;
             default:
                 break;
         }
+    }
+
+    private void refreshData() {
+        getMyTasks(true);
+        IntentUtils.refreshProfileAndMainMenu(getActivity());
+        IntentUtils.refreshMainMenuMyTaskCount(getActivity());
     }
 
     @Override
@@ -221,12 +229,24 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
         ((BaseActivity) getActivity()).addNetworkOperationListener(this);
     }
 
     @Override
     public void onStop() {
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(UploadProgressEvent event) {
+        if (isVisible() && adapter != null) {
+            adapter.notifyDataSetChanged();
+            if (event.isDone()) {
+                refreshData();
+            }
+        }
     }
 }

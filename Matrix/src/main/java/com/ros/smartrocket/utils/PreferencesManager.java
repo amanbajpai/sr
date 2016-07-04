@@ -357,10 +357,14 @@ public class PreferencesManager {
         editor.commit();
     }
 
-    public void saveUploadFilesProgress(WaitingUploadTask task, Integer uploadedCount){
+    public void saveUploadFilesProgress(WaitingUploadTask task, Integer notUploadedCount){
         Gson gson = new Gson();
-        String progress = gson.toJson(new ProgressUpdate(task, uploadedCount));
+        String progress = gson.toJson(new ProgressUpdate(task, notUploadedCount));
         setString(Keys.UPLOAD_FILES_PROGRESS, progress);
+    }
+
+    public void clearUploadFilesProgress(){
+        setString(Keys.UPLOAD_FILES_PROGRESS, null);
     }
 
     public ProgressUpdate getUploadProgress(){
