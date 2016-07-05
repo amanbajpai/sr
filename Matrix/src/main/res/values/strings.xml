@@ -81,7 +81,7 @@
     <!-- MY TASK FRAGMENT-->
     <string name="redo_mission">Re-do. Mission due: %1$s</string>
     <string name="send_latter_mission">Unsubmitted. Mission due: %1$s</string>
-    <string name="mission_transmitting">Transmitting.</string>
+    <string name="mission_transmitting">Transmitting...%1$s</string>
     <string name="mission_in_validation">Mission in validation.</string>
     <string name="mission_rejected">Mission rejected.</string>
     <string name="mission_validated">Congratulations! Mission approved!</string>

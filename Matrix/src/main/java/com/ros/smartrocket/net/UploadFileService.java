@@ -6,9 +6,10 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -19,6 +20,7 @@ import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
 import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
@@ -28,6 +30,8 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
 import java.util.*;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * For upload file:
@@ -193,6 +197,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         NotUploadedFile notUploadedFile = FilesBL.convertCursorToNotUploadedFile(cursor);
 
                         if (notUploadedFile != null) {
+                            updateUploadProgress(notUploadedFile);
                             L.i(TAG, "Send file to upload Date: " + UIUtils.longToString(System.currentTimeMillis(),
                                     2));
                             uploadingFiles = true;
@@ -264,6 +269,25 @@ public class UploadFileService extends Service implements NetworkOperationListen
         }
     }
 
+    private void updateUploadProgress(final NotUploadedFile notUploadedFile) {
+        if (notUploadedFile != null) {
+            WaitingUploadTask task = WaitingUploadTaskBL.getWaitingUploadTask(notUploadedFile.getWaveId(),
+                    notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
+            int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(),
+                    notUploadedFile.getMissionId());
+            preferencesManager.saveUploadFilesProgress(task, notUploadedFileCount);
+        } else {
+            preferencesManager.clearUploadFilesProgress();
+        }
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new UploadProgressEvent(notUploadedFile == null));
+            }
+        });
+    }
+
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
@@ -294,8 +318,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         UIUtils.longToString(System.currentTimeMillis(), 2));
                 sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ",
                         notUploadedFile);
-                WaitingUploadTask task = WaitingUploadTaskBL.getWaitingUploadTask(notUploadedFile.getWaveId(),
-                        notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
@@ -343,6 +365,7 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         sendTask.getLongitude(), sendTask.getCityName());
 
                 sendNetworkOperation(apiFacade.getMyTasksOperation());
+                updateUploadProgress(null);
             } else {
                 SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
 
