@@ -26,14 +26,18 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.location.MatrixLocationManager;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.MyLog;
+import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
-import de.greenrobot.event.EventBus;
-
 import java.io.File;
 import java.util.Arrays;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Multiple photo question type
@@ -173,16 +177,16 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                     if (event.image.bitmap != null) {
                         L.v(TAG, "Set Bitmap not null " + QuestionPhotoBL.this);
                         photoImageView.setImageBitmap(event.image.bitmap);
+                        onConfirmButtonPressed();
                     } else {
                         photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                        hideProgressDialog();
                     }
 
                     refreshRePhotoButton();
                     refreshDeletePhotoButton();
                     refreshConfirmButton();
                     refreshNextButton();
-
-                    hideProgressDialog();
                 }
                 break;
             case SELECT_IMAGE_ERROR:
@@ -216,7 +220,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
 
     @Override
     protected void answersDeleteComplete() {
-        if (question.getAnswers().length == question.getMaximumPhotos()) {
+        if (question.getAnswers().length == question.getMaximumPhotos() && !isLastAnsverEmpty()) {
             question.setAnswers(addEmptyAnswer(question.getAnswers()));
         }
         if (getProductId() != null) {
@@ -267,7 +271,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     @Override
     public void refreshNextButton() {
         if (answerSelectedListener != null) {
-            boolean selected = isBitmapAdded && isBitmapConfirmed;
+            boolean selected = isPhotosAdded();
             answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
@@ -368,38 +372,42 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 }
                 break;
             case R.id.confirmButton:
-                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
-                    @Override
-                    public void getLocationStart() {
-                        showProgressDialog();
-                    }
-
-                    @Override
-                    public void getLocationInProcess() {
-                    }
-
-                    @Override
-                    public void getLocationSuccess(Location location) {
-                        if (getActivity() == null) {
-                            return;
-                        }
-
-                        confirmButtonPressAction(location);
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void getLocationFail(String errorText) {
-                        if (getActivity() != null && !getActivity().isFinishing()) {
-                            UIUtils.showSimpleToast(getActivity(), errorText);
-                        }
-                        hideProgressDialog();
-                    }
-                });
+                onConfirmButtonPressed();
                 break;
             default:
                 break;
         }
+    }
+
+    private void onConfirmButtonPressed() {
+        MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
+            @Override
+            public void getLocationStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void getLocationInProcess() {
+            }
+
+            @Override
+            public void getLocationSuccess(Location location) {
+                if (getActivity() == null) {
+                    return;
+                }
+
+                confirmButtonPressAction(location);
+                hideProgressDialog();
+            }
+
+            @Override
+            public void getLocationFail(String errorText) {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    UIUtils.showSimpleToast(getActivity(), errorText);
+                }
+                hideProgressDialog();
+            }
+        });
     }
 
     public void confirmButtonPressAction(Location location) {
@@ -453,6 +461,15 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         resultAnswerArray[currentAnswerArray.length] = answer;
 
         return resultAnswerArray;
+    }
+
+    private boolean isLastAnsverEmpty() {
+        boolean result = false;
+        int lastPos = question.getAnswers().length - 1;
+        if (TextUtils.isEmpty(question.getAnswers()[lastPos].getFileUri())) {
+            result = true;
+        }
+        return result;
     }
 
     public void refreshPhotoGallery(Answer[] answers) {
@@ -510,5 +527,16 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    private boolean isPhotosAdded() {
+        boolean result = false;
+        for (Answer answer : question.getAnswers()) {
+            if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }
