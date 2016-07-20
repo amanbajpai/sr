@@ -358,21 +358,25 @@
     <string name="approved_mission_notification_text">以下的任务已经获得验证 &lt;br>&lt;br>
         任务: &lt;b >%3$s&lt;/b > &lt;br>地点: &lt;b >%4$s&lt;/b >
         &lt;br> 地址: &lt;b >%5$s
+        &lt;/b >&lt;br> Task ID: &lt;b >%6$d
         %1$s %2$s
     </string>
     <!--redo-->
     <string name="redo_mission_notification_title">注意！</string>
     <string name="redo_mission_notification_text">以下的任务需要一些修改，因此还未获得认证。 &lt;/b >&lt;br>&lt;br>
         任务: &lt;b >%2$s&lt;/b > &lt;br>地点: &lt;b >%3$s&lt;/b >
-    &lt;br> 地址: &lt;b >%4$s
-       %1$s</string>
+        &lt;br> 地址: &lt;b >%4$s
+        &lt;/b >&lt;br> Task ID: &lt;b >%5$d
+       %1$s
+    </string>
     <!--reject-->
     <string name="reject_mission_notification_title">注意!</string>
     <string name="reject_mission_notification_text">对不起。以下的任务被拒绝了。&lt;br>&lt;br>
         任务: &lt;b >%3$s&lt;/b > &lt;br>地点: &lt;b >%4$s&lt;/b >
         &lt;br> 地址: &lt;b >%5$s
-        %1$s
-        %2$s</string>
+        &lt;/b >&lt;br> Task ID: &lt;b >%6$d
+        %1$s%2$s
+        </string>
     <!--deadline-->
     <string name="deadline_mission_notification_title">注意！</string>
     <string name="deadline_mission_notification_text">以下的任务将于 %1$s 过期。
@@ -436,4 +440,6 @@
 
     <string name="preview_task">預覽</string>
     <string name="preview_mode">預覽模式</string>
+
+    <string name="task_id">Task ID:</string>
 </resources>

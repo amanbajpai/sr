@@ -18,15 +18,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.*;
+import com.ros.smartrocket.bl.AnswersBL;
+import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.bl.WaitingUploadTaskBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.SendTaskId;
+import com.ros.smartrocket.db.entity.ServerLog;
+import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -38,22 +49,39 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomTextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
+    @Bind(R.id.closingQuestionText)
+    CustomTextView closingQuestionText;
+    @Bind(R.id.missionDueTextView)
+    CustomTextView missionDueTextView;
+    @Bind(R.id.taskDataSizeTextView)
+    CustomTextView taskDataSizeTextView;
+    @Bind(R.id.dueInTextView)
+    CustomTextView dueInTextView;
+    @Bind(R.id.taskIdTextView)
+    CustomTextView taskIdTextView;
+    @Bind(R.id.sendNowButton)
+    CustomButton sendNowButton;
+    @Bind(R.id.sendLaterButton)
+    CustomButton sendLaterButton;
+
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private APIFacade apiFacade = APIFacade.getInstance();
     private Calendar calendar = Calendar.getInstance();
-    private TextView missionDueTextView;
-    private TextView taskDataSizeTextView;
-    private TextView dueInTextView;
-    private TextView closingQuestionText;
+
 
     private int taskId;
     private int missionId;
@@ -66,10 +94,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private List<Answer> answerListToSend = new ArrayList<>();
     private boolean hasFile = false;
     private float filesSizeB = 0;
-
-    private Button sendNowButton;
-    private Button sendLaterButton;
-
     private View actionBarView;
 
     public TaskValidationActivity() {
@@ -80,6 +104,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_task_validation);
+        ButterKnife.bind(this);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
@@ -92,19 +117,13 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         handler = new DbHandler(getContentResolver());
 
-        missionDueTextView = (TextView) findViewById(R.id.missionDueTextView);
-        taskDataSizeTextView = (TextView) findViewById(R.id.taskDataSizeTextView);
-        dueInTextView = (TextView) findViewById(R.id.dueInTextView);
-        closingQuestionText = (TextView) findViewById(R.id.closingQuestionText);
+
 
         Button recheckAnswerButton = (Button) findViewById(R.id.recheckTaskButton);
         recheckAnswerButton.setOnClickListener(this);
         recheckAnswerButton.setVisibility(firstlySelection ? View.VISIBLE : View.GONE);
 
-        sendNowButton = (Button) findViewById(R.id.sendNowButton);
         sendNowButton.setOnClickListener(this);
-
-        sendLaterButton = (Button) findViewById(R.id.sendLaterButton);
         sendLaterButton.setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(false);
@@ -221,7 +240,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void setTaskData(Task task) {
         taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
                 .task_data_size_mb));
-
+        taskIdTextView.setText(String.valueOf(task.getId()));
         long expireTimeInMillisecond = task.getLongExpireDateTime();
         if (expireTimeInMillisecond != 0) {
             long dueInMillisecond = expireTimeInMillisecond - calendar.getTimeInMillis();

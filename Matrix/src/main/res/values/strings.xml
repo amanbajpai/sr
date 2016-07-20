@@ -379,8 +379,9 @@
     <!--approved-->
     <string name="approved_mission_notification_title">Congratulations!</string>
     <string name="approved_mission_notification_text">The following Mission has been approved. &lt;br>&lt;br>
-        Mission: &lt;b >%3$s&lt;/b > &lt;br>Location: &lt;b >%4$s&lt;/b >
-        &lt;br> Address: &lt;b >%5$s
+        Mission: &lt;b >%3$s&lt;/b > &lt;br>Location: &lt;b >%4$s
+        &lt;/b >&lt;br> Address: &lt;b >%5$s
+        &lt;/b >&lt;br> Task ID: &lt;b >%6$d
         %1$s %2$s
     </string>
     <!--redo-->
@@ -389,14 +390,18 @@
         approved. &lt;/b >&lt;br>&lt;br>
         Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s
         &lt;/b >&lt;br> Address: &lt;b >%4$s
-        %1$s </string>
+        &lt;/b >&lt;br> Task ID: &lt;b >%5$d
+        %1$s
+    </string>
     <!--reject-->
     <string name="reject_mission_notification_title">Attention!</string>
     <string name="reject_mission_notification_text">
         Sorry. The following Mission has been rejected.&lt;br>&lt;br>
         Mission: &lt;b >%3$s&lt;/b > &lt;br>Location: &lt;b >%4$s&lt;/b >
         &lt;br> Address: &lt;b >%5$s
-        %1$s %2$s</string>
+        &lt;/b >&lt;br> Task ID: &lt;b >%6$d
+        %1$s %2$s
+    </string>
     <!--deadline-->
     <string name="deadline_mission_notification_title">Attention!</string>
     <string name="deadline_mission_notification_text">The following Mission is about to expire at %1$s
@@ -476,4 +481,5 @@
 
     <string name="preview_task">PREVIEW</string>
     <string name="preview_mode">PREVIEW MODE</string>
+    <string name="task_id">Task ID:</string>
 </resources>

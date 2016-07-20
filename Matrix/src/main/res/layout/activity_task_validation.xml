@@ -123,6 +123,28 @@
                         android:textColor="@color/black"
                         custom:textStyle="bold" />
                 </LinearLayout >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                    <com.ros.smartrocket.views.CustomTextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="155dp"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:textColor="@color/grey"
+                        android:text="@string/task_id"
+                        android:layout_marginRight="5dp"
+                        android:textAllCaps="true"
+                        custom:textStyle="bold" />
+                    <com.ros.smartrocket.views.CustomTextView
+                        android:id="@+id/taskIdTextView"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:textColor="@color/black"
+                        custom:textStyle="bold" />
+                </LinearLayout >
             </LinearLayout >
             <com.ros.smartrocket.views.CustomTextView
                 style="@style/QuestionText"

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,14 +25,12 @@ import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.eventbus.UploadProgressEvent;
-import com.ros.smartrocket.fragment.AllTaskFragment;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -85,6 +81,12 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     CustomTextView statusTimeText;
     @Bind(R.id.statusTimeTextView)
     CustomTextView statusTimeTextView;
+    @Bind(R.id.taskIdLayout)
+    LinearLayout taskIdLayout;
+    @Bind(R.id.taskIdText)
+    CustomTextView taskIdText;
+    @Bind(R.id.taskIdTextView)
+    CustomTextView taskIdTextView;
     @Bind(R.id.statusTimeLayout)
     LinearLayout statusTimeLayout;
     @Bind(R.id.mapImageView)
@@ -221,6 +223,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     public void setTaskData(Task task) {
         startTimeLayout.setVisibility(task.getIsMy() && !TasksBL.isPreClaimTask(task) ? View.GONE : View.VISIBLE);
         deadlineTimeLayout.setVisibility(View.VISIBLE);
+        taskIdLayout.setVisibility(View.VISIBLE);
         expireTimeLayout.setVisibility(View.VISIBLE);
 
         int missionDueResId;
@@ -232,10 +235,12 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         startTimeText.setText(task.getIsMy() ? R.string.available : R.string.start_time);
         deadlineTimeText.setText(task.getIsMy() ? missionDueResId : R.string.deadline_time);
         expireText.setText(task.getIsMy() ? dueInResId : R.string.duration_time);
-
+        taskIdTextView.setText(String.valueOf(task.getId()));
         optionsRow.setData(task);
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
         taskDescription.setText(task.getDescription());
+
+
 
         if (!TextUtils.isEmpty(task.getLocationName())) {
             locationName.setText(task.getLocationName());
@@ -391,8 +396,10 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
                     deadlineTimeText.setTextColor(violetLightColorResId);
                     expireText.setTextColor(violetLightColorResId);
                     statusTimeText.setTextColor(violetLightColorResId);
+                    taskIdText.setTextColor(violetLightColorResId);
 
                     statusTextView.setTextColor(whiteColorResId);
+                    taskIdTextView.setTextColor(whiteColorResId);
                     startTimeTextView.setTextColor(whiteColorResId);
                     deadlineTimeTextView.setTextColor(whiteColorResId);
                     expireTextView.setTextColor(whiteColorResId);
@@ -657,10 +664,10 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
             }
             if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.REJECTED) {
                 intent = NotificationUtils.getRejectedNotificationIntent(this, feedbackShort,
-                        feedbackFormatted, task.getName(), task.getLocationName(), task.getAddress(), false);
+                        feedbackFormatted, task, false);
             } else {
                 intent = NotificationUtils.getApprovedNotificationIntent(this, feedbackShort,
-                        feedbackFormatted, task.getName(), task.getLocationName(), task.getAddress(), false);
+                        feedbackFormatted, task, false);
             }
             startActivity(intent);
         }

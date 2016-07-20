@@ -31,6 +31,7 @@ import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.Notification;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.service.CleanFilesIntentService;
 
 import org.json.JSONObject;
@@ -104,13 +105,13 @@ public class NotificationUtils {
     public static void showTaskStatusChangedNotification(Context context, String jsonObject) {
 
         try {
+            Task task = new Task();
             JSONObject messageObject = new JSONObject(jsonObject);
-            int statusType = messageObject.optInt("StatusType");
-            int waveId = messageObject.optInt("WaveId");
-            int taskId = messageObject.optInt("TaskId");
-            int missionId = messageObject.optInt("MissionId");
-
-            String taskName = getStringForCurrentLang(messageObject.optJSONObject("TaskName"));
+            task.setId(messageObject.optInt("TaskId"));
+            task.setMissionId(messageObject.optInt("MissionId"));
+            task.setStatusId(messageObject.optInt("StatusType"));
+            task.setWaveId(messageObject.optInt("WaveId"));
+            task.setName(getStringForCurrentLang(messageObject.optJSONObject("TaskName")));
 
             String presetValidationText = getStringForCurrentLang(messageObject.optJSONObject("PresetValidationText"));
             if (!TextUtils.isEmpty(presetValidationText)) {
@@ -125,25 +126,21 @@ public class NotificationUtils {
             } else {
                 validationText = "";
             }
-
-            String locationName = messageObject.optString("LocationName");
-            String missionAddress = messageObject.optString("MissionAddress");
+            task.setLocationName(messageObject.optString("LocationName"));
+            task.setAddress(messageObject.optString("MissionAddress"));
             //String endDateTime = messageObject.optString("endDateTime");
 
-            switch (TasksBL.getTaskStatusType(statusType)) {
+            switch (TasksBL.getTaskStatusType(task.getStatusId())) {
                 case RE_DO_TASK:
-                    NotificationUtils.startRedoNotificationActivity(context, validationText,
-                            waveId, taskId, missionId, taskName, locationName, missionAddress);
+                    NotificationUtils.startRedoNotificationActivity(context, validationText, task);
                     break;
                 case VALIDATED:
-                    NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText,
-                            taskName, locationName, missionAddress);
-                    CleanFilesIntentService.start(context, String.valueOf(taskId));
+                    NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText, task);
+                    CleanFilesIntentService.start(context, String.valueOf(task.getId()));
                     break;
                 case REJECTED:
-                    NotificationUtils.startRejectNotificationActivity(context, presetValidationText, validationText,
-                            taskName, locationName, missionAddress);
-                    CleanFilesIntentService.start(context, String.valueOf(taskId));
+                    NotificationUtils.startRejectNotificationActivity(context, presetValidationText, validationText, task);
+                    CleanFilesIntentService.start(context, String.valueOf(task.getId()));
                     break;
                 default:
                     break;
@@ -222,26 +219,20 @@ public class NotificationUtils {
     /**
      * Start popup-notification about redo task
      *
-     * @param context        - current context
-     * @param waveId         - current waveId
-     * @param taskId         - current taskId
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
+     * @param context - current context
+     * @param task    - current task
      */
-    public static void startRedoNotificationActivity(Context context, String validationText,
-                                                     int waveId, int taskId, int missionId, String missionName,
-                                                     String locationName, String missionAddress) {
+    public static void startRedoNotificationActivity(Context context, String validationText, Task task) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
-                validationText, missionName, locationName, missionAddress));
+                validationText, task.getName(), task.getLocationName(), task.getAddress(), task.getId()));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        intent.putExtra(Keys.WAVE_ID, waveId);
-        intent.putExtra(Keys.TASK_ID, taskId);
-        intent.putExtra(Keys.MISSION_ID, missionId);
+        intent.putExtra(Keys.WAVE_ID, task.getWaveId());
+        intent.putExtra(Keys.TASK_ID, task.getId());
+        intent.putExtra(Keys.MISSION_ID, task.getMissionId());
 
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_redo.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.orange_dark);
@@ -259,24 +250,19 @@ public class NotificationUtils {
      *
      * @param context        - current context
      * @param validationText - current validationText
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
      */
     public static void startApprovedNotificationActivity(Context context, String presetValidationText,
-                                                         String validationText, String missionName,
-                                                         String locationName, String missionAddress) {
+                                                         String validationText, Task task) {
         context.startActivity(getApprovedNotificationIntent(context, presetValidationText,
-                validationText, missionName, locationName, missionAddress, true));
+                validationText, task, true));
     }
 
     public static Intent getApprovedNotificationIntent(Context context, String presetValidationText,
-                                                       String validationText, String missionName,
-                                                       String locationName, String missionAddress,
-                                                       boolean showLeftButton) {
+                                                       String validationText, Task task, boolean showLeftButton) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.approved_mission_notification_text,
-                presetValidationText, validationText, missionName, locationName, missionAddress));
+                presetValidationText, validationText, task.getName(), task.getLocationName(),
+                task.getAddress(), task.getId()));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -335,23 +321,19 @@ public class NotificationUtils {
      *
      * @param context        - current context
      * @param validationText - current validationText
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
+     * @param task           - current task
      */
     public static void startRejectNotificationActivity(Context context, String presetValidationText,
-                                                       String validationText, String missionName,
-                                                       String locationName, String missionAddress) {
+                                                       String validationText, Task task) {
         context.startActivity(getRejectedNotificationIntent(context, presetValidationText,
-                validationText, missionName, locationName, missionAddress, true));
+                validationText, task, true));
     }
 
     public static Intent getRejectedNotificationIntent(Context context, String presetValidationText,
-                                                       String validationText, String missionName,
-                                                       String locationName, String missionAddress,
+                                                       String validationText, Task task,
                                                        boolean showLeftButton) {
         Spanned notificationText = Html.fromHtml(context.getString(R.string.reject_mission_notification_text,
-                presetValidationText, validationText, missionName, locationName, missionAddress));
+                presetValidationText, validationText, task.getName(), task.getLocationName(), task.getAddress(), task.getId()));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

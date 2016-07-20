@@ -355,19 +355,23 @@
     <string name="approved_mission_notification_text">以下的任務已經獲得認證。
         任務: &lt;b >%3$s&lt;/b > &lt;br>地點: &lt;b >%4$s&lt;/b > &lt;br>&lt;br>
         &lt;br> 地址: &lt;b >%5$s
+        &lt;/b >&lt;br> Task ID: &lt;b >%6$d
         %1$s %2$s
     </string>
     <!--redo-->
     <string name="redo_mission_notification_title">注意!</string>
     <string name="redo_mission_notification_text">以下的任務需要稍作修改，因此還未獲得認證。&lt;br>&lt;br>&lt;br>
         任務: &lt;b >%2$s&lt;/b > &lt;br>地點: &lt;b >%3$s&lt;/b >
-    &lt;br> 地址: &lt;b >%4$s
-        %1$s</string>
+        &lt;br> 地址: &lt;b >%4$s
+        &lt;/b >&lt;br> Task ID: &lt;b >%5$d
+        %1$s
+    </string>
     <!--reject-->
     <string name="reject_mission_notification_title">注意!</string>
     <string name="reject_mission_notification_text">對不起。以下的任務被拒絕了。&lt;br>&lt;/b >
         任務: &lt;b >%3$s&lt;/b > &lt;br>地點: &lt;b >%4$s&lt;/b >
         &lt;br> 地址: &lt;b >%5$s
+        &lt;/b >&lt;br> Task ID: &lt;b >%6$d
         %1$s %2$s
         </string>
     <!--deadline-->
@@ -432,4 +436,6 @@
 
     <string name="preview_task">預覽</string>
     <string name="preview_mode">預覽模式</string>
+
+    <string name="task_id">Task ID:</string>
 </resources>
