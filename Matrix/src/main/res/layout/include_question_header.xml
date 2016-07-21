@@ -13,13 +13,13 @@
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/presetValidationComment"
         style="@style/QuestionValidationComment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"/>
+        android:layout_marginBottom="10dp"/>
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/validationComment"
         style="@style/QuestionValidationComment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"/>
+        android:layout_marginBottom="20dp"/>
 </LinearLayout>
