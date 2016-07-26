@@ -8,8 +8,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
@@ -162,13 +164,10 @@ public final class OptionsRow extends LinearLayout {
 
         setBackgroundColor(getResources().getColor(bgColorResId));
 
-        if (isWaveDetails) {
-            priceTextView.setText(UIUtils.getBalanceOrPrice(wave.getNearTaskPrice(), wave.getNearTaskCurrencySign()));
-        } else {
-            priceTextView.setText(getBalanceOrPrice(wave.getRate(), wave.getNearTaskCurrencySign()));
-            if (wave.isContainsDifferentRate()) {
-                priceTextView.append("+");
-            }
+
+        priceTextView.setText(getBalanceOrPrice(wave.getRate(), wave.getNearTaskCurrencySign()));
+        if (wave.isContainsDifferentRate()) {
+            priceTextView.append("+");
         }
         priceTextView.setCompoundDrawablesWithIntrinsicBounds(priceResId, 0, 0, 0);
 
