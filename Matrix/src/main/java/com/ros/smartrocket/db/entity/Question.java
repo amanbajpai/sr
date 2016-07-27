@@ -19,6 +19,13 @@ public class Question extends BaseEntity implements Serializable {
     @SkipFieldInContentValues
     public static final int ACTION_NOTHING = 3;
 
+    public String getSubQuestionNumber() {
+        return subQuestionNumber;
+    }
+
+    public void setSubQuestionNumber(String subQuestionNumber) {
+        this.subQuestionNumber = subQuestionNumber;
+    }
 
 
     public enum QuestionType {
@@ -96,6 +103,8 @@ public class Question extends BaseEntity implements Serializable {
     @SkipFieldInContentValues
     @SerializedName("Children")
     private Question[] childrenQuestions;
+    @SkipFieldInContentValues
+    private transient String subQuestionNumber;
     // [END Mass Audit]
 
     @SkipFieldInContentValues

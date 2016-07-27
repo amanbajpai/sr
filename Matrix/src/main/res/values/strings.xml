@@ -482,4 +482,7 @@
     <string name="preview_task">PREVIEW</string>
     <string name="preview_mode">PREVIEW MODE</string>
     <string name="task_id">Task ID:</string>
+
+    <string name="product">Product:</string>
+    <string name="category">Category:</string>
 </resources>

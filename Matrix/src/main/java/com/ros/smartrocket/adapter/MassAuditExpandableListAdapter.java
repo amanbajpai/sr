@@ -157,7 +157,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             }
         }
 
-        QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product);
+        QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product, childPosition + 1);
         tickButton.setTag(pair);
         tickButton.setOnClickListener(tickListener);
 

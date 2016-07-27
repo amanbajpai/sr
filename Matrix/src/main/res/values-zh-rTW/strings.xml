@@ -438,4 +438,7 @@
     <string name="preview_mode">預覽模式</string>
 
     <string name="task_id">任務號碼:</string>
+
+    <string name="product">Product:</string>
+    <string name="category">Category:</string>
 </resources>

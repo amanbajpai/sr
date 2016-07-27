@@ -12,7 +12,9 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
+
 import butterknife.ButterKnife;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
@@ -58,7 +60,11 @@ public class QuestionBaseBL {
         validationComment = (TextView) view.findViewById(R.id.validationComment);
 
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
-        questionText.setText(Html.fromHtml(this.question.getQuestion()));
+        if (!TextUtils.isEmpty(question.getSubQuestionNumber())) {
+            questionText.setText(Html.fromHtml(question.getSubQuestionNumber() + this.question.getQuestion()));
+        } else {
+            questionText.setText(Html.fromHtml(this.question.getQuestion()));
+        }
         validationComment.setMovementMethod(LinkMovementMethod.getInstance());
         presetValidationComment.setMovementMethod(LinkMovementMethod.getInstance());
         if (!TextUtils.isEmpty(this.question.getPresetValidationText())) {

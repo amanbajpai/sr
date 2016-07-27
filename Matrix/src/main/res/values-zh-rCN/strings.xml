@@ -442,4 +442,7 @@
     <string name="preview_mode">預覽模式</string>
 
     <string name="task_id">任务号码:</string>
+
+    <string name="product">Product:</string>
+    <string name="category">Category:</string>
 </resources>

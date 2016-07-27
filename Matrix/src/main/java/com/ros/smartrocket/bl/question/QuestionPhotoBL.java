@@ -105,11 +105,13 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     protected void validateView() {
         super.validateView();
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
+        String subQuestionNumber = TextUtils.isEmpty(question.getSubQuestionNumber())
+                ? "" : question.getSubQuestionNumber();
         if (question.getMaximumPhotos() > 1) {
             String string = getActivity().getString(R.string.maximum_photo, question.getMaximumPhotos());
-            questionText.setText(Html.fromHtml(question.getQuestion() + string));
+            questionText.setText(Html.fromHtml(subQuestionNumber + question.getQuestion() + string));
         } else {
-            questionText.setText(Html.fromHtml(question.getQuestion()));
+            questionText.setText(Html.fromHtml(subQuestionNumber + question.getQuestion()));
         }
 
         loadAnswers();

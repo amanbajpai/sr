@@ -238,7 +238,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private void startSubQuestionsFragment(CategoryProductPair item) {
         Fragment f = SubQuestionsMassAuditFragment.makeInstance(question.getChildQuestions(),
-                item.category.getCategoryName(), item.product, isRedo, isPreview);
+                item.category.getCategoryName(), item.product, isRedo, isPreview, item.productPosition);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .add(R.id.subquestionsLayout, f).addToBackStack(null).commit();
     }
@@ -304,10 +304,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     public static class CategoryProductPair {
         public final Category category;
         public final Product product;
+        public final int productPosition;
 
-        public CategoryProductPair(Category category, Product product) {
+        public CategoryProductPair(Category category, Product product, int productPos) {
             this.category = category;
             this.product = product;
+            this.productPosition = productPos;
         }
     }
 }

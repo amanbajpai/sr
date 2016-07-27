@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -37,6 +38,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     public static final String KEY_QUES = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_QUESTIONS";
     public static final String KEY_TITLE = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_TITLE";
     public static final String KEY_PRODUCT = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT";
+    public static final String KEY_PRODUCT_POS = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT_POS";
 
     @Bind(R.id.massAuditSubquestionsLayout)
     LinearLayout subQuestionsLayout;
@@ -55,14 +57,16 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     private boolean isRedo;
     private boolean isPreview;
     private int loadedSubQuestionsCount;
+    private int productPosition;
     private Set<Integer> set = new HashSet<>();
     private Set<Integer> requiredQuestionsSet = new HashSet<>();
 
     public static Fragment makeInstance(Question[] questions, String title, Product product,
-                                        boolean isRedo, boolean isPreview) {
+                                        boolean isRedo, boolean isPreview, int productPosition) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_QUES, questions);
         bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_PRODUCT_POS, productPosition);
         bundle.putSerializable(KEY_PRODUCT, product);
         bundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
         bundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
@@ -88,6 +92,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         isRedo = getArguments().getBoolean(QuestionMassAuditFragment.KEY_IS_REDO, false);
         isPreview = getArguments().getBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, false);
         submitButton.setEnabled(isPreview);
+        productPosition = getArguments().getInt(KEY_PRODUCT_POS);
 
         titleTextView.setText(getArguments().getString(KEY_TITLE));
         subtitleTextView.setText(product != null ? product.getName() : "");
@@ -95,10 +100,13 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
         Question[] questions = (Question[]) getArguments().getSerializable(KEY_QUES);
         ArrayList<Question> childQuestions = new ArrayList<>();
         if (questions != null) {
+            int pos = 0;
             for (Question question : questions) {
                 if (question.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
+                    pos++;
+                    question.setSubQuestionNumber(getSubQuestionNumber(pos));
                     if (isRedo) {
-                        if (question.getProductId()!=null && question.getProductId().equals(product.getId())) {
+                        if (question.getProductId() != null && question.getProductId().equals(product.getId())) {
                             childQuestions.add(question);
                         }
                     } else {
@@ -129,6 +137,15 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
                 pos++;
             }
         }
+    }
+
+    private String getSubQuestionNumber(int pos) {
+        StringBuffer sb = new StringBuffer("<b>Q");
+        sb.append(productPosition);
+        sb.append(".");
+        sb.append(pos);
+        sb.append("</b> ");
+        return sb.toString();
     }
 
     /**
