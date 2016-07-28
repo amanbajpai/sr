@@ -443,6 +443,6 @@
 
     <string name="task_id">任务号码:</string>
 
-    <string name="product">Product:</string>
-    <string name="category">Category:</string>
+    <string name="product">产品:</string>
+    <string name="category">种类:</string>
 </resources>

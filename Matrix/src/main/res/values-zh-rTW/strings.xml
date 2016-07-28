@@ -439,6 +439,6 @@
 
     <string name="task_id">任務號碼:</string>
 
-    <string name="product">Product:</string>
-    <string name="category">Category:</string>
+    <string name="product">產品:</string>
+    <string name="category">種類:</string>
 </resources>
