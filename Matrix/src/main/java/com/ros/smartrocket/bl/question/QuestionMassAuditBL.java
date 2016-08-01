@@ -65,7 +65,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     protected void fillViewWithAnswers(Answer[] answers) {
         question.setAnswers(answers);
         adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                tickListener, crossListener, thumbListener, isRedo);
+                tickListener, crossListener, thumbListener, isRedo, question.getOrderId());
         if (!isRedo) {
             answersMap = convertToMap(answers);
             adapter.setData(answersMap);

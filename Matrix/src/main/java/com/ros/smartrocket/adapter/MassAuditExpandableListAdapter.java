@@ -30,15 +30,18 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     private HashMap<Integer, Boolean> answersReDoMap;
     private boolean isRedo;
     private View.OnClickListener thumbListener;
+    private int questionNumber;
 
     public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
-                                          View.OnClickListener crossListener, View.OnClickListener thumbListener, boolean isRedo) {
+                                          View.OnClickListener crossListener, View.OnClickListener thumbListener,
+                                          boolean isRedo, int questionNumber) {
         this.context = context;
         this.categories = categories;
         this.tickListener = tickListener;
         this.crossListener = crossListener;
         this.thumbListener = thumbListener;
         this.isRedo = isRedo;
+        this.questionNumber=questionNumber;
         answersMap = new HashMap<>();
     }
 
@@ -157,7 +160,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             }
         }
 
-        QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product, groupPosition + 1);
+        QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product, questionNumber);
         tickButton.setTag(pair);
         tickButton.setOnClickListener(tickListener);
 
