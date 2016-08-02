@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.helpshift.Core;
+import com.helpshift.campaigns.Campaigns;
 import com.helpshift.support.Support;
 import com.ros.smartrocket.*;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -353,14 +354,21 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     private void showFAQ() {
-        HashMap customMetadata = new HashMap();
         Core.login(String.valueOf(myAccount.getId()), myAccount.getName(), PreferencesManager.getInstance().getLastEmail());
-        customMetadata.put("Agent Id", myAccount.getId());
-        customMetadata.put("Agent Rank Level", myAccount.getLevelNumber());
-        customMetadata.put("Rocket Points", myAccount.getExperience());
+        Campaigns.addProperty("Agent_Id", myAccount.getId());
+        Campaigns.addProperty("Agent_Rank_Level", myAccount.getLevelNumber());
+        Campaigns.addProperty("Rocket_Points", myAccount.getExperience());
+        Campaigns.addProperty("Country", myAccount.getCountryName());
+        Campaigns.addProperty("City", myAccount.getCityName());
+        Campaigns.addProperty("Joining_Date", myAccount.getJoined());
+
+        HashMap customMetadata = new HashMap();
+        customMetadata.put("Agent_Id", myAccount.getId());
+        customMetadata.put("Agent_Rank_Level", myAccount.getLevelNumber());
+        customMetadata.put("Rocket_Points", myAccount.getExperience());
         customMetadata.put("Country", myAccount.getCountryName());
         customMetadata.put("City", myAccount.getCityName());
-        customMetadata.put("Joining Date", myAccount.getJoined());
+        customMetadata.put("Joining_Date", myAccount.getJoined());
         HashMap config = new HashMap ();
         config.put("hideNameAndEmail", true);
         config.put(Support.CustomMetadataKey, customMetadata);
