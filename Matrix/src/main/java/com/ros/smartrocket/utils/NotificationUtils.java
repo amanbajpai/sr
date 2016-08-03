@@ -132,7 +132,7 @@ public class NotificationUtils {
 
             switch (TasksBL.getTaskStatusType(task.getStatusId())) {
                 case RE_DO_TASK:
-                    NotificationUtils.startRedoNotificationActivity(context, validationText, task);
+                    NotificationUtils.startRedoNotificationActivity(context, task);
                     break;
                 case VALIDATED:
                     NotificationUtils.startApprovedNotificationActivity(context, presetValidationText, validationText, task);
@@ -222,10 +222,10 @@ public class NotificationUtils {
      * @param context - current context
      * @param task    - current task
      */
-    public static void startRedoNotificationActivity(Context context, String validationText, Task task) {
+    public static void startRedoNotificationActivity(Context context, Task task) {
 
         Spanned notificationText = Html.fromHtml(context.getString(R.string.redo_mission_notification_text,
-                validationText, task.getName(), task.getLocationName(), task.getAddress(), task.getId()));
+                task.getName(), task.getLocationName(), task.getAddress(), task.getId()));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
