@@ -28,7 +28,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
     private boolean doubleBackToExitPressedOnce = false;
     private static final int DOUBLE_PRESS_INTERVAL_MILLISECONDS = 2000;
     private ResponseReceiver localReceiver;
-    private GcmManager gcmManager = GcmManager.getInstance();
 
     public MainActivity() {
     }

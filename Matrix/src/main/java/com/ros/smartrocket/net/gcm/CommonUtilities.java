@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.helpshift.Core;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -83,6 +84,7 @@ public final class CommonUtilities {
                     if(!Config.USE_BAIDU) {
                         L.d(TAG, "Send registered to server: regId = " + registrationId);
                         APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
+                        Core.registerDeviceToken(App.getInstance(), registrationId);
                         PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
                     }
 
