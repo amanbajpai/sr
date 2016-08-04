@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
+import com.helpshift.Core;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
@@ -35,6 +37,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         if (!Config.USE_BAIDU) {
             L.d(TAG, "Send registered to server: regId = " + registrationId);
             APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
+            Core.registerDeviceToken(App.getInstance(), registrationId);
             PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
         }
     }
