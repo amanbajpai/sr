@@ -47,7 +47,7 @@ public class MapHelper {
     public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.00008f;
     public static final int TRANSITION_DURATION = 500;
     //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
-    public static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 50;
+    public static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 15;
     public static final int ZOOM_TO_BOUNDS_ANIMATION_DURATION = 500;
     public static final int SHOW_INFO_WINDOW_ANIMATION_DURATION = 500;
     public static final double EXPAND_BOUNDS_FACTOR = 0.5d;
