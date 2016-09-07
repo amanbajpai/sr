@@ -279,8 +279,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
                     Question question = getQuestion(currentQuestion);
 
-                    if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                        if (!isPreview) {
+                    if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()
+                            ) {
+                        if (!isPreview && question.getType() != Question.QuestionType.REJECT.getTypeId()) {
                             preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
                                     task.getMissionId(), question.getOrderId());
                         }
@@ -355,17 +356,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             //int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
 
-            if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
-                startValidationActivity();
-                return;
-
-            } else if (question.getType() == Question.QuestionType.REJECT.getTypeId()) {
-                if (UIUtils.isOnline(this)) {
-                    setSupportProgressBarIndeterminateVisibility(true);
-                    apiFacade.rejectTask(this, question.getTaskId(), question.getMissionId());
-                } else {
-                    UIUtils.showSimpleToast(this, getString(R.string.no_internet));
+            if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()
+                    || question.getType() == Question.QuestionType.REJECT.getTypeId()) {
+                if (question.getType() == Question.QuestionType.REJECT.getTypeId()) {
+                    AnswersBL.updateQuitStatmentAnswer(question);
                 }
+                startValidationActivity();
                 return;
             }
 

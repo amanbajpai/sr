@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+
 import com.ros.smartrocket.R;
 
 import java.io.File;
@@ -20,8 +21,8 @@ import java.util.Calendar;
 
 public class SelectVideoManager {
     private static final String TAG = SelectVideoManager.class.getSimpleName();
-    public static final int GALLERY = 201;
-    public static final int CAMERA = 202;
+    public static final int GALLERY = 2016;
+    public static final int CAMERA = 2026;
 
     private static SelectVideoManager instance = null;
     private OnVideoCompleteListener videoCompleteListener;
@@ -126,7 +127,7 @@ public class SelectVideoManager {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && (requestCode == CAMERA || requestCode == GALLERY)) {
             String path = lastFile.getPath();
 
             if (videoCompleteListener != null) {

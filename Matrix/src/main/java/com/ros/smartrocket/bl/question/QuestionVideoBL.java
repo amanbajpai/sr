@@ -35,6 +35,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     private ImageButton rePhotoButton;
     private ImageButton confirmButton;
     private VideoView videoView;
+    private boolean isVideoRequested;
 
     @Override
     public void configureView() {
@@ -164,7 +165,9 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
-        selectVideoManager.onActivityResult(requestCode, resultCode, intent);
+        if (isVideoRequested) {
+            selectVideoManager.onActivityResult(requestCode, resultCode, intent);
+        }
         return true;
     }
 
@@ -193,6 +196,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                 } else {
                     selectVideoManager.showSelectVideoDialog(getActivity(), true);
                 }
+                isVideoRequested = true;
 
                 selectVideoManager.setVideoCompleteListener(new SelectVideoManager.OnVideoCompleteListener() {
                     @Override

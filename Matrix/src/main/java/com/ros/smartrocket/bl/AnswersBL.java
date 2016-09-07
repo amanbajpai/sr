@@ -218,6 +218,16 @@ public class AnswersBL {
         }
     }
 
+    public static void updateQuitStatmentAnswer(Question question) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), true);
+        contentValues.put(AnswerDbSchema.Columns.VALUE.getName(), 1);
+        App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI,
+                contentValues, AnswerDbSchema.Columns.QUESTION_ID + "=? and " +
+                        AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(question.getId()), String.valueOf(question.getTaskId()), String.valueOf(question.getMissionId())});
+    }
+
     public static void clearAnswersInDB(Integer taskId, Integer missionId, Integer questionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
@@ -234,7 +244,7 @@ public class AnswersBL {
                 new String[]{String.valueOf(taskId), String.valueOf(missionId), String.valueOf(questionId)});
     }
 
-    public static void clearSubAnswersInDB(Integer taskId, Integer missionId,Integer productId, Question[] questions) {
+    public static void clearSubAnswersInDB(Integer taskId, Integer missionId, Integer productId, Question[] questions) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
         List<Question> subQuestions = getSubQuestions(questions);

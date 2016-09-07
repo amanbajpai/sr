@@ -330,7 +330,7 @@ public class NetworkService extends BaseNetworkService {
         contentResolver.delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
                 new String[]{String.valueOf(question.getId()), String.valueOf(taskId)});
-        if (question.getChildQuestions() != null) {
+        if (question.getChildQuestions() != null && question.getChildQuestions().length > 0) {
             List<Product> productList = makeProductList(question);
             int j = 1;
             for (Question childQuestion : question.getChildQuestions()) {
@@ -365,17 +365,20 @@ public class NetworkService extends BaseNetworkService {
         if (productList != null) {
             // Insert answers for MassAudit subquestions
             for (Product product : productList) {
-                if (question.getAnswers() != null) {
-                    for (Answer answer : question.getAnswers()) {
+                if (question.getProductId() == null || product.getId().equals(question.getProductId()))
+                {
+                    if (question.getAnswers() != null && question.getAnswers().length > 0) {
+                        for (Answer answer : question.getAnswers()) {
+                            answersValues.add(prepareAnswer(taskId, missionId, question, answer, product.getId()).toContentValues());
+                        }
+                    } else {
+                        Answer answer = new Answer();
                         answersValues.add(prepareAnswer(taskId, missionId, question, answer, product.getId()).toContentValues());
                     }
-                } else {
-                    Answer answer = new Answer();
-                    answersValues.add(prepareAnswer(taskId, missionId, question, answer, product.getId()).toContentValues());
                 }
             }
         } else {
-            if (question.getAnswers() != null) {
+            if (question.getAnswers() != null && question.getAnswers().length > 0) {
                 for (Answer answer : question.getAnswers()) {
                     answersValues.add(prepareAnswer(taskId, missionId, question, answer, null).toContentValues());
                 }

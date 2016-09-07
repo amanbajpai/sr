@@ -47,6 +47,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     private static final String EXTRA_LAST_PHOTO_FILE = "com.ros.smartrocket.EXTRA_LAST_PHOTO_FILE";
     private static final String EXTRA_IS_PHOTO_FROM_GALLERY = "com.ros.smartrocket.EXTRA_IS_PHOTO_FROM_GALLERY";
     private static final String STATE_SELECTED_FRAME = "current_selected_photo";
+    private static final String IS_IMAGE_REQUESTED = "is_photo_requested";
     private static final String TAG = "Question Photo";
 
     private ImageButton rePhotoButton;
@@ -64,6 +65,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     private boolean isBitmapAdded = false;
     private boolean isBitmapConfirmed = false;
     private SelectImageManager selectImageManager;
+    private boolean isImageRequested;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -89,7 +91,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
             lastPhotoFile = (File) savedInstanceState.getSerializable(EXTRA_LAST_PHOTO_FILE);
             isLastFileFromGallery = savedInstanceState.getBoolean(EXTRA_IS_PHOTO_FROM_GALLERY);
-
+            isImageRequested = savedInstanceState.getBoolean(IS_IMAGE_REQUESTED);
             if (lastPhotoFile != null && lastPhotoFile.exists()) {
                 photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
             }
@@ -140,23 +142,27 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         }
         outState.putSerializable(EXTRA_LAST_PHOTO_FILE, lastPhotoFile);
         outState.putBoolean(EXTRA_IS_PHOTO_FROM_GALLERY, isLastFileFromGallery);
+        outState.putBoolean(IS_IMAGE_REQUESTED, isImageRequested);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (mCurrentPhotoFile != null) {
-            intent = new Intent();
-            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
-            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            selectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
-            return true;
-        } else if (intent != null && intent.getData() != null) {
-            intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
-            selectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
-            return true;
+        if (isImageRequested) {
+            if (mCurrentPhotoFile != null) {
+                intent = new Intent();
+                intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
+                intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
+                selectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+                isImageRequested = false;
+                return true;
+            } else if (intent != null && intent.getData() != null) {
+                intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
+                selectImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
+                isImageRequested = false;
+                return true;
+            }
         }
-
         return false;
     }
 
@@ -358,6 +364,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                     File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
                     selectImageManager.showSelectImageDialog(fragment, true, fileToPhoto);
                 }
+                isImageRequested = true;
                 break;
             case R.id.deletePhotoButton:
                 if (isBitmapConfirmed) {
