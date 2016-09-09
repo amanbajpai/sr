@@ -151,7 +151,7 @@ android {
     productFlavors {
         predev {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://predev.api.matrix.osiris.pp.ciklum.com\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://predev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://predev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
