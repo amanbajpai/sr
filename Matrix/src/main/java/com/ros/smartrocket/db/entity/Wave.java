@@ -29,7 +29,7 @@ public class Wave extends BaseEntity {
     private Boolean isCanBePreClaimed;
     @SerializedName("ConcurrentClaimsPerAgent")
     private Integer concurrentClaimsPerAgent;
-    @SerializedName("Description")
+    @SerializedName("DescriptionFormatted")
     private String description;
     @SerializedName("EndDateTime")
     private String endDateTime;

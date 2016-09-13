@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -146,6 +148,8 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
+
+        taskDescription.setMovementMethod(LinkMovementMethod.getInstance());
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
@@ -238,8 +242,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         taskIdTextView.setText(String.valueOf(task.getId()));
         optionsRow.setData(task);
         descriptionLayout.setVisibility(TextUtils.isEmpty(task.getDescription()) ? View.GONE : View.VISIBLE);
-        taskDescription.setText(task.getDescription());
-
+        taskDescription.setText(TextUtils.isEmpty(task.getDescription()) ? "" : Html.fromHtml(task.getDescription()));
 
 
         if (!TextUtils.isEmpty(task.getLocationName())) {

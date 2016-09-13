@@ -5,7 +5,9 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,6 +97,7 @@ public class WaveDetailsActivity extends BaseActivity implements
         setContentView(R.layout.activity_wave_details);
         ButterKnife.bind(this);
 
+        projectDescription.setMovementMethod(LinkMovementMethod.getInstance());
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
         if (getIntent() != null) {
@@ -152,7 +155,7 @@ public class WaveDetailsActivity extends BaseActivity implements
                 case TaskDbSchema.Query.All.TOKEN_QUERY:
                     if (cursor != null && cursor.getCount() > 0) {
                         nearTask = TasksBL.convertCursorToTask(cursor);
-                        if (claimTaskManager!=null){
+                        if (claimTaskManager != null) {
                             removeNetworkOperationListener(claimTaskManager);
                         }
                         claimTaskManager = new ClaimTaskManager(WaveDetailsActivity.this, nearTask, WaveDetailsActivity.this);
@@ -175,7 +178,7 @@ public class WaveDetailsActivity extends BaseActivity implements
     }
 
     public void setWaveData(Wave wave) {
-        projectDescription.setText(wave.getDescription());
+        projectDescription.setText(TextUtils.isEmpty(wave.getDescription()) ? "" : Html.fromHtml(wave.getDescription()));
         descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
 
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
