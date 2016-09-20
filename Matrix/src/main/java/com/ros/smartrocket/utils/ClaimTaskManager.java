@@ -6,10 +6,9 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -20,22 +19,34 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.*;
-import com.ros.smartrocket.dialog.*;
+import com.ros.smartrocket.db.entity.Category;
+import com.ros.smartrocket.db.entity.ClaimTaskResponse;
+import com.ros.smartrocket.db.entity.Product;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.Warning;
+import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.dialog.BookTaskSuccessDialog;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
+import com.ros.smartrocket.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
+import com.ros.smartrocket.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ClaimTaskManager implements NetworkOperationListenerInterface, ShowProgressDialogInterface {
     private final OkHttpClient client = new OkHttpClient();
@@ -138,7 +149,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                                         public void onLeftButtonPressed(Dialog dialog) {
                                             dialog.dismiss();
                                             QuestionsBL.getQuestionsListFromDB(handler,
-                                                    task.getWaveId(), task.getId (), task.getMissionId(), true);
+                                                    task.getWaveId(), task.getId(), task.getMissionId(), true);
                                         }
 
                                         @Override
@@ -162,7 +173,16 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
             } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 dismissProgressBar();
                 ClaimTaskResponse claimTaskResponse = (ClaimTaskResponse) operation.getResponseEntities().get(0);
-
+                Warning[] warnings = claimTaskResponse.getWarnings();
+                if (warnings != null && warnings.length > 0) {
+                    Warning warning = warnings[0];
+                    if (warning.getCode() == BaseNetworkService.HALF_CLAIM_PER_MISSION_CODE && warning.getParams() != null
+                            && warning.getParams().length > 1) {
+                        String message = activity.getString(R.string.half_claims_warning,
+                                warning.getParams()[0], warning.getParams()[1]);
+                        UIUtils.showToastCustomDuration(message, 8000);
+                    }
+                }
                 long startTimeInMillisecond = task.getLongStartDateTime();
                 long preClaimedExpireInMillisecond = task.getLongPreClaimedTaskExpireAfterStart();
                 long claimTimeInMillisecond = calendar.getTimeInMillis();
@@ -215,6 +235,10 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                     && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
                 UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
+            }if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
+                    && operation.getResponseErrorCode() != null
+                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIMS_ERROR_CODE) {
+                    UIUtils.showToastCustomDuration(operation.getResponseError(), 8000);
             } else {
                 UIUtils.showSimpleToast(activity, operation.getResponseError());
             }

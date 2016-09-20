@@ -444,4 +444,6 @@
 
     <string name="product">产品:</string>
     <string name="category">种类:</string>
+    <string name="error_too_much_claims">抱歉，任务过期次数或退出任务次数已超出上限，你不能再领取此任务</string>
+    <string name="half_claims_warning">现在你将会退出任务或%1$d任务期限将至。 如其退出或到期次数达到%2$d次,你将会被取消领取此任务的权限</string>
 </resources>

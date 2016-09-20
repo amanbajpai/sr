@@ -279,8 +279,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
                     Question question = getQuestion(currentQuestion);
 
-                    if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()
-                            ) {
+                    if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
                         if (!isPreview && question.getType() != Question.QuestionType.REJECT.getTypeId()) {
                             preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
                                     task.getMissionId(), question.getOrderId());
@@ -462,7 +461,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onAnswerSelected(Boolean selected, int questionId) {
         if (isPreview) {
             Question nextQuestion = currentFragment == null ? null : getQuestion(currentFragment.getQuestion());
-            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
+            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId()
+                    || nextQuestion.getType() == Question.QuestionType.REJECT.getTypeId()) {
                 nextButton.setEnabled(false);
             } else {
                 nextButton.setEnabled(true);

@@ -19,6 +19,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.support.v7.app.ActionBarActivity;
@@ -34,6 +35,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -111,6 +113,23 @@ public class UIUtils {
         }
     }
 
+    public static void showToastCustomDuration(String text, long durationInMillis) {
+        final Toast t = Toast.makeText(App.getInstance(), text, Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+        new CountDownTimer(Math.max(durationInMillis - 2000, 1000), 1000) {
+            @Override
+            public void onFinish() {
+                t.show();
+            }
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                t.show();
+            }
+        }.start();
+    }
+
     /**
      * Show simple Toast message
      *
@@ -118,7 +137,7 @@ public class UIUtils {
      * @param msg
      */
     public static void showSimpleToast(Context context, String msg) {
-        showSimpleToast(context, msg, Toast.LENGTH_SHORT, Gravity.BOTTOM);
+        showSimpleToast(context, msg, Toast.LENGTH_LONG, Gravity.BOTTOM);;
     }
 
     /**

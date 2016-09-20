@@ -37,6 +37,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Token;
+import com.ros.smartrocket.db.entity.Warning;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -292,6 +293,9 @@ public class NetworkService extends BaseNetworkService {
                     } else if (operation.getResponseErrorCode() == YOUR_VERSION_OUTDATED_ERROR_CODE) {
                         operation.setResponseError(getString(R.string.your_version_outdated));
 
+                    } else if (operation.getResponseErrorCode() == MAXIMUM_CLAIMS_ERROR_CODE) {
+                        operation.setResponseError(getString(R.string.error_too_much_claims));
+
                     }
                 }
             } catch (Exception e) {
@@ -365,8 +369,7 @@ public class NetworkService extends BaseNetworkService {
         if (productList != null) {
             // Insert answers for MassAudit subquestions
             for (Product product : productList) {
-                if (question.getProductId() == null || product.getId().equals(question.getProductId()))
-                {
+                if (question.getProductId() == null || product.getId().equals(question.getProductId())) {
                     if (question.getAnswers() != null && question.getAnswers().length > 0) {
                         for (Answer answer : question.getAnswers()) {
                             answersValues.add(prepareAnswer(taskId, missionId, question, answer, product.getId()).toContentValues());

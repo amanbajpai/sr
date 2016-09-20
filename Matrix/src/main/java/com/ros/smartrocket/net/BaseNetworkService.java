@@ -48,6 +48,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int ACCOUNT_NOT_ACTIVATED_ERROR_CODE = 10020;
     public static final int MAXIMUM_MISSION_ERROR_CODE = 10022;
     public static final int MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE = 10032;
+    public static final int HALF_CLAIM_PER_MISSION_CODE = 20000;
     public static final int USER_ALREADY_EXISTS_ERROR_CODE = 10006;
     public static final int TASK_NOT_FOUND_ERROR_CODE = 10014;
     public static final int FILE_ALREADY_UPLOADED_ERROR_CODE = 10053;
@@ -55,6 +56,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int USER_ALREADY_EXIST_ERROR_CODE = 10006;
     public static final int YOUR_VERSION_OUTDATED_ERROR_CODE = 10089;
     public static final int FILE_NOT_FOUND = 10091;
+    public static final int MAXIMUM_CLAIMS_ERROR_CODE = 10124;
     public static final int QUOTA_IS_EXCEEDE_ERROR = 10066;
     public static final int TASK_ALREADY_SUBMITTED = 10087;
     public static final int SUCCESS = 200;
