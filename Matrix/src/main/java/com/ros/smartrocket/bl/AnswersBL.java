@@ -28,8 +28,6 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class AnswersBL {
@@ -530,7 +528,7 @@ public class AnswersBL {
      * @param question - question id
      * @return int
      */
-    public static int getNextQuestionOrderId(Question question) {
+    public static int getNextQuestionOrderId(Question question, List<Question> questions) {
         int orderId = 0;
 
         if (question != null) {
@@ -544,9 +542,14 @@ public class AnswersBL {
                     }
                 }
             }
-
             if (orderId == 0) {
                 orderId = question.getOrderId() + 1;
+                for (Question q : questions) {
+                    if (orderId <= q.getOrderId()) {
+                        orderId = q.getOrderId();
+                        break;
+                    }
+                }
             }
         }
         return orderId;

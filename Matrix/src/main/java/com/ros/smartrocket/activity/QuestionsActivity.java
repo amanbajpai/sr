@@ -52,6 +52,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -233,6 +234,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     questions = QuestionsBL.convertCursorToQuestionList(cursor);
 
                     if (!questions.isEmpty()) {
+                        Collections.sort(questions);
                         questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                                 taskId, task.getMissionId());
@@ -261,10 +263,21 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (questionType != Question.QuestionType.PHOTO.getTypeId()
                 && questionType != Question.QuestionType.VIDEO.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
-            questionOf.setText(getString(R.string.question_of, currentQuestionOrderId, questionsToAnswerCount));
+            questionOf.setText(getString(R.string.question_of, getQuestionPos(currentQuestionOrderId), questionsToAnswerCount));
         } else {
             questionOfLayout.setVisibility(View.GONE);
         }
+    }
+
+    private int getQuestionPos(int currentQuestionOrderId) {
+        int position = 1;
+        for (Question question : questions) {
+            if (question.getOrderId() == currentQuestionOrderId) {
+                return position;
+            }
+            position++;
+        }
+        return position;
     }
 
     @SuppressWarnings("unused")
@@ -310,7 +323,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     private Question getQuestion(Question currentQuestion) {
-        int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion);
+        int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion, questions);
         return QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
     }
 

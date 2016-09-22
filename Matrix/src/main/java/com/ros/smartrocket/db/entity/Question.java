@@ -1,12 +1,13 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.QuestionDbSchema;
 
 import java.io.Serializable;
 
-public class Question extends BaseEntity implements Serializable {
+public class Question extends BaseEntity implements Serializable, Comparable<Question> {
     @SkipFieldInContentValues
     private static final long serialVersionUID = -4706526633427191907L;
 
@@ -25,6 +26,14 @@ public class Question extends BaseEntity implements Serializable {
 
     public void setSubQuestionNumber(String subQuestionNumber) {
         this.subQuestionNumber = subQuestionNumber;
+    }
+
+    @Override
+    public int compareTo(Question another) {
+        if (this.orderId > another.orderId) {
+            return 1;
+        }
+        return this.orderId < another.orderId ? -1 : 0;
     }
 
 
