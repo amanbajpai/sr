@@ -27,6 +27,7 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;
@@ -238,7 +239,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
                         int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                                 taskId, task.getMissionId());
-
+                        if (lastQuestionOrderId == 1) {
+                            lastQuestionOrderId = QuestionsBL.getFirstOrderId(questions);
+                        }
                         Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
                         startFragment(question);
                     } else {

@@ -456,12 +456,14 @@ public class QuestionsBL {
 
     public static String getAnswerValue(Question question) {
         String result = null;
-        Answer[] answers = question.getAnswers();
+        if (question != null) {
+            Answer[] answers = question.getAnswers();
 
-        if (answers != null) {
-            for (Answer answer : answers) {
-                if (answer.getChecked()) {
-                    result = answer.getValue();
+            if (answers != null) {
+                for (Answer answer : answers) {
+                    if (answer.getChecked()) {
+                        result = answer.getValue();
+                    }
                 }
             }
         }
@@ -569,5 +571,12 @@ public class QuestionsBL {
             count += categories[i].getProducts().length;
         }
         return count;
+    }
+
+    /**
+     * Used for take first orderId, because it can be not 1;
+     */
+    public static int getFirstOrderId(List<Question> questions) {
+        return questions != null && !questions.isEmpty() ? questions.get(0).getOrderId() : 1;
     }
 }
