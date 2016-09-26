@@ -441,5 +441,6 @@
     <string name="product">產品:</string>
     <string name="category">種類:</string>
     <string name="error_too_much_claims">抱歉，任務過期次數或退出任務次數已超出上限，你不能再領取此任務。</string>
-    <string name="half_claims_warning">現在你將會退出任務或%1$d任務期限將至。如其退出或到期次數達到%2$d次，你將會被取消領取此任務的權限。</string>
+    <string name="warning_half_claims">現在你將會退出任務或%1$d任務期限將至。如其退出或到期次數達到%2$d次，你將會被取消領取此任務的權限。</string>
+    <string name="warning_last_claim">現在你將會退出任務或已達到上限為%1$d次的任務退出或過期次數。 如你再退出任務或任務再次過期，你便會失去領取此任務的權限。</string>
 </resources>

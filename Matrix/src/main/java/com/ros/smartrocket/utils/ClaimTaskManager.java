@@ -178,8 +178,15 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                     Warning warning = warnings[0];
                     if (warning.getCode() == BaseNetworkService.HALF_CLAIM_PER_MISSION_CODE && warning.getParams() != null
                             && warning.getParams().length > 1) {
-                        String message = activity.getString(R.string.half_claims_warning,
-                                warning.getParams()[0], warning.getParams()[1]);
+                        int currentClaim = warning.getParams()[0];
+                        int maxClaim = warning.getParams()[1];
+                        String message;
+                        if (currentClaim == maxClaim) {
+                            message = activity.getString(R.string.warning_last_claim, maxClaim);
+                        } else {
+                            message = activity.getString(R.string.warning_half_claims,
+                                    currentClaim, maxClaim);
+                        }
                         UIUtils.showToastCustomDuration(message, 8000);
                     }
                 }
@@ -235,10 +242,11 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                     && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
                 UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
-            }if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
+            }
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
                     && operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIMS_ERROR_CODE) {
-                    UIUtils.showToastCustomDuration(operation.getResponseError(), 8000);
+                UIUtils.showToastCustomDuration(operation.getResponseError(), 8000);
             } else {
                 UIUtils.showSimpleToast(activity, operation.getResponseError());
             }

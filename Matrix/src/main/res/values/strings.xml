@@ -485,5 +485,6 @@
     <string name="product">Product:</string>
     <string name="category">Category:</string>
     <string name="error_too_much_claims">Sorry, you have exceed the maximum mission deadline expiries/withdraws on this project and can no longer claim missions on this project</string>
-    <string name="half_claims_warning">You have now withdrawn form or expired  %1$d missions this project. Once this number reaches  %2$d, you will no longer be able to claim missions on this project</string>
+    <string name="warning_half_claims">You have now withdrawn form or expired  %1$d missions this project. Once this number reaches  %2$d, you will no longer be able to claim missions on this project</string>
+    <string name="warning_last_claim">You have now withdrawn form or expired %1$d missions this project which is the maximum number of expirires/withdrawls allowed on his project. If you expire or withdraw from one more mission on this project you will not be able to claim any further missions on this project</string>
 </resources>
