@@ -12,37 +12,53 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
+import com.ros.smartrocket.bl.question.QuestionMassAuditBL.TickCrossAnswerPair;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
+import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public final class MassAuditExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private final Category[] categories;
+    private HashMap<Integer, Boolean> answersReDoMap;
     private final View.OnClickListener tickListener;
     private final View.OnClickListener crossListener;
-    private HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap;
-    private HashMap<Integer, Boolean> answersReDoMap;
+    private HashMap<Integer, TickCrossAnswerPair> answersMap = new HashMap<>();
     private boolean isRedo;
     private View.OnClickListener thumbListener;
     private int questionNumber;
+    private List<Question> reDoMainSubList = new ArrayList<>();
 
     public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
-                                          View.OnClickListener crossListener, View.OnClickListener thumbListener,
-                                          boolean isRedo, int questionNumber) {
+                                          View.OnClickListener crossListener, View.OnClickListener thumbListener, int questionNumber) {
         this.context = context;
         this.categories = categories;
         this.tickListener = tickListener;
         this.crossListener = crossListener;
         this.thumbListener = thumbListener;
-        this.isRedo = isRedo;
-        this.questionNumber=questionNumber;
-        answersMap = new HashMap<>();
+        this.isRedo = false;
+        this.questionNumber = questionNumber;
+    }
+
+    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
+                                          View.OnClickListener crossListener, View.OnClickListener thumbListener,
+                                          List<Question> reDoMainSubList, int questionNumber) {
+        this.context = context;
+        this.categories = categories;
+        this.tickListener = tickListener;
+        this.crossListener = crossListener;
+        this.thumbListener = thumbListener;
+        this.isRedo = true;
+        this.reDoMainSubList = reDoMainSubList;
+        this.questionNumber = questionNumber;
     }
 
     @Override
@@ -127,25 +143,24 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         ImageView crossButton = (ImageView) convertView.findViewById(R.id.massAuditCrossButton);
         ImageView tickButton = (ImageView) convertView.findViewById(R.id.massAuditTickButton);
 
-        if (!isRedo) {
-            QuestionMassAuditBL.TickCrossAnswerPair answerPair = answersMap.get(product.getId());
-            if (answerPair != null) {
-                Answer tickAnswer = answerPair.getTickAnswer();
-                Answer crossAnswer = answerPair.getCrossAnswer();
-                if (tickAnswer != null && crossAnswer != null) {
-                    setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
-                    // TODO Clarify answers order
-                    tickButton.setImageResource(tickAnswer.getChecked()
-                            ? R.drawable.mass_audit_green_checked
-                            : R.drawable.mass_audit_green_unchecked);
-                    crossButton.setImageResource(crossAnswer.getChecked()
-                            ? R.drawable.mass_audit_red_checked
-                            : R.drawable.mass_audit_red_unchecked);
-                } else {
-                    setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
-                }
+        TickCrossAnswerPair answerPair = answersMap.get(product.getId());
+        if (answerPair != null) {
+            Answer tickAnswer = answerPair.getTickAnswer();
+            Answer crossAnswer = answerPair.getCrossAnswer();
+            if (tickAnswer != null && crossAnswer != null) {
+                setButtonsVisibility(tickButton, crossButton, View.VISIBLE);
+                // TODO Clarify answers order
+                tickButton.setImageResource(tickAnswer.getChecked()
+                        ? R.drawable.mass_audit_green_checked
+                        : R.drawable.mass_audit_green_unchecked);
+                crossButton.setImageResource(crossAnswer.getChecked()
+                        ? R.drawable.mass_audit_red_checked
+                        : R.drawable.mass_audit_red_unchecked);
+            } else {
+                setButtonsVisibility(tickButton, crossButton, View.INVISIBLE);
             }
-        } else {
+        }
+        if (isRedo && !isRedoMain(product.getId())) {
             setButtonsVisibility(tickButton, crossButton, View.GONE);
             if (answersReDoMap == null) {
                 tickButton.setImageResource(R.drawable.mass_audit_green_edit);
@@ -184,6 +199,15 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         return convertView;
     }
 
+    private boolean isRedoMain(Integer productId) {
+        for (Question question : reDoMainSubList) {
+            if (productId.equals(question.getProductId()) && question.isRedo()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void setButtonsVisibility(ImageView tickButton, ImageView crossButton, int visibility) {
         tickButton.setVisibility(View.VISIBLE);
         crossButton.setVisibility(visibility);
@@ -195,9 +219,14 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         return true;
     }
 
-    public void setData(HashMap<Integer, QuestionMassAuditBL.TickCrossAnswerPair> answersMap) {
+    public void setData(HashMap<Integer, TickCrossAnswerPair> answersMap) {
         this.answersMap = answersMap;
+        notifyDataSetChanged();
+    }
+
+    public void setData(HashMap<Integer, TickCrossAnswerPair> answersMap, HashMap<Integer, Boolean> answersReDoMap) {
         this.answersMap = answersMap;
+        this.answersReDoMap = answersReDoMap;
         notifyDataSetChanged();
     }
 

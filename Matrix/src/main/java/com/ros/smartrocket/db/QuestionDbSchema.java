@@ -47,8 +47,8 @@ public interface QuestionDbSchema {
         ACTION("action", DBType.NUMERIC),
         IS_REQUIRED("isRequired", DBType.NUMERIC),
         PRODUCT_ID("productId", DBType.NUMERIC),
-
-        DELETED("deleted", DBType.INT);
+        DELETED("deleted", DBType.INT),
+        IS_REDO("isRedo", DBType.NUMERIC);
 
         private String columnName;
         private DBType type;
@@ -121,7 +121,8 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
                 Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName(),
-                Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName()
+                Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName(),
+                Table.QUESTION.getName() + "." + Columns.IS_REDO.getName()
         };
 
         int _ID = 0;
@@ -160,5 +161,6 @@ public interface QuestionDbSchema {
         int IS_REQUIRED = 30;
 
         int PRODUCT_ID = 31;
+        int IS_REDO = 32;
     }
 }

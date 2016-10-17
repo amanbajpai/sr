@@ -522,16 +522,35 @@ public class QuestionsBL {
     }
 
     @Nullable
-    public static Question getMainSubQuestion(Question question) {
-        if (question.getChildQuestions() != null) {
-            for (Question childQuestion : question.getChildQuestions()) {
+    public static Question getMainSubQuestion(Question[] subQuestions) {
+            for (Question childQuestion : subQuestions) {
                 if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
                     return childQuestion;
                 }
+        }
+        return null;
+    }
+
+    @Nullable
+    public static List<Question> getReDoMainSubQuestionList(Question[] subQuestions) {
+        List<Question> reDoMainSubQuestionList = new ArrayList<>();
+            for (Question childQuestion : subQuestions) {
+                if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
+                    reDoMainSubQuestionList.add(childQuestion);
+                }
+            }
+        return reDoMainSubQuestionList;
+    }
+
+    @Nullable
+    public static boolean hasReDoNotMainSub(Question[] subQuestions, Integer productId) {
+        for (Question childQuestion : subQuestions) {
+            if (getQuestionType(childQuestion.getType()) != Question.QuestionType.MAIN_SUB_QUESTION
+                    && productId.equals(childQuestion.getProductId())) {
+                return true;
             }
         }
-
-        return null;
+        return false;
     }
 
     @NonNull

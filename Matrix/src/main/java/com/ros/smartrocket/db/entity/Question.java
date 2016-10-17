@@ -36,6 +36,14 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         return this.orderId < another.orderId ? -1 : 0;
     }
 
+    public boolean isRedo() {
+        return isRedo;
+    }
+
+    public void setRedo(boolean redo) {
+        isRedo = redo;
+    }
+
 
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
@@ -114,6 +122,9 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private Question[] childrenQuestions;
     @SkipFieldInContentValues
     private transient String subQuestionNumber;
+
+    @SerializedName("IsRedo")
+    private Boolean isRedo;
     // [END Mass Audit]
 
     @SkipFieldInContentValues
@@ -186,6 +197,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
             result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
             result.setProductId(c.getInt(QuestionDbSchema.Query.PRODUCT_ID));
+            result.setRedo(c.getInt(QuestionDbSchema.Query.IS_REDO) == 1);
         }
 
         return result;

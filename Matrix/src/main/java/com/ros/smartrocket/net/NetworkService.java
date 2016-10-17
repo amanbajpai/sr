@@ -37,7 +37,6 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Token;
-import com.ros.smartrocket.db.entity.Warning;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -395,6 +394,10 @@ public class NetworkService extends BaseNetworkService {
 
     private Answer prepareAnswer(int taskId, int missionId, Question question, Answer answer,
                                  Integer productId) {
+        if (question.getType() == Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()
+                && question.isRedo()){
+            answer.setChecked(false);
+        }
         answer.setRandomId();
         answer.setProductId(productId);
         answer.setQuestionId(question.getId());

@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import butterknife.Bind;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -23,10 +21,11 @@ import com.ros.smartrocket.dialog.ProductImageDialog;
 import com.ros.smartrocket.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
 
-import de.greenrobot.event.EventBus;
-
 import java.util.HashMap;
 import java.util.List;
+
+import butterknife.Bind;
+import de.greenrobot.event.EventBus;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
     public static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
@@ -39,11 +38,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private MassAuditExpandableListAdapter adapter;
     private HashMap<Integer, TickCrossAnswerPair> answersMap;
-    private HashMap<Integer, Boolean> answersReDoMap = new HashMap<>();
     private Question mainSub;
+    private List<Question> mainSubList;
     private int buttonClicked;
     private boolean isRedo = false;
     private boolean isPreview = false;
+    private HashMap<Integer, Boolean> answersReDoMap = new HashMap<>();
 
     @Override
     public void configureView() {
@@ -64,15 +64,18 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @Override
     protected void fillViewWithAnswers(Answer[] answers) {
         question.setAnswers(answers);
-        adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
-                tickListener, crossListener, thumbListener, isRedo, question.getOrderId());
+        answersMap = convertToMap(answers);
         if (!isRedo) {
-            answersMap = convertToMap(answers);
+            adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
+                    tickListener, crossListener, thumbListener, question.getOrderId());
             adapter.setData(answersMap);
         } else {
             answersReDoMap.putAll(convertToReDoMap(answers));
-            adapter.setReDoData(answersReDoMap);
+            adapter = new MassAuditExpandableListAdapter(activity, question.getCategoriesArray(),
+                    tickListener, crossListener, thumbListener, mainSubList, question.getOrderId());
+            adapter.setData(answersMap, answersReDoMap);
         }
+
         listView.setAdapter(adapter);
         for (int i = 0; i < adapter.getGroupCount(); i++) {
             listView.expandGroup(i);
@@ -80,42 +83,41 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         refreshNextButton();
     }
 
+
+    @NonNull
+    private HashMap<Integer, Boolean> convertToReDoMap(Answer[] answers) {
+        HashMap<Integer, Boolean> map = new HashMap<>();
+
+        for (Answer answer : answers) {
+            if (map.get(answer.getProductId()) == null) {
+                map.put(answer.getProductId(), answer.getChecked() ? true : false);
+            }
+        }
+
+        return map;
+    }
+
     @Override
     public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
-        } else return question != null && answersReDoMap != null && answersReDoMap.size() > 0;
+        } else {
+            return question != null && answersReDoMap != null && answersReDoMap.size() > 0;
+        }
     }
 
     @Override
     public void refreshNextButton() {
-        if (!isRedo) {
-            if (answerSelectedListener != null) {
-                boolean selected = true;
-                for (TickCrossAnswerPair pair : answersMap.values()) {
-                    if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
-                        selected = false;
-                        break;
-                    }
-                }
-                answerSelectedListener.onAnswerSelected(selected, question.getId());
-            }
-        } else {
-            if (answerSelectedListener != null) {
-                boolean selected = true;
-                if (answersReDoMap.size() < QuestionsBL.getProductsFromCategoriesCount(question.getCategoriesArray())) {
+        if (answerSelectedListener != null) {
+            boolean selected = true;
+            for (TickCrossAnswerPair pair : answersMap.values()) {
+                if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
                     selected = false;
-                } else {
-                    for (Boolean checked : answersReDoMap.values()) {
-                        if (!checked) {
-                            selected = false;
-                            break;
-                        }
-                    }
+                    break;
                 }
-                answerSelectedListener.onAnswerSelected(selected, question.getId());
             }
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
         }
 
         if (answerPageLoadingFinishedListener != null) {
@@ -148,7 +150,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         Question[] subQuestions = new Question[questions.size()];
         subQuestions = questions.toArray(subQuestions);
         question.setChildQuestions(subQuestions);
-        mainSub = QuestionsBL.getMainSubQuestion(question);
+        if (subQuestions != null) {
+            mainSub = QuestionsBL.getMainSubQuestion(subQuestions);
+            if (isRedo) {
+                mainSubList = QuestionsBL.getReDoMainSubQuestionList(subQuestions);
+            }
+        }
         if (mainSub != null) {
             mainSubQuestionTextView.setMovementMethod(LinkMovementMethod.getInstance());
             mainSubQuestionTextView.setText(Html.fromHtml(mainSub.getQuestion()));
@@ -175,20 +182,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                 pair.crossAnswer = answer;
             }
         }
-
-        return map;
-    }
-
-    @NonNull
-    private HashMap<Integer, Boolean> convertToReDoMap(Answer[] answers) {
-        HashMap<Integer, Boolean> map = new HashMap<>();
-
-        for (Answer answer : answers) {
-            if (map.get(answer.getProductId()) == null) {
-                map.put(answer.getProductId(), answer.getChecked() ? true : false);
-            }
-        }
-
         return map;
     }
 
@@ -199,8 +192,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @SuppressWarnings("unused")
     public void onEventMainThread(SubQuestionsSubmitEvent event) {
         if (!isRedo) {
-            updateTickCrossState(event.productId);
             saveQuestion();
+            updateTickCrossState(event.productId);
         } else {
             answersReDoMap.put(event.productId, true);
             adapter.setReDoData(answersReDoMap);
@@ -219,12 +212,8 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     private View.OnClickListener tickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (isRedo) {
-                handleEditTick((CategoryProductPair) v.getTag());
-            } else {
-                buttonClicked = TICK;
-                handleTickCrossTick((CategoryProductPair) v.getTag());
-            }
+            buttonClicked = TICK;
+            handleTickCrossTick((CategoryProductPair) v.getTag());
         }
     };
 
@@ -247,27 +236,38 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         if ((buttonClicked == TICK && mainSub.getAction() == Question.ACTION_TICK)
                 || (buttonClicked == CROSS && mainSub.getAction() == Question.ACTION_CROSS)
                 || (mainSub.getAction() == Question.ACTION_BOTH)) {
-            startSubQuestionsFragment(pair);
+            if (isRedo && pair.product.getId() != null && question.getChildQuestions() != null) {
+                if (QuestionsBL.hasReDoNotMainSub(question.getChildQuestions(), pair.product.getId())) {
+                    startSubQuestionsFragment(pair);
+                } else {
+                    updateRedoAnswers(pair.product.getId());
+                    saveQuestion();
+                    updateTickCrossState(pair.product.getId());
+                }
+            } else {
+                startSubQuestionsFragment(pair);
+            }
         } else {
+            if (isRedo) {
+                saveQuestion();
+                updateRedoAnswers(pair.product.getId());
+            }
             updateTickCrossState(pair.product.getId());
         }
     }
 
-    private void handleEditTick(CategoryProductPair pair) {
-        startSubQuestionsFragment(pair);
-
+    private void updateRedoAnswers(Integer productId) {
+        answersReDoMap.put(productId, true);
+        adapter.setReDoData(answersReDoMap);
     }
 
     private void updateTickCrossState(int productId) {
-        if (!isRedo) {
-            TickCrossAnswerPair pair = answersMap.get(productId);
-            pair.getTickAnswer().setChecked(buttonClicked == TICK);
-            pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
-            if (buttonClicked == CROSS && mainSub.getAction() != Question.ACTION_BOTH && mainSub.getAction() != Question.ACTION_CROSS) {
-                AnswersBL.clearSubAnswersInDB(mainSub.getTaskId(), mainSub.getMissionId(), productId, question.getChildQuestions());
-            }
+        TickCrossAnswerPair pair = answersMap.get(productId);
+        pair.getTickAnswer().setChecked(buttonClicked == TICK);
+        pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
+        if (buttonClicked == CROSS && mainSub.getAction() != Question.ACTION_BOTH && mainSub.getAction() != Question.ACTION_CROSS) {
+            AnswersBL.clearSubAnswersInDB(mainSub.getTaskId(), mainSub.getMissionId(), productId, question.getChildQuestions());
         }
-
         adapter.notifyDataSetChanged();
         refreshNextButton();
     }
