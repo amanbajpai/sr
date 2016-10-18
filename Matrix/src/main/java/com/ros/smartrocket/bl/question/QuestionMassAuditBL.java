@@ -90,11 +90,21 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
         for (Answer answer : answers) {
             if (map.get(answer.getProductId()) == null) {
+                prepareAnswer(answer);
                 map.put(answer.getProductId(), answer.getChecked() ? true : false);
             }
         }
 
         return map;
+    }
+
+    private void prepareAnswer(Answer answer) {
+        for (Question question : mainSubList) {
+            if (answer.getQuestionId().equals(question.getId()) && !question.isRedo()) {
+                answer.setChecked(false);
+                return;
+            }
+        }
     }
 
     @Override
@@ -195,6 +205,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             saveQuestion();
             updateTickCrossState(event.productId);
         } else {
+            updateTickCrossState(event.productId);
             answersReDoMap.put(event.productId, true);
             adapter.setReDoData(answersReDoMap);
             refreshNextButton();
@@ -263,13 +274,15 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     private void updateTickCrossState(int productId) {
         TickCrossAnswerPair pair = answersMap.get(productId);
-        pair.getTickAnswer().setChecked(buttonClicked == TICK);
-        pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
-        if (buttonClicked == CROSS && mainSub.getAction() != Question.ACTION_BOTH && mainSub.getAction() != Question.ACTION_CROSS) {
-            AnswersBL.clearSubAnswersInDB(mainSub.getTaskId(), mainSub.getMissionId(), productId, question.getChildQuestions());
+        if (pair != null) {
+            pair.getTickAnswer().setChecked(buttonClicked == TICK);
+            pair.getCrossAnswer().setChecked(buttonClicked == CROSS);
+            if (buttonClicked == CROSS && mainSub.getAction() != Question.ACTION_BOTH && mainSub.getAction() != Question.ACTION_CROSS) {
+                AnswersBL.clearSubAnswersInDB(mainSub.getTaskId(), mainSub.getMissionId(), productId, question.getChildQuestions());
+            }
+            adapter.notifyDataSetChanged();
+            refreshNextButton();
         }
-        adapter.notifyDataSetChanged();
-        refreshNextButton();
     }
 
     public void setIsRedo(boolean b) {
