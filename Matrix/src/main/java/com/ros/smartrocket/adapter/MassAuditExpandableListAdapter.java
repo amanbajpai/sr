@@ -161,16 +161,19 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             }
         }
         if (isRedo && !isRedoMain(product.getId())) {
-            setButtonsVisibility(tickButton, crossButton, View.GONE);
+            boolean isTickAction = isTickAction();
+            setButtonsVisibility(isTickAction ? tickButton : crossButton,
+                    isTickAction ? crossButton : tickButton, View.GONE);
             if (answersReDoMap == null) {
-                tickButton.setImageResource(R.drawable.mass_audit_green_edit);
+                setIcon(isTickAction ? tickButton : crossButton, R.drawable.mass_audit_green_edit);
             } else {
                 try {
-                    tickButton.setImageResource(answersReDoMap.get(product.getId())
+                    int resId = answersReDoMap.get(product.getId())
                             ? R.drawable.mass_audit_green_checked
-                            : R.drawable.mass_audit_green_edit);
+                            : R.drawable.mass_audit_green_edit;
+                    setIcon(isTickAction ? tickButton : crossButton, resId);
                 } catch (Exception e) {
-                    tickButton.setImageResource(R.drawable.mass_audit_green_edit);
+                    setIcon(isTickAction ? tickButton : crossButton, R.drawable.mass_audit_green_edit);
                 }
             }
         }
@@ -199,6 +202,18 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         return convertView;
     }
 
+    private boolean isTickAction() {
+        if (!reDoMainSubList.isEmpty() && reDoMainSubList.get(0).getAction() == Question.ACTION_CROSS) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void setIcon(ImageView button, int resId) {
+        button.setImageResource(resId);
+    }
+
     private boolean isRedoMain(Integer productId) {
         for (Question question : reDoMainSubList) {
             if (productId.equals(question.getProductId()) && question.isRedo()) {
@@ -208,11 +223,12 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         return false;
     }
 
-    private void setButtonsVisibility(ImageView tickButton, ImageView crossButton, int visibility) {
-        tickButton.setVisibility(View.VISIBLE);
-        crossButton.setVisibility(visibility);
+    private void setButtonsVisibility(ImageView firstButton, ImageView secondButton, int visibility) {
+        firstButton.setVisibility(View.VISIBLE);
+        secondButton.setVisibility(visibility);
 //        crossButton.setImageResource(visibility == View.VISIBLE ? R.drawable.);
     }
+
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
