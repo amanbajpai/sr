@@ -48,7 +48,7 @@
                     style="@style/QuestionText"
                     android:text="@string/product"
                     android:paddingTop="5dp"
-                    android:layout_below="@id/massAuditSubQuestionsLabel"
+                    android:layout_below="@id/massAuditSubQuestionsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <com.ros.smartrocket.views.CustomTextView
@@ -65,7 +65,7 @@
                 <View
                     android:layout_marginTop="5dp"
                     android:background="@color/separator_grey"
-                    android:layout_below="@id/massAuditSubQuestionsSubtitleLabel"
+                    android:layout_below="@id/massAuditSubQuestionsSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
             </RelativeLayout>
