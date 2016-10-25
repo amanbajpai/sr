@@ -447,4 +447,5 @@
     <string name="error_too_much_claims">抱歉，任务过期次数或退出任务次数已超出上限，你不能再领取此任务</string>
     <string name="warning_half_claims">现在你将会退出任务或%1$d任务期限将至。 如其退出或到期次数达到%2$d次,你将会被取消领取此任务的权限</string>
     <string name="warning_last_claim">现在你将会退出任务或已达到上限为%1$d次的任务退出或过期次数。如你再退出任务或任务再次过期,你便会失去领取此任务的权限。</string>
+    <string name="facebook_app_id">360659224276381</string>
 </resources>

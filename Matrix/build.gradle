@@ -53,7 +53,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode buildNumber + 10000
         versionName '2.3.3'
@@ -232,6 +232,7 @@ dependencies {
     chinaDevCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaStagingCompile fileTree(include: '*.jar', dir: '../libsChina')
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
 }
 
 repositories {

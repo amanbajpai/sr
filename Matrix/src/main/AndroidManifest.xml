@@ -62,6 +62,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup, label">
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"

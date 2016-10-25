@@ -9,11 +9,11 @@ import android.text.format.DateUtils;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
-import com.helpshift.CoreInternal;
-import com.helpshift.support.Support;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -51,9 +51,12 @@ public class App extends Application {
 
         if (Config.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());
-
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
+        } else {
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            AppEventsLogger.activateApp(this);
         }
+
 
         AnalyticsWrapper.initAnalytics(this);
 
@@ -157,7 +160,7 @@ public class App extends Application {
         return locationManager != null ? locationManager.getLastGooglePosition() : null;
     }
 
-    public void clearPositionData(){
+    public void clearPositionData() {
         locationManager.setLastBaiduPosition(null);
         locationManager.setLastGooglePosition(null);
         locationManager.setZoomLevel(0);
