@@ -2,13 +2,12 @@ package com.ros.smartrocket.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.*;
+import android.widget.Toast;
 
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -16,21 +15,23 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.Login;
-import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.dialog.CheckLocationDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.helpers.WriteDataHelper;
-import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.TutorialView;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomEditTextView;
+import com.ros.smartrocket.views.CustomTextView;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Activity for Agents login into system
@@ -39,14 +40,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
 
     public static String START_PUSH_NOTIFICATIONS_ACTIVITY = "start_push_notif";
+    @Bind(R.id.emailEditText)
+    CustomEditTextView emailEditText;
+    @Bind(R.id.loginButton)
+    CustomButton loginButton;
+    @Bind(R.id.currentVersion)
+    CustomTextView currentVersion;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private CheckBox rememberMeCheckBox;
-    private Button loginButton;
-    private Button registerButton;
     private CustomProgressDialog progressDialog;
     private RegistrationPermissions registrationPermissions;
     private CheckLocationDialog checkLocationDialog;
@@ -62,88 +64,63 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
-
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
-        TextView currentVersion = (TextView) findViewById(R.id.currentVersion);
-
         currentVersion.setText("v." + BuildConfig.LOGIN_SCREEN_VERSION);
 
         String lastEmail = preferencesManager.getLastEmail();
-        String lastPassword = preferencesManager.getLastPassword();
 
-        if (!TextUtils.isEmpty(lastEmail) || !TextUtils.isEmpty(lastPassword)) {
+        if (!TextUtils.isEmpty(lastEmail)) {
             emailEditText.setText(lastEmail);
-            passwordEditText.setText(lastPassword);
-            rememberMeCheckBox.setChecked(true);
         }
-
-        findViewById(R.id.forgotPasswordButton).setOnClickListener(this);
-
-        loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
-
-        registerButton = (Button) findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(this);
-
         setSupportProgressBarIndeterminateVisibility(false);
         checkDeviceSettingsByOnResume(false);
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        setSupportProgressBarIndeterminateVisibility(false);
-        if (checkLocationDialog != null) {
-            checkLocationDialog.onNetworkOperation(operation);
-        }
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+            if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
+                CheckLocationResponse checkLocationResponse =
+                        (CheckLocationResponse) operation.getResponseEntities().get(0);
 
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-
-                WriteDataHelper.prepareLogin(this, email);
-
-                preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
-                preferencesManager.setLastEmail(email);
-                if (rememberMeCheckBox.isChecked()) {
-                    preferencesManager.setLastPassword(password);
-                } else {
-                    preferencesManager.setLastPassword("");
+                if (checkLocationResponse.getStatus()) {
+                    Intent intent = new Intent(this, PromoCodeActivity.class);
+                    intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
+                    intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
+                    intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
                 }
-                dismissProgressDialog();
-                finish();
-                if (loginResponse.isShowTermsConditions()) {
-                    Intent intent = new Intent(this, TermsAndConditionActivity.class);
-                    intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
-                    startActivity(intent);
-                } else if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
-                    preferencesManager.setTandCShowedForCurrentUser();
-                    startActivity(new Intent(this, MainActivity.class));
-                }
-            }
-        } else {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressDialog();
-                loginButton.setEnabled(true);
-                if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
-                    DialogUtils.showAccountNotActivatedDialog(this);
+            } else {
+                if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+                    dismissProgressDialog();
+                    loginButton.setEnabled(true);
+                    if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                            == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
+                        DialogUtils.showAccountNotActivatedDialog(this);
 
-                } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.NO_INTERNET) {
-                    DialogUtils.showBadOrNoInternetDialog(this);
+                    } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                            == BaseNetworkService.NO_INTERNET) {
+                        DialogUtils.showBadOrNoInternetDialog(this);
 
-                } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
-                    DialogUtils.showLoginFailedDialog(this);
+                    } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                            == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
+                        DialogUtils.showLoginFailedDialog(this);
 
-                } else {
-                    UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+                    } else {
+                        UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+                    }
+                    // TODO registerButton.setEnabled(true);
+                    dismissProgressDialog();
+                } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
+                    dismissProgressDialog();
+                    if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                            == BaseNetworkService.NO_INTERNET) {
+                        DialogUtils.showBadOrNoInternetDialog(this);
+                    } else {
+                        startActivity(new Intent(this, CheckLocationActivity.class));
+                    }
                 }
             }
         }
@@ -160,14 +137,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.loginButton:
                 String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-
-                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-                    if (deviceIsReady()) {
-                        if (isAllFilesSend(email)) {
+                if (!TextUtils.isEmpty(email)) {
+                    if (UIUtils.deviceIsReady(this)) {
+                        if (UIUtils.isAllFilesSend(email)) {
                             progressDialog = CustomProgressDialog.show(this);
                             loginButton.setEnabled(false);
-                            login(email, password);
+
+                            // TODO check email
                         } else {
                             // not all tasks are sent - cannot login
                             DialogUtils.showNotAllFilesSendDialog(this);
@@ -176,7 +152,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     UIUtils.showSimpleToast(this, R.string.fill_in_field);
                 }
-
                 break;
             case R.id.registerButton:
                 if (deviceIsReady()) {
@@ -280,7 +255,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 , true);
     }
 
-    private void onLocationChecked(CheckLocationResponse serverResponse, double latitude, double longitude) {
+    private void onLocationChecked(CheckLocationResponse serverResponse, double latitude,
+                                   double longitude) {
         if (serverResponse != null) {
             checkLocationResponse = serverResponse;
             this.latitude = latitude;
@@ -288,7 +264,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             registrationPermissions = checkLocationResponse.getRegistrationPermissions();
             PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
         }
-        registerButton.setEnabled(true);
+        loginButton.setEnabled(true);
     }
 
     private void startRegistrationFlow() {

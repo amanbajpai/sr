@@ -6,6 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
@@ -66,7 +67,6 @@ android {
         buildConfigField "String", "JENKINS_BUILD_VERSION", "String.valueOf(" + buildNumber.toInteger() + ")"
         buildConfigField "String", "SERVER_API_KEY", "\"AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM\""
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
-
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
     }

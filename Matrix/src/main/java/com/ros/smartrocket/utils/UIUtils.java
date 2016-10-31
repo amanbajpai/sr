@@ -23,6 +23,7 @@ import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -39,6 +40,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.images.ImageLoader;
@@ -768,7 +770,7 @@ public class UIUtils {
         return getBalanceOrPrice(balance, symbol, null, null);
     }
 
-    public static void setActionBarBackground(ActionBarActivity activity, int statusId, boolean isPreclaim) {
+    public static void setActionBarBackground(AppCompatActivity activity, int statusId, boolean isPreclaim) {
         int backgroundRes;
         switch (TasksBL.getTaskStatusType(statusId)) {
             case NONE:
@@ -1066,5 +1068,29 @@ public class UIUtils {
             L.e(TAG, "getConnectedNetwork. Get type error.");
         }
         return null;
+    }
+
+    public static boolean deviceIsReady(Activity c) {
+        boolean result = isOnline(c) && isAllLocationSourceEnabled(c)
+                && isMockLocationEnabled(c);
+        if (!isOnline(c)) {
+            DialogUtils.showNetworkDialog(c);
+        } else if (!isAllLocationSourceEnabled(c)) {
+            DialogUtils.showLocationDialog(c, true);
+        } else if (isMockLocationEnabled(c)) {
+            DialogUtils.showMockLocationDialog(c, true);
+        }
+        return result;
+    }
+
+    public static boolean isAllFilesSend(String currentEmail) {
+        boolean result = true;
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        String lastEmail = preferencesManager.getLastEmail();
+        if (!lastEmail.equals(currentEmail)) {
+            int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
+            result = notUploadedFileCount == 0;
+        }
+        return result;
     }
 }

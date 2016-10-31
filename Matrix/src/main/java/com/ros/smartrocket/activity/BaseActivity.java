@@ -8,9 +8,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.ros.smartrocket.R;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
@@ -21,7 +21,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends AppCompatActivity {
 
     public static final String KEY_SAVED_ACTIVITY_INTENT = "KEY_SAVED_ACTIVITY_INTENT";
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
