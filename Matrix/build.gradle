@@ -120,7 +120,7 @@ android {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
             buildConfigField "String", "BAIDU_API_KEY", "\"n0GLOKAhMcokvNddHSdFnqPh\""
-            manifestPlaceholders = [googleApiKey: "AIzaSyCa3oQmkhRILdohnPr4ncgq4yQbtKquRf4",
+            manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
                                     baiduApiKey : "n0GLOKAhMcokvNddHSdFnqPh",
                                     jPushAppKey : "1afdb8b1c523982b249eae94"]
             signingConfig signingConfigs.debug
