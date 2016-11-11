@@ -7,11 +7,22 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.helpshift.Core;
 import com.helpshift.support.Support;
@@ -42,11 +53,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
-
-    private static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE"};
-    private static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW", "fr"};
-    private static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）", "Français"};
     private static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
     private static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
     private static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
@@ -163,16 +169,16 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void setLanguageSpinner() {
         String currentLanguageCode = preferencesManager.getLanguageCode();
         if (TextUtils.isEmpty(currentLanguageCode)) {
-            currentLanguageCode = DEFAULT_LANG;
+            currentLanguageCode = UIUtils.DEFAULT_LANG;
         }
 
-        ArrayAdapter languageAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.list_item_single_line_spinner, R.id.name, VISIBLE_LANGUAGE);
+        ArrayAdapter languageAdapter = new ArrayAdapter(getActivity(),
+                R.layout.list_item_single_line_spinner, R.id.name, UIUtils.VISIBLE_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
         int selectedItemPosition = 0;
-        for (int i = 0; i < VISIBLE_LANGS_CODE.length; i++) {
-            if (VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
+        for (int i = 0; i < UIUtils.VISIBLE_LANGS_CODE.length; i++) {
+            if (UIUtils.VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
                 selectedItemPosition = i;
                 break;
             }
@@ -311,11 +317,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.languageSpinner:
-                String selectedLanguageCode = VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
-                boolean languageChanged = !preferencesManager.getLanguageCode().equals(selectedLanguageCode);
-
-                preferencesManager.setLanguageCode(selectedLanguageCode);
-                setDefaultLanguage(getActivity(), preferencesManager.getLanguageCode());
+                String selectedLanguageCode = UIUtils.VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
+                boolean languageChanged = UIUtils.setDefaultLanguage(getActivity(), selectedLanguageCode);
 
                 if (languageChanged) {
                     UIUtils.showSimpleToast(getActivity(), R.string.success);
@@ -344,53 +347,13 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    public static String getLanguageCodeFromSupported() {
-        for (int i = 0; i < SUPPORTED_LANGS_CODE.length; i++) {
-            if (DEFAULT_LANG.equals(SUPPORTED_LANGS_CODE[i])) {
-                return DEFAULT_LANG;
-            }
-        }
-        return "en";
-    }
-
-    public static void setCurrentLanguage() {
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
-        if (!TextUtils.isEmpty(preferencesManager.getLanguageCode())) {
-            setDefaultLanguage(App.getInstance(), preferencesManager.getLanguageCode());
-        } else {
-            String supportedLanguage = getLanguageCodeFromSupported();
-            preferencesManager.setLanguageCode(supportedLanguage);
-            setDefaultLanguage(App.getInstance(), supportedLanguage);
-        }
-    }
-
-    public static void setDefaultLanguage(Context context, String languageCode) {
-        Configuration config = context.getResources().getConfiguration();
-        if ("zh_CN".equals(languageCode) || "en_SG".equals(languageCode)) {
-            config.locale = Locale.SIMPLIFIED_CHINESE;
-            Support.setSDKLanguage("zh_CN");
-        } else if ("zh".equals(languageCode) || "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode)) {
-            config.locale = Locale.TRADITIONAL_CHINESE;
-            Support.setSDKLanguage("zh_TW");
-        } else if ("fr".equals(languageCode) || "fr_BE".equals(languageCode) || "fr_FR".equals(languageCode) || "fr_CA".equals(languageCode) || "fr_CH".equals(languageCode)) {
-            config.locale = Locale.FRENCH;
-            Support.setSDKLanguage("fr");
-        } else {
-            config.locale = new Locale(languageCode);
-            Support.setSDKLanguage("en");
-        }
-
-        context.getApplicationContext().getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
 
         inflater.inflate(R.menu.menu_settings, menu);
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);

@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.utils.L;

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;

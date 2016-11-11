@@ -4,10 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.*;
+import android.support.v7.app.AppCompatActivity;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -45,7 +55,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -58,7 +68,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
         loginEditText = (EditText) view.findViewById(R.id.loginEditText);
         userIdEditText = (EditText) view.findViewById(R.id.userIdEditText);
 
-        loginButton = (Button) view.findViewById(R.id.loginButton);
+        loginButton = (Button) view.findViewById(R.id.continue_with_email_btn);
         loginButton.setOnClickListener(this);
 
         if (App.getInstance().getMyAccount().getIsPaymentAccountExists()) {
@@ -79,7 +89,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
 
     public void initRefreshButton() {
         if (refreshButton == null) {
-            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             View view = actionBar.getCustomView();
             if (view != null) {
                 refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
@@ -132,7 +142,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.loginButton:
+            case R.id.continue_with_email_btn:
                 if (validateFields()) {
                     AliPayAccount aliPayAccount = new AliPayAccount();
                     aliPayAccount.setAccName(loginEditText.getText().toString());

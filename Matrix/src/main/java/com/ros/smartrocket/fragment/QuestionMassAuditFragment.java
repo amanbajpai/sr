@@ -4,9 +4,6 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;

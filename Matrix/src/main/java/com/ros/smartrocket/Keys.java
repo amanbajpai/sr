@@ -23,6 +23,7 @@ public interface Keys {
     String REGISTRATION_PERMISSIONS = "registration_permissions";
     String SHOULD_SHOW_MAIN_SCREEN = "should_show_main_screen";
     String APP_VERSION = "app_version";
+    String FINISH_LOGIN_ACTIVITY = "finish_login_activity";
 
     //Settings
     String LANGUAGE_CODE = "language_code";

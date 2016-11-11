@@ -11,6 +11,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
@@ -36,6 +38,7 @@ public class App extends Application {
     private String deviceType;
     private MatrixLocationManager locationManager;
     private MyAccount myAccount;
+    private Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -70,8 +73,18 @@ public class App extends Application {
         locationManager = new MatrixLocationManager(getApplicationContext());
 
         requestToCurrentLocation();
-        SettingsFragment.setCurrentLanguage();
+        UIUtils.setCurrentLanguage();
         clearMonthLimitIfNeed();
+    }
+
+
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
     }
 
     @Override
@@ -122,7 +135,7 @@ public class App extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        SettingsFragment.setCurrentLanguage();
+        UIUtils.setCurrentLanguage();
     }
 
 

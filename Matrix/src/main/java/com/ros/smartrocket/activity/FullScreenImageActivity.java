@@ -2,20 +2,20 @@ package com.ros.smartrocket.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.MenuItem;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.views.ImageEditorView;
 
 import java.io.File;
 
-public class FullScreenImageActivity extends ActionBarActivity {
+public class FullScreenImageActivity extends AppCompatActivity {
     //private static final String TAG = FullScreenImageActivity.class.getSimpleName();
     private Bitmap bitmap;
 

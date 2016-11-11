@@ -1,6 +1,5 @@
 package com.ros.smartrocket;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.activity.LaunchActivity;
@@ -13,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)

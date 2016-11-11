@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.EditText;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;

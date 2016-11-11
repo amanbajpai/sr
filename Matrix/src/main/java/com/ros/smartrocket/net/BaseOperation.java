@@ -1,6 +1,7 @@
 package com.ros.smartrocket.net;
 
 import com.ros.smartrocket.db.entity.BaseEntity;
+
 import org.apache.http.params.HttpParams;
 
 import java.io.Serializable;

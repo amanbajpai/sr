@@ -5,10 +5,12 @@ import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import butterknife.Bind;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
+
+import butterknife.Bind;
 
 public final class QuestionOpenCommentBL extends QuestionBaseBL {
     @Bind(R.id.answerEditText)

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.OnClick;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.utils.L;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 
 public final class QuestionNumberBL extends QuestionBaseBL {
     public static final String EXTRA_TEXT_VIEW_NUMBER = "com.ros.smartrocket.EXTRA_TEXT_VIEW_NUMBER";

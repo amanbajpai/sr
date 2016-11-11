@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -218,7 +218,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     @Override
     protected void answersUpdate() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
         }
     }
 

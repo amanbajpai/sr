@@ -3,19 +3,20 @@ package com.ros.smartrocket.bl.question;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.VideoView;
-import butterknife.Bind;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
+
+import butterknife.Bind;
 
 public final class QuestionInstructionBL extends QuestionBaseBL {
     @Bind(R.id.photo)
@@ -31,7 +32,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 File file = new File(question.getInstructionFileUri());
                 setImageInstructionFile(file);
             } else {
-                ((ActionBarActivity) activity).setSupportProgressBarIndeterminateVisibility(true);
+                activity.setSupportProgressBarIndeterminateVisibility(true);
 
                 ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
                         new ImageLoader.OnFileLoadCompleteListener() {
@@ -47,7 +48,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 File file = new File(question.getInstructionFileUri());
                 setVideoInstructionFile(file);
             } else {
-                ((ActionBarActivity) activity).setSupportProgressBarIndeterminateVisibility(true);
+                activity.setSupportProgressBarIndeterminateVisibility(true);
 
                 ImageLoader.getInstance().getFileByUrlAsync(question.getVideoUrl(),
                         new ImageLoader.OnFileLoadCompleteListener() {
@@ -81,7 +82,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
         });
 
         if (activity != null) {
-            ((ActionBarActivity) activity).setSupportProgressBarIndeterminateVisibility(false);
+            activity.setSupportProgressBarIndeterminateVisibility(false);
         }
     }
 
@@ -107,7 +108,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 videoView.start();
                 videoView.setBackgroundColor(Color.TRANSPARENT);
                 if (activity != null) {
-                    ((ActionBarActivity) activity).setSupportProgressBarIndeterminateVisibility(false);
+                    activity.setSupportProgressBarIndeterminateVisibility(false);
                 }
             }
         });

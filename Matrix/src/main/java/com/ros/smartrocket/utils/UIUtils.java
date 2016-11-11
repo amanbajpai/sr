@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,7 +23,6 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -30,12 +30,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
@@ -45,7 +51,11 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.images.ImageLoader;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -54,7 +64,13 @@ import java.security.cert.X509Certificate;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.Random;
+import java.util.TimeZone;
 
 /**
  * Utils class for easy work with UI Views
@@ -81,6 +97,11 @@ public class UIUtils {
     private static final int MIN_PASSWORD_LANDTH = 8;
     private static final int MAX_PASSWORD_LANDTH = 16;
     private static final Random RANDOM = new Random();
+
+    public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
+    static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK"};
+    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
+    public static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）"};
 
     /**
      * Show simple Toast message
@@ -139,7 +160,8 @@ public class UIUtils {
      * @param msg
      */
     public static void showSimpleToast(Context context, String msg) {
-        showSimpleToast(context, msg, Toast.LENGTH_LONG, Gravity.BOTTOM);;
+        showSimpleToast(context, msg, Toast.LENGTH_LONG, Gravity.BOTTOM);
+        ;
     }
 
     /**
@@ -1072,7 +1094,7 @@ public class UIUtils {
 
     public static boolean deviceIsReady(Activity c) {
         boolean result = isOnline(c) && isAllLocationSourceEnabled(c)
-                && isMockLocationEnabled(c);
+                && !isMockLocationEnabled(c);
         if (!isOnline(c)) {
             DialogUtils.showNetworkDialog(c);
         } else if (!isAllLocationSourceEnabled(c)) {
@@ -1092,5 +1114,50 @@ public class UIUtils {
             result = notUploadedFileCount == 0;
         }
         return result;
+    }
+
+    public static boolean setDefaultLanguage(Context context, String languageCode) {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        boolean languageChanged = !preferencesManager.getLanguageCode().equals(languageCode);
+        preferencesManager.setLanguageCode(languageCode);
+
+        Configuration config = context.getResources().getConfiguration();
+
+        if ("zh_CN".equals(languageCode) || "en_SG".equals(languageCode)) {
+            config.locale = Locale.SIMPLIFIED_CHINESE;
+            Support.setSDKLanguage("zh_CN");
+        } else if ("zh".equals(languageCode) || "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode)) {
+            config.locale = Locale.TRADITIONAL_CHINESE;
+            Support.setSDKLanguage("zh_TW");
+        } else {
+            config.locale = new Locale(languageCode);
+            Support.setSDKLanguage("en");
+        }
+
+        context.getApplicationContext().getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+
+        return languageChanged;
+    }
+
+    static String getLanguageCodeFromSupported() {
+        for (String lc : SUPPORTED_LANGS_CODE) {
+            if (DEFAULT_LANG.equals(lc)) {
+                return DEFAULT_LANG;
+            }
+        }
+        return "en";
+    }
+
+
+    public static void setCurrentLanguage() {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+
+        if (!TextUtils.isEmpty(preferencesManager.getLanguageCode())) {
+            UIUtils.setDefaultLanguage(App.getInstance(), preferencesManager.getLanguageCode());
+        } else {
+            String supportedLanguage = getLanguageCodeFromSupported();
+            preferencesManager.setLanguageCode(supportedLanguage);
+            UIUtils.setDefaultLanguage(App.getInstance(), supportedLanguage);
+        }
     }
 }

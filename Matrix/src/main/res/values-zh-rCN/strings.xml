@@ -195,7 +195,7 @@
     <string name="gcm_unregistered">GCM发出：设备成功取消注册！</string>
     <string name="gcm_error">GCM发出：错误 (%1$s)。</string>
     <string name="gcm_recoverable_error">GCM发出：可回复的错误 (%1$s)。</string>
-    <string name="gcm_deleted">GCM发出：伺服器删除％1$d个未看信息！</string>
+    <string name="gcm_deleted">GCM发出：伺服器删除%1$d个未看信息！</string>
     <!-- Google Map Fragment -->
     <string name="map_popup_distance">%1$s %2$s</string>
     <!-- Current Location -->

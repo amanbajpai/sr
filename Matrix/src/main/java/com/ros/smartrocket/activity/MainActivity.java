@@ -13,7 +13,6 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.fragment.AllTaskFragment;
-import com.ros.smartrocket.gcm.GcmManager;
 import com.ros.smartrocket.helpers.FragmentHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;

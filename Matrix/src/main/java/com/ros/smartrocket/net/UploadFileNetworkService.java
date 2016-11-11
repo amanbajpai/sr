@@ -2,6 +2,7 @@ package com.ros.smartrocket.net;
 
 import android.content.Intent;
 import android.net.Uri;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -9,12 +10,16 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.db.entity.BaseEntity;
+import com.ros.smartrocket.db.entity.FileToUpload;
+import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.ResponseError;
+import com.ros.smartrocket.db.entity.ServerLog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;

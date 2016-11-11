@@ -4,11 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.question.*;
+import com.ros.smartrocket.bl.question.QuestionBaseBL;
+import com.ros.smartrocket.bl.question.QuestionInstructionBL;
+import com.ros.smartrocket.bl.question.QuestionMultipleChooseBL;
+import com.ros.smartrocket.bl.question.QuestionNumberBL;
+import com.ros.smartrocket.bl.question.QuestionOpenCommentBL;
+import com.ros.smartrocket.bl.question.QuestionPhotoBL;
+import com.ros.smartrocket.bl.question.QuestionSingleChooseBL;
+import com.ros.smartrocket.bl.question.QuestionVideoBL;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
@@ -63,7 +72,7 @@ public class SubQuestionsMassAuditAdapter {
         if (bl != null) {
             bl.setAnswerPageLoadingFinishedListener(fragment);
             bl.setAnswerSelectedListener(fragment);
-            bl.initView(convertView, items[position], savedInstanceState, activity, fragment, product);
+            bl.initView(convertView, items[position], savedInstanceState, (AppCompatActivity) activity, fragment, product);
             bl.loadAnswers();
             blList.add(bl);
         }

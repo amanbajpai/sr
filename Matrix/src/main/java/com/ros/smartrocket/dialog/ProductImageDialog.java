@@ -5,16 +5,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -23,6 +21,10 @@ import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public final class ProductImageDialog extends DialogFragment {
     public static final String KEY = "com.ros.smartrocket.dialog.ProductImageDialog.KEY";
@@ -47,7 +49,7 @@ public final class ProductImageDialog extends DialogFragment {
 
         String url = getArguments().getString(KEY);
         L.v("IMAGE", url);
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 
         if (url != null) {
             if (url.startsWith("http")) {
@@ -88,7 +90,7 @@ public final class ProductImageDialog extends DialogFragment {
         });
 
         if (getActivity() != null) {
-            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
         }
     }
 

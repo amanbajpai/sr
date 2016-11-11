@@ -8,11 +8,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.*;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -245,7 +254,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
 
     public void initActionBarView() {
         if (refreshButton == null) {
-            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
             View view = actionBar.getCustomView();
             if (view != null) {
                 initRefreshButton(actionBar);

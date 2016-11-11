@@ -31,6 +31,7 @@
     <!-- Layout -->
     <dimen name="buttons_margin">10dp</dimen>
     <dimen name="mass_audit_image_size">40dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
     <!-- Options Row -->
     <dimen name="options_row_in_list_item_height">32dp</dimen>
     <dimen name="options_row_on_details_screen_height">42dp</dimen>

@@ -11,7 +11,11 @@ import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.AskIf;
+import com.ros.smartrocket.db.entity.Category;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 

@@ -1,11 +1,11 @@
 package com.ros.smartrocket;
 
 import com.ros.smartrocket.activity.LaunchActivity;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)

@@ -10,13 +10,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -24,8 +21,6 @@ import android.widget.ToggleButton;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
-import com.ros.smartrocket.db.entity.RegistrationPermissions;
-import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
@@ -37,13 +32,11 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.FontUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.views.CustomButton;
-import com.ros.smartrocket.views.CustomCheckBox;
 import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomTextView;
 
@@ -52,6 +45,7 @@ import java.io.File;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+
 
 /**
  * Activity for first Agents registration into system

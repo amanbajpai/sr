@@ -1,6 +1,7 @@
 package com.ros.smartrocket.bl.question;
 
 import android.view.View;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerCheckBoxAdapter;
 import com.ros.smartrocket.db.entity.Answer;

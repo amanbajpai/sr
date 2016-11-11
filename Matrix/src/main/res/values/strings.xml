@@ -498,6 +498,7 @@
     <string name="activity_log_title">Activity log request</string>
     <string name="activity_log_description">A file containing a log of your SmartRocket Account Activity has been sent to:</string>
     <string name="do_not_show_message">Do not show this message again</string>
+
     <string name="dialog_update_app_title">Update app</string>
     <string name="dialog_update_app_text">You are using an old version (%1$s) of the app. You will not be able to claim missions until you update to the latest version (%2$s). Update now?</string>
     <string name="tut_title_1">SmartRocket.</string>
@@ -510,5 +511,16 @@
     <string name="tut_text4">Earn real cash instantly.</string>
     <string name="tut_title_5">Join our Crew.</string>
     <string name="tut_text5">Join now and start earning today!</string>
-    <string name="already_member">YOU ARE ALREADY A MEMBER OF OUR CREW!</string>
+    <string name="fb_login_protocol_scheme">fb360659224276381</string>
+    <string name="or">OR</string>
+    <string name="continue_with_fb">CONTINUE WITH FACEBOOK</string>
+    <string name="continue_with_google">CONTINUE WITH GOOGLE</string>
+    <string name="continue_email_btn">CONTINUE WITH EMAIL</string>
+
+    <string name="already_member">LOOKS LIKE YOU\'RE ALREADY \nA MEMBER OF OUR CREW!</string>
+    <string name="password_label">Enter your password</string>
+
+    <string name="english">English</string>
+    <string name="chinese_simple">中文（简体）</string>
+    <string name="chinese_traditional">中文（繁體）</string>
 </resources>

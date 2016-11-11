@@ -9,9 +9,6 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
@@ -20,6 +17,9 @@ import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 import static com.ros.smartrocket.utils.UIUtils.getBalanceOrPrice;
 

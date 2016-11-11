@@ -7,10 +7,8 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
@@ -52,7 +50,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
@@ -78,7 +75,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        EasyTracker.getInstance(this).activityStop(this);
         super.onStop();
     }
 

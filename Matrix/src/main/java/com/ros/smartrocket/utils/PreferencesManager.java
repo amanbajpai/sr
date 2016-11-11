@@ -13,9 +13,9 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.AppVersion;
+import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
-import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.fragment.TasksMapFragment;
 
 /**

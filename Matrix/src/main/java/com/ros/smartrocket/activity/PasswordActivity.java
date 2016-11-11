@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,11 +30,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PasswordActivity extends BaseActivity implements NetworkOperationListenerInterface {
+    public static String EMAIL = "email";
     @Bind(R.id.passwordEditText)
     CustomEditTextView passwordEditText;
     @Bind(R.id.rememberMeCheckBox)
     CustomCheckBox rememberMeCheckBox;
-    @Bind(R.id.loginButton)
+    @Bind(R.id.continue_with_email_btn)
     CustomButton loginButton;
     @Bind(R.id.forgotPasswordButton)
     CustomTextView forgotPasswordButton;
@@ -46,10 +48,18 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_password);
         ButterKnife.bind(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
+        if (getIntent().getExtras() != null) {
+            email = getIntent().getExtras().getString(EMAIL);
+        }
         String lastPassword = preferencesManager.getLastPassword();
+        if (!TextUtils.isEmpty(lastPassword)) {
+            passwordEditText.setText(lastPassword);
+            rememberMeCheckBox.setChecked(true);
+        }
     }
 
     @Override
@@ -82,9 +92,10 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
                 }
                 dismissProgressDialog();
                 finish();
-//                if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
-//                    startActivity(new Intent(this, MainActivity.class));
-//                }
+                sendBroadcast(new Intent().setAction(Keys.FINISH_LOGIN_ACTIVITY));
+                if (!getIntent().getBooleanExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                    startActivity(new Intent(this, MainActivity.class));
+                }
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
@@ -115,10 +126,10 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
         }
     }
 
-    @OnClick({R.id.loginButton, R.id.forgotPasswordButton})
+    @OnClick({R.id.continue_with_email_btn, R.id.forgotPasswordButton})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.loginButton:
+            case R.id.continue_with_email_btn:
                 login();
                 break;
             case R.id.forgotPasswordButton:
@@ -128,7 +139,6 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     }
 
     private void login() {
-        // TODO get email
         String password = passwordEditText.getText().toString().trim();
         if (!TextUtils.isEmpty(password)) {
             if (UIUtils.deviceIsReady(this)) {
@@ -144,5 +154,17 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
         } else {
             UIUtils.showSimpleToast(this, R.string.fill_in_field);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

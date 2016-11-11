@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.database.Cursor;
+
 import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
 import com.ros.smartrocket.utils.L;
 

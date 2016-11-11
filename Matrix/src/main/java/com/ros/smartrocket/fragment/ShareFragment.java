@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
+import com.google.android.gms.analytics.HitBuilders;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -47,7 +47,6 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
     private String subject;
     private String text;
     private Sharing sharing;
-    private EasyTracker easyTracker;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         view = (ViewGroup) localInflater.inflate(R.layout.fragment_share_and_refer, null);
-        easyTracker = EasyTracker.getInstance(getActivity());
 
         shortUrl = Config.SHARE_URL;
         subject = getString(R.string.app_name);
@@ -197,7 +195,10 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
 
         if (preferencesManager.getUseSocialSharing() && intent != null) {
             if (IntentUtils.isIntentAvailable(getActivity(), intent)) {
-                easyTracker.send(MapBuilder.createEvent(TAG, "Share", shareType, null).build());
+                App.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("Share")
+                        .setAction(shareType)
+                        .build());
                 getActivity().startActivity(intent);
             } else {
                 getActivity().startActivity(IntentUtils.getGooglePlayIntent(intent.getPackage()));
@@ -212,7 +213,7 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);

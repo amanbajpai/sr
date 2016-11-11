@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.*;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,7 +26,6 @@ import com.ros.smartrocket.adapter.MyTaskAdapter;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -195,7 +198,7 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
 
     public void initActionBarView() {
         if (refreshButton == null) {
-            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             View view = actionBar.getCustomView();
             if (view != null) {
                 initRefreshButton(actionBar);

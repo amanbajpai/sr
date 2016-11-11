@@ -1,13 +1,22 @@
 package com.ros.smartrocket.fragment;
 
-import android.content.*;
+import android.content.AsyncQueryHandler;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -17,7 +26,10 @@ import android.widget.Toast;
 import com.helpshift.Core;
 import com.helpshift.campaigns.Campaigns;
 import com.helpshift.support.Support;
-import com.ros.smartrocket.*;
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.Config;
+import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.bl.NotificationBL;
@@ -35,16 +47,20 @@ import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
-
-import de.greenrobot.event.EventBus;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.greenrobot.event.EventBus;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
         ShowProgressDialogInterface {

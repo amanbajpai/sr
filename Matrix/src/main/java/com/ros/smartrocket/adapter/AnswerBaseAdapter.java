@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
+
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 

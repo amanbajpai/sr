@@ -8,8 +8,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.*;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.db.NotificationDbSchema;

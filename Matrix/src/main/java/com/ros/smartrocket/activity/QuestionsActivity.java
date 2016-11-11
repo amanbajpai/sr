@@ -27,7 +27,6 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;

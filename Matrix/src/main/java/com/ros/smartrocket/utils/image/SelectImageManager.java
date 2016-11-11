@@ -21,10 +21,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.eventbus.PhotoEvent;
-import com.ros.smartrocket.utils.*;
-import de.greenrobot.event.EventBus;
+import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.StorageManager;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedOutputStream;
@@ -36,6 +41,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Random;
+
+import de.greenrobot.event.EventBus;
 
 import static com.ros.smartrocket.utils.image.RequestCodeImageHelper.getLittlePart;
 import static com.squareup.picasso.Picasso.with;

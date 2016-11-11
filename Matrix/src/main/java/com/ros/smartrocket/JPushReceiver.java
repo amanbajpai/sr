@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import cn.jpush.android.api.JPushInterface;
-
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class JPushReceiver extends BroadcastReceiver {
     private static final String TAG = JPushReceiver.class.getSimpleName();

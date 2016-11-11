@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
 import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 

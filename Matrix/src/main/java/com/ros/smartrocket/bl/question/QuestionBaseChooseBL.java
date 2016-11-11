@@ -4,11 +4,13 @@ import android.database.DataSetObserver;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.Bind;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.AnswerBaseAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
+
+import butterknife.Bind;
 
 public class QuestionBaseChooseBL extends QuestionBaseBL {
     protected AnswerBaseAdapter adapter;

@@ -8,12 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.SubQuestionsMassAuditAdapter;
@@ -24,11 +19,14 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.utils.UIUtils;
 
-import de.greenrobot.event.EventBus;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Subquestions fragment
@@ -176,7 +174,7 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     @Override
     public void onStop() {
         adapter.onStop();
-        super.onStart();
+        super.onStop();
     }
 
     @Override

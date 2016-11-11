@@ -6,7 +6,7 @@ import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +19,10 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.SelectVideoManager;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
 
@@ -90,7 +93,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     @Override
     protected void answersUpdate() {
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+        ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override
@@ -237,7 +240,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             .GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
-                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
                         }
 
                         @Override
@@ -251,7 +254,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             }
 
                             confirmButtonPressAction(location);
-                            ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
                         }
 
                         @Override

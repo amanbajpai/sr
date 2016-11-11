@@ -7,13 +7,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-
-import butterknife.ButterKnife;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -24,13 +23,15 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
+import butterknife.ButterKnife;
+
 public class QuestionBaseBL {
     protected OnAnswerSelectedListener answerSelectedListener;
     protected OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     protected AsyncQueryHandler handler;
     protected Question question;
     protected Bundle savedInstanceState;
-    protected FragmentActivity activity;
+    protected AppCompatActivity activity;
     protected Fragment fragment;
     protected View view;
     protected Product product;
@@ -39,7 +40,7 @@ public class QuestionBaseBL {
     TextView presetValidationComment;
     TextView validationComment;
 
-    public final void initView(View view, Question question, Bundle savedInstanceState, FragmentActivity activity,
+    public final void initView(View view, Question question, Bundle savedInstanceState, AppCompatActivity activity,
                                Fragment fragment, Product product) {
         ButterKnife.bind(this, view);
         this.savedInstanceState = savedInstanceState;
@@ -148,7 +149,7 @@ public class QuestionBaseBL {
         return activity;
     }
 
-    public void setActivity(FragmentActivity activity) {
+    public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
     }
 

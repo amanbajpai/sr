@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -17,9 +18,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.model.LatLng;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -37,13 +38,12 @@ import java.util.Locale;
 import java.util.Queue;
 
 public final class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
-        android.location.LocationListener, GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener, BDLocationListener {
+        android.location.LocationListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, BDLocationListener {
 
     private static final String TAG = MatrixLocationManager.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private Context context;
-    private LocationClient locationClient;
     private com.baidu.location.LocationClient baiduLocationClient;
     private boolean isConnected;
     private Location lastLocation;
@@ -56,6 +56,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     private com.google.android.gms.maps.model.LatLng lastGooglePosition;
     private LatLng lastBaiduPosition;
     private float zoomLevel;
+    private GoogleApiClient mGoogleApiClient;
 
 
     /**
@@ -79,22 +80,15 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     }
 
     private void startGoogleLocationClient() {
-        if (locationClient == null || (!locationClient.isConnecting() && !locationClient.isConnected())) {
-            L.d(TAG, "startGoogleLocationClient");
-
-            // Create the LocationRequest object
-            locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-            locationRequest.setInterval(Keys.UPDATE_INTERVAL);
-            locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
-
-            /*
-             * Create a new location client, using the enclosing class to
-             * handle callbacks.
-             */
-            locationClient = new LocationClient(context, this, this);
+        if (mGoogleApiClient == null || (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected())) {
+            L.e(TAG, "startGoogleLocationClient");
+            mGoogleApiClient = new GoogleApiClient.Builder(context)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
             // Connect the client.
-            locationClient.connect();
+            mGoogleApiClient.connect();
 
         }
     }
@@ -136,9 +130,21 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         L.i(TAG, "onConnected() [bundle = " + bundle + "]");
         isConnected = true;
 
+        // Create the LocationRequest object
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(Keys.UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
+
+            /*
+             * Create a new location client, using the enclosing class to
+             * handle callbacks.
+             */
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, locationRequest, this);
+
         try {
-            this.lastLocation = locationClient.getLastLocation();
-            locationClient.requestLocationUpdates(locationRequest, this);
+            this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         } catch (Exception e) {
             L.e(TAG, "onConnected. locationClient error" + e.getMessage(), e);
         }
@@ -146,22 +152,9 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     }
 
     @Override
-    public void onDisconnected() {
-        L.i(TAG, "onDisconnected()");
-        if (isConnected) {
-            isConnected = false;
-            try {
-                locationClient.removeLocationUpdates(this);
-            } catch (Exception e) {
-                L.e(TAG, "RemoveLocationUpdates error" + e.getMessage(), e);
-            }
-        }
-    }
+    public void onConnectionSuspended(int i) {
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
-
 
     /**
      * NOT GOOGLE location listeners
@@ -231,8 +224,8 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
      */
     public Location getLocation() {
         if (!Config.USE_BAIDU) {
-            if (locationClient != null && locationClient.isConnected()) {
-                this.lastLocation = locationClient.getLastLocation();
+            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             }
             ChinaTransformLocation.transformFromWorldToChinaLocation(lastLocation);
 
@@ -249,7 +242,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
             if (preferencesManager.getUseLocationServices() && lastLocation.getTime()
                     < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2
-                    && ((!Config.USE_BAIDU && (locationClient == null || !locationClient.isConnected()))
+                    && ((!Config.USE_BAIDU && (mGoogleApiClient == null || !mGoogleApiClient.isConnected()))
                     || (Config.USE_BAIDU && (baiduLocationClient == null || !baiduLocationClient.isStarted())))) {
                 lastLocation = null;
                 startLocationClient();
@@ -312,6 +305,10 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
     public boolean isConnected() {
         return isConnected;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
     /**
@@ -413,10 +410,12 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
                     currentLocationListener.getLocationSuccess(location);
                 }
             });
+            L.i(TAG, "onDisconnected()");
             if (lm.isConnected()) {
                 if (!Config.USE_BAIDU) {
-                    if (lm.locationClient.isConnected()) {
-                        lm.locationClient.requestLocationUpdates(lm.locationRequest, lm);
+                    if (lm.mGoogleApiClient.isConnected()) {
+                        LocationServices.FusedLocationApi.requestLocationUpdates(
+                                lm.mGoogleApiClient, lm.locationRequest, lm);
                     } else {
                         lm.startGoogleLocationClient();
                     }
@@ -489,8 +488,8 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
     public void disconnect() {
         if (!Config.USE_BAIDU) {
-            if (locationClient != null) {
-                locationClient.disconnect();
+            if (mGoogleApiClient != null) {
+                mGoogleApiClient.disconnect();
             }
         } else {
             if (isConnected) {
@@ -556,7 +555,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         this.zoomLevel = zoomLevel;
     }
 
-    public boolean isLastLocationSaved(){
-        return lastBaiduPosition!=null || lastGooglePosition!=null;
+    public boolean isLastLocationSaved() {
+        return lastBaiduPosition != null || lastGooglePosition != null;
     }
 }

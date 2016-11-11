@@ -5,6 +5,7 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.view.View;
+
 import com.google.android.gms.maps.model.Marker;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;

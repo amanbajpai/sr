@@ -1,7 +1,12 @@
 package com.ros.smartrocket.net;
 
 import android.app.Service;
-import android.content.*;
+import android.content.AsyncQueryHandler;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
@@ -19,7 +24,11 @@ import com.ros.smartrocket.bl.WaitingUploadTaskBL;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
-import com.ros.smartrocket.db.entity.*;
+import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.SendTaskId;
+import com.ros.smartrocket.db.entity.ServerLog;
+import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -29,7 +38,11 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.greenrobot.event.EventBus;
 
