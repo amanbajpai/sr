@@ -28,7 +28,7 @@ public class BaseActivity extends ActionBarActivity {
     private BroadcastReceiver receiver;
     private IntentFilter filter;
     private List<NetworkOperationListenerInterface> networkOperationListeners =
-            new ArrayList<NetworkOperationListenerInterface>();
+            new ArrayList<>();
     private boolean checkDeviceSettingsByOnResume = true;
 
     public BaseActivity() {
