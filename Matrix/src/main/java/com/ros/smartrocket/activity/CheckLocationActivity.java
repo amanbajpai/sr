@@ -89,7 +89,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                                     startActivity(intent);
                                 }
                             }
-                    );
+                            , true);
                 }
                 break;
             default:

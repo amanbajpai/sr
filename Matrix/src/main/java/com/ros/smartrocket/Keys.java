@@ -20,6 +20,8 @@ public interface Keys {
     String VIDEO_FILE_PATH = "video_file_path";
     String ROTATE_BY_EXIF = "rotate_by_exif";
     String FINISH_MAIN_ACTIVITY = "finish_main_activity";
+    String UPLOAD_FILES_PROGRESS = "upload_files_progress";
+    String REGISTRATION_PERMISSIONS = "registration_permissions";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
@@ -108,7 +110,6 @@ public interface Keys {
     String RIGHT_BUTTON_RES_ID = "right_button_res_id";
     String SHOW_LEFT_BUTTON = "show_left_button";
     String SHOW_PUSH_NOTIF_STAR = "show_push_notif_star";
-    String UPLOAD_FILES_PROGRESS = "upload_files_progress";
 
     /**
      * All possible view modes on map

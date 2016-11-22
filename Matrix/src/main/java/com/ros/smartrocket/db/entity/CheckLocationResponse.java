@@ -17,6 +17,9 @@ public class CheckLocationResponse extends BaseEntity {
     private String countryName;
     @SerializedName("CityName")
     private String cityName;
+    @SerializedName("RegistrationTypes")
+    private int[] registrationTypes;
+
 
     public Boolean getStatus() {
         return status;
@@ -67,4 +70,15 @@ public class CheckLocationResponse extends BaseEntity {
         this.cityName = cityName;
     }
 
+    public int[] getRegistrationTypes() {
+        return registrationTypes;
+    }
+
+    public void setRegistrationTypes(int[] registrationTypes) {
+        this.registrationTypes = registrationTypes;
+    }
+
+    public RegistrationPermissions getRegistrationPermissions() {
+        return registrationTypes != null ? new RegistrationPermissions(registrationTypes) : null;
+    }
 }
