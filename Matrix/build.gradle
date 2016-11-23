@@ -1,6 +1,9 @@
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url 'https://maven.fabric.io/public' }
+        jcenter()
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
@@ -11,9 +14,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url 'https://maven.fabric.io/public' }
+
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
@@ -223,9 +224,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'commons-io:commons-io:2.4'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
-        transitive = true;
-    }
     compile fileTree(excludes: ['baidumapapi_base_v3_7_1.jar', 'baidumapapi_map_v3_7_1.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
     chinaProductionCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaDevCompile fileTree(include: '*.jar', dir: '../libsChina')
