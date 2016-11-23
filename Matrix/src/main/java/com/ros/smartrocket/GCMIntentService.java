@@ -37,7 +37,8 @@ public class GCMIntentService extends GCMBaseIntentService {
         if (!Config.USE_BAIDU) {
             L.d(TAG, "Send registered to server: regId = " + registrationId);
             APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
-            Core.registerDeviceToken(App.getInstance(), registrationId);
+            //TODO uncomment after update of GCM
+            // Core.registerDeviceToken(App.getInstance(), registrationId);
             PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
         }
     }
