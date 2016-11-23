@@ -84,7 +84,8 @@ public final class CommonUtilities {
                     if(!Config.USE_BAIDU) {
                         L.d(TAG, "Send registered to server: regId = " + registrationId);
                         APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
-                        Core.registerDeviceToken(App.getInstance(), registrationId);
+                        //TODO uncomment after new GCM implementation
+                        //Core.registerDeviceToken(App.getInstance(), registrationId);
                         PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
                     }
 
