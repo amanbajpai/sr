@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.crashlytics.android.Crashlytics;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import cn.jpush.android.api.InstrumentedActivity;
-import io.fabric.sdk.android.Fabric;
 
 public class LaunchActivity extends InstrumentedActivity {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
