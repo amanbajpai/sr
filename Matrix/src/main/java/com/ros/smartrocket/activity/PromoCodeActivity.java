@@ -6,8 +6,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 /* This activity asks for a promo code to a user and redirect him to ReferralCodeActivity.
@@ -16,6 +19,7 @@ import com.ros.smartrocket.utils.UIUtils;
 public class PromoCodeActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText promoCodeEdit;
+    private RegistrationPermissions registrationPermissions;
 
     public PromoCodeActivity() {
     }
@@ -25,6 +29,7 @@ public class PromoCodeActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_promo_code);
+        registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
@@ -48,7 +53,12 @@ public class PromoCodeActivity extends BaseActivity implements View.OnClickListe
     }
 
     public void startReferralCasesActivity() {
-        Intent intent = new Intent(this, ReferralCasesActivity.class);
+        Intent intent;
+        if (registrationPermissions != null && registrationPermissions.isReferralEnable()) {
+            intent = new Intent(this, ReferralCasesActivity.class);
+        } else {
+            intent = new Intent(this, RegistrationActivity.class);
+        }
 
         if (getIntent().getExtras() != null) {
             intent.putExtras(getIntent().getExtras());

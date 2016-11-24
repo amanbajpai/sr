@@ -47,6 +47,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private RegistrationPermissions registrationPermissions;
     private CheckLocationDialog checkLocationDialog;
     private CheckLocationResponse checkLocationResponse;
+    double latitude;
+    double longitude;
 
     public LoginActivity() {
     }
@@ -221,7 +223,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
-        if (deviceIsReady()) {
+        if (deviceIsReady() && checkLocationDialog == null) {
             getLocation();
         }
     }
@@ -239,7 +241,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     public void onLocationChecked(Dialog dialog, String countryName, String cityName,
                                                   double latitude, double longitude,
                                                   CheckLocationResponse serverResponse) {
-                        LoginActivity.this.onLocationChecked(serverResponse);
+                        LoginActivity.this.onLocationChecked(serverResponse, latitude, longitude);
                         // TODO location success
                     }
 
@@ -247,26 +249,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     public void onCheckLocationFailed(Dialog dialog, String countryName, String cityName,
                                                       double latitude, double longitude,
                                                       CheckLocationResponse serverResponse) {
-                        LoginActivity.this.onLocationChecked(serverResponse);
+                        LoginActivity.this.onLocationChecked(serverResponse, latitude, longitude);
                         // TODO location failed
                     }
                 }
-                , false);
+                , true);
     }
 
-    private void onLocationChecked(CheckLocationResponse serverResponse) {
-        checkLocationResponse = serverResponse;
-        registrationPermissions = checkLocationResponse.getRegistrationPermissions();
-        PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
+    private void onLocationChecked(CheckLocationResponse serverResponse, double latitude, double longitude) {
+        if (serverResponse != null) {
+            checkLocationResponse = serverResponse;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            registrationPermissions = checkLocationResponse.getRegistrationPermissions();
+            PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
+        }
         registerButton.setEnabled(true);
     }
 
     private void startRegistrationFlow() {
         if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
-            Intent intent = new Intent(this, PromoCodeActivity.class);
-            intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
+            Intent intent;
+            if (registrationPermissions.isSrCodeEnable()) {
+                intent = new Intent(this, PromoCodeActivity.class);
+            } else if (registrationPermissions.isReferralEnable()) {
+                intent = new Intent(this, ReferralCasesActivity.class);
+            } else {
+                intent = new Intent(this, RegistrationActivity.class);
+            }
             intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
             intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
+            intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
+            intent.putExtra(Keys.COUNTRY_NAME, checkLocationResponse.getCountryName());
+            intent.putExtra(Keys.CITY_NAME, checkLocationResponse.getCityName());
+            intent.putExtra(Keys.LATITUDE, latitude);
+            intent.putExtra(Keys.LONGITUDE, longitude);
             startActivity(intent);
         } else {
             startActivity(new Intent(this, CheckLocationActivity.class));

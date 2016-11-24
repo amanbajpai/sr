@@ -10,27 +10,51 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.eventbus.AvatarEvent;
-import com.ros.smartrocket.eventbus.PhotoEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
-import com.ros.smartrocket.utils.*;
+import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.FontUtils;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
+import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
-
-import de.greenrobot.event.EventBus;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomCheckBox;
+import com.ros.smartrocket.views.CustomEditTextView;
+import com.ros.smartrocket.views.CustomTextView;
 
 import java.io.File;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Activity for first Agents registration into system
@@ -41,17 +65,48 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     private static final int[] EDUCATION_LEVEL_CODE = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     private static final int[] EMPLOYMENT_STATUS_CODE = new int[]{0, 1, 2, 3, 4, 5, 6};
+    @Bind(R.id.profilePhotoImageView)
+    ImageView profilePhotoImageView;
+    @Bind(R.id.firstNameEditText)
+    CustomEditTextView firstNameEditText;
+    @Bind(R.id.lastNameEditText)
+    CustomEditTextView lastNameEditText;
+    @Bind(R.id.maleRadioButton)
+    RadioButton maleRadioButton;
+    @Bind(R.id.femaleRadioButton)
+    RadioButton femaleRadioButton;
+    @Bind(R.id.genderRadioGroup)
+    RadioGroup genderRadioGroup;
+    @Bind(R.id.birthdayEditText)
+    CustomEditTextView birthdayEditText;
+    @Bind(R.id.emailEditText)
+    CustomEditTextView emailEditText;
+    @Bind(R.id.emailValidationText)
+    CustomTextView emailValidationText;
+    @Bind(R.id.passwordEditText)
+    CustomEditTextView passwordEditText;
+    @Bind(R.id.passwordValidationText)
+    CustomTextView passwordValidationText;
+    @Bind(R.id.showPasswordToggleButton)
+    ToggleButton showPasswordToggleButton;
+    @Bind(R.id.countryEditText)
+    CustomEditTextView countryEditText;
+    @Bind(R.id.cityEditText)
+    CustomEditTextView cityEditText;
+    @Bind(R.id.educationLevelSpinner)
+    Spinner educationLevelSpinner;
+    @Bind(R.id.employmentStatusSpinner)
+    Spinner employmentStatusSpinner;
+    @Bind(R.id.agreeCheckBox)
+    CustomCheckBox agreeCheckBox;
+    @Bind(R.id.termsAndConditionsButton)
+    CustomTextView termsAndConditionsButton;
+    @Bind(R.id.confirmButton)
+    CustomButton confirmButton;
+    @Bind(R.id.cancelButton)
+    CustomButton cancelButton;
 
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ImageView profilePhotoImageView;
-    private EditText firstNameEditText;
-    private EditText lastNameEditText;
-    private EditText passwordEditText;
-    private EditText birthdayEditText;
-    private EditText emailEditText;
-    private TextView emailValidationText;
-    private TextView passwordValidationText;
-    private CheckBox agreeCheckBox;
     private Long selectedBirthDay = null;
     private int referralCasesId;
     private int districtId;
@@ -60,19 +115,15 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private String countryName;
     private String cityName;
     private String groupCode = "";
-    private RadioGroup genderRadioGroup;
-    private RadioButton maleRadioButton;
-    private RadioButton femaleRadioButton;
     private Double latitude;
     private Double longitude;
-    private Spinner educationLevelSpinner;
-    private Spinner employmentStatusSpinner;
     private Bitmap photoBitmap;
     private CustomProgressDialog progressDialog;
     private int currentTermsAndConditionsVersion = 1;
     private String promoCode;
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
+    private RegistrationPermissions registrationPermissions;
 
     public RegistrationActivity() {
     }
@@ -82,7 +133,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_registration);
+        ButterKnife.bind(this);
         avatarImageManager = new AvatarImageManager();
+        registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
         if (getIntent() != null) {
             districtId = getIntent().getIntExtra(Keys.DISTRICT_ID, 0);
             countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
@@ -104,28 +157,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 getString(R.string.employed_part_time), getString(R.string.employed_full_time),
                 getString(R.string.not_employed_looking_for_work),
                 getString(R.string.not_employed_not_looking_for_work), getString(R.string.retired)};
-
-        profilePhotoImageView = (ImageView) findViewById(R.id.profilePhotoImageView);
         profilePhotoImageView.setOnClickListener(this);
-
-        firstNameEditText = (EditText) findViewById(R.id.firstNameEditText);
-        lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-
-        genderRadioGroup = (RadioGroup) findViewById(R.id.genderRadioGroup);
-        maleRadioButton = (RadioButton) findViewById(R.id.maleRadioButton);
-        femaleRadioButton = (RadioButton) findViewById(R.id.femaleRadioButton);
         maleRadioButton.setOnClickListener(this);
         femaleRadioButton.setOnClickListener(this);
-
-        emailValidationText = (TextView) findViewById(R.id.emailValidationText);
-        passwordValidationText = (TextView) findViewById(R.id.passwordValidationText);
-
-        birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);
         birthdayEditText.setOnClickListener(this);
-
-        ((ToggleButton) findViewById(R.id.showPasswordToggleButton)).setOnCheckedChangeListener(this);
+        showPasswordToggleButton.setOnCheckedChangeListener(this);
 
         educationLevelSpinner = (Spinner) findViewById(R.id.educationLevelSpinner);
         ArrayAdapter educationLevelAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner, R.id.name,
@@ -137,14 +173,16 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 employmentStatus);
         employmentStatusSpinner.setAdapter(employmentStatusAdapter);
 
-        agreeCheckBox = (CheckBox) findViewById(R.id.agreeCheckBox);
+        termsAndConditionsButton.setOnClickListener(this);
+        confirmButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
 
-        findViewById(R.id.termsAndConditionsButton).setOnClickListener(this);
-        findViewById(R.id.confirmButton).setOnClickListener(this);
-        findViewById(R.id.cancelButton).setOnClickListener(this);
-
-        ((EditText) findViewById(R.id.countryEditText)).setText(countryName);
-        ((EditText) findViewById(R.id.cityEditText)).setText(cityName);
+        countryEditText.setText(countryName);
+        cityEditText.setText(cityName);
+        if (!registrationPermissions.isTermsEnable()){
+            termsAndConditionsButton.setVisibility(View.GONE);
+            agreeCheckBox.setVisibility(View.GONE);
+        }
 
         checkDeviceSettingsByOnResume(false);
 

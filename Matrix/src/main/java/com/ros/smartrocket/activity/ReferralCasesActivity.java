@@ -99,7 +99,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     }
 
     public void startCheckLocationActivity(int referralCasesId) {
-        Intent intent = new Intent(this, CheckLocationActivity.class);
+        Intent intent = new Intent(this, RegistrationActivity.class);
 
         if (referralCasesId != -1) {
             intent.putExtra(Keys.REFERRAL_CASES_ID, referralCasesId);
