@@ -439,6 +439,7 @@
     <string name="enter_valid_alipay_username">Enter valid AliPay username.</string>
     <string name="enter_valid_email_phone">Enter valid email or phone number.</string>
     <string name="alipay_account_integrated_successfully">AliPay Account integrated successfully!!</string>
+    <string name="national_id_account_integrated_successfully">National ID Account integrated successfully!</string>
     <string name="fetching_alipay_account_info">Fetching AliPay Account info...</string>
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">ATTENTION!</string>
@@ -489,4 +490,8 @@
     <string name="warning_last_claim">You have now withdrawn form or expired %1$d missions this project which is the maximum number of expirires/withdrawls allowed on his project. If you expire or withdraw from one more mission on this project you will not be able to claim any further missions on this project</string>
     <string name="facebook_app_id">360659224276381</string>
     <string name="full_name">Full name</string>
+    <string name="national_id_header">IMPORTANT: Yourname must be your full/official name. Ensure all details are correct before submitting.</string>
+    <string name="national_id_number_hint">Your National ID No.</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="setup">SETUP</string>
 </resources>

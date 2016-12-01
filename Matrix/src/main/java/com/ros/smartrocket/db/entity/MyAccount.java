@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class MyAccount extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
+    public static final Integer PAY_PAL = 1;
+    public static final Integer ALI_PAY = 2;
+    public static final Integer NATIONAL_ID = 4;
 
     @SerializedName("Name")
     private String name;
@@ -39,14 +42,10 @@ public class MyAccount extends BaseEntity {
     private Integer termsAndConditionsVersion;
     @SerializedName("InPaymentProcess")
     private Double inPaymentProcess;
-    @SerializedName("AliPayAccountExists")
-    private Boolean aliPayAccountExists;
+    @SerializedName("IsPaymentAccountExists")
+    private Boolean isPaymentAccountExists;
     @SerializedName("AllowPushNotification")
     private Boolean allowPushNotification;
-    @SerializedName("FirstName")
-    private String firstName;
-    @SerializedName("LastName")
-    private String lastName;
     @SerializedName("IsUpdateNameRequired")
     private Boolean isUpdateNameRequired;
     @SerializedName("CountryName")
@@ -55,6 +54,8 @@ public class MyAccount extends BaseEntity {
     private String cityName;
     @SerializedName("Joined")
     private String joined;
+    @SerializedName("PaymentSystem")
+    private Integer paymentSystem;
 
 
     public Double getTotalEarnings() {
@@ -193,12 +194,12 @@ public class MyAccount extends BaseEntity {
         this.inPaymentProcess = inPaymentProcess;
     }
 
-    public Boolean getAliPayAccountExists() {
-        return aliPayAccountExists;
+    public Boolean getIsPaymentAccountExists() {
+        return isPaymentAccountExists;
     }
 
-    public void setAliPayAccountExists(Boolean aliPayAccountExists) {
-        this.aliPayAccountExists = aliPayAccountExists;
+    public void setIsPaymentAccountExists(Boolean isPaymentAccountExists) {
+        this.isPaymentAccountExists = isPaymentAccountExists;
     }
 
     public static long getSerialVersionUID() {
@@ -211,14 +212,6 @@ public class MyAccount extends BaseEntity {
 
     public void setAllowPushNotification(Boolean allowPushNotification) {
         this.allowPushNotification = allowPushNotification;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public Boolean getIsUpdateNameRequired() {
@@ -251,5 +244,41 @@ public class MyAccount extends BaseEntity {
 
     public void setCountryName(String countryName) {
         this.countryName = countryName;
+    }
+
+    public Integer getPaymentSystem() {
+        return paymentSystem;
+    }
+
+    public void setPaymentSystem(Integer paymentSystem) {
+        this.paymentSystem = paymentSystem;
+    }
+
+    public boolean isPayPal() {
+        return PAY_PAL.equals(paymentSystem);
+    }
+
+    public boolean isAliPay() {
+        return ALI_PAY.equals(paymentSystem);
+    }
+
+    public boolean isNationalId() {
+        return NATIONAL_ID.equals(paymentSystem);
+    }
+
+    public boolean canWithdraw() {
+        if (PAY_PAL.equals(paymentSystem)) {
+            return true;
+        } else {
+            return (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem)) && getIsPaymentAccountExists();
+        }
+    }
+
+    public boolean isPaymentSettingsEnabled() {
+        return isAliPay() || isNationalId();
+    }
+
+    public boolean isWithdrawEnabled() {
+        return balance >= minimalWithdrawAmount && !cashoutRequested;
     }
 }

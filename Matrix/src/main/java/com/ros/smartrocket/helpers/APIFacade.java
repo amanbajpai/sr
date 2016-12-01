@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -91,17 +92,6 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     */
-    public void getCurrentTermsAndConditionVersion(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_CURRENT_T_AND_C);
-        operation.setTag(Keys.GET_CURRENT_T_AND_C_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    /**
-     * @param activity - current activity
      * @param email    - current email
      * @param token    - current token
      */
@@ -152,7 +142,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity    - current activity
+     * @param activity   - current activity
      * @param updateUser - photo to upload
      */
     public void updateUser(Activity activity, UpdateUser updateUser) {
@@ -598,6 +588,34 @@ public class APIFacade {
         operation.setTag(Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(aliPayAccount);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     *
+     * @param activity - current activity
+     */
+    public void getNationalIdAccount(Activity activity) {
+        Token token = new Token();
+        token.setToken(preferencesManager.getToken());
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
+        operation.setTag(Keys.GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     *
+     * @param activity - current activity
+     * @param nationalIdAccount - account to update
+     */
+    public void integrateNationalIdAccount(Activity activity, NationalIdAccount nationalIdAccount) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
+        operation.setTag(Keys.INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(nationalIdAccount);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

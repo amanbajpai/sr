@@ -51,6 +51,7 @@ public final class WSUrl {
     public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "WithdrawMoney";
     public static final String GET_SHARING_DATA = Config.WEB_SERVICE_URL + "api/Socials/SharingData?language=%s";
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
+    public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
     public static final String SEND_ALIPAY_SMS = Config.WEB_SERVICE_URL + "api/SMS/AliPayAccountSmsCode?phoneNumber=%s";
 
 
@@ -84,8 +85,7 @@ public final class WSUrl {
     public static final int GET_NEW_TOKEN_ID = 27;
     public static final int SEND_LOG_ID = 28;
     public static final int GET_ALIPAY_ACCOUNT_ID = 29;
-    public static final int SEND_ALIPAY_SMS_ID = 30;
-    public static final int INTEGRATE_ALIPAY_ACCOUNT_ID = 31;
+    public static final int GET_NATIONAL_ID_ACCOUNT_ID = 30;
     public static final int ALLOW_PUSH_NOTIFICATION_ID = 32;
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
 

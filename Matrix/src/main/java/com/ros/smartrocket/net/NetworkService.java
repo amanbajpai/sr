@@ -26,6 +26,7 @@ import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.NationalIdAccount;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
@@ -113,7 +114,7 @@ public class NetworkService extends BaseNetworkService {
                             for (Wave tempWave : tempWaves) {
                                 Task[] tempTasks = tempWave.getTasks();
                                 for (int j = 1; j < tempTasks.length; j++) {
-                                    if ((double) tempTasks[j].getPrice() != (double) tempTasks[j - 1].getPrice()) {
+                                    if (tempTasks[j].getPrice() != tempTasks[j - 1].getPrice()) {
                                         tempWave.setContainsDifferentRate(true);
                                         break;
                                     }
@@ -252,6 +253,10 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.GET_ALIPAY_ACCOUNT_ID:
                         AliPayAccount aliPayAccount = gson.fromJson(responseString, AliPayAccount.class);
                         operation.responseEntities.add(aliPayAccount);
+                        break;
+                    case WSUrl.GET_NATIONAL_ID_ACCOUNT_ID:
+                        NationalIdAccount nationalIdAccount = gson.fromJson(responseString, NationalIdAccount.class);
+                        operation.responseEntities.add(nationalIdAccount);
                         break;
                     case WSUrl.ALLOW_PUSH_NOTIFICATION_ID:
                         AllowPushNotification allowPushNotification = gson.fromJson(responseString,
@@ -395,7 +400,7 @@ public class NetworkService extends BaseNetworkService {
     private Answer prepareAnswer(int taskId, int missionId, Question question, Answer answer,
                                  Integer productId) {
         if (question.getType() == Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()
-                && question.isRedo()){
+                && question.isRedo()) {
             answer.setChecked(false);
         }
         answer.setRandomId();

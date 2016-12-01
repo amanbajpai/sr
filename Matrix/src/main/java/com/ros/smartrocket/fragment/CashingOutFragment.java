@@ -6,12 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.*;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -23,16 +26,33 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomTextView;
 
 import java.math.BigDecimal;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
- * Share app info fragment
+ * Cash out fragment
  */
-public class CashingOutFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
-    //private static final String TAG = CashingOutFragment.class.getSimpleName();
+public class CashingOutFragment extends Fragment implements NetworkOperationListenerInterface {
+    @Bind(R.id.updatePaymentBtn)
+    CustomButton updatePaymentBtn;
+    @Bind(R.id.currentBalance)
+    CustomTextView currentBalance;
+    @Bind(R.id.cashOutButton)
+    CustomButton cashOutButton;
+    @Bind(R.id.minBalance)
+    CustomTextView minBalance;
+    @Bind(R.id.paymentInProgress)
+    CustomTextView paymentInProgress;
+    @Bind(R.id.bntDivider)
+    View bntDivider;
     private APIFacade apiFacade = APIFacade.getInstance();
-    private ViewGroup view;
+    private MyAccount myAccount;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -45,45 +65,25 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
-        view = (ViewGroup) localInflater.inflate(R.layout.fragment_cashing_out, null);
-
+        ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_cashing_out, null);
+        ButterKnife.bind(this, view);
         ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-
         apiFacade.getMyAccount(getActivity());
-
         return view;
     }
+
     public void updateData() {
-        MyAccount myAccount = App.getInstance().getMyAccount();
-
-        Button cashOutButton = (Button) view.findViewById(R.id.cashOutButton);
-        TextView currentBalance = (TextView) view.findViewById(R.id.currentBalance);
-        TextView minBalance = (TextView) view.findViewById(R.id.minBalance);
-        TextView paymentInProgress = (TextView) view.findViewById(R.id.paymentInProgress);
-
-        Button editPayment = (Button) view.findViewById(R.id.updatePaymentBtn);
-        if (BuildConfig.CHINESE) {
-            editPayment.setOnClickListener(this);
-            editPayment.setVisibility(View.VISIBLE);
+        myAccount = App.getInstance().getMyAccount();
+        if (myAccount.isPaymentSettingsEnabled()) {
+            updatePaymentBtn.setVisibility(View.VISIBLE);
         } else {
-            editPayment.setVisibility(View.GONE);
+            updatePaymentBtn.setVisibility(View.GONE);
+            bntDivider.setVisibility(View.GONE);
         }
 
-        if (BuildConfig.CHINESE) {
-            if (myAccount.getBalance() >= myAccount.getMinimalWithdrawAmount()
-                    && !myAccount.getCashoutRequested()
-                    && myAccount.getAliPayAccountExists()) {
-                cashOutButton.setEnabled(true);
-                cashOutButton.setOnClickListener(this);
-            }
-        } else {
-            if (myAccount.getBalance() >= myAccount.getMinimalWithdrawAmount()
-                    && !myAccount.getCashoutRequested()) {
-                cashOutButton.setEnabled(true);
-                cashOutButton.setOnClickListener(this);
-            }
+        if (myAccount.isWithdrawEnabled()) {
+            cashOutButton.setEnabled(true);
         }
-
 
         if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
             minBalance.setVisibility(View.VISIBLE);
@@ -108,29 +108,11 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
     public void onNetworkOperation(BaseOperation operation) {
         if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
             ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
-
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 updateData();
             } else {
                 UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
             }
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cashOutButton:
-                getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
-                break;
-            case R.id.updatePaymentBtn:
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(android.R.id.content, new UpdateAliPayDetailsFragment());
-                fragmentTransaction.addToBackStack(UpdateAliPayDetailsFragment.class.getSimpleName());
-                fragmentTransaction.commit();
-                break;
-            default:
-                break;
         }
     }
 
@@ -159,5 +141,42 @@ public class CashingOutFragment extends Fragment implements OnClickListener, Net
     public void onStop() {
         ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.updatePaymentBtn, R.id.cashOutButton})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.updatePaymentBtn:
+                startEditPaymentInfo();
+                break;
+            case R.id.cashOutButton:
+                if (myAccount.canWithdraw()) {
+                    getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
+                } else {
+                    startEditPaymentInfo();
+                }
+                break;
+        }
+    }
+
+    private void startEditPaymentInfo() {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(android.R.id.content, myAccount.isAliPay()
+                ? new UpdateAliPayDetailsFragment()
+                : new UpdateNationalPaymentFragment());
+        fragmentTransaction.addToBackStack(myAccount.isAliPay()
+                ? UpdateAliPayDetailsFragment.class.getSimpleName() :
+                UpdateNationalPaymentFragment.class.getSimpleName());
+        fragmentTransaction.commit();
+    }
+
+    @OnClick(R.id.activityBtn)
+    public void onClick() {
     }
 }
