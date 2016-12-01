@@ -25,6 +25,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -270,10 +271,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void startRegistrationFlow() {
         if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
             Intent intent;
-            if (registrationPermissions.isSrCodeEnable()) {
-                intent = new Intent(this, PromoCodeActivity.class);
+            if (registrationPermissions.isTermsEnable()) {
+                intent = new Intent(this, TermsAndConditionActivity.class);
             } else if (registrationPermissions.isReferralEnable()) {
                 intent = new Intent(this, ReferralCasesActivity.class);
+            } else if (registrationPermissions.isSrCodeEnable()) {
+                intent = new Intent(this, PromoCodeActivity.class);
             } else {
                 intent = new Intent(this, RegistrationActivity.class);
             }

@@ -19,7 +19,6 @@ import com.ros.smartrocket.utils.UIUtils;
 public class PromoCodeActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText promoCodeEdit;
-    private RegistrationPermissions registrationPermissions;
 
     public PromoCodeActivity() {
     }
@@ -29,7 +28,6 @@ public class PromoCodeActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_promo_code);
-        registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
@@ -45,21 +43,16 @@ public class PromoCodeActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.continueButton:
-                startReferralCasesActivity();
+                continueRegistrationFlow();
                 break;
             default:
                 break;
         }
     }
 
-    public void startReferralCasesActivity() {
+    public void continueRegistrationFlow() {
         Intent intent;
-        if (registrationPermissions != null && registrationPermissions.isReferralEnable()) {
-            intent = new Intent(this, ReferralCasesActivity.class);
-        } else {
-            intent = new Intent(this, RegistrationActivity.class);
-        }
-
+        intent = new Intent(this, RegistrationActivity.class);
         if (getIntent().getExtras() != null) {
             intent.putExtras(getIntent().getExtras());
         }

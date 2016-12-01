@@ -43,11 +43,10 @@ public class RegistrationFieldTextWatcher implements TextWatcher {
     public void afterTextChanged(Editable s) {
         switch (view.getId()) {
             case R.id.firstNameEditText:
-            case R.id.lastNameEditText:
             case R.id.birthdayEditText:
                 EditText editText = (EditText) view;
-                String name = editText.getText().toString().trim();
-                UIUtils.setEditTextColorByState(context, editText, !TextUtils.isEmpty(name));
+                String text = editText.getText().toString().trim();
+                UIUtils.setEditTextColorByState(context, editText, !TextUtils.isEmpty(text));
                 break;
             case R.id.emailEditText:
                 EditText emailEditText = (EditText) view;

@@ -13,10 +13,12 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ReferralCase;
 import com.ros.smartrocket.db.entity.ReferralCases;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener,
@@ -26,6 +28,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     private Spinner referralCasesSpinner;
     private Button continueButton;
     private ReferralCase[] referralCaseArray;
+    private RegistrationPermissions registrationPermissions;
 
     public ReferralCasesActivity() {
     }
@@ -35,6 +38,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_referral_cases);
+        registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
 
@@ -87,10 +91,10 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                 referralCasesSpinner.setEnabled(true);
 
             } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-                startCheckLocationActivity(getCurrentReferralCaseId());
+                continueRegistrationFlow(getCurrentReferralCaseId());
             }
         } else {
-            startCheckLocationActivity(-1);
+            continueRegistrationFlow(-1);
         }
     }
 
@@ -98,8 +102,13 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         return referralCaseArray[referralCasesSpinner.getSelectedItemPosition() - 1].getId();
     }
 
-    public void startCheckLocationActivity(int referralCasesId) {
-        Intent intent = new Intent(this, RegistrationActivity.class);
+    public void continueRegistrationFlow(int referralCasesId) {
+        Intent intent;
+        if (registrationPermissions.isSrCodeEnable()) {
+            intent = new Intent(this, PromoCodeActivity.class);
+        } else {
+            intent = new Intent(this, RegistrationActivity.class);
+        }
 
         if (referralCasesId != -1) {
             intent.putExtra(Keys.REFERRAL_CASES_ID, referralCasesId);

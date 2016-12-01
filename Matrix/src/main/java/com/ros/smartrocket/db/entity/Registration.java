@@ -9,16 +9,10 @@ public class Registration extends BaseEntity {
     private String email;
     @SerializedName("Password")
     private String password;
-    @SerializedName("FirstName")
-    private String firstName;
-    @SerializedName("LastName")
-    private String lastName;
+    @SerializedName("SingleName")
+    private String fullName;
     @SerializedName("Gender")
     private Integer gender;
-    @SerializedName("EducationLevel")
-    private Integer educationLevel;
-    @SerializedName("EmploymentStatus")
-    private Integer employmentStatus;
     @SerializedName("ReferralId")
     private Integer referralId;
     @SerializedName("Birthday")
@@ -56,22 +50,6 @@ public class Registration extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Integer getGender() {
@@ -121,23 +99,6 @@ public class Registration extends BaseEntity {
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
-
-    public Integer getEmploymentStatus() {
-        return employmentStatus;
-    }
-
-    public void setEmploymentStatus(Integer employmentStatus) {
-        this.employmentStatus = employmentStatus;
-    }
-
-    public Integer getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(Integer educationLevel) {
-        this.educationLevel = educationLevel;
-    }
-
 
     public String getGroupCode() {
         return groupCode;
@@ -191,5 +152,13 @@ public class Registration extends BaseEntity {
 
     public void setPromoCode(String promoCode) {
         this.promoCode = promoCode;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

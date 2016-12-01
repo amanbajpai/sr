@@ -13,7 +13,6 @@ public interface Keys {
     String EMAIL = "email";
     String LAST_PASSWORD = "last_password";
     String LAST_APP_VERSION = "last_app_version";
-    String T_AND_C_VERSION = "t_and_c_version";
     String ACTIVATE_ACCOUNT = "Activate";
     String FORGOT_PASS = "SetNewPassword";
     String BITMAP_FILE_PATH = "bitmap_file_path";

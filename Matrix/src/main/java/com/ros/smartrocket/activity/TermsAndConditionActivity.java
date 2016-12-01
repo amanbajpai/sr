@@ -1,17 +1,34 @@
 package com.ros.smartrocket.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
-import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.PreferencesManager;
 
-public class TermsAndConditionActivity extends BaseActivity {
+import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomCheckBox;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class TermsAndConditionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+    @Bind(R.id.webView)
+    WebView webView;
+    @Bind(R.id.acceptTC)
+    CustomCheckBox acceptTC;
+    @Bind(R.id.continueButton)
+    CustomButton continueButton;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private RegistrationPermissions registrationPermissions;
 
     public TermsAndConditionActivity() {
     }
@@ -21,7 +38,10 @@ public class TermsAndConditionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_terms_and_condition);
-
+        ButterKnife.bind(this);
+        getSupportActionBar().hide();
+        registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
+        acceptTC.setOnCheckedChangeListener(this);
         String termsUrl;
         switch (preferencesManager.getLanguageCode()) {
             case "en_SG":
@@ -37,8 +57,6 @@ public class TermsAndConditionActivity extends BaseActivity {
                 termsUrl = "http://smart-rocket.com/terms-of-service/";
                 break;
         }
-
-        WebView webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(termsUrl);
     }
 
@@ -67,5 +85,32 @@ public class TermsAndConditionActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void continueRegistrationFlow() {
+        Intent intent;
+        if (registrationPermissions.isReferralEnable()) {
+            intent = new Intent(this, ReferralCasesActivity.class);
+        } else if (registrationPermissions.isSrCodeEnable()) {
+            intent = new Intent(this, PromoCodeActivity.class);
+        } else {
+            intent = new Intent(this, RegistrationActivity.class);
+        }
+
+        if (getIntent().getExtras() != null) {
+            intent.putExtras(getIntent().getExtras());
+        }
+        startActivity(intent);
+        finish();
+    }
+
+    @OnClick(R.id.continueButton)
+    public void onClick() {
+        continueRegistrationFlow();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        continueButton.setEnabled(isChecked);
     }
 }
