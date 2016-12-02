@@ -64,7 +64,7 @@ public class IdCardActivity extends Activity {
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        agentName.setText(myAccount.getName());
+        agentName.setText(myAccount.getSingleName());
         agentId.setText(getString(R.string.id_card_agent_id, myAccount.getId()));
     }
 

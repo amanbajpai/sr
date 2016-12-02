@@ -92,7 +92,7 @@ public final class WSUrl {
     public static final HashMap<String, Integer> URLS;
 
     static {
-        URLS = new HashMap<String, Integer>();
+        URLS = new HashMap<>();
         URLS.put(LOGIN, LOGIN_ID);
         URLS.put(GET_WAVES, GET_WAVES_ID);
         URLS.put(GET_WAVE_TASKS, GET_WAVES_TASKS_ID);
@@ -124,6 +124,7 @@ public final class WSUrl {
         URLS.put(GET_ALIPAY_ACCOUNT, GET_ALIPAY_ACCOUNT_ID);
         URLS.put(ALLOW_PUSH_NOTIFICATION, ALLOW_PUSH_NOTIFICATION_ID);
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
+        URLS.put(GET_NATIONAL_ID_ACCOUNT, GET_NATIONAL_ID_ACCOUNT_ID);
     }
 
     public static int matchUrl(String url) {

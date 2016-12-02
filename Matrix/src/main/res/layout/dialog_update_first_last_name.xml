@@ -20,7 +20,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/dialog_first_name"/>
+        android:text="@string/full_name"/>
     <com.ros.smartrocket.views.CustomEditTextView
         android:id="@+id/dialogFirstNameEditText"
         style="@style/EditText"
@@ -29,26 +29,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
-        android:hint="@string/first_name"
-        android:inputType="textCapWords"/>
-    <com.ros.smartrocket.views.CustomTextView
-        style="@style/DialogText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/dialog_last_name"/>
-    <com.ros.smartrocket.views.CustomEditTextView
-        android:id="@+id/dialogLastNameEditText"
-        style="@style/EditText"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"
-        android:layout_height="48dp"
-        android:layout_width="match_parent"
-        android:hint="@string/last_name"
+        android:hint="@string/full_name"
         android:inputType="textCapWords"/>
     <View
         android:layout_width="match_parent"

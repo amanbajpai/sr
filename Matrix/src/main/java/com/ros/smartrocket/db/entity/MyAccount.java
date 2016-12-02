@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class MyAccount extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
-    public static final Integer PAY_PAL = 1;
-    public static final Integer ALI_PAY = 2;
-    public static final Integer NATIONAL_ID = 4;
+    private static final Integer PAY_PAL = 1;
+    private static final Integer ALI_PAY = 2;
+    private static final Integer NATIONAL_ID = 4;
 
-    @SerializedName("Name")
-    private String name;
+    @SerializedName("SingleName")
+    private String singleName;
     @SerializedName("PhotoUrl")
     private String photoUrl;
     @SerializedName("TotalEarnings")
@@ -90,12 +90,12 @@ public class MyAccount extends BaseEntity {
         this.toNextLevel = toNextLevel;
     }
 
-    public String getName() {
-        return name;
+    public String getSingleName() {
+        return singleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSingleName(String singleName) {
+        this.singleName = singleName;
     }
 
     public String getPhotoUrl() {

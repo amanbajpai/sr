@@ -475,7 +475,7 @@
     <string name="dialog_attention">Attention!</string>
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">Identification Card</string>
-    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
+    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s?</string>
     <string name="approx_mission_duration">"%dm"</string>
     <string name="mission_size_dialog_text">This mission file is %sMB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
 
@@ -494,4 +494,5 @@
     <string name="national_id_number_hint">Your National ID No.</string>
     <string name="phone_number_hint">Phone Number</string>
     <string name="setup">SETUP</string>
+    <string name="activity_btn">ACTIVITY</string>
 </resources>

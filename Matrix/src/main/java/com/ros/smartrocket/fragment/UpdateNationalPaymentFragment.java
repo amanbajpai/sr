@@ -55,14 +55,20 @@ public class UpdateNationalPaymentFragment extends Fragment implements NetworkOp
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        MyAccount account = App.getInstance().getMyAccount();
+        if (account != null) {
+            nameEdt.setText(account.getSingleName());
+        }
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             View actionBarCustomView = actionBar.getCustomView();
             ((TextView) actionBarCustomView.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_payment_details);
         }
-        apiFacade.getNationalIdAccount(getActivity());
-        startProgress();
+        if (App.getInstance().getMyAccount().getIsPaymentAccountExists()) {
+            apiFacade.getNationalIdAccount(getActivity());
+            startProgress();
+        }
+
     }
 
     @Override
@@ -81,7 +87,7 @@ public class UpdateNationalPaymentFragment extends Fragment implements NetworkOp
                 MyAccount myAccount = App.getInstance().getMyAccount();
                 myAccount.setIsPaymentAccountExists(true);
                 App.getInstance().setMyAccount(myAccount);
-                getActivity().finish();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         } else {
             clearProgress();

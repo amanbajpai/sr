@@ -74,7 +74,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
 
     public void updateData() {
         myAccount = App.getInstance().getMyAccount();
-        if (myAccount.isPaymentSettingsEnabled()) {
+        if (!myAccount.isPaymentSettingsEnabled()) {
             updatePaymentBtn.setVisibility(View.VISIBLE);
         } else {
             updatePaymentBtn.setVisibility(View.GONE);
@@ -149,22 +149,6 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.updatePaymentBtn, R.id.cashOutButton})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.updatePaymentBtn:
-                startEditPaymentInfo();
-                break;
-            case R.id.cashOutButton:
-                if (myAccount.canWithdraw()) {
-                    getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
-                } else {
-                    startEditPaymentInfo();
-                }
-                break;
-        }
-    }
-
     private void startEditPaymentInfo() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(android.R.id.content, myAccount.isAliPay()
@@ -176,7 +160,21 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
         fragmentTransaction.commit();
     }
 
-    @OnClick(R.id.activityBtn)
-    public void onClick() {
+    @OnClick({R.id.cashOutButton, R.id.updatePaymentBtn, R.id.activityBtn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cashOutButton:
+                if (myAccount.canWithdraw()) {
+                    getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
+                } else {
+                    startEditPaymentInfo();
+                }
+                break;
+            case R.id.updatePaymentBtn:
+                startEditPaymentInfo();
+                break;
+            case R.id.activityBtn:
+                break;
+        }
     }
 }

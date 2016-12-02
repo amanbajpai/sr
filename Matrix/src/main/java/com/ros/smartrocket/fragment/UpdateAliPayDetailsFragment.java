@@ -105,7 +105,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
                 MyAccount myAccount = App.getInstance().getMyAccount();
                 myAccount.setIsPaymentAccountExists(true);
                 App.getInstance().setMyAccount(myAccount);
-                getActivity().finish();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         } else {
             clearProgress();

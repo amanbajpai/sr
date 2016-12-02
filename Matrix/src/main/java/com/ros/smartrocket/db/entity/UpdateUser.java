@@ -8,26 +8,15 @@ public class UpdateUser extends BaseEntity {
     @SerializedName("PhotoBase64")
     private String photoBase64;
 
-    @SerializedName("FirstName")
-    private String firstName;
+    @SerializedName("SingleName")
+    private String singleName;
 
-    @SerializedName("LastName")
-    private String lastName;
-
-    public String getFirstName() {
-        return firstName;
+    public String getSingleName() {
+        return singleName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSingleName(String singleName) {
+        this.singleName = singleName;
     }
 
     public String getPhotoBase64() {
