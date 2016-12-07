@@ -475,6 +475,17 @@ public class APIFacade {
 
     /**
      * @param activity
+     */
+    public void sendActivity(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SEND_ACTIVITY);
+        operation.setTag(Keys.SEND_ACTIVITY_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
      * @param taskId
      */
     public void rejectTask(Activity activity, Integer taskId, Integer missionId) {

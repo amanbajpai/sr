@@ -40,6 +40,7 @@ public interface Keys {
     String SHOW_HIDDEN_TASKS = "show_hidden_tasks";
     String SHOW_HIDDEN_PROJECT = "show_hidden_project";
     String IS_FIRST_LOGIN = "is_first_login";
+    String SHOW_ACTIVITY_DIALOG = "show_activity_dialog";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
@@ -87,6 +88,7 @@ public interface Keys {
     String SEND_ALIPAY_SMS_OPERATION_TAG = "send_alipay_sms_operation_tag";
     String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
     String TEST_PUSH_NOTIFICATION_OPERATION_TAG = "test_push_notification_operation_tag";
+    String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
 
 
     // Supported presentation modes for Tasks

@@ -495,4 +495,7 @@
     <string name="phone_number_hint">Phone Number</string>
     <string name="setup">SETUP</string>
     <string name="activity_btn">ACTIVITY</string>
+    <string name="activity_log_title">Activity log request</string>
+    <string name="activity_log_description">A file containing a log of your \nSmartRocket Account Activity has \nbeen sent to:</string>
+    <string name="do_not_show_message">Do not show this message again</string>
 </resources>

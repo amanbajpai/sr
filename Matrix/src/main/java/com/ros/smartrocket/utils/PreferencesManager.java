@@ -272,12 +272,12 @@ public class PreferencesManager {
         setBoolean(Keys.SHOW_HIDDEN_TASKS, use);
     }
 
-    public boolean getShowHiddenProject() {
-        return getBoolean(Keys.SHOW_HIDDEN_PROJECT, false);
+    public boolean getShowActivityDialog() {
+        return getBoolean(Keys.SHOW_ACTIVITY_DIALOG, true);
     }
 
-    public void setShowHiddenProject(boolean use) {
-        setBoolean(Keys.SHOW_HIDDEN_PROJECT, use);
+    public void setShowActivityDialog(boolean show) {
+        setBoolean(Keys.SHOW_ACTIVITY_DIALOG, show);
     }
 
     public boolean getIsFirstLogin() {

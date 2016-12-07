@@ -53,6 +53,7 @@ public final class WSUrl {
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
     public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
     public static final String SEND_ALIPAY_SMS = Config.WEB_SERVICE_URL + "api/SMS/AliPayAccountSmsCode?phoneNumber=%s";
+    public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
 
 
     public static final int LOGIN_ID = 1;
