@@ -42,32 +42,14 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param email    - current email
-     * @param password - current password
      */
-    public void login(Activity activity, String email, String password, String deviceName,
-                      String deviceModel, String deviceManufacturer, String appVersion,
-                      String androidVersion) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-
-            Login loginEntity = new Login();
-            loginEntity.setEmail(email);
-            loginEntity.setPassword(password);
-            loginEntity.setDeviceName(deviceName);
-            loginEntity.setDeviceModel(deviceModel);
-            loginEntity.setDeviceManufacturer(deviceManufacturer);
-            loginEntity.setAppVersion(appVersion);
-            loginEntity.setAndroidVersion(androidVersion);
-
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.LOGIN);
-            operation.setTag(Keys.LOGIN_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(loginEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
-        }
+    public void login(Activity activity, Login loginEntity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.LOGIN);
+        operation.setTag(Keys.LOGIN_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(loginEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     /**
@@ -603,7 +585,6 @@ public class APIFacade {
     }
 
     /**
-     *
      * @param activity - current activity
      */
     public void getNationalIdAccount(Activity activity) {
@@ -617,8 +598,7 @@ public class APIFacade {
     }
 
     /**
-     *
-     * @param activity - current activity
+     * @param activity          - current activity
      * @param nationalIdAccount - account to update
      */
     public void integrateNationalIdAccount(Activity activity, NationalIdAccount nationalIdAccount) {

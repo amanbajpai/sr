@@ -15,6 +15,8 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
+import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.dialog.CheckLocationDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
@@ -98,7 +100,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
@@ -114,7 +116,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 dismissProgressDialog();
                 finish();
-                if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                if (loginResponse.isShowTermsConditions()) {
+                    Intent intent = new Intent(this, TermsAndConditionActivity.class);
+                    intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
+                    startActivity(intent);
+                } else if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
                     startActivity(new Intent(this, MainActivity.class));
                 }
             }
@@ -159,14 +165,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         if (isAllFilesSend(email)) {
                             progressDialog = CustomProgressDialog.show(this);
                             loginButton.setEnabled(false);
-
-                            String deviceManufacturer = UIUtils.getDeviceManufacturer();
-                            String deviceModel = UIUtils.getDeviceModel();
-                            String deviceName = UIUtils.getDeviceName(this);
-
-                            apiFacade.login(this, email, password, deviceName, deviceModel,
-                                    deviceManufacturer, UIUtils.getAppVersion(this),
-                                    Build.VERSION.RELEASE);
+                            login(email, password);
                         } else {
                             // not all tasks are sent - cannot login
                             DialogUtils.showNotAllFilesSendDialog(this);
@@ -188,6 +187,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             default:
                 break;
         }
+    }
+
+    private void login(String email, String password) {
+        Login loginEntity = new Login();
+        String deviceManufacturer = UIUtils.getDeviceManufacturer();
+        String deviceModel = UIUtils.getDeviceModel();
+        String deviceName = UIUtils.getDeviceName(this);
+        loginEntity.setEmail(email);
+        loginEntity.setPassword(password);
+        loginEntity.setDeviceName(deviceName);
+        loginEntity.setDeviceModel(deviceModel);
+        loginEntity.setDeviceManufacturer(deviceManufacturer);
+        loginEntity.setAppVersion(UIUtils.getAppVersion(this));
+        loginEntity.setAndroidVersion(Build.VERSION.RELEASE);
+        if (checkLocationResponse != null) {
+            loginEntity.setCityId(checkLocationResponse.getCityId());
+            loginEntity.setCountryId(checkLocationResponse.getCountryId());
+            loginEntity.setDistrictId(checkLocationResponse.getDistrictId());
+            loginEntity.setLongitude(longitude);
+            loginEntity.setLatitude(latitude);
+        }
+        apiFacade.login(this, loginEntity);
     }
 
     private boolean isAllFilesSend(String currentEmail) {

@@ -7,8 +7,8 @@ public class LoginResponse extends BaseEntity {
 
     @SerializedName("Token")
     private String token;
-    @SerializedName("State")
-    private Boolean state = false;
+    @SerializedName("ShowTermsConditions")
+    private boolean showTermsConditions;
 
     public String getToken() {
         return token;
@@ -18,11 +18,11 @@ public class LoginResponse extends BaseEntity {
         this.token = token;
     }
 
-    public Boolean getState() {
-        return state;
+    public boolean isShowTermsConditions() {
+        return showTermsConditions;
     }
 
-    public void setState(Boolean state) {
-        this.state = state;
+    public void setShowTermsConditions(boolean showTermsConditions) {
+        this.showTermsConditions = showTermsConditions;
     }
 }

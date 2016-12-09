@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -106,7 +107,12 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
 
     @OnClick(R.id.continueButton)
     public void onClick() {
-        continueRegistrationFlow();
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        } else {
+            continueRegistrationFlow();
+        }
     }
 
     @Override

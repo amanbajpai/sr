@@ -21,6 +21,7 @@ public interface Keys {
     String FINISH_MAIN_ACTIVITY = "finish_main_activity";
     String UPLOAD_FILES_PROGRESS = "upload_files_progress";
     String REGISTRATION_PERMISSIONS = "registration_permissions";
+    String SHOULD_SHOW_MAIN_SCREEN = "registration_permissions";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
