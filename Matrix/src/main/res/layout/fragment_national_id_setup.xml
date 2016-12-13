@@ -21,15 +21,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@color/grey_light"
         android:orientation="horizontal">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@color/grey_light"
             android:padding="14dp"
+            android:tint="@color/grey_dark"
             android:src="@drawable/user_icon_gray" />
 
         <com.ros.smartrocket.views.CustomEditTextView
@@ -37,8 +39,6 @@
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="@string/hint_your_registered_alipay_acc_name"
             android:inputType="textPersonName"
             android:textSize="@dimen/text_size_14sp" />
     </LinearLayout>
@@ -47,24 +47,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@color/grey_light"
         android:orientation="horizontal">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:tint="@color/grey_dark"
             android:background="@color/grey_light"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:src="@drawable/mail_icon" />
+            android:src="@drawable/ic_n_id" />
 
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/userNationalIdEdt"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:hint="@string/national_id_number_hint"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_14sp" />
@@ -74,24 +75,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@color/grey_light"
         android:orientation="horizontal">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:tint="@color/grey_dark"
             android:background="@color/grey_light"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:src="@drawable/mail_icon" />
+            android:src="@drawable/ic_phone" />
 
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/phoneEdt"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:hint="@string/phone_number_hint"
             android:inputType="phone"
             android:textSize="@dimen/text_size_14sp" />

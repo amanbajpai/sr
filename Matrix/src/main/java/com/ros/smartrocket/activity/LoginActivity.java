@@ -292,6 +292,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void startRegistrationFlow() {
         if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
             Intent intent;
+            registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
             if (registrationPermissions.isTermsEnable()) {
                 intent = new Intent(this, TermsAndConditionActivity.class);
             } else if (registrationPermissions.isReferralEnable()) {

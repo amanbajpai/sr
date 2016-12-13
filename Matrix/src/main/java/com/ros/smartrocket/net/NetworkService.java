@@ -191,11 +191,6 @@ public class NetworkService extends BaseNetworkService {
                         getPreferencesManager().setTokenForUploadFile(token.getToken());
                         getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
                         break;
-                    case WSUrl.GET_CURRENT_T_AND_C_ID:
-                        TermsAndConditionVersion currentVersion = gson.fromJson(responseString,
-                                TermsAndConditionVersion.class);
-                        operation.responseEntities.add(currentVersion);
-                        break;
                     case WSUrl.GET_REFERRAL_CASES_ID:
                         ReferralCases referralCases = gson.fromJson(responseString, ReferralCases.class);
                         operation.responseEntities.add(referralCases);

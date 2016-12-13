@@ -76,7 +76,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
 
     public void updateData() {
         myAccount = App.getInstance().getMyAccount();
-        if (!myAccount.isPaymentSettingsEnabled()) {
+        if (myAccount.isPaymentSettingsEnabled()) {
             updatePaymentBtn.setVisibility(View.VISIBLE);
         } else {
             updatePaymentBtn.setVisibility(View.GONE);

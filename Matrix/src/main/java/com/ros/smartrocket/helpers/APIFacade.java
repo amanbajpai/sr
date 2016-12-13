@@ -54,6 +54,17 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
+     */
+    public void sendTandC(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.POST_TERMS_AND_CONDITIONS);
+        operation.setTag(Keys.POST_T_AND_C_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
      * @param email    - current email
      */
     public void forgotPassword(Activity activity, String email) {
