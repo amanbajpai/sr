@@ -19,6 +19,16 @@ public class Login extends BaseEntity {
     private String appVersion;
     @SerializedName("AndroidVersion")
     private String androidVersion;
+    @SerializedName("DistrictId")
+    private Integer districtId;
+    @SerializedName("CountryId")
+    private Integer countryId;
+    @SerializedName("CityId")
+    private Integer cityId;
+    @SerializedName("Longitude")
+    private Double longitude;
+    @SerializedName("Latitude")
+    private Double latitude;
 
     public String getEmail() {
         return email;
@@ -77,4 +87,43 @@ public class Login extends BaseEntity {
     }
 
 
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public Integer getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 }

@@ -6,8 +6,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 /* This activity asks for a promo code to a user and redirect him to ReferralCodeActivity.
@@ -40,16 +43,16 @@ public class PromoCodeActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.continueButton:
-                startReferralCasesActivity();
+                continueRegistrationFlow();
                 break;
             default:
                 break;
         }
     }
 
-    public void startReferralCasesActivity() {
-        Intent intent = new Intent(this, ReferralCasesActivity.class);
-
+    public void continueRegistrationFlow() {
+        Intent intent;
+        intent = new Intent(this, RegistrationActivity.class);
         if (getIntent().getExtras() != null) {
             intent.putExtras(getIntent().getExtras());
         }

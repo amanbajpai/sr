@@ -439,6 +439,7 @@
     <string name="enter_valid_alipay_username">Enter valid AliPay username.</string>
     <string name="enter_valid_email_phone">Enter valid email or phone number.</string>
     <string name="alipay_account_integrated_successfully">AliPay Account integrated successfully!!</string>
+    <string name="national_id_account_integrated_successfully">National ID Account integrated successfully!</string>
     <string name="fetching_alipay_account_info">Fetching AliPay Account info...</string>
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
     <string name="turn_on_wifi_dialog_title">ATTENTION!</string>
@@ -474,7 +475,7 @@
     <string name="dialog_attention">Attention!</string>
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">Identification Card</string>
-    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s %2$s?</string>
+    <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s?</string>
     <string name="approx_mission_duration">"%dm"</string>
     <string name="mission_size_dialog_text">This mission file is %sMB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
 
@@ -488,4 +489,13 @@
     <string name="warning_half_claims">You have now withdrawn form or expired  %1$d missions this project. Once this number reaches  %2$d, you will no longer be able to claim missions on this project</string>
     <string name="warning_last_claim">You have now withdrawn form or expired %1$d missions this project which is the maximum number of expirires/withdrawls allowed on his project. If you expire or withdraw from one more mission on this project you will not be able to claim any further missions on this project</string>
     <string name="facebook_app_id">360659224276381</string>
+    <string name="full_name">Full name</string>
+    <string name="national_id_header">IMPORTANT: Yourname must be your full/official name. Ensure all details are correct before submitting.</string>
+    <string name="national_id_number_hint">Your National ID No.</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="setup">SETUP</string>
+    <string name="activity_btn">ACTIVITY</string>
+    <string name="activity_log_title">Activity log request</string>
+    <string name="activity_log_description">A file containing a log of your SmartRocket Account Activity has been sent to:</string>
+    <string name="do_not_show_message">Do not show this message again</string>
 </resources>

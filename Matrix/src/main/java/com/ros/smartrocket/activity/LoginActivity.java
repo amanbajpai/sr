@@ -1,5 +1,6 @@
 package com.ros.smartrocket.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
@@ -8,11 +9,16 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.*;
+
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
+import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.dialog.CheckLocationDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -21,6 +27,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -37,10 +44,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private EditText emailEditText;
     private EditText passwordEditText;
     private CheckBox rememberMeCheckBox;
-    private TextView currentVersion;
     private Button loginButton;
     private Button registerButton;
     private CustomProgressDialog progressDialog;
+    private RegistrationPermissions registrationPermissions;
+    private CheckLocationDialog checkLocationDialog;
+    private CheckLocationResponse checkLocationResponse;
+    double latitude;
+    double longitude;
 
     public LoginActivity() {
     }
@@ -56,7 +67,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
-        currentVersion = (TextView) findViewById(R.id.currentVersion);
+        TextView currentVersion = (TextView) findViewById(R.id.currentVersion);
 
         currentVersion.setText("v." + BuildConfig.LOGIN_SCREEN_VERSION);
 
@@ -78,16 +89,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         registerButton.setOnClickListener(this);
 
         setSupportProgressBarIndeterminateVisibility(false);
-
         checkDeviceSettingsByOnResume(false);
     }
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         setSupportProgressBarIndeterminateVisibility(false);
+        if (checkLocationDialog != null) {
+            checkLocationDialog.onNetworkOperation(operation);
+        }
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
@@ -103,24 +116,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 dismissProgressDialog();
                 finish();
-                if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                if (loginResponse.isShowTermsConditions()) {
+                    Intent intent = new Intent(this, TermsAndConditionActivity.class);
+                    intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
+                    startActivity(intent);
+                } else if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
                     startActivity(new Intent(this, MainActivity.class));
                 }
-            } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                CheckLocationResponse checkLocationResponse =
-                        (CheckLocationResponse) operation.getResponseEntities().get(0);
-
-                if (checkLocationResponse.getStatus()) {
-                    Intent intent = new Intent(this, PromoCodeActivity.class);
-                    intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
-                    intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
-                    intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
-                    startActivity(intent);
-                } else {
-                    startActivity(new Intent(this, CheckLocationActivity.class));
-                }
-                registerButton.setEnabled(true);
-                dismissProgressDialog();
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
@@ -140,15 +142,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 } else {
                     UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
-                }
-            } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                registerButton.setEnabled(true);
-                dismissProgressDialog();
-                if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.NO_INTERNET) {
-                    DialogUtils.showBadOrNoInternetDialog(this);
-                } else {
-                    startActivity(new Intent(this, CheckLocationActivity.class));
                 }
             }
         }
@@ -172,14 +165,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         if (isAllFilesSend(email)) {
                             progressDialog = CustomProgressDialog.show(this);
                             loginButton.setEnabled(false);
-
-                            String deviceManufacturer = UIUtils.getDeviceManufacturer();
-                            String deviceModel = UIUtils.getDeviceModel();
-                            String deviceName = UIUtils.getDeviceName(this);
-
-                            apiFacade.login(this, email, password, deviceName, deviceModel,
-                                    deviceManufacturer, UIUtils.getAppVersion(this),
-                                    Build.VERSION.RELEASE);
+                            login(email, password);
                         } else {
                             // not all tasks are sent - cannot login
                             DialogUtils.showNotAllFilesSendDialog(this);
@@ -192,24 +178,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.registerButton:
                 if (deviceIsReady()) {
-                    progressDialog = CustomProgressDialog.show(this);
-                    progressDialog.setCancelable(false);
-                    registerButton.setEnabled(false);
-                    setSupportProgressBarIndeterminateVisibility(true);
-
-                    MatrixLocationManager.getAddressByCurrentLocation(false,
-                            new MatrixLocationManager.GetAddressListener() {
-                                @Override
-                                public void onGetAddressSuccess(Location location,
-                                                                String countryName,
-                                                                String cityName,
-                                                                String districtName) {
-                                    apiFacade.checkLocationForRegistration(LoginActivity.this,
-                                            countryName, cityName, districtName,
-                                            location.getLatitude(), location.getLongitude());
-
-                                }
-                            });
+                    startRegistrationFlow();
                 }
                 break;
             case R.id.forgotPasswordButton:
@@ -218,6 +187,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             default:
                 break;
         }
+    }
+
+    private void login(String email, String password) {
+        Login loginEntity = new Login();
+        String deviceManufacturer = UIUtils.getDeviceManufacturer();
+        String deviceModel = UIUtils.getDeviceModel();
+        String deviceName = UIUtils.getDeviceName(this);
+        loginEntity.setEmail(email);
+        loginEntity.setPassword(password);
+        loginEntity.setDeviceName(deviceName);
+        loginEntity.setDeviceModel(deviceModel);
+        loginEntity.setDeviceManufacturer(deviceManufacturer);
+        loginEntity.setAppVersion(UIUtils.getAppVersion(this));
+        loginEntity.setAndroidVersion(Build.VERSION.RELEASE);
+        if (checkLocationResponse != null) {
+            loginEntity.setCityId(checkLocationResponse.getCityId());
+            loginEntity.setCountryId(checkLocationResponse.getCountryId());
+            loginEntity.setDistrictId(checkLocationResponse.getDistrictId());
+            loginEntity.setLongitude(longitude);
+            loginEntity.setLatitude(latitude);
+        }
+        apiFacade.login(this, loginEntity);
     }
 
     private boolean isAllFilesSend(String currentEmail) {
@@ -252,8 +243,75 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (deviceIsReady() && checkLocationDialog == null) {
+            getLocation();
+        }
+    }
+
+    @Override
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    private void getLocation() {
+        checkLocationDialog = new CheckLocationDialog(this,
+                new CheckLocationDialog.CheckLocationListener() {
+                    @Override
+                    public void onLocationChecked(Dialog dialog, String countryName, String cityName,
+                                                  double latitude, double longitude,
+                                                  CheckLocationResponse serverResponse) {
+                        LoginActivity.this.onLocationChecked(serverResponse, latitude, longitude);
+                        // TODO location success
+                    }
+
+                    @Override
+                    public void onCheckLocationFailed(Dialog dialog, String countryName, String cityName,
+                                                      double latitude, double longitude,
+                                                      CheckLocationResponse serverResponse) {
+                        LoginActivity.this.onLocationChecked(serverResponse, latitude, longitude);
+                        // TODO location failed
+                    }
+                }
+                , true);
+    }
+
+    private void onLocationChecked(CheckLocationResponse serverResponse, double latitude, double longitude) {
+        if (serverResponse != null) {
+            checkLocationResponse = serverResponse;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            registrationPermissions = checkLocationResponse.getRegistrationPermissions();
+            PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
+        }
+        registerButton.setEnabled(true);
+    }
+
+    private void startRegistrationFlow() {
+        if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
+            Intent intent;
+            registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
+            if (registrationPermissions.isTermsEnable()) {
+                intent = new Intent(this, TermsAndConditionActivity.class);
+            } else if (registrationPermissions.isReferralEnable()) {
+                intent = new Intent(this, ReferralCasesActivity.class);
+            } else if (registrationPermissions.isSrCodeEnable()) {
+                intent = new Intent(this, PromoCodeActivity.class);
+            } else {
+                intent = new Intent(this, RegistrationActivity.class);
+            }
+            intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
+            intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
+            intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
+            intent.putExtra(Keys.COUNTRY_NAME, checkLocationResponse.getCountryName());
+            intent.putExtra(Keys.CITY_NAME, checkLocationResponse.getCityName());
+            intent.putExtra(Keys.LATITUDE, latitude);
+            intent.putExtra(Keys.LONGITUDE, longitude);
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(this, CheckLocationActivity.class));
+        }
     }
 }

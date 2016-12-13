@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -41,32 +42,25 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
-     * @param email    - current email
-     * @param password - current password
      */
-    public void login(Activity activity, String email, String password, String deviceName,
-                      String deviceModel, String deviceManufacturer, String appVersion,
-                      String androidVersion) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+    public void login(Activity activity, Login loginEntity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.LOGIN);
+        operation.setTag(Keys.LOGIN_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(loginEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
 
-            Login loginEntity = new Login();
-            loginEntity.setEmail(email);
-            loginEntity.setPassword(password);
-            loginEntity.setDeviceName(deviceName);
-            loginEntity.setDeviceModel(deviceModel);
-            loginEntity.setDeviceManufacturer(deviceManufacturer);
-            loginEntity.setAppVersion(appVersion);
-            loginEntity.setAndroidVersion(androidVersion);
-
-            BaseOperation operation = new BaseOperation();
-            operation.setUrl(WSUrl.LOGIN);
-            operation.setTag(Keys.LOGIN_OPERATION_TAG);
-            operation.setMethod(BaseOperation.Method.POST);
-            operation.getEntities().add(loginEntity);
-            ((BaseActivity) activity).sendNetworkOperation(operation);
-        } else {
-            UIUtils.showSimpleToast(activity, R.string.fill_in_field);
-        }
+    /**
+     * @param activity - current activity
+     */
+    public void sendTandC(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.POST_TERMS_AND_CONDITIONS);
+        operation.setTag(Keys.POST_T_AND_C_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     /**
@@ -87,17 +81,6 @@ public class APIFacade {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * @param activity - current activity
-     */
-    public void getCurrentTermsAndConditionVersion(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_CURRENT_T_AND_C);
-        operation.setTag(Keys.GET_CURRENT_T_AND_C_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     /**
@@ -152,7 +135,7 @@ public class APIFacade {
     }
 
     /**
-     * @param activity    - current activity
+     * @param activity   - current activity
      * @param updateUser - photo to upload
      */
     public void updateUser(Activity activity, UpdateUser updateUser) {
@@ -485,6 +468,17 @@ public class APIFacade {
 
     /**
      * @param activity
+     */
+    public void sendActivity(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.SEND_ACTIVITY);
+        operation.setTag(Keys.SEND_ACTIVITY_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity
      * @param taskId
      */
     public void rejectTask(Activity activity, Integer taskId, Integer missionId) {
@@ -598,6 +592,32 @@ public class APIFacade {
         operation.setTag(Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(aliPayAccount);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     */
+    public void getNationalIdAccount(Activity activity) {
+        Token token = new Token();
+        token.setToken(preferencesManager.getToken());
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
+        operation.setTag(Keys.GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity          - current activity
+     * @param nationalIdAccount - account to update
+     */
+    public void integrateNationalIdAccount(Activity activity, NationalIdAccount nationalIdAccount) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
+        operation.setTag(Keys.INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(nationalIdAccount);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

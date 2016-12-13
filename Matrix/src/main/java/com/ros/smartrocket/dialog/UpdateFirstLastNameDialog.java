@@ -18,8 +18,7 @@ import com.ros.smartrocket.utils.UIUtils;
  */
 public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickListener {
     private DialogButtonClickListener buttonClickListener;
-    private EditText firstNameEditText;
-    private EditText lastNameEditText;
+    private EditText nameEditText;
 
     public UpdateFirstLastNameDialog(Activity activity, DialogButtonClickListener buttonClickListener) {
         super(activity);
@@ -37,10 +36,8 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
         findViewById(R.id.updateButton).setOnClickListener(this);
 
         final MyAccount myAccount = App.getInstance().getMyAccount();
-        firstNameEditText = (EditText) findViewById(R.id.dialogFirstNameEditText);
-        firstNameEditText.setText(myAccount.getFirstName());
-        lastNameEditText = (EditText) findViewById(R.id.dialogLastNameEditText);
-        lastNameEditText.setText(myAccount.getLastName());
+        nameEditText = (EditText) findViewById(R.id.dialogFirstNameEditText);
+        nameEditText.setText(myAccount.getSingleName());
     }
 
     @Override
@@ -51,14 +48,13 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
                 buttonClickListener.onCancelButtonPressed();
                 break;
             case R.id.updateButton:
-                String firstName = firstNameEditText.getText().toString().trim();
-                String lastName = lastNameEditText.getText().toString().trim();
+                String name = nameEditText.getText().toString().trim();
 
-                if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)) {
+                if (TextUtils.isEmpty(name)) {
                     UIUtils.showSimpleToast(getContext(), R.string.fill_in_all_fields);
                 } else {
                     dismiss();
-                    buttonClickListener.onUpdateButtonPressed(firstName, lastName);
+                    buttonClickListener.onUpdateButtonPressed(name);
                 }
 
                 break;
@@ -70,6 +66,6 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
     public interface DialogButtonClickListener {
         void onCancelButtonPressed();
 
-        void onUpdateButtonPressed(String firstName, String lastName);
+        void onUpdateButtonPressed(String name);
     }
 }

@@ -1,215 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/profilePhotoImageView"
+            android:layout_width="106dp"
+            android:layout_height="106dp"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:src="@drawable/btn_camera_normal_selector" />
+
+        <com.ros.smartrocket.views.CustomEditTextView
+            android:id="@+id/firstNameEditText"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@+id/profilePhotoImageView"
+            android:hint="@string/full_name"
+            android:inputType="textCapWords" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@color/white" >
-        <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/genderRadioGroup"
+            android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent" >
-            <ImageView
-                android:id="@+id/profilePhotoImageView"
-                android:layout_height="106dp"
-                android:layout_width="106dp"
-                android:layout_marginRight="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:src="@drawable/btn_camera_normal_selector" />
-            <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/firstNameEditText"
-                style="@style/EditText"
-                android:layout_height="48dp"
-                android:layout_width="match_parent"
-                android:layout_toRightOf="@+id/profilePhotoImageView"
-                android:hint="@string/first_name"
-                android:inputType="textCapWords" />
-            <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/lastNameEditText"
-                style="@style/EditText"
-                android:layout_marginTop="9dp"
-                android:layout_height="48dp"
-                android:layout_width="match_parent"
-                android:layout_toRightOf="@+id/profilePhotoImageView"
-                android:layout_below="@+id/firstNameEditText"
-                android:hint="@string/last_name"
-                android:inputType="textCapWords" />
-        </RelativeLayout >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal" >
-            <RadioGroup
-                android:id="@+id/genderRadioGroup"
-                android:layout_marginRight="10dp"
-                android:layout_width="106dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/maleRadioButton"
+                style="@style/MaleRadioButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <RadioButton
-                    android:id="@+id/maleRadioButton"
-                    style="@style/MaleRadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/femaleRadioButton"
-                    style="@style/FemaleRadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="wrap_content"
-                    android:checked="false" />
-            </RadioGroup >
-            <com.ros.smartrocket.views.CustomEditTextView
-                android:id="@+id/birthdayEditText"
-                style="@style/EditText"
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:inputType="number"
-                android:focusable="false"
-                android:layout_weight="1"
-                android:hint="@string/your_birthday" />
-        </LinearLayout >
-        <com.ros.smartrocket.views.CustomEditTextView
-            android:id="@+id/emailEditText"
-            style="@style/EditText"
-            android:layout_height="48dp"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/mail_icon"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/your_email_hint" />
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/emailValidationText"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@color/red"
-            android:gravity="center_vertical"
-            android:text="@string/user_already_exist"
-            android:visibility="gone" />
-        <com.ros.smartrocket.views.CustomEditTextView
-            android:id="@+id/passwordEditText"
-            style="@style/EditText"
-            android:layout_marginTop="10dp"
-            android:inputType="textPassword"
-            android:drawableLeft="@drawable/pass_icon"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:layout_height="48dp"
-            android:layout_width="match_parent"
-            android:hint="@string/password" />
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/passwordValidationText"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@color/red"
-            android:gravity="center_vertical"
-            android:text="@string/password_validation_text"
-            android:visibility="gone" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal" >
-            <ToggleButton
-                android:id="@+id/showPasswordToggleButton"
+                android:checked="false" />
+
+            <RadioButton
+                android:id="@+id/femaleRadioButton"
+                style="@style/FemaleRadioButton"
                 android:layout_width="wrap_content"
-                android:background="@drawable/btn_toggle"
-                android:layout_height="wrap_content" />
-            <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="@dimen/text_size_small"
-                android:textColor="@color/grey"
-                android:gravity="center_vertical"
-                android:text="@string/show_password" />
-        </LinearLayout >
+                android:checked="false" />
+        </RadioGroup>
+
         <com.ros.smartrocket.views.CustomEditTextView
-            android:id="@+id/countryEditText"
+            android:id="@+id/birthdayEditText"
             style="@style/EditText"
-            android:layout_height="48dp"
-            android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/country_icon_select"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:hint="@string/your_country_hint"
-            android:focusable="false" />
-        <com.ros.smartrocket.views.CustomEditTextView
-            android:id="@+id/cityEditText"
-            style="@style/EditText"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:enabled="false"
-            android:drawableLeft="@drawable/city_icon_select"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:layout_width="match_parent"
-            android:hint="@string/your_city_hint"
-            android:focusable="false" />
-        <Spinner
-            android:id="@+id/educationLevelSpinner"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:padding="0dp"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:id="@+id/employmentStatusSpinner"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:padding="0dp"
-            android:layout_height="wrap_content" />
-        <com.ros.smartrocket.views.CustomCheckBox
-            android:id="@+id/agreeCheckBox"
-            style="@style/CheckBox"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/i_agree_with_matrix_term" />
-        <com.ros.smartrocket.views.CustomTextView
-            android:id="@+id/termsAndConditionsButton"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/text_size_small"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:hint="@string/your_birthday"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <com.ros.smartrocket.views.CustomEditTextView
+        android:id="@+id/emailEditText"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/mail_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/your_email_hint"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="10dp" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/emailValidationText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/user_already_exist"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_small"
+        android:visibility="gone" />
+
+    <com.ros.smartrocket.views.CustomEditTextView
+        android:id="@+id/passwordEditText"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/pass_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/passwordValidationText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/password_validation_text"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_small"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/showPasswordToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_toggle" />
+
+        <com.ros.smartrocket.views.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/show_password"
             android:textColor="@color/grey"
-            android:padding="10dp"
-            android:gravity="center"
-            android:text="@string/term_and_conditions" />
-        <com.ros.smartrocket.views.CustomButton
-            android:id="@+id/confirmButton"
-            style="@style/Button"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:background="@drawable/button_green_selector"
-            android:layout_marginTop="20dp"
-            android:text="@string/confirm_and_register"
-            custom:textStyle="bold" />
-        <com.ros.smartrocket.views.CustomButton
-            android:id="@+id/cancelButton"
-            style="@style/Button"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:background="@drawable/button_red_selector"
-            android:layout_marginTop="10dp"
-            android:text="@string/cancel_big"
-            custom:textStyle="bold" />
-    </LinearLayout >
-</ScrollView >
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/confirmButton"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_green_selector"
+        android:text="@string/confirm_and_register"
+        custom:textStyle="bold" />
+
+    <com.ros.smartrocket.views.CustomButton
+        android:id="@+id/cancelButton"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_red_selector"
+        android:text="@string/cancel_big"
+        custom:textStyle="bold" />
+</LinearLayout>

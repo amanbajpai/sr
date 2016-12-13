@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    style="@style/CustomDialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/titleTextView"
+        style="@style/DialogTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="54dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="@string/activity_log_title"
+        custom:textStyle="bold" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        style="@style/DialogText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/activity_log_description" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/emailTxt"
+        style="@style/DialogText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_20sp"
+        custom:textStyle="bold" />
+
+    <com.ros.smartrocket.views.CustomCheckBox
+        android:id="@+id/rememberMeCheckBox"
+        style="@style/CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:text="@string/do_not_show_message"
+        android:textColor="@color/grey" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/okButton"
+        style="@style/DialogButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/ok"
+        android:textColor="@color/red"
+        custom:textStyle="bold" />
+</LinearLayout>

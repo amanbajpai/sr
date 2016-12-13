@@ -13,13 +13,15 @@ public interface Keys {
     String EMAIL = "email";
     String LAST_PASSWORD = "last_password";
     String LAST_APP_VERSION = "last_app_version";
-    String T_AND_C_VERSION = "t_and_c_version";
     String ACTIVATE_ACCOUNT = "Activate";
     String FORGOT_PASS = "SetNewPassword";
     String BITMAP_FILE_PATH = "bitmap_file_path";
     String VIDEO_FILE_PATH = "video_file_path";
     String ROTATE_BY_EXIF = "rotate_by_exif";
     String FINISH_MAIN_ACTIVITY = "finish_main_activity";
+    String UPLOAD_FILES_PROGRESS = "upload_files_progress";
+    String REGISTRATION_PERMISSIONS = "registration_permissions";
+    String SHOULD_SHOW_MAIN_SCREEN = "registration_permissions";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
@@ -39,6 +41,7 @@ public interface Keys {
     String SHOW_HIDDEN_TASKS = "show_hidden_tasks";
     String SHOW_HIDDEN_PROJECT = "show_hidden_project";
     String IS_FIRST_LOGIN = "is_first_login";
+    String SHOW_ACTIVITY_DIALOG = "show_activity_dialog";
 
     //Main menu
     String REFRESH_MAIN_MENU = "refresh_main_menu";
@@ -57,7 +60,7 @@ public interface Keys {
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
     String LOGIN_OPERATION_TAG = "login_operation_tag";
     String FORGOT_PASSWORD_OPERATION_TAG = "forgot_password_operation_tag";
-    String GET_CURRENT_T_AND_C_OPERATION_TAG = "get_current_t_and_c_operation_tag";
+    String POST_T_AND_C_OPERATION_TAG = "post_t_and_c_operation_tag";
     String REGISTRATION_OPERATION_TAG = "registration_operation_tag";
     String UPDATE_USER_OPERATION_TAG = "upload_photo_operation_tag";
     String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
@@ -80,10 +83,13 @@ public interface Keys {
     String GET_SHARING_DATA_OPERATION_TAG = "get_sharing_data_operation_tag";
     String GET_NEW_TOKEN_OPERATION_TAG = "get_new_token_operation_tag";
     String GET_ALIPAY_ACCOUNT_OPERATION_TAG = "get_alipay_operation_tag";
+    String GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "get_national_id_operation_tag";
     String INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG = "integrate_alipay_operation_tag";
+    String INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "integrate_national_id_operation_tag";
     String SEND_ALIPAY_SMS_OPERATION_TAG = "send_alipay_sms_operation_tag";
     String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
     String TEST_PUSH_NOTIFICATION_OPERATION_TAG = "test_push_notification_operation_tag";
+    String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
 
 
     // Supported presentation modes for Tasks
@@ -108,7 +114,6 @@ public interface Keys {
     String RIGHT_BUTTON_RES_ID = "right_button_res_id";
     String SHOW_LEFT_BUTTON = "show_left_button";
     String SHOW_PUSH_NOTIF_STAR = "show_push_notif_star";
-    String UPLOAD_FILES_PROGRESS = "upload_files_progress";
 
     /**
      * All possible view modes on map

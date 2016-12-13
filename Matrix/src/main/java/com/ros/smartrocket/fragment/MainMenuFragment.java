@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -177,7 +176,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
             );
         }
 
-        nameTextView.setText(myAccount.getName());
+        nameTextView.setText(myAccount.getSingleName());
         nameTextView.setOnClickListener(this);
         balanceTextView.setText(UIUtils.getBalanceOrPrice(myAccount.getBalance(),
                 myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
@@ -354,7 +353,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     private void showFAQ() {
-        Core.login(String.valueOf(myAccount.getId()), myAccount.getName(), PreferencesManager.getInstance().getLastEmail());
+        Core.login(String.valueOf(myAccount.getId()), myAccount.getSingleName(), PreferencesManager.getInstance().getLastEmail());
         Campaigns.addProperty("Agent_Id", myAccount.getId());
         Campaigns.addProperty("Agent_Rank_Level", myAccount.getLevelNumber());
         Campaigns.addProperty("Rocket_Points", myAccount.getExperience());

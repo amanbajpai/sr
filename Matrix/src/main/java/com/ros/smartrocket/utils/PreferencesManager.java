@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.fragment.TasksMapFragment;
@@ -271,12 +272,12 @@ public class PreferencesManager {
         setBoolean(Keys.SHOW_HIDDEN_TASKS, use);
     }
 
-    public boolean getShowHiddenProject() {
-        return getBoolean(Keys.SHOW_HIDDEN_PROJECT, false);
+    public boolean getShowActivityDialog() {
+        return getBoolean(Keys.SHOW_ACTIVITY_DIALOG, true);
     }
 
-    public void setShowHiddenProject(boolean use) {
-        setBoolean(Keys.SHOW_HIDDEN_PROJECT, use);
+    public void setShowActivityDialog(boolean show) {
+        setBoolean(Keys.SHOW_ACTIVITY_DIALOG, show);
     }
 
     public boolean getIsFirstLogin() {
@@ -357,24 +358,40 @@ public class PreferencesManager {
         editor.commit();
     }
 
-    public void saveUploadFilesProgress(WaitingUploadTask task, Integer notUploadedCount){
+    public void saveUploadFilesProgress(WaitingUploadTask task, Integer notUploadedCount) {
         Gson gson = new Gson();
         String progress = gson.toJson(new ProgressUpdate(task, notUploadedCount));
         setString(Keys.UPLOAD_FILES_PROGRESS, progress);
     }
 
-    public void clearUploadFilesProgress(){
+    public void clearUploadFilesProgress() {
         setString(Keys.UPLOAD_FILES_PROGRESS, null);
     }
 
-    public ProgressUpdate getUploadProgress(){
+    public ProgressUpdate getUploadProgress() {
         ProgressUpdate progressUpdate = null;
         String progress = getString(Keys.UPLOAD_FILES_PROGRESS, "");
-        if (!TextUtils.isEmpty(progress)){
+        if (!TextUtils.isEmpty(progress)) {
             Gson gson = new Gson();
             progressUpdate = gson.fromJson(progress, ProgressUpdate.class);
         }
         return progressUpdate;
+    }
+
+    public void saveRegistrationPermissions(RegistrationPermissions permissions) {
+        Gson gson = new Gson();
+        String regPermission = gson.toJson(permissions);
+        setString(Keys.REGISTRATION_PERMISSIONS, regPermission);
+    }
+
+    public RegistrationPermissions getRegPermissions() {
+        RegistrationPermissions permissions = new RegistrationPermissions(new int[]{1, 2, 3, 4, 5});
+        String regPermissions = getString(Keys.REGISTRATION_PERMISSIONS, "");
+        if (!TextUtils.isEmpty(regPermissions)) {
+            Gson gson = new Gson();
+            permissions = gson.fromJson(regPermissions, RegistrationPermissions.class);
+        }
+        return permissions;
     }
 
 }

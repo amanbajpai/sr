@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
+
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -524,13 +525,12 @@ public class DialogUtils {
      *
      * @param context - current context
      */
-    public static Dialog showAreYouSureUserNameDialog(final Context context, final String firstName,
-                                                      final String lastName,
+    public static Dialog showAreYouSureUserNameDialog(final Context context, final String name,
                                                       final UpdateFirstLastNameDialog.DialogButtonClickListener
                                                               listener) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
                 context.getText(R.string.dialog_attention),
-                context.getString(R.string.dialog_are_you_sure_first_last_name_text, firstName, lastName),
+                context.getString(R.string.dialog_are_you_sure_first_last_name_text, name),
                 R.string.cancel, R.string.confirm);
         dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
@@ -542,7 +542,7 @@ public class DialogUtils {
             @Override
             public void onRightButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                listener.onUpdateButtonPressed(firstName, lastName);
+                listener.onUpdateButtonPressed(name);
             }
         });
 
@@ -563,16 +563,16 @@ public class DialogUtils {
                     }
 
                     @Override
-                    public void onUpdateButtonPressed(String firstName, String lastName) {
-                        showAreYouSureDialog(activity, apiFacade, firstName, lastName, progressDialog);
+                    public void onUpdateButtonPressed(String name) {
+                        showAreYouSureDialog(activity, apiFacade, name, progressDialog);
                     }
                 });
         dialog.show();
     }
 
-    private static void showAreYouSureDialog(final Activity activity, final APIFacade apiFacade, String firstName,
-                                             String lastName, final ShowProgressDialogInterface progressDialog) {
-        DialogUtils.showAreYouSureUserNameDialog(activity, firstName, lastName,
+    private static void showAreYouSureDialog(final Activity activity, final APIFacade apiFacade, String name,
+                                             final ShowProgressDialogInterface progressDialog) {
+        DialogUtils.showAreYouSureUserNameDialog(activity, name,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
 
                     @Override
@@ -581,12 +581,11 @@ public class DialogUtils {
                     }
 
                     @Override
-                    public void onUpdateButtonPressed(String firstName, String lastName) {
+                    public void onUpdateButtonPressed(String name) {
                         progressDialog.showDialog();
 
                         UpdateUser updateUser = new UpdateUser();
-                        updateUser.setFirstName(firstName);
-                        updateUser.setLastName(lastName);
+                        updateUser.setSingleName(name);
 
                         apiFacade.updateUser(activity, updateUser);
                     }

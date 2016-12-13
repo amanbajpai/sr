@@ -1,17 +1,48 @@
 package com.ros.smartrocket.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
-import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.PreferencesManager;
+import android.widget.Toast;
 
-public class TermsAndConditionActivity extends BaseActivity {
+import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.helpers.WriteDataHelper;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+import com.ros.smartrocket.views.CustomCheckBox;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class TermsAndConditionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, NetworkOperationListenerInterface {
+    @Bind(R.id.webView)
+    WebView webView;
+    @Bind(R.id.acceptTC)
+    CustomCheckBox acceptTC;
+    @Bind(R.id.continueButton)
+    CustomButton continueButton;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private RegistrationPermissions registrationPermissions;
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private CustomProgressDialog progressDialog;
 
     public TermsAndConditionActivity() {
     }
@@ -21,7 +52,10 @@ public class TermsAndConditionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_terms_and_condition);
-
+        ButterKnife.bind(this);
+        getSupportActionBar().hide();
+        registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
+        acceptTC.setOnCheckedChangeListener(this);
         String termsUrl;
         switch (preferencesManager.getLanguageCode()) {
             case "en_SG":
@@ -37,8 +71,6 @@ public class TermsAndConditionActivity extends BaseActivity {
                 termsUrl = "http://smart-rocket.com/terms-of-service/";
                 break;
         }
-
-        WebView webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(termsUrl);
     }
 
@@ -67,5 +99,72 @@ public class TermsAndConditionActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void continueRegistrationFlow() {
+        Intent intent;
+        if (registrationPermissions.isReferralEnable()) {
+            intent = new Intent(this, ReferralCasesActivity.class);
+        } else if (registrationPermissions.isSrCodeEnable()) {
+            intent = new Intent(this, PromoCodeActivity.class);
+        } else {
+            intent = new Intent(this, RegistrationActivity.class);
+        }
+
+        if (getIntent().getExtras() != null) {
+            intent.putExtras(getIntent().getExtras());
+        }
+        startActivity(intent);
+        finish();
+    }
+
+    @OnClick(R.id.continueButton)
+    public void onClick() {
+        progressDialog = CustomProgressDialog.show(this);
+        apiFacade.sendTandC(this);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        continueButton.setEnabled(isChecked);
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                } else {
+                    continueRegistrationFlow();
+                }
+            } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                    == BaseNetworkService.NO_INTERNET) {
+                DialogUtils.showBadOrNoInternetDialog(this);
+
+            } else {
+                UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+            }
+        }
+    }
+
+    public void dismissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
     }
 }

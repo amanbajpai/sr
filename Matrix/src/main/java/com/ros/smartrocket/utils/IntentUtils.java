@@ -138,18 +138,6 @@ public class IntentUtils {
     }
 
     /**
-     * Return intent for opening Terms And Condition screen
-     *
-     * @param context - context
-     * @return Intent
-     */
-    public static Intent getTermsAndConditionIntent(Context context, int versionId) {
-        Intent intent = new Intent(context, TermsAndConditionActivity.class);
-        intent.putExtra(Keys.T_AND_C_VERSION, versionId);
-        return intent;
-    }
-
-    /**
      * Return intent for opening Quit Question screen
      *
      * @param context - context

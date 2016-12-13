@@ -21,9 +21,6 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.ValidationUtils;
 
-/**
- * Created by macbook on 02.10.15.
- */
 public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOperationListenerInterface, View.OnClickListener {
 
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -64,7 +61,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
         loginButton = (Button) view.findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
 
-        if (App.getInstance().getMyAccount().getAliPayAccountExists()) {
+        if (App.getInstance().getMyAccount().getIsPaymentAccountExists()) {
             apiFacade.getAliPayAccount(getActivity());
             startProgress();
             if (BuildConfig.DEBUG) {
@@ -106,9 +103,9 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
                 clearProgress();
                 Toast.makeText(getActivity(), getResources().getString(R.string.alipay_account_integrated_successfully), Toast.LENGTH_LONG).show();
                 MyAccount myAccount = App.getInstance().getMyAccount();
-                myAccount.setAliPayAccountExists(true);
+                myAccount.setIsPaymentAccountExists(true);
                 App.getInstance().setMyAccount(myAccount);
-                getActivity().finish();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         } else {
             clearProgress();

@@ -42,7 +42,8 @@ public class CheckLocationDialog extends Dialog {
     private String countryName = "";
     private String cityName = "";
 
-    public CheckLocationDialog(final Activity activity, final CheckLocationListener checkLocationListener) {
+    public CheckLocationDialog(final Activity activity, final CheckLocationListener checkLocationListener,
+                               boolean isCancelable) {
         super(activity);
         this.activity = activity;
         this.checkLocationListener = checkLocationListener;
@@ -54,7 +55,7 @@ public class CheckLocationDialog extends Dialog {
             L.e(TAG, "Show dialog error" + e.getMessage(), e);
         }
         setContentView(R.layout.dialog_check_location_success);
-        setCancelable(true);
+        setCancelable(isCancelable);
 
         getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         getWindow().setGravity(Gravity.CENTER);
