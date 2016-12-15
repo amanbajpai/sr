@@ -14,6 +14,7 @@ import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.CheckLocation;
 import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.NationalIdAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.PushBulkMessage;
 import com.ros.smartrocket.db.entity.RegisterDevice;
