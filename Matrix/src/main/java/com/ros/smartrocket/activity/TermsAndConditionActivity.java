@@ -114,14 +114,19 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (getIntent().getExtras() != null) {
             intent.putExtras(getIntent().getExtras());
         }
+        intent.putExtra(Keys.T_AND_C, true);
         startActivity(intent);
         finish();
     }
 
     @OnClick(R.id.continueButton)
     public void onClick() {
-        progressDialog = CustomProgressDialog.show(this);
-        apiFacade.sendTandC(this);
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+            progressDialog = CustomProgressDialog.show(this);
+            apiFacade.sendTandC(this);
+        } else {
+            continueRegistrationFlow();
+        }
     }
 
     @Override
@@ -134,16 +139,11 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                } else {
-                    continueRegistrationFlow();
-                }
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
             } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                     == BaseNetworkService.NO_INTERNET) {
                 DialogUtils.showBadOrNoInternetDialog(this);
-
             } else {
                 UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
             }

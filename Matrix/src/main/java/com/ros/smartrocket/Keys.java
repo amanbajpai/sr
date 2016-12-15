@@ -137,6 +137,7 @@ public interface Keys {
     String STATUS_ID = "status_id";
 
     //Location
+    String T_AND_C = "terms_and_cond";
     String REFERRAL_CASES_ID = "referral_cases_id";
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";

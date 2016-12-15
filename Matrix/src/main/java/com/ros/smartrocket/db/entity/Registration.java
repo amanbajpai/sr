@@ -35,6 +35,8 @@ public class Registration extends BaseEntity {
     private String photoBase64;
     @SerializedName("PromoCode")
     private String promoCode;
+    @SerializedName("IsViewTermsAndConditions")
+    private boolean isTermsShowed;
 
     public String getEmail() {
         return email;
@@ -160,5 +162,13 @@ public class Registration extends BaseEntity {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public boolean isTermsShowed() {
+        return isTermsShowed;
+    }
+
+    public void setTermsShowed(boolean termsShowed) {
+        isTermsShowed = termsShowed;
     }
 }

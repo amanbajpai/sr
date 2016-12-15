@@ -101,6 +101,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private String promoCode;
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
+    private boolean isTrmsShowed;
 
     public RegistrationActivity() {
     }
@@ -121,6 +122,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
             referralCasesId = getIntent().getIntExtra(Keys.REFERRAL_CASES_ID, 0);
             promoCode = getIntent().getStringExtra(Keys.PROMO_CODE);
+            isTrmsShowed = getIntent().getBooleanExtra(Keys.T_AND_C, false);
         }
 
         profilePhotoImageView.setOnClickListener(this);
@@ -220,6 +222,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 registrationEntity.setLatitude(latitude);
                 registrationEntity.setLongitude(longitude);
                 registrationEntity.setGroupCode(groupCode);
+                registrationEntity.setTermsShowed(true);
 
                 if (referralCasesId > 0) {
                     registrationEntity.setReferralId(referralCasesId);
