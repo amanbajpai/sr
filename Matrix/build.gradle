@@ -241,6 +241,7 @@ dependencies {
     chinaProductionCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaDevCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaStagingCompile fileTree(include: '*.jar', dir: '../libsChina')
+    chinaPredevCompile fileTree(include: '*.jar', dir: '../libsChina')
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
 }
