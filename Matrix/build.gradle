@@ -158,6 +158,14 @@ android {
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
         }
+
+        chinaPredev {
+            buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://predev.api.matrix.osiris.pp.ciklum.com/\""
+            buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
+            buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
+            buildConfigField "boolean", "CHINESE", "true"
+        }
         dev {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""

@@ -22,6 +22,7 @@ public interface Keys {
     String UPLOAD_FILES_PROGRESS = "upload_files_progress";
     String REGISTRATION_PERMISSIONS = "registration_permissions";
     String SHOULD_SHOW_MAIN_SCREEN = "registration_permissions";
+    String APP_VERSION = "app_version";
 
     //Settings
     String LANGUAGE_CODE = "language_code";
@@ -90,6 +91,7 @@ public interface Keys {
     String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
     String TEST_PUSH_NOTIFICATION_OPERATION_TAG = "test_push_notification_operation_tag";
     String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
+    String GET_VERSION_OPERATION_TAG = "app_version_tag";
 
 
     // Supported presentation modes for Tasks

@@ -65,6 +65,17 @@ public class APIFacade {
 
     /**
      * @param activity - current activity
+     */
+    public void getAppVersion(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_APP_VERSION);
+        operation.setTag(Keys.GET_VERSION_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
      * @param email    - current email
      */
     public void forgotPassword(Activity activity, String email) {

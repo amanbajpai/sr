@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
@@ -392,6 +393,21 @@ public class PreferencesManager {
             permissions = gson.fromJson(regPermissions, RegistrationPermissions.class);
         }
         return permissions;
+    }
+
+    public void saveAppVersion(AppVersion appVersion) {
+        Gson gson = new Gson();
+        setString(Keys.APP_VERSION, gson.toJson(appVersion));
+    }
+
+    public AppVersion getAppVersion() {
+        AppVersion appVersion = new AppVersion("0.0.0");
+        String version = getString(Keys.APP_VERSION, "");
+        if (!TextUtils.isEmpty(version)) {
+            Gson gson = new Gson();
+            appVersion = gson.fromJson(version, AppVersion.class);
+        }
+        return appVersion;
     }
 
 }

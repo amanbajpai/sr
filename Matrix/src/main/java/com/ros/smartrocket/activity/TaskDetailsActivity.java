@@ -1,5 +1,6 @@
 package com.ros.smartrocket.activity;
 
+import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -17,15 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
+import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.dialog.UpdateVersionDialog;
 import com.ros.smartrocket.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -37,6 +41,7 @@ import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.Version;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
 import com.ros.smartrocket.views.OptionsRow;
@@ -547,7 +552,23 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     @SuppressWarnings("unused")
     @OnClick(R.id.bookTaskButton)
     public void claimTask() {
-        claimTaskManager.claimTask();
+        final AppVersion appVersion = PreferencesManager.getInstance().getAppVersion();
+        Version currentVersion = new Version(BuildConfig.VERSION_NAME);
+        Version newestVersion = new Version(appVersion.getLatestVersion());
+        if (currentVersion.compareTo(newestVersion) < 0) {
+            new UpdateVersionDialog(this, currentVersion.toString(), newestVersion.toString(), new UpdateVersionDialog.DialogButtonClickListener() {
+                @Override
+                public void onCancelButtonPressed() {
+                }
+
+                @Override
+                public void onOkButtonPressed() {
+                    startActivity(IntentUtils.getBrowserIntent(appVersion.getLatestVersionLink()));
+                }
+            });
+        } else {
+            claimTaskManager.claimTask();
+        }
     }
 
     @SuppressWarnings("unused")

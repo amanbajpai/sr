@@ -498,4 +498,6 @@
     <string name="activity_log_title">Activity log request</string>
     <string name="activity_log_description">A file containing a log of your SmartRocket Account Activity has been sent to:</string>
     <string name="do_not_show_message">Do not show this message again</string>
+    <string name="dialog_update_app_title">Update app</string>
+    <string name="dialog_update_app_text">You are using an old version (%1$s) of the app. You will not be able to claim missions until you update to the latest version (%2$s). Update now?</string>
 </resources>

@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ActivityLogDialog extends Dialog {
-    private static final String TAG = BookTaskSuccessDialog.class.getSimpleName();
+    private static final String TAG = ActivityLogDialog.class.getSimpleName();
     @Bind(R.id.emailTxt)
     CustomTextView emailTxt;
     @Bind(R.id.rememberMeCheckBox)

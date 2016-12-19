@@ -19,6 +19,7 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.Category;
@@ -257,6 +258,10 @@ public class NetworkService extends BaseNetworkService {
                         AllowPushNotification allowPushNotification = gson.fromJson(responseString,
                                 AllowPushNotification.class);
                         operation.responseEntities.add(allowPushNotification);
+                        break;
+                    case WSUrl.APP_VERSION_ID:
+                        AppVersion appVersion = gson.fromJson(responseString, AppVersion.class);
+                        operation.responseEntities.add(appVersion);
                         break;
                     default:
                         break;
