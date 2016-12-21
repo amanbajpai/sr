@@ -448,4 +448,6 @@
     <string name="warning_half_claims">现在你将会退出任务或%1$d任务期限将至。 如其退出或到期次数达到%2$d次,你将会被取消领取此任务的权限</string>
     <string name="warning_last_claim">现在你将会退出任务或已达到上限为%1$d次的任务退出或过期次数。如你再退出任务或任务再次过期,你便会失去领取此任务的权限。</string>
     <string name="facebook_app_id">360659224276381</string>
+    <string name="dialog_update_app_title">更新应用程式</string>
+    <string name="dialog_update_app_text">你现在用的应用程序是旧版本(%1$s)，你要把应用程序更新至(%2$s)版本以后才可以认领任务，你现在要更新吗？</string>
 </resources>
