@@ -37,6 +37,7 @@ import com.ros.smartrocket.fragment.QuestionMultipleChooseFragment;
 import com.ros.smartrocket.fragment.QuestionNumberFragment;
 import com.ros.smartrocket.fragment.QuestionOpenCommentFragment;
 import com.ros.smartrocket.fragment.QuestionPhotoFragment;
+import com.ros.smartrocket.fragment.QuestionQuitStatementFragment;
 import com.ros.smartrocket.fragment.QuestionSingleChooseFragment;
 import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.helpers.APIFacade;
@@ -292,33 +293,37 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             if (shouldStart) {
                 Question currentQuestion = currentFragment.getQuestion();
                 if (currentQuestion != null) {
-                    L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
-                    Question question = getQuestion(currentQuestion);
+                    if (currentQuestion.getType() == Question.QuestionType.REJECT.getTypeId()) {
+                        startValidationActivity();
+                    } else {
+                        L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
+                        Question question = getQuestion(currentQuestion);
 
-                    if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
-                        if (!isPreview && question.getType() != Question.QuestionType.REJECT.getTypeId()) {
-                            preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
-                                    task.getMissionId(), question.getOrderId());
-                        }
-                        question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
+                        if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
+                            if (!isPreview) {
+                                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
+                                        task.getMissionId(), question.getOrderId());
+                            }
+                            question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
 
-                        QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
+                            QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
-                        if (currentQuestion.getNextAnsweredQuestionId() != null &&
-                                currentQuestion.getNextAnsweredQuestionId() != 0 &&
-                                !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
-                            for (Question tempQuestion : questions) {
-                                if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
-                                    AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), tempQuestion.getId());
+                            if (currentQuestion.getNextAnsweredQuestionId() != null &&
+                                    currentQuestion.getNextAnsweredQuestionId() != 0 &&
+                                    !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
+                                for (Question tempQuestion : questions) {
+                                    if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
+                                        AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), tempQuestion.getId());
+                                    }
                                 }
                             }
-                        }
-                        currentQuestion.setNextAnsweredQuestionId(question.getId());
-                        QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
+                            currentQuestion.setNextAnsweredQuestionId(question.getId());
+                            QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
 
-                        startFragment(question);
-                    } else {
-                        startValidationActivity();
+                            startFragment(question);
+                        } else {
+                            startValidationActivity();
+                        }
                     }
                 }
             }
@@ -371,11 +376,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
             //int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
 
-            if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()
-                    || question.getType() == Question.QuestionType.REJECT.getTypeId()) {
-                if (question.getType() == Question.QuestionType.REJECT.getTypeId()) {
-                    AnswersBL.updateQuitStatmentAnswer(question);
-                }
+            if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
                 startValidationActivity();
                 return;
             }
@@ -410,6 +411,10 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     break;
                 case INSTRUCTION:
                     currentFragment = new QuestionInstructionFragment();
+                    break;
+                case REJECT:
+                    AnswersBL.updateQuitStatmentAnswer(question);
+                    currentFragment = new QuestionQuitStatementFragment();
                     break;
                 case MASS_AUDIT:
                     currentFragment = new QuestionMassAuditFragment();
@@ -477,8 +482,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onAnswerSelected(Boolean selected, int questionId) {
         if (isPreview) {
             Question nextQuestion = currentFragment == null ? null : getQuestion(currentFragment.getQuestion());
-            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId()
-                    || nextQuestion.getType() == Question.QuestionType.REJECT.getTypeId()) {
+            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
                 nextButton.setEnabled(false);
             } else {
                 nextButton.setEnabled(true);
