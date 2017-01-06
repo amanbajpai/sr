@@ -4,55 +4,56 @@
     package="com.ros.smartrocket"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- Location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
     <!-- JPUSH Required -->
     <permission
         android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- JPUSH Optional -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- Global receiver -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Cloud to Device Messaging permissions -->
     <permission
         android:name="${applicationId}.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
 
-    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- Map -->
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!-- App must have this permission to use the library -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- Crach loger -->
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- Get Photo -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:name=".App"
@@ -62,65 +63,71 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup, label">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.TutorialActivity"
+            android:label="@string/app_name" />
+        <activity
             android:name=".activity.ReferralCasesActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.PromoCodeActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.RegistrationActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.LoginActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ForgotPasswordSuccessActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.FullScreenImageActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FullScreenVideoActivity"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TaskDetailsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeGreen"/>
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".activity.WaveDetailsActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeGreen"/>
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".activity.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
             android:theme="@style/CustomNotification.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.MapActivity"
             android:configChanges="locale"
@@ -130,119 +137,119 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.SettingsActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.ShareActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.CheckLocationActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.EmailRedirectActivity"
             android:configChanges="locale">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="dev.agents.matrix.osiris.pp.ciklum.com"
-                    android:scheme="http"/>
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="agent.staging.redoceansolutions.com"
-                    android:scheme="http"/>
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="crew.smart-rocket.net"
                     android:pathPrefix="/Account"
-                    android:scheme="http"/>
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="crew.smart-rocket.net"
                     android:pathPrefix="/Crew"
-                    android:scheme="http"/>
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.CheckLocationFailedActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.ActivateAccountActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.SetNewPasswordActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.QuestionsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.TaskValidationActivity"
             android:configChanges="locale"
-            android:theme="@style/AppThemeGreen"/>
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".activity.TermsAndConditionActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.QuitQuestionActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.CashingOutActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.CashingOutConfirmationActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.CashingOutSuccessActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <activity
             android:name=".activity.IdCardActivity"
-            android:theme="@style/AppThemeNoActionBar"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <service
             android:name=".net.NetworkService"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activity.PushNotificationActivity"
-            android:configChanges="locale"/>
+            android:configChanges="locale" />
         <provider
             android:name=".db.AppContentProvider"
             android:authorities="${applicationId}"
-            android:exported="false"/>
+            android:exported="false" />
         <!-- Used for install referral measurement -->
-        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
+        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
         <receiver
             android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
         <!-- GCM -->
@@ -250,80 +257,82 @@
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="${applicationId}"/>
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-        <service android:name=".GCMIntentService"/>
+        <service android:name=".GCMIntentService" />
         <receiver
             android:name=".net.GlobalReceiver"
             android:exported="true">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <data
                     android:path="${applicationId}"
-                    android:scheme="package"/>
+                    android:scheme="package" />
             </intent-filter>
         </receiver>
         <service
             android:name=".net.TaskReminderService"
-            android:exported="true"/>
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="${googleApiKey}"/>
+            android:value="${googleApiKey}" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="${baiduApiKey}"/>
+            android:value="${baiduApiKey}" />
         <!-- Upload file services -->
         <service
             android:name=".net.UploadFileService"
-            android:exported="false"/>
+            android:exported="false" />
         <service
             android:name=".net.UploadFileNetworkService"
-            android:exported="false"/>
+            android:exported="false" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
 
         <meta-data
             android:name="com.crashlytics.ApiKey"
-            android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc"/>
+            android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc" />
         <!-- JPUSH Required SDK [START] -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.ros.smartrocket" />
             </intent-filter>
         </activity>
+
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER"/>
-                <action android:name="cn.jpush.android.intent.REPORT"/>
-                <action android:name="cn.jpush.android.intent.PushService"/>
-                <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
         <!-- JPUSH Required SDK -->
@@ -332,42 +341,44 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
-                <category android:name="com.ros.smartrocket"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <category android:name="com.ros.smartrocket" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
             <!-- Optional -->
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package"/>
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
         <!-- JPUSH Required SDK -->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
                 <!-- Required  用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION"/>
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
                 <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
                 <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
                 <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK"/>
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
                 <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION"/>
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.ros.smartrocket"/>
+                <category android:name="com.ros.smartrocket" />
             </intent-filter>
         </receiver>
         <!-- JPUSH Required SDK [END] -->
@@ -375,13 +386,13 @@
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
-            android:value="developer-default"/>
+            android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="${jPushAppKey}"/>
+            android:value="${jPushAppKey}" />
 
         <service
             android:name=".service.CleanFilesIntentService"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 </manifest>

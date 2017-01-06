@@ -500,4 +500,14 @@
     <string name="do_not_show_message">Do not show this message again</string>
     <string name="dialog_update_app_title">Update app</string>
     <string name="dialog_update_app_text">You are using an old version (%1$s) of the app. You will not be able to claim missions until you update to the latest version (%2$s). Update now?</string>
+    <string name="tut_title_1">SmartRocket.</string>
+    <string name="tut_text1">Earn money doing simple tasks around town.</string>
+    <string name="tut_title_2">Audits.</string>
+    <string name="tut_text2">Check products and services in stores.</string>
+    <string name="tut_title_3">Opinions.</string>
+    <string name="tut_text3">Tell us what you think on things that matter.</string>
+    <string name="tut_title_4">Real Cash.</string>
+    <string name="tut_text4">Earn real cash instantly.</string>
+    <string name="tut_title_5">Join our Crew.</string>
+    <string name="tut_text5">Join now and start earning today!</string>
 </resources>

@@ -30,6 +30,7 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.TutorialView;
 
 /**
  * Activity for Agents login into system
@@ -293,7 +294,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
             Intent intent;
             registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
-            if (registrationPermissions.isTermsEnable()) {
+            if (registrationPermissions.isSlidersEnable()) {
+                intent = new Intent(this, TutorialActivity.class);
+            } else if (registrationPermissions.isTermsEnable()) {
                 intent = new Intent(this, TermsAndConditionActivity.class);
             } else if (registrationPermissions.isReferralEnable()) {
                 intent = new Intent(this, ReferralCasesActivity.class);

@@ -446,4 +446,14 @@
     <string name="facebook_app_id">360659224276381</string>
     <string name="dialog_update_app_title">更新應用程式</string>
     <string name="dialog_update_app_text">你現在用的應用程式是舊版本(%1$s)，你要把應用程式更新至(%2$s)版本以後才可以認領任務，你現在要更新嗎？</string>
+    <string name="tut_title_1">智慧飛船.</string>
+    <string name="tut_text1">在何時何地做簡單任務賺取外快</string>
+    <string name="tut_title_2">庫存調查.</string>
+    <string name="tut_text2">在何時何地做簡單任務賺取外快</string>
+    <string name="tut_title_3">意見.</string>
+    <string name="tut_text3">告訴我們您的意見</string>
+    <string name="tut_title_4">收取現金.</string>
+    <string name="tut_text4">把賬戶結餘即時轉換為現金.</string>
+    <string name="tut_title_5">加入我們吧.</string>
+    <string name="tut_text5">現在加入我們的行列, 開始賺錢吧</string>
 </resources>
