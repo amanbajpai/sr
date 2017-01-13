@@ -15,15 +15,16 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.tencent.mm.sdk.openapi.IWXAPI;
 
 import java.util.Arrays;
 
@@ -40,6 +41,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private AppCompatActivity activity;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
+    private IWXAPI api;
 
     public SocialLoginView(Context context) {
         super(context);
@@ -94,6 +96,8 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private void setUpGoogleSignInBtn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestProfile()
+               // .requestIdToken("27692760432-vb8n94enf38i4480od0eeqcavj4pkctq.apps.googleusercontent.com")
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .enableAutoManage(activity, this)
@@ -119,13 +123,13 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == G_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            handleGoogleSignInResult(result);
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleGoogleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully
             Toast.makeText(getContext(), "Success. Google is good guy!", Toast.LENGTH_SHORT).show();

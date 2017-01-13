@@ -1109,7 +1109,7 @@ public class UIUtils {
         boolean result = true;
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         String lastEmail = preferencesManager.getLastEmail();
-        if (!lastEmail.equals(currentEmail)) {
+        if (!TextUtils.isEmpty(lastEmail) && !lastEmail.equals(currentEmail)) {
             int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
             result = notUploadedFileCount == 0;
         }

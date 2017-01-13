@@ -68,7 +68,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
         loginEditText = (EditText) view.findViewById(R.id.loginEditText);
         userIdEditText = (EditText) view.findViewById(R.id.userIdEditText);
 
-        loginButton = (Button) view.findViewById(R.id.continue_with_email_btn);
+        loginButton = (Button) view.findViewById(R.id.login_btn);
         loginButton.setOnClickListener(this);
 
         if (App.getInstance().getMyAccount().getIsPaymentAccountExists()) {
@@ -142,7 +142,7 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.continue_with_email_btn:
+            case R.id.login_btn:
                 if (validateFields()) {
                     AliPayAccount aliPayAccount = new AliPayAccount();
                     aliPayAccount.setAccName(loginEditText.getText().toString());

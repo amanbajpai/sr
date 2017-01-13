@@ -93,6 +93,7 @@ public interface Keys {
     String TEST_PUSH_NOTIFICATION_OPERATION_TAG = "test_push_notification_operation_tag";
     String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
     String GET_VERSION_OPERATION_TAG = "app_version_tag";
+    String GET_CHECK_EMAIL_OPERATION_TAG = "check_email_tag";
 
 
     // Supported presentation modes for Tasks

@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.Login;
+import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.helpers.WriteDataHelper;
@@ -35,10 +37,8 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     CustomEditTextView passwordEditText;
     @Bind(R.id.rememberMeCheckBox)
     CustomCheckBox rememberMeCheckBox;
-    @Bind(R.id.continue_with_email_btn)
+    @Bind(R.id.login_btn)
     CustomButton loginButton;
-    @Bind(R.id.forgotPasswordButton)
-    CustomTextView forgotPasswordButton;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
@@ -48,6 +48,9 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_password);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,9 +81,9 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                //LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
-                String password = passwordEditText.getText().toString().trim();
+                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
+                String password = passwordEditText.getText().toString().trim();
                 WriteDataHelper.prepareLogin(this, email);
 
                 preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
@@ -92,8 +95,11 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
                 }
                 dismissProgressDialog();
                 finish();
-                sendBroadcast(new Intent().setAction(Keys.FINISH_LOGIN_ACTIVITY));
-                if (!getIntent().getBooleanExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                if (loginResponse.isShowTermsConditions()) {
+                    Intent intent = new Intent(this, TermsAndConditionActivity.class);
+                    intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
+                    startActivity(intent);
+                } else if (!getIntent().getBooleanExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
                     startActivity(new Intent(this, MainActivity.class));
                 }
             }
@@ -126,10 +132,10 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
         }
     }
 
-    @OnClick({R.id.continue_with_email_btn, R.id.forgotPasswordButton})
+    @OnClick({R.id.login_btn, R.id.forgotPasswordButton})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.continue_with_email_btn:
+            case R.id.login_btn:
                 login();
                 break;
             case R.id.forgotPasswordButton:
@@ -142,18 +148,35 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
         String password = passwordEditText.getText().toString().trim();
         if (!TextUtils.isEmpty(password)) {
             if (UIUtils.deviceIsReady(this)) {
-                progressDialog = CustomProgressDialog.show(this);
-                loginButton.setEnabled(false);
-                String deviceManufacturer = UIUtils.getDeviceManufacturer();
-                String deviceModel = UIUtils.getDeviceModel();
-                String deviceName = UIUtils.getDeviceName(this);
-                apiFacade.login(this, email, password, deviceName, deviceModel,
-                        deviceManufacturer, UIUtils.getAppVersion(this),
-                        Build.VERSION.RELEASE);
+                login(email, password);
             }
         } else {
             UIUtils.showSimpleToast(this, R.string.fill_in_field);
         }
+    }
+
+    private void login(String email, String password) {
+        progressDialog = CustomProgressDialog.show(this);
+        Login loginEntity = new Login();
+        String deviceManufacturer = UIUtils.getDeviceManufacturer();
+        String deviceModel = UIUtils.getDeviceModel();
+        String deviceName = UIUtils.getDeviceName(this);
+        loginEntity.setEmail(email);
+        loginEntity.setPassword(password);
+        loginEntity.setDeviceName(deviceName);
+        loginEntity.setDeviceModel(deviceModel);
+        loginEntity.setDeviceManufacturer(deviceManufacturer);
+        loginEntity.setAppVersion(UIUtils.getAppVersion(this));
+        loginEntity.setAndroidVersion(Build.VERSION.RELEASE);
+        Intent intent = getIntent();
+        if (intent != null) {
+            loginEntity.setCityId(intent.getIntExtra(Keys.CITY_ID, 0));
+            loginEntity.setCountryId(intent.getIntExtra(Keys.COUNTRY_ID, 0));
+            loginEntity.setDistrictId(intent.getIntExtra(Keys.DISTRICT_ID, 0));
+            loginEntity.setLongitude(intent.getDoubleExtra(Keys.LONGITUDE, 0));
+            loginEntity.setLatitude(intent.getDoubleExtra(Keys.LATITUDE, 0));
+        }
+        apiFacade.login(this, loginEntity);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
@@ -17,9 +16,8 @@ import android.widget.Toast;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.db.entity.CheckEmail;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
-import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.dialog.CheckLocationDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
@@ -30,7 +28,6 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.views.TutorialView;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomTextView;
@@ -43,8 +40,8 @@ import butterknife.OnClick;
 /**
  * Activity for Agents login into system
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface, PopupMenu.OnMenuItemClickListener {
+public class LoginActivity extends BaseActivity implements NetworkOperationListenerInterface,
+        PopupMenu.OnMenuItemClickListener {
 
     public static String START_PUSH_NOTIFICATIONS_ACTIVITY = "start_push_notif";
     @Bind(R.id.emailEditText)
@@ -60,7 +57,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private boolean startPushNotificationActivity;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
     private RegistrationPermissions registrationPermissions;
     private CheckLocationDialog checkLocationDialog;
@@ -68,6 +64,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     double latitude;
     double longitude;
     private LogOutReceiver localReceiver;
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private String userEmail;
 
     public LoginActivity() {
     }
@@ -81,25 +79,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        socialLoginView.setUpSocialLogins(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
         startPushNotificationActivity = getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false);
         currentVersion.setText("v." + BuildConfig.LOGIN_SCREEN_VERSION);
-        socialLoginView.setUpSocialLogins(this);
         fillLanguageTv();
         String lastEmail = preferencesManager.getLastEmail();
 
         if (!TextUtils.isEmpty(lastEmail)) {
             emailEditText.setText(lastEmail);
         }
-        continueWithEmailBtn.setOnClickListener(this);
+        continueWithEmailBtn.setEnabled(false);
         checkDeviceSettingsByOnResume(false);
         localReceiver = new LogOutReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.FINISH_LOGIN_ACTIVITY);
-
         registerReceiver(localReceiver, intentFilter);
     }
 
@@ -131,48 +130,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
+        dismissProgressDialog();
+        if (checkLocationDialog != null) {
+            checkLocationDialog.onNetworkOperation(operation);
+        }
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                CheckLocationResponse checkLocationResponse =
-                        (CheckLocationResponse) operation.getResponseEntities().get(0);
-
-                if (checkLocationResponse.getStatus()) {
-                    Intent intent = new Intent(this, PromoCodeActivity.class);
-                    intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
-                    intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
-                    intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
-                }
-            } else {
-                if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                    dismissProgressDialog();
-                    //loginButton.setEnabled(true);
-                    if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                            == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
-                        DialogUtils.showAccountNotActivatedDialog(this);
-
-                    } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                            == BaseNetworkService.NO_INTERNET) {
-                        DialogUtils.showBadOrNoInternetDialog(this);
-
-                    } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                            == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
-                        DialogUtils.showLoginFailedDialog(this);
-
-                    } else {
-                        UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
-                    }
-                    // TODO registerButton.setEnabled(true);
-                    dismissProgressDialog();
-                } else if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
-                    dismissProgressDialog();
-                    if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                            == BaseNetworkService.NO_INTERNET) {
-                        DialogUtils.showBadOrNoInternetDialog(this);
-                    } else {
-                        startActivity(new Intent(this, CheckLocationActivity.class));
-                    }
+            if (Keys.GET_CHECK_EMAIL_OPERATION_TAG.equals(operation.getTag())) {
+                progressDialog.dismiss();
+                CheckEmail checkEmail = (CheckEmail) operation.getResponseEntities().get(0);
+                if (checkEmail.isEmailExists()) {
+                    startPasswordActivity(userEmail);
+                } else {
+                    startRegistrationFlow();
                 }
             }
+        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                == BaseNetworkService.NO_INTERNET) {
+            DialogUtils.showBadOrNoInternetDialog(this);
+
+        } else {
+            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
         }
     }
 
@@ -180,76 +157,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.continue_with_email_btn:
-                String email = emailEditText.getText().toString().trim();
-                if (!TextUtils.isEmpty(email)) {
-                    if (UIUtils.deviceIsReady(this)) {
-                        if (UIUtils.isAllFilesSend(email)) {
-                            progressDialog = CustomProgressDialog.show(this);
-                            // TODO check email
-                            progressDialog.dismiss();
-                            Intent i = new Intent(this, PasswordActivity.class);
-                            i.putExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, startPushNotificationActivity);
-                            i.putExtra(PasswordActivity.EMAIL, email);
-                            startActivity(i);
-                        } else {
-                            // not all tasks are sent - cannot login
-                            DialogUtils.showNotAllFilesSendDialog(this);
-                        }
-                    }
-                } else {
-                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
-                }
-                break;
-            case R.id.registerButton:
-                if (deviceIsReady()) {
-                    startRegistrationFlow();
-                }
-                break;
-            case R.id.forgotPasswordButton:
-                startActivity(new Intent(this, ForgotPasswordActivity.class));
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void login(String email, String password) {
-        Login loginEntity = new Login();
-        String deviceManufacturer = UIUtils.getDeviceManufacturer();
-        String deviceModel = UIUtils.getDeviceModel();
-        String deviceName = UIUtils.getDeviceName(this);
-        loginEntity.setEmail(email);
-        loginEntity.setPassword(password);
-        loginEntity.setDeviceName(deviceName);
-        loginEntity.setDeviceModel(deviceModel);
-        loginEntity.setDeviceManufacturer(deviceManufacturer);
-        loginEntity.setAppVersion(UIUtils.getAppVersion(this));
-        loginEntity.setAndroidVersion(Build.VERSION.RELEASE);
-        if (checkLocationResponse != null) {
-            loginEntity.setCityId(checkLocationResponse.getCityId());
-            loginEntity.setCountryId(checkLocationResponse.getCountryId());
-            loginEntity.setDistrictId(checkLocationResponse.getDistrictId());
-            loginEntity.setLongitude(longitude);
-            loginEntity.setLatitude(latitude);
-        }
-        apiFacade.login(this, loginEntity);
-    }
-
-    private boolean isAllFilesSend(String currentEmail) {
-        boolean result = true;
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        String lastEmail = preferencesManager.getLastEmail();
-        if (!lastEmail.equals(currentEmail)) {
-            int notUploadedFileCount = FilesBL.getNotUploadedFileCount();
-            result = notUploadedFileCount == 0;
-        }
-        return result;
     }
 
     public boolean deviceIsReady() {
@@ -262,7 +169,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } else if (UIUtils.isMockLocationEnabled(this)) {
             DialogUtils.showMockLocationDialog(this, true);
         }
-
         return result;
     }
 
@@ -316,6 +222,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             this.longitude = longitude;
             registrationPermissions = checkLocationResponse.getRegistrationPermissions();
             PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
+            if (!registrationPermissions.isSocialEnable()) {
+                socialLoginView.setVisibility(View.VISIBLE);
+            } else {
+                socialLoginView.setVisibility(View.GONE);
+            }
         }
         continueWithEmailBtn.setEnabled(true);
     }
@@ -335,22 +246,31 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             } else {
                 intent = new Intent(this, RegistrationActivity.class);
             }
-            intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
-            intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
-            intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
             intent.putExtra(Keys.COUNTRY_NAME, checkLocationResponse.getCountryName());
             intent.putExtra(Keys.CITY_NAME, checkLocationResponse.getCityName());
-            intent.putExtra(Keys.LATITUDE, latitude);
-            intent.putExtra(Keys.LONGITUDE, longitude);
+            fillIntentWithLocationData(intent);
             startActivity(intent);
         } else {
             startActivity(new Intent(this, CheckLocationActivity.class));
         }
     }
 
-    @OnClick(R.id.language)
-    public void onClick() {
-        showPopup(language);
+    private void startPasswordActivity(String email) {
+        Intent i = new Intent(this, PasswordActivity.class);
+        i.putExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, startPushNotificationActivity);
+        i.putExtra(PasswordActivity.EMAIL, email);
+        fillIntentWithLocationData(i);
+        startActivity(i);
+    }
+
+    private void fillIntentWithLocationData(Intent intent) {
+        if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
+            intent.putExtra(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
+            intent.putExtra(Keys.CITY_ID, checkLocationResponse.getCityId());
+            intent.putExtra(Keys.DISTRICT_ID, checkLocationResponse.getDistrictId());
+            intent.putExtra(Keys.LATITUDE, latitude);
+            intent.putExtra(Keys.LONGITUDE, longitude);
+        }
     }
 
     private void showPopup(View v) {
@@ -388,11 +308,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    @OnClick({R.id.language, R.id.continue_with_email_btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.language:
+                showPopup(language);
+                break;
+            case R.id.continue_with_email_btn:
+                userEmail = emailEditText.getText().toString().trim();
+                if (!TextUtils.isEmpty(userEmail)) {
+                    if (UIUtils.deviceIsReady(this)) {
+                        if (UIUtils.isAllFilesSend(userEmail)) {
+                            progressDialog = CustomProgressDialog.show(this);
+                            apiFacade.checkEmail(this, userEmail);
+                        } else {
+                            // not all tasks are sent - cannot login
+                            DialogUtils.showNotAllFilesSendDialog(this);
+                        }
+                    }
+                } else {
+                    UIUtils.showSimpleToast(this, R.string.fill_in_field);
+                }
+                break;
+        }
+    }
+
     public class LogOutReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
             if (action.equals(Keys.FINISH_LOGIN_ACTIVITY)) {
                 finish();
             }

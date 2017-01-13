@@ -55,6 +55,8 @@ public final class WSUrl {
     public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
     public static final String POST_TERMS_AND_CONDITIONS = Config.WEB_SERVICE_URL + "api/Authorize/SetTermsAndConditions";
     public static final String GET_APP_VERSION = Config.WEB_SERVICE_URL + "api/Authorize/Versioning";
+    public static final String GET_CHECK_EMAIL = Config.WEB_SERVICE_URL + "api/Authorize/CheckEmail?email=%s";
+
 
     public static final int LOGIN_ID = 1;
     public static final int GET_WAVES_ID = 2;
@@ -90,6 +92,7 @@ public final class WSUrl {
     public static final int ALLOW_PUSH_NOTIFICATION_ID = 32;
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
     public static final int APP_VERSION_ID = 34;
+    public static final int CHECK_EMAIL_ID = 35;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -128,6 +131,7 @@ public final class WSUrl {
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
         URLS.put(GET_NATIONAL_ID_ACCOUNT, GET_NATIONAL_ID_ACCOUNT_ID);
         URLS.put(GET_APP_VERSION, APP_VERSION_ID);
+        URLS.put(GET_CHECK_EMAIL, CHECK_EMAIL_ID);
     }
 
     public static int matchUrl(String url) {

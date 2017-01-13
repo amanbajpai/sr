@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_green_selector"
-            android:drawableLeft="@drawable/mail_icon"
+            android:drawableLeft="@drawable/ic_mail"
             android:drawablePadding="10dp"
             android:gravity="center_vertical|left"
             android:paddingLeft="10dp"

@@ -670,6 +670,23 @@ public class APIFacade {
     }
 
     /**
+     * Get operation for check users email (exist or not user)
+     */
+    public void checkEmail(Activity activity, String email) {
+        BaseOperation operation = new BaseOperation();
+        String userEmail = "";
+        try {
+            userEmail = URLEncoder.encode(email, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        operation.setUrl(WSUrl.GET_CHECK_EMAIL, userEmail);
+        operation.setTag(Keys.GET_CHECK_EMAIL_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
      * @param activity - current activity
      */
     public void testPushNotification(Activity activity, PushBulkMessage pushBulkMessage) {

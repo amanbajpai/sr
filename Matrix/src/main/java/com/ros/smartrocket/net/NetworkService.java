@@ -23,6 +23,7 @@ import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.Category;
+import com.ros.smartrocket.db.entity.CheckEmail;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
@@ -262,6 +263,10 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.APP_VERSION_ID:
                         AppVersion appVersion = gson.fromJson(responseString, AppVersion.class);
                         operation.responseEntities.add(appVersion);
+                        break;
+                    case WSUrl.CHECK_EMAIL_ID:
+                        CheckEmail checkEmail = gson.fromJson(responseString, CheckEmail.class);
+                        operation.responseEntities.add(checkEmail);
                         break;
                     default:
                         break;
