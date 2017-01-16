@@ -13,6 +13,7 @@ import com.ros.smartrocket.db.entity.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.CheckLocation;
+import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NationalIdAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
@@ -683,6 +684,31 @@ public class APIFacade {
         operation.setUrl(WSUrl.GET_CHECK_EMAIL, userEmail);
         operation.setTag(Keys.GET_CHECK_EMAIL_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     * @param srCode   - promo code
+     */
+    public void setPromoCode(Activity activity, String srCode) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.POST_PROMO_CODE, srCode);
+        operation.setTag(Keys.POST_PROMO_CODE_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity                - current activity
+     * @param externalAuthorizeEntity - data for auth with social networks
+     */
+    public void externalAuth(Activity activity, ExternalAuthorize externalAuthorizeEntity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.POST_EXTERNAL_AUTHORIZE, preferencesManager.getLanguageCode());
+        operation.setTag(Keys.POST_EXTERNAL_AUTH_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(externalAuthorizeEntity);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

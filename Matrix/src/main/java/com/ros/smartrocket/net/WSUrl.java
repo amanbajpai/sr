@@ -14,6 +14,7 @@ public final class WSUrl {
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
+    public static final String POST_EXTERNAL_AUTHORIZE = Config.WEB_SERVICE_URL + "api/Authorize/ExternalAuthorize?language=%s";
     public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
@@ -56,6 +57,7 @@ public final class WSUrl {
     public static final String POST_TERMS_AND_CONDITIONS = Config.WEB_SERVICE_URL + "api/Authorize/SetTermsAndConditions";
     public static final String GET_APP_VERSION = Config.WEB_SERVICE_URL + "api/Authorize/Versioning";
     public static final String GET_CHECK_EMAIL = Config.WEB_SERVICE_URL + "api/Authorize/CheckEmail?email=%s";
+    public static final String POST_PROMO_CODE = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePromoCode?promoCode=%s";
 
 
     public static final int LOGIN_ID = 1;
@@ -93,6 +95,7 @@ public final class WSUrl {
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
     public static final int APP_VERSION_ID = 34;
     public static final int CHECK_EMAIL_ID = 35;
+    public static final int EXTERNAL_AUTH_ID = 36;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -132,6 +135,7 @@ public final class WSUrl {
         URLS.put(GET_NATIONAL_ID_ACCOUNT, GET_NATIONAL_ID_ACCOUNT_ID);
         URLS.put(GET_APP_VERSION, APP_VERSION_ID);
         URLS.put(GET_CHECK_EMAIL, CHECK_EMAIL_ID);
+        URLS.put(POST_EXTERNAL_AUTHORIZE, EXTERNAL_AUTH_ID);
     }
 
     public static int matchUrl(String url) {

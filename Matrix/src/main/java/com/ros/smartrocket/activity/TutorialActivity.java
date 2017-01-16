@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.rd.PageIndicatorView;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.TutorialPageAdapter;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
@@ -76,12 +77,12 @@ public class TutorialActivity extends BaseActivity {
             intent = new Intent(this, ReferralCasesActivity.class);
         } else if (registrationPermissions.isSrCodeEnable()) {
             intent = new Intent(this, PromoCodeActivity.class);
+        } else if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL)) {
+            intent = new Intent(this, MainActivity.class);
         } else {
             intent = new Intent(this, RegistrationActivity.class);
         }
-        if (getIntent().getExtras() != null) {
-            intent.putExtras(getIntent().getExtras());
-        }
+        intent.putExtras(getIntent().getExtras());
         startActivity(intent);
         finish();
     }

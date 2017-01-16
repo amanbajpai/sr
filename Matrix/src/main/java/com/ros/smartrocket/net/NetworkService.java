@@ -268,6 +268,9 @@ public class NetworkService extends BaseNetworkService {
                         CheckEmail checkEmail = gson.fromJson(responseString, CheckEmail.class);
                         operation.responseEntities.add(checkEmail);
                         break;
+                    case WSUrl.EXTERNAL_AUTH_ID:
+                        // TODO handle response
+                        break;
                     default:
                         break;
                 }

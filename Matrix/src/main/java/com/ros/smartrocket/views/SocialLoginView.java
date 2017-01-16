@@ -2,17 +2,22 @@ package com.ros.smartrocket.views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -21,10 +26,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.tencent.mm.sdk.openapi.IWXAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -78,7 +91,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getContext(), "Success. FB is good guy!", Toast.LENGTH_SHORT).show();
+                getFacebookAccount(loginResult.getAccessToken());
             }
 
             @Override
@@ -93,15 +106,41 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         });
     }
 
+    private void getFacebookAccount(final AccessToken token) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                token,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        ExternalAuthorize authorize = new ExternalAuthorize();
+                        authorize.setExternalAuthToken(token.toString());
+                        authorize.setExternalAuthSource(0);
+                        try {
+                            authorize.setFullName(object.getString("name"));
+                            authorize.setGender("male".equals(object.getString("gender")) ? 1 : 2);
+                        } catch (JSONException e) {
+                            Log.e("FB auth", "JSON exception", e);
+                        }
+
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,gender");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
     private void setUpGoogleSignInBtn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
-               // .requestIdToken("27692760432-vb8n94enf38i4480od0eeqcavj4pkctq.apps.googleusercontent.com")
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                // .requestIdToken("27692760432-vb8n94enf38i4480od0eeqcavj4pkctq.apps.googleusercontent.com")
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .enableAutoManage(activity, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Plus.API)
                 .build();
     }
 
@@ -134,7 +173,10 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
             // Signed in successfully
             Toast.makeText(getContext(), "Success. Google is good guy!", Toast.LENGTH_SHORT).show();
             GoogleSignInAccount acct = result.getSignInAccount();
-
+            ExternalAuthorize authorize = new ExternalAuthorize();
+            authorize.setExternalAuthToken(result.getSignInAccount().getIdToken());
+            authorize.setExternalAuthSource(1);
+            authorize.setFullName(acct.getDisplayName());
         } else {
             // Signed out
         }

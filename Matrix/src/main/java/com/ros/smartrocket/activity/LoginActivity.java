@@ -141,7 +141,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 if (checkEmail.isEmailExists()) {
                     startPasswordActivity(userEmail);
                 } else {
-                    startRegistrationFlow();
+                    startRegistrationFlow(false);
                 }
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
@@ -231,7 +231,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         continueWithEmailBtn.setEnabled(true);
     }
 
-    private void startRegistrationFlow() {
+    private void startRegistrationFlow(boolean isSocial) {
         if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
             Intent intent;
             registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
@@ -248,6 +248,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             }
             intent.putExtra(Keys.COUNTRY_NAME, checkLocationResponse.getCountryName());
             intent.putExtra(Keys.CITY_NAME, checkLocationResponse.getCityName());
+            intent.putExtra(Keys.IS_SOCIAL, isSocial);
             fillIntentWithLocationData(intent);
             startActivity(intent);
         } else {

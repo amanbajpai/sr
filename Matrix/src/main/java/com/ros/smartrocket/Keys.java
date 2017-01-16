@@ -94,6 +94,8 @@ public interface Keys {
     String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
     String GET_VERSION_OPERATION_TAG = "app_version_tag";
     String GET_CHECK_EMAIL_OPERATION_TAG = "check_email_tag";
+    String POST_PROMO_CODE_OPERATION_TAG = "post_promo_code_operation_tag";
+    String POST_EXTERNAL_AUTH_TAG = "post_external_auth_tag";
 
 
     // Supported presentation modes for Tasks
@@ -128,6 +130,9 @@ public interface Keys {
         WAVE_TASKS,
         SINGLE_TASK
     }
+
+    //Social authorization
+    String IS_SOCIAL = "is_social";
 
     //Tasks
     String TASK_ID = "task_id";
