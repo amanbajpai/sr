@@ -135,7 +135,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
                 .requestEmail()
                 .requestProfile()
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
-                // .requestIdToken("27692760432-vb8n94enf38i4480od0eeqcavj4pkctq.apps.googleusercontent.com")
+                .requestIdToken("318949058113-59oe5om5c2496k08vsfesna671rtvn1n.apps.googleusercontent.com")
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .enableAutoManage(activity, this)

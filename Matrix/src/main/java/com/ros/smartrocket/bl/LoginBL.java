@@ -38,7 +38,7 @@ public class LoginBL {
             errors = PreLoginErrors.NOCONNECTION;
         } else if (!utils.isAllLocationSourceEnabled(context)) {
             errors = PreLoginErrors.GPSOFF;
-        } else if (utils.isMockLocationEnabled(context)) {
+        } else if (utils.isMockLocationEnabled(context, null)) {
             errors = PreLoginErrors.MOCKON;
         } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             errors = PreLoginErrors.NOPASSWORDOREMAIL;

@@ -161,12 +161,12 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
 
     public boolean deviceIsReady() {
         boolean result = UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
-                && !UIUtils.isMockLocationEnabled(this);
+                && !UIUtils.isMockLocationEnabled(this, null);
         if (!UIUtils.isOnline(this)) {
             DialogUtils.showNetworkDialog(this);
         } else if (!UIUtils.isAllLocationSourceEnabled(this)) {
             DialogUtils.showLocationDialog(this, true);
-        } else if (UIUtils.isMockLocationEnabled(this)) {
+        } else if (UIUtils.isMockLocationEnabled(this, null)) {
             DialogUtils.showMockLocationDialog(this, true);
         }
         return result;
@@ -222,7 +222,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             this.longitude = longitude;
             registrationPermissions = checkLocationResponse.getRegistrationPermissions();
             PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
-            if (!registrationPermissions.isSocialEnable()) {
+            if (registrationPermissions.isSocialEnable()) {
                 socialLoginView.setVisibility(View.VISIBLE);
             } else {
                 socialLoginView.setVisibility(View.GONE);

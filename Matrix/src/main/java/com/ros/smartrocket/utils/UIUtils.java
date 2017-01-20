@@ -16,6 +16,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -414,21 +415,24 @@ public class UIUtils {
      * @param context - current context
      * @return boolean
      */
-    public static boolean isMockLocationEnabled(Context context) {
+    public static boolean isMockLocationEnabled(Context context, Location location) {
         boolean isMockLocation = false;
         if (BuildConfig.CHECK_MOCK_LOCATION) {
-            try {
-                //if marshmallow
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-                    isMockLocation = (opsManager.checkOp("android:mock_location", android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
-                } else {
-                    isMockLocation = !"0".equals(Settings.Secure.getString(context.getContentResolver(),
-                            Settings.Secure.ALLOW_MOCK_LOCATION));
+            if (Build.VERSION.SDK_INT > 18) {
+                if (location != null) {
+                    isMockLocation = location.isFromMockProvider();
                 }
-            } catch (Exception e) {
-                Log.e("Mock location enabled", "Exception", e);
-                return isMockLocation;
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+                        isMockLocation = (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
+                    }
+                } catch (Exception e) {
+                    Log.e("Mock location enabled", "Exception", e);
+                }
+            } else {
+                isMockLocation = !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
+                        .Secure.ALLOW_MOCK_LOCATION).equals("0");
             }
         }
         return isMockLocation;
@@ -1094,12 +1098,12 @@ public class UIUtils {
 
     public static boolean deviceIsReady(Activity c) {
         boolean result = isOnline(c) && isAllLocationSourceEnabled(c)
-                && !isMockLocationEnabled(c);
+                && !isMockLocationEnabled(c, null);
         if (!isOnline(c)) {
             DialogUtils.showNetworkDialog(c);
         } else if (!isAllLocationSourceEnabled(c)) {
             DialogUtils.showLocationDialog(c, true);
-        } else if (isMockLocationEnabled(c)) {
+        } else if (isMockLocationEnabled(c, null)) {
             DialogUtils.showMockLocationDialog(c, true);
         }
         return result;

@@ -56,7 +56,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (checkDeviceSettingsByOnResume) {
-            if (UIUtils.isMockLocationEnabled(this)) {
+            if (UIUtils.isMockLocationEnabled(this, null)) {
                 DialogUtils.showMockLocationDialog(this, false);
             } else if (!UIUtils.isAllLocationSourceEnabled(this) && preferencesManager.getUseLocationServices()) {
                 DialogUtils.showLocationDialog(this, false);

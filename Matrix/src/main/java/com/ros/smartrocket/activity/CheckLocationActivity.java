@@ -46,7 +46,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     DialogUtils.showNetworkDialog(this);
                 } else if (!UIUtils.isAllLocationSourceEnabled(this)) {
                     DialogUtils.showLocationDialog(this, true);
-                } else if (UIUtils.isMockLocationEnabled(this)) {
+                } else if (UIUtils.isMockLocationEnabled(this, null)) {
                     DialogUtils.showMockLocationDialog(this, true);
                 } else {
                     checkLocationDialog = new CheckLocationDialog(this,
@@ -56,7 +56,9 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                                                               double latitude, double longitude,
                                                               CheckLocationResponse serverResponse) {
                                     Intent intent;
-                                    if (registrationPermissions.isTermsEnable()) {
+                                    if (registrationPermissions.isSlidersEnable()) {
+                                        intent = new Intent(CheckLocationActivity.this, TutorialActivity.class);
+                                    } else if (registrationPermissions.isTermsEnable()) {
                                         intent = new Intent(CheckLocationActivity.this, TermsAndConditionActivity.class);
                                     } else if (registrationPermissions.isReferralEnable()) {
                                         intent = new Intent(CheckLocationActivity.this, ReferralCasesActivity.class);

@@ -380,7 +380,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      */
     public boolean isReadyToSend() {
         return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
-                && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this);
+                && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this, null);
     }
 
     public void finishActivity() {
@@ -478,7 +478,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             } else if (lm.getLocation() == null || !UIUtils.isAllLocationSourceEnabled(this)
                     || !UIUtils.isNetworkEnabled(this) || !preferencesManager.getUseLocationServices()) {
                 DialogUtils.showLocationDialog(this, true);
-            } else if (UIUtils.isMockLocationEnabled(this)) {
+            } else if (UIUtils.isMockLocationEnabled(this, lm.getLocation())) {
                 DialogUtils.showMockLocationDialog(this, true);
             }
         }
