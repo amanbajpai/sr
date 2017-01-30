@@ -3,6 +3,7 @@ package com.ros.smartrocket.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +15,9 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -103,6 +102,9 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
 
     public void continueRegistrationFlow() {
         Intent intent;
+        if (!TextUtils.isEmpty(preferencesManager.getLastEmail())){
+            preferencesManager.setTandCShowedForCurrentUser();
+        }
         if (registrationPermissions.isReferralEnable()) {
             intent = new Intent(this, ReferralCasesActivity.class);
         } else if (registrationPermissions.isSrCodeEnable()) {
@@ -139,6 +141,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                preferencesManager.setTandCShowedForCurrentUser();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
             } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()

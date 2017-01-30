@@ -45,7 +45,12 @@ public class LaunchActivity extends BaseActivity implements NetworkOperationList
         Intent intent;
         if (!TextUtils.isEmpty(PreferencesManager.getInstance().getToken())
                 && preferencesManager.getLastAppVersion() == UIUtils.getAppVersionCode(this)) {
-            intent = new Intent(this, MainActivity.class);
+            if (PreferencesManager.getInstance().isTandCShowed()) {
+                intent = new Intent(this, MainActivity.class);
+            } else {
+                intent = new Intent(this, TermsAndConditionActivity.class);
+                intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
+            }
         } else {
             intent = new Intent(this, LoginActivity.class);
         }

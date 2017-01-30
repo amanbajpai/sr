@@ -268,6 +268,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
+                PreferencesManager.getInstance().setTandCShowed(emailEditText.getText().toString().trim());
                 new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService

@@ -410,4 +410,16 @@ public class PreferencesManager {
         return appVersion;
     }
 
+    public void setTandCShowedForCurrentUser() {
+        setTandCShowed(getLastEmail());
+    }
+
+    public void setTandCShowed(String email){
+        setBoolean(Keys.T_AND_C + email, true);
+    }
+
+    public boolean isTandCShowed(){
+        return getBoolean(Keys.T_AND_C + getLastEmail(), false);
+    }
+
 }
