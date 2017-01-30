@@ -22,7 +22,6 @@ public interface Keys {
     String UPLOAD_FILES_PROGRESS = "upload_files_progress";
     String REGISTRATION_PERMISSIONS = "registration_permissions";
     String SHOULD_SHOW_MAIN_SCREEN = "should_show_main_screen";
-    String SOCIAL_LOGIN = "social_login";
     String APP_VERSION = "app_version";
     String FINISH_LOGIN_ACTIVITY = "finish_login_activity";
 

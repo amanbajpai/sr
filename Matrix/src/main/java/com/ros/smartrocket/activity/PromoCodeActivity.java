@@ -93,7 +93,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @OnClick(R.id.continueButton)
     public void onClick() {
         String promoCode = promoCodeEdt.getText().toString();
-        if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL) && !TextUtils.isEmpty(promoCode)) {
+        if (!TextUtils.isEmpty(promoCode)) {
             progressDialog = CustomProgressDialog.show(this);
             apiFacade.setPromoCode(this, promoCode);
         } else {

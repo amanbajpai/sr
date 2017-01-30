@@ -109,6 +109,8 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
             intent = new Intent(this, ReferralCasesActivity.class);
         } else if (registrationPermissions.isSrCodeEnable()) {
             intent = new Intent(this, PromoCodeActivity.class);
+        } else if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL)) {
+            intent = new Intent(this, MainActivity.class);
         } else {
             intent = new Intent(this, RegistrationActivity.class);
         }
@@ -124,7 +126,8 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     @OnClick(R.id.continueButton)
     public void onClick() {
         if (getIntent().getExtras() != null
-                && (getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN) || getIntent().getExtras().getBoolean(Keys.SOCIAL_LOGIN))) {
+                && (getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)
+                || getIntent().getExtras().getBoolean(Keys.IS_SOCIAL))) {
             progressDialog = CustomProgressDialog.show(this);
             apiFacade.sendTandC(this);
         } else {
