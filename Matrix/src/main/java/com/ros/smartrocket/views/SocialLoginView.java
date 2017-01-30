@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,7 +22,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -28,12 +29,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
+import com.ros.smartrocket.interfaces.SocialLoginListener;
+import com.ros.smartrocket.utils.UIUtils;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
 import org.json.JSONException;
@@ -43,18 +47,21 @@ import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnConnectionFailedListener {
     private static final int G_SIGN_IN = 9001;
-    @Bind(R.id.fb_login_btn)
-    CustomButton fbLoginBtn;
-    @Bind(R.id.google_sign_in_btn)
-    CustomButton googleSignInBtn;
+    private static final int GOOGLE_ID = 1;
+    private static final int FB_ID = 2;
+    private static final int WECHAT_ID = 3;
+    private static final int QQ_ID = 4;
+
+    @Bind(R.id.container)
+    LinearLayout container;
     private AppCompatActivity activity;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
     private IWXAPI api;
+    private SocialLoginListener socialLoginListener;
 
     public SocialLoginView(Context context) {
         super(context);
@@ -71,37 +78,93 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         init();
     }
 
+    private void showSocialButton(int socialId) {
+        switch (socialId) {
+            case GOOGLE_ID:
+                setUpGoogleSignInBtn();
+                break;
+            case FB_ID:
+                setUpFbLoginButton();
+                break;
+            case WECHAT_ID:
+                setUpWeChatLoginButton();
+                break;
+            case QQ_ID:
+                setUpQQLoginButton();
+                break;
+            default:
+                // do nothing
+                break;
+        }
+    }
+
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_social_login, this, true);
         ButterKnife.bind(this);
     }
 
-    public void setUpSocialLogins(AppCompatActivity activity) {
+    public void setUpSocialLogins(SocialLoginListener socialLoginListener, AppCompatActivity activity, int externalSource1, int externalSource2) {
         this.activity = activity;
-        if (Config.USE_BAIDU) {
-            // TODO setUp chinese login
-        } else {
-            setUpFbLoginButton();
-            setUpGoogleSignInBtn();
-        }
+        this.socialLoginListener = socialLoginListener;
+        showSocialButton(externalSource1);
+        showSocialButton(externalSource2);
+        requestLayout();
     }
+
+    private void setUpQQLoginButton() {
+        CustomButton qqSignInButton = addSocialButton(R.string.continue_with_qq, R.drawable.ic_qq, R.drawable.button_fb_selector);
+        qqSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void setUpWeChatLoginButton() {
+        CustomButton wechatSignInButton = addSocialButton(R.string.continue_with_wechat, R.drawable.ic_wechat, R.drawable.button_green_selector);
+        wechatSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
 
     private void setUpFbLoginButton() {
         callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().logOut();
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                if (socialLoginListener != null) {
+                    socialLoginListener.onExternalLoginStart();
+                }
                 getFacebookAccount(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(getContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.cancel, Toast.LENGTH_SHORT).show();
+                if (socialLoginListener != null) {
+                    socialLoginListener.onExternalLoginFinished();
+                }
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                if (socialLoginListener != null) {
+                    socialLoginListener.onExternalLoginFinished();
+                }
+            }
+        });
+        CustomButton fbSignInButton = addSocialButton(R.string.continue_with_fb, R.drawable.ic_fb, R.drawable.button_fb_selector);
+        fbSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithFb();
             }
         });
     }
@@ -113,28 +176,38 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         ExternalAuthorize authorize = new ExternalAuthorize();
-                        authorize.setExternalAuthToken(token.toString());
-                        authorize.setExternalAuthSource(0);
+                        authorize.setExternalAuthToken(token.getToken());
+                        authorize.setExternalAuthSource(FB_ID);
                         try {
                             authorize.setFullName(object.getString("name"));
                             authorize.setGender("male".equals(object.getString("gender")) ? 1 : 2);
+                            authorize.setEmail(object.getString("email"));
                         } catch (JSONException e) {
                             Log.e("FB auth", "JSON exception", e);
                         }
-
+                        if (socialLoginListener != null) {
+                            socialLoginListener.onExternalLoginSuccess(authorize);
+                        }
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,gender");
+        parameters.putString("fields", "id,name,gender,email");
         request.setParameters(parameters);
         request.executeAsync();
     }
 
     private void setUpGoogleSignInBtn() {
+        CustomButton gSignInButton = addSocialButton(R.string.continue_with_google, R.drawable.ic_google, R.drawable.button_orange_selector);
+        gSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGoogle();
+            }
+        });
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestProfile()
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                .requestProfile()
                 .requestIdToken("318949058113-59oe5om5c2496k08vsfesna671rtvn1n.apps.googleusercontent.com")
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
@@ -146,13 +219,19 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        googleSignInBtn.setVisibility(GONE);
     }
 
 
     private void signInWithGoogle() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        activity.startActivityForResult(signInIntent, G_SIGN_IN);
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        Toast.makeText(getContext(), "Tratata", Toast.LENGTH_SHORT).show();
+                        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                        activity.startActivityForResult(signInIntent, G_SIGN_IN);
+                    }
+                });
     }
 
     private void signInWithFb() {
@@ -170,27 +249,47 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
 
     private void handleGoogleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            // Signed in successfully
-            Toast.makeText(getContext(), "Success. Google is good guy!", Toast.LENGTH_SHORT).show();
-            GoogleSignInAccount acct = result.getSignInAccount();
             ExternalAuthorize authorize = new ExternalAuthorize();
+            authorize.setGender(1);
+            if (mGoogleApiClient.hasConnectedApi(Plus.API)){
+                Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+                authorize.setGender(person.getGender() == 0 ? 1 : 2);
+            }
+            GoogleSignInAccount acct = result.getSignInAccount();
             authorize.setExternalAuthToken(result.getSignInAccount().getIdToken());
-            authorize.setExternalAuthSource(1);
+            authorize.setExternalAuthSource(GOOGLE_ID);
             authorize.setFullName(acct.getDisplayName());
+            authorize.setEmail(acct.getEmail());
+            if (socialLoginListener != null) {
+                socialLoginListener.onExternalLoginSuccess(authorize);
+            }
         } else {
-            // Signed out
+            if (socialLoginListener != null) {
+                socialLoginListener.onExternalLoginFinished();
+            }
         }
     }
 
-    @OnClick({R.id.google_sign_in_btn, R.id.fb_login_btn})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.google_sign_in_btn:
-                signInWithGoogle();
-                break;
-            case R.id.fb_login_btn:
-                signInWithFb();
-                break;
-        }
+    private CustomButton addSocialButton(int buttonNameRes, int buttonIconnRes, int buttonBgRes) {
+        CustomButton socialButton = new CustomButton(getContext(), null, R.style.Button);
+        int dp10 = UIUtils.getPxFromDp(getContext(), 10);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, dp10, 0, 0);
+        socialButton.setLayoutParams(lp);
+        socialButton.setText(buttonNameRes);
+        socialButton.setAllCaps(true);
+        container.addView(socialButton);
+        socialButton.setBackgroundResource(buttonBgRes);
+        socialButton.setPadding(dp10, dp10, dp10, dp10);
+        socialButton.setGravity(Gravity.CENTER_VERTICAL);
+        socialButton.setShadowLayer(1, 0, 1, R.color.grey);
+        socialButton.setMinHeight(UIUtils.getPxFromDp(getContext(), 48));
+        socialButton.setCompoundDrawablesWithIntrinsicBounds(buttonIconnRes, 0, 0, 0);
+        socialButton.setCompoundDrawablePadding(dp10);
+        socialButton.setFont(3);
+        socialButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        socialButton.setTextColor(getResources().getColor(R.color.white));
+        return socialButton;
     }
+
 }

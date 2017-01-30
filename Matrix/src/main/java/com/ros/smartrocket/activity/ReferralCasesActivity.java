@@ -165,6 +165,8 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
     @OnClick(R.id.continueButton)
     public void onClick() {
+        continueButton.setEnabled(false);
+        apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
     }
 
     public void dismissProgressDialog() {

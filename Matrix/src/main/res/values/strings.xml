@@ -524,4 +524,6 @@
     <string name="english">English</string>
     <string name="chinese_simple">中文（简体）</string>
     <string name="chinese_traditional">中文（繁體）</string>
+    <string name="continue_with_qq">Continue with QQ</string>
+    <string name="continue_with_wechat">Continue with Wechat</string>
 </resources>

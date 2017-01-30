@@ -392,7 +392,7 @@ public class PreferencesManager {
     }
 
     public RegistrationPermissions getRegPermissions() {
-        RegistrationPermissions permissions = new RegistrationPermissions(new int[]{1, 2, 3, 4, 5});
+        RegistrationPermissions permissions = new RegistrationPermissions(RegistrationPermissions.ALL);
         String regPermissions = getString(Keys.REGISTRATION_PERMISSIONS, "");
         if (!TextUtils.isEmpty(regPermissions)) {
             Gson gson = new Gson();

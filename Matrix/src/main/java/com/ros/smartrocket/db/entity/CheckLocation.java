@@ -55,4 +55,5 @@ public class CheckLocation extends BaseEntity {
     public void setDistrict(String district) {
         this.district = district;
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
@@ -18,10 +19,13 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckEmail;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
+import com.ros.smartrocket.db.entity.ExternalAuthResponse;
+import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.dialog.CheckLocationDialog;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.SocialLoginListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -41,7 +45,7 @@ import butterknife.OnClick;
  * Activity for Agents login into system
  */
 public class LoginActivity extends BaseActivity implements NetworkOperationListenerInterface,
-        PopupMenu.OnMenuItemClickListener {
+        PopupMenu.OnMenuItemClickListener, SocialLoginListener {
 
     public static String START_PUSH_NOTIFICATIONS_ACTIVITY = "start_push_notif";
     @Bind(R.id.emailEditText)
@@ -84,10 +88,9 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        socialLoginView.setUpSocialLogins(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
         startPushNotificationActivity = getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false);
-        currentVersion.setText("v." + BuildConfig.LOGIN_SCREEN_VERSION);
+        currentVersion.setText("v." + BuildConfig.VERSION_NAME);
         fillLanguageTv();
         String lastEmail = preferencesManager.getLastEmail();
 
@@ -136,13 +139,28 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         }
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_CHECK_EMAIL_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
+                dismissProgressDialog();
                 CheckEmail checkEmail = (CheckEmail) operation.getResponseEntities().get(0);
                 if (checkEmail.isEmailExists()) {
                     startPasswordActivity(userEmail);
                 } else {
                     startRegistrationFlow(false);
                 }
+            } else if (Keys.POST_EXTERNAL_AUTH_TAG.equals(operation.getTag())) {
+                dismissProgressDialog();
+                ExternalAuthResponse externalAuthResponse = (ExternalAuthResponse) operation.getResponseEntities().get(0);
+                preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
+                if (externalAuthResponse.isRegistrationRequested()) {
+                    startRegistrationFlow(true);
+                } else if (externalAuthResponse.isShowTermsConditions()) {
+                    Intent intent = new Intent(this, TermsAndConditionActivity.class);
+                    intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(this, MainActivity.class));
+                }
+                finish();
+
             }
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                 == BaseNetworkService.NO_INTERNET) {
@@ -221,11 +239,15 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             this.latitude = latitude;
             this.longitude = longitude;
             registrationPermissions = checkLocationResponse.getRegistrationPermissions();
-            PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
-            if (registrationPermissions.isSocialEnable()) {
-                socialLoginView.setVisibility(View.VISIBLE);
-            } else {
-                socialLoginView.setVisibility(View.GONE);
+            if (registrationPermissions != null) {
+                PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
+                if (registrationPermissions.isSocialEnable()) {
+                    socialLoginView.setVisibility(View.VISIBLE);
+                    socialLoginView.setUpSocialLogins(this, this,
+                            checkLocationResponse.getExternalLoginSource1(), checkLocationResponse.getExternalLoginSource2());
+                } else {
+                    socialLoginView.setVisibility(View.GONE);
+                }
             }
         }
         continueWithEmailBtn.setEnabled(true);
@@ -332,6 +354,35 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onExternalLoginSuccess(ExternalAuthorize authorize) {
+        dismissProgressDialog();
+        if (checkLocationResponse != null) {
+            progressDialog = CustomProgressDialog.show(this);
+            authorize.setCityId(checkLocationResponse.getCityId());
+            authorize.setCountryId(checkLocationResponse.getCountryId());
+            authorize.setDistrictId(checkLocationResponse.getDistrictId());
+            authorize.setLatitude(latitude);
+            authorize.setLongitude(longitude);
+            authorize.setDeviceName(UIUtils.getDeviceName(this));
+            authorize.setDeviceModel(UIUtils.getDeviceModel());
+            authorize.setDeviceManufacturer(UIUtils.getDeviceManufacturer());
+            authorize.setAppVersion(UIUtils.getAppVersion(this));
+            authorize.setAndroidVersion(Build.VERSION.RELEASE);
+            apiFacade.externalAuth(this, authorize);
+        }
+    }
+
+    @Override
+    public void onExternalLoginStart() {
+        progressDialog = CustomProgressDialog.show(this);
+    }
+
+    @Override
+    public void onExternalLoginFinished() {
+        dismissProgressDialog();
     }
 
     public class LogOutReceiver extends BroadcastReceiver {

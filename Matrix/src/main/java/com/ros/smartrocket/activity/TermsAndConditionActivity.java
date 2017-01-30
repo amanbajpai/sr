@@ -102,7 +102,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
 
     public void continueRegistrationFlow() {
         Intent intent;
-        if (!TextUtils.isEmpty(preferencesManager.getLastEmail())){
+        if (!TextUtils.isEmpty(preferencesManager.getLastEmail())) {
             preferencesManager.setTandCShowedForCurrentUser();
         }
         if (registrationPermissions.isReferralEnable()) {
@@ -123,7 +123,8 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
 
     @OnClick(R.id.continueButton)
     public void onClick() {
-        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+        if (getIntent().getExtras() != null
+                && (getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN) || getIntent().getExtras().getBoolean(Keys.SOCIAL_LOGIN))) {
             progressDialog = CustomProgressDialog.show(this);
             apiFacade.sendTandC(this);
         } else {
@@ -141,9 +142,13 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                preferencesManager.setTandCShowedForCurrentUser();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+                    preferencesManager.setTandCShowedForCurrentUser();
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                } else {
+                    continueRegistrationFlow();
+                }
             } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                     == BaseNetworkService.NO_INTERNET) {
                 DialogUtils.showBadOrNoInternetDialog(this);

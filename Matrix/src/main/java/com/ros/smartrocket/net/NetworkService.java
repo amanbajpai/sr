@@ -26,6 +26,7 @@ import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.CheckEmail;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
+import com.ros.smartrocket.db.entity.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.NationalIdAccount;
@@ -269,7 +270,11 @@ public class NetworkService extends BaseNetworkService {
                         operation.responseEntities.add(checkEmail);
                         break;
                     case WSUrl.EXTERNAL_AUTH_ID:
-                        // TODO handle response
+                        ExternalAuthResponse authResponse = gson.fromJson(responseString, ExternalAuthResponse.class);
+                        operation.responseEntities.add(authResponse);
+                        getPreferencesManager().setToken(authResponse.getToken());
+                        getPreferencesManager().setTokenForUploadFile(authResponse.getToken());
+                        getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
                         break;
                     default:
                         break;

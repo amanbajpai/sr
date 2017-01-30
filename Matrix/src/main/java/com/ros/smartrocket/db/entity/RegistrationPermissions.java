@@ -4,58 +4,35 @@ import java.io.Serializable;
 
 public class RegistrationPermissions implements Serializable {
 
+    public static final int ALL = 31;
     private static final int SLIDERS = 1;
     private static final int SOCIAL = 2;
-    private static final int TERMS = 3;
-    private static final int REFERRAL = 4;
-    private static final int SR_CODE = 5;
+    private static final int TERMS = 4;
+    private static final int REFERRAL = 8;
+    private static final int SR_CODE = 16;
+    private int mask;
 
-    private boolean isReferralEnable = false;
-    private boolean isSocialEnable = false;
-    private boolean isSlidersEnable = false;
-    private boolean isTermsEnable = false;
-    private boolean isSrCodeEnable = false;
-
-    public RegistrationPermissions(int[] permissions) {
-        for (int i = 0; i < permissions.length; i++) {
-            switch (permissions[i]) {
-                case SLIDERS:
-                    isSlidersEnable = true;
-                    break;
-                case SOCIAL:
-                    isSocialEnable = true;
-                    break;
-                case TERMS:
-                    isTermsEnable = true;
-                    break;
-                case REFERRAL:
-                    isReferralEnable = true;
-                    break;
-                case SR_CODE:
-                    isSrCodeEnable = true;
-                    break;
-            }
-        }
-
+    public RegistrationPermissions(int mask) {
+        this.mask = mask;
     }
 
     public boolean isReferralEnable() {
-        return isReferralEnable;
+        return (mask & REFERRAL) == REFERRAL;
     }
 
     public boolean isSocialEnable() {
-        return isSocialEnable;
+        return (mask & SOCIAL) == SOCIAL;
     }
 
     public boolean isSlidersEnable() {
-        return isSlidersEnable;
+        return (mask & SLIDERS) == SLIDERS;
     }
 
     public boolean isTermsEnable() {
-        return isTermsEnable;
+        return (mask & TERMS) == TERMS;
     }
 
     public boolean isSrCodeEnable() {
-        return isSrCodeEnable;
+        return (mask & SR_CODE) == SR_CODE;
     }
 }

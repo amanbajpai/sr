@@ -26,13 +26,18 @@ public class CustomButton extends Button {
         int textStyle = a.getInt(R.styleable.CustomButton_textStyle, 0);
 
         if (!isInEditMode()) {
-            String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
-            Typeface t = FontUtils.loadFontFromAsset(getContext().getAssets(), fontAssetPath);
-            if (t != null) {
-                setTypeface(t);
-            }
+            setFont(textStyle);
         }
-
         a.recycle();
     }
+
+    public void setFont(int textStyle) {
+        String fontAssetPath = FontUtils.getFontAssetPath(textStyle);
+        Typeface t = FontUtils.loadFontFromAsset(getContext().getAssets(), fontAssetPath);
+        if (t != null) {
+            setTypeface(t);
+        }
+    }
+
+
 }

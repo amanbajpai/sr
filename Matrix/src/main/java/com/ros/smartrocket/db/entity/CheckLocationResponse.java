@@ -18,7 +18,11 @@ public class CheckLocationResponse extends BaseEntity {
     @SerializedName("CityName")
     private String cityName;
     @SerializedName("RegistrationTypes")
-    private int[] registrationTypes;
+    private int registrationTypes;
+    @SerializedName("ExternalLoginSource1")
+    private int externalLoginSource1;
+    @SerializedName("ExternalLoginSource2")
+    private int externalLoginSource2;
 
 
     public Boolean getStatus() {
@@ -70,15 +74,31 @@ public class CheckLocationResponse extends BaseEntity {
         this.cityName = cityName;
     }
 
-    public int[] getRegistrationTypes() {
+    public int getRegistrationTypes() {
         return registrationTypes;
     }
 
-    public void setRegistrationTypes(int[] registrationTypes) {
+    public void setRegistrationTypes(int registrationTypes) {
         this.registrationTypes = registrationTypes;
     }
 
     public RegistrationPermissions getRegistrationPermissions() {
-        return registrationTypes != null ? new RegistrationPermissions(registrationTypes) : null;
+        return new RegistrationPermissions(registrationTypes);
+    }
+
+    public int getExternalLoginSource1() {
+        return externalLoginSource1;
+    }
+
+    public void setExternalLoginSource1(int externalLoginSource1) {
+        this.externalLoginSource1 = externalLoginSource1;
+    }
+
+    public int getExternalLoginSource2() {
+        return externalLoginSource2;
+    }
+
+    public void setExternalLoginSource2(int externalLoginSource2) {
+        this.externalLoginSource2 = externalLoginSource2;
     }
 }

@@ -460,4 +460,6 @@
     <string name="tut_text4">把账户结余即时转换为现金.</string>
     <string name="tut_title_5">加入我们吧.</string>
     <string name="tut_text5">现在加入我们的行列, 开始赚钱吧</string>
+    <string name="continue_with_wechat">以微信继续</string>
+    <string name="continue_with_qq">以QQ继续</string>
 </resources>
