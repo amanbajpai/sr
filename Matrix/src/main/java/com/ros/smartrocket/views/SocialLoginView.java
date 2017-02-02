@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -34,11 +35,17 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
+import com.ros.smartrocket.utils.BaseUIListenerQQ;
 import com.ros.smartrocket.utils.UIUtils;
-import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.ros.smartrocket.wxapi.WXEntryActivity;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,14 +61,21 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private static final int FB_ID = 2;
     private static final int WECHAT_ID = 3;
     private static final int QQ_ID = 4;
+    public static final String QQ_NICKNAME = "nickname";
+    public static final String GENDER = "gender";
+    public static final String ALL = "all";
+    public static final String NAME = "name";
+    public static final String MALE = "male";
+    public static final String EMAIL = "email";
 
     @Bind(R.id.container)
     LinearLayout container;
     private AppCompatActivity activity;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
-    private IWXAPI api;
     private SocialLoginListener socialLoginListener;
+    public static Tencent qqApi;
+    private IUiListener qqLoginListener;
 
     public SocialLoginView(Context context) {
         super(context);
@@ -103,34 +117,85 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         ButterKnife.bind(this);
     }
 
-    public void setUpSocialLogins(SocialLoginListener socialLoginListener, AppCompatActivity activity, int externalSource1, int externalSource2) {
+    public void setUpSocialLoginButtons(SocialLoginListener socialLoginListener, AppCompatActivity activity, int externalSource1, int externalSource2) {
         this.activity = activity;
         this.socialLoginListener = socialLoginListener;
+        showSocialButton(QQ_ID);
         showSocialButton(externalSource1);
         showSocialButton(externalSource2);
         requestLayout();
     }
 
+    //-----------QQ------------//
+
     private void setUpQQLoginButton() {
         CustomButton qqSignInButton = addSocialButton(R.string.continue_with_qq, R.drawable.ic_qq, R.drawable.button_fb_selector);
+        qqLoginListener = new BaseUIListenerQQ(activity) {
+            @Override
+            public void doComplete(JSONObject response) {
+                handleQQResponse(response);
+            }
+        };
+        qqApi = Tencent.createInstance(Keys.QQ_APP_ID, activity);
         qqSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                qqApi.login(activity, ALL, qqLoginListener);
             }
         });
     }
+
+    public void handleQQResponse(JSONObject jsonObject) {
+        if (jsonObject.has(Constants.PARAM_ACCESS_TOKEN)) {
+            handleQQAuth(jsonObject);
+        } else if (jsonObject.has(QQ_NICKNAME)) {
+            handleQQUserInfo(jsonObject);
+        }
+    }
+
+    private void handleQQAuth(JSONObject jsonObject) {
+        try {
+            String token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
+            String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
+            String openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
+            if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
+                    && !TextUtils.isEmpty(openId)) {
+                qqApi.setAccessToken(token, expires);
+                qqApi.setOpenId(openId);
+                socialLoginListener.onExternalLoginStart();
+                UserInfo userInfo = new UserInfo(activity, qqApi.getQQToken());
+                userInfo.getUserInfo(qqLoginListener);
+            }
+        } catch (Exception e) {
+            Log.v("Exception", "SocialLoginView", e);
+        }
+    }
+
+    private void handleQQUserInfo(JSONObject jsonObject) {
+        ExternalAuthorize authorize = new ExternalAuthorize();
+        authorize.setExternalAuthToken(qqApi.getAccessToken());
+        authorize.setExternalAuthSource(QQ_ID);
+        try {
+            authorize.setFullName(jsonObject.getString(QQ_NICKNAME));
+            authorize.setGender("男".equals(jsonObject.getString(GENDER)) ? 1 : 2);
+        } catch (JSONException e) {
+            Log.e("QQ auth", "JSON exception", e);
+        }
+    }
+
+    //-----------WC------------//
 
     private void setUpWeChatLoginButton() {
-        CustomButton wechatSignInButton = addSocialButton(R.string.continue_with_wechat, R.drawable.ic_wechat, R.drawable.button_green_selector);
-        wechatSignInButton.setOnClickListener(new OnClickListener() {
+        CustomButton weChatSignInButton = addSocialButton(R.string.continue_with_wechat, R.drawable.ic_wechat, R.drawable.button_green_selector);
+        weChatSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                activity.startActivity(new Intent(activity, WXEntryActivity.class));
             }
         });
     }
 
+    //-----------FB------------//
 
     private void setUpFbLoginButton() {
         callbackManager = CallbackManager.Factory.create();
@@ -138,26 +203,20 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                if (socialLoginListener != null) {
-                    socialLoginListener.onExternalLoginStart();
-                }
+                onLoginStart();
                 getFacebookAccount(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
                 Toast.makeText(getContext(), R.string.cancel, Toast.LENGTH_SHORT).show();
-                if (socialLoginListener != null) {
-                    socialLoginListener.onExternalLoginFinished();
-                }
+                onLoginFinished();
             }
 
             @Override
             public void onError(FacebookException exception) {
                 Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
-                if (socialLoginListener != null) {
-                    socialLoginListener.onExternalLoginFinished();
-                }
+                onLoginFinished();
             }
         });
         CustomButton fbSignInButton = addSocialButton(R.string.continue_with_fb, R.drawable.ic_fb, R.drawable.button_fb_selector);
@@ -179,15 +238,13 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
                         authorize.setExternalAuthToken(token.getToken());
                         authorize.setExternalAuthSource(FB_ID);
                         try {
-                            authorize.setFullName(object.getString("name"));
-                            authorize.setGender("male".equals(object.getString("gender")) ? 1 : 2);
-                            authorize.setEmail(object.getString("email"));
+                            authorize.setFullName(object.getString(NAME));
+                            authorize.setGender(MALE.equals(object.getString(GENDER)) ? 1 : 2);
+                            authorize.setEmail(object.getString(EMAIL));
                         } catch (JSONException e) {
                             Log.e("FB auth", "JSON exception", e);
                         }
-                        if (socialLoginListener != null) {
-                            socialLoginListener.onExternalLoginSuccess(authorize);
-                        }
+                        onLoginSuccess(authorize);
                     }
                 });
         Bundle parameters = new Bundle();
@@ -195,6 +252,12 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         request.setParameters(parameters);
         request.executeAsync();
     }
+
+    private void signInWithFb() {
+        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"));
+    }
+
+    //-----------GOOGLE------------//
 
     private void setUpGoogleSignInBtn() {
         CustomButton gSignInButton = addSocialButton(R.string.continue_with_google, R.drawable.ic_google, R.drawable.button_orange_selector);
@@ -221,37 +284,23 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
-
     private void signInWithGoogle() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        Toast.makeText(getContext(), "Tratata", Toast.LENGTH_SHORT).show();
                         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                         activity.startActivityForResult(signInIntent, G_SIGN_IN);
                     }
                 });
     }
 
-    private void signInWithFb() {
-        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"));
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == G_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleGoogleSignInResult(result);
-        } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 
     private void handleGoogleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             ExternalAuthorize authorize = new ExternalAuthorize();
             authorize.setGender(1);
-            if (mGoogleApiClient.hasConnectedApi(Plus.API)){
+            if (mGoogleApiClient.hasConnectedApi(Plus.API)) {
                 Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 authorize.setGender(person.getGender() == 0 ? 1 : 2);
             }
@@ -260,17 +309,26 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
             authorize.setExternalAuthSource(GOOGLE_ID);
             authorize.setFullName(acct.getDisplayName());
             authorize.setEmail(acct.getEmail());
-            if (socialLoginListener != null) {
-                socialLoginListener.onExternalLoginSuccess(authorize);
-            }
+            onLoginSuccess(authorize);
         } else {
-            if (socialLoginListener != null) {
-                socialLoginListener.onExternalLoginFinished();
-            }
+            onLoginFinished();
         }
     }
 
-    private CustomButton addSocialButton(int buttonNameRes, int buttonIconnRes, int buttonBgRes) {
+    //-----------OTHER------------//
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == G_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleGoogleSignInResult(result);
+        } else if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
+            Tencent.onActivityResultData(requestCode, resultCode, data, qqLoginListener);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private CustomButton addSocialButton(int buttonNameRes, int buttonIconRes, int buttonBgRes) {
         CustomButton socialButton = new CustomButton(getContext(), null, R.style.Button);
         int dp10 = UIUtils.getPxFromDp(getContext(), 10);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -284,7 +342,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         socialButton.setGravity(Gravity.CENTER_VERTICAL);
         socialButton.setShadowLayer(1, 0, 1, R.color.grey);
         socialButton.setMinHeight(UIUtils.getPxFromDp(getContext(), 48));
-        socialButton.setCompoundDrawablesWithIntrinsicBounds(buttonIconnRes, 0, 0, 0);
+        socialButton.setCompoundDrawablesWithIntrinsicBounds(buttonIconRes, 0, 0, 0);
         socialButton.setCompoundDrawablePadding(dp10);
         socialButton.setFont(3);
         socialButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
@@ -292,4 +350,21 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         return socialButton;
     }
 
+    private void onLoginStart() {
+        if (socialLoginListener != null) {
+            socialLoginListener.onExternalLoginStart();
+        }
+    }
+
+    private void onLoginFinished() {
+        if (socialLoginListener != null) {
+            socialLoginListener.onExternalLoginFinished();
+        }
+    }
+
+    private void onLoginSuccess(ExternalAuthorize authorize) {
+        if (socialLoginListener != null) {
+            socialLoginListener.onExternalLoginSuccess(authorize);
+        }
+    }
 }

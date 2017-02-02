@@ -64,17 +64,42 @@
         android:theme="@style/AppTheme"
         tools:replace="allowBackup, label">
         <!-- FB -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <!-- QQ -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1105356030" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- App -->
         <activity
             android:name=".activity.LaunchActivity"
             android:label="@string/app_name"
@@ -84,6 +109,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/continue_with_wechat" />
         <activity
             android:name=".activity.TutorialActivity"
             android:label="@string/app_name" />
@@ -106,7 +135,7 @@
         <activity
             android:name=".activity.PasswordActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:configChanges="locale"
@@ -278,7 +307,7 @@
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <data
                     android:path="com.ros.smartrocket"
-                    android:scheme="package"/>
+                    android:scheme="package" />
             </intent-filter>
         </receiver>
         <service

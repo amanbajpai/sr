@@ -32,6 +32,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.FontUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.AvatarImageManager;

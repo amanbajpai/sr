@@ -243,7 +243,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
                 if (registrationPermissions.isSocialEnable()) {
                     socialLoginView.setVisibility(View.VISIBLE);
-                    socialLoginView.setUpSocialLogins(this, this,
+                    socialLoginView.setUpSocialLoginButtons(this, this,
                             checkLocationResponse.getExternalLoginSource1(), checkLocationResponse.getExternalLoginSource2());
                 } else {
                     socialLoginView.setVisibility(View.GONE);
