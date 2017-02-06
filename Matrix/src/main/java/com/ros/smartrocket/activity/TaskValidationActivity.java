@@ -21,7 +21,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.BuildConfig;
+import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
@@ -118,7 +121,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         handler = new DbHandler(getContentResolver());
 
 
-
         Button recheckAnswerButton = (Button) findViewById(R.id.recheckTaskButton);
         recheckAnswerButton.setOnClickListener(this);
         recheckAnswerButton.setVisibility(firstlySelection ? View.VISIBLE : View.GONE);
@@ -208,7 +210,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
             } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
                 sendAnswerTextsSuccess();
-
+                if (!Config.USE_BAIDU) {
+                    AppEventsLogger logger = AppEventsLogger.newLogger(this);
+                    logger.logEvent(Keys.FB_LOGGING_SUBMITTED);
+                }
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
 

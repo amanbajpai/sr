@@ -122,6 +122,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
                     startActivity(intent);
                 } else if (!getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                    preferencesManager.setTandCShowedForCurrentUser();
                     startActivity(new Intent(this, MainActivity.class));
                 }
             }
