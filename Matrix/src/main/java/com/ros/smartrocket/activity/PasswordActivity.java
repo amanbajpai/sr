@@ -100,8 +100,10 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
                     intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
                     startActivity(intent);
                 } else if (!getIntent().getBooleanExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                    preferencesManager.setTandCShowedForCurrentUser();
                     startActivity(new Intent(this, MainActivity.class));
                 }
+                sendBroadcast(new Intent().setAction(Keys.FINISH_LOGIN_ACTIVITY));
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {

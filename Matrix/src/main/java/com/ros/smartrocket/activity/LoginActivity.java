@@ -67,9 +67,10 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     private CheckLocationResponse checkLocationResponse;
     double latitude;
     double longitude;
-    private LogOutReceiver localReceiver;
+    private LoginActivityReceiver localReceiver;
     private APIFacade apiFacade = APIFacade.getInstance();
     private String userEmail;
+    private ExternalAuthorize authorize;
 
     public LoginActivity() {
     }
@@ -99,10 +100,12 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         }
         continueWithEmailBtn.setEnabled(false);
         checkDeviceSettingsByOnResume(false);
-        localReceiver = new LogOutReceiver();
+        localReceiver = new LoginActivityReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.FINISH_LOGIN_ACTIVITY);
+        intentFilter.addAction(Keys.WECHAT_AUTH_SUCCESS);
         registerReceiver(localReceiver, intentFilter);
+
     }
 
     private void fillLanguageTv() {
@@ -150,6 +153,9 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 dismissProgressDialog();
                 ExternalAuthResponse externalAuthResponse = (ExternalAuthResponse) operation.getResponseEntities().get(0);
                 preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
+                if (authorize != null) {
+                    preferencesManager.setLastEmail(authorize.getEmail());
+                }
                 if (externalAuthResponse.isRegistrationRequested()) {
                     startRegistrationFlow(true);
                 } else if (externalAuthResponse.isShowTermsConditions()) {
@@ -158,6 +164,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                     startActivity(intent);
                 } else {
                     startActivity(new Intent(this, MainActivity.class));
+                    preferencesManager.setTandCShowedForCurrentUser();
                 }
                 finish();
 
@@ -359,6 +366,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     @Override
     public void onExternalLoginSuccess(ExternalAuthorize authorize) {
         dismissProgressDialog();
+        this.authorize = authorize;
         if (checkLocationResponse != null) {
             progressDialog = CustomProgressDialog.show(this);
             authorize.setCityId(checkLocationResponse.getCityId());
@@ -385,12 +393,14 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         dismissProgressDialog();
     }
 
-    public class LogOutReceiver extends BroadcastReceiver {
+    public class LoginActivityReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Keys.FINISH_LOGIN_ACTIVITY)) {
                 finish();
+            } else if (action.equals(Keys.WECHAT_AUTH_SUCCESS) && socialLoginView != null) {
+                socialLoginView.onActivityResult(SocialLoginView.WECHAT_SIGN_IN_CODE, RESULT_OK, intent);
             }
         }
     }

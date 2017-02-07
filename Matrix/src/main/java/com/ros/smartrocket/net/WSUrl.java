@@ -58,6 +58,10 @@ public final class WSUrl {
     public static final String GET_APP_VERSION = Config.WEB_SERVICE_URL + "api/Authorize/Versioning";
     public static final String GET_CHECK_EMAIL = Config.WEB_SERVICE_URL + "api/Authorize/CheckEmail?email=%s";
     public static final String POST_PROMO_CODE = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePromoCode?promoCode=%s";
+    public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
+    public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo?access_token=%s&openid=%s";
+
+
 
 
     public static final int LOGIN_ID = 1;
@@ -96,6 +100,8 @@ public final class WSUrl {
     public static final int APP_VERSION_ID = 34;
     public static final int CHECK_EMAIL_ID = 35;
     public static final int EXTERNAL_AUTH_ID = 36;
+    public static final int WECHAT_TOKEN_ID = 37;
+    public static final int WECHAT_USER_INFO_ID = 38;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -136,6 +142,8 @@ public final class WSUrl {
         URLS.put(GET_APP_VERSION, APP_VERSION_ID);
         URLS.put(GET_CHECK_EMAIL, CHECK_EMAIL_ID);
         URLS.put(POST_EXTERNAL_AUTHORIZE, EXTERNAL_AUTH_ID);
+        URLS.put(GET_WECHAT_TOKEN, WECHAT_TOKEN_ID);
+        URLS.put(GET_WECHAT_USER_INFO, WECHAT_USER_INFO_ID);
     }
 
     public static int matchUrl(String url) {

@@ -724,5 +724,30 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     * @param activity - current activity
+     * @param code     - code from WeChat API
+     */
+    public void getWeChatToken(Activity activity, String code) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_WECHAT_TOKEN, Keys.WECHAT_APP_ID, Keys.WECHAT_APP_SECRET, code);
+        operation.setTag(Keys.GET_WECHAT_TOKEN_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    /**
+     * @param activity - current activity
+     * @param token    - access token from WeChat API
+     * @param openId   - openId from WeChat API
+     */
+    public void getWeChatInfo(Activity activity, String token, String openId) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.GET_WECHAT_USER_INFO, token, openId);
+        operation.setTag(Keys.GET_WECHAT_INFO_OPERATION_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
 
 }

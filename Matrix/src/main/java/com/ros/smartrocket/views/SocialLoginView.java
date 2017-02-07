@@ -38,12 +38,16 @@ import com.google.android.gms.plus.model.people.Person;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
+import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
 import com.ros.smartrocket.utils.BaseUIListenerQQ;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.wxapi.WXEntryActivity;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 
@@ -56,7 +60,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnConnectionFailedListener {
-    private static final int G_SIGN_IN = 9001;
+    private static final int G_SIGN_IN_CODE = 9001;
+    public static final int WECHAT_SIGN_IN_CODE = 9002;
     private static final int GOOGLE_ID = 1;
     private static final int FB_ID = 2;
     private static final int WECHAT_ID = 3;
@@ -72,7 +77,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     LinearLayout container;
     private AppCompatActivity activity;
     private GoogleApiClient mGoogleApiClient;
-    private CallbackManager callbackManager;
+    private CallbackManager fbCallbackManager;
     private SocialLoginListener socialLoginListener;
     public static Tencent qqApi;
     private IUiListener qqLoginListener;
@@ -120,7 +125,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     public void setUpSocialLoginButtons(SocialLoginListener socialLoginListener, AppCompatActivity activity, int externalSource1, int externalSource2) {
         this.activity = activity;
         this.socialLoginListener = socialLoginListener;
-        showSocialButton(QQ_ID);
+        showSocialButton(WECHAT_ID);
         showSocialButton(externalSource1);
         showSocialButton(externalSource2);
         requestLayout();
@@ -178,6 +183,9 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         try {
             authorize.setFullName(jsonObject.getString(QQ_NICKNAME));
             authorize.setGender("男".equals(jsonObject.getString(GENDER)) ? 1 : 2);
+            if (socialLoginListener != null) {
+                socialLoginListener.onExternalLoginSuccess(authorize);
+            }
         } catch (JSONException e) {
             Log.e("QQ auth", "JSON exception", e);
         }
@@ -190,17 +198,26 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         weChatSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startActivity(new Intent(activity, WXEntryActivity.class));
+                IWXAPI api = WXAPIFactory.createWXAPI(getContext(), Keys.WECHAT_APP_ID, false);
+                api.registerApp(Keys.WECHAT_APP_ID);
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "wechat_smart_rocket";
+                api.sendReq(req);
             }
         });
+    }
+
+    private void handleWeChatUserInfo(WeChatUserInfoResponse info){
+
     }
 
     //-----------FB------------//
 
     private void setUpFbLoginButton() {
-        callbackManager = CallbackManager.Factory.create();
+        fbCallbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logOut();
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        LoginManager.getInstance().registerCallback(fbCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 onLoginStart();
@@ -290,7 +307,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
                     @Override
                     public void onResult(Status status) {
                         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                        activity.startActivityForResult(signInIntent, G_SIGN_IN);
+                        activity.startActivityForResult(signInIntent, G_SIGN_IN_CODE);
                     }
                 });
     }
@@ -318,14 +335,26 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     //-----------OTHER------------//
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == G_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleGoogleSignInResult(result);
-        } else if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
-            Tencent.onActivityResultData(requestCode, resultCode, data, qqLoginListener);
-        } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case G_SIGN_IN_CODE:
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                handleGoogleSignInResult(result);
+                break;
+            case Constants.REQUEST_LOGIN:
+            case Constants.REQUEST_APPBAR:
+                Tencent.onActivityResultData(requestCode, resultCode, data, qqLoginListener);
+                break;
+            case WECHAT_SIGN_IN_CODE:
+                WeChatUserInfoResponse response = (WeChatUserInfoResponse) data.getSerializableExtra(WXEntryActivity.INFO_TAG);
+                handleWeChatUserInfo(response);
+                break;
+            default:
+                // FB - CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode();
+                fbCallbackManager.onActivityResult(requestCode, resultCode, data);
+                break;
         }
+
+
     }
 
     private CustomButton addSocialButton(int buttonNameRes, int buttonIconRes, int buttonBgRes) {

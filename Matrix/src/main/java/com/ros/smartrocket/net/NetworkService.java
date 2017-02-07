@@ -43,6 +43,8 @@ import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Token;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
+import com.ros.smartrocket.db.entity.WeChatTokenResponse;
+import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
@@ -275,6 +277,14 @@ public class NetworkService extends BaseNetworkService {
                         getPreferencesManager().setToken(authResponse.getToken());
                         getPreferencesManager().setTokenForUploadFile(authResponse.getToken());
                         getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
+                        break;
+                    case WSUrl.WECHAT_TOKEN_ID:
+                        WeChatTokenResponse tokenResponse = gson.fromJson(responseString, WeChatTokenResponse.class);
+                        operation.responseEntities.add(tokenResponse);
+                        break;
+                    case WSUrl.WECHAT_USER_INFO_ID:
+                        WeChatUserInfoResponse weChatUserInfoResponse = gson.fromJson(responseString, WeChatUserInfoResponse.class);
+                        operation.responseEntities.add(weChatUserInfoResponse);
                         break;
                     default:
                         break;
