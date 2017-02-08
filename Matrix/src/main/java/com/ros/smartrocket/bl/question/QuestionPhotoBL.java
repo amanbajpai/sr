@@ -85,7 +85,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
 
         confirmButton = (ImageButton) view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
-
+        EventBus.getDefault().register(this);
         if (savedInstanceState != null) {
             mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
             currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
@@ -96,6 +96,12 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
             }
         }
+    }
+
+    @Override
+    public void destroyView() {
+        super.destroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private boolean isPreview() {
@@ -122,16 +128,6 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     @Override
     public void onPause() {
         hideProgressDialog();
-    }
-
-    @Override
-    public void onStart() {
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

@@ -27,7 +27,13 @@ import com.ros.smartrocket.utils.*;
 import de.greenrobot.event.EventBus;
 import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -258,21 +264,24 @@ public class SelectImageManager {
     private static ImageFileClass getBitmapFromGallery(Intent intent, Context context) {
         Bitmap resultBitmap = null;
         File lastFile = null;
-
         try {
             if (intent != null && intent.getData() != null) {
                 final String prefix = intent.getStringExtra(EXTRA_PREFIX);
                 Uri uri = intent.getData();
                 if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
-                    String unusablePath = intent.getData().getPath();
-                    int startIndex = unusablePath.indexOf("external/");
-                    int endIndex = unusablePath.indexOf("/ACTUAL");
-                    String embeddedPath = unusablePath.substring(startIndex, endIndex);
-
-                    Uri.Builder builder = intent.getData().buildUpon();
-                    builder.path(embeddedPath);
-                    builder.authority("media");
-                    uri = builder.build();
+                    try {
+                        InputStream is = context.getContentResolver().openInputStream(uri);
+                        if (is != null) {
+                            Bitmap pictureBitmap = BitmapFactory.decodeStream(is);
+                            lastFile = saveBitmapToFile(context, pictureBitmap, prefix);
+                            pictureBitmap.recycle();
+                            resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
+                            return new ImageFileClass(resultBitmap, lastFile, true);
+                        }
+                    } catch (FileNotFoundException e) {
+                        L.e(TAG, "GetBitmapFromGallery error" + e.getMessage(), e);
+                        return new ImageFileClass(null, null, true);
+                    }
                 }
 
                 Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
@@ -508,7 +517,7 @@ public class SelectImageManager {
         protected ImageFileClass doInBackground(Void... params) {
             ImageFileClass image = null;
             int littleRequestCode = getLittlePart(requestCode);
-
+            onImageStartLoading();
             if (littleRequestCode == SelectImageManager.GALLERY) {
                 image = getBitmapFromGallery(intent, context);
             } else if (littleRequestCode == SelectImageManager.CAMERA
