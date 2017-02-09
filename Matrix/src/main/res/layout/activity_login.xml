@@ -44,7 +44,7 @@
             android:inputType="textEmailAddress" />
 
         <com.ros.smartrocket.views.CustomButton
-            android:id="@+id/continue_with_email_btn"
+            android:id="@+id/continue_btn"
             style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

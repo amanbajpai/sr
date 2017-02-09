@@ -50,7 +50,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     public static String START_PUSH_NOTIFICATIONS_ACTIVITY = "start_push_notif";
     @Bind(R.id.emailEditText)
     CustomEditTextView emailEditText;
-    @Bind(R.id.continue_with_email_btn)
+    @Bind(R.id.continue_btn)
     CustomButton continueWithEmailBtn;
     @Bind(R.id.currentVersion)
     CustomTextView currentVersion;
@@ -169,10 +169,13 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 finish();
 
             }
+        } else if (Keys.POST_EXTERNAL_AUTH_TAG.equals(operation.getTag()) &&
+                operation.getResponseErrorCode() == BaseNetworkService.EXTERNAL_AUTH_NEED_MORE_DATA_ERROR) {
+            Intent i = ExternalAuthDetailsActivity.getStartIntent(this, authorize, 0);
+            startActivityForResult(i, ExternalAuthDetailsActivity.REQUEST_CODE);
         } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                 == BaseNetworkService.NO_INTERNET) {
             DialogUtils.showBadOrNoInternetDialog(this);
-
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
         }
@@ -338,13 +341,13 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         }
     }
 
-    @OnClick({R.id.language, R.id.continue_with_email_btn})
+    @OnClick({R.id.language, R.id.continue_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.language:
                 showPopup(language);
                 break;
-            case R.id.continue_with_email_btn:
+            case R.id.continue_btn:
                 userEmail = emailEditText.getText().toString().trim();
                 if (!TextUtils.isEmpty(userEmail)) {
                     if (UIUtils.deviceIsReady(this)) {

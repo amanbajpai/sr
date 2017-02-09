@@ -11,6 +11,8 @@ public class ExternalAuthorize extends Login {
     private Integer externalAuthSource;
     @SerializedName("ExternalAuthToken")
     private String externalAuthToken;
+    @SerializedName("Birthday")
+    private String birthday;
 
     public String getFullName() {
         return fullName;
@@ -44,4 +46,11 @@ public class ExternalAuthorize extends Login {
         this.externalAuthToken = externalAuthToken;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 }

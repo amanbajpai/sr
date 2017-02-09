@@ -126,6 +126,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         this.activity = activity;
         this.socialLoginListener = socialLoginListener;
         showSocialButton(WECHAT_ID);
+        showSocialButton(QQ_ID);
         showSocialButton(externalSource1);
         showSocialButton(externalSource2);
         requestLayout();

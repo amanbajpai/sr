@@ -75,6 +75,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int SUCCESS = 200;
     public static final int AUTORIZATION_ERROR = 401;
     public static final int LOCAL_UPLOAD_FILE_ERROR = 3701;
+    public static final int EXTERNAL_AUTH_NEED_MORE_DATA_ERROR = 401;
 
     public BaseNetworkService(String name) {
         super(name);

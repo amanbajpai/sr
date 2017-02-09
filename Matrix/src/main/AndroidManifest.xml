@@ -110,6 +110,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.ExternalAuthDetailsActivity"
+            android:label="@string/registration_form" />
+        <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/continue_with_wechat" />
