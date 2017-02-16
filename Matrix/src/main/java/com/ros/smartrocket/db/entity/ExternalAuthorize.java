@@ -13,6 +13,12 @@ public class ExternalAuthorize extends Login {
     private String externalAuthToken;
     @SerializedName("Birthday")
     private String birthday;
+    @SerializedName("ReferralId")
+    private Integer referralId;
+    @SerializedName("PromoCode")
+    private String promoCode;
+    @SerializedName("AdditionalAuthClaims")
+    private AdditionalAuthClaim additionalAuthClaims;
 
     public String getFullName() {
         return fullName;
@@ -52,5 +58,29 @@ public class ExternalAuthorize extends Login {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public Integer getReferralId() {
+        return referralId;
+    }
+
+    public void setReferralId(Integer referralId) {
+        this.referralId = referralId;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
+
+    public AdditionalAuthClaim getAdditionalAuthClaims() {
+        return additionalAuthClaims;
+    }
+
+    public void setAdditionalAuthClaims(AdditionalAuthClaim additionalAuthClaims) {
+        this.additionalAuthClaims = additionalAuthClaims;
     }
 }

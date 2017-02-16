@@ -39,7 +39,6 @@ import com.ros.smartrocket.db.entity.ResponseError;
 import com.ros.smartrocket.db.entity.Sharing;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
-import com.ros.smartrocket.db.entity.TermsAndConditionVersion;
 import com.ros.smartrocket.db.entity.Token;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;

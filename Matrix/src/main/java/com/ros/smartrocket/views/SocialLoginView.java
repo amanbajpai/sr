@@ -37,6 +37,7 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.AdditionalAuthClaim;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
@@ -125,8 +126,6 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     public void setUpSocialLoginButtons(SocialLoginListener socialLoginListener, AppCompatActivity activity, int externalSource1, int externalSource2) {
         this.activity = activity;
         this.socialLoginListener = socialLoginListener;
-        showSocialButton(WECHAT_ID);
-        showSocialButton(QQ_ID);
         showSocialButton(externalSource1);
         showSocialButton(externalSource2);
         requestLayout();
@@ -184,9 +183,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         try {
             authorize.setFullName(jsonObject.getString(QQ_NICKNAME));
             authorize.setGender("男".equals(jsonObject.getString(GENDER)) ? 1 : 2);
-            if (socialLoginListener != null) {
-                socialLoginListener.onExternalLoginSuccess(authorize);
-            }
+            onLoginSuccess(authorize);
         } catch (JSONException e) {
             Log.e("QQ auth", "JSON exception", e);
         }
@@ -209,8 +206,13 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         });
     }
 
-    private void handleWeChatUserInfo(WeChatUserInfoResponse info){
-
+    private void handleWeChatUserInfo(WeChatUserInfoResponse info, String token, String openId) {
+        ExternalAuthorize authorize = new ExternalAuthorize();
+        authorize.setExternalAuthSource(WECHAT_ID);
+        authorize.setExternalAuthToken(token);
+        authorize.setAdditionalAuthClaims(new AdditionalAuthClaim(openId));
+        authorize.setGender(info.getSex());
+        onLoginSuccess(authorize);
     }
 
     //-----------FB------------//
@@ -317,10 +319,13 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private void handleGoogleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             ExternalAuthorize authorize = new ExternalAuthorize();
-            authorize.setGender(1);
             if (mGoogleApiClient.hasConnectedApi(Plus.API)) {
                 Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 authorize.setGender(person.getGender() == 0 ? 1 : 2);
+                String birthday = person.getBirthday();
+                if (!TextUtils.isEmpty(birthday)) {
+                    authorize.setBirthday(UIUtils.googleProfileDateToString(birthday));
+                }
             }
             GoogleSignInAccount acct = result.getSignInAccount();
             authorize.setExternalAuthToken(result.getSignInAccount().getIdToken());
@@ -347,7 +352,9 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
                 break;
             case WECHAT_SIGN_IN_CODE:
                 WeChatUserInfoResponse response = (WeChatUserInfoResponse) data.getSerializableExtra(WXEntryActivity.INFO_TAG);
-                handleWeChatUserInfo(response);
+                String token = data.getStringExtra(WXEntryActivity.WECHAT_TOKEN);
+                String openId = data.getStringExtra(WXEntryActivity.WECHAT_OPEN_ID);
+                handleWeChatUserInfo(response, token, openId);
                 break;
             default:
                 // FB - CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode();

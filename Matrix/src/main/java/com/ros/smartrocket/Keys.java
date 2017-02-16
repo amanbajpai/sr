@@ -97,6 +97,7 @@ public interface Keys {
     String GET_CHECK_EMAIL_OPERATION_TAG = "check_email_tag";
     String POST_PROMO_CODE_OPERATION_TAG = "post_promo_code_operation_tag";
     String POST_EXTERNAL_AUTH_TAG = "post_external_auth_tag";
+    String POST_EXTERNAL_REG_TAG = "post_external_reg_tag";
     String GET_WECHAT_TOKEN_OPERATION_TAG = "wechat_token_tag";
     String GET_WECHAT_INFO_OPERATION_TAG = "wechat_info_tag";
 
@@ -134,7 +135,7 @@ public interface Keys {
     }
 
     //Social authorization
-    String IS_SOCIAL = "is_social";
+    String REGISTRATION_TYPE = "is_social";
 
     //Tasks
     String TASK_ID = "task_id";

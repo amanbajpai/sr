@@ -28,9 +28,12 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler, NetworkOperationListenerInterface {
 
     public static final String INFO_TAG = "info_tag";
+    public static final String WECHAT_TOKEN = "w_token";
+    public static final String WECHAT_OPEN_ID = "w_open_id";
     private IWXAPI api;
     private CustomProgressDialog progressDialog;
     private APIFacade apiFacade = APIFacade.getInstance();
+    WeChatTokenResponse tokenResponse;
 
 
     @Override
@@ -99,12 +102,14 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler,
     public void onNetworkOperation(BaseOperation operation) {
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_WECHAT_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
-                WeChatTokenResponse tokenResponse = (WeChatTokenResponse) operation.getResponseEntities().get(0);
+                tokenResponse = (WeChatTokenResponse) operation.getResponseEntities().get(0);
                 apiFacade.getWeChatInfo(this, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
             } else if (Keys.GET_WECHAT_INFO_OPERATION_TAG.equals(operation.getTag())) {
                 WeChatUserInfoResponse infoResponse = (WeChatUserInfoResponse) operation.getResponseEntities().get(0);
                 Intent i = new Intent();
                 i.putExtra(INFO_TAG, infoResponse);
+                i.putExtra(WECHAT_TOKEN, tokenResponse.getAccessToken());
+                i.putExtra(WECHAT_OPEN_ID, tokenResponse.getOpenId());
                 sendBroadcast(i.setAction(Keys.WECHAT_AUTH_SUCCESS));
                 finish();
             }

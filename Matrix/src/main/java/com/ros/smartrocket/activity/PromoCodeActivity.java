@@ -16,6 +16,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 
 import butterknife.Bind;
@@ -31,6 +32,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     EditText promoCodeEdt;
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
+    private RegistrationType type;
 
     public PromoCodeActivity() {
     }
@@ -41,20 +43,22 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
         getSupportActionBar().hide();
         setContentView(R.layout.activity_promo_code);
         ButterKnife.bind(this);
-
+        type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
         checkDeviceSettingsByOnResume(false);
     }
 
     public void continueRegistrationFlow() {
         Intent intent;
-        if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL)) {
+        if (type == RegistrationType.SOCIAL) {
             intent = new Intent(this, MainActivity.class);
+        } else if (type == RegistrationType.SOCIAL_ADDITIONAL_INFO) {
+            intent = new Intent(this, ExternalAuthDetailsActivity.class);
         } else {
             intent = new Intent(this, RegistrationActivity.class);
-            intent.putExtras(getIntent().getExtras());
-            intent.putExtra(Keys.PROMO_CODE, promoCodeEdt.getText().toString());
         }
+        intent.putExtras(getIntent().getExtras());
+        intent.putExtra(Keys.PROMO_CODE, promoCodeEdt.getText().toString());
         startActivity(intent);
         finish();
     }
@@ -93,7 +97,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @OnClick(R.id.continueButton)
     public void onClick() {
         String promoCode = promoCodeEdt.getText().toString();
-        if (!TextUtils.isEmpty(promoCode)) {
+        if (!TextUtils.isEmpty(promoCode) ) {
             progressDialog = CustomProgressDialog.show(this);
             apiFacade.setPromoCode(this, promoCode);
         } else {

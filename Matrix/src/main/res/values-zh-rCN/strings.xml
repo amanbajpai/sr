@@ -177,7 +177,7 @@
     <string name="registration_success_dialog_title">智慧飞船注册</string>
     <string name="registration_success_dialog_text0">感谢您的注册！</string>
     <string name="registration_success_dialog_text1">我们已经将激活智慧飞船账户的链接电邮发送到以下邮箱：</string>
-    <string name="registration_success_dialog_text2"></string>
+    <string name="registration_success_dialog_text2">...内容一条网址去激活你SmartRocket的账户</string>
     <string name="registration_success_dialog_text3">完成注册和登录到智慧飞船之前，请先点击链接。
         如果找不到以上邮件，请先查看垃圾邮件夹。</string>
     <string name="registration_success_dialog_ok">继续</string>
@@ -462,4 +462,11 @@
     <string name="tut_text5">现在加入我们的行列, 开始赚钱吧</string>
     <string name="continue_with_wechat">以微信继续</string>
     <string name="continue_with_qq">以QQ继续</string>
+    <string name="why_email_title">为什么我们需要你的电邮地址？</string>
+    <string name="why_email">所有与阁下的SmartRocket账户相关的重要讯息都是通过电邮发送 在其他市场上,,皆需要以电邮地址建立和管理自己的账目。 所以有兴趣参与SmartRocket的人都必须提供电邮地址。</string>
+    <string name="enter_dob">请输入你的生日日期</string>
+    <string name="why_need_this">我们为什么需要这个？</string>
+    <string name="enter_email">请输入你的电邮地址</string>
+    <string name="why_dob_title">为什么需要你的生日日期？</string>
+    <string name="why_bod">你必须年满18岁才可以加入SmartRocket。 加上，有些任务可能需要队员在某个年龄组合才可以参与。 所以，你需要提供生日日期去加入SmartRocket。</string>
 </resources>

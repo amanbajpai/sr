@@ -8,7 +8,10 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.widget.Toast;
 
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
@@ -25,6 +28,7 @@ public class BaseActivity extends AppCompatActivity {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private BroadcastReceiver receiver;
     private IntentFilter filter;
+    private CustomProgressDialog progressDialog;
     private List<NetworkOperationListenerInterface> networkOperationListeners =
             new ArrayList<>();
     private boolean checkDeviceSettingsByOnResume = true;
@@ -115,5 +119,20 @@ public class BaseActivity extends AppCompatActivity {
 
     public void removeNetworkOperationListener(NetworkOperationListenerInterface listener) {
         networkOperationListeners.remove(listener);
+    }
+
+    protected void dismissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    protected void showProgressDialog(boolean isCancelable) {
+        progressDialog = CustomProgressDialog.show(this);
+        progressDialog.setCancelable(isCancelable);
+    }
+
+    protected void showNetworkError(BaseOperation operation){
+        UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
 }

@@ -19,6 +19,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 
@@ -100,7 +101,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                 continueRegistrationFlow(getCurrentReferralCaseId());
             }
         } else {
-            continueRegistrationFlow(-1);
+            continueRegistrationFlow(getCurrentReferralCaseId());
         }
     }
 
@@ -110,14 +111,16 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
     public void continueRegistrationFlow(int referralCasesId) {
         Intent intent;
+        RegistrationType type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         if (registrationPermissions.isSrCodeEnable()) {
             intent = new Intent(this, PromoCodeActivity.class);
-        } else if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL)) {
+        } else if (type == RegistrationType.SOCIAL) {
             intent = new Intent(this, MainActivity.class);
+        } else if (type == RegistrationType.SOCIAL_ADDITIONAL_INFO) {
+            intent = new Intent(this, ExternalAuthDetailsActivity.class);
         } else {
             intent = new Intent(this, RegistrationActivity.class);
         }
-
         if (referralCasesId != -1) {
             intent.putExtra(Keys.REFERRAL_CASES_ID, referralCasesId);
         }

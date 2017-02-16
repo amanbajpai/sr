@@ -591,4 +591,31 @@ public class DialogUtils {
                     }
                 });
     }
+
+    /**
+     * Explain to user why we need some additional info
+     *
+     * @param context  - context
+     * @param titleRes - resource for title text
+     * @param textRes  - resource for description text
+     * @return - dialog
+     */
+    public static Dialog showWhyWeNeedThisDialog(final Context context, int titleRes, int textRes) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
+                context.getText(titleRes),
+                context.getText(textRes),
+                0, R.string.user_already_exists_dialog_ok);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
 }

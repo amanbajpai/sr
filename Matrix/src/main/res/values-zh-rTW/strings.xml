@@ -176,7 +176,7 @@
     <string name="registration_success_dialog_title">SmartRocket註冊</string>
     <string name="registration_success_dialog_text0">感謝你的註冊！</string>
     <string name="registration_success_dialog_text1">我們已經將激活SmartRocket賬戶的連結發送到以下電郵：</string>
-    <string name="registration_success_dialog_text2"> </string>
+    <string name="registration_success_dialog_text2">" …內有一條網址去激活你SmartRocket的賬戶"</string>
     <string name="registration_success_dialog_text3">完成註冊和登入SmartRocket之前，請先點擊連結。
         如果找不到以上郵件，請先檢查垃圾郵件夾。</string>
     <string name="registration_success_dialog_ok">繼續</string>
@@ -456,4 +456,11 @@
     <string name="tut_text4">把賬戶結餘即時轉換為現金.</string>
     <string name="tut_title_5">加入我們吧.</string>
     <string name="tut_text5">現在加入我們的行列, 開始賺錢吧</string>
+    <string name="why_email_title">為什麼我們需要你的電郵地址?</string>
+    <string name="why_email">所有與閣下的SmartRocket賬戶相關的重要訊息都是通過電郵發送 在其他市場上,，皆需要以電郵地址建立和管理自己的賬目。 所以有興趣參與SmartRocket的人都必需提供電郵地址。</string>
+    <string name="enter_dob">請輸入你的生日日期</string>
+    <string name="why_need_this">我們為什麼需要這個？</string>
+    <string name="enter_email">請輸入你的電郵地址</string>
+    <string name="why_dob_title">為什麼需要你的生日日期?</string>
+    <string name="why_bod">你必須年滿18歲才可以加入SmartRocket. 加上, 有些任務可能需要隊員在某個年齡組合才可以參與. 所以, 你需要提供生日日期去加入SmartRocket.</string>
 </resources>

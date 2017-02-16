@@ -9,6 +9,8 @@ public class ResponseError extends BaseEntity {
     private Integer errorCode;
     @SerializedName("ErrorMessage")
     private String errorMessage;
+    @SerializedName("Data")
+    private ErrorData data;
 
     public String getErrorMessage() {
         return errorMessage;
@@ -24,5 +26,13 @@ public class ResponseError extends BaseEntity {
 
     public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public ErrorData getData() {
+        return data;
+    }
+
+    public void setData(ErrorData data) {
+        this.data = data;
     }
 }

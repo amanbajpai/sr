@@ -78,6 +78,7 @@ import java.util.TimeZone;
  */
 public class UIUtils {
     private static final String TAG = "UIUtils";
+    private static final SimpleDateFormat GOOGLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
     private static final SimpleDateFormat ISO_DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
@@ -487,6 +488,19 @@ public class UIUtils {
             }
         }
         return result;
+    }
+
+    public static String googleProfileDateToString(String dateString) {
+        long result = 0;
+        if (!TextUtils.isEmpty(dateString)) {
+            try {
+                UIUtils.GOOGLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+                result = UIUtils.GOOGLE_DATE_FORMAT.parse(dateString).getTime();
+            } catch (Exception e) {
+                L.e("isoTimeToLong", "Parse error" + e, e);
+            }
+        }
+        return longToString(result, 2);
     }
 
     /**

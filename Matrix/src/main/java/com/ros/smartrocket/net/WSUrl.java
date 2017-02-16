@@ -15,6 +15,7 @@ public final class WSUrl {
     public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
     public static final String POST_EXTERNAL_AUTHORIZE = Config.WEB_SERVICE_URL + "api/Authorize/ExternalAuthorize?language=%s";
+    public static final String POST_EXTERNAL_REGISTER = Config.WEB_SERVICE_URL + "api/Authorize/ExternalRegister?language=%s";
     public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
@@ -102,6 +103,7 @@ public final class WSUrl {
     public static final int EXTERNAL_AUTH_ID = 36;
     public static final int WECHAT_TOKEN_ID = 37;
     public static final int WECHAT_USER_INFO_ID = 38;
+    public static final int EXTERNAL_REGISTER_ID = 39;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -142,6 +144,7 @@ public final class WSUrl {
         URLS.put(GET_APP_VERSION, APP_VERSION_ID);
         URLS.put(GET_CHECK_EMAIL, CHECK_EMAIL_ID);
         URLS.put(POST_EXTERNAL_AUTHORIZE, EXTERNAL_AUTH_ID);
+        URLS.put(POST_EXTERNAL_REGISTER, EXTERNAL_REGISTER_ID);
         URLS.put(GET_WECHAT_TOKEN, WECHAT_TOKEN_ID);
         URLS.put(GET_WECHAT_USER_INFO, WECHAT_USER_INFO_ID);
     }

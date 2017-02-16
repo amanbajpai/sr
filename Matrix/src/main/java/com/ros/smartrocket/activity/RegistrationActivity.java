@@ -92,11 +92,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     private Double latitude;
     private Double longitude;
     private Bitmap photoBitmap;
-    private CustomProgressDialog progressDialog;
     private String promoCode;
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
-    private boolean isTrmsShowed;
 
     public RegistrationActivity() {
     }
@@ -117,7 +115,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
             referralCasesId = getIntent().getIntExtra(Keys.REFERRAL_CASES_ID, 0);
             promoCode = getIntent().getStringExtra(Keys.PROMO_CODE);
-            isTrmsShowed = getIntent().getBooleanExtra(Keys.T_AND_C, false);
         }
 
         profilePhotoImageView.setOnClickListener(this);
@@ -242,8 +239,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         break;
                 }
 
-                progressDialog = CustomProgressDialog.show(this);
-                progressDialog.setCancelable(false);
+                showProgressDialog(false);
                 apiFacade.registration(this, registrationEntity);
                 break;
             case R.id.cancelButton:
@@ -280,10 +276,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             UIUtils.setEmailEditTextImageByState(emailEditText, true);
             emailValidationText.setVisibility(View.GONE);
         }
-
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
+        dismissProgressDialog();
     }
 
     @Override

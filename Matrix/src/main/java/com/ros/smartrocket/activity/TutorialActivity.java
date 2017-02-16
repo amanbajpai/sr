@@ -11,6 +11,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.adapter.TutorialPageAdapter;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.views.TutorialView;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class TutorialActivity extends BaseActivity {
 
     public void continueRegistrationFlow() {
         Intent intent;
+        RegistrationType type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         RegistrationPermissions registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
         if (registrationPermissions.isTermsEnable()) {
             intent = new Intent(this, TermsAndConditionActivity.class);
@@ -77,8 +79,10 @@ public class TutorialActivity extends BaseActivity {
             intent = new Intent(this, ReferralCasesActivity.class);
         } else if (registrationPermissions.isSrCodeEnable()) {
             intent = new Intent(this, PromoCodeActivity.class);
-        } else if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL)) {
+        } else if (type == RegistrationType.SOCIAL) {
             intent = new Intent(this, MainActivity.class);
+        } else if (type == RegistrationType.SOCIAL_ADDITIONAL_INFO) {
+            intent = new Intent(this, ExternalAuthDetailsActivity.class);
         } else {
             intent = new Intent(this, RegistrationActivity.class);
         }

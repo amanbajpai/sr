@@ -749,5 +749,18 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    /**
+     * @param activity                - current activity
+     * @param externalAuthorizeEntity - data for registration with social networks
+     */
+    public void externalRegistration(Activity activity, ExternalAuthorize externalAuthorizeEntity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.POST_EXTERNAL_REGISTER, preferencesManager.getLanguageCode());
+        operation.setTag(Keys.POST_EXTERNAL_REG_TAG);
+        operation.setMethod(BaseOperation.Method.POST);
+        operation.getEntities().add(externalAuthorizeEntity);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
 
 }

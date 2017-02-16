@@ -23,6 +23,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomCheckBox;
@@ -42,6 +43,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     private RegistrationPermissions registrationPermissions;
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
+    private RegistrationType type;
 
     public TermsAndConditionActivity() {
     }
@@ -53,6 +55,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         setContentView(R.layout.activity_terms_and_condition);
         ButterKnife.bind(this);
         getSupportActionBar().hide();
+        type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
         acceptTC.setOnCheckedChangeListener(this);
         String termsUrl;
@@ -109,8 +112,10 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
             intent = new Intent(this, ReferralCasesActivity.class);
         } else if (registrationPermissions.isSrCodeEnable()) {
             intent = new Intent(this, PromoCodeActivity.class);
-        } else if (getIntent().getExtras().getBoolean(Keys.IS_SOCIAL)) {
+        } else if (type == RegistrationType.SOCIAL) {
             intent = new Intent(this, MainActivity.class);
+        } else if (type == RegistrationType.SOCIAL_ADDITIONAL_INFO) {
+            intent = new Intent(this, ExternalAuthDetailsActivity.class);
         } else {
             intent = new Intent(this, RegistrationActivity.class);
         }
@@ -127,7 +132,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     public void onClick() {
         if (getIntent().getExtras() != null
                 && (getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)
-                || getIntent().getExtras().getBoolean(Keys.IS_SOCIAL))) {
+                || type == RegistrationType.SOCIAL)) {
             progressDialog = CustomProgressDialog.show(this);
             apiFacade.sendTandC(this);
         } else {

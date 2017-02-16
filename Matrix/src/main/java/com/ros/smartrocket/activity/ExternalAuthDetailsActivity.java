@@ -1,24 +1,33 @@
 package com.ros.smartrocket.activity;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.dialog.DatePickerDialog;
+import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
+import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomEditTextView;
+import com.ros.smartrocket.views.CustomTextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExternalAuthDetailsActivity extends BaseActivity {
-    public static final int REQUEST_CODE = 2017;
+public class ExternalAuthDetailsActivity extends BaseActivity implements NetworkOperationListenerInterface {
     public static final String EXTERNAL_AUTHORIZE = "externalAuthorize";
     public static final String BITMASK = "bitmask";
     public static final int EMAIL_MASK = 1;
@@ -29,18 +38,18 @@ public class ExternalAuthDetailsActivity extends BaseActivity {
     CustomEditTextView birthdayEditText;
     @Bind(R.id.continue_btn)
     CustomButton continueWithEmailBtn;
-    private int bitmasc;
+    @Bind(R.id.txt_why_dob)
+    CustomTextView txtWhyDob;
+    @Bind(R.id.birthLayout)
+    LinearLayout birthLayout;
+    @Bind(R.id.txt_why_email)
+    CustomTextView txtWhyEmail;
+    @Bind(R.id.emailLayout)
+    LinearLayout emailLayout;
+    private int bitMasc;
     private ExternalAuthorize externalAuthorize;
     private Long selectedBirthDay = null;
-
-    public static Intent getStartIntent(Activity activity, ExternalAuthorize externalAuthorize, int bitmask) {
-        Intent i = new Intent(activity, ExternalAuthDetailsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(EXTERNAL_AUTHORIZE, externalAuthorize);
-        bundle.putInt(BITMASK, bitmask);
-        i.putExtras(bundle);
-        return i;
-    }
+    private APIFacade apiFacade = APIFacade.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +59,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            bitmasc = bundle.getInt(BITMASK);
+            bitMasc = bundle.getInt(BITMASK);
             externalAuthorize = (ExternalAuthorize) bundle.getSerializable(EXTERNAL_AUTHORIZE);
             initUI();
         } else {
@@ -60,11 +69,13 @@ public class ExternalAuthDetailsActivity extends BaseActivity {
     }
 
     private void initUI() {
-        birthdayEditText.setVisibility(isBirthdayNeeded() ? View.VISIBLE : View.GONE);
-        emailEditText.setVisibility(isEmailNeeded() ? View.VISIBLE : View.GONE);
+        birthLayout.setVisibility(isBirthdayNeeded() ? View.VISIBLE : View.GONE);
+        emailLayout.setVisibility(isEmailNeeded() ? View.VISIBLE : View.GONE);
+        txtWhyDob.setPaintFlags(txtWhyDob.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        txtWhyEmail.setPaintFlags(txtWhyEmail.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    @OnClick({R.id.birthdayEditText, R.id.continue_btn})
+    @OnClick({R.id.birthdayEditText, R.id.continue_btn, R.id.txt_why_dob, R.id.txt_why_email})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.birthdayEditText:
@@ -88,14 +99,29 @@ public class ExternalAuthDetailsActivity extends BaseActivity {
                 if (!isAllFieldsFilled(email)) {
                     UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
                 } else {
-                    externalAuthorize.setBirthday(UIUtils.longToString(selectedBirthDay, 2));
-                    externalAuthorize.setEmail(email);
-                    Intent i = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(EXTERNAL_AUTHORIZE, externalAuthorize);
-                    setResult(RESULT_OK, i);
-                    finish();
+                    showProgressDialog(false);
+                    if (selectedBirthDay != null) {
+                        externalAuthorize.setBirthday(UIUtils.longToString(selectedBirthDay, 2));
+                    }
+                    if (!email.isEmpty()) {
+                        externalAuthorize.setEmail(email);
+                    }
+                    int referralCasesId = getIntent().getIntExtra(Keys.REFERRAL_CASES_ID, 0);
+                    if (referralCasesId > 0) {
+                        externalAuthorize.setReferralId(referralCasesId);
+                    }
+                    String promoCode = getIntent().getStringExtra(Keys.PROMO_CODE);
+                    if (!TextUtils.isEmpty(promoCode)) {
+                        externalAuthorize.setPromoCode(promoCode);
+                    }
+                    apiFacade.externalRegistration(this, externalAuthorize);
                 }
+                break;
+            case R.id.txt_why_dob:
+                DialogUtils.showWhyWeNeedThisDialog(this, R.string.why_dob_title, R.string.why_bod);
+                break;
+            case R.id.txt_why_email:
+                DialogUtils.showWhyWeNeedThisDialog(this, R.string.why_email_title, R.string.why_email);
                 break;
         }
     }
@@ -121,10 +147,53 @@ public class ExternalAuthDetailsActivity extends BaseActivity {
     }
 
     public boolean isEmailNeeded() {
-        return (bitmasc & EMAIL_MASK) == EMAIL_MASK;
+        return (bitMasc & EMAIL_MASK) == EMAIL_MASK;
     }
 
     public boolean isBirthdayNeeded() {
-        return (bitmasc & BIRTH_MASK) == BIRTH_MASK;
+        return (bitMasc & BIRTH_MASK) == BIRTH_MASK;
+    }
+
+    @Override
+    public void onNetworkOperation(BaseOperation operation) {
+        if (Keys.POST_EXTERNAL_REG_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                onSuccessNetworkOperation();
+            } else {
+                onErrorNetworkOperation(operation);
+            }
+        }
+    }
+
+    private void onSuccessNetworkOperation() {
+        PreferencesManager.getInstance().setTandCShowed(emailEditText.getText().toString().trim());
+        new RegistrationSuccessDialog(this, externalAuthorize.getEmail());
+    }
+
+    private void onErrorNetworkOperation(BaseOperation operation) {
+        if (operation.getResponseErrorCode() != null) {
+            if (operation.getResponseErrorCode() == BaseNetworkService.NO_INTERNET) {
+                DialogUtils.showBadOrNoInternetDialog(this);
+            } else if (operation.getResponseErrorCode() == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
+                DialogUtils.showLoginFailedDialog(this);
+            } else {
+                showNetworkError(operation);
+            }
+        } else {
+            showNetworkError(operation);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
     }
 }

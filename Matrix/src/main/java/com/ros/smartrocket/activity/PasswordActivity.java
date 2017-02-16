@@ -41,7 +41,6 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     CustomButton loginButton;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
-    private CustomProgressDialog progressDialog;
     private String email;
 
 
@@ -122,15 +121,9 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
                     DialogUtils.showLoginFailedDialog(this);
 
                 } else {
-                    UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+                    showNetworkError(operation);
                 }
             }
-        }
-    }
-
-    public void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
         }
     }
 
@@ -158,7 +151,7 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     }
 
     private void login(String email, String password) {
-        progressDialog = CustomProgressDialog.show(this);
+        showProgressDialog(false);
         Login loginEntity = new Login();
         String deviceManufacturer = UIUtils.getDeviceManufacturer();
         String deviceModel = UIUtils.getDeviceModel();
