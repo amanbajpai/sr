@@ -115,6 +115,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             longitude = getIntent().getDoubleExtra(Keys.LONGITUDE, 0);
             referralCasesId = getIntent().getIntExtra(Keys.REFERRAL_CASES_ID, 0);
             promoCode = getIntent().getStringExtra(Keys.PROMO_CODE);
+            String email = getIntent().getStringExtra(Keys.EMAIL);
+            emailEditText.setText(email == null ? "" : email);
         }
 
         profilePhotoImageView.setOnClickListener(this);

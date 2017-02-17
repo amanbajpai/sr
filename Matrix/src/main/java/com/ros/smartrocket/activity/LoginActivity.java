@@ -302,6 +302,9 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 intent.putExtra(ExternalAuthDetailsActivity.EXTERNAL_AUTHORIZE, authorize);
                 intent.putExtra(ExternalAuthDetailsActivity.BITMASK, registrationBitMask);
             }
+            if (type == RegistrationType.NORMAL) {
+                intent.putExtra(Keys.EMAIL, emailEditText.getText().toString().trim());
+            }
             intent.putExtra(Keys.COUNTRY_NAME, checkLocationResponse.getCountryName());
             intent.putExtra(Keys.CITY_NAME, checkLocationResponse.getCityName());
             intent.putExtra(Keys.REGISTRATION_TYPE, type);
