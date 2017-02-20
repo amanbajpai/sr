@@ -19,15 +19,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.helpshift.Core;
 import com.helpshift.campaigns.Campaigns;
 import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -54,34 +53,64 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
+import com.ros.smartrocket.views.CustomTextView;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
         ShowProgressDialogInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
+    @Bind(R.id.photoImageView)
+    ImageView photoImageView;
+    @Bind(R.id.uploadPhotoProgressImage)
+    ImageView uploadPhotoProgressImage;
+    @Bind(R.id.nameTextView)
+    CustomTextView nameTextView;
+    @Bind(R.id.myTasksCount)
+    CustomTextView myTasksCount;
+    @Bind(R.id.balanceTextView)
+    CustomTextView balanceTextView;
+    @Bind(R.id.rocketPointNumberTextView)
+    CustomTextView rocketPointNumberTextView;
+    @Bind(R.id.levelName)
+    CustomTextView levelName;
+    @Bind(R.id.levelIcon)
+    ImageView levelIcon;
+    @Bind(R.id.levelProgressBar)
+    SeekBar levelProgressBar;
+    @Bind(R.id.minLevelExperience)
+    CustomTextView minLevelExperience;
+    @Bind(R.id.maxLevelExperience)
+    CustomTextView maxLevelExperience;
+    @Bind(R.id.notificationsButton)
+    CustomTextView notificationsButton;
+    @Bind(R.id.reputationTextView)
+    CustomTextView reputationTextView;
+    @Bind(R.id.levelLayout)
+    LinearLayout levelLayout;
+    @Bind(R.id.shareButton)
+    CustomTextView shareButton;
+    @Bind(R.id.supportButton)
+    CustomTextView supportButton;
+    @Bind(R.id.settingsButton)
+    CustomTextView settingsButton;
+    @Bind(R.id.levelNumber)
+    CustomTextView levelNumber;
+    @Bind(R.id.agentId)
+    CustomTextView agentId;
 
     private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private ResponseReceiver localReceiver;
     private AsyncQueryHandler handler;
-    private ImageView photoImageView;
-    private ImageView uploadPhotoProgressImage;
-    private ImageView levelIcon;
-    private TextView myTasksCount;
-    private TextView nameTextView;
-    private TextView balanceTextView;
-    private TextView rocketPointNumberTextView;
-    private TextView levelName;
-    private TextView minLevelExperience;
-    private TextView maxLevelExperience;
-    private TextView notificationsButton;
-    private SeekBar levelProgressBar;
     private File mCurrentPhotoFile;
     private CustomProgressDialog progressDialog;
     private MyAccount myAccount;
@@ -93,42 +122,19 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
-
+        ButterKnife.bind(this, view);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PHOTO)) {
             mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
         }
 
         handler = new DbHandler(getActivity().getContentResolver());
         avatarImageManager = new AvatarImageManager();
-
-        photoImageView = (ImageView) view.findViewById(R.id.photoImageView);
-        uploadPhotoProgressImage = (ImageView) view.findViewById(R.id.uploadPhotoProgressImage);
-        levelIcon = (ImageView) view.findViewById(R.id.levelIcon);
-        myTasksCount = (TextView) view.findViewById(R.id.myTasksCount);
-        nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-        balanceTextView = (TextView) view.findViewById(R.id.balanceTextView);
-        rocketPointNumberTextView = (TextView) view.findViewById(R.id.rocketPointNumberTextView);
-        levelName = (TextView) view.findViewById(R.id.levelName);
-        minLevelExperience = (TextView) view.findViewById(R.id.minLevelExperience);
-        maxLevelExperience = (TextView) view.findViewById(R.id.maxLevelExperience);
-        notificationsButton = (TextView) view.findViewById(R.id.notificationsButton);
-        notificationsButton.setOnClickListener(this);
-        levelProgressBar = (SeekBar) view.findViewById(R.id.levelProgressBar);
         levelProgressBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
-
-        view.findViewById(R.id.photoImageView).setOnClickListener(this);
-        view.findViewById(R.id.findTasksButton).setOnClickListener(this);
-        view.findViewById(R.id.myTasksButton).setOnClickListener(this);
-        view.findViewById(R.id.myAccountButton).setOnClickListener(this);
-        view.findViewById(R.id.shareButton).setOnClickListener(this);
-        view.findViewById(R.id.supportButton).setOnClickListener(this);
-        view.findViewById(R.id.settingsButton).setOnClickListener(this);
-        view.findViewById(R.id.cashingOutLayout).setOnClickListener(this);
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -142,7 +148,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         apiFacade.getMyAccount(getActivity());
 
         TasksBL.getMyTasksForMapFromDB(handler);
-
         return view;
     }
 
@@ -191,12 +196,14 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     }
             );
         }
-
+        agentId.setText(String.valueOf(myAccount.getId()));
         nameTextView.setText(myAccount.getSingleName());
         nameTextView.setOnClickListener(this);
         balanceTextView.setText(UIUtils.getBalanceOrPrice(myAccount.getBalance(),
                 myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
+        String level = myAccount.getLevelNumber() != null ? String.valueOf(myAccount.getLevelNumber()) + ". " : "";
+        levelNumber.setText(level);
         minLevelExperience.setText(String.valueOf(myAccount.getMinLevelExperience()));
         maxLevelExperience.setText(String.valueOf(myAccount.getMaxLevelExperience()));
 
@@ -221,6 +228,16 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 preferencesManager.setLastLevelNumber(myAccount.getLevelNumber());
             }
         }
+
+        if (myAccount.getReputation() != null) {
+            reputationTextView.setText(String.valueOf(myAccount.getReputation()));
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     public class ResponseReceiver extends BroadcastReceiver {
@@ -293,80 +310,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         apiFacade.getMyAccount(getActivity());
     }
 
-    @Override
-    public void onClick(View v) {
-        Bundle bundle = new Bundle();
-        Fragment fragment;
-
-        switch (v.getId()) {
-            case R.id.photoImageView:
-                mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
-                avatarImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
-                break;
-            case R.id.nameTextView:
-                if (myAccount != null && myAccount.getIsUpdateNameRequired()) {
-                    DialogUtils.showUpdateFirstLastNameDialog(getActivity(), apiFacade, this);
-                } else {
-                    UIUtils.showSimpleToast(getContext(), R.string.update_name_not_allowed, Toast.LENGTH_LONG);
-                }
-                break;
-            case R.id.findTasksButton:
-                bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
-
-                fragment = new AllTaskFragment();
-                fragment.setArguments(bundle);
-                ((MainActivity) getActivity()).startFragment(fragment);
-                ((MainActivity) getActivity()).togleMenu();
-                break;
-            case R.id.myTasksButton:
-                bundle.putString(Keys.CONTENT_TYPE, Keys.MY_TASK);
-
-                fragment = new AllTaskFragment();
-                fragment.setArguments(bundle);
-
-                ((MainActivity) getActivity()).startFragment(fragment);
-                ((MainActivity) getActivity()).togleMenu();
-                break;
-            case R.id.myAccountButton:
-                getActivity().startActivity(IntentUtils.getBrowserIntent(Config.PROFILE_PAGE_URL));
-                break;
-            case R.id.notificationsButton:
-                getActivity().startActivity(IntentUtils.getNotificationsIntent(getActivity()));
-                break;
-            case R.id.shareButton:
-                getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
-                ((MainActivity) getActivity()).togleMenu();
-                break;
-            case R.id.cashingOutLayout:
-                getActivity().startActivity(IntentUtils.getCashOutIntent(getActivity()));
-                ((MainActivity) getActivity()).togleMenu();
-                break;
-            case R.id.supportButton:
-                showFAQ();
-//                String uid = preferencesManager.getLastEmail();
-//                long validTimeInMillis = DateUtils.DAY_IN_MILLIS;
-//                String customerEmail = preferencesManager.getLastEmail();
-//                String customerName = preferencesManager.getLastEmail();
-//
-//                String url;
-//                if (BuildConfig.CHINESE) {
-//                    url = Config.CHINESE_SUPPORT_URL;
-//                } else {
-//                    MultipassUtils multipassUtils =
-//                            new MultipassUtils(uid, validTimeInMillis, customerEmail, customerName);
-//                    url = multipassUtils.buildUrl();
-//                }
-//                getActivity().startActivity(IntentUtils.getBrowserIntent(url));
-                break;
-            case R.id.settingsButton:
-                //((MainActivity) getActivity()).startFragment(new SettingsFragment());
-                getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
-                ((MainActivity) getActivity()).togleMenu();
-                break;
-            default:
-                break;
-        }
-    }
 
     private void showFAQ() {
         Core.login(String.valueOf(myAccount.getId()), myAccount.getSingleName(), PreferencesManager.getInstance().getLastEmail());
@@ -384,7 +327,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         customMetadata.put("Country", myAccount.getCountryName());
         customMetadata.put("City", myAccount.getCityName());
         customMetadata.put("Joining_Date", myAccount.getJoined());
-        HashMap config = new HashMap ();
+        HashMap config = new HashMap();
         config.put("hideNameAndEmail", true);
         config.put(Support.CustomMetadataKey, customMetadata);
         Support.showFAQs(getActivity(), config);
@@ -477,6 +420,63 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     public void dismissProgressBar() {
         if (progressDialog != null) {
             progressDialog.dismiss();
+        }
+    }
+
+    @OnClick({R.id.notificationsButton, R.id.photoImageView, R.id.findTasksButton, R.id.myTasksButton, R.id.cashingOutLayout, R.id.shareButton, R.id.supportButton, R.id.settingsButton})
+    public void onClick(View view) {
+        Bundle bundle = new Bundle();
+        Fragment fragment;
+
+        switch (view.getId()) {
+            case R.id.photoImageView:
+                mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
+                avatarImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
+                break;
+            case R.id.nameTextView:
+                if (myAccount != null && myAccount.getIsUpdateNameRequired()) {
+                    DialogUtils.showUpdateFirstLastNameDialog(getActivity(), apiFacade, this);
+                } else {
+                    UIUtils.showSimpleToast(getContext(), R.string.update_name_not_allowed, Toast.LENGTH_LONG);
+                }
+                break;
+            case R.id.findTasksButton:
+                bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
+
+                fragment = new AllTaskFragment();
+                fragment.setArguments(bundle);
+                ((MainActivity) getActivity()).startFragment(fragment);
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.myTasksButton:
+                bundle.putString(Keys.CONTENT_TYPE, Keys.MY_TASK);
+
+                fragment = new AllTaskFragment();
+                fragment.setArguments(bundle);
+
+                ((MainActivity) getActivity()).startFragment(fragment);
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.notificationsButton:
+                getActivity().startActivity(IntentUtils.getNotificationsIntent(getActivity()));
+                break;
+            case R.id.shareButton:
+                getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.cashingOutLayout:
+                getActivity().startActivity(IntentUtils.getCashOutIntent(getActivity()));
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            case R.id.supportButton:
+                showFAQ();
+                break;
+            case R.id.settingsButton:
+                getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
+                ((MainActivity) getActivity()).togleMenu();
+                break;
+            default:
+                break;
         }
     }
 }

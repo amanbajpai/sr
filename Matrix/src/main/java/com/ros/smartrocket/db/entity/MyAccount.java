@@ -61,6 +61,8 @@ public class MyAccount extends BaseEntity {
     private Integer paymentSystem;
     @SerializedName("SupportEmail")
     private String supportEmail;
+    @SerializedName("Reputation")
+    private Integer reputation;
 
 
     public Double getTotalEarnings() {
@@ -289,5 +291,14 @@ public class MyAccount extends BaseEntity {
 
     public void setSupportEmail(String supportEmail) {
         this.supportEmail = supportEmail;
+    }
+
+    public Integer getReputation() {
+        return reputation;
+    }
+
+
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
     }
 }
