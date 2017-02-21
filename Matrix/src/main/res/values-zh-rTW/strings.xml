@@ -463,4 +463,5 @@
     <string name="enter_email">請輸入你的電郵地址</string>
     <string name="why_dob_title">為什麼需要你的生日日期?</string>
     <string name="why_bod">你必須年滿18歲才可以加入SmartRocket. 加上, 有些任務可能需要隊員在某個年齡組合才可以參與. 所以, 你需要提供生日日期去加入SmartRocket.</string>
+    <string name="reputation">聲譽</string>
 </resources>

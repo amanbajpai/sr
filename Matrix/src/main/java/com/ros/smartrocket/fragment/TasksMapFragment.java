@@ -561,7 +561,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         });
         if (mode != Keys.MapViewMode.SINGLE_TASK) {
             if (lm.isLastLocationSaved()) {
-                zoomLevel=lm.getZoomLevel();
+                zoomLevel = lm.getZoomLevel();
                 MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                     @Override
                     public void useGoogleMap(GoogleMap googleMap) {
@@ -594,7 +594,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         if (clusterkraf == null) {
             Options options = MapHelper.getGoogleClusterkrafOptions(getActivity(), mode,
                     TasksMapFragment.this, TasksMapFragment.this);
-
             clusterkraf = new Clusterkraf(googleMap, options, inputPoints);
         } else {
             clusterkraf.replace(inputPoints);

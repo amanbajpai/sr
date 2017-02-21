@@ -494,7 +494,7 @@
     <string name="full_name">Full name</string>
     <string name="national_id_header">IMPORTANT: Your name must be your full/official name. Ensure all details are correct before submitting.</string>
     <string name="national_id_number_hint">Your National ID No.</string>
-    <string name="phone_number_hint">Phone Number</string>
+    <string name="phone_number_hint" translatable="false">Phone Number</string>
     <string name="setup">SETUP</string>
     <string name="activity_btn">ACTIVITY</string>
     <string name="activity_log_title">Activity log request</string>

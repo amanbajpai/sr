@@ -57,7 +57,7 @@ public class MapHelper {
     public static final float BAIDU_MAP_COORDINATE_OFFSET = 0.00008f;
     public static final int TRANSITION_DURATION = 500;
     //private String transitionInterpolator = LinearInterpolator.class.getCanonicalName();
-    public static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 15;
+    public static final int DIP_DISTANCE_TO_JOIN_CLUSTER = 1500000;
     public static final int ZOOM_TO_BOUNDS_ANIMATION_DURATION = 500;
     public static final int SHOW_INFO_WINDOW_ANIMATION_DURATION = 500;
     public static final double EXPAND_BOUNDS_FACTOR = 0.5d;
@@ -138,19 +138,14 @@ public class MapHelper {
     }
 
     public static com.twotoasters.baiduclusterkraf.Options getBaiduClusterkrafOptions(Activity activity, Keys
-            .MapViewMode mode,
-                                                                                      OnShowInfoWindowListener
-                                                                                              onShowInfoWindowListener,
-                                                                                      com.twotoasters
-                                                                                              .baiduclusterkraf
-                                                                                              .OnMarkerClickDownstreamListener onMarkerClickListener) {
+            .MapViewMode mode, OnShowInfoWindowListener onShowInfoWindowListener, com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickListener) {
         com.twotoasters.baiduclusterkraf.Options options = new com.twotoasters.baiduclusterkraf.Options(activity);
 
         if (activity != null) {
             options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
             options.setTransitionInterpolator(new LinearInterpolator());
 
-            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, 10));
+            options.setPixelDistanceToJoinCluster(-1);
             options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
             options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
             options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
@@ -183,8 +178,7 @@ public class MapHelper {
             options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
             options.setTransitionInterpolator(new LinearInterpolator());
 
-            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, MapHelper
-                    .DIP_DISTANCE_TO_JOIN_CLUSTER));
+            options.setPixelDistanceToJoinCluster(-1);
             options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
             options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
             options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
