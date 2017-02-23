@@ -1,9 +1,9 @@
 package com.ros.smartrocket.fragment;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.helpshift.Core;
-import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -33,6 +32,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -43,14 +43,43 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomTextView;
 
-import java.util.Locale;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Setting fragment with all application related settings
  */
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener,
         AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
+    @Bind(R.id.languageSpinner)
+    Spinner languageSpinner;
+    @Bind(R.id.locationServicesToggleButton)
+    ToggleButton locationServicesToggleButton;
+    @Bind(R.id.socialSharingToggleButton)
+    ToggleButton socialSharingToggleButton;
+    @Bind(R.id.useOnlyWifiToggleButton)
+    ToggleButton useOnlyWifiToggleButton;
+    @Bind(R.id.saveImageToggleButton)
+    ToggleButton saveImageToggleButton;
+    @Bind(R.id.pushMessagesToggleButton)
+    ToggleButton pushMessagesToggleButton;
+    @Bind(R.id.taskLimitSpinner)
+    Spinner taskLimitSpinner;
+    @Bind(R.id.monthLimitSpinner)
+    Spinner monthLimitSpinner;
+    @Bind(R.id.deadlineReminderToggleButton)
+    ToggleButton deadlineReminderToggleButton;
+    @Bind(R.id.deadlineReminderSpinner)
+    Spinner deadlineReminderSpinner;
+    @Bind(R.id.deadlineReminderLayout)
+    LinearLayout deadlineReminderLayout;
+    @Bind(R.id.currentVersion)
+    CustomTextView currentVersion;
+    @Bind(R.id.closeAccount)
+    CustomTextView closeAccount;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
     private static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
@@ -59,20 +88,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "5", "10", "25", "50"};
     private static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
             DateUtils.MINUTE_IN_MILLIS * 30, DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
-
-    private Spinner languageSpinner;
-    private Spinner deadlineReminderSpinner;
-    private Spinner taskLimitSpinner;
-    private Spinner monthLimitSpinner;
-
-    private LinearLayout deadlineReminderLayout;
-
-    private ToggleButton locationServicesToggleButton;
-    private ToggleButton pushMessagesToggleButton;
-    private ToggleButton socialSharingToggleButton;
-    private ToggleButton saveImageToggleButton;
-    private ToggleButton useOnlyWifiToggleButton;
-    private ToggleButton deadlineReminderToggleButton;
 
     private ProgressDialog progressDialog;
 
@@ -85,39 +100,27 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
-
+        ButterKnife.bind(this, view);
         MONTHLY_LIMIT_MB[0] = getString(R.string.unlimited);
         MISSION_LIMIT_MB[0] = getString(R.string.unlimited);
 
-        languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
-        deadlineReminderSpinner = (Spinner) view.findViewById(R.id.deadlineReminderSpinner);
-        taskLimitSpinner = (Spinner) view.findViewById(R.id.taskLimitSpinner);
-        monthLimitSpinner = (Spinner) view.findViewById(R.id.monthLimitSpinner);
-
-        deadlineReminderLayout = (LinearLayout) view.findViewById(R.id.deadlineReminderLayout);
-
-        locationServicesToggleButton = (ToggleButton) view.findViewById(R.id.locationServicesToggleButton);
-        pushMessagesToggleButton = (ToggleButton) view.findViewById(R.id.pushMessagesToggleButton);
-        socialSharingToggleButton = (ToggleButton) view.findViewById(R.id.socialSharingToggleButton);
-        saveImageToggleButton = (ToggleButton) view.findViewById(R.id.saveImageToggleButton);
-        useOnlyWifiToggleButton = (ToggleButton) view.findViewById(R.id.useOnlyWifiToggleButton);
-        deadlineReminderToggleButton = (ToggleButton) view.findViewById(R.id.deadlineReminderToggleButton);
+        closeAccount.setPaintFlags(closeAccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
                 BuildConfig.JENKINS_BUILD_VERSION + ")");
         final MyAccount myAccount = App.getInstance().getMyAccount();
-        view.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
+
+        startActivity(IntentUtils.getEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
+        currentVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.JENKINS_BUILD_VERSION + ")");
+        currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startActivity(IntentUtils.getEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
+                startActivity(IntentUtils.getEmailIntent("Log", "support@neptuneconnect.com", UIUtils.getLogs()));
                 return false;
             }
         });
-
         setData();
-
         progressDialog = new ProgressDialog(getActivity());
-
         return view;
     }
 
@@ -172,7 +175,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             currentLanguageCode = UIUtils.DEFAULT_LANG;
         }
 
-        ArrayAdapter languageAdapter = new ArrayAdapter(getActivity(),
+        ArrayAdapter languageAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_item_single_line_spinner, R.id.name, UIUtils.VISIBLE_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
@@ -262,6 +265,9 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 myAccount.setAllowPushNotification(allowPushNotification.getAllow());
                 App.getInstance().setMyAccount(myAccount);
                 progressDialog.dismiss();
+            } else if (Keys.CLOSE_ACCOUNT_TAG.equals(operation.getTag())) {
+                progressDialog.dismiss();
+                logOut();
             }
         } else {
             progressDialog.dismiss();
@@ -369,12 +375,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         boolean result;
         switch (item.getItemId()) {
             case R.id.logout:
-                WriteDataHelper.prepareLogout(getActivity());
-                Core.logout();
-                getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
-                getActivity().finish();
-                getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
-
+                logOut();
                 result = true;
                 break;
             default:
@@ -382,5 +383,40 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
 
         return result;
+    }
+
+    private void logOut() {
+        WriteDataHelper.prepareLogout(getActivity());
+        Core.logout();
+        getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
+        getActivity().finish();
+        getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.closeAccount)
+    public void onClick() {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(getActivity(), R.color.red, 0,
+                getText(R.string.close_account_title),
+                getText(R.string.close_account_text),
+                R.string.cancel_big, R.string.close_account);
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                progressDialog.show();
+                apiFacade.closeAccount(getActivity());
+                dialog.dismiss();
+            }
+        });
     }
 }

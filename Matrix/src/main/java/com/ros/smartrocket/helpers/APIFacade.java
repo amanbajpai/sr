@@ -762,5 +762,13 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
+    public void closeAccount(Activity activity) {
+        BaseOperation operation = new BaseOperation();
+        operation.setUrl(WSUrl.CLOSE_ACCOUNT);
+        operation.setTag(Keys.CLOSE_ACCOUNT_TAG);
+        operation.setMethod(BaseOperation.Method.GET);
+        ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
 
 }

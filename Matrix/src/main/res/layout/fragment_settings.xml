@@ -1,255 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:padding="15dp"
-        android:background="@color/white" >
+        android:padding="15dp">
+
         <com.ros.smartrocket.views.CustomTextView
             style="@style/profileSectionTextStyle"
-            android:paddingTop="0dp"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            custom:textStyle="bold"
-            android:text="@string/application_settings" />
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp"
+            android:text="@string/application_settings"
+            custom:textStyle="bold" />
+
         <View
             style="@style/profileSectionDividerStyle"
-            android:layout_height="1dp"
             android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginBottom="10dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
                 style="@style/settingsTextStyle"
-                custom:textStyle="bold"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/language" />
+                android:text="@string/language"
+                custom:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/languageSpinner"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="0dp"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout >
+                android:padding="0dp" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/location_services" />
+                android:text="@string/location_services"
+                custom:textStyle="bold" />
+
             <ToggleButton
                 android:id="@+id/locationServicesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:visibility="gone">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/social_sharing" />
+                android:text="@string/social_sharing"
+                custom:textStyle="bold" />
+
             <ToggleButton
                 android:id="@+id/socialSharingToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/send_only_by_wifi" />
+                android:text="@string/send_only_by_wifi"
+                custom:textStyle="bold" />
+
             <ToggleButton
                 android:id="@+id/useOnlyWifiToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/save_images_to_camera_roll" />
+                android:text="@string/save_images_to_camera_roll"
+                custom:textStyle="bold" />
+
             <ToggleButton
                 android:id="@+id/saveImageToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/push_messages" />
+                android:text="@string/push_messages"
+                custom:textStyle="bold" />
+
             <ToggleButton
                 android:id="@+id/pushMessagesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:visibility="gone">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/tree_g_upload_task_limit" />
+                android:text="@string/tree_g_upload_task_limit"
+                custom:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/taskLimitSpinner"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:popupBackground="@android:color/transparent"
                 android:padding="0dp"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout >
+                android:popupBackground="@android:color/transparent" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:visibility="gone">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/tree_g_upload_month_limit" />
+                android:text="@string/tree_g_upload_month_limit"
+                custom:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/monthLimitSpinner"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:popupBackground="@android:color/transparent"
                 android:padding="0dp"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout >
+                android:popupBackground="@android:color/transparent" />
+        </LinearLayout>
+
         <com.ros.smartrocket.views.CustomTextView
             style="@style/profileSectionTextStyle"
-            custom:textStyle="bold"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/notification_settings" />
+            android:layout_height="wrap_content"
+            android:text="@string/notification_settings"
+            custom:textStyle="bold" />
+
         <View
             style="@style/profileSectionDividerStyle"
-            android:layout_height="1dp"
             android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginBottom="10dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/deadline_warning" />
+                android:text="@string/deadline_warning"
+                custom:textStyle="bold" />
+
             <ToggleButton
                 android:id="@+id/deadlineReminderToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
-        </LinearLayout >
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/deadlineReminderLayout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/reminder" />
+                android:text="@string/reminder"
+                custom:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/deadlineReminderSpinner"
                 style="@style/Spinner"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="0dp"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout >
+                android:padding="0dp" />
+        </LinearLayout>
+
         <View
             style="@style/profileSectionDividerStyle"
-            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_width="match_parent" />
+            android:layout_marginTop="15dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/rocket_settings" />
+
             <com.ros.smartrocket.views.CustomTextView
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                custom:textStyle="bold"
                 style="@style/settingsTextStyle"
-                android:text="@string/app_version" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/app_version"
+                custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/currentVersion"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
                 android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_16sp"
-                android:gravity="right" />
-        </LinearLayout >
+                android:textSize="@dimen/text_size_16sp" />
+        </LinearLayout>
+
         <View
             style="@style/profileSectionDividerStyle"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
-    </LinearLayout >
-</ScrollView >
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/closeAccount"
+            android:layout_marginTop="15dp"
+            style="@style/settingsTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/close_account_btn"
+            android:textColor="@color/red"
+            custom:textStyle="bold" />
+    </LinearLayout>
+</ScrollView>

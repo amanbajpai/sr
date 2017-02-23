@@ -87,7 +87,7 @@
     <string name="application_settings">应用程序设定</string>
     <string name="language">语言</string>
     <string name="location_services">允許定位服务</string>
-    <string name="push_messages">允許信息推送</string>
+    <string name="push_messages">允許信息推送 / 电子邮件</string>
     <string name="tree_g_upload_task_limit">每次任务的3G上载上限 (MB)</string>
     <string name="tree_g_upload_month_limit">每个月的3G总上载上限 (MB)</string>
     <string name="social_sharing">允許社交共享</string>

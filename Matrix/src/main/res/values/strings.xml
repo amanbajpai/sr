@@ -94,7 +94,7 @@
     <string name="application_settings">APPLICATION SETTINGS</string>
     <string name="language">Language</string>
     <string name="location_services">Location services</string>
-    <string name="push_messages">Push messages</string>
+    <string name="push_messages">Push Messages/Emails</string>
     <string name="tree_g_upload_task_limit">3G upload limit per mission (MB)</string>
     <string name="tree_g_upload_month_limit">3G total monthly upload limit (MB)</string>
     <string name="social_sharing">Social sharing</string>
@@ -107,6 +107,10 @@
     <string name="unlimited">Unlimited</string>
     <string name="term_and_conditions"><u>TERMS &amp; CONDITIONS</u></string>
     <string name="term_and_conditions_title">Terms &amp; Conditions</string>
+    <string name="close_account_title">Close SmartRocket Account</string>
+    <string name="close_account_btn">Close my SmartRocket Account</string>
+    <string name="close_account_text">WARNING: pressing \'Close Account\' will permanently close this SmartRocket Account.\nYou will forfeit any remaining SmartRocket cash balance.\n\nThis action cannot be undone.</string>
+    <string name="close_account">CLOSE ACCOUNT</string>
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title">Share</string>
     <string name="share_text">I\'ve been having fun (and making money) with SmartRocket app

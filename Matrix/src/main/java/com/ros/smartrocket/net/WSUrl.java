@@ -61,6 +61,7 @@ public final class WSUrl {
     public static final String POST_PROMO_CODE = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePromoCode?promoCode=%s";
     public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
     public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo?access_token=%s&openid=%s";
+    public static final String CLOSE_ACCOUNT= "//close";
 
 
 

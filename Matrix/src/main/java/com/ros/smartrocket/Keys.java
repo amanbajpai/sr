@@ -100,6 +100,7 @@ public interface Keys {
     String POST_EXTERNAL_REG_TAG = "post_external_reg_tag";
     String GET_WECHAT_TOKEN_OPERATION_TAG = "wechat_token_tag";
     String GET_WECHAT_INFO_OPERATION_TAG = "wechat_info_tag";
+    String CLOSE_ACCOUNT_TAG = "close_account_tag";
 
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";
