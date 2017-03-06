@@ -946,10 +946,6 @@ public class UIUtils {
         return hoursCount * DateUtils.HOUR_IN_MILLIS;
     }
 
-    public static void transformLocation() {
-
-    }
-
     public static boolean isChineLanguage() {
         String code = PreferencesManager.getInstance().getLanguageCode();
         return "zh_CN".equals(code) || "en_SG".equals(code) || "zh".equals(code)
@@ -1157,7 +1153,7 @@ public class UIUtils {
         return languageChanged;
     }
 
-    static String getLanguageCodeFromSupported() {
+    private static String getLanguageCodeFromSupported() {
         for (String lc : SUPPORTED_LANGS_CODE) {
             if (DEFAULT_LANG.equals(lc)) {
                 return DEFAULT_LANG;

@@ -197,7 +197,8 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                     registrationBitMask = error.getData().getMissingFields();
                 }
                 startRegistrationFlow(RegistrationType.SOCIAL_ADDITIONAL_INFO);
-            } else if (operation.getResponseErrorCode() == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
+            } else if (operation.getResponseErrorCode() == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE
+                    || operation.getResponseErrorCode() == BaseNetworkService.EMAIL_SENT_ERROR) {
                 DialogUtils.showAccountNotActivatedDialog(this);
             } else {
                 showNetworkError(operation);

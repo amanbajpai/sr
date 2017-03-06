@@ -23,12 +23,12 @@ public class EmailRedirectActivity extends Activity {
             if (data != null) {
                 List<String> params = data.getPathSegments();
 
-                if(params.size() > 2 && Keys.ACTIVATE_ACCOUNT.equals(params.get(2))){
+                if (params.size() > 2 && Keys.ACTIVATE_ACCOUNT.equals(params.get(2))) {
                     String email = data.getQueryParameter("email");
                     String token = data.getQueryParameter("token");
 
                     startActivity(IntentUtils.getActivateAccountIntent(this, email, token));
-                } else if(params.size() > 1 && Keys.FORGOT_PASS.equals(params.get(1))){
+                } else if (params.size() > 1 && Keys.FORGOT_PASS.equals(params.get(1))) {
                     String email = data.getQueryParameter("email");
                     String token = data.getQueryParameter("token");
 
