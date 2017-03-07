@@ -368,4 +368,14 @@
 	<string name="your_version_outdated">Votre version de SmartRocket est obsolète. Veuillez la mettre à jour pour accéder à l\'application</string>
 	<string name="zero">0</string>
 	<string name="zoom_to_this_radius">Définir le rayon de zoom par défaut</string>
+    <string name="close_account">FERMER COMPTE</string>
+	<string name="close_account_btn">Fermer mon compte SmartRocket</string>
+	<string name="close_account_text">Attention: En appuyant sur \'Fermer compte\' ce compte sera definitivement fermé, vous perderez votre solde. Cette action ne  peut etre annulée</string>
+	<string name="close_account_title">Fermer mon compte SmartRocket</string>
+	<string name="reputation">Reputation</string>
+	<string name="why_bod">Vous devez avoir 18 ans ou plus pour rejoindre SmartRocket. Certaines missions sont reservées aux personnes d\'une certaine tranche d\'age. Vous devez saisir votre date de naissance pour rejoindre SmartRocket,</string>
+	<string name="why_dob_title">Pourquoi a t\'on besoin de votre date de naissance?</string>
+	<string name="why_email">D\'importants messages liés à votre compte SmartRocket sont envoyés par mail. Dans certains marchés, un email est necessaire pour créer et gérer vos paiements. Vous devez saisir une adresse mail valide pour rejoindre SmartRocket.</string>
+	<string name="why_email_title">Pourquoi a t\'on besoin de votre adresse mail?</string>
+	<string name="why_need_this">Pourquoi on a besoin de cela?</string>
 </resources>

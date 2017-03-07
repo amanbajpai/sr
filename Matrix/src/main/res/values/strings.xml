@@ -539,4 +539,5 @@
     <string name="why_email">Important messages related to your SmartRocket Account a sent via email. \nIn some markets, an email address is also required to create and manage a SmartRocket Payment Account.\nYou must provide a valid email address to join SmartRocket.</string>
     <string name="why_dob_title">Why do we need your birthday?</string>
     <string name="why_email_title">Why do we need your email?</string>
+    <string name="french">Français</string>
 </resources>
