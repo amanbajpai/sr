@@ -50,7 +50,7 @@ android {
     ext.buildNumber = env.BUILD_NUMBER ?: '0'
     ext.buildNumber = buildNumber.toInteger()
     compileSdkVersion 23
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '25.0.0'
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
