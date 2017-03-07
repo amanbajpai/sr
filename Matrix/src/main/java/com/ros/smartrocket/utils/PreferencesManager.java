@@ -117,6 +117,12 @@ public class PreferencesManager {
                 case "zh_HK":
                     languageCode = "zh_TW";
                     break;
+                case "fr":
+                case "fr_FR":
+                case "fr_CA":
+                case "fr_BE":
+                    languageCode = "fr";
+                    break;
                 default:
                     languageCode = "en";
                     break;
