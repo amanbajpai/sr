@@ -44,9 +44,9 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private APIFacade apiFacade = APIFacade.getInstance();
 
     private static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK"};
-    private static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW"};
-    private static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）"};
+    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE"};
+    private static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW", "fr"};
+    private static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）", "Français"};
     private static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
     private static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
     private static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
@@ -165,7 +165,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             currentLanguageCode = DEFAULT_LANG;
         }
 
-        ArrayAdapter languageAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter languageAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_item_single_line_spinner, R.id.name, VISIBLE_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
@@ -215,7 +215,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void setTaskLimitSpinner() {
         int limit = preferencesManager.get3GUploadTaskLimit();
 
-        ArrayAdapter taskLimitAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_spinner, R.id.name,
+        ArrayAdapter taskLimitAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_spinner, R.id.name,
                 MISSION_LIMIT_MB);
         taskLimitSpinner.setAdapter(taskLimitAdapter);
 
@@ -366,13 +366,15 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     public static void setDefaultLanguage(Context context, String languageCode) {
         Configuration config = context.getResources().getConfiguration();
-
         if ("zh_CN".equals(languageCode) || "en_SG".equals(languageCode)) {
             config.locale = Locale.SIMPLIFIED_CHINESE;
             Support.setSDKLanguage("zh_CN");
         } else if ("zh".equals(languageCode) || "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode)) {
             config.locale = Locale.TRADITIONAL_CHINESE;
             Support.setSDKLanguage("zh_TW");
+        } else if ("fr".equals(languageCode) || "fr_BE".equals(languageCode) || "fr_FR".equals(languageCode) || "fr_CA".equals(languageCode) || "fr_CH".equals(languageCode)) {
+            config.locale = Locale.FRENCH;
+            Support.setSDKLanguage("fr");
         } else {
             config.locale = new Locale(languageCode);
             Support.setSDKLanguage("en");

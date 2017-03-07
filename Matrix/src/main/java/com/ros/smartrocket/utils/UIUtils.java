@@ -1066,6 +1066,5 @@ public class UIUtils {
             L.e(TAG, "getConnectedNetwork. Get type error.");
         }
         return null;
-
     }
 }
