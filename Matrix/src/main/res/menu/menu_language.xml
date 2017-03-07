@@ -9,4 +9,7 @@
     <item
         android:id="@+id/lanChineseTraditional"
         android:title="@string/chinese_traditional" />
+    <item
+        android:id="@+id/lanFrance"
+        android:title="@string/french" />
 </menu>
