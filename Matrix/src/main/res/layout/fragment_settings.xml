@@ -40,7 +40,8 @@
 
             <Spinner
                 android:id="@+id/languageSpinner"
-                android:layout_width="270dp"
+                style="@style/Spinner"
+                android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
