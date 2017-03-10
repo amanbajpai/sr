@@ -176,7 +176,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
 
         ArrayAdapter languageAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.list_item_single_line_spinner, R.id.name, UIUtils.VISIBLE_LANGUAGE);
+                R.layout.list_item_spinner, R.id.name, UIUtils.VISIBLE_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
         int selectedItemPosition = 0;
