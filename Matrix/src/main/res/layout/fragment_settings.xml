@@ -32,22 +32,20 @@
 
             <com.ros.smartrocket.views.CustomTextView
                 style="@style/settingsTextStyle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/language"
-                android:layout_weight="1"
                 custom:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/languageSpinner"
                 style="@style/Spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:dropDownSelector="@null"
-                android:popupBackground="@android:color/transparent"
-                android:padding="0dp" />
+                android:layout_weight="1"
+                android:padding="0dp"  />
         </LinearLayout>
 
         <LinearLayout
