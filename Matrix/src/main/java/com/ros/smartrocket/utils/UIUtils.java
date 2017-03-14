@@ -1141,7 +1141,7 @@ public class UIUtils {
             Support.setSDKLanguage("zh_CN");
         } else if (isTraditionalChinaLanguage(languageCode)) {
             config.locale = Locale.TRADITIONAL_CHINESE;
-            Support.setSDKLanguage("zh_TW");
+            Support.setSDKLanguage("zh_HK");
         } else if (isFrenchLanguage(languageCode)) {
             config.locale = Locale.FRENCH;
             Support.setSDKLanguage("fr");
