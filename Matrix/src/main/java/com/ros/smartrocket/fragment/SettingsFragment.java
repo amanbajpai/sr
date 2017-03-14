@@ -109,13 +109,11 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
                 BuildConfig.JENKINS_BUILD_VERSION + ")");
         final MyAccount myAccount = App.getInstance().getMyAccount();
-
-        startActivity(IntentUtils.getEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
         currentVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.JENKINS_BUILD_VERSION + ")");
         currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startActivity(IntentUtils.getEmailIntent("Log", "support@neptuneconnect.com", UIUtils.getLogs()));
+                startActivity(IntentUtils.getEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
                 return false;
             }
         });
