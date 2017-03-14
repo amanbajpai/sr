@@ -1,5 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 public class MyAccount extends BaseEntity {
@@ -7,6 +9,7 @@ public class MyAccount extends BaseEntity {
     private static final Integer PAY_PAL = 1;
     private static final Integer ALI_PAY = 2;
     private static final Integer NATIONAL_ID = 4;
+    private static final String SUPPORT_EMAIL = "support@smart-rocket.com";
 
     @SerializedName("SingleName")
     private String singleName;
@@ -56,6 +59,8 @@ public class MyAccount extends BaseEntity {
     private String joined;
     @SerializedName("PaymentSystem")
     private Integer paymentSystem;
+    @SerializedName("SupportEmail")
+    private String supportEmail;
 
 
     public Double getTotalEarnings() {
@@ -262,16 +267,12 @@ public class MyAccount extends BaseEntity {
         return ALI_PAY.equals(paymentSystem);
     }
 
-    public boolean isNationalId() {
+    private boolean isNationalId() {
         return NATIONAL_ID.equals(paymentSystem);
     }
 
     public boolean canWithdraw() {
-        if (PAY_PAL.equals(paymentSystem)) {
-            return true;
-        } else {
-            return (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem)) && getIsPaymentAccountExists();
-        }
+        return PAY_PAL.equals(paymentSystem) || (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem)) && getIsPaymentAccountExists();
     }
 
     public boolean isPaymentSettingsEnabled() {
@@ -280,5 +281,13 @@ public class MyAccount extends BaseEntity {
 
     public boolean isWithdrawEnabled() {
         return balance >= minimalWithdrawAmount && !cashoutRequested;
+    }
+
+    public String getSupportEmail() {
+        return TextUtils.isEmpty(supportEmail) ? SUPPORT_EMAIL : supportEmail;
+    }
+
+    public void setSupportEmail(String supportEmail) {
+        this.supportEmail = supportEmail;
     }
 }

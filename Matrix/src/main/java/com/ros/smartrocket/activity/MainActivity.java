@@ -50,7 +50,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
         if (!Config.USE_BAIDU) {
             CommonUtilities.registerGCMInBackground();
-            //gcmManager.registerGcm();
         } else {
             L.i("MainActivity", "MainActivity JPushInterface.init");
             JPushInterface.init(getApplicationContext());
