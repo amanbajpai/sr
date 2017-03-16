@@ -7,6 +7,7 @@ import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -416,26 +417,26 @@ public class UIUtils {
      * @return boolean
      */
     public static boolean isMockLocationEnabled(Context context, Location location) {
-        boolean isMockLocation = false;
+        boolean isMockLocation;
+        boolean isMockLocationNew = false;
         if (BuildConfig.CHECK_MOCK_LOCATION) {
+            isMockLocation = !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
+                    .Secure.ALLOW_MOCK_LOCATION).equals("0");
             if (Build.VERSION.SDK_INT > 18) {
                 if (location != null) {
-                    isMockLocation = location.isFromMockProvider();
+                    isMockLocationNew = location.isFromMockProvider();
                 }
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-                        isMockLocation = (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
+                        isMockLocationNew = (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
                     }
                 } catch (Exception e) {
                     Log.e("Mock location enabled", "Exception", e);
                 }
-            } else {
-                isMockLocation = !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
-                        .Secure.ALLOW_MOCK_LOCATION).equals("0");
             }
         }
-        return isMockLocation;
+        return isMockLocation || isMockLocationNew;
 
     }
 
@@ -449,7 +450,7 @@ public class UIUtils {
     public static boolean isIntentAvailable(Context context, Intent intent) {
         final PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.isEmpty();
+        return !list.isEmpty();
     }
 
     public static String formatAmount(int num) {
@@ -1107,12 +1108,12 @@ public class UIUtils {
 
     public static boolean deviceIsReady(Activity c) {
         boolean result = isOnline(c) && isAllLocationSourceEnabled(c)
-                && !isMockLocationEnabled(c, null);
+                && !isMockLocationEnabled(c, App.getInstance().getLocationManager().getLocation());
         if (!isOnline(c)) {
             DialogUtils.showNetworkDialog(c);
         } else if (!isAllLocationSourceEnabled(c)) {
             DialogUtils.showLocationDialog(c, true);
-        } else if (isMockLocationEnabled(c, null)) {
+        } else if (isMockLocationEnabled(c, App.getInstance().getLocationManager().getLocation())) {
             DialogUtils.showMockLocationDialog(c, true);
         }
         return result;

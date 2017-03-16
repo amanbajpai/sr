@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -60,7 +61,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (checkDeviceSettingsByOnResume) {
-            if (UIUtils.isMockLocationEnabled(this, null)) {
+            if (UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation())) {
                 DialogUtils.showMockLocationDialog(this, false);
             } else if (!UIUtils.isAllLocationSourceEnabled(this) && preferencesManager.getUseLocationServices()) {
                 DialogUtils.showLocationDialog(this, false);

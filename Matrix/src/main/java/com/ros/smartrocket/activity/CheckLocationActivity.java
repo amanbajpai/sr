@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.CheckLocationResponse;
@@ -46,7 +47,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
                     DialogUtils.showNetworkDialog(this);
                 } else if (!UIUtils.isAllLocationSourceEnabled(this)) {
                     DialogUtils.showLocationDialog(this, true);
-                } else if (UIUtils.isMockLocationEnabled(this, null)) {
+                } else if (UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation())) {
                     DialogUtils.showMockLocationDialog(this, true);
                 } else {
                     checkLocationDialog = new CheckLocationDialog(this,

@@ -380,7 +380,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      */
     public boolean isReadyToSend() {
         return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
-                && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this, null);
+                && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation());
     }
 
     public void finishActivity() {

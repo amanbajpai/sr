@@ -169,7 +169,7 @@ public class DialogUtils {
                 if (UIUtils.isIntentAvailable(activity, intent)) {
                     activity.startActivity(intent);
                 } else {
-                    activity.startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
+                    activity.startActivity(new Intent(Settings.ACTION_SETTINGS));
                 }
             }
         });

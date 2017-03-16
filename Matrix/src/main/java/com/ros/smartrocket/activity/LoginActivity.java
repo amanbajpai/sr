@@ -9,12 +9,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -213,12 +212,12 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
 
     public boolean deviceIsReady() {
         boolean result = UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
-                && !UIUtils.isMockLocationEnabled(this, null);
+                && !UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation());
         if (!UIUtils.isOnline(this)) {
             DialogUtils.showNetworkDialog(this);
         } else if (!UIUtils.isAllLocationSourceEnabled(this)) {
             DialogUtils.showLocationDialog(this, true);
-        } else if (UIUtils.isMockLocationEnabled(this, null)) {
+        } else if (UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation())) {
             DialogUtils.showMockLocationDialog(this, true);
         }
         return result;
@@ -266,8 +265,8 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 , true);
     }
 
-    private void onLocationChecked(CheckLocationResponse serverResponse, double latitude,
-                                   double longitude) {
+    private void onLocationChecked(CheckLocationResponse serverResponse, double latitude, double longitude) {
+        checkLocationDialog = null;
         if (serverResponse != null) {
             checkLocationResponse = serverResponse;
             this.latitude = latitude;
