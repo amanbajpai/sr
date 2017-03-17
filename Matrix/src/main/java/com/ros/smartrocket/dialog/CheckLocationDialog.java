@@ -125,7 +125,7 @@ public class CheckLocationDialog extends Dialog {
         }
     }
 
-    public void checkLocationSuccess() {
+    private void checkLocationSuccess() {
         statusImage.setImageResource(R.drawable.ok_progress);
         statusText.setText(activity.getString(R.string.check_location_dialog_text2));
 
@@ -139,7 +139,7 @@ public class CheckLocationDialog extends Dialog {
         locationChecked = true;
     }
 
-    public void checkLocationFail(BaseOperation operation) {
+    private void checkLocationFail(BaseOperation operation) {
         statusImage.setImageResource(R.drawable.error_progress);
         statusText.setText(activity.getString(R.string.check_location_dialog_text3));
 

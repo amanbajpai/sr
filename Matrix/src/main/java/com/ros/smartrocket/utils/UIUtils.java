@@ -417,7 +417,7 @@ public class UIUtils {
      * @return boolean
      */
     public static boolean isMockLocationEnabled(Context context, Location location) {
-        boolean isMockLocation;
+        boolean isMockLocation = false;
         boolean isMockLocationNew = false;
         if (BuildConfig.CHECK_MOCK_LOCATION) {
             isMockLocation = !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
