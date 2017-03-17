@@ -481,7 +481,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     public void onAnswerSelected(Boolean selected, int questionId) {
         if (isPreview) {
             Question nextQuestion = currentFragment == null ? null : getQuestion(currentFragment.getQuestion());
-            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
+            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId() || currentFragment.getQuestion().getType() == Question.QuestionType.REJECT.getTypeId()) {
                 nextButton.setEnabled(false);
             } else {
                 nextButton.setEnabled(true);
