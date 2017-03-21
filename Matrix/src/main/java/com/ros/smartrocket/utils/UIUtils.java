@@ -1161,11 +1161,11 @@ public class UIUtils {
     }
 
     private static boolean isSimpleChinaLanguage(String languageCode) {
-        return "zh_CN".equals(languageCode) || "en_SG".equals(languageCode);
+        return "zh".equals(languageCode) || "zh_CN".equals(languageCode) || "en_SG".equals(languageCode);
     }
 
     private static boolean isTraditionalChinaLanguage(String languageCode) {
-        return "zh".equals(languageCode) || "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode);
+        return "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode);
     }
 
     private static String getLanguageCodeFromSupported() {

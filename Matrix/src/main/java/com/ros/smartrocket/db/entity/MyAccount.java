@@ -63,7 +63,8 @@ public class MyAccount extends BaseEntity {
     private String supportEmail;
     @SerializedName("Reputation")
     private Integer reputation;
-
+    @SerializedName("CountryCode")
+    private String countryCode;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -300,5 +301,13 @@ public class MyAccount extends BaseEntity {
 
     public void setReputation(Integer reputation) {
         this.reputation = reputation;
+    }
+
+    public String getCountryCode() {
+        return TextUtils.isEmpty(countryCode) ? "en" : countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }

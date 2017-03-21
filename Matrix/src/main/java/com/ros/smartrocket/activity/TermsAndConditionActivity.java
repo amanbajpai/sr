@@ -69,6 +69,9 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
             case "zh_HK":
                 termsUrl = "http://smart-rocket.com/zh-hant/terms-of-service-cnt/";
                 break;
+            case "fr":
+                termsUrl = "http://smart-rocket.com/fr/terms-of-service/";
+                break;
             default:
                 termsUrl = "http://smart-rocket.com/terms-of-service/";
                 break;

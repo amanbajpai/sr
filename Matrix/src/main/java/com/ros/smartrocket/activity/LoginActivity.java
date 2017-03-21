@@ -287,6 +287,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     }
 
     private void startRegistrationFlow(RegistrationType type) {
+        UIUtils.setCurrentLanguage();
         if (checkLocationResponse != null && checkLocationResponse.getStatus()) {
             Intent intent;
             registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
