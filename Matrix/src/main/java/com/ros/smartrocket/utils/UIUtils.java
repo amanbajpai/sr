@@ -1130,30 +1130,31 @@ public class UIUtils {
         return result;
     }
 
-    public static boolean setDefaultLanguage(Context context, String languageCode) {
+    public static boolean setDefaultLanguage(String languageCode) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         boolean languageChanged = !preferencesManager.getLanguageCode().equals(languageCode);
         preferencesManager.setLanguageCode(languageCode);
+        Support.setSDKLanguage(getCurrentLocale().getLanguage());
+        return languageChanged;
+    }
 
-        Configuration config = context.getResources().getConfiguration();
-
-        if (isSimpleChinaLanguage(languageCode)) {
-            config.locale = Locale.SIMPLIFIED_CHINESE;
+    public static Locale getCurrentLocale() {
+        String currentLanguageCode = PreferencesManager.getInstance().getLanguageCode();
+        Locale locale;
+        if (isSimpleChinaLanguage(currentLanguageCode)) {
+            locale = Locale.SIMPLIFIED_CHINESE;
             Support.setSDKLanguage("zh_CN");
-        } else if (isTraditionalChinaLanguage(languageCode)) {
-            config.locale = Locale.TRADITIONAL_CHINESE;
+        } else if (isTraditionalChinaLanguage(currentLanguageCode)) {
+            locale = Locale.TRADITIONAL_CHINESE;
             Support.setSDKLanguage("zh_HK");
-        } else if (isFrenchLanguage(languageCode)) {
-            config.locale = Locale.FRENCH;
+        } else if (isFrenchLanguage(currentLanguageCode)) {
+            locale = Locale.FRENCH;
             Support.setSDKLanguage("fr");
         } else {
-            config.locale = new Locale(languageCode);
+            locale = new Locale(currentLanguageCode);
             Support.setSDKLanguage("en");
         }
-
-        context.getApplicationContext().getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-
-        return languageChanged;
+        return locale;
     }
 
     private static boolean isFrenchLanguage(String languageCode) {
@@ -1182,11 +1183,11 @@ public class UIUtils {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
         if (!TextUtils.isEmpty(preferencesManager.getLanguageCode())) {
-            UIUtils.setDefaultLanguage(App.getInstance(), preferencesManager.getLanguageCode());
+            UIUtils.setDefaultLanguage(preferencesManager.getLanguageCode());
         } else {
             String supportedLanguage = getLanguageCodeFromSupported();
             preferencesManager.setLanguageCode(supportedLanguage);
-            UIUtils.setDefaultLanguage(App.getInstance(), supportedLanguage);
+            UIUtils.setDefaultLanguage(supportedLanguage);
         }
     }
 }

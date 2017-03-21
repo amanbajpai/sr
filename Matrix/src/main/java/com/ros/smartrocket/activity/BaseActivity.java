@@ -17,11 +17,13 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -136,4 +138,13 @@ public class BaseActivity extends AppCompatActivity {
     protected void showNetworkError(BaseOperation operation){
         UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        UIUtils.setCurrentLanguage();
+        Locale newLocale = UIUtils.getCurrentLocale();
+        Context context = MatrixContextWrapper.wrap(newBase, newLocale);
+        super.attachBaseContext(context);
+    }
+
 }

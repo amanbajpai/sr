@@ -322,7 +322,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         switch (parent.getId()) {
             case R.id.languageSpinner:
                 String selectedLanguageCode = UIUtils.VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
-                boolean languageChanged = UIUtils.setDefaultLanguage(getActivity(), selectedLanguageCode);
+                boolean languageChanged = UIUtils.setDefaultLanguage(selectedLanguageCode);
 
                 if (languageChanged) {
                     UIUtils.showSimpleToast(getActivity(), R.string.success);

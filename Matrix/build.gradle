@@ -52,7 +52,7 @@ android {
     ext.env = System.getenv()
     ext.buildNumber = env.BUILD_NUMBER ?: '0'
     ext.buildNumber = buildNumber.toInteger()
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '25.0.0'
     useLibrary 'org.apache.http.legacy'
 

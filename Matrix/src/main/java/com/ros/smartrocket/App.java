@@ -73,7 +73,6 @@ public class App extends Application {
         locationManager = new MatrixLocationManager(getApplicationContext());
 
         requestToCurrentLocation();
-        UIUtils.setCurrentLanguage();
         clearMonthLimitIfNeed();
     }
 
@@ -130,12 +129,6 @@ public class App extends Application {
                 L.i(TAG, "[NEW LOC = " + location + "]");
             }
         });
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        UIUtils.setCurrentLanguage();
     }
 
 
