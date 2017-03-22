@@ -20,11 +20,13 @@ import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
 import io.fabric.sdk.android.Fabric;
@@ -43,15 +45,31 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+        initHS();
+        initSDKs();
+        initLocaleSettings();
+        fillDeviceInfo();
+        requestToCurrentLocation();
+        clearMonthLimitIfNeed();
+    }
 
-        HashMap config = new HashMap();
-        Core.init(All.getInstance());
-        Core.install(this,
-                "61ff0f6188482d2091170a688375265b",
-                "smartrocket.helpshift.com",
-                "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
-                config);
+    private void fillDeviceInfo() {
+        deviceId = UIUtils.getDeviceId(this);
+        deviceApiNumber = android.os.Build.VERSION.SDK_INT;
+        deviceType = "android";
+        locationManager = new MatrixLocationManager(getApplicationContext());
+    }
 
+    private void initLocaleSettings() {
+        UIUtils.setCurrentLanguage();
+        Locale newLocale = UIUtils.getCurrentLocale();
+        Configuration config = getResources().getConfiguration();
+        config.locale = newLocale;
+        getApplicationContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
+    private void initSDKs() {
         if (Config.USE_BAIDU) {
             SDKInitializer.initialize(getApplicationContext());
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
@@ -59,21 +77,18 @@ public class App extends Application {
             FacebookSdk.sdkInitialize(getApplicationContext());
             AppEventsLogger.activateApp(this);
         }
-
-
         AnalyticsWrapper.initAnalytics(this);
-
         Fabric.with(this, new Crashlytics());
+    }
 
-        instance = this;
-
-        deviceId = UIUtils.getDeviceId(this);
-        deviceApiNumber = android.os.Build.VERSION.SDK_INT;
-        deviceType = "android";
-        locationManager = new MatrixLocationManager(getApplicationContext());
-
-        requestToCurrentLocation();
-        clearMonthLimitIfNeed();
+    private void initHS() {
+        HashMap config = new HashMap();
+        Core.init(All.getInstance());
+        Core.install(this,
+                "61ff0f6188482d2091170a688375265b",
+                "smartrocket.helpshift.com",
+                "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
+                config);
     }
 
 
@@ -81,7 +96,7 @@ public class App extends Application {
         if (mTracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-            mTracker = analytics.newTracker(R.xml.global_tracker);
+            // mTracker = analytics.newTracker(R.xml.global_tracker);
         }
         return mTracker;
     }

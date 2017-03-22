@@ -1,6 +1,7 @@
 package com.ros.smartrocket.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -12,6 +13,10 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.MatrixContextWrapper;
+import com.ros.smartrocket.utils.UIUtils;
+
+import java.util.Locale;
 
 public class NotificationActivity extends Activity implements OnClickListener {
     //private final static String TAG = NotificationActivity.class.getSimpleName();
@@ -45,7 +50,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
@@ -165,5 +170,13 @@ public class NotificationActivity extends Activity implements OnClickListener {
             }
         }
         return result;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        UIUtils.setCurrentLanguage();
+        Locale newLocale = UIUtils.getCurrentLocale();
+        Context context = MatrixContextWrapper.wrap(newBase, newLocale);
+        super.attachBaseContext(context);
     }
 }

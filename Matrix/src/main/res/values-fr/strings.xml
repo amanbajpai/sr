@@ -18,7 +18,7 @@
 	<string name="alipay_account_integrated_successfully">Compte AliPay intégré avec succès !</string>
 	<string name="already_member">ON DIRAIT QUE VOUS ÊTES DÉJÀ MEMBRE DE NOTRE ÉQUIPAGE !</string>
 	<string name="app_name">SmartRocket</string>
-	<string name="app_settings_title">Paramètres de SmartRocket</string>
+	<string name="app_settings_title">Parametres de l’appli</string>
 	<string name="app_version">Version de l\'application</string>
 	<string name="application_settings">PARAMÈTRES DE L\'APPLICATION</string>
 	<string name="approved_at">Approuvé à :</string>
@@ -92,7 +92,7 @@
 	<string name="dialog_update_app_text">Vous utilisez une ancienne version (%1$s) de l\'application. Vous ne pourrez pas prendre en charge de nouvelles missions jusqu\'à la mise à niveau vers la dernière version (%2$s). Mettre à jour maintenant ?</string>
 	<string name="dialog_update_app_title">Mettre à jour l\'application</string>
 	<string name="distance_km">km</string>
-	<string name="distance_m">Mettre à jour l\'application</string>
+	<string name="distance_m">metres</string>
 	<string name="distance_to_nearest_location">Distance à la localisation la plus proche <b>%1$s </b></string>
 	<string name="do_not_show_message">Ne plus afficher ce message</string>
 	<string name="dollar_symbol">$</string>
@@ -206,8 +206,8 @@
 	<string name="password_validation_text">Votre mot de passe doit comporter entre 8 et 16 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial (!, @, #, $, Etc.).</string>
 	<string name="phone_number_hint">Numéro de téléphone</string>
 	<string name="please_write_in">Autre - veuillez préciser</string>
-	<string name="preview_mode">MODE PRÉVISUALISATION</string>
-	<string name="preview_task">PRÉVISUALISATION</string>
+	<string name="preview_mode">PRÉVISUALISATION</string>
+	<string name="preview_task">VISUALISER</string>
 	<string name="previous">PRÉCÉDENT</string>
 	<string name="primary_school">École primaire</string>
 	<string name="product">Produit :</string>
@@ -222,7 +222,8 @@
 	<string name="quite_task_dialog_title">Quitter la mission</string>
 	<string name="recheck_my_answer">RETOUR</string>
 	<string name="redo_mission">Recommencer. Mission due : %1$s</string>
-	<string name="redo_mission_notification_text">La Mission suivante a besoin d\'être retravaillée et n\'a pas encore été approuvée. &lt;/b>&lt;br>&lt;br> Mission : &lt;b>%1$s&lt;/b> &lt;br>Localisation : &lt;b>%2$s &lt;/b>&lt;br> Adresse : &lt;b>%3$s &lt;/b >&lt;br> ID de la tâche : &lt;b>%4$d</string>
+	<string name="redo_mission_notification_text">La Mission suivante a besoin d\'être retravaillée et n\'a pas encore été approuvée. &lt;/b>&lt;br>&lt;br>
+		Mission : &lt;b >%1$s&lt;/b > &lt;br>Localisation : &lt;b>%2$s &lt;/b>&lt;br> Adresse : &lt;b>%3$s &lt;/b >&lt;br> ID de la tâche : &lt;b>%4$d</string>
 	<string name="redo_mission_notification_title">Attention !</string>
 	<string name="registration_form">Inscription à SmartRocket</string>
 	<string name="registration_subscribe_dialog_text1">Merci de votre intérêt pour SmartRocket.</string>
@@ -275,8 +276,8 @@
 	<string name="social_sharing">Partage social</string>
 	<string name="sorry">Désolé ! SmartRocket ne recrute pas dans votre région.</string>
 	<string name="start_later">Commencer plus tard</string>
-	<string name="start_now">Commencer maintenant</string>
-	<string name="start_this_task">COMMENCER MAINTENANT</string>
+	<string name="start_now">Commencer</string>
+	<string name="start_this_task">COMMENCER</string>
 	<string name="start_time">COMMENCER :</string>
 	<string name="status">STATUT :</string>
 	<string name="student">Étudiant</string>
@@ -294,7 +295,7 @@
 	<string name="task_detail_title">%1$s</string>
 	<string name="task_distance_away">%1$s %2$s restants</string>
 	<string name="task_has_not_yet_submitted">Merci ! Cette mission doit être envoyée avant la MISSION DUE ci-dessous et validée avec succès pour être admissible au paiement en espèces et aux Points Rocket. %1$s</string>
-	<string name="task_has_not_yet_submitted2">CETTE MISSION N\'A PAS ÉTÉ ENVOYÉE. Elle doit être envoyée avant la MISSION DUE ci-dessous et validée avec succès pour être admissible au paiement en espèces et aux Points Rocket.</string>
+	<string name="task_has_not_yet_submitted2"><b>CETTE MISSION N\'A PAS ÉTÉ ENVOYÉE.</b>\n Elle doit être envoyée avant la MISSION DUE ci-dessous et validée avec succès pour être admissible au paiement en espèces et aux Points Rocket.</string>
 	<string name="task_id">ID de la tâche :</string>
 	<string name="task_location_title">Localisation de la mission</string>
 	<string name="task_no_longer_available">Cette tâche n\'est plus disponible</string>
@@ -336,7 +337,7 @@
 	<string name="update_first_last_name_dialog_title">Vous ne pouvez changer votre nom qu\'une seule fois. Veuillez utiliser votre vrai nom, car nous fournirons des cartes d\'identité numériques pour certains projets.</string>
 	<string name="update_name_not_allowed">Vous avez déjà changé votre nom une fois et vous ne pouvez plus changer de nom.</string>
 	<string name="update_payment_details_save_and_close">Sauvegarder et fermer</string>
-	<string name="update_payment_text_header">Pour retirer votre solde, vous devez saisir : 1) Votre nom réel AliPay; 2) Un identifiant de compte AliPay valide (ce doit être un numéro de mobile ou une adresse e-mail). Vous pouvez les modifier à tout moment.</string>
+	<string name="update_payment_text_header">Pour retirer votre solde, vous devez saisir : \n1) Votre nom réel AliPay; \n2) Un identifiant de compte AliPay valide (ce doit être un numéro de mobile ou une adresse e-mail). \nVous pouvez les modifier à tout moment.</string>
 	<string name="user_already_exist">L\'utilisateur existe déjà. Veuillez saisir une adresse e-mail différente.</string>
 	<string name="user_already_exists_dialog_ok">OK</string>
 	<string name="user_already_exists_dialog_text1">L\'utilisateur existe déjà. Veuillez saisir une adresse e-mail différente.</string>
@@ -360,7 +361,7 @@
 	<string name="you_have_been_promoted">Vous avez été promu au rang de <b >%1$s (Niveau %2$s)</b ></string>
 	<string name="you_have_been_promoted_ok">OK</string>
 	<string name="you_have_no_tasks">Vous n\'avez aucune mission en cours. Rendez-vous dans « Nouvelles missions » pour demander et accomplir de nouvelles missions.</string>
-	<string name="your_birthday">Votre date de naissance</string>
+	<string name="your_birthday">Date de naissance</string>
 	<string name="your_city_hint">Votre ville</string>
 	<string name="your_country_hint">Votre pays</string>
 	<string name="your_email_hint">Votre e-mail</string>
@@ -378,4 +379,5 @@
 	<string name="why_email">D\'importants messages liés à votre compte SmartRocket sont envoyés par mail. Dans certains marchés, un email est necessaire pour créer et gérer vos paiements. Vous devez saisir une adresse mail valide pour rejoindre SmartRocket.</string>
 	<string name="why_email_title">Pourquoi a t\'on besoin de votre adresse mail?</string>
 	<string name="why_need_this">Pourquoi on a besoin de cela?</string>
+    <string name="account_confirmed_dialog_text1">Votre compte SmartRocket est maintenant activé ! \n\nTout d\'abord, vous devrez effectuer une courte série de missions de formation pour vous aider à naviguer dans l\'application et vous qualifier en tant que membre d\'équipage. Ensuite, vous pourrez commencer à prendre en charge des missions pour de l\'argent réel et des Points Rocket. À tout moment, vous pouvez obtenir de l\'aide et accéder aux FAQ et à la formation grâce au bouton « Aide » dans le menu de l\'application SmartRocket. \n\nBienvenue à bord !</string>
 </resources>

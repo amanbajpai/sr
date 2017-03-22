@@ -15,7 +15,7 @@ import com.ros.smartrocket.views.ImageEditorView;
 
 import java.io.File;
 
-public class FullScreenImageActivity extends AppCompatActivity {
+public class FullScreenImageActivity extends BaseActivity {
     //private static final String TAG = FullScreenImageActivity.class.getSimpleName();
     private Bitmap bitmap;
 

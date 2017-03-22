@@ -163,7 +163,6 @@ public class UIUtils {
      */
     public static void showSimpleToast(Context context, String msg) {
         showSimpleToast(context, msg, Toast.LENGTH_LONG, Gravity.BOTTOM);
-        ;
     }
 
     /**
@@ -1146,7 +1145,7 @@ public class UIUtils {
             Support.setSDKLanguage("zh_CN");
         } else if (isTraditionalChinaLanguage(currentLanguageCode)) {
             locale = Locale.TRADITIONAL_CHINESE;
-            Support.setSDKLanguage("zh_HK");
+            Support.setSDKLanguage("zh_TW");
         } else if (isFrenchLanguage(currentLanguageCode)) {
             locale = Locale.FRENCH;
             Support.setSDKLanguage("fr");

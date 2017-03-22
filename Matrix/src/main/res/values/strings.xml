@@ -440,7 +440,7 @@
     <string name="hint_your_registered_alipay_acc_name">Your registered AliPay account name</string>
     <string name="hint_your_registered_alipay_phone_or_email">Your registered AliPay ID \n(mobile number or email)</string>
     <string name="update_payment_details_save_and_close">Save and Close</string>
-    <string name="update_payment_text_header">\tTo Cash Out your Balance you must enter-\n1) Your AliPay real name\n2) A valid AliPay account ID (this should be a mobile number or email address)\n\tYou can edit these at any time</string>
+    <string name="update_payment_text_header">To Cash Out your Balance you must enter-\n1) Your AliPay real name\n2) A valid AliPay account ID (this should be a mobile number or email address)\nYou can edit these at any time</string>
     <string name="enter_valid_alipay_username">Enter valid AliPay username.</string>
     <string name="enter_valid_email_phone">Enter valid email or phone number.</string>
     <string name="alipay_account_integrated_successfully">AliPay Account integrated successfully!!</string>
