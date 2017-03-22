@@ -23,9 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.helpshift.Core;
-import com.helpshift.campaigns.Campaigns;
-import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -48,6 +45,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.HelpShiftUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -58,7 +56,6 @@ import com.ros.smartrocket.views.CustomTextView;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,6 +65,7 @@ import de.greenrobot.event.EventBus;
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
         ShowProgressDialogInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
+    private final HelpShiftUtils helpShiftUtils = new HelpShiftUtils();
     @Bind(R.id.photoImageView)
     ImageView photoImageView;
     @Bind(R.id.uploadPhotoProgressImage)
@@ -310,29 +308,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         apiFacade.getMyAccount(getActivity());
     }
 
-
-    private void showFAQ() {
-        Core.login(String.valueOf(myAccount.getId()), myAccount.getSingleName(), PreferencesManager.getInstance().getLastEmail());
-        Campaigns.addProperty("Agent_Id", myAccount.getId());
-        Campaigns.addProperty("Agent_Rank_Level", myAccount.getLevelNumber());
-        Campaigns.addProperty("Rocket_Points", myAccount.getExperience());
-        Campaigns.addProperty("Country", myAccount.getCountryName());
-        Campaigns.addProperty("City", myAccount.getCityName());
-        Campaigns.addProperty("Joining_Date", myAccount.getJoined());
-
-        HashMap customMetadata = new HashMap();
-        customMetadata.put("Agent_Id", myAccount.getId());
-        customMetadata.put("Agent_Rank_Level", myAccount.getLevelNumber());
-        customMetadata.put("Rocket_Points", myAccount.getExperience());
-        customMetadata.put("Country", myAccount.getCountryName());
-        customMetadata.put("City", myAccount.getCityName());
-        customMetadata.put("Joining_Date", myAccount.getJoined());
-        HashMap config = new HashMap();
-        config.put("hideNameAndEmail", true);
-        config.put(Support.CustomMetadataKey, customMetadata);
-        Support.showFAQs(getActivity(), config);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (intent != null && intent.getData() != null) {
@@ -469,7 +444,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
-                showFAQ();
+                helpShiftUtils.showFAQ(getActivity());
                 break;
             case R.id.settingsButton:
                 getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
