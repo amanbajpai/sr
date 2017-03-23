@@ -26,21 +26,4 @@
         android:divider="@android:color/transparent"
         android:background="@color/grey_middle"
         tools:listitem="@layout/list_item_wave" />
-    <LinearLayout
-        android:id="@+id/showHideMissionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/black_transparency"
-        android:visibility="gone">
-        <com.ros.smartrocket.views.CustomButton
-            android:id="@+id/showHideMissionButton"
-            style="@style/Button"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:background="@drawable/button_green_selector"
-            android:text="@string/show_hidden_projects"
-            android:layout_margin="15dp"
-            custom:textStyle="bold" />
-    </LinearLayout >
 </LinearLayout >

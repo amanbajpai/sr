@@ -55,7 +55,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     private ImageView refreshButton;
     private AsyncQueryHandler handler;
     private WaveAdapter adapter;
-    private Button showHideMissionButton;
     private TextView emptyListLTextView;
     private boolean isFirstStart = true;
 
@@ -83,11 +82,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
         waveList.setOnItemClickListener(this);
         waveList.setAdapter(adapter);
 
-        showHideMissionButton = (Button) view.findViewById(R.id.showHideMissionButton);
-        showHideMissionButton.setOnClickListener(this);
-
-        refreshHiddenStatus(preferencesManager.getShowHiddenTask());
-
         return view;
     }
 
@@ -103,11 +97,8 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
         if (!hidden) {
             getWaves(false);
-
-            refreshHiddenStatus(preferencesManager.getShowHiddenTask());
         }
     }
 
@@ -232,14 +223,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 IntentUtils.refreshMainMenuMyTaskCount(getActivity());
                 break;
-            case R.id.showHideMissionButton:
-                preferencesManager.setShowHiddenTask(!preferencesManager.getShowHiddenTask());
-                refreshHiddenStatus(preferencesManager.getShowHiddenTask());
-
-                final int radius = TasksMapFragment.taskRadius;
-
-                WavesBL.getNotMyTasksWavesListFromDB(handler, radius, preferencesManager.getShowHiddenTask());
-                break;
             default:
                 break;
         }
@@ -282,14 +265,6 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
                 refreshButton.setClickable(true);
                 refreshButton.clearAnimation();
             }
-        }
-    }
-
-    private void refreshHiddenStatus(boolean showHiddenProject) {
-        if (showHiddenProject) {
-            showHideMissionButton.setText(getString(R.string.hide_hidden_projects));
-        } else {
-            showHideMissionButton.setText(getString(R.string.show_hidden_projects));
         }
     }
 
