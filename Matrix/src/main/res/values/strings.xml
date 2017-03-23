@@ -502,7 +502,7 @@
     <string name="setup">SETUP</string>
     <string name="activity_btn">ACTIVITY</string>
     <string name="activity_log_title">Activity log request</string>
-    <string name="activity_log_description">A file containing a log of your SmartRocket Account Activity has been sent to:</string>
+    <string name="activity_log_description">A file containing a log of your SmartRocket Account Activity has been sent to:\n</string>
     <string name="do_not_show_message">Do not show this message again</string>
 
     <string name="dialog_update_app_title">Update app</string>

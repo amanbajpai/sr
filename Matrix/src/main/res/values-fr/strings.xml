@@ -7,7 +7,7 @@
 	<string name="activate_account_text1">Inscription terminée</string>
 	<string name="activate_account_text2">Merci d\'avoir terminé l\'inscription ! Veuillez activer votre compte SmartRocket pour commencer à utiliser SmartRocket.</string>
 	<string name="activity_btn">ACTIVITÉ</string>
-	<string name="activity_log_description">Un fichier contenant un journal de votre activité de compte SmartRocket a été envoyé à :</string>
+	<string name="activity_log_description">Un fichier contenant un journal de votre activité de compte SmartRocket a été envoyé à :\n</string>
 	<string name="activity_log_title">Demande de journal d\'activités</string>
 	<string name="add_photo_error_text">La photo ne peut pas être ajoutée à partir de cette source.</string>
 	<string name="add_photo_error_title">Erreur d\'ajout de la photo.</string>
