@@ -61,6 +61,12 @@ public class App extends Application {
         locationManager = new MatrixLocationManager(getApplicationContext());
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initLocaleSettings();
+    }
+
     private void initLocaleSettings() {
         UIUtils.setCurrentLanguage();
         Locale newLocale = UIUtils.getCurrentLocale();

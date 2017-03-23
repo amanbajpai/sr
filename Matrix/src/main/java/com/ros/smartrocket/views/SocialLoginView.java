@@ -306,14 +306,16 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     }
 
     private void signInWithGoogle() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                        activity.startActivityForResult(signInIntent, G_SIGN_IN_CODE);
-                    }
-                });
+        if (mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                            activity.startActivityForResult(signInIntent, G_SIGN_IN_CODE);
+                        }
+                    });
+        }
     }
 
 

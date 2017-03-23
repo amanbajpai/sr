@@ -232,7 +232,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (deviceIsReady() && checkLocationDialog == null) {
+        if (deviceIsReady() && checkLocationDialog == null && checkLocationResponse == null) {
             getLocation();
         }
     }
