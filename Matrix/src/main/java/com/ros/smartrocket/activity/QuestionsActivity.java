@@ -266,7 +266,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         if (questionType != Question.QuestionType.PHOTO.getTypeId()
                 && questionType != Question.QuestionType.VIDEO.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
-            questionOf.setText(getString(R.string.question_of, getQuestionPos(currentQuestionOrderId), questionsToAnswerCount));
+            questionOf.setText(getString(R.string.question_of, String.valueOf(getQuestionPos(currentQuestionOrderId)), String.valueOf(questionsToAnswerCount)));
         } else {
             questionOfLayout.setVisibility(View.GONE);
         }

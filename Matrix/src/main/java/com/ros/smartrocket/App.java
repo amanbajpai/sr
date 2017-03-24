@@ -17,10 +17,8 @@ import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
 import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -67,7 +65,7 @@ public class App extends Application {
         initLocaleSettings();
     }
 
-    private void initLocaleSettings() {
+    public void initLocaleSettings() {
         UIUtils.setCurrentLanguage();
         Locale newLocale = UIUtils.getCurrentLocale();
         Configuration config = getResources().getConfiguration();

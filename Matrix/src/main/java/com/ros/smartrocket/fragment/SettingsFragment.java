@@ -326,6 +326,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
                 if (languageChanged) {
                     UIUtils.showSimpleToast(getActivity(), R.string.success);
+                    App.getInstance().initLocaleSettings();
                     getActivity().finish();
                     getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
                 }

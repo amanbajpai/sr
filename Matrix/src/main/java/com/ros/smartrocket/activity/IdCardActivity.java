@@ -15,7 +15,12 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.utils.MatrixContextWrapper;
+import com.ros.smartrocket.utils.UIUtils;
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -73,5 +78,13 @@ public class IdCardActivity extends Activity {
     @OnClick(R.id.idCardBackButton)
     void onBackClick() {
         finish();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        UIUtils.setCurrentLanguage();
+        Locale newLocale = UIUtils.getCurrentLocale();
+        Context context = MatrixContextWrapper.wrap(newBase, newLocale);
+        super.attachBaseContext(context);
     }
 }

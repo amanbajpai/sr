@@ -1,113 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context="com.ros.smartrocket.activity.IdCardActivity"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    tools:context="com.ros.smartrocket.activity.IdCardActivity">
+
     <LinearLayout
-        android:background="@drawable/id_card_border_dash_line"
-        android:padding="5dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/id_card_border_dash_line"
+        android:orientation="vertical"
+        android:padding="5dp">
+
         <FrameLayout
-            android:background="@color/id_card_border"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/id_card_border">
+
             <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/identification_card"
-                android:textSize="@dimen/text_size_34sp"
-                android:textColor="@color/white"
-                android:padding="6dp"
                 android:layout_gravity="center"
-                custom:textStyle="bold"/>
+                android:padding="6dp"
+                android:text="@string/identification_card"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_34sp"
+                custom:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/idCardBackButton"
-                android:src="@drawable/back_btn"
-                android:padding="15dp"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="15dp"
+                android:src="@drawable/back_btn" />
         </FrameLayout>
+
         <android.support.v7.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            app:rowCount="3"
-            app:columnCount="3">
+            app:columnCount="3"
+            app:rowCount="3">
+
             <LinearLayout
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:padding="16dp"
                 app:layout_columnWeight="2"
                 app:layout_rowSpan="3">
+
                 <ImageView
                     android:id="@+id/idCardUserPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    tools:src="@drawable/city_icon"/>
+                    tools:src="@drawable/city_icon" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/idCardAgentName"
-                    tools:text="Christy Fung"
-                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:textSize="@dimen/text_size_13p6sp"
-                    custom:textStyle="bold"/>
+                    custom:textStyle="bold"
+                    tools:text="Christy Fung" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/idCardAgentId"
-                    tools:text="ID: 577"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_13p6sp"
-                    custom:textStyle="bold"/>
+                    custom:textStyle="bold"
+                    tools:text="ID: 577" />
             </LinearLayout>
+
             <View
-                app:layout_rowSpan="3"
-                android:layerType="software"
-                android:background="@drawable/id_card_vertical_dash_line"
+                android:layout_width="4dp"
                 android:layout_height="match_parent"
-                android:layout_width="4dp"/>
+                android:background="@drawable/id_card_vertical_dash_line"
+                android:layerType="software"
+                app:layout_rowSpan="3" />
+
             <ImageView
-                app:layout_rowWeight="1"
-                app:layout_columnWeight="3"
                 android:id="@+id/idCardLogo"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
-                tools:src="@drawable/badge"/>
-            <View
                 app:layout_columnWeight="3"
-                android:layerType="software"
-                android:background="@drawable/id_card_horizontal_dash_line"
-                android:layout_height="4dp"
-                android:layout_width="0dp"/>
-            <ImageView
                 app:layout_rowWeight="1"
-                app:layout_columnWeight="3"
-                android:src="@drawable/sr_mono_red"
+                tools:src="@drawable/badge" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:background="@drawable/id_card_horizontal_dash_line"
+                android:layerType="software"
+                app:layout_columnWeight="3" />
+
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_margin="16dp"/>
+                android:layout_margin="16dp"
+                android:src="@drawable/sr_mono_red"
+                app:layout_columnWeight="3"
+                app:layout_rowWeight="1" />
         </android.support.v7.widget.GridLayout>
+
         <View
-            android:layerType="software"
-            android:background="@drawable/id_card_horizontal_dash_line"
+            android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_width="match_parent"/>
+            android:background="@drawable/id_card_horizontal_dash_line"
+            android:layerType="software" />
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/idCardText"
-            tools:text="Some text"
-            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_13p6sp"/>
+            android:padding="16dp"
+            android:textSize="@dimen/text_size_13p6sp"
+            tools:text="Some text" />
     </LinearLayout>
 </ScrollView>

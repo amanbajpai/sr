@@ -268,7 +268,7 @@
 	<string name="share_via_whatsapp">WhatsApp</string>
 	<string name="show_hidden_projects">AFFICHER PROJETS OCCULTÉS</string>
 	<string name="show_hidden_tasks_on_map">Afficher toutes les missions occultées</string>
-	<string name="show_missions">AFFICHER LES MISSIONS</string>
+	<string name="show_missions">AFFICHER \nLES MISSIONS</string>
 	<string name="show_password">Afficher le mot de passe</string>
 	<string name="show_task">AFFICHER LA MISSION</string>
 	<string name="since_jobs">Avant l\'inscription, nous devons vérifier si des tâches sont disponibles dans votre région. Vous devrez être connecté à Internet, avec les Services de Localisation activés.</string>

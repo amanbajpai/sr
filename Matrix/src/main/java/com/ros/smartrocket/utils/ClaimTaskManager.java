@@ -234,19 +234,18 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
             }
         } else {
             dismissProgressBar();
-
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE) {
-                DialogUtils.showMaximumMissionDialog(activity);
-            } else if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
-                    && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE) {
-                UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
-            }
-            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag())
-                    && operation.getResponseErrorCode() != null
-                    && operation.getResponseErrorCode() == BaseNetworkService.MAXIMUM_CLAIMS_ERROR_CODE) {
-                UIUtils.showToastCustomDuration(operation.getResponseError(), 8000);
+            if (Keys.CLAIM_TASK_OPERATION_TAG.equals(operation.getTag()) && operation.getResponseErrorCode() != null) {
+                switch (operation.getResponseErrorCode()) {
+                    case BaseNetworkService.MAXIMUM_MISSION_ERROR_CODE:
+                        DialogUtils.showMaximumMissionDialog(activity);
+                        break;
+                    case BaseNetworkService.MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE:
+                        UIUtils.showSimpleToast(activity, R.string.task_no_longer_available);
+                        break;
+                    case BaseNetworkService.MAXIMUM_CLAIMS_ERROR_CODE:
+                        UIUtils.showToastCustomDuration(operation.getResponseError(), 8000);
+                        break;
+                }
             } else {
                 UIUtils.showSimpleToast(activity, operation.getResponseError());
             }
