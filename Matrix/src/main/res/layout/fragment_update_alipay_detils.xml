@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:hint="@string/hint_your_registered_alipay_acc_name"
+            android:maxLines="2"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_14sp" />
     </LinearLayout>
@@ -71,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:maxLines="2"
             android:hint="@string/hint_your_registered_alipay_phone_or_email"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_14sp" />
