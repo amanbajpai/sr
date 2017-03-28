@@ -469,7 +469,6 @@
     <string name="why_dob_title">为什么需要你的生日日期？</string>
     <string name="why_bod">你必须年满18岁才可以加入SmartRocket。 加上，有些任务可能需要队员在某个年龄组合才可以参与。 所以，你需要提供生日日期去加入SmartRocket。</string>
     <string name="reputation">声誉</string>
-    <string name="global_block_error">智慧飞船暂时无法使用</string>
     <string name="yes_button">是</string>
     <string name="activity_btn">活动</string>
     <string name="activity_log_description">您在智慧飞船帐户的活动日志文件已发送到：\n</string>
@@ -496,4 +495,5 @@
     <string name="dialog_payment_description">你必须先输入你的收款账户资料才能从SmartRocket 进行提款</string>
     <string name="dialog_payment_instruction">按下\"设定\"去继续</string>
     <string name="dialog_payment_title">输入你的收款账户资料</string>
+    <string name="global_block_error">智慧飞船暂时无法使用</string>
 </resources>
