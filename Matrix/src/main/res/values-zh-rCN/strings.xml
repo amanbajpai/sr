@@ -471,4 +471,5 @@
     <string name="why_bod">你必须年满18岁才可以加入SmartRocket。 加上，有些任务可能需要队员在某个年龄组合才可以参与。 所以，你需要提供生日日期去加入SmartRocket。</string>
     <string name="reputation">声誉</string>
     <string name="global_block_error">智慧飞船暂时无法使用</string>
+    <string name="yes_button">是</string>
 </resources>

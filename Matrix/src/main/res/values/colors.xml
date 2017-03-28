@@ -36,4 +36,9 @@
     <color name="icon_grey_light">#f0f0f3</color>
     <color name="icon_red">#fa5c63</color>
     <color name="icon_violet">#7341b7</color>
+    <!-- switch colors -->
+    <color name="switch_yes">#8bad29</color>
+    <color name="switch_def">#f0f0f3</color>
+    <color name="switch_no">#ef4751</color>
+    <color name="switch_text_def">#aaaaad</color>
 </resources>

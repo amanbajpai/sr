@@ -55,6 +55,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.map.MapHelper;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -64,6 +65,7 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomSwitch;
 import com.twotoasters.baiduclusterkraf.OnShowInfoWindowListener;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.Clusterkraf;
@@ -77,7 +79,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class TasksMapFragment extends Fragment implements NetworkOperationListenerInterface,
-        View.OnClickListener, CompoundButton.OnCheckedChangeListener,
+        View.OnClickListener, SwitchCheckedChangeListener,
         OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
 
     private static final String TAG = TasksMapFragment.class.getSimpleName();
@@ -86,7 +88,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
     private ImageView btnFilter;
     private LinearLayout rlFilterPanel;
-    private ToggleButton showHiddenTasksToggleButton;
+    private CustomSwitch showHiddenTasksToggleButton;
     private boolean isFilterShow = false;
     private GoogleMap googleMap;
     private BaiduMap baiduMap;
@@ -171,7 +173,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
 
         view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
         view.findViewById(R.id.applyButton).setOnClickListener(this);
-        showHiddenTasksToggleButton = (ToggleButton) view.findViewById(R.id.showHiddenTasksToggleButton);
+        showHiddenTasksToggleButton = (CustomSwitch) view.findViewById(R.id.showHiddenTasksToggleButton);
         showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
         showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
 
@@ -460,6 +462,12 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         });
     }
 
+    @Override
+    public void onCheckedChange(CustomSwitch customSwitch, boolean isChecked) {
+        preferencesManager.setShowHiddenTask(isChecked);
+        loadData(true);
+    }
+
     /**
      * Database Helper for Data fetching
      */
@@ -673,18 +681,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                 loadData(true);
                 IntentUtils.refreshProfileAndMainMenu(getActivity());
                 IntentUtils.refreshMainMenuMyTaskCount(getActivity());
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.showHiddenTasksToggleButton:
-                preferencesManager.setShowHiddenTask(isChecked);
-                loadData(true);
                 break;
             default:
                 break;

@@ -248,6 +248,7 @@
         reputation.</string>
     <string name="withdraw_task_dialog_text3">Do you want withdraw from mission?</string>
     <string name="no_button">NO</string>
+    <string name="yes_button">yes</string>
     <string name="withdraw_button">WITHDRAW</string>
     <!-- QUESTION ACTIVITY-->
     <string name="question_title">Mission</string>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="28dp"
+    android:orientation="horizontal">
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/no_btn"
+        style="@style/SwitchText"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/swtch_no_bg_selector"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/no_button"
+        android:textAllCaps="true"
+        android:textColor="@drawable/swtch_text_selector"
+        custom:textStyle="bold" />
+
+    <com.ros.smartrocket.views.CustomTextView
+        android:id="@+id/yes_btn"
+        style="@style/SwitchText"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/swtch_yes_bg_selector"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/yes_button"
+        android:textAllCaps="true"
+        android:textColor="@drawable/swtch_text_selector"
+        custom:textStyle="bold" />
+</LinearLayout>

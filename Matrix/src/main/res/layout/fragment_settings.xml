@@ -61,7 +61,7 @@
                 android:text="@string/location_services"
                 custom:textStyle="bold" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/locationServicesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 android:text="@string/social_sharing"
                 custom:textStyle="bold" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/socialSharingToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:text="@string/send_only_by_wifi"
                 custom:textStyle="bold" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/useOnlyWifiToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                 android:text="@string/save_images_to_camera_roll"
                 custom:textStyle="bold" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/saveImageToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                 android:text="@string/push_messages"
                 custom:textStyle="bold" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/pushMessagesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
                 android:text="@string/deadline_warning"
                 custom:textStyle="bold" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/deadlineReminderToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

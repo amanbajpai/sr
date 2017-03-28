@@ -10,22 +10,20 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Registration;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.DatePickerDialog;
 import com.ros.smartrocket.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.eventbus.AvatarEvent;
 import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -39,6 +37,7 @@ import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomEditTextView;
+import com.ros.smartrocket.views.CustomSwitch;
 import com.ros.smartrocket.views.CustomTextView;
 
 import java.io.File;
@@ -52,7 +51,7 @@ import de.greenrobot.event.EventBus;
  * Activity for first Agents registration into system
  */
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface, CompoundButton.OnCheckedChangeListener {
+        NetworkOperationListenerInterface, SwitchCheckedChangeListener {
     private static final String STATE_PHOTO = "com.ros.smartrocket.RegistrationActivity.STATE_PHOTO";
 
     @Bind(R.id.profilePhotoImageView)
@@ -76,7 +75,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.passwordValidationText)
     CustomTextView passwordValidationText;
     @Bind(R.id.showPasswordToggleButton)
-    ToggleButton showPasswordToggleButton;
+    CustomSwitch showPasswordToggleButton;
     @Bind(R.id.confirmButton)
     CustomButton confirmButton;
     @Bind(R.id.cancelButton)
@@ -282,24 +281,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.showPasswordToggleButton:
-                String text = passwordEditText.getText().toString().trim();
-                if (isChecked) {
-                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-                } else {
-                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
-                passwordEditText.setSelection(text.length());
-                passwordEditText.setTypeface(FontUtils.loadFontFromAsset(getAssets(), FontUtils.getFontAssetPath(2)));
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(STATE_PHOTO, mCurrentPhotoFile);
         super.onSaveInstanceState(outState);
@@ -380,5 +361,17 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
                 break;
         }
+    }
+
+    @Override
+    public void onCheckedChange(CustomSwitch customSwitch, boolean isChecked) {
+        String text = passwordEditText.getText().toString().trim();
+        if (isChecked) {
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+        passwordEditText.setSelection(text.length());
+        passwordEditText.setTypeface(FontUtils.loadFontFromAsset(getAssets(), FontUtils.getFontAssetPath(2)));
     }
 }

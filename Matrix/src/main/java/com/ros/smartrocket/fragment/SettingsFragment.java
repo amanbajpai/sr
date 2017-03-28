@@ -35,6 +35,7 @@ import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.helpers.WriteDataHelper;
+import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
@@ -43,6 +44,7 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomSwitch;
 import com.ros.smartrocket.views.CustomTextView;
 
 import butterknife.Bind;
@@ -52,26 +54,26 @@ import butterknife.OnClick;
 /**
  * Setting fragment with all application related settings
  */
-public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener,
+public class SettingsFragment extends Fragment implements SwitchCheckedChangeListener,
         AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
     @Bind(R.id.languageSpinner)
     Spinner languageSpinner;
     @Bind(R.id.locationServicesToggleButton)
-    ToggleButton locationServicesToggleButton;
+    CustomSwitch locationServicesToggleButton;
     @Bind(R.id.socialSharingToggleButton)
-    ToggleButton socialSharingToggleButton;
+    CustomSwitch socialSharingToggleButton;
     @Bind(R.id.useOnlyWifiToggleButton)
-    ToggleButton useOnlyWifiToggleButton;
+    CustomSwitch useOnlyWifiToggleButton;
     @Bind(R.id.saveImageToggleButton)
-    ToggleButton saveImageToggleButton;
+    CustomSwitch saveImageToggleButton;
     @Bind(R.id.pushMessagesToggleButton)
-    ToggleButton pushMessagesToggleButton;
+    CustomSwitch pushMessagesToggleButton;
     @Bind(R.id.taskLimitSpinner)
     Spinner taskLimitSpinner;
     @Bind(R.id.monthLimitSpinner)
     Spinner monthLimitSpinner;
     @Bind(R.id.deadlineReminderToggleButton)
-    ToggleButton deadlineReminderToggleButton;
+    CustomSwitch deadlineReminderToggleButton;
     @Bind(R.id.deadlineReminderSpinner)
     Spinner deadlineReminderSpinner;
     @Bind(R.id.deadlineReminderLayout)
@@ -139,13 +141,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         setDeadlineReminderSpinner();
         setTaskLimitSpinner();
         setMonthLimitSpinner();
-
-        locationServicesToggleButton.setBackgroundResource(R.drawable.btn_toggle);
-        socialSharingToggleButton.setBackgroundResource(R.drawable.btn_toggle);
-        useOnlyWifiToggleButton.setBackgroundResource(R.drawable.btn_toggle);
-        saveImageToggleButton.setBackgroundResource(R.drawable.btn_toggle);
-        pushMessagesToggleButton.setBackgroundResource(R.drawable.btn_toggle);
-        deadlineReminderToggleButton.setBackgroundResource(R.drawable.btn_toggle);
 
         locationServicesToggleButton.setChecked(preferencesManager.getUseLocationServices());
         socialSharingToggleButton.setChecked(preferencesManager.getUseSocialSharing());
@@ -273,41 +268,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-        switch (v.getId()) {
-            case R.id.deadlineReminderToggleButton:
-                deadlineReminderLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-                preferencesManager.setUseDeadlineReminder(isChecked);
-
-                changeTaskReminderServiceStatus();
-                break;
-
-            case R.id.locationServicesToggleButton:
-                preferencesManager.setUseLocationServices(isChecked);
-
-                if (!UIUtils.isAllLocationSourceEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
-                    DialogUtils.showLocationDialog(getActivity(), false);
-                }
-                break;
-            case R.id.pushMessagesToggleButton:
-                apiFacade.allowPushNotification(getActivity(), isChecked);
-                progressDialog.show();
-                preferencesManager.setUsePushMessages(isChecked);
-                changeTaskReminderServiceStatus();
-                break;
-            case R.id.socialSharingToggleButton:
-                preferencesManager.setUseSocialSharing(isChecked);
-                break;
-            case R.id.saveImageToggleButton:
-                preferencesManager.setUseSaveImageToCameraRoll(isChecked);
-                break;
-            case R.id.useOnlyWifiToggleButton:
-                preferencesManager.setUseOnlyWiFiConnaction(isChecked);
-                break;
-        }
-    }
-
     public void changeTaskReminderServiceStatus() {
         if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
             getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
@@ -398,6 +358,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         ButterKnife.unbind(this);
     }
 
+
     @OnClick(R.id.closeAccount)
     public void onClick() {
         DefaultInfoDialog dialog = new DefaultInfoDialog(getActivity(), R.color.red, 0,
@@ -417,5 +378,40 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onCheckedChange(CustomSwitch v, boolean isChecked) {
+        switch (v.getId()) {
+            case R.id.deadlineReminderToggleButton:
+                deadlineReminderLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                preferencesManager.setUseDeadlineReminder(isChecked);
+
+                changeTaskReminderServiceStatus();
+                break;
+
+            case R.id.locationServicesToggleButton:
+                preferencesManager.setUseLocationServices(isChecked);
+
+                if (!UIUtils.isAllLocationSourceEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
+                    DialogUtils.showLocationDialog(getActivity(), false);
+                }
+                break;
+            case R.id.pushMessagesToggleButton:
+                apiFacade.allowPushNotification(getActivity(), isChecked);
+                progressDialog.show();
+                preferencesManager.setUsePushMessages(isChecked);
+                changeTaskReminderServiceStatus();
+                break;
+            case R.id.socialSharingToggleButton:
+                preferencesManager.setUseSocialSharing(isChecked);
+                break;
+            case R.id.saveImageToggleButton:
+                preferencesManager.setUseSaveImageToCameraRoll(isChecked);
+                break;
+            case R.id.useOnlyWifiToggleButton:
+                preferencesManager.setUseOnlyWiFiConnaction(isChecked);
+                break;
+        }
     }
 }

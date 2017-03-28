@@ -126,7 +126,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_13p6sp" />
 
-            <ToggleButton
+            <com.ros.smartrocket.views.CustomSwitch
                 android:id="@+id/showHiddenTasksToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -4,7 +4,6 @@
         <item name="android:actionBarStyle">@style/ActionBarRed</item>
         <item name="actionBarStyle">@style/ActionBarRed</item>
         <item name="android:buttonStyle">@style/Button</item>
-        <item name="android:buttonStyleToggle">@style/Toggle</item>
         <item name="android:editTextStyle">@style/EditText</item>
         <item name="android:checkboxStyle">@style/CheckBox</item>
         <item name="android:spinnerStyle">@style/Spinner</item>
@@ -23,7 +22,7 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name="Helpshift.Theme.Base" parent="CustomHelpshiftTheme"/>
+    <style name="Helpshift.Theme.Base" parent="CustomHelpshiftTheme" />
 
     <style name="AppThemeNoActionBar" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
@@ -101,13 +100,6 @@
         <item name="android:textColor">@color/grey</item>
         <!--<item name="android:spinnerMode" >dropdown</item >-->
         <item name="android:popupBackground">@android:color/transparent</item>
-    </style>
-
-    <style name="Toggle" parent="android:Widget.Button.Toggle">
-        <item name="android:background">@drawable/btn_toggle</item>
-        <item name="android:minHeight">28dip</item>
-        <item name="android:textOff"></item>
-        <item name="android:textOn"></item>
     </style>
 
     <style name="SeekBarRed" parent="android:Widget.SeekBar">
@@ -329,11 +321,10 @@
     </style>
 
     <style name="ActionBarText" parent="@android:style/Widget.TextView">
-        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
         <item name="android:shadowColor">@color/grey</item>
         <item name="android:shadowDx">0</item>
@@ -434,5 +425,11 @@
     <style name="FacebookLoginButton">
         <item name="android:textSize">@dimen/text_size_16sp</item>
         <item name="android:layout_height">155dp</item>
+    </style>
+
+    <style name="SwitchText" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>
