@@ -523,7 +523,6 @@
     <string name="continue_with_google">CONTINUE WITH GOOGLE</string>
     <string name="continue_email_btn">CONTINUE WITH EMAIL</string>
 
-    <string name="already_member">LOOKS LIKE YOU\'RE ALREADY \nA MEMBER OF OUR CREW!</string>
     <string name="password_label">Enter your password</string>
 
     <string name="english">English</string>
@@ -540,4 +539,6 @@
     <string name="why_dob_title">Why do we need your birthday?</string>
     <string name="why_email_title">Why do we need your email?</string>
     <string name="french">Français</string>
+    <string name="already_member">YOU ARE ALREADY A MEMBER OF OUR CREW!</string>
+    <string name="global_block_error">SmartRocket is temporary unavailable</string>
 </resources>

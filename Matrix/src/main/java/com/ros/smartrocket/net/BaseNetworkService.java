@@ -77,6 +77,7 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int LOCAL_UPLOAD_FILE_ERROR = 3701;
     public static final int EXTERNAL_AUTH_NEED_MORE_DATA_ERROR = 10144;
     public static final int EMAIL_SENT_ERROR = 10145;
+    public static final int GLOBAL_BLOCK_ERROR = 10146;
 
     public BaseNetworkService(String name) {
         super(name);

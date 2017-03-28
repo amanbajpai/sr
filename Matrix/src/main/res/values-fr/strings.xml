@@ -379,4 +379,5 @@
 	<string name="why_email_title">Pourquoi a t\'on besoin de votre adresse mail?</string>
 	<string name="why_need_this">Pourquoi on a besoin de cela?</string>
     <string name="account_confirmed_dialog_text1">Votre compte SmartRocket est maintenant activé ! \n\nTout d\'abord, vous devrez effectuer une courte série de missions de formation pour vous aider à naviguer dans l\'application et vous qualifier en tant que membre d\'équipage. Ensuite, vous pourrez commencer à prendre en charge des missions pour de l\'argent réel et des Points Rocket. À tout moment, vous pouvez obtenir de l\'aide et accéder aux FAQ et à la formation grâce au bouton « Aide » dans le menu de l\'application SmartRocket. \n\nBienvenue à bord !</string>
+    <string name="global_block_error">SmartRocket est provisoirement indisponible</string>
 </resources>

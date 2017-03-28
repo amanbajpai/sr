@@ -306,22 +306,25 @@ public class NetworkService extends BaseNetworkService {
                 if (error != null) {
                     operation.setResponseError(error.getErrorMessage());
                     operation.setResponseErrorCode(error.getErrorCode());
-
-                    if (operation.getResponseErrorCode() == PASSWORD_TOKEN_NOT_VALID_ERROR_CODE) {
-                        operation.setResponseError(getString(R.string.password_token_not_valid_error_text));
-
-                    } else if (operation.getResponseErrorCode() == USER_NOT_FOUND_ERROR_CODE) {
-                        operation.setResponseError(getString(R.string.user_not_found_error_text));
-
-                    } else if (operation.getResponseErrorCode() == USER_ALREADY_EXIST_ERROR_CODE) {
-                        operation.setResponseError(getString(R.string.user_already_exists_error_text));
-
-                    } else if (operation.getResponseErrorCode() == YOUR_VERSION_OUTDATED_ERROR_CODE) {
-                        operation.setResponseError(getString(R.string.your_version_outdated));
-
-                    } else if (operation.getResponseErrorCode() == MAXIMUM_CLAIMS_ERROR_CODE) {
-                        operation.setResponseError(getString(R.string.error_too_much_claims));
-
+                    switch (operation.getResponseErrorCode()) {
+                        case PASSWORD_TOKEN_NOT_VALID_ERROR_CODE:
+                            operation.setResponseError(getString(R.string.password_token_not_valid_error_text));
+                            break;
+                        case USER_NOT_FOUND_ERROR_CODE:
+                            operation.setResponseError(getString(R.string.user_not_found_error_text));
+                            break;
+                        case USER_ALREADY_EXIST_ERROR_CODE:
+                            operation.setResponseError(getString(R.string.user_already_exists_error_text));
+                            break;
+                        case YOUR_VERSION_OUTDATED_ERROR_CODE:
+                            operation.setResponseError(getString(R.string.your_version_outdated));
+                            break;
+                        case MAXIMUM_CLAIMS_ERROR_CODE:
+                            operation.setResponseError(getString(R.string.error_too_much_claims));
+                            break;
+                        case GLOBAL_BLOCK_ERROR:
+                            operation.setResponseError(getString(R.string.global_block_error));
+                            break;
                     }
                 }
             } catch (Exception e) {
