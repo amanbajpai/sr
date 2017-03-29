@@ -1,127 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <ImageView
             android:id="@+id/logo"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginBottom="15dp"
-            android:contentDescription="@string/app_name"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_color" />
-        <com.ros.smartrocket.views.CustomTextView
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="45dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_color" />
+
+        <com.ros.smartrocket.views.CustomTextView
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
+            android:gravity="center_horizontal"
+            android:text="@string/tell_your_friends_about"
             android:textColor="@color/grey"
             android:textSize="@dimen/text_size_18sp"
-            android:text="@string/tell_your_friends_about"
             custom:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/grey_light"
-            android:padding="10dp" >
+            android:orientation="vertical"
+            android:padding="10dp">
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/emailButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_green_selector"
-                android:text="@string/share_via_email"
                 android:drawableLeft="@drawable/share_icon_mail"
+                android:text="@string/share_via_email"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/facebookButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_fb_selector"
-                android:text="@string/share_via_facebook"
                 android:drawableLeft="@drawable/share_icon_fb"
+                android:text="@string/share_via_facebook"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/linkedinButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_linked_selector"
-                android:text="@string/share_via_linkedin"
                 android:drawableLeft="@drawable/share_icon_linked"
+                android:text="@string/share_via_linkedin"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/messageButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_green_selector"
-                android:text="@string/share_via_message"
                 android:drawableLeft="@drawable/share_icon_message"
+                android:text="@string/share_via_message"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/sinaWeiboButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_sina_selector"
-                android:text="@string/share_via_sina_weibo"
                 android:drawableLeft="@drawable/share_icon_sina"
+                android:text="@string/share_via_sina_weibo"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/tencentWeiboButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_tencent_selector"
-                android:text="@string/share_via_tencent_weibo"
                 android:drawableLeft="@drawable/share_icon_tencent"
+                android:text="@string/share_via_tencent_weibo"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/twitterButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_twitter_selector"
-                android:text="@string/share_via_twitter"
                 android:drawableLeft="@drawable/share_icon_twitter"
+                android:text="@string/share_via_twitter"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/wechatButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_wechat_selector"
-                android:text="@string/share_via_wechat"
                 android:drawableLeft="@drawable/share_icon_wechat"
+                android:text="@string/share_via_wechat"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/whatsappButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_whats_selector"
-                android:text="@string/share_via_whatsapp"
                 android:drawableLeft="@drawable/share_icon_whats"
+                android:text="@string/share_via_whatsapp"
                 custom:textStyle="bold" />
+
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/qzoneButton"
                 style="@style/ShareButton"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/button_qzone_selector"
-                android:text="@string/share_via_qzone"
                 android:drawableLeft="@drawable/share_icon_qzone"
+                android:text="@string/share_via_qzone"
                 custom:textStyle="bold" />
-        </LinearLayout >
-    </LinearLayout >
-</ScrollView >
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
