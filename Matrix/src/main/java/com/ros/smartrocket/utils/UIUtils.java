@@ -418,21 +418,22 @@ public class UIUtils {
     public static boolean isMockLocationEnabled(Context context, Location location) {
         boolean isMockLocation = false;
         boolean isMockLocationNew = false;
-        if (BuildConfig.CHECK_MOCK_LOCATION) {
-            isMockLocation = !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
-                    .Secure.ALLOW_MOCK_LOCATION).equals("0");
+        if (!BuildConfig.CHECK_MOCK_LOCATION) {
             if (Build.VERSION.SDK_INT > 18) {
                 if (location != null) {
                     isMockLocationNew = location.isFromMockProvider();
                 }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-                        isMockLocationNew = (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
-                    }
+                    AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+                    isMockLocationNew = isMockLocation || (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID) == AppOpsManager.MODE_ALLOWED);
                 } catch (Exception e) {
                     Log.e("Mock location enabled", "Exception", e);
                 }
+            } else {
+                isMockLocation = !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
+                        .Secure.ALLOW_MOCK_LOCATION).equals("0");
             }
         }
         return isMockLocation || isMockLocationNew;

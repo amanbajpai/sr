@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,11 +32,16 @@ import com.ros.smartrocket.utils.GoogleUrlShortenManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.views.CustomButton;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Share app info fragment
  */
-public class ShareFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface {
+public class ShareFragment extends Fragment implements NetworkOperationListenerInterface {
     private static final String TAG = ShareFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
@@ -47,6 +51,26 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
     private String subject;
     private String text;
     private Sharing sharing;
+    @Bind(R.id.emailButton)
+    CustomButton emailButton;
+    @Bind(R.id.facebookButton)
+    CustomButton facebookButton;
+    @Bind(R.id.linkedinButton)
+    CustomButton linkedinButton;
+    @Bind(R.id.messageButton)
+    CustomButton messageButton;
+    @Bind(R.id.sinaWeiboButton)
+    CustomButton sinaWeiboButton;
+    @Bind(R.id.tencentWeiboButton)
+    CustomButton tencentWeiboButton;
+    @Bind(R.id.twitterButton)
+    CustomButton twitterButton;
+    @Bind(R.id.wechatButton)
+    CustomButton wechatButton;
+    @Bind(R.id.whatsappButton)
+    CustomButton whatsappButton;
+    @Bind(R.id.qzoneButton)
+    CustomButton qzoneButton;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -68,21 +92,11 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
         ((ShareActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
         apiFacade.getSharingData(getActivity());
 
+        ButterKnife.bind(this, view);
         return view;
     }
 
     public void showButtons(int bitMask) {
-        Button emailButton = (Button) view.findViewById(R.id.emailButton);
-        Button messageButton = (Button) view.findViewById(R.id.messageButton);
-        Button twitterButton = (Button) view.findViewById(R.id.twitterButton);
-        Button facebookButton = (Button) view.findViewById(R.id.facebookButton);
-        Button linkedinButton = (Button) view.findViewById(R.id.linkedinButton);
-        Button whatsappButton = (Button) view.findViewById(R.id.whatsappButton);
-        Button wechatButton = (Button) view.findViewById(R.id.wechatButton);
-        Button tencentWeiboButton = (Button) view.findViewById(R.id.tencentWeiboButton);
-        Button sinaWeiboButton = (Button) view.findViewById(R.id.sinaWeiboButton);
-        Button qzoneButton = (Button) view.findViewById(R.id.qzoneButton);
-
         showButtonIfNeed(emailButton, bitMask, SocialNetworks.Email.getId());
         showButtonIfNeed(messageButton, bitMask, SocialNetworks.Message.getId());
         showButtonIfNeed(twitterButton, bitMask, SocialNetworks.Twitter.getId());
@@ -98,7 +112,6 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
     public void showButtonIfNeed(Button button, int bitMask, int socialId) {
         if ((bitMask & socialId) == socialId) {
             button.setVisibility(View.VISIBLE);
-            button.setOnClickListener(this);
         } else {
             button.setVisibility(View.GONE);
         }
@@ -145,10 +158,31 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
     }
 
     @Override
-    public void onClick(View v) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        View view = actionBar.getCustomView();
+        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.share_title);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.emailButton, R.id.facebookButton, R.id.linkedinButton, R.id.messageButton, R.id.sinaWeiboButton, R.id.tencentWeiboButton, R.id.twitterButton, R.id.wechatButton, R.id.whatsappButton, R.id.qzoneButton})
+    public void onViewClicked(View view) {
         String shareType = "";
         Intent intent = null;
-        switch (v.getId()) {
+        switch (view.getId()) {
             case R.id.emailButton:
                 shareType = "Email";
                 intent = IntentUtils.getEmailIntent(subject, "", text + " " + shortUrl);
@@ -209,21 +243,6 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-
-        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.share_title);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
     public enum SocialNetworks {
         Email(1),
         Message(2),
@@ -238,7 +257,7 @@ public class ShareFragment extends Fragment implements OnClickListener, NetworkO
 
         private int bitMask;
 
-        private SocialNetworks(int bitMask) {
+        SocialNetworks(int bitMask) {
             this.bitMask = bitMask;
         }
 
