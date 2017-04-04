@@ -226,10 +226,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 preferencesManager.setLastLevelNumber(myAccount.getLevelNumber());
             }
         }
-
-        if (myAccount.getReputation() != null) {
-            reputationTextView.setText(String.valueOf(myAccount.getReputation()));
-        }
+        reputationTextView.setText(myAccount.getStringReputation());
     }
 
     @Override

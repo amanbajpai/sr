@@ -3,6 +3,10 @@ package com.ros.smartrocket.db.entity;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.ros.smartrocket.utils.UIUtils;
+
+import java.math.BigDecimal;
+import java.util.Locale;
 
 public class MyAccount extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;
@@ -62,7 +66,7 @@ public class MyAccount extends BaseEntity {
     @SerializedName("SupportEmail")
     private String supportEmail;
     @SerializedName("Reputation")
-    private Integer reputation;
+    private Double reputation;
     @SerializedName("CountryCode")
     private String countryCode;
 
@@ -290,24 +294,15 @@ public class MyAccount extends BaseEntity {
         return TextUtils.isEmpty(supportEmail) ? SUPPORT_EMAIL : supportEmail;
     }
 
-    public void setSupportEmail(String supportEmail) {
-        this.supportEmail = supportEmail;
-    }
-
-    public Integer getReputation() {
-        return reputation;
-    }
-
-
-    public void setReputation(Integer reputation) {
-        this.reputation = reputation;
+    public String getStringReputation() {
+        ;
+        return reputation != null
+                ? String.format(Locale.getDefault(), "%.0f", UIUtils.round(reputation, 0, BigDecimal.ROUND_HALF_UP))
+                : "0";
     }
 
     public String getCountryCode() {
         return TextUtils.isEmpty(countryCode) ? "en" : countryCode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
 }
