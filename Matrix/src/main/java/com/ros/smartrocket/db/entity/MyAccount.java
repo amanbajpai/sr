@@ -295,7 +295,6 @@ public class MyAccount extends BaseEntity {
     }
 
     public String getStringReputation() {
-        ;
         return reputation != null
                 ? String.format(Locale.getDefault(), "%.0f", UIUtils.round(reputation, 0, BigDecimal.ROUND_HALF_UP))
                 : "0";

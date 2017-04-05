@@ -28,6 +28,8 @@ public class WriteDataHelper {
     public static void prepareLogout(Context context) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         preferencesManager.removeToken();
+        preferencesManager.setTokenForUploadFile("");
+        preferencesManager.setTokenUpdateDate(0);
 
         context.stopService(new Intent(context, TaskReminderService.class));
     }
