@@ -116,7 +116,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
                 if (PreferencesManager.getInstance().getShowActivityDialog()) {
                     new ActivityLogDialog(getActivity(), PreferencesManager.getInstance().getLastEmail());
                 } else {
-                    UIUtils.showSimpleToast(getActivity(), getString(R.string.activity_log_description)
+                    UIUtils.showSimpleToast(getActivity(), getString(R.string.activity_log_description_toast)
                             + PreferencesManager.getInstance().getLastEmail());
                 }
             }
