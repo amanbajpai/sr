@@ -7,13 +7,11 @@ import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -101,9 +99,11 @@ public class UIUtils {
     private static final Random RANDOM = new Random();
 
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE"};
-    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_TW", "fr"};
-    public static String[] VISIBLE_LANGUAGE = new String[]{"English", "中文（简体）", "中文（繁體）", "Français"};
+    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE"};
+    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_HK", "zh_TW", "fr"};
+    public static String[] VISIBLE_LANGUAGE = new String[]{getStringById(R.string.english), getStringById(R.string.chinese_simple),
+            getStringById(R.string.chinese_traditional_hk), getStringById(R.string.chinese_traditional_tw),
+            getStringById(R.string.french)};
 
     /**
      * Show simple Toast message
@@ -1144,7 +1144,10 @@ public class UIUtils {
         if (isSimpleChinaLanguage(currentLanguageCode)) {
             locale = Locale.SIMPLIFIED_CHINESE;
             Support.setSDKLanguage("zh_CN");
-        } else if (isTraditionalChinaLanguage(currentLanguageCode)) {
+        } else if (isTraditionalChinaHKLanguage(currentLanguageCode)) {
+            locale = new Locale("zh", "HK");
+            Support.setSDKLanguage("zh_HK");
+        } else if (isTraditionalChinaTWLanguage(currentLanguageCode)) {
             locale = Locale.TRADITIONAL_CHINESE;
             Support.setSDKLanguage("zh_TW");
         } else if (isFrenchLanguage(currentLanguageCode)) {
@@ -1152,7 +1155,7 @@ public class UIUtils {
             Support.setSDKLanguage("fr");
         } else {
             locale = new Locale(currentLanguageCode);
-            Support.setSDKLanguage("en");
+            Support.setSDKLanguage(currentLanguageCode);
         }
         return locale;
     }
@@ -1165,8 +1168,12 @@ public class UIUtils {
         return "zh".equals(languageCode) || "zh_CN".equals(languageCode) || "en_SG".equals(languageCode);
     }
 
-    private static boolean isTraditionalChinaLanguage(String languageCode) {
-        return "zh_TW".equals(languageCode) || "zh_HK".equals(languageCode);
+    private static boolean isTraditionalChinaHKLanguage(String languageCode) {
+        return "zh_HK".equals(languageCode);
+    }
+
+    private static boolean isTraditionalChinaTWLanguage(String languageCode) {
+        return "zh_TW".equals(languageCode);
     }
 
     private static String getLanguageCodeFromSupported() {
@@ -1189,5 +1196,9 @@ public class UIUtils {
             preferencesManager.setLanguageCode(supportedLanguage);
             UIUtils.setDefaultLanguage(supportedLanguage);
         }
+    }
+
+    private static String getStringById(int resId) {
+        return App.getInstance().getString(resId);
     }
 }

@@ -114,8 +114,10 @@ public class PreferencesManager {
                     break;
                 case "zh":
                 case "zh_TW":
-                case "zh_HK":
                     languageCode = "zh_TW";
+                    break;
+                case "zh_HK":
+                    languageCode = "zh_HK";
                     break;
                 case "fr":
                 case "fr_FR":

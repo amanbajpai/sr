@@ -135,9 +135,12 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 language.setText(R.string.chinese_simple);
                 break;
             case 2:
-                language.setText(R.string.chinese_traditional);
+                language.setText(R.string.chinese_traditional_hk);
                 break;
             case 3:
+                language.setText(R.string.chinese_traditional_tw);
+                break;
+            case 4:
                 language.setText(R.string.french);
                 break;
         }
@@ -350,9 +353,13 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
                 onLanguageChanged("zh_CN");
                 language.setText(R.string.chinese_simple);
                 return true;
-            case R.id.lanChineseTraditional:
+            case R.id.lanChineseTraditionalHK:
+                onLanguageChanged("zh_HK");
+                language.setText(R.string.chinese_traditional_hk);
+                return true;
+            case R.id.lanChineseTraditionalTW:
                 onLanguageChanged("zh_TW");
-                language.setText(R.string.chinese_traditional);
+                language.setText(R.string.chinese_traditional_hk);
                 return true;
             case R.id.lanEnglish:
                 onLanguageChanged("en");

@@ -7,8 +7,11 @@
         android:id="@+id/lanChineseSimple"
         android:title="@string/chinese_simple" />
     <item
-        android:id="@+id/lanChineseTraditional"
-        android:title="@string/chinese_traditional" />
+        android:id="@+id/lanChineseTraditionalHK"
+        android:title="@string/chinese_traditional_hk" />
+    <item
+        android:id="@+id/lanChineseTraditionalTW"
+        android:title="@string/chinese_traditional_tw" />
     <item
         android:id="@+id/lanFrance"
         android:title="@string/french" />
