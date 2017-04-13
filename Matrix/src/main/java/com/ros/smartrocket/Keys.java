@@ -195,4 +195,8 @@ public interface Keys {
     String WECHAT_APP_SECRET = "213174d23b8f50b08ea9b5c4d0349b5c";
     String QQ_APP_ID = "1104291659";
 
+    /* ------------ GCM parameters -----------------------*/
+    String TALKING_DATA_ROW = "1068797126043F9E289911065DBB39D1";
+    String TALKING_DATA_CHINA = "5BF23DC93A19BA33C9984729D825E53C";
+
 }
