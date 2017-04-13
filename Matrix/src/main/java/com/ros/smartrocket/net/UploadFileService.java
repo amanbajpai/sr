@@ -259,10 +259,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         @Override
                         public void onGetAddressSuccess(Location location, String countryName, String cityName,
                                                         String districtName) {
-                            sendValidateLog("Send task to validation. ", task.getId(),
-                                    task.getMissionId(), task.getLatitudeToValidation(),
-                                    task.getLongitudeToValidation(), cityName);
-
                             sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(),
                                     task.getMissionId(),
                                     task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
@@ -329,8 +325,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
                         " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
                         " fileExist = " + new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).exists() +
                         UIUtils.longToString(System.currentTimeMillis(), 2));
-                sendFileLog("notUploadedFileCount = " + notUploadedFileCount + ". Last uploaded file parameters: ",
-                        notUploadedFile);
                 if (notUploadedFileCount == 0) {
                     WaitingUploadTaskBL.updateStatusToAllFileSent(notUploadedFile.getWaveId(),
                             notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
@@ -340,19 +334,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
             } else if (responseErrorCode != null
                     && (responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE
                     || responseErrorCode == BaseNetworkService.LOCAL_UPLOAD_FILE_ERROR)) {
-                //Forward to remove the uploaded file
-                sendFileLog("Error. File not uploaded. ErrorCode = " + responseCode +
-                        " ErrorText = " + operation.getResponseError(), notUploadedFile);
-
                 FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
             } else {
                 L.e(TAG, "onNetworkOperation. File not uploaded: " + notUploadedFile.getId() + " File name: "
                         + notUploadedFile.getFileName() + " Response Error" + operation.getResponseError() + " Date: " +
                         UIUtils.longToString(System.currentTimeMillis(), 2));
-                sendFileLog("Error. File not uploaded. ErrorCode = " + responseCode +
-                                " ErrorText = " + operation.getResponseError(),
-                        notUploadedFile);
-
                 UIUtils.showSimpleToast(this, operation.getResponseError());
             }
 
@@ -373,19 +359,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
                 WaitingUploadTaskBL.deleteUploadedTaskFromDbById(sendTask.getWaveId(), sendTask.getTaskId(), sendTask
                         .getMissionId());
 
-                sendValidateLog("Success Validate task. ", sendTask.getTaskId(),
-                        sendTask.getMissionId(), sendTask.getLatitude(),
-                        sendTask.getLongitude(), sendTask.getCityName());
-
                 sendNetworkOperation(apiFacade.getMyTasksOperation());
                 updateUploadProgress(null);
-            } else {
-                SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
-
-                sendValidateLog("Error. Can not Validate task. ErrorCode = " + responseErrorCode +
-                                " ErrorText = " + operation.getResponseError(), sendTask.getTaskId(),
-                        sendTask.getMissionId(), sendTask.getLatitude(),
-                        sendTask.getLongitude(), sendTask.getCityName());
             }
         }
     }
@@ -399,10 +374,6 @@ public class UploadFileService extends Service implements NetworkOperationListen
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String
                     districtName) {
-                sendValidateLog("Send task to validation. ", notUploadedFile.getTaskId(),
-                        notUploadedFile.getMissionId(), notUploadedFile.getLatitudeToValidation(),
-                        notUploadedFile.getLongitudeToValidation(), cityName);
-
                 sendNetworkOperation(apiFacade.getValidateTaskOperation(notUploadedFile.getWaveId(),
                         notUploadedFile.getTaskId(), notUploadedFile.getMissionId(), location.getLatitude(),
                         location.getLongitude(), cityName));
@@ -419,63 +390,11 @@ public class UploadFileService extends Service implements NetworkOperationListen
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String
                     districtName) {
-                sendValidateLog("Send Waiting task to validation. ", waitingUploadTask.getTaskId(),
-                        waitingUploadTask.getMissionId(), waitingUploadTask.getLatitudeToValidation(),
-                        waitingUploadTask.getLongitudeToValidation(), cityName);
-
                 sendNetworkOperation(apiFacade.getValidateTaskOperation(waitingUploadTask.getWaveId(),
                         waitingUploadTask.getTaskId(), waitingUploadTask.getMissionId(), location.getLatitude(),
                         location.getLongitude(), cityName));
             }
         });
-    }
-
-    public void sendValidateLog(String command, Integer taskId, Integer missionId, double latitude, double longitude,
-                                String cityName) {
-        String userName = preferencesManager.getLastEmail();
-
-        String message = command +
-                " taskId = " + taskId +
-                " missionId = " + missionId +
-                " latitude = " + latitude +
-                " longitude = " + longitude +
-                " cityName = " + cityName + " \n\n " +
-                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
-                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
-                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
-                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
-                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
-                " useLocationServices = " + preferencesManager.getUseLocationServices() +
-                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
-        String type = ServerLog.LogType.VALIDATE_TASK.getType();
-        sendNetworkOperation(apiFacade.getSendLogOperation(UploadFileService.this, userName, message, type));
-    }
-
-    public void sendFileLog(String command, NotUploadedFile notUploadedFile) {
-        String userName = preferencesManager.getLastEmail();
-
-        String message = command +
-                " taskId = " + notUploadedFile.getTaskId() +
-                " missionId = " + notUploadedFile.getMissionId() +
-                " latitude = " + notUploadedFile.getLatitudeToValidation() +
-                " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
-                " fileExist = " + new File(Uri.parse(notUploadedFile.getFileUri()).getPath()).exists() +
-                " fileName = " + notUploadedFile.getFileName() +
-                " filePath = " + notUploadedFile.getFileUri() +
-                " fileCode = " + notUploadedFile.getFileCode() +
-                " addedToUploadDateTime = " + notUploadedFile.getAddedToUploadDateTime() +
-                " fileSize (byte) = " + notUploadedFile.getFileSizeB() +
-                " portion = " + notUploadedFile.getPortion() +
-                " use3G = " + notUploadedFile.getUse3G() + "\n\n" +
-                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
-                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
-                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
-                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
-                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
-                " useLocationServices = " + preferencesManager.getUseLocationServices() +
-                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
-        String type = ServerLog.LogType.FILE_UPLOAD.getType();
-        sendNetworkOperation(apiFacade.getSendLogOperation(UploadFileService.this, userName, message, type));
     }
 
     private boolean needSendNotification(NotUploadedFile notUploadedFile) {

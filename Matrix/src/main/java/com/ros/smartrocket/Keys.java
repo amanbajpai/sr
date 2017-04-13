@@ -7,8 +7,6 @@ public interface Keys {
     String TOKEN = "token";
     String TOKEN_FOR_UPLOAD_FILE = "token_for_upload_file";
     String TOKEN_UPDATE_DATE = "token_update_date";
-    String SHORT_URL_TO_SHARE = "short_url_to_share";
-    String BIT_MASK_SOCIAL_NETWORK = "bit_mask_social_network";
     String LAST_EMAIL = "last_email";
     String EMAIL = "email";
     String LAST_PASSWORD = "last_password";
@@ -42,7 +40,6 @@ public interface Keys {
     String LAST_LEVEL_NUMBER = "last_level_number";
     String DEFAULT_RADIUS = "default_radius";
     String SHOW_HIDDEN_TASKS = "show_hidden_tasks";
-    String SHOW_HIDDEN_PROJECT = "show_hidden_project";
     String IS_FIRST_LOGIN = "is_first_login";
     String SHOW_ACTIVITY_DIALOG = "show_activity_dialog";
 
@@ -57,7 +54,6 @@ public interface Keys {
     String GET_WAVES_OPERATION_TAG = "get_waves_operation_tag";
     String GET_REFERRAL_CASES_OPERATION_TAG = "get_referral_cases_operation_tag";
     String SAVE_REFERRAL_CASES_OPERATION_TAG = "save_referral_cases_operation_tag";
-    String GET_WAVE_TASKS_OPERATION_TAG = "get_wave_tasks_operation_tag";
     String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
     String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
@@ -76,10 +72,8 @@ public interface Keys {
     String REJECT_TASK_OPERATION_TAG = "reject_task_operation_tag";
     String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
     String UPLOAD_TASK_FILE_OPERATION_TAG = "upload_task_file_operation_tag";
-    String SEND_LOG_OPERATION_TAG = "send_log_operation_tag";
     String UPLOAD_TASK_TEMP_FILE_OPERATION_TAG = "upload_task_temp_file_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
-    String GCM_TEST_PUSH_TAG = "gcm_test_push_tag";
     String ACTIVATE_ACCOUNT_OPERATION_TAG = "activate_account_operation_tag";
     String SET_PASSWORD_OPERATION_TAG = "set_password_operation_tag";
     String CASHING_OUT_OPERATION_TAG = "cashing_out_operation_tag";
@@ -89,9 +83,7 @@ public interface Keys {
     String GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "get_national_id_operation_tag";
     String INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG = "integrate_alipay_operation_tag";
     String INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "integrate_national_id_operation_tag";
-    String SEND_ALIPAY_SMS_OPERATION_TAG = "send_alipay_sms_operation_tag";
     String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
-    String TEST_PUSH_NOTIFICATION_OPERATION_TAG = "test_push_notification_operation_tag";
     String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
     String GET_VERSION_OPERATION_TAG = "app_version_tag";
     String GET_CHECK_EMAIL_OPERATION_TAG = "check_email_tag";
@@ -143,8 +135,6 @@ public interface Keys {
     String MISSION_ID = "mission_id";
 
     //Wave
-    String WAVES = "Waves";
-    String WAVE = "wave";
     String WAVE_ID = "wave_id";
     String IS_PRECLAIM = "is_preclaim";
     String STATUS_ID = "status_id";
@@ -162,8 +152,6 @@ public interface Keys {
 
     String GROUP_CODE = "group_code";
     String PROMO_CODE = "promo_code";
-
-    String PREFERENCE_CURRENT_LOCATION = "current_location";
 
     //My account
     String MY_ACCOUNT = "my_account";
@@ -198,10 +186,6 @@ public interface Keys {
     //NotUploadFile Service
     String ACTION_START_REMINDER_TIMER = "start_reminder_timer";
     String ACTION_STOP_REMINDER_TIMER = "stop_reminder_timer";
-
-    /* ------------ GCM parameters -----------------------*/
-    String TALKING_DATA_ROW = "1068797126043F9E289911065DBB39D1";
-    String TALKING_DATA_CHINA = "5BF23DC93A19BA33C9984729D825E53C";
 
     /* ------------ FB logging -----------------------*/
     String FB_LOGGING_SUBMITTED = "MissionSubmission";

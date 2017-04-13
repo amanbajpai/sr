@@ -214,27 +214,14 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     logger.logEvent(Keys.FB_LOGGING_SUBMITTED);
                 }
             } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
-
-                sendValidateLog("Success Validate task. ", sendTask.getTaskId(), sendTask.getMissionId(),
-                        sendTask.getLatitude(), sendTask.getLongitude(), sendTask.getCityName());
-
                 task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
                 task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
                 TasksBL.updateTask(handler, task);
 
                 QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId(), task.getMissionId());
-
                 finishActivity();
             }
         } else {
-            if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                SendTaskId sendTask = (SendTaskId) operation.getEntities().get(0);
-
-                sendValidateLog("Error. Can not Validate task. ", sendTask.getTaskId(), sendTask.getMissionId(),
-                        sendTask.getLatitude(), sendTask.getLongitude(), sendTask.getCityName());
-            }
-
             UIUtils.showSimpleToast(this, operation.getResponseError());
             sendNowButton.setEnabled(true);
             sendLaterButton.setEnabled(true);
@@ -282,59 +269,15 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
             @Override
             public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                sendValidateLog("Send task to validation. ", task.getId(), task.getMissionId(),
-                        task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName);
-
                 sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(), task.getMissionId(),
                         task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
             }
         });
     }
 
-    public void sendValidateLog(String command, Integer taskId, Integer missionId, double latitude, double longitude,
-                                String cityName) {
-        String userName = preferencesManager.getLastEmail();
-
-        String message = command +
-                " taskId = " + taskId +
-                " missionId = " + missionId +
-                " latitude = " + latitude +
-                " longitude = " + longitude +
-                " cityName = " + cityName + " \n\n " +
-                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
-                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
-                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
-                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
-                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
-                " useLocationServices = " + preferencesManager.getUseLocationServices() +
-                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
-        String type = ServerLog.LogType.VALIDATE_TASK.getType();
-        sendNetworkOperation(apiFacade.getSendLogOperation(TaskValidationActivity.this, userName, message, type));
-    }
-
-    public void sendAnswerUploadLog(String command, Integer taskId, Integer missionId) {
-        String userName = preferencesManager.getLastEmail();
-
-        String message = command +
-                " taskId = " + taskId +
-                " missionId = " + missionId + " \n\n " +
-                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
-                " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
-                " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
-                " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
-                " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
-                " useLocationServices = " + preferencesManager.getUseLocationServices() +
-                " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
-        String type = ServerLog.LogType.ANSWERS_UPLOAD.getType();
-        sendNetworkOperation(apiFacade.getSendLogOperation(TaskValidationActivity.this, userName, message, type));
-    }
-
     public void sendTextAnswers() {
         if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
             setSupportProgressBarIndeterminateVisibility(true);
-
-            sendAnswerUploadLog("Send text answers. ", task.getId(), task.getMissionId());
-
             apiFacade.sendAnswers(this, answerListToSend, missionId);
         } else {
             DialogUtils.showTurnOnWifiDialog(this);
@@ -373,11 +316,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    /**
-     * Check a lot of system setting before data upload. If some thing wrong show Dialog
-     *
-     * @return
-     */
     public boolean isReadyToSend() {
         return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
                 && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation());
@@ -593,12 +531,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         super.onStop();
     }
 
-    /**
-     * Save Location of task to DB
-     *
-     * @param task
-     * @param location
-     */
     private void saveLocationOfTaskToDb(Task task, Location location) {
         task.setLatitudeToValidation(location.getLatitude());
         task.setLongitudeToValidation(location.getLongitude());

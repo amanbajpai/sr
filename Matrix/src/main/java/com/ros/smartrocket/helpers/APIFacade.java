@@ -40,9 +40,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-/**
- * Singleton class for work with server API
- */
 public class APIFacade {
     private static final String TAG = "APIFacade";
     private static APIFacade instance = null;
@@ -59,9 +56,6 @@ public class APIFacade {
     private APIFacade() {
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void login(Activity activity, Login loginEntity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.LOGIN);
@@ -71,9 +65,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void sendTandC(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.POST_TERMS_AND_CONDITIONS);
@@ -82,9 +73,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void getAppVersion(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_APP_VERSION);
@@ -93,10 +81,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     * @param email    - current email
-     */
     public void forgotPassword(Activity activity, String email) {
         try {
             if (!TextUtils.isEmpty(email)) {
@@ -113,11 +97,6 @@ public class APIFacade {
         }
     }
 
-    /**
-     * @param activity - current activity
-     * @param email    - current email
-     * @param token    - current token
-     */
     public void activateAccount(Activity activity, String email, String token) {
         ActivateAccount activateAccountEntity = new ActivateAccount();
         activateAccountEntity.setEmail(email);
@@ -131,12 +110,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     * @param email    - current email
-     * @param token    - current token
-     * @param password - current password
-     */
     public void setPassword(Activity activity, String email, String token, String password) {
         SetPassword setPasswordEntity = new SetPassword();
         setPasswordEntity.setEmail(email);
@@ -151,10 +124,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity           - current activity
-     * @param registrationEntity
-     */
     public void registration(Activity activity, Registration registrationEntity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.REGISTRATION, preferencesManager.getLanguageCode());
@@ -164,10 +133,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity   - current activity
-     * @param updateUser - photo to upload
-     */
     public void updateUser(Activity activity, UpdateUser updateUser) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.UPDATE_USER);
@@ -194,10 +159,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param context   - current context
-     * @param countryId - current country id from server
-     */
     public void getReferralCases(Context context, int countryId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_REFERRAL_CASES, String.valueOf(countryId), preferencesManager.getLanguageCode());
@@ -206,11 +167,6 @@ public class APIFacade {
         ((BaseActivity) context).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param context    - current context
-     * @param countryId  - current country id from server
-     * @param referralId - current referral id from server
-     */
     public void saveReferralCases(Context context, int countryId, int referralId) {
         SaveReferralCase caseEntity = new SaveReferralCase();
         caseEntity.setCountryId(countryId);
@@ -224,11 +180,6 @@ public class APIFacade {
         ((BaseActivity) context).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity  - current activity
-     * @param latitude
-     * @param longitude
-     */
     public void getWaves(Activity activity, double latitude, double longitude, int radius) {
         if (activity != null && activity instanceof BaseActivity) {
             try {
@@ -248,21 +199,6 @@ public class APIFacade {
 
     }
 
-    /**
-     * @param activity - current activity
-     * @param waveId   - current waveId
-     */
-    public void getWaveTasks(Activity activity, Integer waveId) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_WAVE_TASKS, String.valueOf(waveId));
-        operation.setTag(Keys.GET_WAVE_TASKS_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    /**
-     * Get operation for getting my tasks
-     */
     public BaseOperation getMyTasksOperation() {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_MY_TASKS, preferencesManager.getLanguageCode());
@@ -271,10 +207,6 @@ public class APIFacade {
         return operation;
     }
 
-    /**
-     * @param activity - current activity
-     * @param taskId   - tack id to claim
-     */
     public void claimTask(Activity activity, Integer taskId, double latitude, double longitude) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
@@ -289,10 +221,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     * @param taskId
-     */
     public void unclaimTask(Activity activity, Integer taskId, Integer missionId) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(taskId);
@@ -306,13 +234,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * Send this request when all task files were uploaded
-     *
-     * @param taskId
-     * @param latitude
-     * @param longitude
-     */
     public BaseOperation getValidateTaskOperation(Integer waveId, Integer taskId, Integer missionId, double latitude,
                                                   double longitude, String cityName) {
         SendTaskId sendTaskId = new SendTaskId();
@@ -331,12 +252,6 @@ public class APIFacade {
         return operation;
     }
 
-    /**
-     * Send main file to upload
-     *
-     * @param context
-     * @param notUploadedFile
-     */
     public void sendFile(Context context, NotUploadedFile notUploadedFile) {
         if (context instanceof UploadFileService) {
             BaseOperation operation = new BaseOperation();
@@ -350,11 +265,6 @@ public class APIFacade {
         }
     }
 
-
-    /**
-     * @param activity
-     * @param answers
-     */
     public void sendAnswers(Activity activity, List<Answer> answers, Integer missionId) {
         BaseOperation operation = new BaseOperation();
         operation.setIsArray(true);
@@ -365,10 +275,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     * @param taskId
-     */
     public void startTask(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setWaveId(waveId);
@@ -383,10 +289,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     * @param waveId
-     */
     public void getQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(waveId), preferencesManager.getLanguageCode(), String.valueOf(taskId));
@@ -398,10 +300,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     * @param taskId
-     */
     public void getReDoQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), String.valueOf(missionId), preferencesManager.getLanguageCode());
@@ -413,12 +311,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     * @param email
-     * @param countryName
-     * @param cityName
-     */
     public void subscribe(Activity activity, String email, String countryName, String cityName,
                           Double latitude, Double longitude, Integer districtId, Integer countryId,
                           Integer cityId) {
@@ -440,12 +332,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * We can start registration in GCM not only from Activity
-     *
-     * @param context
-     * @param regId
-     */
     public void registerGCMId(Context context, String regId, int providerType) {
         if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
@@ -464,30 +350,6 @@ public class APIFacade {
         }
     }
 
-    /**
-     * API call for push notification test
-     *
-     * @param context
-     * @param statusType - Notification type
-     * @param taskId     - task id
-     */
-    public void testGCMPushNotification(Context context, Integer statusType, Integer taskId) {
-        TestPushMessage pushMessageEntity = new TestPushMessage();
-        pushMessageEntity.setStatusType(statusType);
-        pushMessageEntity.setTaskId(taskId);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GCM_TEST_PUSH);
-        operation.setTag(Keys.GCM_TEST_PUSH_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(pushMessageEntity);
-
-        this.sendRequest(context, operation);
-    }
-
-    /**
-     * @param activity
-     */
     public void getMyAccount(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_MY_ACCOUNT, preferencesManager.getLanguageCode());
@@ -496,9 +358,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     */
     public void sendActivity(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.SEND_ACTIVITY);
@@ -507,26 +366,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity
-     * @param taskId
-     */
-    public void rejectTask(Activity activity, Integer taskId, Integer missionId) {
-        SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(taskId);
-        sendTaskId.setMissionId(missionId);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.REJECT_TASK);
-        operation.setTag(Keys.REJECT_TASK_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(sendTaskId);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    /**
-     * @param activity
-     */
     public void cashingOut(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.CASHING_OUT);
@@ -535,9 +374,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void getSharingData(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_SHARING_DATA, preferencesManager.getLanguageCode());
@@ -546,9 +382,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void getNewToken(Activity activity) {
         Token token = new Token();
         token.setToken(preferencesManager.getToken());
@@ -561,36 +394,12 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param context    - current context
-     * @param userName   - user name
-     * @param logMessage - message
-     * @param logType    - type
-     */
-    public BaseOperation getSendLogOperation(Context context, String userName, String logMessage, String logType) {
-        ServerLog serverLog = new ServerLog();
-        serverLog.setUserName(userName);
-        serverLog.setLogMessage(logMessage);
-        serverLog.setLogType(logType);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SEND_LOG);
-        operation.setTag(Keys.SEND_LOG_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(serverLog);
-        return operation;
-
-    }
-
     public void sendRequest(Context context, BaseOperation operation) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);
         context.startService(intent);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void getAliPayAccount(Activity activity) {
         Token token = new Token();
         token.setToken(preferencesManager.getToken());
@@ -602,20 +411,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
-    public void sendAliPaySms(Activity activity, String phone) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SEND_ALIPAY_SMS, phone);
-        operation.setTag(Keys.SEND_ALIPAY_SMS_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    /**
-     * @param activity - current activity
-     */
     public void integrateAliPayAccount(Activity activity, AliPayAccount aliPayAccount) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_ALIPAY_ACCOUNT);
@@ -625,9 +420,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void getNationalIdAccount(Activity activity) {
         Token token = new Token();
         token.setToken(preferencesManager.getToken());
@@ -638,10 +430,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity          - current activity
-     * @param nationalIdAccount - account to update
-     */
     public void integrateNationalIdAccount(Activity activity, NationalIdAccount nationalIdAccount) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
@@ -651,9 +439,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
     public void allowPushNotification(Activity activity, boolean allow) {
         AllowPushNotification allowPushNotification = new AllowPushNotification();
         if (allow) {
@@ -670,9 +455,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * Get operation for check users email (exist or not user)
-     */
     public void checkEmail(Activity activity, String email) {
         BaseOperation operation = new BaseOperation();
         String userEmail = "";
@@ -687,10 +469,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     * @param srCode   - promo code
-     */
     public void setPromoCode(Activity activity, String srCode) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.POST_PROMO_CODE, srCode);
@@ -699,10 +477,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity                - current activity
-     * @param externalAuthorizeEntity - data for auth with social networks
-     */
     public void externalAuth(Activity activity, ExternalAuthorize externalAuthorizeEntity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.POST_EXTERNAL_AUTHORIZE, preferencesManager.getLanguageCode());
@@ -712,22 +486,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     */
-    public void testPushNotification(Activity activity, PushBulkMessage pushBulkMessage) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.TEST_PUSH_NOTIFICATION);
-        operation.setTag(Keys.TEST_PUSH_NOTIFICATION_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(pushBulkMessage);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    /**
-     * @param activity - current activity
-     * @param code     - code from WeChat API
-     */
     public void getWeChatToken(Activity activity, String code) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_WECHAT_TOKEN, Keys.WECHAT_APP_ID, Keys.WECHAT_APP_SECRET, code);
@@ -736,11 +494,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity - current activity
-     * @param token    - access token from WeChat API
-     * @param openId   - openId from WeChat API
-     */
     public void getWeChatInfo(Activity activity, String token, String openId) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_WECHAT_USER_INFO, token, openId);
@@ -749,10 +502,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    /**
-     * @param activity                - current activity
-     * @param externalAuthorizeEntity - data for registration with social networks
-     */
     public void externalRegistration(Activity activity, ExternalAuthorize externalAuthorizeEntity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.POST_EXTERNAL_REGISTER, preferencesManager.getLanguageCode());
@@ -769,6 +518,4 @@ public class APIFacade {
         operation.setMethod(BaseOperation.Method.POST);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
-
-
 }

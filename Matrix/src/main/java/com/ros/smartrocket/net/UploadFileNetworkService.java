@@ -68,9 +68,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                         long mainFileLength = sourceFile.length();
 
-                        sendLog("Start send Main file", notUploadedFile, sourceFile, isStubFile,
-                                ServerLog.LogType.FILE_UPLOAD);
-
                         //Separate main file
                         files = separateFile(notUploadedFile);
 
@@ -104,10 +101,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
                                     && (responseErrorCode == BaseNetworkService.TASK_NOT_FOUND_ERROR_CODE ||
                                     responseErrorCode == BaseNetworkService.FILE_ALREADY_UPLOADED_ERROR_CODE ||
                                     responseErrorCode == BaseNetworkService.FILE_NOT_FOUND)) {
-
-                                sendLog("Error send package file. ErrorCode = " + responseErrorCode +
-                                                " ErrorText = " + responseString, notUploadedFile,
-                                        files[i], isStubFile, ServerLog.LogType.PACKAGE_UPLOAD);
                                 files[i].delete();
                                 operation.setResponseStatusCode(responseCode);
                                 operation.setResponseErrorCode(responseErrorCode);
@@ -115,9 +108,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
 
                             } else {
                                 cleanFiles(files);
-                                sendLog("Error send package file. ErrorCode = " + responseErrorCode +
-                                                " ErrorText = " + responseString, notUploadedFile, files[i], isStubFile,
-                                        ServerLog.LogType.PACKAGE_UPLOAD);
                                 operation.setResponseStatusCode(responseCode);
                                 break;
                             }
@@ -126,9 +116,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
                         L.e(TAG, "Upload file error" + e.getMessage() + " Date: " +
                                 UIUtils.longToString(System.currentTimeMillis(), 2), e);
                         cleanFiles(files);
-                        sendLog("Error send package file. Exception = " + e.getMessage(), notUploadedFile, null,
-                                isStubFile, ServerLog.LogType.PACKAGE_UPLOAD);
-
                         operation.setResponseErrorCode(BaseNetworkService.LOCAL_UPLOAD_FILE_ERROR);
                     }
                 } else {
@@ -170,41 +157,6 @@ public class UploadFileNetworkService extends BaseNetworkService {
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(uploadFileEntity);
         return operation;
-    }
-
-    public void sendLog(String command, NotUploadedFile notUploadedFile, File file, boolean isStubFile,
-                        ServerLog.LogType logType) {
-        String userName = preferencesManager.getLastEmail();
-
-        String message = command +
-                " taskId = " + notUploadedFile.getTaskId() +
-                " missionId = " + notUploadedFile.getMissionId() +
-                " latitude = " + notUploadedFile.getLatitudeToValidation() +
-                " longitude = " + notUploadedFile.getLongitudeToValidation() + " \n\n " +
-                " fileCode = " + notUploadedFile.getFileCode() +
-                " addedToUploadDateTime (MainFile) = " + notUploadedFile.getAddedToUploadDateTime() +
-                " portion = " + notUploadedFile.getPortion() +
-                " isStubFile = " + isStubFile + " \n\n ";
-
-        if (file != null) {
-            message +=
-                    " fileExist = " + file.exists() +
-                            " fileName = " + file.getName() +
-                            " filePath = " + file.getAbsolutePath() +
-                            " fileSize (byte) = " + file.length();
-        }
-
-        message +=
-                " networkType = " + UIUtils.getConnectedNetwork(this) + " \n\n " +
-                        " useWiFiOnly = " + preferencesManager.getUseOnlyWiFiConnaction() +
-                        " 3GUploadMonthLimit = " + preferencesManager.get3GUploadMonthLimit() +
-                        " 3GUploadTaskLimit = " + preferencesManager.get3GUploadTaskLimit() +
-                        " used3GUploadMonthlySize = " + preferencesManager.getUsed3GUploadMonthlySize() +
-                        " useLocationServices = " + preferencesManager.getUseLocationServices() +
-                        " useSaveImageToCameraRoll = " + preferencesManager.getUseSaveImageToCameraRoll();
-
-        executeRequest(apiFacade.getSendLogOperation(UploadFileNetworkService.this, userName, message, logType
-                .getType()));
     }
 
     private File[] separateFile(NotUploadedFile notUploadedFile) throws IOException {

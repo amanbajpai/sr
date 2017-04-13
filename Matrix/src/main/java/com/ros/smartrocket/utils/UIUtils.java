@@ -418,7 +418,7 @@ public class UIUtils {
     public static boolean isMockLocationEnabled(Context context, Location location) {
         boolean isMockLocation = false;
         boolean isMockLocationNew = false;
-        if (!BuildConfig.CHECK_MOCK_LOCATION) {
+        if (BuildConfig.CHECK_MOCK_LOCATION) {
             if (Build.VERSION.SDK_INT > 18) {
                 if (location != null) {
                     isMockLocationNew = location.isFromMockProvider();

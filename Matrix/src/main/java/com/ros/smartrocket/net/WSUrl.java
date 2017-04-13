@@ -46,14 +46,12 @@ public final class WSUrl {
     public static final String GET_REDO_QUESTION = Config.WEB_SERVICE_URL
             + "api/Tasks/Re-Do-Questions?taskId=%s&missionId=%s&language=%s";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
-    public static final String SEND_LOG = Config.WEB_SERVICE_URL + "api/Tasks/Log";
 
     // Other
     public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "WithdrawMoney";
     public static final String GET_SHARING_DATA = Config.WEB_SERVICE_URL + "api/Socials/SharingData?language=%s";
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
     public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
-    public static final String SEND_ALIPAY_SMS = Config.WEB_SERVICE_URL + "api/SMS/AliPayAccountSmsCode?phoneNumber=%s";
     public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
     public static final String POST_TERMS_AND_CONDITIONS = Config.WEB_SERVICE_URL + "api/Authorize/SetTermsAndConditions";
     public static final String GET_APP_VERSION = Config.WEB_SERVICE_URL + "api/Authorize/Versioning";
@@ -137,7 +135,6 @@ public final class WSUrl {
         URLS.put(CASHING_OUT, CASHING_OUT_ID);
         URLS.put(GET_SHARING_DATA, GET_SHARING_DATA_ID);
         URLS.put(GET_NEW_TOKEN, GET_NEW_TOKEN_ID);
-        URLS.put(SEND_LOG, SEND_LOG_ID);
         URLS.put(GET_ALIPAY_ACCOUNT, GET_ALIPAY_ACCOUNT_ID);
         URLS.put(ALLOW_PUSH_NOTIFICATION, ALLOW_PUSH_NOTIFICATION_ID);
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
