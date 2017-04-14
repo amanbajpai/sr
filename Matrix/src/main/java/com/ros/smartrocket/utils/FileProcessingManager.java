@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
@@ -17,6 +18,9 @@ import java.util.Calendar;
 public class FileProcessingManager {
     private static final String TAG = FileProcessingManager.class.getSimpleName();
     public static final String CACHE_PREFIX_DIR = "/Android/data/" + BuildConfig.APPLICATION_ID + "/";
+    public final static String FILE_LOGS = "logs_result.txt";
+    public static final int BYTE_IN_KB = 1024;
+    public static final int MAX_FILE_SIZE_IN_MB = 2;
 
     // private static int PADDING = 80;
 
@@ -24,6 +28,7 @@ public class FileProcessingManager {
         IMAGE("images", "png"),
         VIDEO("videos", "mp4"),
         HTML("web_pages", "html"),
+        TEXT("text", "txt"),
         OTHER("others", "");
 
         private String folderName;
@@ -82,7 +87,7 @@ public class FileProcessingManager {
         return newDir;
     }
 
-    public static File getTempFile(FileType fileType, String fileName, boolean useExternalStorage) {
+    static File getTempFile(FileType fileType, String fileName, boolean useExternalStorage) {
         File file = null;
         try {
             if (TextUtils.isEmpty(fileName)) {
@@ -100,6 +105,14 @@ public class FileProcessingManager {
             L.e(TAG, "Error get Temp File");
         }
         return file;
+    }
+
+    private static long getFileSizeInMB(File file) {
+        return getFileSizeInByte(file) / BYTE_IN_KB;
+    }
+
+    private static long getFileSizeInByte(File file) {
+        return file.length() / BYTE_IN_KB;
     }
 
     public void getFileByUrl(String url, FileType fileType, OnLoadFileListener loadFileListener) {
@@ -186,11 +199,27 @@ public class FileProcessingManager {
         }
     }
 
-    /*public Bitmap getBitmapByPath(String path, ImageSizeType sizeType) {
-        if (!TextUtils.isEmpty(path)) {
-            return decodeFile(new File(path), sizeType);
-        } else {
-            return BitmapFactory.decodeResource(App.getInstance().getResources(), R.drawable.no_widget_photo);
+    public File saveStringToFile(String data, String fileName, FileType fileType, boolean append) {
+        File resultFile = getTempFile(fileType, fileName, true);
+        try {
+            if (shouldClearFile(resultFile) && resultFile.delete()) {
+                resultFile.createNewFile();
+            }
+            OutputStream fos = new FileOutputStream(resultFile, append);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            osw.write(data);
+            osw.close();
+
+            fos.flush();
+            fos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-    }*/
+
+        return resultFile;
+    }
+
+    private boolean shouldClearFile(File file) {
+        return file.exists() && getFileSizeInMB(file) > MAX_FILE_SIZE_IN_MB;
+    }
 }

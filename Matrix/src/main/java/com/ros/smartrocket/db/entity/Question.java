@@ -44,6 +44,18 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         isRedo = redo;
     }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "waveId=" + waveId +
+                ", taskId=" + taskId +
+                ", type=" + type +
+                ", orderId=" + orderId +
+                ", routing=" + routing +
+                ", isRedo=" + isRedo +
+                '}';
+    }
+
 
     public enum QuestionType {
         NONE(0), MULTIPLE_CHOICE(1), PHOTO(2), VALIDATION(3), REJECT(4), OPEN_COMMENT(5), SINGLE_CHOICE(6),
@@ -480,8 +492,5 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         this.isRequired = isRequired;
     }
 
-    @Override
-    public String toString() {
-        return "OrderID " + orderId;
-    }
+
 }

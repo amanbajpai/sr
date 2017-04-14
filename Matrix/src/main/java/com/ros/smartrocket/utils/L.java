@@ -42,5 +42,4 @@ public class L {
             android.util.Log.w(tag, string);
         }
     }
-
 }

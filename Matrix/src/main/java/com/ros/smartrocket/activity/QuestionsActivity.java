@@ -50,6 +50,7 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.UserActionsLogger;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
 
@@ -199,6 +200,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     task = TasksBL.convertCursorToTaskOrNull(cursor);
 
                     if (task != null) {
+                        UserActionsLogger.logTaskStarted(task);
                         setTitle(task.getName());
                         WavesBL.getWaveFromDB(handler, task.getWaveId());
                         UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
@@ -318,7 +320,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             }
                             currentQuestion.setNextAnsweredQuestionId(question.getId());
                             QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
-
                             startFragment(question);
                         } else {
                             startValidationActivity();
@@ -357,12 +358,15 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void startValidationActivity() {
         TasksBL.updateTaskStatusId(taskId, missionId, Task.TaskStatusId.SCHEDULED.getStatusId());
-
+        if (task != null) {
+            UserActionsLogger.logTaskOnValidation(task);
+        }
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, true, isRedo));
         finishQuestionsActivity();
     }
 
     public void startFragment(Question question) {
+        UserActionsLogger.logQuestionOpened(question);
         L.v(TAG, "startFragment." + this + " Destroyed " + isDestroyed);
         if (isDestroyed) {
             return;

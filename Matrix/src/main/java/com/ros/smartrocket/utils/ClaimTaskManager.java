@@ -220,6 +220,9 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
                 showClaimDialog(claimDialogDateTime);
             } else if (Keys.UNCLAIM_TASK_OPERATION_TAG.equals(operation.getTag())) {
+                if (task != null) {
+                    UserActionsLogger.logTaskWithdraw(task);
+                }
                 dismissProgressBar();
 
                 changeStatusToUnClaimed();
