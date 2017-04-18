@@ -51,6 +51,7 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.UserActionsLogger;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
 
@@ -426,6 +427,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
      * Postpone uploading and put it into local DB with flag.
      */
     public void sendLaterButtonClick() {
+        UserActionsLogger.logTaskSubmitLater(task);
         if (!isValidationLocationAdded(task) && isReadyToSend()) {
             if (hasFile) {
                 AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);

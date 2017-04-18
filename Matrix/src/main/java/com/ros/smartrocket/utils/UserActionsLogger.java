@@ -18,6 +18,7 @@ public final class UserActionsLogger {
     private static final String TASK_WITHDRAW = "TASK WITHDRAW ";
     private static final String PREVIEW = " PREVIEW ";
     public static final String BACK_TO_QUESTION = "BACK TO QUESTION :\n";
+    public static final String TASK_SUBMIT_LATER = "TASK SUBMIT LATER ";
 
     private UserActionsLogger() {
     }
@@ -28,6 +29,10 @@ public final class UserActionsLogger {
 
     public static void logTaskOnValidation(Task task) {
         writeLogToFile(getTaskOnValidationText(task));
+    }
+
+    public static void logTaskSubmitLater(Task task) {
+        writeLogToFile(getTaskSubmitLaterText(task));
     }
 
     static void logTaskWithdraw(Task task) {
@@ -44,6 +49,11 @@ public final class UserActionsLogger {
 
     private static String getQuestionOpenedText(Question question, boolean isPreview) {
         return QUESTION_OPENED + getPreviewText(isPreview) + getTime() + question.toString() + getDivider();
+    }
+
+    @NonNull
+    private static String getTaskSubmitLaterText(Task task) {
+        return TASK_SUBMIT_LATER + getTime() + task.toString() + getDivider();
     }
 
     @NonNull
