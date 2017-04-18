@@ -16,28 +16,34 @@ public final class UserActionsLogger {
     private static final String TASK_FINISHED = "TASK ON VALIDATION ";
     private static final String QUESTION_OPENED = "QUESTION OPENED ";
     private static final String TASK_WITHDRAW = "TASK WITHDRAW ";
+    private static final String PREVIEW = " PREVIEW ";
+    public static final String BACK_TO_QUESTION = "BACK TO QUESTION :\n";
 
     private UserActionsLogger() {
     }
 
-    public static void logTaskStarted(Task task) {
-        writeLogToFile(getTaskStartedText(task));
+    public static void logTaskStarted(Task task, boolean isPreview) {
+        writeLogToFile(getTaskStartedText(task, isPreview));
     }
 
     public static void logTaskOnValidation(Task task) {
         writeLogToFile(getTaskOnValidationText(task));
     }
 
-    public static void logTaskWithdraw(Task task) {
+    static void logTaskWithdraw(Task task) {
         writeLogToFile(getTaskWithdrawText(task));
     }
 
-    public static void logQuestionOpened(Question question) {
-        writeLogToFile(getQuestionOpenedText(question));
+    public static void logQuestionOpened(Question question, boolean isPreview) {
+        writeLogToFile(getQuestionOpenedText(question, isPreview));
     }
 
-    private static String getQuestionOpenedText(Question question) {
-        return QUESTION_OPENED + getTime() + question.toString() + getDivider();
+    public static void logPrevQuestionOpened(Question question, boolean isPreview) {
+        writeLogToFile(BACK_TO_QUESTION + getQuestionOpenedText(question, isPreview));
+    }
+
+    private static String getQuestionOpenedText(Question question, boolean isPreview) {
+        return QUESTION_OPENED + getPreviewText(isPreview) + getTime() + question.toString() + getDivider();
     }
 
     @NonNull
@@ -51,8 +57,12 @@ public final class UserActionsLogger {
     }
 
     @NonNull
-    private static String getTaskStartedText(Task task) {
-        return TASK_STARTED + getTime() + task.toString() + getDivider();
+    private static String getTaskStartedText(Task task, boolean isPreview) {
+        return TASK_STARTED + getPreviewText(isPreview) + getTime() + task.toString() + getDivider();
+    }
+
+    private static String getPreviewText(boolean isPreview) {
+        return isPreview ? PREVIEW : "";
     }
 
     private static String getTime() {

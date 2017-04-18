@@ -115,7 +115,7 @@ public class FileProcessingManager {
         return file.length() / BYTE_IN_KB;
     }
 
-    public void getFileByUrl(String url, FileType fileType, OnLoadFileListener loadFileListener) {
+    void getFileByUrl(String url, FileType fileType, OnLoadFileListener loadFileListener) {
         File resultFile = getTempFile(fileType, null, true);
 
         new LoadFileByUrlAsyncTask(url, resultFile, loadFileListener).execute();

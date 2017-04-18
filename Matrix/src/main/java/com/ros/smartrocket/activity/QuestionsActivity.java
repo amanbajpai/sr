@@ -200,7 +200,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     task = TasksBL.convertCursorToTaskOrNull(cursor);
 
                     if (task != null) {
-                        UserActionsLogger.logTaskStarted(task);
+                        UserActionsLogger.logTaskStarted(task, isPreview);
                         setTitle(task.getName());
                         WavesBL.getWaveFromDB(handler, task.getWaveId());
                         UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
@@ -342,7 +342,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             Question currentQuestion = currentFragment.getQuestion();
             if (currentQuestion != null) {
                 L.v(TAG, "startPreviousQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
-
+                UserActionsLogger.logPrevQuestionOpened(currentQuestion, isPreview);
                 int previousQuestionOrderId = (currentQuestion.getPreviousQuestionOrderId() != null &&
                         currentQuestion.getPreviousQuestionOrderId() != 0) ? currentQuestion.getPreviousQuestionOrderId() : 1;
                 if (!isPreview) {
@@ -366,7 +366,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startFragment(Question question) {
-        UserActionsLogger.logQuestionOpened(question);
+        UserActionsLogger.logQuestionOpened(question, isPreview);
         L.v(TAG, "startFragment." + this + " Destroyed " + isDestroyed);
         if (isDestroyed) {
             return;
