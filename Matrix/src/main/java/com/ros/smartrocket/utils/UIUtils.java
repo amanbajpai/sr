@@ -104,6 +104,7 @@ public class UIUtils {
     public static String[] VISIBLE_LANGUAGE = new String[]{getStringById(R.string.english), getStringById(R.string.chinese_simple),
             getStringById(R.string.chinese_traditional_hk), getStringById(R.string.chinese_traditional_tw),
             getStringById(R.string.french)};
+    public static final int MAX_LOG_SIZE = 80000;
 
     /**
      * Show simple Toast message
@@ -1084,7 +1085,7 @@ public class UIUtils {
                     new InputStreamReader(process.getInputStream()));
 
             String line;
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null && resultString.length() <= MAX_LOG_SIZE) {
                 resultString.append(line);
                 resultString.append(separator);
             }
