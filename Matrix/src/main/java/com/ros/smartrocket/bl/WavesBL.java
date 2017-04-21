@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.ros.smartrocket.App;
@@ -73,18 +74,15 @@ public class WavesBL {
 
         for (Wave wave : waves.getWaves()) {
 
-            String projectIcon = null;
             Project project = wave.getProject();
-            if (project != null) {
-                projectIcon = project.getIcon();
+            String projectIcon = project != null ? project.getIcon() : null;
+
+            if (TextUtils.isEmpty(wave.getIcon())) {
                 wave.setIcon(projectIcon);
             }
 
-            String countryName = null;
             Country country = wave.getCountry();
-            if (country != null) {
-                countryName = country.getName();
-            }
+            String countryName = country != null ? country.getName() : null;
 
             long longPreClaimedTaskExpireAfterStart = wave.getPreClaimedTaskExpireAfterStart() * DateUtils.HOUR_IN_MILLIS;
             long longExpireTimeoutForClaimedTask = wave.getExpireTimeoutForClaimedTask() * DateUtils.HOUR_IN_MILLIS;
