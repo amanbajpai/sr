@@ -198,7 +198,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         nameTextView.setText(myAccount.getSingleName());
         nameTextView.setOnClickListener(this);
         balanceTextView.setText(UIUtils.getBalanceOrPrice(myAccount.getBalance(),
-                myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
+                myAccount.getCurrencySign(), 2, BigDecimal.ROUND_DOWN));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
         String level = myAccount.getLevelNumber() != null ? String.valueOf(myAccount.getLevelNumber()) + ". " : "";
         levelNumber.setText(level);
