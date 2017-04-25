@@ -60,7 +60,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode buildNumber + 10000
-        versionName '2.4.1'
+        versionName '2.4.2'
         applicationId 'com.ros.smartrocket'
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
