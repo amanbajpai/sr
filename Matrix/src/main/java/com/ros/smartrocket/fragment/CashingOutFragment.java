@@ -103,7 +103,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
         }
 
         currentBalance.setText(UIUtils.getBalanceOrPrice(myAccount.getBalance(),
-                myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN));
+                myAccount.getCurrencySign(), 2, BigDecimal.ROUND_DOWN));
     }
 
     @Override
