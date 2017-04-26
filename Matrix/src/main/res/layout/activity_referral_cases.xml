@@ -4,50 +4,57 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="10dp">
+
     <ImageView
         android:id="@+id/logo"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="25dp"
-        android:contentDescription="@string/app_name"
+        android:layout_marginTop="35dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/logo_color" />
+
     <com.ros.smartrocket.views.CustomTextView
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:text="@string/welcome_to_smart_rocket"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_16sp"
-        custom:textStyle="bold"
-        android:text="@string/welcome_to_smart_rocket" />
+        custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomTextView
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:textSize="@dimen/text_size_16sp"
+        android:text="@string/how_did_you_hear_about_us"
         android:textColor="@color/black"
-        android:text="@string/how_did_you_hear_about_us" />
+        android:textSize="@dimen/text_size_16sp" />
+
     <Spinner
         android:id="@+id/referralCasesSpinner"
-        android:gravity="center_vertical"
-        android:layout_marginTop="10dp"
+        style="@style/Spinner"
         android:layout_width="match_parent"
-        android:padding="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:padding="0dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
     <com.ros.smartrocket.views.CustomButton
         android:id="@+id/continueButton"
         style="@style/Button"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_green_selector"
         android:text="@string/continue_register"
-        android:layout_marginBottom="10dp"
         custom:textStyle="bold" />
-</LinearLayout >
+</LinearLayout>
