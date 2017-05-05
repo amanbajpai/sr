@@ -398,32 +398,35 @@ public class QuestionsBL {
                     }
                     break;
                 case PREV_QUESTION:
-                    //int previousQuestionOrderId = question.getPreviousQuestionOrderId() != 0 ? question.getPreviousQuestionOrderId() : 1;
                     Question previousQuestion = getQuestionByOrderId(questions, Integer.valueOf(sourceKey));
-                    previousQuestion.setAnswers(getAnswers(previousQuestion));
+                    if (previousQuestion != null) {
+                        previousQuestion.setAnswers(getAnswers(previousQuestion));
 
-                    String answerValue = getAnswerValue(previousQuestion);
+                        String answerValue = getAnswerValue(previousQuestion);
 
-                    if (previousQuestion.getType() == Question.QuestionType.NUMBER.getTypeId()) {
-                        String[] valuesArray = value.split("-");
-                        int minValue = Integer.valueOf(valuesArray[0]);
-                        int maxValue = Integer.valueOf(valuesArray[1]);
+                        if (previousQuestion.getType() == Question.QuestionType.NUMBER.getTypeId()) {
+                            String[] valuesArray = value.split("-");
+                            int minValue = Integer.valueOf(valuesArray[0]);
+                            int maxValue = Integer.valueOf(valuesArray[1]);
 
-                        if (answerValue == null) {
-                            currentConditionResult = false;
+                            if (answerValue == null) {
+                                currentConditionResult = false;
+                            } else {
+                                int intAnswerValue = Integer.valueOf(answerValue);
+
+                                currentConditionResult = operator == 1 ?
+                                        (intAnswerValue >= minValue && intAnswerValue <= maxValue)
+                                        :
+                                        (intAnswerValue < minValue && intAnswerValue > maxValue);
+                            }
                         } else {
-                            int intAnswerValue = Integer.valueOf(answerValue);
-
                             currentConditionResult = operator == 1 ?
-                                    (intAnswerValue >= minValue && intAnswerValue <= maxValue)
+                                    (answerValue != null && value.equals(answerValue))
                                     :
-                                    (intAnswerValue < minValue && intAnswerValue > maxValue);
+                                    (answerValue != null && !value.equals(answerValue));
                         }
                     } else {
-                        currentConditionResult = operator == 1 ?
-                                (answerValue != null && value.equals(answerValue))
-                                :
-                                (answerValue != null && !value.equals(answerValue));
+                        currentConditionResult = true;
                     }
                     break;
                 case ROUTING:
