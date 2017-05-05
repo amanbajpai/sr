@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AskIf;
@@ -399,6 +400,7 @@ public class QuestionsBL {
                 case PREV_QUESTION:
                     //int previousQuestionOrderId = question.getPreviousQuestionOrderId() != 0 ? question.getPreviousQuestionOrderId() : 1;
                     Question previousQuestion = getQuestionByOrderId(questions, Integer.valueOf(sourceKey));
+                    previousQuestion.setAnswers(getAnswers(previousQuestion));
 
                     String answerValue = getAnswerValue(previousQuestion);
 
@@ -423,8 +425,6 @@ public class QuestionsBL {
                                 :
                                 (answerValue != null && !value.equals(answerValue));
                     }
-
-
                     break;
                 case ROUTING:
                     break askifloop;
@@ -444,6 +444,22 @@ public class QuestionsBL {
         }
 
         return result;
+    }
+
+    private static Answer[] getAnswers(Question previousQuestion) {
+        Answer[] answers = null;
+        Cursor c = App.getInstance().getContentResolver().query(AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(previousQuestion.getId()), String.valueOf(previousQuestion.getTaskId()), String.valueOf(previousQuestion.getMissionId())},
+                AnswerDbSchema.SORT_ORDER_ASC);
+        if (c != null) {
+            answers = AnswersBL.convertCursorToAnswersArray(c);
+            c.close();
+        }
+        return answers;
     }
 
     public static int getOrderIdFromRoutingCondition(Question question) {
@@ -527,10 +543,10 @@ public class QuestionsBL {
 
     @Nullable
     public static Question getMainSubQuestion(Question[] subQuestions) {
-            for (Question childQuestion : subQuestions) {
-                if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
-                    return childQuestion;
-                }
+        for (Question childQuestion : subQuestions) {
+            if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
+                return childQuestion;
+            }
         }
         return null;
     }
@@ -538,11 +554,11 @@ public class QuestionsBL {
     @Nullable
     public static List<Question> getReDoMainSubQuestionList(Question[] subQuestions) {
         List<Question> reDoMainSubQuestionList = new ArrayList<>();
-            for (Question childQuestion : subQuestions) {
-                if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
-                    reDoMainSubQuestionList.add(childQuestion);
-                }
+        for (Question childQuestion : subQuestions) {
+            if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
+                reDoMainSubQuestionList.add(childQuestion);
             }
+        }
         return reDoMainSubQuestionList;
     }
 
