@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:drawablePadding="5dp"
-            android:drawableRight="@drawable/ic_arrow_down"
+            android:drawableEnd="@drawable/ic_arrow_down"
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/white"
@@ -50,10 +50,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_green_selector"
-            android:drawableLeft="@drawable/ic_mail"
+            android:drawableStart="@drawable/ic_mail"
             android:drawablePadding="10dp"
-            android:gravity="center_vertical|left"
-            android:paddingLeft="10dp"
+            android:gravity="center_vertical|start"
+            android:paddingStart="10dp"
             android:text="@string/continue_email_btn"
             custom:textStyle="bold" />
 

@@ -248,7 +248,7 @@
 	<string name="remember_me">تذكرني</string>
 	<string name="reminder">التذكير</string>
 	<string name="remove_current_picture">إزالة الصورة الحالية</string>
-	<string name="reputation"></string>
+	<string name="reputation">سمعة</string>
 	<string name="request_new_activation_link">طلب رابط تنشيط جديد</string>
 	<string name="reset_password_text1">إعادة تعيين كلمة المرور</string>
 	<string name="reset_password_text2">الرجاء إدخال كلمة مرور جديدة أدناه.</string>
@@ -377,5 +377,4 @@
 	<string name="your_version_outdated">أنت تستخدم إصدارًا قديمًا من SmartRocket. الرجاء تحديثه للوصول إلى التطبيق</string>
 	<string name="zero">0</string>
 	<string name="zoom_to_this_radius">تعيين القيمة الافتراضية لنصف قطر التكبير</string>
-
 </resources>

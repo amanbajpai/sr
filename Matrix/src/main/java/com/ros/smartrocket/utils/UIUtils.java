@@ -99,11 +99,11 @@ public class UIUtils {
     private static final Random RANDOM = new Random();
 
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE"};
-    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_HK", "zh_TW", "fr"};
+    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE", "ar"};
+    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_HK", "zh_TW", "fr", "ar"};
     public static String[] VISIBLE_LANGUAGE = new String[]{getStringById(R.string.english), getStringById(R.string.chinese_simple),
             getStringById(R.string.chinese_traditional_hk), getStringById(R.string.chinese_traditional_tw),
-            getStringById(R.string.french)};
+            getStringById(R.string.french), getStringById(R.string.arabic)};
     public static final int MAX_LOG_SIZE = 80000;
 
     /**
@@ -1154,6 +1154,9 @@ public class UIUtils {
         } else if (isFrenchLanguage(currentLanguageCode)) {
             locale = Locale.FRENCH;
             Support.setSDKLanguage("fr");
+        } else if (isArabicLanguage(currentLanguageCode)) {
+            locale = new Locale("ar");
+            Support.setSDKLanguage("ar");
         } else {
             locale = new Locale(currentLanguageCode);
             Support.setSDKLanguage(currentLanguageCode);
@@ -1175,6 +1178,41 @@ public class UIUtils {
 
     private static boolean isTraditionalChinaTWLanguage(String languageCode) {
         return "zh_TW".equals(languageCode);
+    }
+
+    private static boolean isArabicLanguage(String languageCode) {
+        return languageCode.startsWith("ar");
+    }
+
+    public static String getCorrectLanguageCode(String languageCode) {
+        if (!TextUtils.isEmpty(languageCode)) {
+            switch (languageCode) {
+                case "zh":
+                case "en_SG":
+                case "zh_CN":
+                    languageCode = "zh_CN";
+                    break;
+                case "zh_TW":
+                    languageCode = "zh_TW";
+                    break;
+                case "zh_HK":
+                    languageCode = "zh_HK";
+                    break;
+                case "fr":
+                case "fr_FR":
+                case "fr_CA":
+                case "fr_BE":
+                    languageCode = "fr";
+                    break;
+                case "ar":
+                    languageCode = "ar";
+                    break;
+                default:
+                    languageCode = "en";
+                    break;
+            }
+        }
+        return languageCode;
     }
 
     private static String getLanguageCodeFromSupported() {

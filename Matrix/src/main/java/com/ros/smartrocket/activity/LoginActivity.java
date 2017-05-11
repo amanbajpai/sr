@@ -143,6 +143,9 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             case 4:
                 language.setText(R.string.french);
                 break;
+            case 5:
+                language.setText(R.string.arabic);
+                break;
         }
 
     }
@@ -368,6 +371,10 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             case R.id.lanFrance:
                 onLanguageChanged("fr");
                 language.setText(R.string.french);
+                return true;
+            case R.id.lanArabic:
+                onLanguageChanged("ar");
+                language.setText(R.string.arabic);
                 return true;
             default:
                 return false;

@@ -15,4 +15,7 @@
     <item
         android:id="@+id/lanFrance"
         android:title="@string/french" />
+    <item
+        android:id="@+id/lanArabic"
+        android:title="@string/arabic" />
 </menu>

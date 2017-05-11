@@ -106,32 +106,7 @@ public class PreferencesManager {
     }
 
     public String getLanguageCode() {
-        String languageCode = getString(Keys.LANGUAGE_CODE, "");
-        if (!TextUtils.isEmpty(languageCode)) {
-            switch (languageCode) {
-                case "en_SG":
-                case "zh_CN":
-                    languageCode = "zh_CN";
-                    break;
-                case "zh":
-                case "zh_TW":
-                    languageCode = "zh_TW";
-                    break;
-                case "zh_HK":
-                    languageCode = "zh_HK";
-                    break;
-                case "fr":
-                case "fr_FR":
-                case "fr_CA":
-                case "fr_BE":
-                    languageCode = "fr";
-                    break;
-                default:
-                    languageCode = "en";
-                    break;
-            }
-        }
-        return languageCode;
+        return UIUtils.getCorrectLanguageCode(getString(Keys.LANGUAGE_CODE, ""));
     }
 
     public void setLanguageCode(String languageCode) {
