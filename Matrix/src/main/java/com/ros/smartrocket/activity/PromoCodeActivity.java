@@ -23,9 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/* This activity asks for a promo code to a user and redirect him to ReferralCodeActivity.
-    we resend getIntent() information forward to use it later
-*/
+
 public class PromoCodeActivity extends BaseActivity implements NetworkOperationListenerInterface {
 
     @Bind(R.id.promoCode)

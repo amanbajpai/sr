@@ -4,54 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="10dp">
+
     <ImageView
         android:id="@+id/logo"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
-        android:contentDescription="@string/app_name"
+        android:layout_marginTop="35dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/logo_color" />
+
     <com.ros.smartrocket.views.CustomTextView
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:text="@string/activate_account_text1"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size_16sp"
-        android:textColor="@color/black"
-        custom:textStyle="bold"
-        android:text="@string/activate_account_text1" />
+        custom:textStyle="bold" />
+
     <com.ros.smartrocket.views.CustomTextView
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:textSize="@dimen/text_size_14sp"
         android:lineSpacingExtra="5dp"
-        android:textColor="@color/black"
         android:text="@string/activate_account_text2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_14sp"
         custom:textStyle="light" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
     <com.ros.smartrocket.views.CustomButton
         android:id="@+id/activateAccountButton"
         style="@style/Button"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="left|center_vertical"
-        android:drawablePadding="20dp"
-        android:drawableLeft="@drawable/user_icon"
-        android:drawableRight="@drawable/arrow_icon_right"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/button_green_selector"
+        android:drawableStart="@drawable/user_icon"
+        android:drawablePadding="20dp"
+        android:gravity="start|center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:text="@string/activate_account"
         custom:textStyle="bold" />
-</LinearLayout >
+</LinearLayout>

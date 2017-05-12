@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:inputType="textEmailAddress"
-            android:drawableLeft="@drawable/mail_icon"
+            android:drawableStart="@drawable/mail_icon"
             android:drawablePadding="10dp"
             android:hint="@string/your_email_hint" />
         <com.ros.smartrocket.views.CustomEditTextView
@@ -56,14 +56,14 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:drawableLeft="@drawable/country_icon_select"
+            android:drawableStart="@drawable/country_icon_select"
             android:drawablePadding="10dp"
             android:hint="@string/your_country_hint" />
         <com.ros.smartrocket.views.CustomEditTextView
             android:id="@+id/cityEditText"
             style="@style/EditText"
             android:enabled="false"
-            android:drawableLeft="@drawable/city_icon_select"
+            android:drawableStart="@drawable/city_icon_select"
             android:drawablePadding="10dp"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
@@ -82,12 +82,12 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/button_green_selector"
                 android:text="@string/subscribe"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 custom:textStyle="bold" />
             <com.ros.smartrocket.views.CustomButton
                 android:id="@+id/cancelButton"
                 style="@style/Button"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

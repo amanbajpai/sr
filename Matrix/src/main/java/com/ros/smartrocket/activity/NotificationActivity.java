@@ -79,7 +79,11 @@ public class NotificationActivity extends Activity implements OnClickListener {
         }
 
         if (titleIconResId != 0) {
-            titleTextView.setCompoundDrawablesWithIntrinsicBounds(titleIconResId, 0, 0, 0);
+            if (LocaleUtils.isRtL()) {
+                titleTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, titleIconResId, 0);
+            } else {
+                titleTextView.setCompoundDrawablesWithIntrinsicBounds(titleIconResId, 0, 0, 0);
+            }
         }
 
         TextView message = ((TextView) findViewById(R.id.text));

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
+import com.ros.smartrocket.utils.LocaleUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -16,14 +16,14 @@
         android:paddingBottom="8dp"
         android:textStyle="bold"
         android:textColor="@color/blue"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
         android:paddingTop="8dp"
         tools:text="Wrigley's Doublemint chewing gum" />
     <ImageView
         android:id="@+id/massAuditCatImageThumb"
         android:src="@drawable/mass_audit_image"
         android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_width="40dp"
         android:adjustViewBounds="true"
         android:maxHeight="40dp"

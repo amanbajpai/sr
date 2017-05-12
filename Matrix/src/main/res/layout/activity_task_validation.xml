@@ -17,8 +17,8 @@
                 android:id="@+id/closingQuestionTextLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical" >
                 <com.ros.smartrocket.views.CustomTextView
@@ -45,8 +45,8 @@
                 style="@style/Button"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/button_green_selector"
                 android:text="@string/recheck_my_answer"
@@ -56,8 +56,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/grey_light"
-                android:paddingLeft="15dp"
-                android:paddingRight="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="25dp"
                 android:paddingBottom="25dp" >
                 <LinearLayout
@@ -70,7 +70,7 @@
                         android:textSize="@dimen/text_size_14sp"
                         android:textColor="@color/grey"
                         android:text="@string/mission_due"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         custom:textStyle="bold" />
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/missionDueTextView"
@@ -91,7 +91,7 @@
                         android:textSize="@dimen/text_size_14sp"
                         android:textColor="@color/grey"
                         android:text="@string/task_data_size"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         custom:textStyle="bold" />
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/taskDataSizeTextView"
@@ -112,7 +112,7 @@
                         android:textSize="@dimen/text_size_14sp"
                         android:textColor="@color/grey"
                         android:text="@string/due_in"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         custom:textStyle="bold" />
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/dueInTextView"
@@ -133,7 +133,7 @@
                         android:textSize="@dimen/text_size_14sp"
                         android:textColor="@color/grey"
                         android:text="@string/task_id"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:textAllCaps="true"
                         custom:textStyle="bold" />
                     <com.ros.smartrocket.views.CustomTextView
@@ -152,8 +152,8 @@
                 android:layout_width="match_parent"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:text="@string/confirm_you_can_find_in_my_mission" />
         </LinearLayout >
     </ScrollView >
@@ -173,7 +173,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/button_green_selector"
             android:text="@string/submit_now"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomButton
             android:id="@+id/sendLaterButton"
@@ -181,11 +181,11 @@
             android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:background="@drawable/button_green_selector"
             android:text="@string/submit_later"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             custom:textStyle="bold" />
     </LinearLayout >
 </LinearLayout >

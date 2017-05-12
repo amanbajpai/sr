@@ -37,6 +37,7 @@ import com.ros.smartrocket.fragment.TransparentSupportBaiduMapFragment;
 import com.ros.smartrocket.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.baiduclusterkraf.OnShowInfoWindowListener;
 import com.twotoasters.clusterkraf.InputPoint;
@@ -222,35 +223,35 @@ public class MapHelper {
             case STARTED:
                 if (TasksBL.isPreClaimTask(task)) {
                     mainLayout.setBackgroundResource(R.drawable.popup_violet);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_violet, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_violet, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_violet, 0, 0, 0);
+                    LocaleUtils.setCompoundDrawable(priceText, R.drawable.wallet_violet);
+                    LocaleUtils.setCompoundDrawable(pointText, R.drawable.rocket_violet);
+                    LocaleUtils.setCompoundDrawable(distanceText, R.drawable.human_violet);
                 } else {
                     mainLayout.setBackgroundResource(R.drawable.popup_green);
-                    priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_green, 0, 0, 0);
-                    pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_green, 0, 0, 0);
-                    distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_green, 0, 0, 0);
+                    LocaleUtils.setCompoundDrawable(priceText, R.drawable.wallet_green);
+                    LocaleUtils.setCompoundDrawable(pointText, R.drawable.rocket_green);
+                    LocaleUtils.setCompoundDrawable(distanceText, R.drawable.human_green);
                 }
                 break;
             case SCHEDULED:
             case PENDING:
                 mainLayout.setBackgroundResource(R.drawable.popup_blue);
-                priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_blue, 0, 0, 0);
-                pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_blue, 0, 0, 0);
-                distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_blue, 0, 0, 0);
+                LocaleUtils.setCompoundDrawable(priceText, R.drawable.wallet_blue);
+                LocaleUtils.setCompoundDrawable(pointText, R.drawable.rocket_blue);
+                LocaleUtils.setCompoundDrawable(distanceText, R.drawable.human_blue);
                 break;
             case COMPLETED:
             case VALIDATION:
                 mainLayout.setBackgroundResource(R.drawable.popup_grey);
-                priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_lightgrey, 0, 0, 0);
-                pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_lightgrey, 0, 0, 0);
-                distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_lightgrey, 0, 0, 0);
+                LocaleUtils.setCompoundDrawable(priceText, R.drawable.wallet_lightgrey);
+                LocaleUtils.setCompoundDrawable(pointText, R.drawable.rocket_lightgrey);
+                LocaleUtils.setCompoundDrawable(distanceText, R.drawable.human_lightgrey);
                 break;
             case RE_DO_TASK:
                 mainLayout.setBackgroundResource(R.drawable.popup_red);
-                priceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wallet_red, 0, 0, 0);
-                pointText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_red, 0, 0, 0);
-                distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.human_red, 0, 0, 0);
+                LocaleUtils.setCompoundDrawable(priceText, R.drawable.wallet_red);
+                LocaleUtils.setCompoundDrawable(pointText, R.drawable.rocket_red);
+                LocaleUtils.setCompoundDrawable(distanceText, R.drawable.human_red);
                 break;
             default:
                 break;

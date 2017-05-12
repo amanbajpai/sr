@@ -44,6 +44,7 @@ import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
 import com.ros.smartrocket.utils.BaseUIListenerQQ;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.wxapi.WXEntryActivity;
 import com.tencent.connect.UserInfo;
@@ -362,7 +363,6 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
                 handleWeChatUserInfo(response, token, openId);
                 break;
             default:
-                // FB - CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode();
                 fbCallbackManager.onActivityResult(requestCode, resultCode, data);
                 break;
         }
@@ -384,7 +384,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         socialButton.setGravity(Gravity.CENTER_VERTICAL);
         socialButton.setShadowLayer(1, 0, 1, R.color.grey);
         socialButton.setMinHeight(UIUtils.getPxFromDp(getContext(), 48));
-        socialButton.setCompoundDrawablesWithIntrinsicBounds(buttonIconRes, 0, 0, 0);
+        LocaleUtils.setCompoundDrawable(socialButton, buttonIconRes);
         socialButton.setCompoundDrawablePadding(dp10);
         socialButton.setFont(3);
         socialButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);

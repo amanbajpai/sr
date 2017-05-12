@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/mission_green_bg"
         android:orientation="vertical">
@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -33,7 +33,7 @@
                     android:id="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/app_name"/>
             </LinearLayout>
@@ -46,8 +46,8 @@
                     style="@style/TaskListTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:drawableRight="@drawable/arrow_grey_big"
+                    android:layout_marginEnd="5dp"
+                    android:drawableEnd="@drawable/arrow_grey_big"
                     android:singleLine="true"
                     custom:textStyle="bold"/>
                 <LinearLayout
@@ -61,7 +61,7 @@
                         style="@style/TaskListTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/sandclock_grey"
+                        android:drawableStart="@drawable/sandclock_grey"
                         android:drawablePadding="3dp"
                         custom:textStyle="bold"/>
                     <com.ros.smartrocket.views.CustomTextView
@@ -69,8 +69,8 @@
                         style="@style/TaskListDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:drawableLeft="@drawable/human_grey"
+                        android:layout_marginStart="5dp"
+                        android:drawableStart="@drawable/human_grey"
                         android:drawablePadding="3dp"
                         custom:textStyle="bold"/>
                 </LinearLayout>

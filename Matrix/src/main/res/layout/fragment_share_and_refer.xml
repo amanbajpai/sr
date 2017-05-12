@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_green_selector"
-                android:drawableLeft="@drawable/share_icon_mail"
+                android:drawableStart="@drawable/share_icon_mail"
                 android:text="@string/share_via_email"
                 custom:textStyle="bold" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_fb_selector"
-                android:drawableLeft="@drawable/share_icon_fb"
+                android:drawableStart="@drawable/share_icon_fb"
                 android:text="@string/share_via_facebook"
                 custom:textStyle="bold" />
 
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_linked_selector"
-                android:drawableLeft="@drawable/share_icon_linked"
+                android:drawableStart="@drawable/share_icon_linked"
                 android:text="@string/share_via_linkedin"
                 custom:textStyle="bold" />
 
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_green_selector"
-                android:drawableLeft="@drawable/share_icon_message"
+                android:drawableStart="@drawable/share_icon_message"
                 android:text="@string/share_via_message"
                 custom:textStyle="bold" />
 
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_sina_selector"
-                android:drawableLeft="@drawable/share_icon_sina"
+                android:drawableStart="@drawable/share_icon_sina"
                 android:text="@string/share_via_sina_weibo"
                 custom:textStyle="bold" />
 
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_tencent_selector"
-                android:drawableLeft="@drawable/share_icon_tencent"
+                android:drawableStart="@drawable/share_icon_tencent"
                 android:text="@string/share_via_tencent_weibo"
                 custom:textStyle="bold" />
 
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_twitter_selector"
-                android:drawableLeft="@drawable/share_icon_twitter"
+                android:drawableStart="@drawable/share_icon_twitter"
                 android:text="@string/share_via_twitter"
                 custom:textStyle="bold" />
 
@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_wechat_selector"
-                android:drawableLeft="@drawable/share_icon_wechat"
+                android:drawableStart="@drawable/share_icon_wechat"
                 android:text="@string/share_via_wechat"
                 custom:textStyle="bold" />
 
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_whats_selector"
-                android:drawableLeft="@drawable/share_icon_whats"
+                android:drawableStart="@drawable/share_icon_whats"
                 android:text="@string/share_via_whatsapp"
                 custom:textStyle="bold" />
 
@@ -133,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_qzone_selector"
-                android:drawableLeft="@drawable/share_icon_qzone"
+                android:drawableStart="@drawable/share_icon_qzone"
                 android:text="@string/share_via_qzone"
                 custom:textStyle="bold" />
         </LinearLayout>

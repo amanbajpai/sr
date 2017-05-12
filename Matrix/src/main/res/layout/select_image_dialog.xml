@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:text="@string/take_picture"
-        android:drawableLeft="@drawable/camera_icon_white"
+        android:drawableStart="@drawable/camera_icon_white"
         android:drawablePadding="20dp"
         style="@style/DialogTitle"
         android:background="@color/green"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/take_from_camera"
-        android:drawableLeft="@drawable/camera_icon_black"
+        android:drawableStart="@drawable/camera_icon_black"
         custom:textStyle="bold" />
     <View
         android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/choose_from_gallery"
-        android:drawableLeft="@drawable/folder_icon"
+        android:drawableStart="@drawable/folder_icon"
         custom:textStyle="bold" />
     <View
         android:layout_width="fill_parent"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/remove_current_picture"
-        android:drawableLeft="@drawable/delete_icon"
+        android:drawableStart="@drawable/delete_icon"
         custom:textStyle="bold" />
     <View
         android:layout_width="match_parent"

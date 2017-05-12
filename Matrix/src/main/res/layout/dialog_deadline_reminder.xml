@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="64dp"
         android:text="@string/deadline_reminder_dialog_title"
-        android:drawableLeft="@drawable/sandclock"
+        android:drawableStart="@drawable/sandclock"
         android:drawablePadding="20dp"
         style="@style/DialogTitle"
         android:background="@color/red"
@@ -19,7 +19,7 @@
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
         android:layout_margin="20dp"
         android:text="@string/deadline_reminder_dialog_text" />
     <View
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:textColor="@color/red"
             android:text="@string/cancel_big"
             custom:textStyle="bold" />

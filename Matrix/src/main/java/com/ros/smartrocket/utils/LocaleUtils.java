@@ -1,6 +1,7 @@
 package com.ros.smartrocket.utils;
 
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
@@ -122,8 +123,24 @@ public class LocaleUtils {
         }
     }
 
+    public static boolean isChinaLanguage() {
+        String code = PreferencesManager.getInstance().getLanguageCode();
+        return isSimpleChinaLanguage(code) || isTraditionalChinaHKLanguage(code) || isTraditionalChinaTWLanguage(code);
+    }
+
     private static String getStringById(int resId) {
         return App.getInstance().getString(resId);
     }
 
+    public static boolean isRtL() {
+        return isArabicLanguage(PreferencesManager.getInstance().getLanguageCode());
+    }
+
+    public static void setCompoundDrawable(TextView view, int drawableRes) {
+        if (isRtL()) {
+            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableRes, 0);
+        } else {
+            view.setCompoundDrawablesWithIntrinsicBounds(drawableRes, 0, 0, 0);
+        }
+    }
 }

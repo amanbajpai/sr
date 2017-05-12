@@ -40,7 +40,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
@@ -80,13 +79,12 @@ public class UIUtils {
     private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
     private static final SimpleDateFormat ISO_DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
-    private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
-    private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT_CHINE = new SimpleDateFormat("yyyy年MM月dd日",
+    private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT_CHINA = new SimpleDateFormat("yyyy年MM月dd日",
             Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM"
             + " yy  HH:mm a", Locale.ENGLISH);
-    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE = new SimpleDateFormat("yyyy年MM月"
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINA = new SimpleDateFormat("yyyy年MM月"
             + "dd日  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd MMM"
             + " yyyy  HH:mm a", Locale.ENGLISH);
@@ -512,24 +510,14 @@ public class UIUtils {
                 result = UIUtils.HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
                 break;
             case 1:
-                if (isChineLanguage()) {
-                    result = UIUtils.DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
-                } else {
-                    result = UIUtils.DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
-                }
+            case 3:
+                result = getLanguageRelatedDate(dateLong);
                 break;
             case 2:
                 UIUtils.ISO_DATE_FORMAT2.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String utcDate = UIUtils.ISO_DATE_FORMAT2.format(new Date(dateLong));
 
                 result = utcDate.substring(0, utcDate.length() - 5) + "+00:00";
-                break;
-            case 3:
-                if (isChineLanguage()) {
-                    result = UIUtils.HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
-                } else {
-                    result = UIUtils.HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT.format(new Date(dateLong));
-                }
                 break;
             case 4:
                 result = UIUtils.DAY_MONTH_YEAR_2_FORMAT.format(new Date(dateLong));
@@ -543,6 +531,17 @@ public class UIUtils {
             default:
                 result = "longToStringFormatNotFound";
                 break;
+        }
+        return result;
+    }
+
+    private static String getLanguageRelatedDate(long dateLong) {
+        String result;
+        if (LocaleUtils.isChinaLanguage()) {
+            result = UIUtils.DAY_MONTH_YEAR_1_FORMAT_CHINA.format(new Date(dateLong));
+        } else {
+            Locale locale = LocaleUtils.getCurrentLocale();
+            result = new SimpleDateFormat("dd MMM yy", locale).format(new Date(dateLong));
         }
         return result;
     }
@@ -679,11 +678,9 @@ public class UIUtils {
     }
 
     public static void setEmailEditTextImageByState(EditText editText, boolean isValidState) {
-        if (isValidState) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mail_icon_select, 0, 0, 0);
-        } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mail_icon_error, 0, 0, 0);
-        }
+        LocaleUtils.setCompoundDrawable(editText, isValidState
+                ? R.drawable.mail_icon_select
+                : R.drawable.mail_icon_error);
     }
 
     public static void setEmailImageByState(ImageView imageView, boolean isValidState) {
@@ -695,26 +692,9 @@ public class UIUtils {
     }
 
     public static void setPasswordEditTextImageByState(EditText editText, boolean isValidState) {
-        if (isValidState) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_select, 0, 0, 0);
-        } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pass_icon_error, 0, 0, 0);
-        }
-    }
-
-    public static void setSpinnerBackgroundByState(Spinner spinner, boolean isValidState) {
-        if (isValidState) {
-            spinner.setBackgroundResource(R.drawable.spinner_green);
-        } else {
-            spinner.setBackgroundResource(R.drawable.spinner_red);
-        }
-        spinner.setPadding(0, 0, 0, 0);
-    }
-
-    public static void setCheckBoxBackgroundByState(CheckBox checkBox, boolean isValidState) {
-        if (!isValidState) {
-            checkBox.setButtonDrawable(R.drawable.check_box_error);
-        }
+        LocaleUtils.setCompoundDrawable(editText, isValidState
+                ? R.drawable.pass_icon_select
+                : R.drawable.pass_icon_error);
     }
 
     public static void setActivityBackgroundColor(Activity activity, int color) {
@@ -939,12 +919,6 @@ public class UIUtils {
      */
     public static long getHoursAsMilliseconds(int hoursCount) {
         return hoursCount * DateUtils.HOUR_IN_MILLIS;
-    }
-
-    public static boolean isChineLanguage() {
-        String code = PreferencesManager.getInstance().getLanguageCode();
-        return "zh_CN".equals(code) || "en_SG".equals(code) || "zh".equals(code)
-                || "zh_TW".equals(code) || "zh_HK".equals(code);
     }
 
     public static String getDeviceManufacturer() {

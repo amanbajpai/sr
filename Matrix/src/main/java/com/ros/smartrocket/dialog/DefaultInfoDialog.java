@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.LocaleUtils;
 
 public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = DefaultInfoDialog.class.getSimpleName();
@@ -46,7 +47,7 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
         }
 
         if (titleIconResId != 0) {
-            titleTextView.setCompoundDrawablesWithIntrinsicBounds(titleIconResId, 0, 0, 0);
+            LocaleUtils.setCompoundDrawable(titleTextView, titleIconResId);
         }
 
         ((TextView) findViewById(R.id.text)).setText(text);

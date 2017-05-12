@@ -192,8 +192,8 @@
                 android:id="@+id/addressLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="5dp">
 
                 <com.ros.smartrocket.views.CustomTextView
@@ -201,7 +201,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/adrDivider"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:text="@string/mission_address"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_size_13p6sp"
@@ -211,7 +211,7 @@
                     android:id="@+id/feedbackBtn"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="2dp"
                     android:contentDescription="@string/app_name"
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/adrDivider"
                     android:layout_marginTop="10dp"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:lineSpacingExtra="5dp"
                     android:textSize="@dimen/text_size_13p6sp"
                     custom:textStyle="bold" />
@@ -243,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/locationName"
                     android:layout_marginTop="5dp"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:lineSpacingExtra="5dp"
                     android:textSize="@dimen/text_size_13p6sp" />
 
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/taskAddress"
                     android:layout_marginTop="10dp"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textSize="@dimen/text_size_14sp"
                     custom:textStyle="bold" />
             </RelativeLayout>
@@ -262,8 +262,8 @@
                 android:id="@+id/descriptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical">
 
@@ -285,7 +285,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:lineSpacingExtra="5dp"
                     android:textSize="@dimen/text_size_13p6sp" />
             </LinearLayout>

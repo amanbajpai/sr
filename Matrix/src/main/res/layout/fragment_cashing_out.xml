@@ -13,8 +13,8 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="60dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
 
         <com.ros.smartrocket.views.CustomTextView
             android:layout_width="match_parent"
@@ -45,8 +45,8 @@
             android:enabled="false"
             android:gravity="center"
             android:paddingBottom="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingTop="5dp"
             android:text="@string/cashing_out_cash_out"
             android:textColor="@color/white"

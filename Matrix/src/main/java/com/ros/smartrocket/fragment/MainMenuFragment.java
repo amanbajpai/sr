@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ros.smartrocket.App;
@@ -47,6 +48,7 @@ import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.HelpShiftUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
@@ -264,11 +266,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                     break;
                 case NotificationDbSchema.Query.TOKEN_QUERY:
                     if (NotificationBL.convertCursorToUnreadNotificationsCount(cursor) > 0) {
-                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_blue, 0,
-                                0, 0);
+                        LocaleUtils.setCompoundDrawable(notificationsButton, R.drawable.notifications_blue);
                     } else {
-                        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.notifications_empty,
-                                0, 0, 0);
+                        LocaleUtils.setCompoundDrawable(notificationsButton, R.drawable.notifications_empty);
                     }
                     break;
                 default:

@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
-            android:drawableLeft="@drawable/wallet_blue"
+            android:drawableStart="@drawable/wallet_blue"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/point_value"
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.1"
-            android:drawableLeft="@drawable/rocket_blue"
+            android:drawableStart="@drawable/rocket_blue"
             custom:textStyle="bold" />
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/distance_value"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/human_blue"
+            android:drawableStart="@drawable/human_blue"
             custom:textStyle="bold" />
     </LinearLayout >
 </LinearLayout >

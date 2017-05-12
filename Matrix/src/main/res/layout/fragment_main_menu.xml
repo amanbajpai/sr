@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:text="@string/app_name"
@@ -67,7 +67,7 @@
             style="@style/MainMenuButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/menu_search"
+            android:drawableStart="@drawable/menu_search"
             android:text="@string/find_mission"
             custom:textStyle="bold" />
 
@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="10dp">
+            android:paddingStart="10dp">
 
             <com.ros.smartrocket.views.CustomTextView
                 android:id="@+id/myTasksCount"
@@ -88,8 +88,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_red_selector"
                 android:paddingBottom="1dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:text="@string/zero"
                 android:textColor="@color/white" />
 
@@ -112,16 +112,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
 
             <com.ros.smartrocket.views.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_red_selector"
                 android:paddingBottom="1dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:text="@string/dollar_symbol"
                 android:textColor="@color/white" />
 
@@ -138,10 +138,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/grey_light"
-                android:gravity="right"
+                android:gravity="end"
                 android:paddingBottom="3dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:paddingTop="3dp"
                 android:text="@string/balance_0"
                 android:textColor="@color/red"
@@ -166,8 +166,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
 
                 <com.ros.smartrocket.views.CustomTextView
                     android:layout_width="0dp"
@@ -183,10 +183,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/grey_light"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingBottom="3dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:paddingTop="3dp"
                     android:text="@string/level_0"
                     android:textColor="@color/red"
@@ -199,8 +199,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
 
                 <com.ros.smartrocket.views.CustomTextView
                     android:layout_width="0dp"
@@ -216,10 +216,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/grey_light"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingBottom="3dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:paddingTop="3dp"
                     android:text="@string/level_0"
                     android:textColor="@color/red"
@@ -234,8 +234,8 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
 
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/levelNumber"
@@ -272,8 +272,8 @@
                 android:layout_marginBottom="-20dp"
                 android:layout_marginTop="15dp"
                 android:indeterminateDrawable="@drawable/seekbar"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:progress="0"
                 android:progressDrawable="@drawable/seekbar"
                 android:thumb="@drawable/menu_man"
@@ -284,8 +284,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
 
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/minLevelExperience"
@@ -301,7 +301,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:text="@string/level_0"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_size_12sp" />
@@ -318,7 +318,7 @@
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/notifications_empty"
+            android:drawableStart="@drawable/notifications_empty"
             android:drawablePadding="8dp"
             android:text="@string/notifications"
             custom:textStyle="bold" />
@@ -333,7 +333,7 @@
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/menu_share"
+            android:drawableStart="@drawable/menu_share"
             android:drawablePadding="10dp"
             android:text="@string/share"
             custom:textStyle="bold" />
@@ -348,7 +348,7 @@
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/menu_support"
+            android:drawableStart="@drawable/menu_support"
             android:text="@string/support"
             custom:textStyle="bold" />
 
@@ -362,7 +362,7 @@
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/menu_settings"
+            android:drawableStart="@drawable/menu_settings"
             android:text="@string/settings"
             custom:textStyle="bold" />
     </LinearLayout>

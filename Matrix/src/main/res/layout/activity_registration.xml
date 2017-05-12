@@ -6,8 +6,8 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingBottom="20dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     android:paddingTop="20dp">
 
     <RelativeLayout
@@ -18,7 +18,7 @@
             android:id="@+id/profilePhotoImageView"
             android:layout_width="106dp"
             android:layout_height="106dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
@@ -29,7 +29,7 @@
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_toRightOf="@+id/profilePhotoImageView"
+            android:layout_toEndOf="@+id/profilePhotoImageView"
             android:hint="@string/full_name"
             android:inputType="textCapWords" />
     </RelativeLayout>
@@ -44,7 +44,7 @@
             android:id="@+id/genderRadioGroup"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <RadioButton
@@ -59,7 +59,7 @@
                 style="@style/FemaleRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:checked="false" />
         </RadioGroup>
 
@@ -80,11 +80,11 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/mail_icon"
+        android:drawableStart="@drawable/mail_icon"
         android:drawablePadding="10dp"
         android:hint="@string/your_email_hint"
         android:inputType="textEmailAddress"
-        android:paddingLeft="10dp" />
+        android:paddingStart="10dp" />
 
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/emailValidationText"
@@ -103,11 +103,11 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/pass_icon"
+        android:drawableStart="@drawable/pass_icon"
         android:drawablePadding="10dp"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingLeft="10dp" />
+        android:paddingStart="10dp" />
 
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/passwordValidationText"
@@ -134,7 +134,7 @@
         <com.ros.smartrocket.views.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:gravity="center_vertical"
             android:text="@string/show_password"
             android:textColor="@color/grey"

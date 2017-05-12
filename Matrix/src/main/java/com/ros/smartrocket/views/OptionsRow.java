@@ -14,6 +14,7 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
@@ -125,17 +126,20 @@ public final class OptionsRow extends LinearLayout {
         }
 
         setBackgroundColor(getResources().getColor(bgColorResId));
-
-        priceTextView.setCompoundDrawablesWithIntrinsicBounds(priceResId, 0, 0, 0);
+        LocaleUtils.setCompoundDrawable(priceTextView, priceResId);
         priceTextView.setText(getBalanceOrPrice(task.getPrice(), task.getCurrencySign()));
 
-        expTextView.setCompoundDrawablesWithIntrinsicBounds(expResId, 0, 0, 0);
+        LocaleUtils.setCompoundDrawable(expTextView, expResId);
         expTextView.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
 
         Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
         if (drawable != null) {
             drawable.mutate().setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
-            durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            if (LocaleUtils.isRtL()) {
+                durationTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+            } else {
+                durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            }
         }
         final String s = getContext().getString(R.string.approx_mission_duration, task.getApproxMissionDuration());
         durationTextView.setText(s);
@@ -169,14 +173,14 @@ public final class OptionsRow extends LinearLayout {
         if (wave.isContainsDifferentRate()) {
             priceTextView.append("+");
         }
-        priceTextView.setCompoundDrawablesWithIntrinsicBounds(priceResId, 0, 0, 0);
+        LocaleUtils.setCompoundDrawable(priceTextView, priceResId);
 
         expTextView.setText(String.format(Locale.US, "%.0f", wave.getExperienceOffer()));
-        expTextView.setCompoundDrawablesWithIntrinsicBounds(expResId, 0, 0, 0);
+        LocaleUtils.setCompoundDrawable(expTextView, expResId);
 
         locationsTextView.setVisibility(VISIBLE);
         locationsTextView.setText(String.valueOf(wave.getTaskCount()));
-        locationsTextView.setCompoundDrawablesWithIntrinsicBounds(locationResId, 0, 0, 0);
+        LocaleUtils.setCompoundDrawable(locationsTextView, locationResId);
 
         Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
         if (drawable != null) {

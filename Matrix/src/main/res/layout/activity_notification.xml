@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:gravity="left"
+                android:gravity="start"
                 android:lineSpacingExtra="5dp" />
         </LinearLayout>
     </ScrollView>
@@ -58,7 +58,7 @@
                 style="@style/DialogButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:textColor="@color/red"
                 custom:textStyle="bold" />
