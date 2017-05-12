@@ -13,6 +13,7 @@ import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.net.TaskReminderService;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -83,7 +84,7 @@ public class WriteDataHelper {
             preferencesManager.set3GUploadTaskLimit(uploadTaskLimit);
             preferencesManager.set3GUploadMonthLimit(uploadMonthLimit);
 
-            UIUtils.setCurrentLanguage();
+            LocaleUtils.setCurrentLanguage();
 
             WavesBL.removeAllWavesFromDB(context);
             TasksBL.removeAllTasksFromDB(context);

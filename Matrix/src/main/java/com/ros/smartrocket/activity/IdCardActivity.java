@@ -15,6 +15,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.UIUtils;
 import com.squareup.picasso.Picasso;
@@ -82,8 +83,8 @@ public class IdCardActivity extends Activity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        UIUtils.setCurrentLanguage();
-        Locale newLocale = UIUtils.getCurrentLocale();
+        LocaleUtils.setCurrentLanguage();
+        Locale newLocale = LocaleUtils.getCurrentLocale();
         Context context = MatrixContextWrapper.wrap(newBase, newLocale);
         super.attachBaseContext(context);
     }

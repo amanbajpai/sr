@@ -19,6 +19,7 @@ import com.helpshift.Core;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -66,8 +67,8 @@ public class App extends Application {
     }
 
     public void initLocaleSettings() {
-        UIUtils.setCurrentLanguage();
-        Locale newLocale = UIUtils.getCurrentLocale();
+        LocaleUtils.setCurrentLanguage();
+        Locale newLocale = LocaleUtils.getCurrentLocale();
         Configuration config = getResources().getConfiguration();
         config.locale = newLocale;
         getApplicationContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());

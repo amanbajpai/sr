@@ -106,7 +106,7 @@ public class PreferencesManager {
     }
 
     public String getLanguageCode() {
-        return UIUtils.getCorrectLanguageCode(getString(Keys.LANGUAGE_CODE, ""));
+        return LocaleUtils.getCorrectLanguageCode(getString(Keys.LANGUAGE_CODE, ""));
     }
 
     public void setLanguageCode(String languageCode) {

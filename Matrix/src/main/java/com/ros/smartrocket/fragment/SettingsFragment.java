@@ -18,11 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.helpshift.Core;
 import com.ros.smartrocket.App;
@@ -42,6 +40,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomSwitch;
@@ -165,16 +164,16 @@ public class SettingsFragment extends Fragment implements SwitchCheckedChangeLis
     public void setLanguageSpinner() {
         String currentLanguageCode = preferencesManager.getLanguageCode();
         if (TextUtils.isEmpty(currentLanguageCode)) {
-            currentLanguageCode = UIUtils.DEFAULT_LANG;
+            currentLanguageCode = LocaleUtils.DEFAULT_LANG;
         }
 
         ArrayAdapter languageAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.list_item_spinner, R.id.name, UIUtils.VISIBLE_LANGUAGE);
+                R.layout.list_item_spinner, R.id.name, LocaleUtils.VISIBLE_LANGUAGE);
         languageSpinner.setAdapter(languageAdapter);
 
         int selectedItemPosition = 0;
-        for (int i = 0; i < UIUtils.VISIBLE_LANGS_CODE.length; i++) {
-            if (UIUtils.VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
+        for (int i = 0; i < LocaleUtils.VISIBLE_LANGS_CODE.length; i++) {
+            if (LocaleUtils.VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
                 selectedItemPosition = i;
                 break;
             }
@@ -281,8 +280,8 @@ public class SettingsFragment extends Fragment implements SwitchCheckedChangeLis
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.languageSpinner:
-                String selectedLanguageCode = UIUtils.VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
-                boolean languageChanged = UIUtils.setDefaultLanguage(selectedLanguageCode);
+                String selectedLanguageCode = LocaleUtils.VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
+                boolean languageChanged = LocaleUtils.setDefaultLanguage(selectedLanguageCode);
 
                 if (languageChanged) {
                     UIUtils.showSimpleToast(getActivity(), R.string.success);

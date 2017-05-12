@@ -30,6 +30,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
@@ -118,11 +119,11 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     private void fillLanguageTv() {
         String currentLanguageCode = preferencesManager.getLanguageCode();
         if (TextUtils.isEmpty(currentLanguageCode)) {
-            currentLanguageCode = UIUtils.DEFAULT_LANG;
+            currentLanguageCode = LocaleUtils.DEFAULT_LANG;
         }
         int selectedLangPosition = 0;
-        for (int i = 0; i < UIUtils.VISIBLE_LANGS_CODE.length; i++) {
-            if (UIUtils.VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
+        for (int i = 0; i < LocaleUtils.VISIBLE_LANGS_CODE.length; i++) {
+            if (LocaleUtils.VISIBLE_LANGS_CODE[i].equals(currentLanguageCode)) {
                 selectedLangPosition = i;
                 break;
             }
@@ -382,7 +383,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     }
 
     private void onLanguageChanged(String code) {
-        boolean languageChanged = UIUtils.setDefaultLanguage(code);
+        boolean languageChanged = LocaleUtils.setDefaultLanguage(code);
         if (languageChanged) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
