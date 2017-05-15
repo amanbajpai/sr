@@ -5,6 +5,7 @@
     style="@style/MapWindowTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
     android:minWidth="250dp"
     android:orientation="vertical">
 
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layoutDirection="rtl"
         android:orientation="horizontal">
 
         <ImageView
@@ -40,6 +42,7 @@
             android:layout_marginTop="1dp"
             android:background="@color/grey_light"
             android:gravity="center"
+            android:layoutDirection="rtl"
             android:padding="5dp">
 
             <ImageView
@@ -52,37 +55,35 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/values"
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_marginTop="2dp"
+        android:layoutDirection="rtl"
         android:orientation="horizontal"
         android:padding="2dp">
 
         <com.ros.smartrocket.views.CustomTextView
+            android:textDirection="rtl"
             android:id="@+id/price_value"
             style="@style/MapTaskValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/wallet_blue"
             custom:textStyle="bold" />
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/point_value"
             style="@style/MapTaskValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/rocket_blue"
             custom:textStyle="bold" />
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/distance_value"
             style="@style/MapTaskValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/human_blue"
             custom:textStyle="bold" />
     </LinearLayout>

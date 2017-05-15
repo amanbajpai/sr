@@ -141,8 +141,8 @@ public final class OptionsRow extends LinearLayout {
                 durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             }
         }
-        final String s = getContext().getString(R.string.approx_mission_duration, task.getApproxMissionDuration());
-        durationTextView.setText(s);
+        final String d = UIUtils.numberFormat.format(task.getApproxMissionDuration()) + getContext().getString(R.string.approx_mission_duration);
+        durationTextView.setText(d);
     }
 
     public void setData(Wave wave, boolean isWaveDetails) {
@@ -185,10 +185,15 @@ public final class OptionsRow extends LinearLayout {
         Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
         if (drawable != null) {
             drawable.setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
-            durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            if (LocaleUtils.isRtL()) {
+                durationTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+            } else {
+                durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            }
         }
 
-        final String s = getContext().getString(R.string.approx_mission_duration, wave.getApproxMissionDuration());
-        durationTextView.setText(s);
+        final String d = UIUtils.numberFormat.format(wave.getApproxMissionDuration())
+                + getContext().getString(R.string.approx_mission_duration);
+        durationTextView.setText(d);
     }
 }

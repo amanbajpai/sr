@@ -482,7 +482,7 @@
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">Identification Card</string>
     <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s?</string>
-    <string name="approx_mission_duration">"%dm"</string>
+    <string name="approx_mission_duration">"m"</string>
     <string name="mission_size_dialog_text">This mission file is %sMB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
 
     <string name="preview_task">PREVIEW</string>
@@ -531,7 +531,7 @@
     <string name="chinese_simple">中文（简体）</string>
     <string name="chinese_traditional_hk">繁中 (香港)</string>
     <string name="chinese_traditional_tw">繁中 (臺灣)</string>
-    <string name="arabic">عربى</string>
+    <string name="arabic">عربي</string>
     <string name="continue_with_qq">Continue with QQ</string>
     <string name="continue_with_wechat">Continue with Wechat</string>
 

@@ -208,14 +208,7 @@ public class MapHelper {
         TextView priceText = (TextView) view.findViewById(R.id.price_value);
         TextView pointText = (TextView) view.findViewById(R.id.point_value);
         TextView distanceText = (TextView) view.findViewById(R.id.distance_value);
-
         UIUtils.showWaveTypeIcon(activity, typeIcon, task.getIcon());
-
-        title.setText(task.getName());
-        priceText.setText(UIUtils.getBalanceOrPrice(task.getPrice(), task.getCurrencySign()));
-        pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-        distanceText.setText(UIUtils.convertMToKm(activity, getDistanceToTask(task),
-                R.string.map_popup_distance, false));
 
         switch (TasksBL.getTaskStatusType(task.getStatusId())) {
             case NONE:
@@ -256,6 +249,11 @@ public class MapHelper {
             default:
                 break;
         }
+        title.setText(task.getName());
+        priceText.setText(UIUtils.getBalanceOrPrice(task.getPrice(), task.getCurrencySign()));
+        pointText.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
+        distanceText.setText(UIUtils.convertMToKm(activity, getDistanceToTask(task),
+                R.string.map_popup_distance, false));
     }
 
     private static float getDistanceToTask(Task task) {

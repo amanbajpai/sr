@@ -114,10 +114,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         super.onCreate(savedInstanceState);
         L.v(TAG, "onCreate " + this);
         isDestroyed = false;
-
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_questions);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));

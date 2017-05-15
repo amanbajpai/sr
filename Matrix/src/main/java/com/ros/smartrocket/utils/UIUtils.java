@@ -61,6 +61,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,14 +83,11 @@ public class UIUtils {
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT_CHINA = new SimpleDateFormat("yyyy年MM月dd日",
             Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT = new SimpleDateFormat("dd MMM"
-            + " yy  HH:mm a", Locale.ENGLISH);
-    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINA = new SimpleDateFormat("yyyy年MM月"
-            + "dd日  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd MMM"
             + " yyyy  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM"
             + ".yyyy / HH:mm", Locale.ENGLISH);
+    public static NumberFormat numberFormat = NumberFormat.getInstance(new Locale("en", "US"));
 
     private static final long METERS_IN_KM = 1000;
     private static final int MIN_PASSWORD_LANDTH = 8;
@@ -446,14 +444,6 @@ public class UIUtils {
         return !list.isEmpty();
     }
 
-    public static String formatAmount(int num) {
-        DecimalFormat decimalFormat = new DecimalFormat();
-        DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
-        decimalFormatSymbol.setGroupingSeparator(',');
-        decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
-        return decimalFormat.format(num);
-    }
-
     /**
      * Get device id
      *
@@ -541,23 +531,14 @@ public class UIUtils {
             result = UIUtils.DAY_MONTH_YEAR_1_FORMAT_CHINA.format(new Date(dateLong));
         } else {
             Locale locale = LocaleUtils.getCurrentLocale();
-            result = new SimpleDateFormat("dd MMM yy", locale).format(new Date(dateLong));
+            result = new SimpleDateFormat("dd MMMM yyyy", locale).format(new Date(dateLong));
+            Log.e("Date MF", result);
         }
         return result;
     }
 
     public static long getCurrentTimeInMilliseconds() {
         return Calendar.getInstance().getTimeInMillis();
-    }
-
-    /**
-     * Check if camera is available
-     *
-     * @param context - current context
-     * @return boolean
-     */
-    public static boolean isCameraAvailable(Context context) {
-        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     /**
@@ -615,15 +596,7 @@ public class UIUtils {
                 && availableLength && containSpecialSymbol;
     }
 
-    /**
-     * Convert Meters to Kilometers
-     *
-     * @param context                - current context
-     * @param distance               - current distance
-     * @param textResId              - set result distance in this resource
-     * @param useMetersIfLessThanOne - if false will use KM only
-     * @return String
-     */
+
     public static String convertMToKm(Context context, float distance, int textResId, boolean useMetersIfLessThanOne) {
         String result;
         String format = "%.1f";
@@ -723,6 +696,7 @@ public class UIUtils {
 
         return daysText + hoursText + minutesText;
     }
+
 
     public static void showWaveTypeActionBarIcon(final BaseActivity activity, String url) {
         ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
