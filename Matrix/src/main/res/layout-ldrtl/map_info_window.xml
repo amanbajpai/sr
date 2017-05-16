@@ -55,35 +55,37 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/values"
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_marginTop="2dp"
-        android:layoutDirection="rtl"
         android:orientation="horizontal"
         android:padding="2dp">
 
         <com.ros.smartrocket.views.CustomTextView
-            android:textDirection="rtl"
             android:id="@+id/price_value"
             style="@style/MapTaskValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawableStart="@drawable/wallet_blue"
             custom:textStyle="bold" />
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/point_value"
             style="@style/MapTaskValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawableStart="@drawable/rocket_blue"
             custom:textStyle="bold" />
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/distance_value"
             style="@style/MapTaskValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawableStart="@drawable/human_blue"
             custom:textStyle="bold" />
     </LinearLayout>
