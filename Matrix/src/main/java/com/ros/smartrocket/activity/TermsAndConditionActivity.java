@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
         acceptTC.setOnCheckedChangeListener(this);
+        webView.setWebViewClient(new WebViewClient());
         String termsUrl;
         switch (preferencesManager.getLanguageCode()) {
             case "en_SG":
