@@ -101,7 +101,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
                 continueRegistrationFlow(getCurrentReferralCaseId());
             }
         } else {
-            continueRegistrationFlow(getCurrentReferralCaseId());
+            continueRegistrationFlow(-1);
         }
     }
 
