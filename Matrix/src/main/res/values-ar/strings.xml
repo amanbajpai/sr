@@ -6,7 +6,7 @@
 	<string name="activate_account_text1">اكتمل التسجيل</string>
 	<string name="activate_account_text2">شكرًا لك علىإكمالالتسجيل. الرجاء تنشيط حسابك في SmartRocket لبدء استخدام SmartRocket.</string>
 	<string name="activity_btn">النشاط</string>
-	<string name="activity_log_description">تم إرسال ملف يحتوي على سجل نشاط حسابك في SmartRocket إلى:</string>
+	<string name="activity_log_description">تم إرسال ملف يحتوي على سجل نشاط حسابك في SmartRocket إلى:\n</string>
 	<string name="activity_log_description_toast">تم إرسال ملف يحتوي على سجل نشاط حسابك في SmartRocket إلى:</string>
 	<string name="activity_log_title">طلب سجل نشاط</string>
 	<string name="add_photo_error_text">لا يمكن إضافة صورة من هذا المصدر.</string>
@@ -389,4 +389,16 @@
 		<item quantity="one">يوم</item>
 		<item quantity="other">أيام</item>
 	</plurals>
+    <string name="close_account">حساب مغلق</string>
+	<string name="close_account_btn">إغلاق حسابي سمارتروكيت</string>
+	<string name="close_account_text">تحذير: الضغط على \"إغلاق الحساب\" إلى إغلاق حساب سمارتروكيت بشكل دائم.سيؤدي إلى خسران أي رصيد نقدي سمارتروكيت متبقي. لا يمكن التراجع عن هذا الإجراء.</string>
+	<string name="close_account_title">إغلاق حسابي سمارتروكيت</string>
+	<string name="continue_with_fb"></string>
+	<string name="enter_dob">الرجاء ادخال تاريخ ميلادك</string>
+	<string name="enter_email">الرجاء إدخال عنوان البريد الإلكتروني الخاص بك</string>
+	<string name="why_bod">للانضمام سمارتروكيت، يجب أن يكونفوق  سن 18، بالإضافة إلى ذلك، يمكن أن تكتمل بعض البعثات فقط من قبل شخص في فئة عمرية معينة. يجب تقديم تاريخ الميلاد للانضمام سمارتروكيت.</string>
+	<string name="why_dob_title">لماذا نحتاج  تاريخ ميلادك؟</string>
+	<string name="why_email">"يتم إرسال الرسائل المهمة التي تتعلق بحساب سمارتروكيت  عبر البريد الإلكتروني. في بعض الأسواق، مطلوب أيضا عنوان بريد إلكتروني لإنشاء حساب دفع سمارتروكيت وإدارته. يجب تقديم عنوان بريد إلكتروني صالح للانضمام إلى "</string>
+	<string name="why_email_title">لماذا نحتاج إلى بريدك الإلكتروني؟</string>
+	<string name="why_need_this">لماذا نحتاج إلى هذا؟</string>
 </resources>
