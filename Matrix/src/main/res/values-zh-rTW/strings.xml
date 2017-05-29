@@ -313,7 +313,7 @@
     <string name="send_password">重設我的密碼</string>
     <string name="forgot_password_success_text0">感謝。</string>
     <string name="forgot_password_success_text1">我們已經將SmartRocket密碼的重設連結郵件發送到以下電郵：</string>
-    <string name="forgot_password_success_text2"> </string>
+    <string name="forgot_password_success_text2">...的鏈接重設SmartRocket密碼。</string>
     <string name="forgot_password_success_text3">如果你找不到這個電郵，請檢查你的垃圾郵件夾。</string>
     <string name="forgot_password_ok">返回</string>
     <!-- AGE VERIFICATION DIALOG -->
@@ -466,4 +466,24 @@
     <string name="reputation">聲譽</string>
     <string name="global_block_error">SmartRocket 暫時無法使用</string>
     <string name="yes_button">是</string>
+    <string name="activity_btn">活動</string>
+    <string name="activity_log_description">您SmartRocket帳戶的活動日誌文件已發送到：\n</string>
+    <string name="activity_log_description_toast">您SmartRocket帳戶的活動日誌文件已發送到：</string>
+    <string name="activity_log_title">要求取得活動日誌</string>
+    <string name="already_member">我們的隊員</string>
+    <string name="close">關閉</string>
+    <string name="close_account">關閉帳戶</string>
+    <string name="close_account_btn">關閉我在SmartRocket的帳戶</string>
+    <string name="close_account_text">警告：按下“關閉帳戶”將永久關閉此SmartRocket帳戶。 您在SmartRocket剩餘的現金餘額將被沒收。 無法撤消此操作。</string>
+    <string name="close_account_title">關閉SmartRocket帳戶</string>
+    <string name="continue_email_btn">以電子郵件繼續</string>
+    <string name="do_not_show_message">不要再顯示此消息</string>
+    <string name="full_name">全名</string>
+    <string name="national_id_account_integrated_successfully">國際ID帳戶成功整合！</string>
+    <string name="national_id_header">重要信息：您的姓名必須是您完整/正式名稱。 請確保所有詳細信息正確，然後提交。</string>
+    <string name="national_id_number_hint">你的國際ID帳戶號碼</string>
+    <string name="new_push_notification">新通知</string>
+    <string name="new_push_notifications_body">您有新通知。 點擊打開</string>
+    <string name="new_push_notifications_header">SmartRocket新通知</string>
+    <string name="or">或</string>
 </resources>

@@ -316,7 +316,6 @@
     <string name="send_password">重设我的密码</string>
     <string name="forgot_password_success_text0">感谢。</string>
     <string name="forgot_password_success_text1">我们已经将智慧飞船密码的重设链接电邮发送到以下邮箱：</string>
-    <string name="forgot_password_success_text2"></string>
     <string name="forgot_password_success_text3">如果您找不到这个邮件，请检查您的垃圾邮件夹。</string>
     <string name="forgot_password_ok">返回</string>
     <!-- AGE VERIFICATION DIALOG -->
@@ -472,4 +471,25 @@
     <string name="reputation">声誉</string>
     <string name="global_block_error">智慧飞船暂时无法使用</string>
     <string name="yes_button">是</string>
+    <string name="activity_btn">活动</string>
+    <string name="activity_log_description">您在智慧飞船帐户的活动日志文件已发送到：\n</string>
+    <string name="activity_log_description_toast">您在智慧飞船帐户的活动日志文件已发送到：</string>
+    <string name="activity_log_title">要求取得活动日志</string>
+    <string name="already_member">我们的队员</string>
+    <string name="close">关闭</string>
+    <string name="close_account">关闭帐户</string>
+    <string name="close_account_btn">关闭我在智慧飞船的帐户</string>
+    <string name="close_account_text">警告：按下“关闭帐户”将永久关闭此智慧飞船帐户。您在智慧飞船剩余的现金余额将被没收。无法撤消此操作。</string>
+    <string name="close_account_title">关闭智慧飞船帐户</string>
+    <string name="continue_email_btn">以电子邮件继续</string>
+    <string name="do_not_show_message">不要再显示此消息</string>
+    <string name="forgot_password_success_text2">...的链接重设智慧飞船密码。</string>
+    <string name="full_name">全名</string>
+    <string name="national_id_account_integrated_successfully">国际ID帐户成功整合！</string>
+    <string name="national_id_header">重要信息：您的姓名必须是您完整/正式名称。请确保所有详细信息正确，然后提交。</string>
+    <string name="national_id_number_hint">你的国际ID帐户号码</string>
+    <string name="new_push_notification">新通知</string>
+    <string name="new_push_notifications_body">您有新通知。点击打开</string>
+    <string name="new_push_notifications_header">智慧飞船新通知</string>
+    <string name="or">或</string>
 </resources>
