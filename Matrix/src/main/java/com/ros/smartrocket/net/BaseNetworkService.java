@@ -1,6 +1,7 @@
 package com.ros.smartrocket.net;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.Timing;
@@ -42,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 
 
 public abstract class BaseNetworkService extends IntentService {
@@ -278,5 +281,13 @@ public abstract class BaseNetworkService extends IntentService {
 
     public PreferencesManager getPreferencesManager() {
         return preferencesManager;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        UIUtils.setCurrentLanguage();
+        Locale newLocale = UIUtils.getCurrentLocale();
+        Context context = MatrixContextWrapper.wrap(base, newLocale);
+        super.attachBaseContext(context);
     }
 }

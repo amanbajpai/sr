@@ -2,6 +2,7 @@ package com.ros.smartrocket.net;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.util.SparseArray;
 
@@ -47,11 +48,14 @@ import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.MyLog;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * IntentService for API communication
