@@ -82,6 +82,7 @@ public class PreferencesManager {
 
     public void removeToken() {
         remove(Keys.TOKEN);
+        remove(Keys.TOKEN_FOR_UPLOAD_FILE);
     }
 
     public void setToken(String token) {
