@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -31,7 +32,7 @@ public class QuestionBaseBL {
     protected AsyncQueryHandler handler;
     protected Question question;
     protected Bundle savedInstanceState;
-    protected AppCompatActivity activity;
+    protected BaseActivity activity;
     protected Fragment fragment;
     protected View view;
     protected Product product;
@@ -40,7 +41,7 @@ public class QuestionBaseBL {
     TextView presetValidationComment;
     TextView validationComment;
 
-    public final void initView(View view, Question question, Bundle savedInstanceState, AppCompatActivity activity,
+    public final void initView(View view, Question question, Bundle savedInstanceState, BaseActivity activity,
                                Fragment fragment, Product product) {
         ButterKnife.bind(this, view);
         this.savedInstanceState = savedInstanceState;
@@ -149,7 +150,7 @@ public class QuestionBaseBL {
         return activity;
     }
 
-    public void setActivity(AppCompatActivity activity) {
+    public void setActivity(BaseActivity activity) {
         this.activity = activity;
     }
 

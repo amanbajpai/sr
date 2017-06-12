@@ -32,7 +32,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 File file = new File(question.getInstructionFileUri());
                 setImageInstructionFile(file);
             } else {
-                activity.setSupportProgressBarIndeterminateVisibility(true);
+                activity.showProgressDialog(true);
 
                 ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
                         new ImageLoader.OnFileLoadCompleteListener() {
@@ -48,7 +48,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 File file = new File(question.getInstructionFileUri());
                 setVideoInstructionFile(file);
             } else {
-                activity.setSupportProgressBarIndeterminateVisibility(true);
+                activity.dismissProgressDialog();
 
                 ImageLoader.getInstance().getFileByUrlAsync(question.getVideoUrl(),
                         new ImageLoader.OnFileLoadCompleteListener() {
@@ -82,7 +82,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
         });
 
         if (activity != null) {
-            activity.setSupportProgressBarIndeterminateVisibility(false);
+            activity.dismissProgressDialog();
         }
     }
 
@@ -108,7 +108,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 videoView.start();
                 videoView.setBackgroundColor(Color.TRANSPARENT);
                 if (activity != null) {
-                    activity.setSupportProgressBarIndeterminateVisibility(false);
+                    activity.dismissProgressDialog();
                 }
             }
         });

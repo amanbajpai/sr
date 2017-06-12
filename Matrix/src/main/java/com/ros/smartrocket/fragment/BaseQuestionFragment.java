@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
@@ -37,7 +38,7 @@ public abstract class BaseQuestionFragment extends Fragment {
         ViewGroup view = (ViewGroup) localInflater.inflate(getLayoutResId(), null);
 
         Question question = (Question) getArguments().getSerializable(Keys.QUESTION);
-        questionBL.initView(view, question, savedInstanceState, (AppCompatActivity) getActivity(), this, null);
+        questionBL.initView(view, question, savedInstanceState, (BaseActivity) getActivity(), this, null);
 
         return view;
     }

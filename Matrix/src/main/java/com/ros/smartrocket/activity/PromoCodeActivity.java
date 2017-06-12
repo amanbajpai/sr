@@ -31,7 +31,6 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @Bind(R.id.promoCode)
     EditText promoCodeEdt;
     private APIFacade apiFacade = APIFacade.getInstance();
-    private CustomProgressDialog progressDialog;
     private RegistrationType type;
 
     public PromoCodeActivity() {
@@ -76,12 +75,6 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
         return super.onOptionsItemSelected(item);
     }
 
-    public void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -98,7 +91,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     public void onClick() {
         String promoCode = promoCodeEdt.getText().toString();
         if (!TextUtils.isEmpty(promoCode) ) {
-            progressDialog = CustomProgressDialog.show(this);
+            showProgressDialog(false);
             apiFacade.setPromoCode(this, promoCode);
         } else {
             continueRegistrationFlow();

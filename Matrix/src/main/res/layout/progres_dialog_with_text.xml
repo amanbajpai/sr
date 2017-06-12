@@ -5,6 +5,7 @@
     android:gravity="center"
     android:orientation="horizontal"
     style="@style/CustomDialog"
+    android:background="@color/black_transparency"
     android:padding="10dp" >
     <ImageView
         android:id="@+id/loading_image"

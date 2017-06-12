@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -88,8 +89,7 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
         shortUrl = Config.SHARE_URL;
         subject = getString(R.string.app_name);
         text = getString(R.string.share_text);
-
-        ((ShareActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        ((BaseActivity) getActivity()).showProgressDialog(true);
         apiFacade.getSharingData(getActivity());
 
         ButterKnife.bind(this, view);
@@ -120,7 +120,7 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
     @Override
     public void onNetworkOperation(BaseOperation operation) {
         if (Keys.GET_SHARING_DATA_OPERATION_TAG.equals(operation.getTag())) {
-            ((BaseActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+            ((BaseActivity) getActivity()).dismissProgressDialog();
 
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
                 sharing = (Sharing) operation.getResponseEntities().get(0);
@@ -161,7 +161,7 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);

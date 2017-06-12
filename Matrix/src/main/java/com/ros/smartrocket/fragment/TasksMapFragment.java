@@ -370,7 +370,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
             if (getActivity() != null) {
-                ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                ((BaseActivity) getActivity()).showProgressDialog(true);
             }
         }
 
@@ -378,7 +378,7 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                    ((BaseActivity) getActivity()).dismissProgressDialog();
                     if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
                         Log.d(TAG, "getAllNotMyTasksFromDB [waveId  =  " + viewItemId + "]");
                         TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);

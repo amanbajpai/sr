@@ -70,7 +70,6 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        setSupportProgressBarIndeterminateVisibility(false);
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
                 progressDialog.dismiss();

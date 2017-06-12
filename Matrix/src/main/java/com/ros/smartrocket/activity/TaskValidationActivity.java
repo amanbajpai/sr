@@ -105,7 +105,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_task_validation);
         ButterKnife.bind(this);
 
@@ -127,8 +126,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
         sendNowButton.setOnClickListener(this);
         sendLaterButton.setOnClickListener(this);
-
-        setSupportProgressBarIndeterminateVisibility(false);
 
         TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
     }
@@ -194,7 +191,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        setSupportProgressBarIndeterminateVisibility(false);
+        dismissProgressDialog();
 
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS ||
                 (operation.getResponseErrorCode() != null
@@ -261,7 +258,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     private void validateTask(final Task task) {
-        setSupportProgressBarIndeterminateVisibility(true);
+        showProgressDialog(true);
 
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
         location.setLatitude(task.getLatitudeToValidation());
@@ -278,7 +275,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     public void sendTextAnswers() {
         if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
-            setSupportProgressBarIndeterminateVisibility(true);
+            showProgressDialog(false);
             apiFacade.sendAnswers(this, answerListToSend, missionId);
         } else {
             DialogUtils.showTurnOnWifiDialog(this);
@@ -378,7 +375,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
-                            setSupportProgressBarIndeterminateVisibility(true);
+                            showProgressDialog(true);
                         }
 
                         @Override
@@ -390,7 +387,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                             if (!isFinishing()) {
                                 saveLocationOfTaskToDb(task, location);
 
-                                setSupportProgressBarIndeterminateVisibility(false);
+                                dismissProgressDialog();
 
                                 sendAnswers();
                             } else {
@@ -437,7 +434,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
-                        setSupportProgressBarIndeterminateVisibility(true);
+                        showProgressDialog(true);
                     }
 
                     @Override
@@ -449,7 +446,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         if (!isFinishing()) {
                             saveLocationOfTaskToDb(task, location);
 
-                            setSupportProgressBarIndeterminateVisibility(false);
+                            dismissProgressDialog();
 
                             finishActivity();
                         } else {
@@ -472,7 +469,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         if (task.getStartedStatusSent()) {
             sendTextAnswers();
         } else {
-            setSupportProgressBarIndeterminateVisibility(true);
+            showProgressDialog(false);
             apiFacade.startTask(this, task.getWaveId(), task.getId(), task.getMissionId());
         }
     }

@@ -25,7 +25,6 @@ import cn.jpush.android.api.JPushInterface;
 
 public class LaunchActivity extends BaseActivity implements NetworkOperationListenerInterface {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private CustomProgressDialog progressDialog;
     private APIFacade apiFacade = APIFacade.getInstance();
 
     @Override
@@ -34,7 +33,7 @@ public class LaunchActivity extends BaseActivity implements NetworkOperationList
         checkDeviceSettingsByOnResume(false);
         setContentView(R.layout.activity_launch);
         if (BuildConfig.CHINESE) {
-            progressDialog = CustomProgressDialog.show(this);
+            showProgressDialog(false);
             apiFacade.getAppVersion(this);
         } else {
             launchApp();
@@ -97,13 +96,6 @@ public class LaunchActivity extends BaseActivity implements NetworkOperationList
                 UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
                 launchApp();
             }
-        }
-    }
-
-
-    public void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
         }
     }
 

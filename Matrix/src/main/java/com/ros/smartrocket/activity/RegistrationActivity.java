@@ -345,7 +345,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onEventMainThread(AvatarEvent event) {
         switch (event.type) {
             case START_LOADING:
-                setSupportProgressBarIndeterminateVisibility(true);
+                showProgressDialog(false);
                 break;
             case IMAGE_COMPLETE:
                 if (event.image != null && event.image.bitmap != null) {
@@ -354,10 +354,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                 }
-                setSupportProgressBarIndeterminateVisibility(false);
+                dismissProgressDialog();
                 break;
             case SELECT_IMAGE_ERROR:
-                setSupportProgressBarIndeterminateVisibility(false);
+                dismissProgressDialog();
                 DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
                 break;
         }

@@ -13,11 +13,15 @@
       },
       "oauth_client": [
         {
+          "client_id": "318949058113-59oe5om5c2496k08vsfesna671rtvn1n.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "318949058113-867v838qqbttc66ppnu54v3ecl4iab23.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ros.smartrocket",
-            "certificate_hash": "5787D207D7807D2FB9E6FD5C07BD7AA839DD8EC5"
+            "certificate_hash": "5787d207d7807d2fb9e6fd5c07bd7aa839dd8ec5"
           }
         },
         {
@@ -32,10 +36,7 @@
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-59279696-1"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,

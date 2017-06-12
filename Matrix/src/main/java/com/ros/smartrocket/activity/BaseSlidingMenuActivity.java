@@ -60,7 +60,6 @@ public class BaseSlidingMenuActivity extends BaseActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override

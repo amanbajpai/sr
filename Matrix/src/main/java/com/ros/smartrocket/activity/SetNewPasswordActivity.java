@@ -93,7 +93,7 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
 
                     progressDialog = CustomProgressDialog.show(this);
                     setPasswordButton.setEnabled(false);
-
+                    showProgressDialog(false);
                     apiFacade.setPassword(this, email, token, password);
                 }
                 break;
@@ -104,7 +104,7 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        setSupportProgressBarIndeterminateVisibility(false);
+        dismissProgressDialog();
         if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
             progressDialog.dismiss();
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {

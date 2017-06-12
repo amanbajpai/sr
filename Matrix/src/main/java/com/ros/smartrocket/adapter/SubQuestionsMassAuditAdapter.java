@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.bl.question.QuestionInstructionBL;
 import com.ros.smartrocket.bl.question.QuestionMultipleChooseBL;
@@ -72,7 +73,7 @@ public class SubQuestionsMassAuditAdapter {
         if (bl != null) {
             bl.setAnswerPageLoadingFinishedListener(fragment);
             bl.setAnswerSelectedListener(fragment);
-            bl.initView(convertView, items[position], savedInstanceState, (AppCompatActivity) activity, fragment, product);
+            bl.initView(convertView, items[position], savedInstanceState, (BaseActivity) activity, fragment, product);
             bl.loadAnswers();
             blList.add(bl);
         }

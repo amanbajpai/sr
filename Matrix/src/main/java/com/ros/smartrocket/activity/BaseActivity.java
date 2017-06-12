@@ -124,13 +124,13 @@ public class BaseActivity extends AppCompatActivity {
         networkOperationListeners.remove(listener);
     }
 
-    protected void dismissProgressDialog() {
+    public void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
     }
 
-    protected void showProgressDialog(boolean isCancelable) {
+    public void showProgressDialog(boolean isCancelable) {
         progressDialog = CustomProgressDialog.show(this);
         progressDialog.setCancelable(isCancelable);
     }

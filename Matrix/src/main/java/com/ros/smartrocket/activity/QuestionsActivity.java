@@ -218,6 +218,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
                                 QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
                             } else {
+                                showProgressDialog(false);
                                 apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
                             }
                         } else {
@@ -247,7 +248,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
                         startFragment(question);
                     } else {
-                        setSupportProgressBarIndeterminateVisibility(true);
+                        showProgressDialog(false);
                         apiFacade.getQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
                     }
 
@@ -478,7 +479,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
-        setSupportProgressBarIndeterminateVisibility(false);
+        dismissProgressDialog();
     }
 
     @Override

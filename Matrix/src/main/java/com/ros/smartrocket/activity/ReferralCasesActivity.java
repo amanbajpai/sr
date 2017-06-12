@@ -37,7 +37,6 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     private int countryId;
     private ReferralCase[] referralCaseArray;
     private RegistrationPermissions registrationPermissions;
-    private CustomProgressDialog progressDialog;
 
     public ReferralCasesActivity() {
     }
@@ -60,7 +59,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         continueButton.setEnabled(false);
 
         checkDeviceSettingsByOnResume(false);
-        progressDialog = CustomProgressDialog.show(this);
+        showProgressDialog(true);
         apiFacade.getReferralCases(this, countryId);
     }
 
@@ -69,7 +68,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.continueButton:
                 continueButton.setEnabled(false);
-                progressDialog = CustomProgressDialog.show(this);
+                showProgressDialog(false);
                 apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
                 break;
             default:
@@ -170,11 +169,5 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     public void onClick() {
         continueButton.setEnabled(false);
         apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
-    }
-
-    public void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
     }
 }

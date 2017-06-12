@@ -78,6 +78,7 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
+        dismissProgressDialog();
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
                 LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
@@ -92,7 +93,6 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
                 } else {
                     preferencesManager.setLastPassword("");
                 }
-                dismissProgressDialog();
                 finish();
                 if (loginResponse.isShowTermsConditions()) {
                     Intent intent = new Intent(this, TermsAndConditionActivity.class);
@@ -106,7 +106,6 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
             }
         } else {
             if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                dismissProgressDialog();
                 loginButton.setEnabled(true);
                 if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                         == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {

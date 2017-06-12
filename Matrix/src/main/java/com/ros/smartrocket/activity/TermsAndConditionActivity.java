@@ -43,7 +43,6 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private RegistrationPermissions registrationPermissions;
     private APIFacade apiFacade = APIFacade.getInstance();
-    private CustomProgressDialog progressDialog;
     private RegistrationType type;
 
     public TermsAndConditionActivity() {
@@ -138,7 +137,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (getIntent().getExtras() != null
                 && (getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)
                 || type == RegistrationType.SOCIAL)) {
-            progressDialog = CustomProgressDialog.show(this);
+            showProgressDialog(true);
             apiFacade.sendTandC(this);
         } else {
             continueRegistrationFlow();
@@ -168,12 +167,6 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
             } else {
                 UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
             }
-        }
-    }
-
-    public void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
         }
     }
 

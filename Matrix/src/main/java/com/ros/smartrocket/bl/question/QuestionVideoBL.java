@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.VideoView;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
@@ -93,7 +94,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     @Override
     protected void answersUpdate() {
-        ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+        ((BaseActivity) getActivity()).dismissProgressDialog();
     }
 
     @Override
@@ -146,7 +147,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     }
 
     public void playPauseVideo(String videoPath) {
-        ((QuestionsActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        ((QuestionsActivity) getActivity()).showProgressDialog(true);
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -156,7 +157,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         if (getActivity() != null) {
-                            ((QuestionsActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            ((QuestionsActivity) getActivity()).dismissProgressDialog();
                         }
                         videoView.setBackgroundColor(Color.TRANSPARENT);
                         videoView.pause();
@@ -240,7 +241,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             .GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
-                            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                            ((BaseActivity) getActivity()).showProgressDialog(true);
                         }
 
                         @Override
@@ -254,7 +255,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             }
 
                             confirmButtonPressAction(location);
-                            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+                            ((BaseActivity) getActivity()).dismissProgressDialog();
                         }
 
                         @Override

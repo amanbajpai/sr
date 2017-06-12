@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
@@ -218,7 +219,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     @Override
     protected void answersUpdate() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            ((AppCompatActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+            ((BaseActivity) getActivity()).dismissProgressDialog();
         }
     }
 

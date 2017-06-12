@@ -69,7 +69,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
 
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_cashing_out, null);
         ButterKnife.bind(this, view);
-        ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+        ((CashingOutActivity) getActivity()).showProgressDialog(false);
         apiFacade.getMyAccount(getActivity());
         return view;
     }
@@ -108,7 +108,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
 
     @Override
     public void onNetworkOperation(BaseOperation operation) {
-        ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+        ((CashingOutActivity) getActivity()).dismissProgressDialog();
         if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
             if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
                 updateData();
@@ -183,7 +183,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
                 startEditPaymentInfo();
                 break;
             case R.id.activityBtn:
-                ((CashingOutActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+                ((CashingOutActivity) getActivity()).showProgressDialog(false);
                 apiFacade.sendActivity(getActivity());
                 break;
         }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ public class CustomProgressDialog extends Dialog {
 
     public CustomProgressDialog(Context context) {
         super(context, R.style.customProgressDialog);
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
     }
 
     public static CustomProgressDialog show(Activity activity, CharSequence title, CharSequence message) {
@@ -40,7 +43,7 @@ public class CustomProgressDialog extends Dialog {
             CustomProgressDialog dialog = new CustomProgressDialog(activity);
             dialog.setTitle(title);
             dialog.setCancelable(false);
-            dialog.addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            dialog.addContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
             try {
                 if (!activity.isFinishing()) {
@@ -65,7 +68,7 @@ public class CustomProgressDialog extends Dialog {
 
             CustomProgressDialog dialog = new CustomProgressDialog(activity);
             dialog.setCancelable(true);
-            dialog.addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            dialog.addContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
             try {
                 if (!activity.isFinishing()) {

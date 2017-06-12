@@ -50,7 +50,7 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
-        setSupportProgressBarIndeterminateVisibility(false);
+        dismissProgressDialog();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
             case R.id.continueButton:
                 //MyAccount myAccount = App.getInstance().getMyAccount();
 
-                setSupportProgressBarIndeterminateVisibility(true);
+                showProgressDialog(false);
                 apiFacade.cashingOut(this);
                 break;
             default:
