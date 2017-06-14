@@ -65,7 +65,6 @@ import de.greenrobot.event.EventBus;
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
         ShowProgressDialogInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
-    private final HelpShiftUtils helpShiftUtils = new HelpShiftUtils();
     @Bind(R.id.photoImageView)
     ImageView photoImageView;
     @Bind(R.id.uploadPhotoProgressImage)
@@ -441,7 +440,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
                 ((MainActivity) getActivity()).togleMenu();
                 break;
             case R.id.supportButton:
-                helpShiftUtils.showFAQ(getActivity());
+                HelpShiftUtils.showFAQ(getActivity());
                 break;
             case R.id.settingsButton:
                 getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));

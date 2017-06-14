@@ -19,19 +19,16 @@ public class HelpShiftUtils {
     private static final String CITY = "City";
     private static final String JOINING_DATE = "Joining_Date";
     private static final String HIDE_NAME_AND_EMAIL = "hideNameAndEmail";
-    private final MyAccount account;
-    private HashMap<String, String> countryMap;
+    private static MyAccount account;
+    private static HashMap<String, String> countryMap;
 
-    public HelpShiftUtils() {
+    public static void showFAQ(Activity activity) {
         account = App.getInstance().getMyAccount();
-    }
-
-    public void showFAQ(Activity activity) {
         initHS();
         Support.showFAQs(activity, getConfig());
     }
 
-    private void initHS() {
+    private static void initHS() {
         Core.login(String.valueOf(account.getId()), account.getSingleName(), PreferencesManager.getInstance().getLastEmail());
         Campaigns.addProperty(AGENT_ID, account.getId());
         Campaigns.addProperty(AGENT_RANK_LEVEL, account.getLevelNumber());
@@ -42,7 +39,7 @@ public class HelpShiftUtils {
     }
 
     @NonNull
-    private HashMap getConfig() {
+    private static HashMap getConfig() {
         HashMap config = new HashMap();
         config.put(HIDE_NAME_AND_EMAIL, true);
         config.put(Support.CustomMetadataKey, getMetaData());
@@ -50,7 +47,7 @@ public class HelpShiftUtils {
     }
 
     @NonNull
-    private HashMap getMetaData() {
+    private static HashMap getMetaData() {
         HashMap customMetadata = new HashMap();
         customMetadata.put(AGENT_ID, account.getId());
         customMetadata.put(AGENT_RANK_LEVEL, account.getLevelNumber());
@@ -58,22 +55,7 @@ public class HelpShiftUtils {
         customMetadata.put(COUNTRY, account.getCountryName());
         customMetadata.put(CITY, account.getCityName());
         customMetadata.put(JOINING_DATE, account.getJoined());
-        if (getCountryName(account.getCountryCode()) != null) {
-            customMetadata.put("country", getCountryName(account.getCountryCode()));
-            customMetadata.put(Support.TagsKey, new String[]{"country"});
-        }
+        customMetadata.put(Support.TagsKey, new String[]{account.getCountryName()});
         return customMetadata;
-    }
-
-    private String getCountryName(String countryCode) {
-        if (countryMap == null) {
-            fillCountryMap();
-        }
-        return countryMap.get(countryCode);
-    }
-
-    private void fillCountryMap() {
-        countryMap = new HashMap<>();
-        countryMap.put("HKG", "Hong Kong");
     }
 }

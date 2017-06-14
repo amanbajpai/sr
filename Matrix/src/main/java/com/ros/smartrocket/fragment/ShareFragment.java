@@ -229,10 +229,10 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
 
         if (preferencesManager.getUseSocialSharing() && intent != null) {
             if (IntentUtils.isIntentAvailable(getActivity(), intent)) {
-                App.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("Share")
-                        .setAction(shareType)
-                        .build());
+//                App.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+//                        .setCategory("Share")
+//                        .setAction(shareType)
+//                        .build());
                 getActivity().startActivity(intent);
             } else {
                 getActivity().startActivity(IntentUtils.getGooglePlayIntent(intent.getPackage()));

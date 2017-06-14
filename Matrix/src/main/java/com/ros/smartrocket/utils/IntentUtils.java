@@ -207,7 +207,6 @@ public class IntentUtils {
     public static Intent getEmailIntent(String subject, String email, String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        File file = FileProcessingManager.getTempFile(FileProcessingManager.FileType.TEXT, FileProcessingManager.FILE_LOGS, true);
 
         intent.setType("message/rfc822");
         if (!TextUtils.isEmpty(subject)) {
@@ -221,7 +220,12 @@ public class IntentUtils {
         if (!TextUtils.isEmpty(text)) {
             intent.putExtra(Intent.EXTRA_TEXT, text);
         }
+        return intent;
+    }
 
+    public static Intent getLogEmailIntent(String subject, String email, String text) {
+        Intent intent = getEmailIntent(subject, email, text);
+        File file = FileProcessingManager.getTempFile(FileProcessingManager.FileType.TEXT, FileProcessingManager.FILE_LOGS, true);
         if (file != null) {
             intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         }

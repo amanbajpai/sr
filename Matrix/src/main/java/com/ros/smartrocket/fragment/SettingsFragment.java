@@ -115,7 +115,7 @@ public class SettingsFragment extends Fragment implements SwitchCheckedChangeLis
         currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startActivity(IntentUtils.getEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
+                startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
                 return false;
             }
         });

@@ -394,4 +394,5 @@
 		<item quantity="one">jour</item>
 		<item quantity="other">jours</item>
 	</plurals>
+    <string name="enter_dob"></string>
 </resources>

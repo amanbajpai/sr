@@ -128,14 +128,14 @@ public final class Geocoder {
         url.append("&client=");
         url.append("gme-redoceansolutions");
 
-        String signature = getSignature(url.toString(), key);
+//        String signature = getSignature(url.toString(), key);
 
-        url.append("&signature=");
-        try {
-            url.append(URLEncoder.encode(signature, "UTF-8"));
-        } catch (Exception e) {
-            L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
-        }
+//        url.append("&signature=");
+//        try {
+//            url.append(URLEncoder.encode(signature, "UTF-8"));
+//        } catch (Exception e) {
+//            L.e(TAG, "Error in getFromLocation method. Signature encode error", e);
+//        }
         return url.toString();
     }
 
