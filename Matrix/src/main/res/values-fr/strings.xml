@@ -394,5 +394,6 @@
 		<item quantity="one">jour</item>
 		<item quantity="other">jours</item>
 	</plurals>
-    <string name="enter_dob"></string>
+    <string name="enter_dob">Veuillez entrer votre date de naissance</string>
+	<string name="enter_email">Entrez votre adresse e-mail</string>
 </resources>
