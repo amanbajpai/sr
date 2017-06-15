@@ -19,14 +19,14 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class PromoCodeActivity extends BaseActivity implements NetworkOperationListenerInterface {
 
-    @Bind(R.id.promoCode)
+    @BindView(R.id.promoCode)
     EditText promoCodeEdt;
     private APIFacade apiFacade = APIFacade.getInstance();
     private RegistrationType type;

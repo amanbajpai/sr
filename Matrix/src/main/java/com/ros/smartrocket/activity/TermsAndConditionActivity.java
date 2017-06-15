@@ -29,16 +29,16 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomCheckBox;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TermsAndConditionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, NetworkOperationListenerInterface {
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView webView;
-    @Bind(R.id.acceptTC)
+    @BindView(R.id.acceptTC)
     CustomCheckBox acceptTC;
-    @Bind(R.id.continueButton)
+    @BindView(R.id.continueButton)
     CustomButton continueButton;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private RegistrationPermissions registrationPermissions;

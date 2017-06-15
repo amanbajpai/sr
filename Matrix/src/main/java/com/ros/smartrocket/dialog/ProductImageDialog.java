@@ -23,14 +23,14 @@ import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public final class ProductImageDialog extends DialogFragment {
     public static final String KEY = "com.ros.smartrocket.dialog.ProductImageDialog.KEY";
 
-    @Bind(R.id.dialogProductImageView)
+    @BindView(R.id.dialogProductImageView)
     ImageView imageView;
 
     public static void showDialog(FragmentManager fm, String url) {

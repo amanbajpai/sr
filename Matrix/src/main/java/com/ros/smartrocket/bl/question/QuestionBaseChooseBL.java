@@ -10,14 +10,14 @@ import com.ros.smartrocket.adapter.AnswerBaseAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class QuestionBaseChooseBL extends QuestionBaseBL {
     protected AnswerBaseAdapter adapter;
 
-    @Bind(R.id.conditionText)
+    @BindView(R.id.conditionText)
     TextView conditionText;
-    @Bind(R.id.choiceListLayout)
+    @BindView(R.id.choiceListLayout)
     LinearLayout answerLayout;
 
     public void configureView(int stringId, final AnswerBaseAdapter adapter) {

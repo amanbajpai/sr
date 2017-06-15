@@ -16,15 +16,15 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomCheckBox;
 import com.ros.smartrocket.views.CustomTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ActivityLogDialog extends Dialog {
     private static final String TAG = ActivityLogDialog.class.getSimpleName();
-    @Bind(R.id.emailTxt)
+    @BindView(R.id.emailTxt)
     CustomTextView emailTxt;
-    @Bind(R.id.rememberMeCheckBox)
+    @BindView(R.id.rememberMeCheckBox)
     CustomCheckBox rememberMeCheckBox;
 
     public ActivityLogDialog(Activity activity, String email) {

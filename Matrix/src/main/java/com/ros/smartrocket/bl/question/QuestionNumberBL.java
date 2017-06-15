@@ -11,15 +11,15 @@ import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.utils.L;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public final class QuestionNumberBL extends QuestionBaseBL {
     public static final String EXTRA_TEXT_VIEW_NUMBER = "com.ros.smartrocket.EXTRA_TEXT_VIEW_NUMBER";
 
-    @Bind(R.id.answerTextView)
+    @BindView(R.id.answerTextView)
     TextView answerTextView;
-    @Bind(R.id.keyDotBtn)
+    @BindView(R.id.keyDotBtn)
     Button dotButton;
 
     @Override

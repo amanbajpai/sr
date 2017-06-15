@@ -27,17 +27,17 @@ import com.ros.smartrocket.views.CustomCheckBox;
 import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PasswordActivity extends BaseActivity implements NetworkOperationListenerInterface {
     public static String EMAIL = "email";
-    @Bind(R.id.passwordEditText)
+    @BindView(R.id.passwordEditText)
     CustomEditTextView passwordEditText;
-    @Bind(R.id.rememberMeCheckBox)
+    @BindView(R.id.rememberMeCheckBox)
     CustomCheckBox rememberMeCheckBox;
-    @Bind(R.id.login_btn)
+    @BindView(R.id.login_btn)
     CustomButton loginButton;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();

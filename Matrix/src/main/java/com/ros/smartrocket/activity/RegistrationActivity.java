@@ -42,7 +42,7 @@ import com.ros.smartrocket.views.CustomTextView;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
@@ -54,31 +54,31 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         NetworkOperationListenerInterface, SwitchCheckedChangeListener {
     private static final String STATE_PHOTO = "com.ros.smartrocket.RegistrationActivity.STATE_PHOTO";
 
-    @Bind(R.id.profilePhotoImageView)
+    @BindView(R.id.profilePhotoImageView)
     ImageView profilePhotoImageView;
-    @Bind(R.id.firstNameEditText)
+    @BindView(R.id.firstNameEditText)
     CustomEditTextView fullNameEditText;
-    @Bind(R.id.maleRadioButton)
+    @BindView(R.id.maleRadioButton)
     RadioButton maleRadioButton;
-    @Bind(R.id.femaleRadioButton)
+    @BindView(R.id.femaleRadioButton)
     RadioButton femaleRadioButton;
-    @Bind(R.id.genderRadioGroup)
+    @BindView(R.id.genderRadioGroup)
     RadioGroup genderRadioGroup;
-    @Bind(R.id.birthdayEditText)
+    @BindView(R.id.birthdayEditText)
     CustomEditTextView birthdayEditText;
-    @Bind(R.id.emailEditText)
+    @BindView(R.id.emailEditText)
     CustomEditTextView emailEditText;
-    @Bind(R.id.emailValidationText)
+    @BindView(R.id.emailValidationText)
     CustomTextView emailValidationText;
-    @Bind(R.id.passwordEditText)
+    @BindView(R.id.passwordEditText)
     CustomEditTextView passwordEditText;
-    @Bind(R.id.passwordValidationText)
+    @BindView(R.id.passwordValidationText)
     CustomTextView passwordValidationText;
-    @Bind(R.id.showPasswordToggleButton)
+    @BindView(R.id.showPasswordToggleButton)
     CustomSwitch showPasswordToggleButton;
-    @Bind(R.id.confirmButton)
+    @BindView(R.id.confirmButton)
     CustomButton confirmButton;
-    @Bind(R.id.cancelButton)
+    @BindView(R.id.cancelButton)
     CustomButton cancelButton;
 
     private APIFacade apiFacade = APIFacade.getInstance();

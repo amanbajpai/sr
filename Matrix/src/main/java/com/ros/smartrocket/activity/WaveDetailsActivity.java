@@ -31,7 +31,7 @@ import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomTextView;
 import com.ros.smartrocket.views.OptionsRow;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -39,41 +39,41 @@ import butterknife.ButterKnife;
  */
 public class WaveDetailsActivity extends BaseActivity implements
         View.OnClickListener, ClaimTaskManager.ClaimTaskListener {
-    @Bind(R.id.startTimeText)
+    @BindView(R.id.startTimeText)
     CustomTextView startTimeText;
-    @Bind(R.id.deadlineTimeText)
+    @BindView(R.id.deadlineTimeText)
     CustomTextView deadlineTimeText;
-    @Bind(R.id.expireText)
+    @BindView(R.id.expireText)
     CustomTextView expireText;
-    @Bind(R.id.startTimeTextView)
+    @BindView(R.id.startTimeTextView)
     CustomTextView startTimeTextView;
-    @Bind(R.id.deadlineTimeTextView)
+    @BindView(R.id.deadlineTimeTextView)
     CustomTextView deadlineTimeTextView;
-    @Bind(R.id.expireTextView)
+    @BindView(R.id.expireTextView)
     CustomTextView expireTextView;
-    @Bind(R.id.mapImageView)
+    @BindView(R.id.mapImageView)
     ImageView mapImageView;
-    @Bind(R.id.showMissionMapText)
+    @BindView(R.id.showMissionMapText)
     CustomTextView showMissionMapText;
-    @Bind(R.id.timeLayout)
+    @BindView(R.id.timeLayout)
     LinearLayout timeLayout;
-    @Bind(R.id.waveDetailsOptionsRow)
+    @BindView(R.id.waveDetailsOptionsRow)
     OptionsRow optionsRow;
-    @Bind(R.id.noTaskAddressText)
+    @BindView(R.id.noTaskAddressText)
     CustomTextView noTaskAddressText;
-    @Bind(R.id.projectDescription)
+    @BindView(R.id.projectDescription)
     CustomTextView projectDescription;
-    @Bind(R.id.descriptionLayout)
+    @BindView(R.id.descriptionLayout)
     LinearLayout descriptionLayout;
-    @Bind(R.id.claimNearTasksButton)
+    @BindView(R.id.claimNearTasksButton)
     CustomButton claimNearTasksButton;
-    @Bind(R.id.showAllTasksButton)
+    @BindView(R.id.showAllTasksButton)
     CustomButton showAllTasksButton;
-    @Bind(R.id.hideAllTasksButton)
+    @BindView(R.id.hideAllTasksButton)
     CustomButton hideAllTasksButton;
-    @Bind(R.id.previewTaskButton)
+    @BindView(R.id.previewTaskButton)
     CustomButton previewTaskButton;
-    @Bind(R.id.buttonsLayout)
+    @BindView(R.id.buttonsLayout)
     LinearLayout buttonsLayout;
     private TextView titleTextView;
     private AsyncQueryHandler handler;

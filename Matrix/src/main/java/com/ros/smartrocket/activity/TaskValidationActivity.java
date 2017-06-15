@@ -60,24 +60,24 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface {
-    @Bind(R.id.closingQuestionText)
+    @BindView(R.id.closingQuestionText)
     CustomTextView closingQuestionText;
-    @Bind(R.id.missionDueTextView)
+    @BindView(R.id.missionDueTextView)
     CustomTextView missionDueTextView;
-    @Bind(R.id.taskDataSizeTextView)
+    @BindView(R.id.taskDataSizeTextView)
     CustomTextView taskDataSizeTextView;
-    @Bind(R.id.dueInTextView)
+    @BindView(R.id.dueInTextView)
     CustomTextView dueInTextView;
-    @Bind(R.id.taskIdTextView)
+    @BindView(R.id.taskIdTextView)
     CustomTextView taskIdTextView;
-    @Bind(R.id.sendNowButton)
+    @BindView(R.id.sendNowButton)
     CustomButton sendNowButton;
-    @Bind(R.id.sendLaterButton)
+    @BindView(R.id.sendLaterButton)
     CustomButton sendLaterButton;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();

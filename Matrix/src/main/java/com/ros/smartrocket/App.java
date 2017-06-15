@@ -11,8 +11,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
@@ -39,7 +37,6 @@ public class App extends Application {
     private String deviceType;
     private MatrixLocationManager locationManager;
     private MyAccount myAccount;
-    private Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -82,7 +79,6 @@ public class App extends Application {
             FacebookSdk.sdkInitialize(getApplicationContext());
             AppEventsLogger.activateApp(this);
         }
-        AnalyticsWrapper.initAnalytics(this);
         Fabric.with(this, new Crashlytics());
     }
 
@@ -94,21 +90,6 @@ public class App extends Application {
                 "smartrocket.helpshift.com",
                 "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
                 config);
-    }
-
-
-    synchronized public Tracker getDefaultTracker() {
-        if (mTracker == null) {
-//            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-//            mTracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return mTracker;
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(base);
     }
 
     public static App getInstance() {
@@ -189,5 +170,11 @@ public class App extends Application {
         locationManager.setLastBaiduPosition(null);
         locationManager.setLastGooglePosition(null);
         locationManager.setZoomLevel(0);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 }

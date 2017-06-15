@@ -23,15 +23,15 @@ import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, AdapterView.OnItemSelectedListener {
-    @Bind(R.id.referralCasesSpinner)
+    @BindView(R.id.referralCasesSpinner)
     Spinner referralCasesSpinner;
-    @Bind(R.id.continueButton)
+    @BindView(R.id.continueButton)
     CustomButton continueButton;
     private APIFacade apiFacade = APIFacade.getInstance();
     private int countryId;

@@ -10,13 +10,13 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.utils.LocaleUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CustomSwitch extends LinearLayout {
-    @Bind(R.id.no_btn)
+    @BindView(R.id.no_btn)
     CustomTextView noBtn;
-    @Bind(R.id.yes_btn)
+    @BindView(R.id.yes_btn)
     CustomTextView yesBtn;
 
     private boolean isChecked = false;

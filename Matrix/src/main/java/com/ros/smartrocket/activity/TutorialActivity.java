@@ -17,13 +17,13 @@ import com.ros.smartrocket.views.TutorialView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TutorialActivity extends BaseActivity {
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @Bind(R.id.pageIndicatorView)
+    @BindView(R.id.pageIndicatorView)
     PageIndicatorView pageIndicatorView;
     private List<View> tutorialViews = new ArrayList<>();
 

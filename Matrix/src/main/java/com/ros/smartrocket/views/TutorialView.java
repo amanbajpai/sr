@@ -9,16 +9,16 @@ import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TutorialView extends LinearLayout {
 
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     CustomTextView title;
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     CustomTextView text;
-    @Bind(R.id.image)
+    @BindView(R.id.image)
     ImageView image;
 
     public TutorialView(Context context) {

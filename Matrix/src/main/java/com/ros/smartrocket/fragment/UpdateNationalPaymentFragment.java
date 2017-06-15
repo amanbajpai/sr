@@ -27,18 +27,18 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomEditTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class UpdateNationalPaymentFragment extends Fragment implements NetworkOperationListenerInterface {
-    @Bind(R.id.nameEdt)
+    @BindView(R.id.nameEdt)
     CustomEditTextView nameEdt;
-    @Bind(R.id.userNationalIdEdt)
+    @BindView(R.id.userNationalIdEdt)
     CustomEditTextView userNationalIdEdt;
-    @Bind(R.id.phoneEdt)
+    @BindView(R.id.phoneEdt)
     CustomEditTextView phoneEdt;
-    @Bind(R.id.submitButton)
+    @BindView(R.id.submitButton)
     CustomButton submitButton;
     private APIFacade apiFacade = APIFacade.getInstance();
     private CustomProgressDialog progressDialog;
@@ -114,7 +114,7 @@ public class UpdateNationalPaymentFragment extends Fragment implements NetworkOp
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @OnClick(R.id.submitButton)

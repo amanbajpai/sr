@@ -23,7 +23,7 @@ import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,19 +32,17 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Network
     public static final String BITMASK = "bitmask";
     public static final int EMAIL_MASK = 1;
     public static final int BIRTH_MASK = 2;
-    @Bind(R.id.emailEditText)
+    @BindView(R.id.emailEditText)
     CustomEditTextView emailEditText;
-    @Bind(R.id.birthdayEditText)
+    @BindView(R.id.birthdayEditText)
     CustomEditTextView birthdayEditText;
-    @Bind(R.id.continue_btn)
-    CustomButton continueWithEmailBtn;
-    @Bind(R.id.txt_why_dob)
+    @BindView(R.id.txt_why_dob)
     CustomTextView txtWhyDob;
-    @Bind(R.id.birthLayout)
+    @BindView(R.id.birthLayout)
     LinearLayout birthLayout;
-    @Bind(R.id.txt_why_email)
+    @BindView(R.id.txt_why_email)
     CustomTextView txtWhyEmail;
-    @Bind(R.id.emailLayout)
+    @BindView(R.id.emailLayout)
     LinearLayout emailLayout;
     private int bitMasc;
     private ExternalAuthorize externalAuthorize;

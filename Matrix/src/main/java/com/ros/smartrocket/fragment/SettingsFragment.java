@@ -46,7 +46,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomSwitch;
 import com.ros.smartrocket.views.CustomTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -55,31 +55,31 @@ import butterknife.OnClick;
  */
 public class SettingsFragment extends Fragment implements SwitchCheckedChangeListener,
         AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
-    @Bind(R.id.languageSpinner)
+    @BindView(R.id.languageSpinner)
     Spinner languageSpinner;
-    @Bind(R.id.locationServicesToggleButton)
+    @BindView(R.id.locationServicesToggleButton)
     CustomSwitch locationServicesToggleButton;
-    @Bind(R.id.socialSharingToggleButton)
+    @BindView(R.id.socialSharingToggleButton)
     CustomSwitch socialSharingToggleButton;
-    @Bind(R.id.useOnlyWifiToggleButton)
+    @BindView(R.id.useOnlyWifiToggleButton)
     CustomSwitch useOnlyWifiToggleButton;
-    @Bind(R.id.saveImageToggleButton)
+    @BindView(R.id.saveImageToggleButton)
     CustomSwitch saveImageToggleButton;
-    @Bind(R.id.pushMessagesToggleButton)
+    @BindView(R.id.pushMessagesToggleButton)
     CustomSwitch pushMessagesToggleButton;
-    @Bind(R.id.taskLimitSpinner)
+    @BindView(R.id.taskLimitSpinner)
     Spinner taskLimitSpinner;
-    @Bind(R.id.monthLimitSpinner)
+    @BindView(R.id.monthLimitSpinner)
     Spinner monthLimitSpinner;
-    @Bind(R.id.deadlineReminderToggleButton)
+    @BindView(R.id.deadlineReminderToggleButton)
     CustomSwitch deadlineReminderToggleButton;
-    @Bind(R.id.deadlineReminderSpinner)
+    @BindView(R.id.deadlineReminderSpinner)
     Spinner deadlineReminderSpinner;
-    @Bind(R.id.deadlineReminderLayout)
+    @BindView(R.id.deadlineReminderLayout)
     LinearLayout deadlineReminderLayout;
-    @Bind(R.id.currentVersion)
+    @BindView(R.id.currentVersion)
     CustomTextView currentVersion;
-    @Bind(R.id.closeAccount)
+    @BindView(R.id.closeAccount)
     CustomTextView closeAccount;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -354,7 +354,7 @@ public class SettingsFragment extends Fragment implements SwitchCheckedChangeLis
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
 

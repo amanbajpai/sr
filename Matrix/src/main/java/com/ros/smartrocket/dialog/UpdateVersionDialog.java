@@ -11,13 +11,13 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.views.CustomTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class UpdateVersionDialog extends Dialog {
     private static final String TAG = ActivityLogDialog.class.getSimpleName();
-    @Bind(R.id.dialogText)
+    @BindView(R.id.dialogText)
     CustomTextView dialogText;
     private DialogButtonClickListener dialogButtonClickListener;
 

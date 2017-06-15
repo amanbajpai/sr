@@ -33,7 +33,7 @@ import com.ros.smartrocket.views.CustomTextView;
 
 import java.math.BigDecimal;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,17 +41,17 @@ import butterknife.OnClick;
  * Cash out fragment
  */
 public class CashingOutFragment extends Fragment implements NetworkOperationListenerInterface {
-    @Bind(R.id.updatePaymentBtn)
+    @BindView(R.id.updatePaymentBtn)
     CustomButton updatePaymentBtn;
-    @Bind(R.id.currentBalance)
+    @BindView(R.id.currentBalance)
     CustomTextView currentBalance;
-    @Bind(R.id.cashOutButton)
+    @BindView(R.id.cashOutButton)
     CustomButton cashOutButton;
-    @Bind(R.id.minBalance)
+    @BindView(R.id.minBalance)
     CustomTextView minBalance;
-    @Bind(R.id.paymentInProgress)
+    @BindView(R.id.paymentInProgress)
     CustomTextView paymentInProgress;
-    @Bind(R.id.bntDivider)
+    @BindView(R.id.bntDivider)
     View bntDivider;
     private APIFacade apiFacade = APIFacade.getInstance();
     private MyAccount myAccount;
@@ -155,7 +155,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     private void startEditPaymentInfo() {

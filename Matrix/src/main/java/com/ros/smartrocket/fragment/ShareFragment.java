@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -17,13 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
-import com.ros.smartrocket.activity.ShareActivity;
 import com.ros.smartrocket.db.entity.Sharing;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -35,7 +31,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -52,25 +48,25 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
     private String subject;
     private String text;
     private Sharing sharing;
-    @Bind(R.id.emailButton)
+    @BindView(R.id.emailButton)
     CustomButton emailButton;
-    @Bind(R.id.facebookButton)
+    @BindView(R.id.facebookButton)
     CustomButton facebookButton;
-    @Bind(R.id.linkedinButton)
+    @BindView(R.id.linkedinButton)
     CustomButton linkedinButton;
-    @Bind(R.id.messageButton)
+    @BindView(R.id.messageButton)
     CustomButton messageButton;
-    @Bind(R.id.sinaWeiboButton)
+    @BindView(R.id.sinaWeiboButton)
     CustomButton sinaWeiboButton;
-    @Bind(R.id.tencentWeiboButton)
+    @BindView(R.id.tencentWeiboButton)
     CustomButton tencentWeiboButton;
-    @Bind(R.id.twitterButton)
+    @BindView(R.id.twitterButton)
     CustomButton twitterButton;
-    @Bind(R.id.wechatButton)
+    @BindView(R.id.wechatButton)
     CustomButton wechatButton;
-    @Bind(R.id.whatsappButton)
+    @BindView(R.id.whatsappButton)
     CustomButton whatsappButton;
-    @Bind(R.id.qzoneButton)
+    @BindView(R.id.qzoneButton)
     CustomButton qzoneButton;
 
     @Override
@@ -175,7 +171,7 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @OnClick({R.id.emailButton, R.id.facebookButton, R.id.linkedinButton, R.id.messageButton, R.id.sinaWeiboButton, R.id.tencentWeiboButton, R.id.twitterButton, R.id.wechatButton, R.id.whatsappButton, R.id.qzoneButton})

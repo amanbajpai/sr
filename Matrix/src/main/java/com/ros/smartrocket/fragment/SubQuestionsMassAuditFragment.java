@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
@@ -38,15 +38,15 @@ public class SubQuestionsMassAuditFragment extends Fragment implements
     public static final String KEY_PRODUCT = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT";
     public static final String KEY_PRODUCT_POS = "com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment.KEY_PRODUCT_POS";
 
-    @Bind(R.id.massAuditSubquestionsLayout)
+    @BindView(R.id.massAuditSubquestionsLayout)
     LinearLayout subQuestionsLayout;
-    @Bind(R.id.massAuditSubQuestionsTitle)
+    @BindView(R.id.massAuditSubQuestionsTitle)
     TextView titleTextView;
-    @Bind(R.id.massAuditSubQuestionsSubtitle)
+    @BindView(R.id.massAuditSubQuestionsSubtitle)
     TextView subtitleTextView;
-    @Bind(R.id.bottomSubQuestionsButtons)
+    @BindView(R.id.bottomSubQuestionsButtons)
     View bottomSubQuestions;
-    @Bind(R.id.submitSubQuestionsButton)
+    @BindView(R.id.submitSubQuestionsButton)
     Button submitButton;
 
     private LayoutInflater inflater;

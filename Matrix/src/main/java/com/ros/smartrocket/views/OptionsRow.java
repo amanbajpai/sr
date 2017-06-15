@@ -19,7 +19,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.ros.smartrocket.utils.UIUtils.getBalanceOrPrice;
@@ -29,13 +29,13 @@ public final class OptionsRow extends LinearLayout {
 
     private final Context context;
 
-    @Bind(R.id.optionsRowPrice)
+    @BindView(R.id.optionsRowPrice)
     TextView priceTextView;
-    @Bind(R.id.optionsRowExp)
+    @BindView(R.id.optionsRowExp)
     TextView expTextView;
-    @Bind(R.id.optionsRowLocations)
+    @BindView(R.id.optionsRowLocations)
     TextView locationsTextView;
-    @Bind(R.id.optionsRowDuration)
+    @BindView(R.id.optionsRowDuration)
     TextView durationTextView;
 
     public OptionsRow(Context context, AttributeSet attrs) {

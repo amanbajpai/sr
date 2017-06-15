@@ -24,7 +24,7 @@ import com.ros.smartrocket.fragment.SubQuestionsMassAuditFragment;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import de.greenrobot.event.EventBus;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
@@ -33,7 +33,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     public static final int CROSS = 2;
 
     TextView mainSubQuestionTextView;
-    @Bind(R.id.massAuditExpandableListView)
+    @BindView(R.id.massAuditExpandableListView)
     ExpandableListView listView;
 
     private MassAuditExpandableListAdapter adapter;

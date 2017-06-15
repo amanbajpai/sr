@@ -61,7 +61,7 @@ android {
         targetSdkVersion 22
         versionCode buildNumber + 10000
         versionName '2.4.2'
-        applicationId 'com.ros.smartrocket'
+        applicationId "com.ros.smartrocket"
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "(\"production\".equals(FLAVOR) || \"chinaProduction\"" +
@@ -213,13 +213,17 @@ android {
 
 dependencies {
     // support
-    compile 'com.google.android.gms:play-services:9.0.0'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:gridlayout-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
-    compile 'com.android.support:cardview-v7:23.2.1'
+    compile 'com.google.android.gms:play-services-base:9.0.0'
+    compile 'com.google.android.gms:play-services-maps:9.0.0'
+    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.google.android.gms:play-services-plus:9.0.0'
+    compile 'com.google.android.gms:play-services-location:9.0.0'
+    compile 'com.google.android.gms:play-services-gcm:9.0.0'
+
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:gridlayout-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'com.helpshift:android-helpshift-aar:4.5.0'
 
     // Cluster map's pins
@@ -228,8 +232,9 @@ dependencies {
 
     // other
     compile 'com.romandanylyk:pageindicatorview:0.0.8'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'commons-io:commons-io:2.4'
@@ -243,7 +248,7 @@ dependencies {
     chinaStagingCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaPredevCompile fileTree(include: '*.jar', dir: '../libsChina')
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.facebook.android:facebook-android-sdk:4.23.0'
 }
 
 repositories {

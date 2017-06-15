@@ -16,12 +16,12 @@ import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public final class QuestionInstructionBL extends QuestionBaseBL {
-    @Bind(R.id.photo)
+    @BindView(R.id.photo)
     ImageView photoImageView;
-    @Bind(R.id.video)
+    @BindView(R.id.video)
     VideoView videoView;
 
     @Override

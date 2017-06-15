@@ -59,7 +59,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
@@ -67,43 +67,43 @@ import de.greenrobot.event.EventBus;
 public class MainMenuFragment extends Fragment implements OnClickListener, NetworkOperationListenerInterface,
         ShowProgressDialogInterface {
     private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
-    @Bind(R.id.photoImageView)
+    @BindView(R.id.photoImageView)
     ImageView photoImageView;
-    @Bind(R.id.uploadPhotoProgressImage)
+    @BindView(R.id.uploadPhotoProgressImage)
     ImageView uploadPhotoProgressImage;
-    @Bind(R.id.nameTextView)
+    @BindView(R.id.nameTextView)
     CustomTextView nameTextView;
-    @Bind(R.id.myTasksCount)
+    @BindView(R.id.myTasksCount)
     CustomTextView myTasksCount;
-    @Bind(R.id.balanceTextView)
+    @BindView(R.id.balanceTextView)
     CustomTextView balanceTextView;
-    @Bind(R.id.rocketPointNumberTextView)
+    @BindView(R.id.rocketPointNumberTextView)
     CustomTextView rocketPointNumberTextView;
-    @Bind(R.id.levelName)
+    @BindView(R.id.levelName)
     CustomTextView levelName;
-    @Bind(R.id.levelIcon)
+    @BindView(R.id.levelIcon)
     ImageView levelIcon;
-    @Bind(R.id.levelProgressBar)
+    @BindView(R.id.levelProgressBar)
     SeekBar levelProgressBar;
-    @Bind(R.id.minLevelExperience)
+    @BindView(R.id.minLevelExperience)
     CustomTextView minLevelExperience;
-    @Bind(R.id.maxLevelExperience)
+    @BindView(R.id.maxLevelExperience)
     CustomTextView maxLevelExperience;
-    @Bind(R.id.notificationsButton)
+    @BindView(R.id.notificationsButton)
     CustomTextView notificationsButton;
-    @Bind(R.id.reputationTextView)
+    @BindView(R.id.reputationTextView)
     CustomTextView reputationTextView;
-    @Bind(R.id.levelLayout)
+    @BindView(R.id.levelLayout)
     LinearLayout levelLayout;
-    @Bind(R.id.shareButton)
+    @BindView(R.id.shareButton)
     CustomTextView shareButton;
-    @Bind(R.id.supportButton)
+    @BindView(R.id.supportButton)
     CustomTextView supportButton;
-    @Bind(R.id.settingsButton)
+    @BindView(R.id.settingsButton)
     CustomTextView settingsButton;
-    @Bind(R.id.levelNumber)
+    @BindView(R.id.levelNumber)
     CustomTextView levelNumber;
-    @Bind(R.id.agentId)
+    @BindView(R.id.agentId)
     CustomTextView agentId;
 
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -233,7 +233,6 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     public class ResponseReceiver extends BroadcastReceiver {

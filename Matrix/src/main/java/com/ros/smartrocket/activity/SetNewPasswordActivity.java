@@ -24,18 +24,18 @@ import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomSwitch;
 import com.ros.smartrocket.views.CustomTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SetNewPasswordActivity extends BaseActivity implements View.OnClickListener,
         NetworkOperationListenerInterface, SwitchCheckedChangeListener {
-    @Bind(R.id.passwordEditText)
+    @BindView(R.id.passwordEditText)
     CustomEditTextView passwordEditText;
-    @Bind(R.id.showPasswordToggleButton)
+    @BindView(R.id.showPasswordToggleButton)
     CustomSwitch showPasswordToggleButton;
-    @Bind(R.id.passwordValidationText)
+    @BindView(R.id.passwordValidationText)
     CustomTextView passwordValidationText;
-    @Bind(R.id.setPasswordButton)
+    @BindView(R.id.setPasswordButton)
     CustomButton setPasswordButton;
     private CustomProgressDialog progressDialog;
     private APIFacade apiFacade = APIFacade.getInstance();

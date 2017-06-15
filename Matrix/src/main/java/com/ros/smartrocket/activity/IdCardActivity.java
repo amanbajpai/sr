@@ -22,22 +22,22 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class IdCardActivity extends Activity {
     public static final String ARG_WAVE = "com.ros.smartrocket.activity.IdCardActivity.ARG_WAVE";
 
-    @Bind(R.id.idCardUserPhoto)
+    @BindView(R.id.idCardUserPhoto)
     ImageView userPhoto;
-    @Bind(R.id.idCardLogo)
+    @BindView(R.id.idCardLogo)
     ImageView logo;
-    @Bind(R.id.idCardText)
+    @BindView(R.id.idCardText)
     TextView text;
-    @Bind(R.id.idCardAgentName)
+    @BindView(R.id.idCardAgentName)
     TextView agentName;
-    @Bind(R.id.idCardAgentId)
+    @BindView(R.id.idCardAgentId)
     TextView agentId;
 
     public static void launch(Context context, Wave wave) {

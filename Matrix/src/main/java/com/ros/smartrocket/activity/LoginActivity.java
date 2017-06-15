@@ -39,26 +39,23 @@ import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomTextView;
 import com.ros.smartrocket.views.SocialLoginView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Activity for Agents login into system
- */
 public class LoginActivity extends BaseActivity implements NetworkOperationListenerInterface,
         PopupMenu.OnMenuItemClickListener, SocialLoginListener {
 
     public static String START_PUSH_NOTIFICATIONS_ACTIVITY = "start_push_notif";
-    @Bind(R.id.emailEditText)
+    @BindView(R.id.emailEditText)
     CustomEditTextView emailEditText;
-    @Bind(R.id.continue_btn)
+    @BindView(R.id.continue_btn)
     CustomButton continueWithEmailBtn;
-    @Bind(R.id.currentVersion)
+    @BindView(R.id.currentVersion)
     CustomTextView currentVersion;
-    @Bind(R.id.social_login_view)
+    @BindView(R.id.social_login_view)
     SocialLoginView socialLoginView;
-    @Bind(R.id.language)
+    @BindView(R.id.language)
     CustomTextView language;
 
     private boolean startPushNotificationActivity;
@@ -96,6 +93,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_login);
+        ButterKnife.setDebug(true);
         ButterKnife.bind(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
         startPushNotificationActivity = getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false);

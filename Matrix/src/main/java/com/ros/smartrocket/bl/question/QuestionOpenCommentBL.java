@@ -10,10 +10,10 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public final class QuestionOpenCommentBL extends QuestionBaseBL {
-    @Bind(R.id.answerEditText)
+    @BindView(R.id.answerEditText)
     EditText answerEditText;
 
     @Override

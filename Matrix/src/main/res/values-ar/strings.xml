@@ -119,7 +119,6 @@
 	<string name="forgot_your_password">هل نسيت كلمة المرور؟</string>
 	<string name="full_description">وصف المهمة</string>
 	<string name="full_name">الاسم الكامل</string>
-	<string name="ga_trackingId">UA-59279696-1</string>
 	<string name="gcm_deleted">من GCM: حذف الخادم %1$d رسالة (رسائل) معلَّقة.</string>
 	<string name="gcm_error">من GCM: خطأ (%1$s).</string>
 	<string name="gcm_recoverable_error">من GCM: خطأ يمكن تصحيحه (%1$s).</string>
@@ -393,7 +392,6 @@
 	<string name="close_account_btn">إغلاق حسابي سمارتروكيت</string>
 	<string name="close_account_text">تحذير: الضغط على \"إغلاق الحساب\" إلى إغلاق حساب سمارتروكيت بشكل دائم.سيؤدي إلى خسران أي رصيد نقدي سمارتروكيت متبقي. لا يمكن التراجع عن هذا الإجراء.</string>
 	<string name="close_account_title">إغلاق حسابي سمارتروكيت</string>
-	<string name="continue_with_fb"></string>
 	<string name="enter_dob">الرجاء ادخال تاريخ ميلادك</string>
 	<string name="enter_email">الرجاء إدخال عنوان البريد الإلكتروني الخاص بك</string>
 	<string name="why_bod">للانضمام سمارتروكيت، يجب أن يكونفوق  سن 18، بالإضافة إلى ذلك، يمكن أن تكتمل بعض البعثات فقط من قبل شخص في فئة عمرية معينة. يجب تقديم تاريخ الميلاد للانضمام سمارتروكيت.</string>

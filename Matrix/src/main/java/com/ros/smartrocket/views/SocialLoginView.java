@@ -60,7 +60,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnConnectionFailedListener {
@@ -77,7 +77,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     public static final String MALE = "male";
     public static final String EMAIL = "email";
 
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     LinearLayout container;
     private AppCompatActivity activity;
     private GoogleApiClient mGoogleApiClient;

@@ -57,7 +57,7 @@ import com.ros.smartrocket.views.CustomTextView;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -67,17 +67,17 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private static final String TAG = QuestionsActivity.class.getSimpleName();
     private static final String KEY_IS_STARTED = "started";
 
-    @Bind(R.id.mainProgressBar)
+    @BindView(R.id.mainProgressBar)
     ProgressBar mainProgressBar;
-    @Bind(R.id.questionOf)
+    @BindView(R.id.questionOf)
     CustomTextView questionOf;
-    @Bind(R.id.questionOfLayout)
+    @BindView(R.id.questionOfLayout)
     LinearLayout questionOfLayout;
-    @Bind(R.id.previousButton)
+    @BindView(R.id.previousButton)
     CustomButton previousButton;
-    @Bind(R.id.nextButton)
+    @BindView(R.id.nextButton)
     CustomButton nextButton;
-    @Bind(R.id.buttonsLayout)
+    @BindView(R.id.buttonsLayout)
     LinearLayout buttonsLayout;
 
     private APIFacade apiFacade = APIFacade.getInstance();
