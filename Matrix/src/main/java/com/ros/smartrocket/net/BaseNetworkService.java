@@ -15,6 +15,7 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -285,8 +286,8 @@ public abstract class BaseNetworkService extends IntentService {
 
     @Override
     protected void attachBaseContext(Context base) {
-        UIUtils.setCurrentLanguage();
-        Locale newLocale = UIUtils.getCurrentLocale();
+        LocaleUtils.setCurrentLanguage();
+        Locale newLocale = LocaleUtils.getCurrentLocale();
         Context context = MatrixContextWrapper.wrap(base, newLocale);
         super.attachBaseContext(context);
     }
