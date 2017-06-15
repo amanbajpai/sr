@@ -3,8 +3,8 @@
     android:id="@+id/name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical|left"
     android:minHeight="48dp"
     android:padding="10dp"
-    android:gravity="center_vertical"
     android:textColor="@color/grey"
     android:textSize="@dimen/text_size_medium" />
