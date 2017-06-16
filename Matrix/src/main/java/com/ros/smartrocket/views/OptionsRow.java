@@ -131,7 +131,8 @@ public final class OptionsRow extends LinearLayout {
 
         LocaleUtils.setCompoundDrawable(expTextView, expResId);
         expTextView.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-
+        final String d = UIUtils.numberFormat.format(task.getApproxMissionDuration()) + getContext().getString(R.string.approx_mission_duration);
+        durationTextView.setText(d);
         Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
         if (drawable != null) {
             drawable.mutate().setColorFilter(getResources().getColor(iconColorResId), PorterDuff.Mode.MULTIPLY);
@@ -141,8 +142,6 @@ public final class OptionsRow extends LinearLayout {
                 durationTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             }
         }
-        final String d = UIUtils.numberFormat.format(task.getApproxMissionDuration()) + getContext().getString(R.string.approx_mission_duration);
-        durationTextView.setText(d);
     }
 
     public void setData(Wave wave, boolean isWaveDetails) {

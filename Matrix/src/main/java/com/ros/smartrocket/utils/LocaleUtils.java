@@ -1,6 +1,7 @@
 package com.ros.smartrocket.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.helpshift.support.Support;
@@ -113,13 +114,15 @@ public class LocaleUtils {
 
     public static void setCurrentLanguage() {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
-        if (!TextUtils.isEmpty(preferencesManager.getLanguageCode())) {
-            setDefaultLanguage(preferencesManager.getLanguageCode());
+        String supportedLanguage = preferencesManager.getLanguageCode();
+        if (!TextUtils.isEmpty(supportedLanguage)) {
+            setDefaultLanguage(supportedLanguage);
+            Log.e("Language Setted", supportedLanguage);
         } else {
-            String supportedLanguage = getLanguageCodeFromSupported();
+            supportedLanguage = getLanguageCodeFromSupported();
             preferencesManager.setLanguageCode(supportedLanguage);
             setDefaultLanguage(supportedLanguage);
+            Log.e("Language Setted", supportedLanguage);
         }
     }
 

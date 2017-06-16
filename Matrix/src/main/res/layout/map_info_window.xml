@@ -3,13 +3,12 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     style="@style/MapWindowTheme"
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:minWidth="250dp"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
@@ -53,36 +52,46 @@
 
     <LinearLayout
         android:id="@+id/values"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="28dp"
         android:layout_marginTop="2dp"
         android:orientation="horizontal"
-        android:padding="2dp">
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/price_value"
             style="@style/MapTaskValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/wallet_blue"
             custom:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/point_value"
             style="@style/MapTaskValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/rocket_blue"
             custom:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/distance_value"
             style="@style/MapTaskValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/human_blue"
             custom:textStyle="bold" />
     </LinearLayout>

@@ -37,9 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Cash out fragment
- */
 public class CashingOutFragment extends Fragment implements NetworkOperationListenerInterface {
     @BindView(R.id.updatePaymentBtn)
     CustomButton updatePaymentBtn;

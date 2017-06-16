@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="28dp"
+    android:paddingTop="2dp"
+    android:orientation="horizontal">
 
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowPrice"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         custom:textStyle="bold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
 
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowExp"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         custom:textStyle="bold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
 
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowLocations"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:visibility="gone"
         custom:textStyle="bold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
 
     <com.ros.smartrocket.views.CustomTextView
         android:id="@+id/optionsRowDuration"
@@ -33,4 +49,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         custom:textStyle="bold" />
-</merge>
+</LinearLayout>

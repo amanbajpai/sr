@@ -1,86 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="UselessParent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="UselessParent">
+
     <LinearLayout
         android:id="@+id/listItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/mission_green_bg"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:adjustViewBounds="true"
-                    android:contentDescription="@string/app_name"/>
+                    android:contentDescription="@string/app_name" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/name"
                     style="@style/TaskListTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
+                    android:drawablePadding="10dp"
                     android:drawableEnd="@drawable/arrow_grey_big"
                     android:singleLine="true"
-                    custom:textStyle="bold"/>
+                    custom:textStyle="bold" />
+
                 <LinearLayout
                     android:id="@+id/timeAndDistanceLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
+
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/timeLeft"
                         style="@style/TaskListTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/sandclock_grey"
                         android:drawablePadding="3dp"
-                        custom:textStyle="bold"/>
+                        android:drawableStart="@drawable/sandclock_grey"
+                        custom:textStyle="bold" />
+
                     <com.ros.smartrocket.views.CustomTextView
                         android:id="@+id/distance"
                         style="@style/TaskListDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:drawableStart="@drawable/human_grey"
                         android:drawablePadding="3dp"
-                        custom:textStyle="bold"/>
+                        android:drawableStart="@drawable/human_grey"
+                        custom:textStyle="bold" />
                 </LinearLayout>
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/missionAvaileble"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textSize="@dimen/text_size_13p6sp"
-                    custom:textStyle="bold"/>
+                    custom:textStyle="bold" />
+
                 <com.ros.smartrocket.views.CustomTextView
                     android:id="@+id/locationName"
                     android:layout_width="match_parent"
@@ -89,19 +100,21 @@
                     android:singleLine="true"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_size_13p6sp"
-                    custom:textStyle="bold"/>
+                    custom:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
         <com.ros.smartrocket.views.CustomTextView
             android:id="@+id/statusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:textSize="@dimen/text_size_13p6sp"
-            custom:textStyle="bold"/>
+            custom:textStyle="bold" />
+
         <com.ros.smartrocket.views.OptionsRow
             android:id="@+id/taskItemOptionsRow"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/options_row_in_list_item_height"/>
+            android:layout_height="28dp" />
     </LinearLayout>
 </FrameLayout>
