@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 
@@ -67,7 +68,7 @@ public class App extends Application {
         LocaleUtils.setCurrentLanguage();
         Locale newLocale = LocaleUtils.getCurrentLocale();
         Configuration config = getResources().getConfiguration();
-        config.locale = newLocale;
+        config.setLocale(newLocale);
         getApplicationContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
