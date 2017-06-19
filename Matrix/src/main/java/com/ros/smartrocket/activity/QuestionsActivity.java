@@ -48,6 +48,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
@@ -513,6 +514,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                 }
                 return true;
             case R.id.idCardMenuItem:
+                LocaleUtils.setCurrentLanguage();
                 IdCardActivity.launch(this, wave);
                 return true;
             default:

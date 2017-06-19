@@ -17,6 +17,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
@@ -75,6 +76,7 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.setPasswordButton:
                 if (!UIUtils.isOnline(this)) {
+                    LocaleUtils.setCurrentLanguage();
                     DialogUtils.showNetworkDialog(this);
                 } else {
 

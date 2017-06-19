@@ -14,6 +14,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class ActivateAccountActivity extends BaseActivity implements View.OnClickListener,
@@ -54,6 +55,7 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activateAccountButton:
+                LocaleUtils.setCurrentLanguage();
                 if (!UIUtils.isOnline(this)) {
                     DialogUtils.showNetworkDialog(this);
                 } else {

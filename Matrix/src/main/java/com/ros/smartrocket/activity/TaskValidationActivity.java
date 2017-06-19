@@ -49,6 +49,7 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
@@ -409,6 +410,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 sendAnswers();
             }
         } else {
+            LocaleUtils.setCurrentLanguage();
             if (!UIUtils.isOnline(this)) {
                 DialogUtils.showNetworkDialog(this);
             } else if (lm.getLocation() == null || !UIUtils.isAllLocationSourceEnabled(this)

@@ -57,7 +57,7 @@
                     android:layout_toEndOf="@id/massAuditSubQuestionsSubtitleLabel"
                     android:layout_below="@id/massAuditSubQuestionsTitle"
                     android:layout_alignBaseline="@id/massAuditSubQuestionsSubtitleLabel"
-                    android:layout_alignLeft="@id/massAuditSubQuestionsTitle"
+                    android:layout_alignStart="@id/massAuditSubQuestionsTitle"
                     android:textSize="16sp"
                     tools:text="Please mark..."
                     android:layout_width="wrap_content"

@@ -12,7 +12,6 @@ import java.util.Locale;
 
 public class LocaleUtils {
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    private static final String[] SUPPORTED_LANGS_CODE = new String[]{"en", "zh", "zh_CN", "zh_TW", "en_SG", "zh_HK", "fr", "fr_FR", "fr_CA", "fr_BE", "ar"};
     public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_HK", "zh_TW", "fr", "ar"};
     public static String[] VISIBLE_LANGUAGE = new String[]{getStringById(R.string.english), getStringById(R.string.chinese_simple),
             getStringById(R.string.chinese_traditional_hk), getStringById(R.string.chinese_traditional_tw),
@@ -103,12 +102,15 @@ public class LocaleUtils {
     }
 
     private static String getLanguageCodeFromSupported() {
-        for (String lc : SUPPORTED_LANGS_CODE) {
-            if (DEFAULT_LANG.equals(lc)) {
-                return DEFAULT_LANG;
-            }
+        if (isArabicLanguage(DEFAULT_LANG)) {
+            return "ar";
+        } else if (isFrenchLanguage(DEFAULT_LANG)) {
+            return "fr";
+        } else if (isSimpleChinaLanguage(DEFAULT_LANG) || isTraditionalChinaHKLanguage(DEFAULT_LANG) || isTraditionalChinaHKLanguage(DEFAULT_LANG)) {
+            return DEFAULT_LANG;
+        } else {
+            return "en";
         }
-        return "en";
     }
 
 

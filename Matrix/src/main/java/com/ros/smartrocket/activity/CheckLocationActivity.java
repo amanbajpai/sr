@@ -15,6 +15,7 @@ import com.ros.smartrocket.dialog.CheckLocationDialog;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -43,6 +44,7 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.checkMyLocationButton:
+                LocaleUtils.setCurrentLanguage();
                 if (!UIUtils.isOnline(this)) {
                     DialogUtils.showNetworkDialog(this);
                 } else if (!UIUtils.isAllLocationSourceEnabled(this)) {

@@ -37,6 +37,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -659,6 +660,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         idCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LocaleUtils.setCurrentLanguage();
                 IdCardActivity.launch(TaskDetailsActivity.this, wave);
             }
         });

@@ -218,6 +218,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     public boolean deviceIsReady() {
         boolean result = UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
                 && !UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation());
+        LocaleUtils.setCurrentLanguage();
         if (!UIUtils.isOnline(this)) {
             DialogUtils.showNetworkDialog(this);
         } else if (!UIUtils.isAllLocationSourceEnabled(this)) {

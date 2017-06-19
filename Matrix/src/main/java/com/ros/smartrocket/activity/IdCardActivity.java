@@ -78,6 +78,7 @@ public class IdCardActivity extends Activity {
     @SuppressWarnings("unused")
     @OnClick(R.id.idCardBackButton)
     void onBackClick() {
+        LocaleUtils.setCurrentLanguage();
         finish();
     }
 
