@@ -191,8 +191,6 @@ public interface Keys {
     String FB_LOGGING_SUBMITTED = "MissionSubmission";
 
     /* ------------ Social Login -----------------------*/
-    String WECHAT_APP_ID = "wx5b1873fde8502395";
-    String WECHAT_APP_SECRET = "213174d23b8f50b08ea9b5c4d0349b5c";
     String QQ_APP_ID = "1104291659";
 
     /* ------------ GCM parameters -----------------------*/

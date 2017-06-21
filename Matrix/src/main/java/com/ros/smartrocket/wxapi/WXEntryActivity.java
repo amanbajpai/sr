@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -17,6 +18,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.UIUtils;
+import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -41,8 +43,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         checkDeviceSettingsByOnResume(false);
         setContentView(R.layout.activity_launch);
-        IWXAPI api = WXAPIFactory.createWXAPI(this, Keys.WECHAT_APP_ID, false);
-        api.registerApp(Keys.WECHAT_APP_ID);
+        IWXAPI api = WXAPIFactory.createWXAPI(this, BuildConfig.WECHAT_APP_ID, false);
+        api.registerApp(BuildConfig.WECHAT_APP_ID);
         api.handleIntent(getIntent(), this);
         progressDialog = CustomProgressDialog.show(this);
     }

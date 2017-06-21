@@ -120,6 +120,8 @@ android {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "false"
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'false'
             buildConfigField "String", "BAIDU_API_KEY", "\"n0GLOKAhMcokvNddHSdFnqPh\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"wx5b1873fde8502395\""
+            buildConfigField "String", "WECHAT_APP_SECRET", "\"213174d23b8f50b08ea9b5c4d0349b5c\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
                                     baiduApiKey : "n0GLOKAhMcokvNddHSdFnqPh",
                                     jPushAppKey : "1afdb8b1c523982b249eae94"]
@@ -138,13 +140,15 @@ android {
             buildConfigField "boolean", "CHECK_MOCK_LOCATION", "true"
             buildConfigField "boolean", "RUN_CRASHLYTICS", 'true'
             buildConfigField "String", "BAIDU_API_KEY", "\"hc5VEmGKRDw7ls2ZpGz18n6g\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"wx59dfff86aedffa2f\""
+            buildConfigField "String", "WECHAT_APP_SECRET", "\"314c3c487147ab72e7ac0b5a94c2fb1b\""
             manifestPlaceholders = [googleApiKey: "AIzaSyB5HGEpnHOUwctdPHZN168PPUtOZOg6BPI",
                                     baiduApiKey : "hc5VEmGKRDw7ls2ZpGz18n6g",
                                     jPushAppKey : "1afdb8b1c523982b249eae94"]
             signingConfig signingConfigs.release
             zipAlignEnabled true
             minifyEnabled false
-            debuggable true
+            debuggable false
             jniDebuggable false
             renderscriptDebuggable false
             testCoverageEnabled false

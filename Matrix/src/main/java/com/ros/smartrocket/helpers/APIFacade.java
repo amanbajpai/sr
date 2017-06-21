@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
@@ -488,7 +489,7 @@ public class APIFacade {
 
     public void getWeChatToken(Activity activity, String code) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_WECHAT_TOKEN, Keys.WECHAT_APP_ID, Keys.WECHAT_APP_SECRET, code);
+        operation.setUrl(WSUrl.GET_WECHAT_TOKEN, BuildConfig.WECHAT_APP_ID, BuildConfig.WECHAT_APP_SECRET, code);
         operation.setTag(Keys.GET_WECHAT_TOKEN_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);

@@ -35,6 +35,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.AdditionalAuthClaim;
@@ -197,8 +198,8 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         weChatSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                IWXAPI api = WXAPIFactory.createWXAPI(getContext(), Keys.WECHAT_APP_ID, false);
-                api.registerApp(Keys.WECHAT_APP_ID);
+                IWXAPI api = WXAPIFactory.createWXAPI(getContext(), BuildConfig.WECHAT_APP_ID, false);
+                api.registerApp(BuildConfig.WECHAT_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "wechat_smart_rocket";
