@@ -41,7 +41,7 @@ public class LocaleUtils {
             locale = Locale.FRENCH;
             Support.setSDKLanguage("fr");
         } else if (isArabicLanguage(currentLanguageCode)) {
-            locale = new Locale("ar");
+            locale = new Locale("ar", "MA");
             Support.setSDKLanguage("ar");
         } else {
             locale = new Locale(currentLanguageCode);
