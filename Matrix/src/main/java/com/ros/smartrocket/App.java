@@ -109,6 +109,7 @@ public class App extends Application {
         this.myAccount = profile;
         String profileJson = new Gson().toJson(profile);
         PreferencesManager.getInstance().setString(Keys.MY_ACCOUNT, profileJson);
+        PreferencesManager.getInstance().setUsePushMessages(myAccount.getAllowPushNotification());
     }
 
     public static void clearMonthLimitIfNeed() {
