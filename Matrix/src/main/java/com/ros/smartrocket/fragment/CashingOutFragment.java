@@ -21,6 +21,7 @@ import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.CashingOutActivity;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.dialog.ActivityLogDialog;
+import com.ros.smartrocket.dialog.PaymentInfoDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
@@ -173,7 +174,7 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
                 if (myAccount.canWithdraw()) {
                     getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
                 } else {
-                    startEditPaymentInfo();
+                    new PaymentInfoDialog(getActivity());
                 }
                 break;
             case R.id.updatePaymentBtn:

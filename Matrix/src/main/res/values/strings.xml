@@ -545,4 +545,7 @@
     <string name="french">Français</string>
     <string name="already_member">YOU ARE ALREADY A MEMBER OF OUR CREW!</string>
     <string name="global_block_error">SmartRocket is temporary unavailable</string>
+    <string name="dialog_payment_title">Enter payment details</string>
+    <string name="dialog_payment_description">You must first enter your payment details in order to cash out your SmartRocket earnings</string>
+    <string name="dialog_payment_instruction">Press the SETUP button to continue</string>
 </resources>
