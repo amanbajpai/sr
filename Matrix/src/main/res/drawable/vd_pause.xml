@@ -1,0 +1,22 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:name="circle"
+        android:pathData="M 2 12 C 2 6.48 6.48 2 12 2 C 17.52 2 22 6.48 22 12 C 22 17.52 17.52 22 12 22 C 6.48 22 2 17.52 2 12"
+        android:strokeColor="@color/icon_grey"
+        android:strokeWidth="0.2"/>
+    <group android:name="pause">
+        <path
+            android:name="right_bar"
+            android:pathData="M 13 6 L 17 6 L 17 18 L 13 18 Z"
+            android:fillColor="@color/icon_grey"/>
+        <path
+            android:name="left_bar"
+            android:pathData="M 7 6 L 11 6 L 11 18 L 7 18 Z"
+            android:fillColor="@color/icon_grey"/>
+    </group>
+</vector>

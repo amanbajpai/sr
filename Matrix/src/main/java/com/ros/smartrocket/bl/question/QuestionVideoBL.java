@@ -98,7 +98,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     }
 
-    public Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
+    private Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
         Answer answer = new Answer();
         answer.setRandomId();
         answer.setQuestionId(question.getId());

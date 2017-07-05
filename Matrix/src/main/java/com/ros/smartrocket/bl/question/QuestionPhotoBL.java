@@ -40,9 +40,7 @@ import java.util.Arrays;
 
 import de.greenrobot.event.EventBus;
 
-/**
- * Multiple photo question type
- */
+
 public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListener {
     private static final String STATE_PHOTO = "com.ros.smartrocket.STATE_PHOTO";
     private static final String EXTRA_LAST_PHOTO_FILE = "com.ros.smartrocket.EXTRA_LAST_PHOTO_FILE";
