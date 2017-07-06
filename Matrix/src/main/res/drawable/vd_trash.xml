@@ -1,67 +1,69 @@
-<vector
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:viewportHeight="24"
+    android:viewportWidth="24">
     <path
         android:name="circle"
         android:pathData="M 2 12 C 2 6.48 6.48 2 12 2 C 17.52 2 22 6.48 22 12 C 22 17.52 17.52 22 12 22 C 6.48 22 2 17.52 2 12"
         android:strokeColor="@color/icon_grey"
-        android:strokeWidth="0.2"/>
-    <group android:name="pause">
+        android:strokeWidth="0.3" />
+    <group
+        android:name="trash"
+        android:pivotX="12"
+        android:pivotY="12">
         <path
             android:name="bucket"
-            android:pathData="M 7.83 9.69 L 16.17 9.69 L 16.17 19 L 7.83 19 Z"
             android:fillColor="@color/icon_grey"
+            android:pathData="M 7.83 9.69 L 16.17 9.69 L 16.17 19 L 7.83 19 Z"
             android:strokeColor="@color/icon_grey"
-            android:strokeWidth="1"
             android:strokeLineCap="round"
-            android:strokeLineJoin="round"/>
+            android:strokeLineJoin="round"
+            android:strokeWidth="1" />
         <path
             android:name="line_one"
-            android:pathData="M 8.675 10.823 L 9.625 10.823 L 9.625 18.304 L 8.675 18.304 Z"
             android:fillColor="@color/grey_middle"
+            android:pathData="M 8.675 10.823 L 9.625 10.823 L 9.625 18.304 L 8.675 18.304 Z"
             android:strokeColor="@color/grey_middle"
-            android:strokeWidth="0.5"
             android:strokeLineCap="round"
-            android:strokeLineJoin="round"/>
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.5" />
         <path
             android:name="line_two"
-            android:pathData="M 11.525 10.823 L 12.475 10.823 L 12.475 18.304 L 11.525 18.304 Z"
             android:fillColor="@color/grey_middle"
+            android:pathData="M 11.525 10.823 L 12.475 10.823 L 12.475 18.304 L 11.525 18.304 Z"
             android:strokeColor="@color/grey_middle"
-            android:strokeWidth="0.5"
             android:strokeLineCap="round"
-            android:strokeLineJoin="round"/>
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.5" />
         <path
             android:name="line_three"
-            android:pathData="M 14.376 10.823 L 15.326 10.823 L 15.326 18.304 L 14.376 18.304 Z"
             android:fillColor="@color/grey_middle"
+            android:pathData="M 14.376 10.823 L 15.326 10.823 L 15.326 18.304 L 14.376 18.304 Z"
             android:strokeColor="@color/grey_middle"
-            android:strokeWidth="0.5"
             android:strokeLineCap="round"
-            android:strokeLineJoin="round"/>
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.5" />
         <path
             android:name="hor_line_one"
-            android:pathData="M 6.5 9.3 L 17.5 9.3 L 17.5 7.591 L 6.5 7.591 Z"
             android:fillColor="@color/icon_grey"
+            android:pathData="M 6.5 9.3 L 17.5 9.3 L 17.5 7.591 L 6.5 7.591 Z"
             android:strokeColor="@color/icon_grey"
-            android:strokeWidth="0.5"
             android:strokeLineCap="round"
-            android:strokeLineJoin="round"/>
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.5" />
         <path
             android:name="hor_line_two"
-            android:pathData="M 8.5 7.795 L 15.5 7.795 L 15.5 6.295 L 8.5 6.295 Z"
             android:fillColor="@color/icon_grey"
+            android:pathData="M 8.5 7.795 L 15.5 7.795 L 15.5 6.295 L 8.5 6.295 Z"
             android:strokeColor="@color/icon_grey"
-            android:strokeWidth="0.5"
             android:strokeLineCap="round"
-            android:strokeLineJoin="round"/>
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.5" />
         <path
             android:name="hor_line_three"
-            android:pathData="M 9.5 6.142 L 9.5 4.467 L 14.5 4.467 L 14.5 6.142 L 13.5 6.142 L 13.5 5.026 L 10.5 5.026 L 10.5 6.142 Z"
             android:fillColor="@color/icon_grey"
-            android:strokeWidth="1"/>
+            android:pathData="M 9.5 6.142 L 9.5 4.467 L 14.5 4.467 L 14.5 6.142 L 13.5 6.142 L 13.5 5.026 L 10.5 5.026 L 10.5 6.142 Z"
+            android:strokeWidth="1" />
     </group>
 </vector>
