@@ -35,4 +35,7 @@
     <!-- Options Row -->
     <dimen name="options_row_in_list_item_height">32dp</dimen>
     <dimen name="options_row_on_details_screen_height">42dp</dimen>
+
+    <!-- Audio-->
+    <dimen name="audi_button_size">70dp</dimen>
 </resources>
