@@ -2,12 +2,13 @@ package com.ros.smartrocket.bl.question;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
@@ -23,6 +25,8 @@ import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+
+import java.util.Arrays;
 
 import butterknife.ButterKnife;
 
@@ -180,6 +184,31 @@ public class QuestionBaseBL {
                 answersDeleteComplete();
             }
         }
+    }
+
+    protected Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
+        Answer answer = new Answer();
+        answer.setRandomId();
+        answer.setQuestionId(question.getId());
+        answer.setTaskId(question.getTaskId());
+        answer.setMissionId(question.getMissionId());
+        answer.setProductId(product != null ? product.getId() : 0);
+
+        //Save empty answer to DB
+        if (!isPreview()) {
+            Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+            long id = ContentUris.parseId(uri);
+            answer.set_id(id);
+        }
+
+        Answer[] resultAnswerArray = Arrays.copyOf(currentAnswerArray, currentAnswerArray.length + 1);
+        resultAnswerArray[currentAnswerArray.length] = answer;
+
+        return resultAnswerArray;
+    }
+
+    protected boolean isPreview() {
+        return getActivity() != null && getActivity() instanceof QuestionsActivity && ((QuestionsActivity) getActivity()).isPreview();
     }
 
     protected void answersDeleteComplete() {

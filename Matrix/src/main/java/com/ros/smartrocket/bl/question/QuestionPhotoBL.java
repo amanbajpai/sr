@@ -103,10 +103,6 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         EventBus.getDefault().unregister(this);
     }
 
-    private boolean isPreview() {
-        return getActivity() != null && getActivity() instanceof QuestionsActivity && ((QuestionsActivity) getActivity()).isPreview();
-    }
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void validateView() {

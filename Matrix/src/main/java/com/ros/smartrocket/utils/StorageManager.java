@@ -8,6 +8,7 @@ import java.io.File;
 public final class StorageManager {
     private static final String IMAGE_DIR = "Images";
     private static final String VIDEO_DIR = "Videos";
+    private static final String AUDIO_DIR = "Audios";
 
     /// ======================================================================================================== ///
     /// ================================================= PUBLIC =============================================== ///
@@ -23,6 +24,10 @@ public final class StorageManager {
 
     public static File getImageCacheDir(Context context) {
         return getCacheDir(context, IMAGE_DIR);
+    }
+
+    public static String getAudioCacheDirPath(Context context) {
+        return getCacheDir(context, AUDIO_DIR).getAbsolutePath();
     }
 
     /// ======================================================================================================== ///

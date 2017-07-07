@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:waveview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:animateLayoutChanges="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/btnRecord"
+            android:id="@+id/btnRecordPause"
             android:layout_width="@dimen/audi_button_size"
             android:layout_height="@dimen/audi_button_size"
             waveview:srcCompat="@drawable/avd_record" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/btnPause"
-            android:layout_width="@dimen/audi_button_size"
-            android:layout_height="@dimen/audi_button_size"
-            android:visibility="gone"
-            waveview:srcCompat="@drawable/avd_pause" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/btnStop"
@@ -35,7 +19,7 @@
             waveview:srcCompat="@drawable/avd_stop" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/btnPlay"
+            android:id="@+id/btnPlayStop"
             android:layout_width="@dimen/audi_button_size"
             android:layout_height="@dimen/audi_button_size"
             android:visibility="gone"
@@ -48,13 +32,4 @@
             android:visibility="gone"
             waveview:srcCompat="@drawable/avd_trash" />
 
-    </LinearLayout>
-
-    <com.shuyu.waveview.AudioWaveView
-        android:id="@+id/audioWave"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        waveview:waveColor="@color/red" />
-
-</LinearLayout>
+</merge>

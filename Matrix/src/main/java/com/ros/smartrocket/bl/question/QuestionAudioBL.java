@@ -1,102 +1,152 @@
 package com.ros.smartrocket.bl.question;
 
-import android.support.v7.widget.AppCompatImageView;
+import android.net.Uri;
 import android.view.View;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.helpers.AVDWrapper;
+import com.ros.smartrocket.interfaces.QuestionAudioPlayer;
+import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
+import com.ros.smartrocket.utils.StorageManager;
+import com.ros.smartrocket.utils.audio.MatrixAudioPlayer;
+import com.ros.smartrocket.utils.audio.MatrixAudioRecorder;
+import com.ros.smartrocket.views.AudioControlsView;
 import com.shuyu.waveview.AudioWaveView;
+
+import java.util.Calendar;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class QuestionAudioBL extends QuestionBaseBL implements AVDWrapper.AnimationCallback {
-    private static final int ANIMATION_DURATION = 470;
-    @Bind(R.id.btnRecord)
-    AppCompatImageView btnRecord;
-    @Bind(R.id.btnPause)
-    AppCompatImageView btnPause;
-    @Bind(R.id.btnStop)
-    AppCompatImageView btnStop;
-    @Bind(R.id.btnPlay)
-    AppCompatImageView btnPlay;
-    @Bind(R.id.btnTrash)
-    AppCompatImageView btnTrash;
+public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.RecordErrorHandler, MatrixAudioPlayer.AudioPlayCallback {
+    @Bind(R.id.audioView)
+    AudioControlsView audioControlsView;
     @Bind(R.id.audioWave)
     AudioWaveView audioWave;
-    private AVDWrapper animationWrapper;
+    private QuestionAudioRecorder audioRecorder;
+    private QuestionAudioPlayer audioPlayer;
+    private boolean isAudioAdded = false;
+    private String audioPath;
+    private static final Random RANDOM = new Random();
 
     @Override
     public void configureView() {
         ButterKnife.bind(view);
-        animationWrapper = new AVDWrapper();
-        animationWrapper.setCallback(this);
+        audioRecorder = new MatrixAudioRecorder(audioWave, this);
+        audioPlayer = new MatrixAudioPlayer(audioWave, this);
+        audioControlsView.setOnControlsClickListener(this);
+        loadAnswers();
     }
 
     @Override
-    public void fillViewWithAnswers(Answer[] answers) {
-    }
+    public void refreshNextButton() {
+        if (answerSelectedListener != null) {
+            boolean selected = isAudioAdded;
+            answerSelectedListener.onAnswerSelected(selected, question.getId());
+        }
 
-    private void handleDeleteClick() {
-        btnRecord.setVisibility(View.VISIBLE);
-        btnTrash.setVisibility(View.GONE);
-        btnPlay.setVisibility(View.GONE);
-        btnPause.setVisibility(View.GONE);
-    }
-
-    private void handlePlayClick() {
-        btnPause.setVisibility(View.VISIBLE);
-        btnPlay.setVisibility(View.GONE);
-    }
-
-    private void handleStopClick() {
-        btnPlay.setVisibility(View.VISIBLE);
-        btnTrash.setVisibility(View.VISIBLE);
-        btnPause.setVisibility(View.GONE);
-        btnRecord.setVisibility(View.GONE);
-        btnStop.setVisibility(View.GONE);
-    }
-
-    private void handlePauseClick() {
-        btnPause.setVisibility(View.GONE);
-        btnRecord.setVisibility(View.VISIBLE);
-        btnStop.setVisibility(View.VISIBLE);
-    }
-
-    private void handleRecordClick() {
-        btnRecord.setVisibility(View.GONE);
-        btnPause.setVisibility(View.VISIBLE);
-        btnStop.setVisibility(View.VISIBLE);
-    }
-
-
-    @OnClick({R.id.btnRecord, R.id.btnPause, R.id.btnStop, R.id.btnPlay, R.id.btnTrash, R.id.audioWave})
-    public void onViewClicked(View view) {
-        if (animationWrapper != null && view instanceof AppCompatImageView) {
-            animationWrapper.start(ANIMATION_DURATION, (AppCompatImageView) view);
+        if (answerPageLoadingFinishedListener != null) {
+            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
         }
     }
 
     @Override
-    public void onAnimationDone(AppCompatImageView imageView) {
-        switch (imageView.getId()) {
-            case R.id.btnRecord:
+    public void fillViewWithAnswers(Answer[] answers) {
+        if (answers.length == 0) {
+            question.setAnswers(addEmptyAnswer(answers));
+        } else {
+            question.setAnswers(answers);
+        }
+
+        Answer answer = question.getAnswers()[0];
+        if (answer.getChecked() && answer.getFileUri() != null) {
+            isAudioAdded = true;
+            audioPath = Uri.parse(answer.getFileUri()).getPath();
+            audioControlsView.resolveDefaultPlayingUI();
+        } else {
+            isAudioAdded = false;
+            audioPath = generateAudioFilePath();
+            audioControlsView.resolveDefaultRecordUI();
+        }
+        updateFilePath();
+
+    }
+
+    private void updateFilePath() {
+        audioPlayer.setFilePath(audioPath);
+        audioRecorder.setFilePath(audioPath);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnRecordPause:
                 handleRecordClick();
                 break;
-            case R.id.btnPause:
-                handlePauseClick();
-                break;
             case R.id.btnStop:
-                handleStopClick();
+                handleStopRecordClick();
                 break;
-            case R.id.btnPlay:
-                handlePlayClick();
+            case R.id.btnPlayStop:
+                handlePlayStopClick();
                 break;
             case R.id.btnTrash:
                 handleDeleteClick();
                 break;
         }
     }
+
+    private void handleRecordClick() {
+        if (audioRecorder.isRecording()) {
+            audioControlsView.resolvePauseRecordUI();
+            audioRecorder.pauseRecording();
+        } else {
+            audioControlsView.resolveStartRecordUI();
+            audioRecorder.resumeRecording();
+        }
+    }
+
+    private void handleStopRecordClick() {
+        // TODO dialog
+        audioRecorder.stopRecording();
+        audioControlsView.resolveDefaultPlayingUI();
+    }
+
+    private void handlePlayStopClick() {
+        if (audioPlayer.isPlaying()) {
+            audioPlayer.pause();
+            audioControlsView.resolveStopPlayingUI();
+        } else {
+            audioPlayer.play();
+            audioControlsView.resolveStartPlayingUI();
+        }
+    }
+
+    private void handleDeleteClick() {
+        // TODO dialog
+    }
+
+    @Override
+    public void onRecordError() {
+        isAudioAdded = false;
+        audioControlsView.resolveDefaultRecordUI();
+    }
+
+    @Override
+    public void onPlayError() {
+        isAudioAdded = false;
+        audioControlsView.resolveDefaultRecordUI();
+    }
+
+    @Override
+    public void onPlayStopped() {
+        audioControlsView.resolveDefaultPlayingUI();
+    }
+
+    private String generateAudioFilePath() {
+        return StorageManager.getAudioCacheDirPath(App.getInstance()) + "/" + question.getTaskId().toString() + "_" + Calendar.getInstance().getTimeInMillis() + "_"
+                + RANDOM.nextInt(Integer.MAX_VALUE) + ".mp3";
+    }
+
 }

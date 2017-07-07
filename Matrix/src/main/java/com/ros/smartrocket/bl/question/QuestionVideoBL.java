@@ -1,6 +1,5 @@
 package com.ros.smartrocket.bl.question;
 
-import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -18,7 +17,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.fragment.QuestionVideoFragment;
 import com.ros.smartrocket.location.MatrixLocationManager;
@@ -28,7 +26,6 @@ import com.ros.smartrocket.utils.SelectVideoManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
-import java.util.Arrays;
 
 public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClickListener,
         MediaPlayer.OnCompletionListener {
@@ -96,31 +93,6 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
         refreshConfirmButton();
         refreshNextButton();
 
-    }
-
-    private Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
-        Answer answer = new Answer();
-        answer.setRandomId();
-        answer.setQuestionId(question.getId());
-        answer.setTaskId(question.getTaskId());
-        answer.setMissionId(question.getMissionId());
-        answer.setProductId(product != null ? product.getId() : 0);
-
-        //Save empty answer to DB
-        if (!isPreview()) {
-            Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
-            long id = ContentUris.parseId(uri);
-            answer.set_id(id);
-        }
-
-        Answer[] resultAnswerArray = Arrays.copyOf(currentAnswerArray, currentAnswerArray.length + 1);
-        resultAnswerArray[currentAnswerArray.length] = answer;
-
-        return resultAnswerArray;
-    }
-
-    private boolean isPreview() {
-        return getActivity() != null && getActivity() instanceof QuestionsActivity && ((QuestionsActivity) getActivity()).isPreview();
     }
 
     @Override

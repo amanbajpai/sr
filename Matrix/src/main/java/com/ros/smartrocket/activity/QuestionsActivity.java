@@ -30,6 +30,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.fragment.BaseQuestionFragment;
+import com.ros.smartrocket.fragment.QuestionAudioFragment;
 import com.ros.smartrocket.fragment.QuestionInstructionFragment;
 import com.ros.smartrocket.fragment.QuestionMassAuditFragment;
 import com.ros.smartrocket.fragment.QuestionMultipleChooseFragment;
@@ -423,6 +424,9 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionMassAuditFragment();
                     fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
                     fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
+                    break;
+                case AUDIO:
+                    currentFragment = new QuestionAudioFragment();
                     break;
                 default:
                     break;

@@ -25,9 +25,11 @@ import android.provider.Settings.Secure;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -1050,18 +1052,6 @@ public class UIUtils {
         return resultString.toString();
     }
 
-    public static Integer getConnectedNetwork(Context context) {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (cm.getActiveNetworkInfo() != null) {
-                return cm.getActiveNetworkInfo().getType();
-            }
-        } catch (Exception e) {
-            L.e(TAG, "getConnectedNetwork. Get type error.");
-        }
-        return null;
-    }
-
     public static boolean deviceIsReady(Activity c) {
         boolean result = isOnline(c) && isAllLocationSourceEnabled(c)
                 && !isMockLocationEnabled(c, App.getInstance().getLocationManager().getLocation());
@@ -1085,4 +1075,16 @@ public class UIUtils {
         }
         return result;
     }
+
+    public static int getMaxAudioWaveSize() {
+        return getScreenWidth() / getPxFromDp(App.getInstance(), 1);
+    }
+
+    private static int getScreenWidth() {
+        WindowManager windowManager = (WindowManager) App.getInstance().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
+    }
 }
+
