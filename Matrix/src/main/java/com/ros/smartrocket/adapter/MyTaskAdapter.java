@@ -29,7 +29,7 @@ public class MyTaskAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ProgressUpdate progressUpdate;
 
-    public static class ViewHolder {
+    private static class ViewHolder {
         private LinearLayout listItem;
 
         private TextView name;

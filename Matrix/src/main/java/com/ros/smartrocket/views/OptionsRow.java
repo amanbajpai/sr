@@ -191,8 +191,7 @@ public final class OptionsRow extends LinearLayout {
             }
         }
 
-        final String d = UIUtils.numberFormat.format(wave.getApproxMissionDuration())
-                + getContext().getString(R.string.approx_mission_duration);
+        final String d = getContext().getString(R.string.approx_mission_duration, wave.getApproxMissionDuration());
         durationTextView.setText(d);
     }
 }

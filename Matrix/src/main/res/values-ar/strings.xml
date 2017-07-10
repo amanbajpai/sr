@@ -25,7 +25,7 @@
 	<string name="approved_mission_notification_text">تمت الموافقة على المهمة التالية. &lt;br>&lt;br> المهمة: &lt;b >%3$s&lt;/b > &lt;br>الموقع: &lt;b >%4$s &lt;/b >&lt;br> العنوان: &lt;b >%5$s &lt;/b >&lt;br> معرِّف المهمة: &lt;b >%6$d %1$s %2$s</string>
 	<string name="approved_mission_notification_title">تهانينا.</string>
 	<string name="approved_task">تمت الموافقة</string>
-	<string name="approx_mission_duration">"m"</string>
+	<string name="approx_mission_duration">"%dm"</string>
 	<string name="available">المتوفر:</string>
 	<string name="bachelors_degree">درجةالباكالوريا</string>
 	<string name="balance_0">0$</string>

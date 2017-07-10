@@ -82,6 +82,8 @@ public class UIUtils {
     private static final SimpleDateFormat HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_1_FORMAT_CHINA = new SimpleDateFormat("yyyy年MM月dd日",
             Locale.ENGLISH);
+    private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE = new SimpleDateFormat("yyyy年MM月"
+            + "dd日  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat HOUR_MINUTE_DAY_MONTH_YEAR_2_FORMAT = new SimpleDateFormat("dd MMM"
             + " yyyy  HH:mm a", Locale.ENGLISH);
@@ -500,13 +502,14 @@ public class UIUtils {
                 result = UIUtils.HOUR_MINUTE_1_FORMAT.format(new Date(dateLong));
                 break;
             case 1:
-            case 3:
                 result = getLanguageRelatedDate(dateLong);
+                break;
+            case 3:
+                result = getLanguageRelatedDateTime(dateLong);
                 break;
             case 2:
                 UIUtils.ISO_DATE_FORMAT2.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String utcDate = UIUtils.ISO_DATE_FORMAT2.format(new Date(dateLong));
-
                 result = utcDate.substring(0, utcDate.length() - 5) + "+00:00";
                 break;
             case 4:
@@ -525,6 +528,17 @@ public class UIUtils {
         return result;
     }
 
+    private static String getLanguageRelatedDateTime(long dateLong) {
+        String result;
+        if (LocaleUtils.isChinaLanguage()) {
+            result = UIUtils.HOUR_MINUTE_DAY_MONTH_YEAR_1_FORMAT_CHINE.format(new Date(dateLong));
+        } else {
+            Locale locale = LocaleUtils.getCurrentLocale();
+            result = new SimpleDateFormat("dd MMM yy  HH:mm a", locale).format(new Date(dateLong));
+        }
+        return result;
+    }
+
     private static String getLanguageRelatedDate(long dateLong) {
         String result;
         if (LocaleUtils.isChinaLanguage()) {
@@ -532,7 +546,6 @@ public class UIUtils {
         } else {
             Locale locale = LocaleUtils.getCurrentLocale();
             result = new SimpleDateFormat("dd MMMM yyyy", locale).format(new Date(dateLong));
-            Log.e("Date MF", result);
         }
         return result;
     }
