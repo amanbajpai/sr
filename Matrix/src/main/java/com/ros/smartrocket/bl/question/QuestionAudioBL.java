@@ -23,8 +23,10 @@ import butterknife.ButterKnife;
 public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.RecordErrorHandler, MatrixAudioPlayer.AudioPlayCallback {
     @Bind(R.id.audioView)
     AudioControlsView audioControlsView;
-    @Bind(R.id.audioWave)
-    AudioWaveView audioWave;
+    @Bind(R.id.recordAudioWave)
+    AudioWaveView recordAudioWave;
+    @Bind(R.id.playAudioWave)
+    AudioWaveView playAudioWave;
     private QuestionAudioRecorder audioRecorder;
     private QuestionAudioPlayer audioPlayer;
     private boolean isAudioAdded = false;
@@ -34,8 +36,8 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     @Override
     public void configureView() {
         ButterKnife.bind(view);
-        audioRecorder = new MatrixAudioRecorder(audioWave, this);
-        audioPlayer = new MatrixAudioPlayer(audioWave, this);
+        audioRecorder = new MatrixAudioRecorder(recordAudioWave, this);
+        audioPlayer = new MatrixAudioPlayer(playAudioWave, this);
         audioControlsView.setOnControlsClickListener(this);
         loadAnswers();
     }
@@ -71,7 +73,6 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
             audioControlsView.resolveDefaultRecordUI();
         }
         updateFilePath();
-
     }
 
     private void updateFilePath() {
@@ -111,6 +112,8 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
         // TODO dialog
         audioRecorder.stopRecording();
         audioControlsView.resolveDefaultPlayingUI();
+        recordAudioWave.setVisibility(View.GONE);
+        playAudioWave.setVisibility(View.VISIBLE);
     }
 
     private void handlePlayStopClick() {

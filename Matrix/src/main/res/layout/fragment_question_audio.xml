@@ -7,23 +7,25 @@
 
     <include layout="@layout/include_question_header" />
 
-    <LinearLayout
+    <com.shuyu.waveview.AudioWaveView
+        android:id="@+id/recordAudioWave"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="120dp"
+        android:background="@color/green_light"
+        waveview:waveColor="#FAFFFFFF" />
 
-        <com.ros.smartrocket.views.AudioControlsView
-            android:id="@+id/audioView"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:padding="10dp"
-            android:layout_weight="1"/>
+    <com.shuyu.waveview.AudioWaveView
+        android:id="@+id/playAudioWave"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/green_light"
+        android:visibility="gone"
+        waveview:waveColor="#FAFFFFFF" />
 
-        <com.shuyu.waveview.AudioWaveView
-            android:id="@+id/audioWave"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            waveview:waveColor="@color/red" />
-    </LinearLayout>
+    <com.ros.smartrocket.views.AudioControlsView
+        android:id="@+id/audioView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:padding="10dp" />
 </LinearLayout>
