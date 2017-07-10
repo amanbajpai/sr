@@ -131,7 +131,7 @@ public final class OptionsRow extends LinearLayout {
 
         LocaleUtils.setCompoundDrawable(expTextView, expResId);
         expTextView.setText(String.format(Locale.US, "%.0f", task.getExperienceOffer()));
-        final String d = UIUtils.numberFormat.format(task.getApproxMissionDuration()) + getContext().getString(R.string.approx_mission_duration);
+        final String d = getContext().getString(R.string.approx_mission_duration, task.getApproxMissionDuration());
         durationTextView.setText(d);
         Drawable drawable = getResources().getDrawable(R.drawable.stopwatch_timer_icon);
         if (drawable != null) {
