@@ -8,7 +8,6 @@ import com.czt.mp3recorder.MP3Recorder;
 import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
 import com.ros.smartrocket.utils.UIUtils;
 import com.shuyu.waveview.AudioWaveView;
-import com.shuyu.waveview.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,10 +68,9 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
 
     @Override
     public void pauseRecording() {
-        if (!isRecording)
-            return;
-        if (!recorder.isPause()) {
+        if (recorder != null && !recorder.isPause()) {
             recorder.setPause(true);
+            isRecording = false;
         }
     }
 
@@ -82,29 +80,30 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
             startRecording();
         } else if (recorder.isPause()) {
             recorder.setPause(false);
+            isRecording = true;
         }
     }
 
     @Override
     public void reset() {
-        if (recorder != null && recorder.isRecording()) {
+        isRecording = false;
+        filePath = "";
+        if (recorder != null) {
             recorder.stop();
             audioWave.stopView();
+            recorder = null;
         }
     }
 
     private void onRecordError() {
-        FileUtils.deleteFile(filePath);
-        filePath = "";
         reset();
         if (errorHandler != null) {
             errorHandler.onRecordError();
         }
     }
 
-    @Override
     public boolean isRecording() {
-        return recorder != null && !recorder.isPause();
+        return isRecording;
     }
 
     @Override

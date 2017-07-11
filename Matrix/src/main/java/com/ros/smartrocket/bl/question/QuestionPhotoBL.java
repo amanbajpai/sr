@@ -1,7 +1,6 @@
 package com.ros.smartrocket.bl.question;
 
 import android.annotation.SuppressLint;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -17,11 +16,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
+<<<<<<< HEAD
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
+=======
+>>>>>>> 0abed48... Audio question implementation finished.
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.dialog.CustomProgressDialog;
@@ -36,7 +37,6 @@ import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
-import java.util.Arrays;
 
 import de.greenrobot.event.EventBus;
 
@@ -54,7 +54,6 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     private ImageButton confirmButton;
     private ImageView photoImageView;
     private LinearLayout galleryLayout;
-    private CustomProgressDialog progressDialog;
 
     private File mCurrentPhotoFile;
     private File lastPhotoFile;
@@ -219,7 +218,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
 
     @Override
     protected void answersDeleteComplete() {
-        if (question.getAnswers().length == question.getMaximumPhotos() && !isLastAnsverEmpty()) {
+        if (question.getAnswers().length == question.getMaximumPhotos() && !isLastAnswerEmpty()) {
             question.setAnswers(addEmptyAnswer(question.getAnswers()));
         }
         if (getProductId() != null) {
@@ -442,28 +441,8 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         }
     }
 
-    public Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
-        Answer answer = new Answer();
-        answer.setRandomId();
-        answer.setQuestionId(question.getId());
-        answer.setTaskId(question.getTaskId());
-        answer.setMissionId(question.getMissionId());
-        answer.setProductId(product != null ? product.getId() : 0);
 
-        //Save empty answer to DB
-        if (!isPreview()) {
-            Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
-            long id = ContentUris.parseId(uri);
-            answer.set_id(id);
-        }
-
-        Answer[] resultAnswerArray = Arrays.copyOf(currentAnswerArray, currentAnswerArray.length + 1);
-        resultAnswerArray[currentAnswerArray.length] = answer;
-
-        return resultAnswerArray;
-    }
-
-    private boolean isLastAnsverEmpty() {
+    private boolean isLastAnswerEmpty() {
         boolean result = false;
         int lastPos = question.getAnswers().length - 1;
         if (TextUtils.isEmpty(question.getAnswers()[lastPos].getFileUri())) {
@@ -472,7 +451,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         return result;
     }
 
-    public void refreshPhotoGallery(Answer[] answers) {
+    private void refreshPhotoGallery(Answer[] answers) {
         galleryLayout.removeAllViews();
 
         for (int i = 0; i < answers.length; i++) {
@@ -481,7 +460,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         }
     }
 
-    public void addItemToGallery(final int position, Answer answer) {
+    private void addItemToGallery(final int position, Answer answer) {
         View convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_photo_gallery, null);
         ImageView photo = (ImageView) convertView.findViewById(R.id.image);
         ImageView imageFrame = (ImageView) convertView.findViewById(R.id.imageFrame);
@@ -506,27 +485,6 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         });
 
         galleryLayout.addView(convertView);
-    }
-
-    public void showProgressDialog() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                hideProgressDialog();
-
-                if (progressDialog == null || !progressDialog.isShowing()) {
-                    progressDialog = CustomProgressDialog.show(getActivity());
-                    progressDialog.setCancelable(false);
-                }
-            }
-        });
-
-    }
-
-    public void hideProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
     }
 
     private boolean isPhotosAdded() {

@@ -7,25 +7,27 @@
 
     <include layout="@layout/include_question_header" />
 
-    <com.shuyu.waveview.AudioWaveView
-        android:id="@+id/recordAudioWave"
+    <LinearLayout
+        android:id="@+id/audioQuestionLayout"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/green_light"
-        waveview:waveColor="#FAFFFFFF" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <com.shuyu.waveview.AudioWaveView
-        android:id="@+id/playAudioWave"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/green_light"
-        android:visibility="gone"
-        waveview:waveColor="#FAFFFFFF" />
+        <com.shuyu.waveview.AudioWaveView
+            android:id="@+id/recordAudioWave"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/green_light"
+            android:visibility="gone"
+            waveview:waveColor="@color/red" />
 
-    <com.ros.smartrocket.views.AudioControlsView
-        android:id="@+id/audioView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:padding="10dp" />
+        <com.ros.smartrocket.views.AudioControlsView
+            android:id="@+id/audioView"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:padding="10dp" />
+    </LinearLayout>
 </LinearLayout>

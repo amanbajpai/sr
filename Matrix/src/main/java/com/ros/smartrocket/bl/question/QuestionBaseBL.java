@@ -23,6 +23,7 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 
 public class QuestionBaseBL {
     protected OnAnswerSelectedListener answerSelectedListener;
-    protected OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
+    OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     protected AsyncQueryHandler handler;
     protected Question question;
     protected Bundle savedInstanceState;
@@ -40,10 +41,9 @@ public class QuestionBaseBL {
     protected Fragment fragment;
     protected View view;
     protected Product product;
+    private CustomProgressDialog progressDialog;
 
     TextView questionText;
-    TextView presetValidationComment;
-    TextView validationComment;
 
     public final void initView(View view, Question question, Bundle savedInstanceState, BaseActivity activity,
                                Fragment fragment, Product product) {
@@ -62,8 +62,8 @@ public class QuestionBaseBL {
 
     protected void validateView() {
         questionText = (TextView) view.findViewById(R.id.questionText);
-        presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
-        validationComment = (TextView) view.findViewById(R.id.validationComment);
+        TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
+        TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
 
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
         if (!TextUtils.isEmpty(question.getSubQuestionNumber())) {
@@ -159,7 +159,7 @@ public class QuestionBaseBL {
     }
 
     class BaseDbHandler extends AsyncQueryHandler {
-        public BaseDbHandler(ContentResolver cr) {
+        BaseDbHandler(ContentResolver cr) {
             super(cr);
         }
 
@@ -186,7 +186,7 @@ public class QuestionBaseBL {
         }
     }
 
-    protected Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
+    Answer[] addEmptyAnswer(Answer[] currentAnswerArray) {
         Answer answer = new Answer();
         answer.setRandomId();
         answer.setQuestionId(question.getId());
@@ -207,7 +207,7 @@ public class QuestionBaseBL {
         return resultAnswerArray;
     }
 
-    protected boolean isPreview() {
+    boolean isPreview() {
         return getActivity() != null && getActivity() instanceof QuestionsActivity && ((QuestionsActivity) getActivity()).isPreview();
     }
 
@@ -225,5 +225,26 @@ public class QuestionBaseBL {
 
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    void showProgressDialog() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hideProgressDialog();
+
+                if (progressDialog == null || !progressDialog.isShowing()) {
+                    progressDialog = CustomProgressDialog.show(getActivity());
+                    progressDialog.setCancelable(false);
+                }
+            }
+        });
+
+    }
+
+    void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

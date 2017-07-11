@@ -592,14 +592,6 @@ public class DialogUtils {
                 });
     }
 
-    /**
-     * Explain to user why we need some additional info
-     *
-     * @param context  - context
-     * @param titleRes - resource for title text
-     * @param textRes  - resource for description text
-     * @return - dialog
-     */
     public static Dialog showWhyWeNeedThisDialog(final Context context, int titleRes, int textRes) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
                 context.getText(titleRes),
@@ -616,6 +608,30 @@ public class DialogUtils {
                 dialog.dismiss();
             }
         });
+        return dialog;
+    }
+
+    public static Dialog showEndAudioRecordingDialog(final Context activity,
+                                                     DefaultInfoDialog.DialogButtonClickListener
+                                                             dialogButtonClickListener) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.recording),
+                activity.getText(R.string.recording_end),
+                R.string.no_button, R.string.turn_on_wifi_dialog_ok);
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
+        return dialog;
+    }
+
+    public static Dialog showDeleteAudioRecordingDialog(final Context activity,
+                                                        DefaultInfoDialog.DialogButtonClickListener
+                                                                dialogButtonClickListener) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.recording),
+                activity.getText(R.string.recording_delete),
+                R.string.no_button, R.string.turn_on_wifi_dialog_ok);
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
         return dialog;
     }
 }

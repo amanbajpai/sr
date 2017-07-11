@@ -114,7 +114,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
         }
     }
 
-    public void refreshConfirmButton() {
+    private void refreshConfirmButton() {
         if (isVideoAdded) {
             confirmButton.setVisibility(View.VISIBLE);
             if (isVideoConfirmed) {
@@ -130,7 +130,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     }
 
-    public void refreshRePhotoButton() {
+    private void refreshRePhotoButton() {
         if (isVideoAdded) {
             rePhotoButton.setVisibility(View.VISIBLE);
         } else {
@@ -138,19 +138,24 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
         }
     }
 
-    public void playVideo() {
+    private void playVideo() {
         videoView.seekTo(stopPosition);
         videoView.start();
         videoView.setBackgroundColor(Color.TRANSPARENT);
     }
 
-    public void pauseVideo() {
+    private void pauseVideo() {
         stopPosition = videoView.getCurrentPosition();
         videoView.pause();
     }
 
+<<<<<<< HEAD
     public void playPauseVideo(String videoPath) {
         ((QuestionsActivity) getActivity()).showProgressDialog(true);
+=======
+    private void playPauseVideo(String videoPath) {
+        ((QuestionsActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+>>>>>>> 0abed48... Audio question implementation finished.
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -244,7 +249,11 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             .GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
+<<<<<<< HEAD
                             ((BaseActivity) getActivity()).showProgressDialog(true);
+=======
+                           showProgressDialog();
+>>>>>>> 0abed48... Audio question implementation finished.
                         }
 
                         @Override
@@ -276,15 +285,15 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     }
 
     public void confirmButtonPressAction(Location location) {
-        File sourceImageFile = new File(videoPath);
+        File sourceVideoFile = new File(videoPath);
 
-        if (sourceImageFile.exists()) {
+        if (sourceVideoFile.exists()) {
             Answer answer = question.getAnswers()[0];
             answer.setChecked(true);
             answer.setFileUri(videoPath);
-            answer.setFileSizeB(sourceImageFile.length());
-            answer.setFileName(sourceImageFile.getName());
-            answer.setValue(sourceImageFile.getName());
+            answer.setFileSizeB(sourceVideoFile.length());
+            answer.setFileName(sourceVideoFile.getName());
+            answer.setValue(sourceVideoFile.getName());
             answer.setLatitude(location.getLatitude());
             answer.setLongitude(location.getLongitude());
 

@@ -8,6 +8,8 @@ public interface QuestionAudioPlayer {
 
     void pause();
 
+    void reset();
+
     void setFilePath(String path);
 
 }

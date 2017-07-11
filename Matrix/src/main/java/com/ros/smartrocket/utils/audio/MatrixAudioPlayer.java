@@ -46,7 +46,6 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
             audioPlayer.setUrlString(filePath);
             audioPlayer.setDelegate(this);
             audioPlayer.setDataList(audioWave.getRecList(), UIUtils.getMaxAudioWaveSize());
-            audioWave.setBaseRecorder(audioPlayer);
             audioWave.startView();
             try {
                 audioPlayer.play();
@@ -59,12 +58,22 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
 
     @Override
     public void pause() {
-        audioPlayer.setPause(true);
+        if (audioPlayer != null) {
+            audioPlayer.setPause(true);
+        }
+        isPlaying = false;
+    }
+
+    @Override
+    public void reset() {
+        audioWave.stopView();
         isPlaying = false;
     }
 
     private void resume() {
-        audioPlayer.setPause(false);
+        if (audioPlayer != null) {
+            audioPlayer.setPause(false);
+        }
         isPlaying = true;
     }
 

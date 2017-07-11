@@ -548,4 +548,7 @@
     <string name="dialog_payment_title">Enter payment details</string>
     <string name="dialog_payment_description">You must first enter your payment details in order to cash out your SmartRocket earnings</string>
     <string name="dialog_payment_instruction">Press the SETUP button to continue</string>
+    <string name="recording">Audio recording</string>
+    <string name="recording_end">End recording?</string>
+    <string name="recording_delete">Delete recording?</string>
 </resources>

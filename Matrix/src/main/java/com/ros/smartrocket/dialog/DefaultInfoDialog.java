@@ -93,7 +93,6 @@ public class DefaultInfoDialog extends Dialog implements View.OnClickListener {
     }
 
     public void setOnDialogButtonClickListener(DialogButtonClickListener onDialogButtonClickListener) {
-
         this.onDialogButtonClickListener = onDialogButtonClickListener;
     }
 
