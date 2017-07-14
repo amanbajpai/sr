@@ -27,15 +27,15 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.RecordErrorHandler, MatrixAudioPlayer.AudioPlayCallback {
-    @Bind(R.id.audioView)
+    @BindView(R.id.audioView)
     AudioControlsView audioControlsView;
-    @Bind(R.id.recordAudioWave)
+    @BindView(R.id.recordAudioWave)
     AudioWaveView audioWave;
-    @Bind(R.id.audioQuestionLayout)
+    @BindView(R.id.audioQuestionLayout)
     LinearLayout questionLayout;
     private QuestionAudioRecorder audioRecorder;
     private QuestionAudioPlayer audioPlayer;

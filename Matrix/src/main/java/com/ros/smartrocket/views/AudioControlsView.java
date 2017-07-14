@@ -10,19 +10,19 @@ import android.widget.LinearLayout;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.helpers.AVDWrapper;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AudioControlsView extends LinearLayout implements AVDWrapper.AnimationCallback {
     private static final int ANIMATION_DURATION = 470;
-    @Bind(R.id.btnRecordPause)
+    @BindView(R.id.btnRecordPause)
     AppCompatImageView btnRecord;
-    @Bind(R.id.btnStop)
+    @BindView(R.id.btnStop)
     AppCompatImageView btnStopRecord;
-    @Bind(R.id.btnPlayStop)
+    @BindView(R.id.btnPlayStop)
     AppCompatImageView btnPlay;
-    @Bind(R.id.btnTrash)
+    @BindView(R.id.btnTrash)
     AppCompatImageView btnDelete;
     private AVDWrapper animationWrapper;
     private OnClickListener onClickListener;

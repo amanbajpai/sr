@@ -149,13 +149,8 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
         videoView.pause();
     }
 
-<<<<<<< HEAD
     public void playPauseVideo(String videoPath) {
         ((QuestionsActivity) getActivity()).showProgressDialog(true);
-=======
-    private void playPauseVideo(String videoPath) {
-        ((QuestionsActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
->>>>>>> 0abed48... Audio question implementation finished.
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -249,11 +244,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             .GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
-<<<<<<< HEAD
                             ((BaseActivity) getActivity()).showProgressDialog(true);
-=======
-                           showProgressDialog();
->>>>>>> 0abed48... Audio question implementation finished.
                         }
 
                         @Override

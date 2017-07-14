@@ -16,11 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
-<<<<<<< HEAD
 import com.ros.smartrocket.activity.BaseActivity;
 import com.ros.smartrocket.activity.QuestionsActivity;
-=======
->>>>>>> 0abed48... Audio question implementation finished.
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Answer;
