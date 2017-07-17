@@ -367,13 +367,13 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     public void startFragment(Question question) {
-        UserActionsLogger.logQuestionOpened(question, isPreview);
         L.v(TAG, "startFragment." + this + " Destroyed " + isDestroyed);
         if (isDestroyed) {
             return;
         }
 
         if (question != null) {
+            UserActionsLogger.logQuestionOpened(question, isPreview);
             L.v(TAG, "startFragment. orderId:" + question.getOrderId());
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getType(), question.getOrderId());
