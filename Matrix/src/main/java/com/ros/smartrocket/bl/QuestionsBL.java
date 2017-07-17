@@ -312,7 +312,7 @@ public class QuestionsBL {
      * @param orderId   - orderId to select
      * @return Question
      */
-    public static Question getQuestionWithCheckConditionByOrderId(List<Question> questions, int orderId) {
+    public static Question getQuestionWithCheckConditionByOrderId(List<Question> questions, int orderId, boolean isRedo) {
         Question result = null;
         boolean continueLoop = true;
         while (result == null && continueLoop) {
@@ -320,7 +320,7 @@ public class QuestionsBL {
             if (questions != null) {
                 for (Question question : questions) {
                     if (question.getOrderId() == orderId) {
-                        if (checkCondition(question, questions)) {
+                        if (isRedo || checkCondition(question, questions)) {
                             result = question;
 
                         } else {

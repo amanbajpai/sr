@@ -245,7 +245,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         if (lastQuestionOrderId == 1) {
                             lastQuestionOrderId = QuestionsBL.getFirstOrderId(questions);
                         }
-                        Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
+                        Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
                         startFragment(question);
                     } else {
                         showProgressDialog(false);
@@ -333,7 +333,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     private Question getQuestion(Question currentQuestion) {
         int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(currentQuestion, questions);
-        return QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId);
+        return QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, nextQuestionOrderId, isRedo);
     }
 
     @SuppressWarnings("unused")
@@ -350,7 +350,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
                             task.getMissionId(), previousQuestionOrderId);
                 }
-                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId);
+                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, previousQuestionOrderId, isRedo);
                 startFragment(question);
             }
         }
@@ -474,7 +474,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
                 int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                         taskId, task.getMissionId());
-                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId);
+                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
 
                 startActivity(IntentUtils.getQuitQuestionIntent(this, question));
                 finishQuestionsActivity();
