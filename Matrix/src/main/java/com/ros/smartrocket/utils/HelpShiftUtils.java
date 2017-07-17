@@ -16,11 +16,11 @@ public class HelpShiftUtils {
     private static final String AGENT_RANK_LEVEL = "Agent_Rank_Level";
     private static final String ROCKET_POINTS = "Rocket_Points";
     private static final String COUNTRY = "Country";
+    private static final String COMPANY_NAME = "Company_Name";
     private static final String CITY = "City";
     private static final String JOINING_DATE = "Joining_Date";
     private static final String HIDE_NAME_AND_EMAIL = "hideNameAndEmail";
     private static MyAccount account;
-    private static HashMap<String, String> countryMap;
 
     public static void showFAQ(Activity activity) {
         account = App.getInstance().getMyAccount();
@@ -35,6 +35,7 @@ public class HelpShiftUtils {
         Campaigns.addProperty(ROCKET_POINTS, account.getExperience());
         Campaigns.addProperty(COUNTRY, account.getCountryName());
         Campaigns.addProperty(CITY, account.getCityName());
+        Campaigns.addProperty(COMPANY_NAME, account.getCompanyName());
         Campaigns.addProperty(JOINING_DATE, account.getJoined());
     }
 
@@ -54,8 +55,9 @@ public class HelpShiftUtils {
         customMetadata.put(ROCKET_POINTS, account.getExperience());
         customMetadata.put(COUNTRY, account.getCountryName());
         customMetadata.put(CITY, account.getCityName());
+        customMetadata.put(COMPANY_NAME, account.getCompanyName());
         customMetadata.put(JOINING_DATE, account.getJoined());
-        customMetadata.put(Support.TagsKey, new String[]{account.getCountryName()});
+        customMetadata.put(Support.TagsKey, new String[]{account.getCountryName(), account.getCompanyName()});
         return customMetadata;
     }
 }
