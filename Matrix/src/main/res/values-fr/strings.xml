@@ -253,7 +253,7 @@
 	<string name="send_password">RÉINITIALISER MON MOT DE PASSE</string>
 	<string name="senior_secondary_school">Enseignement secondaire</string>
 	<string name="settings">Paramètres</string>
-	<string name="setup">CONFIGURER</string>
+	<string name="setup">CONFIGURATION</string>
 	<string name="share">Partager</string>
 	<string name="share_text">Je m\'amuse (et je gagne de l\'argent) avec l\'application SmartRocket pour smartphones Android. Si vous voulez vous joindre à moi, vous pouvez en savoir plus ici</string>
 	<string name="share_title">Partager</string>
@@ -396,4 +396,7 @@
 	</plurals>
     <string name="enter_dob">Veuillez entrer votre date de naissance</string>
 	<string name="enter_email">Entrez votre adresse e-mail</string>
+	<string name="dialog_payment_description">Vous devez d\'abord saisir vos détails de paiement afin de retirer votre solde SmartRocket</string>
+	<string name="dialog_payment_instruction">Appuyez sur le bouton configuration pour continuer</string>
+	<string name="dialog_payment_title">Entrer les détails du paiement</string>
 </resources>

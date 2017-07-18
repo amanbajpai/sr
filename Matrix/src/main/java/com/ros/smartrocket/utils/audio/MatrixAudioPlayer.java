@@ -42,6 +42,7 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
         if (audioPlayer != null && !isPlayEnded && audioPlayer.isPause()) {
             resume();
         } else {
+            isPlayEnded = false;
             audioPlayer = new MP3RadioStreamPlayer();
             audioPlayer.setUrlString(filePath);
             audioPlayer.setDelegate(this);
@@ -61,6 +62,7 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
         if (audioPlayer != null) {
             audioPlayer.setPause(true);
         }
+        isPlayEnded = false;
         isPlaying = false;
     }
 
@@ -75,6 +77,7 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
         if (audioPlayer != null) {
             audioPlayer.setPause(false);
         }
+        isPlayEnded = false;
         isPlaying = true;
     }
 
@@ -93,13 +96,13 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
     private void onPlayStopped() {
         if (errorHandler != null) {
             errorHandler.onPlayStopped();
-            isPlaying = false;
         }
     }
 
     @Override
     public void onRadioPlayerPlaybackStarted(MP3RadioStreamPlayer mp3RadioStreamPlayer) {
         isPlaying = true;
+        isPlayEnded = false;
     }
 
     @Override

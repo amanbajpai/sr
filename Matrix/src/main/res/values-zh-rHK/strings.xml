@@ -486,4 +486,8 @@
     <string name="new_push_notifications_body">您有新通知。 點擊打開</string>
     <string name="new_push_notifications_header">SmartRocket新通知</string>
     <string name="or">或</string>
+    <string name="setup">设定</string>
+    <string name="dialog_payment_description">你必須先輸入你的收款賬戶資料才能從SmartRocket 進行提款</string>
+    <string name="dialog_payment_instruction">按下\"設定\"去繼續</string>
+    <string name="dialog_payment_title">輸入你的收款賬戶資料</string>
 </resources>
