@@ -9,6 +9,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -38,6 +39,8 @@ import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -242,7 +245,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
             isNeedRefresh = false;
             initMap();
             setViewMode(getArguments());
-            loadData(true);
         }
     }
 
@@ -296,14 +298,39 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
                         zoomLevel = mapStatus.zoom;
                     }
                 });
+                loadData(true);
             } else {
-                googleMap = MapHelper.getGoogleMap(getActivity(), new GoogleMap.OnCameraChangeListener() {
-                    @Override
-                    public void onCameraChange(CameraPosition cameraPosition) {
-                        zoomLevel = cameraPosition.zoom;
-                    }
-                });
+                loadGoogleMap();
             }
+        }
+    }
+
+    public void loadGoogleMap() {
+        TransparentSupportMapFragment mapFragment =
+                (TransparentSupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap gm) {
+                    if (gm != null) {
+                        googleMap = gm;
+                        UiSettings uiSettings = googleMap.getUiSettings();
+                        uiSettings.setAllGesturesEnabled(false);
+                        uiSettings.setScrollGesturesEnabled(true);
+                        uiSettings.setZoomGesturesEnabled(true);
+                        uiSettings.setIndoorLevelPickerEnabled(false);
+                        googleMap.setIndoorEnabled(false);
+                        googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                            @Override
+                            public void onCameraChange(CameraPosition cameraPosition) {
+                                zoomLevel = cameraPosition.zoom;
+                            }
+                        });
+                        loadData(true);
+                    }
+                }
+            });
+
         }
     }
 

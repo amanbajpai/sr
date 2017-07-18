@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services-maps:9.0.0'
+    compile 'com.google.android.gms:play-services-maps:11.0.2'
     compile 'com.nineoldandroids:library:2.4.0'
 }
 

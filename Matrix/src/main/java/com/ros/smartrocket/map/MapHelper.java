@@ -25,6 +25,7 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -95,28 +96,7 @@ public class MapHelper {
 
         return baiduMap;
     }
-
-    public static GoogleMap getGoogleMap(FragmentActivity activity, GoogleMap.OnCameraChangeListener
-            cameraChangeListener) {
-        GoogleMap googleMap = null;
-        TransparentSupportMapFragment mapFragment = (TransparentSupportMapFragment) activity
-                .getSupportFragmentManager().findFragmentById(R.id.map);
-
-        if (mapFragment != null) {
-            googleMap = mapFragment.getMap();
-            if (googleMap != null) {
-                UiSettings uiSettings = googleMap.getUiSettings();
-                uiSettings.setAllGesturesEnabled(false);
-                uiSettings.setScrollGesturesEnabled(true);
-                uiSettings.setZoomGesturesEnabled(true);
-                uiSettings.setIndoorLevelPickerEnabled(false);
-                googleMap.setIndoorEnabled(false);
-                googleMap.setOnCameraChangeListener(cameraChangeListener);
-            }
-        }
-
-        return googleMap;
-    }
+    
 
     public static boolean isMapNotNull(GoogleMap googleMap, BaiduMap baiduMap) {
         boolean result;
