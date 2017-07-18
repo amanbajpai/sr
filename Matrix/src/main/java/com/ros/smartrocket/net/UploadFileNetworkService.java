@@ -14,7 +14,6 @@ import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.db.entity.ServerLog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;

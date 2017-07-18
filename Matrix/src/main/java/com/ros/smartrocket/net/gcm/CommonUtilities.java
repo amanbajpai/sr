@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.helpshift.Core;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.helpers.APIFacade;

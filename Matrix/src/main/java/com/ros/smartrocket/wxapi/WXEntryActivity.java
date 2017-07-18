@@ -18,7 +18,6 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.UIUtils;
-import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;

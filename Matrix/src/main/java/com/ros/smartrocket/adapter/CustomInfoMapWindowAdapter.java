@@ -3,7 +3,6 @@ package com.ros.smartrocket.adapter;
 import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 
@@ -14,12 +13,8 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.map.MapHelper;
-import com.ros.smartrocket.utils.LocaleUtils;
-import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.InfoWindowDownstreamAdapter;
-
-import java.util.zip.Inflater;
 
 public class CustomInfoMapWindowAdapter implements InfoWindowDownstreamAdapter {
     private static final String MY_LOCATION = "MyLoc";

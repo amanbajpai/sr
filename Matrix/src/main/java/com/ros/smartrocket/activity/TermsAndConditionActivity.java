@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;

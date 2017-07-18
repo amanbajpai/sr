@@ -17,7 +17,6 @@ import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
-import com.ros.smartrocket.utils.UIUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;

@@ -3,7 +3,6 @@ package com.ros.smartrocket.activity;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;

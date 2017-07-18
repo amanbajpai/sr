@@ -3,16 +3,12 @@ package com.ros.smartrocket.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomCheckBox;
 import com.ros.smartrocket.views.CustomTextView;
 

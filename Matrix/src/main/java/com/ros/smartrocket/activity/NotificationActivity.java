@@ -15,7 +15,6 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
-import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
 

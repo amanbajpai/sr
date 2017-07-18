@@ -10,7 +10,6 @@ import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.AppVersion;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.dialog.UpdateVersionDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;

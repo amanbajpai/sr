@@ -1,6 +1,5 @@
 package com.ros.smartrocket.activity;
 
-import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Intent;

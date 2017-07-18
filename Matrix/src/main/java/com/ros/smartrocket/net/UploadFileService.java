@@ -26,7 +26,6 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.ServerLog;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.eventbus.UploadProgressEvent;

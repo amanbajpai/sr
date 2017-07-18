@@ -30,7 +30,6 @@ import com.ros.smartrocket.activity.SettingsActivity;
 import com.ros.smartrocket.activity.ShareActivity;
 import com.ros.smartrocket.activity.TaskDetailsActivity;
 import com.ros.smartrocket.activity.TaskValidationActivity;
-import com.ros.smartrocket.activity.TermsAndConditionActivity;
 import com.ros.smartrocket.activity.WaveDetailsActivity;
 import com.ros.smartrocket.db.entity.Question;
 

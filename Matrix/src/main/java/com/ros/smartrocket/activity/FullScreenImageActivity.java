@@ -2,7 +2,6 @@ package com.ros.smartrocket.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.MenuItem;

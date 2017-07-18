@@ -68,6 +68,7 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
     public void reset() {
         audioWave.stopView();
         isPlaying = false;
+        audioPlayer = null;
     }
 
     private void resume() {

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
-import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 

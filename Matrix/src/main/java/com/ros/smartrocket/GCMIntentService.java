@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
-import com.helpshift.Core;
 import com.ros.smartrocket.activity.MainActivity;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;

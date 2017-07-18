@@ -19,7 +19,6 @@ import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomEditTextView;
 import com.ros.smartrocket.views.CustomTextView;
 

@@ -11,11 +11,9 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.fragment.SettingsFragment;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
 
 public class WriteDataHelper {
     public WriteDataHelper() {

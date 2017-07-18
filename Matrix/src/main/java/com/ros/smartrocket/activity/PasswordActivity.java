@@ -4,16 +4,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.LoginResponse;
-import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -25,7 +22,6 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.views.CustomButton;
 import com.ros.smartrocket.views.CustomCheckBox;
 import com.ros.smartrocket.views.CustomEditTextView;
-import com.ros.smartrocket.views.CustomTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -6,7 +6,6 @@ import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
