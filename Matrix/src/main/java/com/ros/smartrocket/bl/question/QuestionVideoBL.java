@@ -263,6 +263,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                         @Override
                         public void getLocationFail(String errorText) {
                             if (!getActivity().isFinishing()) {
+                                ((BaseActivity) getActivity()).dismissProgressDialog();
                                 UIUtils.showSimpleToast(getActivity(), errorText);
                             }
                         }
