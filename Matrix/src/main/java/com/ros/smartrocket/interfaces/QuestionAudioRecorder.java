@@ -15,5 +15,4 @@ public interface QuestionAudioRecorder {
 
     void setFilePath(String path);
 
-
 }

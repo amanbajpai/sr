@@ -12,7 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <com.ros.smartrocket.views.CustomTextView
+            android:id="@+id/chronometer"
+            style="@style/timerTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/def_timer"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_margin="5dp"/>
 
         <com.shuyu.waveview.AudioWaveView
             android:id="@+id/recordAudioWave"
@@ -24,9 +34,9 @@
 
         <com.ros.smartrocket.views.AudioControlsView
             android:id="@+id/audioView"
-            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:animateLayoutChanges="true"
             android:gravity="center"
             android:padding="10dp" />
     </LinearLayout>

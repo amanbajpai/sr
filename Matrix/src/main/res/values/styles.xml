@@ -429,4 +429,10 @@
         <item name="android:textSize">@dimen/text_size_13p6sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="timerTextStyle">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/text_size_17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

@@ -551,4 +551,5 @@
     <string name="recording">Audio recording</string>
     <string name="recording_end">End recording?</string>
     <string name="recording_delete">Delete recording?</string>
+    <string name="def_timer">00:00</string>
 </resources>

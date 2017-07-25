@@ -20,6 +20,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.audio.MatrixAudioPlayer;
 import com.ros.smartrocket.utils.audio.MatrixAudioRecorder;
 import com.ros.smartrocket.views.AudioControlsView;
+import com.ros.smartrocket.views.CustomTextView;
 import com.shuyu.waveview.AudioWaveView;
 import com.shuyu.waveview.FileUtils;
 
@@ -30,13 +31,15 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.RecordErrorHandler, MatrixAudioPlayer.AudioPlayCallback {
+public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.AudioRecordHandler, MatrixAudioPlayer.AudioPlayCallback {
     @BindView(R.id.audioView)
     AudioControlsView audioControlsView;
     @BindView(R.id.recordAudioWave)
     AudioWaveView audioWave;
     @BindView(R.id.audioQuestionLayout)
     LinearLayout questionLayout;
+    @BindView(R.id.chronometer)
+    CustomTextView chronometer;
     private QuestionAudioRecorder audioRecorder;
     private QuestionAudioPlayer audioPlayer;
     private boolean isAudioAdded = false;
@@ -84,8 +87,11 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
             case R.id.btnStop:
                 handleStopRecordClick();
                 break;
+            case R.id.btnPlayPause:
+                handlePlayPauseClick();
+                break;
             case R.id.btnPlayStop:
-                handlePlayStopClick();
+                handlePlayerStopClick();
                 break;
             case R.id.btnTrash:
                 handleDeleteClick();
@@ -104,12 +110,12 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     private void handleStopRecordClick() {
+        audioControlsView.resolvePauseRecordUI();
         audioRecorder.pauseRecording();
         DialogUtils.showEndAudioRecordingDialog(getActivity(), new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
-                audioRecorder.resumeRecording();
             }
 
             @Override
@@ -120,12 +126,18 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
         });
     }
 
-    private void handlePlayStopClick() {
+    private void handlePlayPauseClick() {
         if (audioPlayer.isPlaying()) {
             pausePlayer();
         } else {
             resumePlayer();
         }
+    }
+
+    private void handlePlayerStopClick() {
+        audioPlayer.pause();
+        audioPlayer.reset();
+        audioControlsView.resolveDefaultPlayingUI();
     }
 
     private void resumePlayer() {
@@ -135,7 +147,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
 
     private void pausePlayer() {
         audioPlayer.pause();
-        audioControlsView.resolveStopPlayingUI();
+        audioControlsView.resolvePausePlayingUI();
     }
 
     private void handleDeleteClick() {
@@ -182,6 +194,27 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
         audioControlsView.resolveDefaultPlayingUI();
     }
 
+    @Override
+    public void onRecordProgress(String progress) {
+        updateTimer(progress);
+    }
+
+    @Override
+    public void onPlayProgress(String progress) {
+        updateTimer(progress);
+    }
+
+    private void updateTimer(final String progress) {
+        if (activity != null && fragment != null && fragment.isAdded()) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    chronometer.setText(progress);
+                }
+            });
+        }
+    }
+
     private void reset() {
         if (audioPlayer != null) {
             audioPlayer.reset();
@@ -189,6 +222,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
         if (audioRecorder != null) {
             audioRecorder.reset();
         }
+        chronometer.setText(R.string.def_timer);
         audioPath = generateAudioFilePath();
         updateFilePath();
         audioControlsView.resolveDefaultRecordUI();
@@ -290,6 +324,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     public void onPause() {
         super.onPause();
         hideProgressDialog();
+        pausePlayer();
     }
 
     @Override
@@ -299,8 +334,10 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
             audioRecorder.reset();
         }
         if (audioPlayer != null) {
+            audioPlayer.pause();
             audioPlayer.reset();
         }
+        audioWave = null;
     }
 
 

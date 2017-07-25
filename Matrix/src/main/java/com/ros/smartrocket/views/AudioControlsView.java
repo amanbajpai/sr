@@ -20,8 +20,10 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
     AppCompatImageView btnRecord;
     @BindView(R.id.btnStop)
     AppCompatImageView btnStopRecord;
-    @BindView(R.id.btnPlayStop)
+    @BindView(R.id.btnPlayPause)
     AppCompatImageView btnPlay;
+    @BindView(R.id.btnPlayStop)
+    AppCompatImageView btnPlayerStop;
     @BindView(R.id.btnTrash)
     AppCompatImageView btnDelete;
     private AVDWrapper animationWrapper;
@@ -43,7 +45,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
     }
 
     private void initView(Context c) {
-        inflate(c, R.layout.view_question_audio, this);
+        inflate(c, R.layout.view_audio_controls, this);
         ButterKnife.bind(this);
         animationWrapper = new AVDWrapper();
         animationWrapper.setCallback(this);
@@ -56,7 +58,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
         }
     }
 
-    @OnClick({R.id.btnRecordPause, R.id.btnStop, R.id.btnPlayStop, R.id.btnTrash})
+    @OnClick({R.id.btnRecordPause, R.id.btnStop, R.id.btnPlayPause, R.id.btnTrash, R.id.btnPlayStop})
     public void onViewClicked(View view) {
         if (animationWrapper != null && view instanceof AppCompatImageView) {
             animationWrapper.start(ANIMATION_DURATION, (AppCompatImageView) view);
@@ -80,6 +82,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
 
     public void resolveDefaultPlayingUI() {
         btnPlay.setImageResource(R.drawable.avd_play);
+        btnPlayerStop.setVisibility(GONE);
         btnPlay.setVisibility(VISIBLE);
         btnDelete.setVisibility(VISIBLE);
         btnRecord.setVisibility(GONE);
@@ -88,9 +91,10 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
 
     public void resolveStartPlayingUI() {
         btnPlay.setImageResource(R.drawable.avd_pause);
+        btnPlayerStop.setVisibility(VISIBLE);
     }
 
-    public void resolveStopPlayingUI() {
+    public void resolvePausePlayingUI() {
         btnPlay.setImageResource(R.drawable.avd_play);
     }
 
@@ -100,6 +104,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
         btnStopRecord.setVisibility(GONE);
         btnPlay.setVisibility(GONE);
         btnDelete.setVisibility(GONE);
+        btnPlayerStop.setVisibility(GONE);
     }
 
 }

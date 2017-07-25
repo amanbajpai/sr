@@ -9,6 +9,7 @@
             android:id="@+id/btnRecordPause"
             android:layout_width="@dimen/audi_button_size"
             android:layout_height="@dimen/audi_button_size"
+            android:layout_margin="10dp"
             waveview:srcCompat="@drawable/avd_record" />
 
         <android.support.v7.widget.AppCompatImageView
@@ -16,20 +17,30 @@
             android:layout_width="@dimen/audi_button_size"
             android:layout_height="@dimen/audi_button_size"
             android:visibility="gone"
+            android:layout_margin="10dp"
             waveview:srcCompat="@drawable/avd_stop" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/btnPlayPause"
+            android:layout_width="@dimen/audi_button_size"
+            android:layout_height="@dimen/audi_button_size"
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            waveview:srcCompat="@drawable/avd_play" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/btnPlayStop"
             android:layout_width="@dimen/audi_button_size"
             android:layout_height="@dimen/audi_button_size"
             android:visibility="gone"
-            waveview:srcCompat="@drawable/avd_play" />
+            android:layout_margin="10dp"
+            waveview:srcCompat="@drawable/avd_stop" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/btnTrash"
             android:layout_width="@dimen/audi_button_size"
             android:layout_height="@dimen/audi_button_size"
             android:visibility="gone"
+            android:layout_margin="10dp"
             waveview:srcCompat="@drawable/avd_trash" />
-
 </merge>
