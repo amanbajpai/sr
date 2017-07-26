@@ -6,6 +6,8 @@ public interface QuestionAudioPlayer {
 
     void play();
 
+    void stop();
+
     void pause();
 
     void reset();

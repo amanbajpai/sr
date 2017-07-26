@@ -323,31 +323,35 @@ public class ImageLoader {
         }
 
         try {
-            // decode photoMask size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(f.getAbsolutePath(), o);
+            if (f != null) {
+                BitmapFactory.Options o = new BitmapFactory.Options();
+                o.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(f.getAbsolutePath(), o);
 
-            // Find the correct scale value. It should be the power of 2.
-            int widthTmp = o.outWidth;
-            int heightTmp = o.outHeight;
+                // Find the correct scale value. It should be the power of 2.
+                int widthTmp = o.outWidth;
+                int heightTmp = o.outHeight;
 
-            while (true) {
-                if (widthTmp / 2 < bitmapSize || heightTmp / 2 < bitmapSize) {
-                    break;
+                while (true) {
+                    if (widthTmp / 2 < bitmapSize || heightTmp / 2 < bitmapSize) {
+                        break;
+                    }
+                    widthTmp /= 2;
+                    heightTmp /= 2;
+                    scale *= 2;
                 }
-                widthTmp /= 2;
-                heightTmp /= 2;
-                scale *= 2;
-            }
 
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = scale;
-            return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
+                BitmapFactory.Options o2 = new BitmapFactory.Options();
+                o2.inSampleSize = scale;
+                return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             L.e(TAG, "DecodeFile error" + e.getMessage(), e);
         }
         return null;
+
     }
 
     public Bitmap decodeBitmap(Bitmap b, int sizeType) {

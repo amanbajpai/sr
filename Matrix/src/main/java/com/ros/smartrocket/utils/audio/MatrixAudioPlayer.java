@@ -3,6 +3,7 @@ package com.ros.smartrocket.utils.audio;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.piterwilson.audio.MP3RadioStreamDelegate;
 import com.piterwilson.audio.MP3RadioStreamPlayer;
@@ -60,6 +61,14 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public void stop() {
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+            audioPlayer = null;
         }
     }
 
@@ -163,7 +172,6 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
 
     @Override
     public void onRadioPlayerBuffering(MP3RadioStreamPlayer mp3RadioStreamPlayer) {
-
     }
 
     private void cancelTimer() {

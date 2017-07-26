@@ -80,22 +80,24 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnRecordPause:
-                handleRecordClick();
-                break;
-            case R.id.btnStop:
-                handleStopRecordClick();
-                break;
-            case R.id.btnPlayPause:
-                handlePlayPauseClick();
-                break;
-            case R.id.btnPlayStop:
-                handlePlayerStopClick();
-                break;
-            case R.id.btnTrash:
-                handleDeleteClick();
-                break;
+        if (audioPlayer != null && audioRecorder != null) {
+            switch (v.getId()) {
+                case R.id.btnRecordPause:
+                    handleRecordClick();
+                    break;
+                case R.id.btnStop:
+                    handleStopRecordClick();
+                    break;
+                case R.id.btnPlayPause:
+                    handlePlayPauseClick();
+                    break;
+                case R.id.btnPlayStop:
+                    handlePlayerStopClick();
+                    break;
+                case R.id.btnTrash:
+                    handleDeleteClick();
+                    break;
+            }
         }
     }
 
@@ -190,7 +192,9 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
 
     @Override
     public void onPlayStopped() {
-        audioWave.stopView();
+        if (audioWave != null) {
+            audioWave.stopView();
+        }
         audioControlsView.resolveDefaultPlayingUI();
     }
 
@@ -328,14 +332,26 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        clearResources();
+    }
+
+    @Override
     public void destroyView() {
         super.destroyView();
+    }
+
+    private void clearResources() {
         if (audioRecorder != null) {
             audioRecorder.reset();
+            audioRecorder = null;
         }
         if (audioPlayer != null) {
             audioPlayer.pause();
+            audioPlayer.stop();
             audioPlayer.reset();
+            audioPlayer = null;
         }
         audioWave = null;
     }
