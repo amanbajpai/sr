@@ -102,54 +102,66 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     private void handleRecordClick() {
-        if (audioRecorder.isRecording()) {
-            audioControlsView.resolvePauseRecordUI();
-            audioRecorder.pauseRecording();
-        } else {
-            audioRecorder.resumeRecording();
-            audioControlsView.resolveStartRecordUI();
+        if (audioRecorder != null) {
+            if (audioRecorder.isRecording()) {
+                audioControlsView.resolvePauseRecordUI();
+                audioRecorder.pauseRecording();
+            } else {
+                audioRecorder.resumeRecording();
+                audioControlsView.resolveStartRecordUI();
+            }
         }
     }
 
     private void handleStopRecordClick() {
-        audioControlsView.resolvePauseRecordUI();
-        audioRecorder.pauseRecording();
-        DialogUtils.showEndAudioRecordingDialog(getActivity(), new DefaultInfoDialog.DialogButtonClickListener() {
-            @Override
-            public void onLeftButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-            }
+        if (audioRecorder != null) {
+            audioControlsView.resolvePauseRecordUI();
+            audioRecorder.pauseRecording();
+            DialogUtils.showEndAudioRecordingDialog(getActivity(), new DefaultInfoDialog.DialogButtonClickListener() {
+                @Override
+                public void onLeftButtonPressed(Dialog dialog) {
+                    dialog.dismiss();
+                }
 
-            @Override
-            public void onRightButtonPressed(Dialog dialog) {
-                dialog.dismiss();
-                stopRecord();
-            }
-        });
+                @Override
+                public void onRightButtonPressed(Dialog dialog) {
+                    dialog.dismiss();
+                    stopRecord();
+                }
+            });
+        }
     }
 
     private void handlePlayPauseClick() {
-        if (audioPlayer.isPlaying()) {
-            pausePlayer();
-        } else {
-            resumePlayer();
+        if (audioPlayer != null) {
+            if (audioPlayer.isPlaying()) {
+                pausePlayer();
+            } else {
+                resumePlayer();
+            }
         }
     }
 
     private void handlePlayerStopClick() {
-        audioPlayer.pause();
-        audioPlayer.reset();
-        audioControlsView.resolveDefaultPlayingUI();
+        if (audioPlayer != null) {
+            audioPlayer.pause();
+            audioPlayer.reset();
+            audioControlsView.resolveDefaultPlayingUI();
+        }
     }
 
     private void resumePlayer() {
-        audioPlayer.play();
-        audioControlsView.resolveStartPlayingUI();
+        if (audioPlayer != null) {
+            audioPlayer.play();
+            audioControlsView.resolveStartPlayingUI();
+        }
     }
 
     private void pausePlayer() {
-        audioPlayer.pause();
-        audioControlsView.resolvePausePlayingUI();
+        if (audioPlayer != null) {
+            audioPlayer.pause();
+            audioControlsView.resolvePausePlayingUI();
+        }
     }
 
     private void handleDeleteClick() {
@@ -220,6 +232,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     private void reset() {
+        audioWave.stopView();
         if (audioPlayer != null) {
             audioPlayer.reset();
         }
@@ -257,6 +270,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     private void stopRecord() {
+        audioWave.stopView();
         audioRecorder.stopRecording();
         audioControlsView.resolveDefaultPlayingUI();
         MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager
@@ -328,21 +342,35 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     public void onPause() {
         super.onPause();
         hideProgressDialog();
-        pausePlayer();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        clearResources();
+        if (audioPlayer != null) {
+            if (audioPlayer.isPlaying()) {
+                pausePlayer();
+            } else {
+                audioPlayer.stop();
+            }
+        }
+        if (audioWave != null) {
+            audioWave.stopView();
+        }
     }
 
     @Override
     public void destroyView() {
+        clearResources();
         super.destroyView();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (audioWave != null && audioWave.getVisibility() == View.VISIBLE) {
+            audioWave.setVisibility(View.VISIBLE);
+            audioWave.startView();
+        }
+    }
+
     private void clearResources() {
+        audioWave.stopView();
         if (audioRecorder != null) {
             audioRecorder.reset();
             audioRecorder = null;

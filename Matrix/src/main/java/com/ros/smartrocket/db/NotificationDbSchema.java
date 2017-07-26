@@ -2,7 +2,6 @@ package com.ros.smartrocket.db;
 
 import android.net.Uri;
 
-
 public interface NotificationDbSchema {
 
     String CUSTOM_SQL = ", UNIQUE (" + Columns.ID.getName() + ") ON CONFLICT REPLACE";

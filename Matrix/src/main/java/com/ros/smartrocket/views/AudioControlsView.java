@@ -25,7 +25,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
     @BindView(R.id.btnPlayStop)
     AppCompatImageView btnPlayerStop;
     @BindView(R.id.btnTrash)
-    AppCompatImageView btnDelete;
+    AppCompatImageView btnDeleteRecord;
     private AVDWrapper animationWrapper;
     private OnClickListener onClickListener;
 
@@ -53,15 +53,51 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
 
     @Override
     public void onAnimationDone(AppCompatImageView imageView) {
+        unblockButtons(imageView.getId());
         if (onClickListener != null) {
             onClickListener.onClick(imageView);
         }
     }
 
+    private void unblockButtons(int clickedButtonId) {
+        switch (clickedButtonId) {
+            case R.id.btnRecordPause:
+            case R.id.btnStop:
+                btnRecord.setEnabled(true);
+                btnStopRecord.setEnabled(true);
+                break;
+            case R.id.btnPlayPause:
+            case R.id.btnTrash:
+            case R.id.btnPlayStop:
+                btnPlay.setEnabled(true);
+                btnPlayerStop.setEnabled(true);
+                btnDeleteRecord.setEnabled(true);
+                break;
+        }
+    }
+
     @OnClick({R.id.btnRecordPause, R.id.btnStop, R.id.btnPlayPause, R.id.btnTrash, R.id.btnPlayStop})
     public void onViewClicked(View view) {
+        blockButtons(view.getId());
         if (animationWrapper != null && view instanceof AppCompatImageView) {
             animationWrapper.start(ANIMATION_DURATION, (AppCompatImageView) view);
+        }
+    }
+
+    private void blockButtons(int clickedButtonId) {
+        switch (clickedButtonId) {
+            case R.id.btnRecordPause:
+            case R.id.btnStop:
+                btnRecord.setEnabled(false);
+                btnStopRecord.setEnabled(false);
+                break;
+            case R.id.btnPlayPause:
+            case R.id.btnTrash:
+            case R.id.btnPlayStop:
+                btnPlay.setEnabled(false);
+                btnPlayerStop.setEnabled(false);
+                btnDeleteRecord.setEnabled(false);
+                break;
         }
     }
 
@@ -84,7 +120,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
         btnPlay.setImageResource(R.drawable.avd_play);
         btnPlayerStop.setVisibility(GONE);
         btnPlay.setVisibility(VISIBLE);
-        btnDelete.setVisibility(VISIBLE);
+        btnDeleteRecord.setVisibility(VISIBLE);
         btnRecord.setVisibility(GONE);
         btnStopRecord.setVisibility(GONE);
     }
@@ -103,7 +139,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
         btnRecord.setVisibility(VISIBLE);
         btnStopRecord.setVisibility(GONE);
         btnPlay.setVisibility(GONE);
-        btnDelete.setVisibility(GONE);
+        btnDeleteRecord.setVisibility(GONE);
         btnPlayerStop.setVisibility(GONE);
     }
 

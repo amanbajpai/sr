@@ -87,7 +87,6 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
         if (recorder != null && recorder.isRecording()) {
             recorder.setPause(false);
             recorder.stop();
-            audioWave.stopView();
         }
         cancelTimer();
         isRecording = false;
@@ -118,7 +117,6 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
         cancelTimer();
         if (recorder != null) {
             recorder.stop();
-            audioWave.stopView();
             recorder = null;
         }
 
