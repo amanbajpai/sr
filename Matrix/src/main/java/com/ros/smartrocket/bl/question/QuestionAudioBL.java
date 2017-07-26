@@ -145,6 +145,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     private void handlePlayerStopClick() {
         if (audioPlayer != null) {
             audioPlayer.pause();
+            audioPlayer.stop();
             audioPlayer.reset();
             audioControlsView.resolveDefaultPlayingUI();
         }
