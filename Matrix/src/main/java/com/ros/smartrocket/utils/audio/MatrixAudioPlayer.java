@@ -69,6 +69,7 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
         if (audioPlayer != null) {
             audioPlayer.stop();
             audioPlayer = null;
+            updateProgress(0);
         }
     }
 
@@ -143,7 +144,7 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
         isPlaying = true;
         isPlayEnded = false;
         duration = mp3RadioStreamPlayer.getDuration() / TimeUtils.ONE_SECOND_IN_MILL;
-        updateProgress(0);
+        updateProgress(mp3RadioStreamPlayer.getCurPosition());
         scheduleTimer();
     }
 
