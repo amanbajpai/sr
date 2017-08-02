@@ -93,7 +93,6 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_login);
-        ButterKnife.setDebug(true);
         ButterKnife.bind(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
         startPushNotificationActivity = getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false);
