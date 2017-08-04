@@ -322,23 +322,25 @@ public class NetworkService extends BaseNetworkService {
     }
 
     private void storeQuestions(BaseOperation operation, int url, Questions questions) {
-        int waveId = operation.getWaveId();
-        int taskId = operation.getTaskId();
-        int missionId = operation.getMissionId();
+        if (questions != null && questions.getQuestions() != null && questions.getQuestions().length > 0) {
+            int waveId = operation.getWaveId();
+            int taskId = operation.getTaskId();
+            int missionId = operation.getMissionId();
 
-        QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
-        questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
+            QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
+            questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
 
-        int i = 1;
-        for (Question question : questions.getQuestions()) {
-            if (i != 1 && question.getShowBackButton()) {
-                question.setPreviousQuestionOrderId(i - 1);
+            int i = 1;
+            for (Question question : questions.getQuestions()) {
+                if (i != 1 && question.getShowBackButton()) {
+                    question.setPreviousQuestionOrderId(i - 1);
+                }
+                i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
             }
-            i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
-        }
 
-        if (questions.getMissionSize() != null) {
-            WavesBL.updateWave(waveId, questions.getMissionSize());
+            if (questions.getMissionSize() != null) {
+                WavesBL.updateWave(waveId, questions.getMissionSize());
+            }
         }
     }
 
