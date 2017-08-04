@@ -468,7 +468,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             sendTextAnswers();
         } else {
             showProgressDialog(false);
-            apiFacade.startTask(this, task.getWaveId(), task.getId(), task.getMissionId());
+            apiFacade.startTask(this, task);
         }
     }
 

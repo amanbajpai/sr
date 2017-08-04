@@ -9,6 +9,8 @@ public class ClaimTaskResponse extends BaseEntity {
     private Integer missionId;
     @SerializedName("Warnings")
     private Warning[] warnings;
+    @SerializedName("Questionnaires")
+    private Questions questions;
 
 
     public Integer getMissionId() {
@@ -25,5 +27,9 @@ public class ClaimTaskResponse extends BaseEntity {
 
     public void setWarnings(Warning[] warnings) {
         this.warnings = warnings;
+    }
+
+    public Questions getQuestions() {
+        return questions;
     }
 }

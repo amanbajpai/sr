@@ -59,6 +59,8 @@ import java.util.List;
 public class NetworkService extends BaseNetworkService {
     private static final String TAG = "NetworkService";
     public static final String TAG_RECRUITING = "recruiting";
+    private Gson gson;
+    private ContentResolver contentResolver;
 
     public NetworkService() {
         super("NetworkService");
@@ -70,14 +72,13 @@ public class NetworkService extends BaseNetworkService {
             BaseOperation operation = (BaseOperation) intent.getSerializableExtra(KEY_OPERATION);
             if (operation != null) {
                 executeRequest(operation);
-
                 notifyOperationFinished(operation);
             }
         }
     }
 
     protected String getRequestJson(BaseOperation operation) {
-        Gson gson = null;
+        Gson gson;
         if (TAG_RECRUITING.equals(operation.getTag())) {
             gson = new GsonBuilder().disableHtmlEscaping().create();
         } else {
@@ -94,12 +95,12 @@ public class NetworkService extends BaseNetworkService {
 
     @Override
     protected void processResponse(BaseOperation operation) {
-        Gson gson = new Gson();
+        contentResolver = getContentResolver();
+        gson = new Gson();
         int responseCode = operation.getResponseStatusCode();
         String responseString = operation.getResponseString();
         if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
-                ContentResolver contentResolver = getContentResolver();
                 SparseArray<ContentValues> scheduledTaskContentValuesMap;
                 SparseArray<ContentValues> hiddenTaskContentValuesMap;
                 SparseArray<ContentValues> validLocationTaskContentValuesMap;
@@ -176,6 +177,7 @@ public class NetworkService extends BaseNetworkService {
 
                     case WSUrl.CLAIM_TASKS_ID:
                         ClaimTaskResponse claimTaskResponse = gson.fromJson(responseString, ClaimTaskResponse.class);
+                        storeQuestions(operation, url, claimTaskResponse.getQuestions());
                         operation.responseEntities.add(claimTaskResponse);
                         break;
                     case WSUrl.SEND_ANSWERS_ID:
@@ -225,25 +227,8 @@ public class NetworkService extends BaseNetworkService {
                         break;
                     case WSUrl.GET_QUESTIONS_ID:
                     case WSUrl.GET_REDO_QUESTION_ID:
-                        int waveId = operation.getWaveId();
-                        int taskId = operation.getTaskId();
-                        int missionId = operation.getMissionId();
-
-                        QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
                         Questions questions = gson.fromJson(responseString, Questions.class);
-                        questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
-
-                        int i = 1;
-                        for (Question question : questions.getQuestions()) {
-                            if (i != 1 && question.getShowBackButton()) {
-                                question.setPreviousQuestionOrderId(i - 1);
-                            }
-                            i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
-                        }
-
-                        if (questions.getMissionSize() != null) {
-                            WavesBL.updateWave(waveId, questions.getMissionSize());
-                        }
+                        storeQuestions(operation, url, questions);
                         break;
                     case WSUrl.GET_SHARING_DATA_ID:
                         Sharing sharing = gson.fromJson(responseString, Sharing.class);
@@ -334,6 +319,27 @@ public class NetworkService extends BaseNetworkService {
             }
         }
 
+    }
+
+    private void storeQuestions(BaseOperation operation, int url, Questions questions) {
+        int waveId = operation.getWaveId();
+        int taskId = operation.getTaskId();
+        int missionId = operation.getMissionId();
+
+        QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
+        questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
+
+        int i = 1;
+        for (Question question : questions.getQuestions()) {
+            if (i != 1 && question.getShowBackButton()) {
+                question.setPreviousQuestionOrderId(i - 1);
+            }
+            i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
+        }
+
+        if (questions.getMissionSize() != null) {
+            WavesBL.updateWave(waveId, questions.getMissionSize());
+        }
     }
 
     private List<Product> makeProductList(Question question) {

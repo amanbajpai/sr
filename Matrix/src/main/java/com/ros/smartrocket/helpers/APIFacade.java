@@ -24,6 +24,7 @@ import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.SetPassword;
 import com.ros.smartrocket.db.entity.Subscription;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Token;
 import com.ros.smartrocket.db.entity.UpdateUser;
 import com.ros.smartrocket.net.BaseOperation;
@@ -205,13 +206,14 @@ public class APIFacade {
         return operation;
     }
 
-    public void claimTask(Activity activity, Integer taskId, double latitude, double longitude) {
+    public void claimTask(Activity activity, Task task, double latitude, double longitude) {
         SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(taskId);
+        sendTaskId.setTaskId(task.getId());
         sendTaskId.setLatitude(latitude);
         sendTaskId.setLongitude(longitude);
-
         BaseOperation operation = new BaseOperation();
+
+        fillTaskData(task, operation);
         operation.setUrl(WSUrl.CLAIM_TASK);
         operation.setTag(Keys.CLAIM_TASK_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
@@ -273,11 +275,11 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void startTask(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
+    public void startTask(Activity activity, Task task) {
         SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setWaveId(waveId);
-        sendTaskId.setTaskId(taskId);
-        sendTaskId.setMissionId(missionId);
+        sendTaskId.setWaveId(task.getWaveId());
+        sendTaskId.setTaskId(task.getId());
+        sendTaskId.setMissionId(task.getMissionId());
 
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.START_TASK);
@@ -287,26 +289,28 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void getQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
+    public void getQuestions(Activity activity, Task task) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(waveId), preferencesManager.getLanguageCode(), String.valueOf(taskId));
+        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(task.getWaveId()), preferencesManager.getLanguageCode(), String.valueOf(task.getId()));
         operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
-        operation.setWaveId(waveId);
-        operation.setTaskId(taskId);
-        operation.setMissionId(missionId);
+        fillTaskData(task, operation);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void getReDoQuestions(Activity activity, Integer waveId, Integer taskId, Integer missionId) {
+    public void getReDoQuestions(Activity activity, Task task) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(taskId), String.valueOf(missionId), preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(task.getId()), String.valueOf(task.getWaveId()), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
-        operation.setWaveId(waveId);
-        operation.setTaskId(taskId);
-        operation.setMissionId(missionId);
+        fillTaskData(task, operation);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
+    }
+
+    private void fillTaskData(Task task, BaseOperation operation) {
+        operation.setWaveId(task.getWaveId());
+        operation.setTaskId(task.getId());
+        operation.setMissionId(task.getMissionId());
     }
 
     public void subscribe(Activity activity, String email, String countryName, String cityName,

@@ -160,8 +160,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
                                     });
 
                         } else {
-                            apiFacade.claimTask(activity, task.getId(),
-                                    location.getLatitude(), location.getLongitude());
+                            apiFacade.claimTask(activity, task, location.getLatitude(), location.getLongitude());
                         }
                     }
 
@@ -378,7 +377,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
     private void tryToClaim() {
         if (instructionMediaLoaded && massAuditMediaLoaded) {
-            apiFacade.claimTask(activity, task.getId(), location.getLatitude(), location.getLongitude());
+            apiFacade.claimTask(activity, task, location.getLatitude(), location.getLongitude());
         }
     }
 
@@ -413,13 +412,13 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
     public void claimTask() {
         showDialog();
-        apiFacade.getQuestions(activity, task.getWaveId(), task.getId(), task.getMissionId());
+        apiFacade.getQuestions(activity, task);
     }
 
     public void startTask() {
         if (UIUtils.isOnline(activity)) {
             showDialog();
-            apiFacade.startTask(activity, task.getWaveId(), task.getId(), task.getMissionId());
+            apiFacade.startTask(activity, task);
         } else {
             changeStatusToStarted(false);
         }

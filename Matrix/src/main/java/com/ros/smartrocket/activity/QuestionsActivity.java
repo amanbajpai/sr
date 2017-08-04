@@ -218,7 +218,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                                 QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
                             } else {
                                 showProgressDialog(false);
-                                apiFacade.getReDoQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
+                                apiFacade.getReDoQuestions(QuestionsActivity.this, task);
                             }
                         } else {
                             QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
@@ -248,7 +248,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         startFragment(question);
                     } else {
                         showProgressDialog(false);
-                        apiFacade.getQuestions(QuestionsActivity.this, task.getWaveId(), taskId, task.getMissionId());
+                        apiFacade.getQuestions(QuestionsActivity.this, task);
                     }
 
                     break;
