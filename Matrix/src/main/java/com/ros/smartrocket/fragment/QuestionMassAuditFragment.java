@@ -25,7 +25,6 @@ public class QuestionMassAuditFragment extends BaseQuestionFragment {
     public QuestionMassAuditFragment()
     {
         super(new QuestionMassAuditBL());
-        LocaleUtils.setCurrentLanguage();
     }
 
     @Override

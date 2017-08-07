@@ -16,6 +16,7 @@ import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.utils.LocaleUtils;
 
 /**
  * Fragment for display About information
@@ -51,6 +52,7 @@ public abstract class BaseQuestionFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        LocaleUtils.setCurrentLanguage();
         questionBL.onStart();
     }
 
@@ -74,6 +76,7 @@ public abstract class BaseQuestionFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LocaleUtils.setCurrentLanguage();
         if (!questionBL.onActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
