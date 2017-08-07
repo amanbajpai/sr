@@ -496,4 +496,7 @@
     <string name="dialog_payment_instruction">按下\"设定\"去继续</string>
     <string name="dialog_payment_title">输入你的收款账户资料</string>
     <string name="global_block_error">智慧飞船暂时无法使用</string>
+    <string name="recording">录音</string>
+    <string name="recording_delete">删除录音?</string>
+    <string name="recording_end">停止录音?</string>
 </resources>

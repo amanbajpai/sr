@@ -399,4 +399,7 @@
 	<string name="dialog_payment_description">Vous devez d\'abord saisir vos détails de paiement afin de retirer votre solde SmartRocket</string>
 	<string name="dialog_payment_instruction">Appuyez sur le bouton configuration pour continuer</string>
 	<string name="dialog_payment_title">Entrer les détails du paiement</string>
+    <string name="recording">Enregistrement vocal</string>
+	<string name="recording_delete">Supprimer l\'enregistrement vocal?</string>
+	<string name="recording_end">Fin de l\'enregistrement vocal?</string>
 </resources>
