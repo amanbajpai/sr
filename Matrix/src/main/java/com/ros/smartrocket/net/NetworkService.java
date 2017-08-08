@@ -280,7 +280,7 @@ public class NetworkService extends BaseNetworkService {
             operation.setResponseError(getString(R.string.no_internet));
             operation.setResponseErrorCode(responseCode);
         } else if (responseCode == AUTORIZATION_ERROR) {
-            operation.setResponseError(getString(R.string.no_internet));
+            operation.setResponseError(getString(R.string.error));
             operation.setResponseErrorCode(responseCode);
 
             WriteDataHelper.prepareLogout(this);

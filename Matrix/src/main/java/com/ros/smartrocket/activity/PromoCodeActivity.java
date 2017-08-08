@@ -18,6 +18,9 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -87,9 +90,15 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @OnClick(R.id.continueButton)
     public void onClick() {
         String promoCode = promoCodeEdt.getText().toString();
-        if (!TextUtils.isEmpty(promoCode) ) {
-            showProgressDialog(false);
-            apiFacade.setPromoCode(this, promoCode);
+        if (!TextUtils.isEmpty(promoCode)) {
+            try {
+                promoCode = URLEncoder.encode(promoCode, "UTF-8");
+                showProgressDialog(false);
+                apiFacade.setPromoCode(this, promoCode);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                continueRegistrationFlow();
+            }
         } else {
             continueRegistrationFlow();
         }
