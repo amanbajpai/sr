@@ -40,7 +40,7 @@
                     tools:text="Mass Audit"
                     android:layout_toEndOf="@id/massAuditSubQuestionsLabel"
                     android:textSize="16sp"
-                    android:layout_marginStart="@dimen/hs__question_text_padding"
+                    android:layout_marginStart="@dimen/buttons_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <com.ros.smartrocket.views.CustomTextView

@@ -14,6 +14,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
+import com.helpshift.InstallConfig;
+import com.helpshift.exceptions.InstallException;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
@@ -83,13 +85,17 @@ public class App extends Application {
     }
 
     private void initHS() {
-        HashMap config = new HashMap();
+        InstallConfig installConfig = new InstallConfig.Builder().build();
         Core.init(All.getInstance());
-        Core.install(this,
-                "61ff0f6188482d2091170a688375265b",
-                "smartrocket.helpshift.com",
-                "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
-                config);
+        try {
+            Core.install(this,
+                    "61ff0f6188482d2091170a688375265b",
+                    "smartrocket.helpshift.com",
+                    "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
+                    installConfig);
+        } catch (InstallException e) {
+            e.printStackTrace();
+        }
     }
 
     public static App getInstance() {

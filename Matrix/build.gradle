@@ -223,7 +223,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:gridlayout-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
-    compile 'com.helpshift:android-helpshift-aar:4.5.0'
+    compile 'com.helpshift:android-helpshift-aar:6.0.0'
 
     // Cluster map's pins
     compile project(':libs:clusterkraf')
