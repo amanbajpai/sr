@@ -84,6 +84,9 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(localReceiver);
+        if (checkLocationDialog != null && checkLocationDialog.isShowing()) {
+            checkLocationDialog.dismiss();
+        }
     }
 
     @Override

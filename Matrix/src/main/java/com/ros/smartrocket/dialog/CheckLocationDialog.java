@@ -101,27 +101,28 @@ public class CheckLocationDialog extends Dialog {
             } else {
                 checkLocationFail(operation);
             }
-
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (locationChecked) {
-                                checkLocationListener.onLocationChecked(CheckLocationDialog.this,
-                                        countryName, cityName, checkLocationEntity.getLatitude(),
-                                        checkLocationEntity.getLongitude(), checkLocationResponse);
-                            } else {
-                                checkLocationListener.onCheckLocationFailed(CheckLocationDialog.this,
-                                        countryName, cityName, checkLocationEntity.getLatitude(),
-                                        checkLocationEntity.getLongitude(), checkLocationResponse);
+            if (activity != null && !activity.isDestroyed()) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (locationChecked) {
+                                    checkLocationListener.onLocationChecked(CheckLocationDialog.this,
+                                            countryName, cityName, checkLocationEntity.getLatitude(),
+                                            checkLocationEntity.getLongitude(), checkLocationResponse);
+                                } else {
+                                    checkLocationListener.onCheckLocationFailed(CheckLocationDialog.this,
+                                            countryName, cityName, checkLocationEntity.getLatitude(),
+                                            checkLocationEntity.getLongitude(), checkLocationResponse);
+                                }
+                                dismiss();
                             }
-                            dismiss();
-                        }
-                    }, 1000);
-                }
-            });
+                        }, 1000);
+                    }
+                });
+            }
         }
     }
 

@@ -17,34 +17,46 @@ public final class UserActionsLogger {
     private static final String QUESTION_OPENED = "QUESTION OPENED ";
     private static final String TASK_WITHDRAW = "TASK WITHDRAW ";
     private static final String PREVIEW = " PREVIEW ";
-    public static final String BACK_TO_QUESTION = "BACK TO QUESTION :\n";
-    public static final String TASK_SUBMIT_LATER = "TASK SUBMIT LATER ";
+    private static final String BACK_TO_QUESTION = "BACK TO QUESTION :\n";
+    private static final String TASK_SUBMIT_LATER = "TASK SUBMIT LATER ";
 
     private UserActionsLogger() {
     }
 
     public static void logTaskStarted(Task task, boolean isPreview) {
-        writeLogToFile(getTaskStartedText(task, isPreview));
+        if (task != null) {
+            writeLogToFile(getTaskStartedText(task, isPreview));
+        }
     }
 
     public static void logTaskOnValidation(Task task) {
-        writeLogToFile(getTaskOnValidationText(task));
+        if (task != null) {
+            writeLogToFile(getTaskOnValidationText(task));
+        }
     }
 
     public static void logTaskSubmitLater(Task task) {
-        writeLogToFile(getTaskSubmitLaterText(task));
+        if (task != null) {
+            writeLogToFile(getTaskSubmitLaterText(task));
+        }
     }
 
     static void logTaskWithdraw(Task task) {
-        writeLogToFile(getTaskWithdrawText(task));
+        if (task != null) {
+            writeLogToFile(getTaskWithdrawText(task));
+        }
     }
 
     public static void logQuestionOpened(Question question, boolean isPreview) {
-        writeLogToFile(getQuestionOpenedText(question, isPreview));
+        if (question != null) {
+            writeLogToFile(getQuestionOpenedText(question, isPreview));
+        }
     }
 
     public static void logPrevQuestionOpened(Question question, boolean isPreview) {
-        writeLogToFile(BACK_TO_QUESTION + getQuestionOpenedText(question, isPreview));
+        if (question != null) {
+            writeLogToFile(BACK_TO_QUESTION + getQuestionOpenedText(question, isPreview));
+        }
     }
 
     private static String getQuestionOpenedText(Question question, boolean isPreview) {
