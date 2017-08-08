@@ -620,13 +620,15 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     @SuppressWarnings("unused")
     @OnClick(R.id.mapImageView)
     public void mapImageViewClick() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
-        bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
+        if (task != null) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Keys.MAP_VIEW_ITEM_ID, task.getId());
+            bundle.putString(Keys.MAP_MODE_VIEWTYPE, Keys.MapViewMode.SINGLE_TASK.toString());
 
-        Intent intent = new Intent(this, MapActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     @Override
