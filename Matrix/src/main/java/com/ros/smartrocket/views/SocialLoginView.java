@@ -408,4 +408,11 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
             socialLoginListener.onExternalLoginSuccess(authorize);
         }
     }
+
+    public void onDestroy() {
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.stopAutoManage(activity);
+            mGoogleApiClient.disconnect();
+        }
+    }
 }
