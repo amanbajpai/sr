@@ -15,6 +15,7 @@ import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -32,6 +33,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     EditText promoCodeEdt;
     private APIFacade apiFacade = APIFacade.getInstance();
     private RegistrationType type;
+    private String token;
 
     public PromoCodeActivity() {
     }
@@ -44,7 +46,15 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
         ButterKnife.bind(this);
         type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+        getToken();
         checkDeviceSettingsByOnResume(false);
+    }
+
+    private void getToken() {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        token = TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ?
+               preferencesManager.getToken() :
+               preferencesManager.getTokenForUploadFile();
     }
 
     public void continueRegistrationFlow() {
@@ -90,7 +100,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @OnClick(R.id.continueButton)
     public void onClick() {
         String promoCode = promoCodeEdt.getText().toString();
-        if (!TextUtils.isEmpty(promoCode)) {
+        if (!TextUtils.isEmpty(promoCode) && !TextUtils.isEmpty(token)) {
             try {
                 promoCode = URLEncoder.encode(promoCode, "UTF-8");
                 showProgressDialog(false);
