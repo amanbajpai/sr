@@ -416,7 +416,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     currentFragment = new QuestionInstructionFragment();
                     break;
                 case REJECT:
-                    AnswersBL.updateQuitStatmentAnswer(question);
+                    if (!isPreview())
+                        AnswersBL.updateQuitStatmentAnswer(question);
                     currentFragment = new QuestionQuitStatementFragment();
                     break;
                 case MASS_AUDIT:
