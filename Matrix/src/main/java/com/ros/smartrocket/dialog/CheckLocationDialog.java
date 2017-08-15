@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.location.Location;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -74,7 +75,8 @@ public class CheckLocationDialog extends Dialog {
     public void getLocation() {
         MatrixLocationManager.getAddressByCurrentLocation(false, new MatrixLocationManager.GetAddressListener() {
             @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
+            public void onGetAddressSuccess(Location location, String countryName, String cityName, String
+                    districtName) {
                 CheckLocationDialog.this.countryName = countryName;
                 CheckLocationDialog.this.cityName = cityName;
 
@@ -89,16 +91,20 @@ public class CheckLocationDialog extends Dialog {
         if (Keys.CHECK_LOCATION_OPERATION_TAG.equals(operation.getTag())) {
             statusImage.clearAnimation();
 
-            checkLocationEntity = (CheckLocation) operation.getEntities().get(0);
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
-
-                if (checkLocationResponse.getStatus()) {
-                    checkLocationSuccess();
+            try {
+                checkLocationEntity = (CheckLocation) operation.getEntities().get(0);
+                if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
+                    checkLocationResponse = (CheckLocationResponse) operation.getResponseEntities().get(0);
+                    if (checkLocationResponse.getStatus()) {
+                        checkLocationSuccess();
+                    } else {
+                        checkLocationFail(operation);
+                    }
                 } else {
                     checkLocationFail(operation);
                 }
-            } else {
+            } catch (IndexOutOfBoundsException e) {
+                Log.e(TAG, "Check location fail", e);
                 checkLocationFail(operation);
             }
             if (activity != null && !activity.isDestroyed()) {
