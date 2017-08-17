@@ -99,7 +99,7 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         ButterKnife.bind(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.red));
         startPushNotificationActivity = getIntent().getBooleanExtra(START_PUSH_NOTIFICATIONS_ACTIVITY, false);
-        currentVersion.setText("v." + BuildConfig.VERSION_NAME);
+        currentVersion.setText(getString(R.string.version_var, BuildConfig.VERSION_NAME));
         fillLanguageTv();
         String lastEmail = preferencesManager.getLastEmail();
 
@@ -113,7 +113,6 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
         intentFilter.addAction(Keys.FINISH_LOGIN_ACTIVITY);
         intentFilter.addAction(Keys.WECHAT_AUTH_SUCCESS);
         registerReceiver(localReceiver, intentFilter);
-
     }
 
     private void fillLanguageTv() {

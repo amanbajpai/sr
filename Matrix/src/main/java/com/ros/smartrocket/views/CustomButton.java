@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.FontUtils;
 
-public class CustomButton extends Button {
+public class CustomButton extends android.support.v7.widget.AppCompatButton {
 
     public CustomButton(Context context) {
         this(context, null);

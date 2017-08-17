@@ -54,7 +54,8 @@
                     android:layout_marginEnd="5dp"
                     android:drawablePadding="10dp"
                     android:drawableEnd="@drawable/arrow_grey_big"
-                    android:singleLine="true"
+                    android:lines="1"
+                    android:maxLines="1"
                     custom:textStyle="bold" />
 
                 <LinearLayout
@@ -97,7 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:singleLine="true"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_size_13p6sp"
                     custom:textStyle="bold" />

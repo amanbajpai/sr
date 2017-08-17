@@ -3,6 +3,7 @@
     <string name="app_name">SmartRocket</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
     <!-- LOGIN ACTIVITY -->
+    <string name="version_var">v.%1$s</string>
     <string name="your_email_hint">Your e-mail</string>
     <string name="your_password_hint">Your password</string>
     <string name="forgot_your_password">Forgot your password?</string>
