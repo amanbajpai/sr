@@ -114,6 +114,7 @@
         <item name="android:background">@color/white</item>
         <!--<item name="android:spinnerMode" >dropdown</item >-->
     </style>
+
     <!-- MAP - Task POPUP Styles -->
     <style name="MapTaskTitle" parent="@android:style/Widget.TextView">
         <item name="android:textStyle">bold</item>
@@ -398,7 +399,7 @@
         <item name="android:windowTitleStyle">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
