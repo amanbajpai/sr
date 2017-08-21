@@ -23,7 +23,8 @@
             android:layout_marginStart="10dp"
             android:layout_toStartOf="@+id/time"
             android:layout_toEndOf="@+id/image"
-            android:singleLine="true"
+            android:lines="1"
+            android:maxLines="1"
             android:textIsSelectable="false"/>
         <TextView
             android:id="@+id/time"
@@ -34,7 +35,8 @@
             android:layout_marginTop="10dp"
             android:background="@null"
             android:gravity="end"
-            android:singleLine="true"
+            android:lines="1"
+            android:maxLines="1"
             android:textIsSelectable="false"/>
     </RelativeLayout>
     <TextView

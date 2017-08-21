@@ -147,5 +147,4 @@ public class BaseActivity extends AppCompatActivity {
         Context context = MatrixContextWrapper.wrap(newBase, newLocale);
         super.attachBaseContext(context);
     }
-
 }

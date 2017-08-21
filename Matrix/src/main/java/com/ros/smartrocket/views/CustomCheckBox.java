@@ -10,7 +10,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.FontUtils;
 
 
-public class CustomCheckBox extends CheckBox {
+public class CustomCheckBox extends android.support.v7.widget.AppCompatCheckBox {
 
     public CustomCheckBox(Context context) {
         this(context, null);

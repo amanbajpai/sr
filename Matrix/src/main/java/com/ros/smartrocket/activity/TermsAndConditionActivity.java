@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.dialog.CustomProgressDialog;
 import com.ros.smartrocket.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
@@ -32,13 +33,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TermsAndConditionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, NetworkOperationListenerInterface {
+public class TermsAndConditionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener,
+        NetworkOperationListenerInterface {
     @BindView(R.id.webView)
     WebView webView;
     @BindView(R.id.acceptTC)
     CustomCheckBox acceptTC;
     @BindView(R.id.continueButton)
     CustomButton continueButton;
+
+    private CustomProgressDialog progressDialog;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private RegistrationPermissions registrationPermissions;
     private APIFacade apiFacade = APIFacade.getInstance();
@@ -57,7 +61,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
         registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
         acceptTC.setOnCheckedChangeListener(this);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClientWithProgress());
         String termsUrl;
         switch (preferencesManager.getLanguageCode()) {
             case "en_SG":
@@ -156,7 +160,8 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
             if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys
+                        .SHOULD_SHOW_MAIN_SCREEN)) {
                     preferencesManager.setTandCShowedForCurrentUser();
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
@@ -182,5 +187,31 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     protected void onStop() {
         removeNetworkOperationListener(this);
         super.onStop();
+    }
+
+    public void showProgressBar() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+        progressDialog = CustomProgressDialog.show(this);
+        progressDialog.setCancelable(false);
+    }
+
+    public void dismissProgressBar() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private class WebViewClientWithProgress extends WebViewClient {
+        WebViewClientWithProgress() {
+            showProgressBar();
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            dismissProgressBar();
+        }
     }
 }
