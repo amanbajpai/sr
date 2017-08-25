@@ -152,14 +152,18 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Network
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.POST_EXTERNAL_REG_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                onSuccessNetworkOperation();
-            } else {
-                onErrorNetworkOperation(operation);
-            }
+            onSuccessNetworkOperation();
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.POST_EXTERNAL_REG_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            onErrorNetworkOperation(operation);
         }
     }
 

@@ -465,24 +465,26 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
-                    || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
+                || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
-                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
-            } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
-                        taskId, task.getMissionId());
-                Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
+            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
+        } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
+                    taskId, task.getMissionId());
+            Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
 
-                startActivity(IntentUtils.getQuitQuestionIntent(this, question));
-                finishQuestionsActivity();
-            }
-        } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError());
+            startActivity(IntentUtils.getQuitQuestionIntent(this, question));
+            finishQuestionsActivity();
         }
         dismissProgressDialog();
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        dismissProgressDialog();
+        UIUtils.showSimpleToast(this, operation.getResponseError());
     }
 
     @Override

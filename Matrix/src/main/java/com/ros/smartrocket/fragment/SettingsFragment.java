@@ -50,9 +50,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Setting fragment with all application related settings
- */
+
 public class SettingsFragment extends Fragment implements SwitchCheckedChangeListener,
         AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
     @BindView(R.id.languageSpinner)
@@ -249,22 +247,24 @@ public class SettingsFragment extends Fragment implements SwitchCheckedChangeLis
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
-                MyAccount myAccount = App.getInstance().getMyAccount();
-                AllowPushNotification allowPushNotification = (AllowPushNotification) operation.getEntities().get(0);
-                myAccount.setAllowPushNotification(allowPushNotification.getAllow());
-                App.getInstance().setMyAccount(myAccount);
-                progressDialog.dismiss();
-            } else if (Keys.CLOSE_ACCOUNT_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
-                logOut();
-            }
-        } else {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
+            MyAccount myAccount = App.getInstance().getMyAccount();
+            AllowPushNotification allowPushNotification = (AllowPushNotification) operation.getEntities().get(0);
+            myAccount.setAllowPushNotification(allowPushNotification.getAllow());
+            App.getInstance().setMyAccount(myAccount);
             progressDialog.dismiss();
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+        } else if (Keys.CLOSE_ACCOUNT_TAG.equals(operation.getTag())) {
+            progressDialog.dismiss();
+            logOut();
         }
+
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        progressDialog.dismiss();
+        UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
     }
 
     public void changeTaskReminderServiceStatus() {

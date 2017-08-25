@@ -156,4 +156,8 @@ public class BaseOperation implements Serializable {
                 + ", args=" + Arrays.toString(args)
                 + '}';
     }
+
+    public boolean isSuccess() {
+        return responseStatusCode == BaseNetworkService.SUCCESS;
+    }
 }

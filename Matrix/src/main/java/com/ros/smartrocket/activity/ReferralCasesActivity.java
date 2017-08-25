@@ -76,29 +76,34 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        dismissProgressDialog();
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-                ReferralCases referralCases = (ReferralCases) operation.getResponseEntities().get(0);
-                referralCaseArray = referralCases.getCases();
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            ReferralCases referralCases = (ReferralCases) operation.getResponseEntities().get(0);
+            referralCaseArray = referralCases.getCases();
 
-                String[] referralCasesStringArray = new String[referralCaseArray.length + 1];
-                referralCasesStringArray[0] = "";
-                for (int i = 0; i < referralCaseArray.length; i++) {
-                    referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
-                }
-
-                ArrayAdapter educationLevelAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner,
-                        R.id.name, referralCasesStringArray);
-                referralCasesSpinner.setAdapter(educationLevelAdapter);
-                referralCasesSpinner.setOnItemSelectedListener(this);
-                referralCasesSpinner.setEnabled(true);
-
-            } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-                continueRegistrationFlow(getCurrentReferralCaseId());
+            String[] referralCasesStringArray = new String[referralCaseArray.length + 1];
+            referralCasesStringArray[0] = "";
+            for (int i = 0; i < referralCaseArray.length; i++) {
+                referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
             }
-        } else {
+
+            ArrayAdapter educationLevelAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner,
+                    R.id.name, referralCasesStringArray);
+            referralCasesSpinner.setAdapter(educationLevelAdapter);
+            referralCasesSpinner.setOnItemSelectedListener(this);
+            referralCasesSpinner.setEnabled(true);
+
+        } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
+            continueRegistrationFlow(getCurrentReferralCaseId());
+        }
+
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
             continueRegistrationFlow(-1);
         }
     }

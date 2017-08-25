@@ -156,20 +156,26 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Keys
-                        .SHOULD_SHOW_MAIN_SCREEN)) {
-                    preferencesManager.setTandCShowedForCurrentUser();
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                } else {
-                    continueRegistrationFlow();
-                }
-            } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                    == BaseNetworkService.NO_INTERNET) {
+            if (getIntent().getExtras() != null
+                    && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
+                preferencesManager.setTandCShowedForCurrentUser();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            } else {
+                continueRegistrationFlow();
+            }
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            if (operation.getResponseErrorCode() != null
+                    && operation.getResponseErrorCode() == BaseNetworkService.NO_INTERNET) {
                 DialogUtils.showBadOrNoInternetDialog(this);
             } else {
                 UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);

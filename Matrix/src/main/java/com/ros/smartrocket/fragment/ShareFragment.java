@@ -35,9 +35,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Share app info fragment
- */
 public class ShareFragment extends Fragment implements NetworkOperationListenerInterface {
     private static final String TAG = ShareFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -114,24 +111,27 @@ public class ShareFragment extends Fragment implements NetworkOperationListenerI
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_SHARING_DATA_OPERATION_TAG.equals(operation.getTag())) {
             ((BaseActivity) getActivity()).dismissProgressDialog();
-
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                sharing = (Sharing) operation.getResponseEntities().get(0);
-                if (sharing != null) {
-                    if (!TextUtils.isEmpty(sharing.getSharedText())) {
-                        text = sharing.getSharedText();
-                    }
-                    if (!TextUtils.isEmpty(sharing.getSharedLink())) {
-                        getShortUrl(sharing.getSharedLink());
-                    }
-
+            sharing = (Sharing) operation.getResponseEntities().get(0);
+            if (sharing != null) {
+                if (!TextUtils.isEmpty(sharing.getSharedText())) {
+                    text = sharing.getSharedText();
                 }
-            } else {
-                UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+                if (!TextUtils.isEmpty(sharing.getSharedLink())) {
+                    getShortUrl(sharing.getSharedLink());
+                }
+
             }
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.GET_SHARING_DATA_OPERATION_TAG.equals(operation.getTag())) {
+            ((BaseActivity) getActivity()).dismissProgressDialog();
+            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
     }
 

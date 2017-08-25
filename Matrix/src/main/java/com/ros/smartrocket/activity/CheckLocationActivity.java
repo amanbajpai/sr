@@ -115,7 +115,16 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        redirectToLocationDialog(operation);
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        redirectToLocationDialog(operation);
+    }
+
+    private void redirectToLocationDialog(BaseOperation operation) {
         if (checkLocationDialog != null) {
             checkLocationDialog.onNetworkOperation(operation);
         }

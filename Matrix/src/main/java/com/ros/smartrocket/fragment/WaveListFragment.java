@@ -42,9 +42,6 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 
-/**
- * Fragment - display all tasks in {@link android.widget.ListView}
- */
 public class WaveListFragment extends Fragment implements OnItemClickListener, NetworkOperationListenerInterface,
         View.OnClickListener {
     private static final String TAG = WaveListFragment.class.getSimpleName();
@@ -191,13 +188,18 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())) {
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                AllTaskFragment.stopRefreshProgress = true;
-                WavesBL.getNotMyTasksWavesListFromDB(handler, TasksMapFragment.taskRadius,
-                        preferencesManager.getShowHiddenTask());
-            } else if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
+            AllTaskFragment.stopRefreshProgress = true;
+            WavesBL.getNotMyTasksWavesListFromDB(handler, TasksMapFragment.taskRadius,
+                    preferencesManager.getShowHiddenTask());
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
                 if (getActivity() != null) {
                     getActivity().finish();
                 }
@@ -236,7 +238,7 @@ public class WaveListFragment extends Fragment implements OnItemClickListener, N
 
     public void initActionBarView() {
         if (refreshButton == null) {
-            final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             View view = actionBar.getCustomView();
             if (view != null) {
                 initRefreshButton(actionBar);

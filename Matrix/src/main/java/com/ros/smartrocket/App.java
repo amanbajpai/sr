@@ -18,13 +18,14 @@ import com.helpshift.InstallConfig;
 import com.helpshift.exceptions.InstallException;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.net.retrofit.MatrixApi;
+import com.ros.smartrocket.net.retrofit.RetrofitHolder;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
@@ -39,11 +40,13 @@ public class App extends Application {
     private String deviceType;
     private MatrixLocationManager locationManager;
     private MyAccount myAccount;
+    private RetrofitHolder retrofitHolder;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        retrofitHolder = new RetrofitHolder();
         initHS();
         initSDKs();
         initLocaleSettings();
@@ -130,48 +133,25 @@ public class App extends Application {
     public void requestToCurrentLocation() {
         Location loc = locationManager.getLocation();
         L.i(TAG, "[LOC = " + loc + "]");
-        locationManager.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-            @Override
-            public void onUpdate(Location location) {
-                L.i(TAG, "[NEW LOC = " + location + "]");
-            }
-        });
+        locationManager.getLocationAsync(location -> L.i(TAG, "[NEW LOC = " + location + "]"));
     }
 
-
-    /**
-     * @return
-     */
     public String getDeviceId() {
         return deviceId;
     }
 
-    /**
-     * @return
-     */
     public String getDeviceApiNumber() {
         return String.valueOf(deviceApiNumber);
     }
 
-    /**
-     * @return
-     */
     public String getDeviceType() {
         return deviceType;
     }
 
-    /**
-     * Get Location Manager for coordinates retrieval
-     *
-     * @return
-     */
     public MatrixLocationManager getLocationManager() {
         return locationManager;
     }
 
-    public com.google.android.gms.maps.model.LatLng getLastGooglePosition() {
-        return locationManager != null ? locationManager.getLastGooglePosition() : null;
-    }
 
     public void clearPositionData() {
         locationManager.setLastBaiduPosition(null);
@@ -183,5 +163,9 @@ public class App extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+    }
+
+    public MatrixApi getApi() {
+        return retrofitHolder.getMatrixApi();
     }
 }

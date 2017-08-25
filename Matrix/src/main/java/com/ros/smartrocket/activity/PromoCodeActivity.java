@@ -53,8 +53,8 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     private void getToken() {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         token = TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ?
-               preferencesManager.getToken() :
-               preferencesManager.getTokenForUploadFile();
+                preferencesManager.getToken() :
+                preferencesManager.getTokenForUploadFile();
     }
 
     public void continueRegistrationFlow() {
@@ -115,12 +115,18 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                continueRegistrationFlow();
-            } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+            continueRegistrationFlow();
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                     == BaseNetworkService.NO_INTERNET) {
                 DialogUtils.showBadOrNoInternetDialog(this);
             } else {

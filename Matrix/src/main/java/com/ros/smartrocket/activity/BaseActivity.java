@@ -106,11 +106,15 @@ public class BaseActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             BaseOperation operation = (BaseOperation) intent.getSerializableExtra(NetworkService.KEY_OPERATION);
             if (operation != null) {
-                for (NetworkOperationListenerInterface netListener : networkOperationListeners) {
-                    if (netListener != null) {
-                        netListener.onNetworkOperation(operation);
-                    }
-                }
+                networkOperationListeners.stream()
+                        .filter(netListener -> netListener != null)
+                        .forEach(netListener -> {
+                            if (operation.isSuccess()) {
+                                netListener.onNetworkOperationSuccess(operation);
+                            } else {
+                                netListener.onNetworkOperationFailed(operation);
+                            }
+                        });
             }
         }
     }
@@ -136,7 +140,7 @@ public class BaseActivity extends AppCompatActivity {
         progressDialog.setCancelable(isCancelable);
     }
 
-    protected void showNetworkError(BaseOperation operation){
+    protected void showNetworkError(BaseOperation operation) {
         UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
 

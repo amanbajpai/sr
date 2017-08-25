@@ -253,23 +253,15 @@ public class UploadFileService extends Service implements NetworkOperationListen
                     location.setLatitude(task.getLatitudeToValidation());
                     location.setLongitude(task.getLongitudeToValidation());
 
-                    MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener
-                            () {
-                        @Override
-                        public void onGetAddressSuccess(Location location, String countryName, String cityName,
-                                                        String districtName) {
-                            sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(),
-                                    task.getMissionId(),
-                                    task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
-                        }
-                    });
+                    MatrixLocationManager.getAddressByLocation(location,
+                            (location1, countryName, cityName, districtName) -> sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(),
+                            task.getMissionId(),
+                            task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName)));
                     break;
                 case WaitingUploadTaskDbSchema.Query.TOKEN_QUERY:
                     List<WaitingUploadTask> waitingUploadTasks = WaitingUploadTaskBL
                             .convertCursorToWaitingUploadTaskList(cursor);
-                    for (WaitingUploadTask waitingUploadTask : waitingUploadTasks) {
-                        validateTask(waitingUploadTask);
-                    }
+                    waitingUploadTasks.forEach(UploadFileService.this::validateTask);
                     break;
                 default:
                     break;
@@ -288,16 +280,20 @@ public class UploadFileService extends Service implements NetworkOperationListen
             preferencesManager.clearUploadFilesProgress();
         }
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                EventBus.getDefault().post(new UploadProgressEvent(notUploadedFile == null));
-            }
-        });
+        handler.post(() -> EventBus.getDefault().post(new UploadProgressEvent(notUploadedFile == null)));
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        handleResponse(operation);
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        handleResponse(operation);
+    }
+
+    private void handleResponse(BaseOperation operation) {
         if (Keys.UPLOAD_TASK_FILE_OPERATION_TAG.equals(operation.getTag())) {
             final NotUploadedFile notUploadedFile = (NotUploadedFile) operation.getEntities().get(0);
 
@@ -369,15 +365,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
         location.setLatitude(notUploadedFile.getLatitudeToValidation());
         location.setLongitude(notUploadedFile.getLongitudeToValidation());
 
-        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
-            @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String
-                    districtName) {
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(notUploadedFile.getWaveId(),
-                        notUploadedFile.getTaskId(), notUploadedFile.getMissionId(), location.getLatitude(),
-                        location.getLongitude(), cityName));
-            }
-        });
+        MatrixLocationManager.getAddressByLocation(location, (location1, countryName, cityName, districtName) -> sendNetworkOperation(apiFacade.getValidateTaskOperation(notUploadedFile.getWaveId(),
+                notUploadedFile.getTaskId(), notUploadedFile.getMissionId(), location1.getLatitude(),
+                location1.getLongitude(), cityName)));
     }
 
     private void validateTask(final WaitingUploadTask waitingUploadTask) {
@@ -385,15 +375,9 @@ public class UploadFileService extends Service implements NetworkOperationListen
         location.setLatitude(waitingUploadTask.getLatitudeToValidation());
         location.setLongitude(waitingUploadTask.getLongitudeToValidation());
 
-        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
-            @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String
-                    districtName) {
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(waitingUploadTask.getWaveId(),
-                        waitingUploadTask.getTaskId(), waitingUploadTask.getMissionId(), location.getLatitude(),
-                        location.getLongitude(), cityName));
-            }
-        });
+        MatrixLocationManager.getAddressByLocation(location, (location1, countryName, cityName, districtName) -> sendNetworkOperation(apiFacade.getValidateTaskOperation(waitingUploadTask.getWaveId(),
+                waitingUploadTask.getTaskId(), waitingUploadTask.getMissionId(), location1.getLatitude(),
+                location1.getLongitude(), cityName)));
     }
 
     private boolean needSendNotification(NotUploadedFile notUploadedFile) {
@@ -439,11 +423,14 @@ public class UploadFileService extends Service implements NetworkOperationListen
             BaseOperation operation = (BaseOperation) intent.getSerializableExtra(UploadFileNetworkService
                     .KEY_OPERATION);
             if (operation != null) {
-                for (NetworkOperationListenerInterface netListener : networkOperationListeners) {
-                    if (netListener != null) {
-                        netListener.onNetworkOperation(operation);
-                    }
-                }
+                networkOperationListeners.stream().filter(netListener -> netListener != null)
+                        .forEach(netListener -> {
+                            if (operation.isSuccess()) {
+                                netListener.onNetworkOperationSuccess(operation);
+                            } else {
+                                netListener.onNetworkOperationFailed(operation);
+                            }
+                        });
             }
         }
     }

@@ -38,7 +38,6 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     CustomTextView passwordValidationText;
     @BindView(R.id.setPasswordButton)
     CustomButton setPasswordButton;
-    private CustomProgressDialog progressDialog;
     private APIFacade apiFacade = APIFacade.getInstance();
     private String email;
     private String token;
@@ -93,7 +92,7 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
                         break;
                     }
 
-                    progressDialog = CustomProgressDialog.show(this);
+                    showProgressDialog(false);
                     setPasswordButton.setEnabled(false);
                     showProgressDialog(false);
                     apiFacade.setPassword(this, email, token, password);
@@ -105,18 +104,20 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        dismissProgressDialog();
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-            progressDialog.dismiss();
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                UIUtils.showSimpleToast(this, R.string.success);
-                startActivity(IntentUtils.getLoginIntentForLogout(this));
+            dismissProgressDialog();
+            UIUtils.showSimpleToast(this, R.string.success);
+            startActivity(IntentUtils.getLoginIntentForLogout(this));
+        }
+    }
 
-            } else {
-                setPasswordButton.setEnabled(true);
-                UIUtils.showSimpleToast(this, operation.getResponseError());
-            }
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            setPasswordButton.setEnabled(true);
+            UIUtils.showSimpleToast(this, operation.getResponseError());
         }
     }
 

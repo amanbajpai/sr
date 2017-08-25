@@ -67,34 +67,38 @@ public class LaunchActivity extends BaseActivity implements NetworkOperationList
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_VERSION_OPERATION_TAG.equals(operation.getTag())) {
             dismissProgressDialog();
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                final AppVersion appVersion = (AppVersion) operation.getResponseEntities().get(0);
-                preferencesManager.saveAppVersion(appVersion);
-                Version currentVersion = new Version(BuildConfig.VERSION_NAME);
-                Version newestVersion = new Version(appVersion.getLatestVersion());
-                if (currentVersion.compareTo(newestVersion) < 0) {
-                    new UpdateVersionDialog(this, currentVersion.toString(), newestVersion.toString(), new UpdateVersionDialog.DialogButtonClickListener() {
-                        @Override
-                        public void onCancelButtonPressed() {
-                            launchApp();
-                        }
+            final AppVersion appVersion = (AppVersion) operation.getResponseEntities().get(0);
+            preferencesManager.saveAppVersion(appVersion);
+            Version currentVersion = new Version(BuildConfig.VERSION_NAME);
+            Version newestVersion = new Version(appVersion.getLatestVersion());
+            if (currentVersion.compareTo(newestVersion) < 0) {
+                new UpdateVersionDialog(this, currentVersion.toString(), newestVersion.toString(), new UpdateVersionDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onCancelButtonPressed() {
+                        launchApp();
+                    }
 
-                        @Override
-                        public void onOkButtonPressed() {
-                            startActivity(IntentUtils.getBrowserIntent(appVersion.getLatestVersionLink()));
-                            finish();
-                        }
-                    });
-                } else {
-                    launchApp();
-                }
+                    @Override
+                    public void onOkButtonPressed() {
+                        startActivity(IntentUtils.getBrowserIntent(appVersion.getLatestVersionLink()));
+                        finish();
+                    }
+                });
             } else {
-                UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
                 launchApp();
             }
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.GET_VERSION_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+            launchApp();
         }
     }
 

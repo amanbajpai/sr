@@ -65,12 +65,15 @@ public class CheckLocationFailedActivity extends BaseActivity implements View.On
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.SUBSCRIBE_OPERATION_TAG.equals(operation.getTag())) {
-                new RegistrationSubscribeSuccessDialog(this);
-            }
-        } else {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.SUBSCRIBE_OPERATION_TAG.equals(operation.getTag())) {
+            new RegistrationSubscribeSuccessDialog(this);
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.SUBSCRIBE_OPERATION_TAG.equals(operation.getTag())) {
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }
     }

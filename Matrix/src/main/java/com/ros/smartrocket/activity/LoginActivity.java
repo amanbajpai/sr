@@ -151,15 +151,21 @@ public class LoginActivity extends BaseActivity implements NetworkOperationListe
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        redirectToLocationDialog(operation);
+        onSuccessNetworkOperation(operation);
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        redirectToLocationDialog(operation);
+        onErrorNetworkOperation(operation);
+    }
+
+    private void redirectToLocationDialog(BaseOperation operation) {
         dismissProgressDialog();
         if (checkLocationDialog != null) {
             checkLocationDialog.onNetworkOperation(operation);
-        }
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            onSuccessNetworkOperation(operation);
-        } else {
-            onErrorNetworkOperation(operation);
         }
     }
 

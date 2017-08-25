@@ -73,51 +73,53 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        dismissProgressDialog();
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
-                String password = passwordEditText.getText().toString().trim();
-                WriteDataHelper.prepareLogin(this, email);
+            String password = passwordEditText.getText().toString().trim();
+            WriteDataHelper.prepareLogin(this, email);
 
-                preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
-                preferencesManager.setLastEmail(email);
-                if (rememberMeCheckBox.isChecked()) {
-                    preferencesManager.setLastPassword(password);
-                } else {
-                    preferencesManager.setLastPassword("");
-                }
-                finish();
-                if (loginResponse.isShowTermsConditions()) {
-                    Intent intent = new Intent(this, TermsAndConditionActivity.class);
-                    intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
-                    startActivity(intent);
-                } else if (!getIntent().getBooleanExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
-                    preferencesManager.setTandCShowedForCurrentUser();
-                    startActivity(new Intent(this, MainActivity.class));
-                }
-                sendBroadcast(new Intent().setAction(Keys.FINISH_LOGIN_ACTIVITY));
+            preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
+            preferencesManager.setLastEmail(email);
+            if (rememberMeCheckBox.isChecked()) {
+                preferencesManager.setLastPassword(password);
+            } else {
+                preferencesManager.setLastPassword("");
             }
-        } else {
-            if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-                loginButton.setEnabled(true);
-                if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
-                    DialogUtils.showAccountNotActivatedDialog(this);
+            finish();
+            if (loginResponse.isShowTermsConditions()) {
+                Intent intent = new Intent(this, TermsAndConditionActivity.class);
+                intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);
+                startActivity(intent);
+            } else if (!getIntent().getBooleanExtra(LoginActivity.START_PUSH_NOTIFICATIONS_ACTIVITY, false)) {
+                preferencesManager.setTandCShowedForCurrentUser();
+                startActivity(new Intent(this, MainActivity.class));
+            }
+            sendBroadcast(new Intent().setAction(Keys.FINISH_LOGIN_ACTIVITY));
+        }
+    }
 
-                } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.NO_INTERNET) {
-                    DialogUtils.showBadOrNoInternetDialog(this);
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            loginButton.setEnabled(true);
+            if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                    == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
+                DialogUtils.showAccountNotActivatedDialog(this);
 
-                } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                        == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
-                    DialogUtils.showLoginFailedDialog(this);
+            } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                    == BaseNetworkService.NO_INTERNET) {
+                DialogUtils.showBadOrNoInternetDialog(this);
 
-                } else {
-                    showNetworkError(operation);
-                }
+            } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                    == BaseNetworkService.USER_NOT_FOUND_ERROR_CODE) {
+                DialogUtils.showLoginFailedDialog(this);
+
+            } else {
+                showNetworkError(operation);
             }
         }
     }

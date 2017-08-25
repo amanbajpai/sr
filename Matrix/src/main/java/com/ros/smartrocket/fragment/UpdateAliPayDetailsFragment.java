@@ -101,30 +101,30 @@ public class UpdateAliPayDetailsFragment extends Fragment implements NetworkOper
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                AliPayAccount aliPayAccount = (AliPayAccount) operation.getResponseEntities().get(0);
-                loginEditText.setText(aliPayAccount.getAccName());
-                userIdEditText.setText(aliPayAccount.getUserId());
-                clearProgress();
-            } else if (Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                clearProgress();
-                Toast.makeText(getActivity(), getResources().getString(R.string.alipay_account_integrated_successfully), Toast.LENGTH_LONG).show();
-                MyAccount myAccount = App.getInstance().getMyAccount();
-                myAccount.setIsPaymentAccountExists(true);
-                App.getInstance().setMyAccount(myAccount);
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        } else {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.GET_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            AliPayAccount aliPayAccount = (AliPayAccount) operation.getResponseEntities().get(0);
+            loginEditText.setText(aliPayAccount.getAccName());
+            userIdEditText.setText(aliPayAccount.getUserId());
             clearProgress();
-            Toast.makeText(getActivity(), operation.getResponseError(), Toast.LENGTH_LONG).show();
-            loginEditText.setFocusableInTouchMode(true);
-            userIdEditText.setFocusableInTouchMode(true);
-            loginButton.setEnabled(true);
+        } else if (Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            clearProgress();
+            Toast.makeText(getActivity(), getResources().getString(R.string.alipay_account_integrated_successfully), Toast.LENGTH_LONG).show();
+            MyAccount myAccount = App.getInstance().getMyAccount();
+            myAccount.setIsPaymentAccountExists(true);
+            App.getInstance().setMyAccount(myAccount);
+            getActivity().getSupportFragmentManager().popBackStack();
         }
-//        }
+
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        clearProgress();
+        Toast.makeText(getActivity(), operation.getResponseError(), Toast.LENGTH_LONG).show();
+        loginEditText.setFocusableInTouchMode(true);
+        userIdEditText.setFocusableInTouchMode(true);
+        loginButton.setEnabled(true);
     }
 
     @Override

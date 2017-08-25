@@ -71,21 +71,20 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
-                DialogUtils.showAccountConfirmedDialog(this);
-            }
-
-        } else {
-            if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                progressDialog.dismiss();
-                activateAccountButton.setEnabled(true);
-                UIUtils.showSimpleToast(this, operation.getResponseError());
-            }
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            progressDialog.dismiss();
+            DialogUtils.showAccountConfirmedDialog(this);
         }
+    }
 
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            progressDialog.dismiss();
+            activateAccountButton.setEnabled(true);
+            UIUtils.showSimpleToast(this, operation.getResponseError());
+        }
     }
 
     @Override

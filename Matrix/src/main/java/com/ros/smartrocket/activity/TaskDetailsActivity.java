@@ -182,14 +182,17 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                if (handler != null && taskId != null && missionId != null) {
-                    TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
-                }
+            if (handler != null && taskId != null && missionId != null) {
+                TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
             }
         }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+
     }
 
     class DbHandler extends AsyncQueryHandler {

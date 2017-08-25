@@ -23,7 +23,6 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     private EditText emailEditText;
     private Button sendButton;
     private ImageView mailImageView;
-    private CustomProgressDialog progressDialog;
 
     public ForgotPasswordActivity() {
     }
@@ -48,27 +47,26 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-                finish();
-                startActivity(IntentUtils.getForgotPasswordSuccessIntent(this,
-                        emailEditText.getText().toString().trim()));
-            }
-        } else {
-            if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-                UIUtils.setEditTextColorByState(this, emailEditText, false);
-                UIUtils.setEmailImageByState(mailImageView, false);
-
-                sendButton.setEnabled(true);
-
-                UIUtils.showSimpleToast(this, operation.getResponseError());
-            }
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
+            finish();
+            startActivity(IntentUtils.getForgotPasswordSuccessIntent(this,
+                    emailEditText.getText().toString().trim()));
+            dismissProgressDialog();
         }
 
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.FORGOT_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
+            UIUtils.setEditTextColorByState(this, emailEditText, false);
+            UIUtils.setEmailImageByState(mailImageView, false);
+
+            sendButton.setEnabled(true);
+
+            UIUtils.showSimpleToast(this, operation.getResponseError());
+        }
     }
 
     @Override
@@ -84,7 +82,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
                     break;
                 }
 
-                progressDialog = CustomProgressDialog.show(this);
+                showProgressDialog(false);
                 sendButton.setEnabled(false);
                 apiFacade.forgotPassword(this, email);
 

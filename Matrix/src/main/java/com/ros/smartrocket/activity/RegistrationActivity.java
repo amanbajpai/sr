@@ -257,27 +257,31 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
-                PreferencesManager.getInstance().setTandCShowed(emailEditText.getText().toString().trim());
-                new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
-            }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode() == BaseNetworkService
-                .USER_ALREADY_EXISTS_ERROR_CODE) {
-            if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            PreferencesManager.getInstance().setTandCShowed(emailEditText.getText().toString().trim());
+            new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            if (operation.getResponseErrorCode() != null
+                    && operation.getResponseErrorCode() == BaseNetworkService.USER_ALREADY_EXISTS_ERROR_CODE) {
                 DialogUtils.showUserAlreadyExistDialog(this);
                 UIUtils.setEditTextColorByState(this, emailEditText, false);
                 UIUtils.setEmailEditTextImageByState(emailEditText, false);
                 emailValidationText.setVisibility(View.VISIBLE);
+            } else {
+                UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+                UIUtils.setEditTextColorByState(this, emailEditText, true);
+                UIUtils.setEmailEditTextImageByState(emailEditText, true);
+                emailValidationText.setVisibility(View.GONE);
             }
-        } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
-            UIUtils.setEditTextColorByState(this, emailEditText, true);
-            UIUtils.setEmailEditTextImageByState(emailEditText, true);
-            emailValidationText.setVisibility(View.GONE);
         }
-        dismissProgressDialog();
     }
 
     @Override

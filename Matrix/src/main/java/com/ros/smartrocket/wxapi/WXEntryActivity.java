@@ -100,21 +100,24 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_WECHAT_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
-                tokenResponse = (WeChatTokenResponse) operation.getResponseEntities().get(0);
-                apiFacade.getWeChatInfo(this, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
-            } else if (Keys.GET_WECHAT_INFO_OPERATION_TAG.equals(operation.getTag())) {
-                WeChatUserInfoResponse infoResponse = (WeChatUserInfoResponse) operation.getResponseEntities().get(0);
-                Intent i = new Intent();
-                i.putExtra(INFO_TAG, infoResponse);
-                i.putExtra(WECHAT_TOKEN, tokenResponse.getAccessToken());
-                i.putExtra(WECHAT_OPEN_ID, tokenResponse.getOpenId());
-                sendBroadcast(i.setAction(Keys.WECHAT_AUTH_SUCCESS));
-                finish();
-            }
-        } else if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.GET_WECHAT_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
+            tokenResponse = (WeChatTokenResponse) operation.getResponseEntities().get(0);
+            apiFacade.getWeChatInfo(this, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
+        } else if (Keys.GET_WECHAT_INFO_OPERATION_TAG.equals(operation.getTag())) {
+            WeChatUserInfoResponse infoResponse = (WeChatUserInfoResponse) operation.getResponseEntities().get(0);
+            Intent i = new Intent();
+            i.putExtra(INFO_TAG, infoResponse);
+            i.putExtra(WECHAT_TOKEN, tokenResponse.getAccessToken());
+            i.putExtra(WECHAT_OPEN_ID, tokenResponse.getOpenId());
+            sendBroadcast(i.setAction(Keys.WECHAT_AUTH_SUCCESS));
+            finish();
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                 == BaseNetworkService.NO_INTERNET) {
             DialogUtils.showBadOrNoInternetDialog(this);
         } else {

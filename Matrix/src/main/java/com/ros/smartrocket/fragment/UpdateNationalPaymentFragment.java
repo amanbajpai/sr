@@ -72,31 +72,31 @@ public class UpdateNationalPaymentFragment extends Fragment implements NetworkOp
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                clearProgress();
-                NationalIdAccount nationalIdAccount = (NationalIdAccount) operation.getResponseEntities().get(0);
-                nameEdt.setText(nationalIdAccount.getName());
-                userNationalIdEdt.setText(nationalIdAccount.getNationalId());
-                phoneEdt.setText(nationalIdAccount.getPhoneNumber());
-            } else if (Keys.INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                clearProgress();
-                Toast.makeText(getActivity(), getResources().getString(R.string.national_id_account_integrated_successfully), Toast.LENGTH_LONG).show();
-                MyAccount myAccount = App.getInstance().getMyAccount();
-                myAccount.setIsPaymentAccountExists(true);
-                App.getInstance().setMyAccount(myAccount);
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        } else {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
             clearProgress();
-            Toast.makeText(getActivity(), operation.getResponseError(), Toast.LENGTH_LONG).show();
-            nameEdt.setFocusableInTouchMode(true);
-            userNationalIdEdt.setFocusableInTouchMode(true);
-            phoneEdt.setFocusableInTouchMode(true);
-            submitButton.setEnabled(true);
+            NationalIdAccount nationalIdAccount = (NationalIdAccount) operation.getResponseEntities().get(0);
+            nameEdt.setText(nationalIdAccount.getName());
+            userNationalIdEdt.setText(nationalIdAccount.getNationalId());
+            phoneEdt.setText(nationalIdAccount.getPhoneNumber());
+        } else if (Keys.INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            clearProgress();
+            Toast.makeText(getActivity(), getResources().getString(R.string.national_id_account_integrated_successfully), Toast.LENGTH_LONG).show();
+            MyAccount myAccount = App.getInstance().getMyAccount();
+            myAccount.setIsPaymentAccountExists(true);
+            App.getInstance().setMyAccount(myAccount);
+            getActivity().getSupportFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        clearProgress();
+        Toast.makeText(getActivity(), operation.getResponseError(), Toast.LENGTH_LONG).show();
+        nameEdt.setFocusableInTouchMode(true);
+        userNationalIdEdt.setFocusableInTouchMode(true);
+        phoneEdt.setFocusableInTouchMode(true);
+        submitButton.setEnabled(true);
     }
 
     @Override

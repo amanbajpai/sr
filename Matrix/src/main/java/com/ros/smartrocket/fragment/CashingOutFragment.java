@@ -105,22 +105,24 @@ public class CashingOutFragment extends Fragment implements NetworkOperationList
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         ((CashingOutActivity) getActivity()).dismissProgressDialog();
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                updateData();
-            } else if (Keys.SEND_ACTIVITY_OPERATION_TAG.equals(operation.getTag())) {
-                if (PreferencesManager.getInstance().getShowActivityDialog()) {
-                    new ActivityLogDialog(getActivity(), PreferencesManager.getInstance().getLastEmail());
-                } else {
-                    UIUtils.showSimpleToast(getActivity(), getString(R.string.activity_log_description_toast)
-                            + PreferencesManager.getInstance().getLastEmail());
-                }
+        if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            updateData();
+        } else if (Keys.SEND_ACTIVITY_OPERATION_TAG.equals(operation.getTag())) {
+            if (PreferencesManager.getInstance().getShowActivityDialog()) {
+                new ActivityLogDialog(getActivity(), PreferencesManager.getInstance().getLastEmail());
+            } else {
+                UIUtils.showSimpleToast(getActivity(), getString(R.string.activity_log_description_toast)
+                        + PreferencesManager.getInstance().getLastEmail());
             }
-        } else {
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        ((CashingOutActivity) getActivity()).dismissProgressDialog();
+        UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
     }
 
     @Override

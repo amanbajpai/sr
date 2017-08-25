@@ -187,35 +187,30 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         dismissProgressDialog();
+        if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            task.setStartedStatusSent(true);
+            TasksBL.updateTask(handler, task);
+            sendTextAnswers();
+        } else if (Keys.GET_NEW_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
+            sendNowButtonClick();
+        } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
+            sendAnswerTextsSuccess();
+        } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
+            task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
+            task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
+            TasksBL.updateTask(handler, task);
+            QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId(), task.getMissionId());
+            finishActivity();
+        }
+    }
 
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS ||
-                (operation.getResponseErrorCode() != null
-                        && operation.getResponseErrorCode() == BaseNetworkService.TASK_ALREADY_SUBMITTED)) {
-            if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                task.setStartedStatusSent(true);
-                TasksBL.updateTask(handler, task);
-
-                sendTextAnswers();
-
-            } else if (Keys.GET_NEW_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
-                sendNowButtonClick();
-
-            } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
-                sendAnswerTextsSuccess();
-                if (!Config.USE_BAIDU) {
-                    AppEventsLogger logger = AppEventsLogger.newLogger(this);
-                    logger.logEvent(Keys.FB_LOGGING_SUBMITTED);
-                }
-            } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-                task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
-                task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
-                TasksBL.updateTask(handler, task);
-
-                QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId(), task.getMissionId());
-                finishActivity();
-            }
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        dismissProgressDialog();
+        if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
+            sendAnswerTextsSuccess();
         } else {
             UIUtils.showSimpleToast(this, operation.getResponseError());
             sendNowButton.setEnabled(true);
@@ -261,13 +256,8 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         location.setLatitude(task.getLatitudeToValidation());
         location.setLongitude(task.getLongitudeToValidation());
 
-        MatrixLocationManager.getAddressByLocation(location, new MatrixLocationManager.GetAddressListener() {
-            @Override
-            public void onGetAddressSuccess(Location location, String countryName, String cityName, String districtName) {
-                sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(), task.getMissionId(),
-                        task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName));
-            }
-        });
+        MatrixLocationManager.getAddressByLocation(location, (location1, countryName, cityName, districtName)
+                -> sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(), task.getMissionId(), task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName)));
     }
 
     public void sendTextAnswers() {
@@ -280,6 +270,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     private void sendAnswerTextsSuccess() {
+        if (!Config.USE_BAIDU) {
+            AppEventsLogger logger = AppEventsLogger.newLogger(this);
+            logger.logEvent(Keys.FB_LOGGING_SUBMITTED);
+        }
         TasksBL.updateTaskStatusId(task.getId(), task.getMissionId(), Task.TaskStatusId.COMPLETED.getStatusId());
 
         if (hasFile) {

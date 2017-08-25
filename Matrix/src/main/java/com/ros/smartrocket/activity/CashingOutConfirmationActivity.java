@@ -27,7 +27,6 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_cashing_out_confirmation);
 
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
@@ -41,16 +40,20 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.CASHING_OUT_OPERATION_TAG.equals(operation.getTag())) {
-                finish();
-                startActivity(IntentUtils.getCashOutSuccessIntent(this));
-            }
-        } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError());
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.CASHING_OUT_OPERATION_TAG.equals(operation.getTag())) {
+            dismissProgressDialog();
+            finish();
+            startActivity(IntentUtils.getCashOutSuccessIntent(this));
         }
-        dismissProgressDialog();
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.CASHING_OUT_OPERATION_TAG.equals(operation.getTag())) {
+            UIUtils.showSimpleToast(this, operation.getResponseError());
+            dismissProgressDialog();
+        }
     }
 
     @Override

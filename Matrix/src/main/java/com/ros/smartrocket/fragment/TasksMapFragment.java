@@ -519,14 +519,19 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
                 || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                AllTaskFragment.stopRefreshProgress = true;
-                loadTasksFromLocalDb();
+            AllTaskFragment.stopRefreshProgress = true;
+            loadTasksFromLocalDb();
+        }
+    }
 
-            } else if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
+                || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
                 if (getActivity() != null) {
                     getActivity().finish();
                 }
@@ -537,11 +542,6 @@ public class TasksMapFragment extends Fragment implements NetworkOperationListen
         }
     }
 
-    /**
-     * Callback when we finish loading task from Server
-     *
-     * @param list - result list with data
-     */
     private void onLoadingComplete(final List<Task> list) {
         final Location location = lm.getLocation();
 

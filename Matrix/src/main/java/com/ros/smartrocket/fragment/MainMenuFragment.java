@@ -127,12 +127,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
 
         handler = new DbHandler(getActivity().getContentResolver());
         avatarImageManager = new AvatarImageManager();
-        levelProgressBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        levelProgressBar.setOnTouchListener((v, event) -> true);
 
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -159,19 +154,9 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         this.myAccount = myAccount;
         String photoUrl = myAccount.getPhotoUrl();
         if (!TextUtils.isEmpty(photoUrl)) {
-            ImageLoader.getInstance().loadBitmap(photoUrl, ImageLoader.SMALL_IMAGE_VAR,
-                    new ImageLoader.OnFetchCompleteListener() {
-
-                        @Override
-                        public void onFetchComplete(final Bitmap result) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    photoImageView.setImageBitmap(result);
-                                }
-                            });
-                        }
-                    }
+            ImageLoader.getInstance()
+                    .loadBitmap(photoUrl, ImageLoader.SMALL_IMAGE_VAR,
+                    result -> getActivity().runOnUiThread(() -> photoImageView.setImageBitmap(result))
             );
         } else {
             photoImageView.setImageResource(R.drawable.cam);
@@ -180,18 +165,7 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
         String levelIconUrl = myAccount.getLevelIconUrl();
         if (!TextUtils.isEmpty(levelIconUrl)) {
             ImageLoader.getInstance().loadBitmap(levelIconUrl, ImageLoader.SMALL_IMAGE_VAR,
-                    new ImageLoader.OnFetchCompleteListener() {
-
-                        @Override
-                        public void onFetchComplete(final Bitmap result) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    levelIcon.setImageBitmap(result);
-                                }
-                            });
-                        }
-                    }
+                    result -> getActivity().runOnUiThread(() -> levelIcon.setImageBitmap(result))
             );
         }
         agentId.setText(String.valueOf(myAccount.getId()));
@@ -276,23 +250,25 @@ public class MainMenuFragment extends Fragment implements OnClickListener, Netwo
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
-        if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-            if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-                ArrayList<MyAccount> responseEntities = (ArrayList<MyAccount>) operation.getResponseEntities();
-                if (responseEntities.size() > 0) {
-                    MyAccount myAccount = responseEntities.get(0);
-                    setData(myAccount);
-                }
-            } else if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
-                finishUploadingPhoto();
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
+            ArrayList<MyAccount> responseEntities = (ArrayList<MyAccount>) operation.getResponseEntities();
+            if (responseEntities.size() > 0) {
+                MyAccount myAccount = responseEntities.get(0);
+                setData(myAccount);
             }
-        } else {
-            if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
-                finishUploadingPhoto();
-            }
-            UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
+        } else if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
+            finishUploadingPhoto();
         }
+        dismissProgressBar();
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.UPDATE_USER_OPERATION_TAG.equals(operation.getTag())) {
+            finishUploadingPhoto();
+        }
+        UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         dismissProgressBar();
     }
 

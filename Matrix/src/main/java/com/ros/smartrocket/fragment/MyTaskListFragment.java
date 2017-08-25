@@ -135,14 +135,19 @@ public class MyTaskListFragment extends Fragment implements OnItemClickListener,
     }
 
     @Override
-    public void onNetworkOperation(BaseOperation operation) {
+    public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-            if (operation.getResponseStatusCode() == BaseNetworkService.SUCCESS) {
-                AllTaskFragment.stopRefreshProgress = true;
-                TasksBL.getMyTasksFromDB(handler);
-                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
+            AllTaskFragment.stopRefreshProgress = true;
+            TasksBL.getMyTasksFromDB(handler);
+            IntentUtils.refreshMainMenuMyTaskCount(getActivity());
+        }
 
-            } else if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
+            if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
                 if (getActivity() != null) {
                     getActivity().finish();
                 }
