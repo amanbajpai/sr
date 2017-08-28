@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomCheckBox
+    <com.ros.smartrocket.ui.views.CustomCheckBox
         android:id="@+id/acceptTC"
         style="@style/CheckBox"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:text="@string/i_agree_with_matrix_term"
         android:textColor="@color/orange" />
 
-    <com.ros.smartrocket.views.CustomButton
+    <com.ros.smartrocket.ui.views.CustomButton
         android:id="@+id/continueButton"
         style="@style/Button"
         android:layout_width="match_parent"

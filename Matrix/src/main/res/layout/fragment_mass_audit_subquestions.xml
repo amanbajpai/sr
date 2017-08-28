@@ -26,14 +26,14 @@
             <RelativeLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/massAuditSubQuestionsLabel"
                     style="@style/QuestionText"
                     android:text="@string/category"
                     android:paddingTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/massAuditSubQuestionsTitle"
                     style="@style/QuestionText"
                     android:layout_alignBaseline="@id/massAuditSubQuestionsLabel"
@@ -43,7 +43,7 @@
                     android:layout_marginStart="@dimen/buttons_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/massAuditSubQuestionsSubtitleLabel"
                     style="@style/QuestionText"
                     android:text="@string/product"
@@ -51,7 +51,7 @@
                     android:layout_below="@id/massAuditSubQuestionsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/massAuditSubQuestionsSubtitle"
                     style="@style/QuestionText"
                     android:layout_toEndOf="@id/massAuditSubQuestionsSubtitleLabel"
@@ -78,7 +78,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-            <com.ros.smartrocket.views.CustomButton
+            <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/cancelSubQuestionsButton"
                 style="@style/Button"
                 android:layout_weight="1"
@@ -89,7 +89,7 @@
                 android:textColor="@color/black"
                 android:layout_marginEnd="10dp"
                 custom:textStyle="bold"/>
-            <com.ros.smartrocket.views.CustomButton
+            <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/submitSubQuestionsButton"
                 style="@style/Button"
                 android:enabled="false"

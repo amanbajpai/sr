@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ros.smartrocket.activity.IdCardActivity">
+    tools:context=".ui.activity.IdCardActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@color/id_card_border">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -60,7 +60,7 @@
                     android:layout_weight="1"
                     tools:src="@drawable/city_icon" />
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/idCardAgentName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                     custom:textStyle="bold"
                     tools:text="Christy Fung" />
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/idCardAgentId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
             android:background="@drawable/id_card_horizontal_dash_line"
             android:layerType="software" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/idCardText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

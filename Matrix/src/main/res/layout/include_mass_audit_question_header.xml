@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <include layout="@layout/include_question_header"/>
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/massAuditMainSubQuestionText"
         style="@style/QuestionText"
         tools:text="Please mark..."

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <include layout="@layout/include_question_header"/>
-    <com.ros.smartrocket.views.CustomEditTextView
+    <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/answerEditText"
         style="@style/EditText"
         android:layout_width="match_parent"

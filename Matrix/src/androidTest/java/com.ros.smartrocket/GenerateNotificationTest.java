@@ -2,8 +2,8 @@ package com.ros.smartrocket;
 
 import android.content.Intent;
 
-import com.ros.smartrocket.activity.LaunchActivity;
-import com.ros.smartrocket.activity.MainActivity;
+import com.ros.smartrocket.ui.launch.LaunchActivity;
+import com.ros.smartrocket.ui.activity.MainActivity;
 import com.ros.smartrocket.utils.NotificationUtils;
 
 import junit.framework.Assert;

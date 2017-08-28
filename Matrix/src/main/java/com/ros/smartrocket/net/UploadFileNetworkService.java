@@ -13,8 +13,8 @@ import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.ResponseError;
-import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.db.entity.ErrorResponse;
+import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -232,7 +232,7 @@ public class UploadFileNetworkService extends BaseNetworkService {
             operation.setResponseError(getString(R.string.no_internet));
         } else {
             try {
-                ResponseError error = gson.fromJson(responseString, ResponseError.class);
+                ErrorResponse error = gson.fromJson(responseString, ErrorResponse.class);
                 if (error != null && error.getErrorMessage() != null) {
                     operation.setResponseError(error.getErrorMessage());
                     operation.setResponseErrorCode(error.getErrorCode());

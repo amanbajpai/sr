@@ -28,7 +28,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 android:id="@+id/questionOf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:padding="10dp"
             android:visibility="invisible">
 
-            <com.ros.smartrocket.views.CustomButton
+            <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/previousButton"
                 style="@style/Button"
                 android:layout_width="match_parent"
@@ -77,7 +77,7 @@
                 android:visibility="invisible"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomButton
+            <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/nextButton"
                 style="@style/Button"
                 android:layout_width="match_parent"

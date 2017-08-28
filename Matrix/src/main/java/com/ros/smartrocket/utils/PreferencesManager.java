@@ -16,7 +16,7 @@ import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
-import com.ros.smartrocket.fragment.TasksMapFragment;
+import com.ros.smartrocket.ui.fragment.TasksMapFragment;
 
 /**
  * Global constant storage. Keep here small constants

@@ -16,7 +16,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -26,7 +26,7 @@
             android:textSize="@dimen/text_size_16sp"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/currentBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:textSize="@dimen/text_size_34sp"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/cashOutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:textSize="@dimen/text_size_44sp"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/minBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:visibility="gone"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/paymentInProgress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/updatePaymentBtn"
             style="@style/Button"
             android:layout_width="0dp"
@@ -106,7 +106,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent" />
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/activityBtn"
             style="@style/Button"
             android:layout_width="0dp"

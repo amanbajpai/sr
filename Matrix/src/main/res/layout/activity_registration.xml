@@ -24,7 +24,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/btn_camera_normal_selector" />
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/firstNameEditText"
             style="@style/EditText"
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                 android:checked="false" />
         </RadioGroup>
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/birthdayEditText"
             style="@style/EditText"
             android:layout_width="0dp"
@@ -74,7 +74,7 @@
             android:inputType="number" />
     </LinearLayout>
 
-    <com.ros.smartrocket.views.CustomEditTextView
+    <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/emailEditText"
         style="@style/EditText"
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
         android:inputType="textEmailAddress"
         android:paddingStart="10dp" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/emailValidationText"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -97,7 +97,7 @@
         android:textSize="@dimen/text_size_small"
         android:visibility="gone" />
 
-    <com.ros.smartrocket.views.CustomEditTextView
+    <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/passwordEditText"
         style="@style/EditText"
         android:layout_width="match_parent"
@@ -111,7 +111,7 @@
         android:inputType="textPassword"
         android:paddingStart="10dp" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/passwordValidationText"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -128,12 +128,12 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
-        <com.ros.smartrocket.views.CustomSwitch
+        <com.ros.smartrocket.ui.views.CustomSwitch
             android:id="@+id/showPasswordToggleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
@@ -148,7 +148,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomButton
+    <com.ros.smartrocket.ui.views.CustomButton
         android:id="@+id/confirmButton"
         style="@style/Button"
         android:layout_width="match_parent"
@@ -157,7 +157,7 @@
         android:text="@string/confirm_and_register"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomButton
+    <com.ros.smartrocket.ui.views.CustomButton
         android:id="@+id/cancelButton"
         style="@style/Button"
         android:layout_width="match_parent"

@@ -15,13 +15,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.BaseActivity;
+import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.eventbus.PhotoEvent;
-import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
+import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;

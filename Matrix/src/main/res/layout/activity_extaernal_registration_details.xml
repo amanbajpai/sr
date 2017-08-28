@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter_dob"
@@ -24,7 +24,7 @@
             android:textSize="@dimen/text_size_16sp"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/birthdayEditText"
             style="@style/EditText"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:hint="@string/your_birthday"
             android:inputType="number" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/txt_why_dob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
         android:layout_marginTop="30dp"
         android:orientation="vertical">
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter_email"
@@ -60,7 +60,7 @@
             android:textSize="@dimen/text_size_16sp"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/emailEditText"
             style="@style/EditText"
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@
             android:inputType="textEmailAddress"
             android:paddingStart="10dp" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/txt_why_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomButton
+    <com.ros.smartrocket.ui.views.CustomButton
         android:id="@+id/continue_btn"
         style="@style/Button"
         android:layout_width="match_parent"

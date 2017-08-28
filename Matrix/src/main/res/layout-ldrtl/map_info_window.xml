@@ -24,7 +24,7 @@
             android:padding="1dp"
             android:src="@drawable/ic_launcher" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/title"
             style="@style/MapTaskTitle"
             android:layout_width="0dp"
@@ -64,7 +64,7 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp">
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/price_value"
             style="@style/MapTaskValue"
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/point_value"
             style="@style/MapTaskValue"
             android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/distance_value"
             style="@style/MapTaskValue"
             android:layout_width="wrap_content"

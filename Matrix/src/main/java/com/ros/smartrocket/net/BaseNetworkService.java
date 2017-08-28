@@ -74,8 +74,6 @@ public abstract class BaseNetworkService extends IntentService {
     public static final int YOUR_VERSION_OUTDATED_ERROR_CODE = 10089;
     public static final int FILE_NOT_FOUND = 10091;
     public static final int MAXIMUM_CLAIMS_ERROR_CODE = 10126;
-    public static final int QUOTA_IS_EXCEEDE_ERROR = 10066;
-    public static final int TASK_ALREADY_SUBMITTED = 10087;
     public static final int SUCCESS = 200;
     public static final int AUTORIZATION_ERROR = 401;
     public static final int LOCAL_UPLOAD_FILE_ERROR = 3701;

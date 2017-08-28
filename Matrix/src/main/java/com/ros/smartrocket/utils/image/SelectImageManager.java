@@ -23,7 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.eventbus.PhotoEvent;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;

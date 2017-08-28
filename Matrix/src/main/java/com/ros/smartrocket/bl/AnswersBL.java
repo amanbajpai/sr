@@ -21,7 +21,7 @@ import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 

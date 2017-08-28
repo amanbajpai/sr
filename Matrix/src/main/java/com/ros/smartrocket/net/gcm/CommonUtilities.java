@@ -22,7 +22,7 @@ import android.os.AsyncTask;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
-import com.ros.smartrocket.helpers.APIFacade;
+import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 
@@ -36,7 +36,7 @@ public final class CommonUtilities {
     /**
      * Intent used to display a message in the screen.
      */
-    public static final String DISPLAY_MESSAGE_ACTION = "com.ros.smartrocket.gcm.DISPLAY_MESSAGE";
+    public static final String DISPLAY_MESSAGE_ACTION = "com.ros.smartrocket.net.gcm.DISPLAY_MESSAGE";
 
     /**
      * Intent's extra that contains the message to be displayed.

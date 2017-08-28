@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.adapter.AnswerRadioButtonAdapter;
+import com.ros.smartrocket.ui.adapter.AnswerRadioButtonAdapter;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.utils.UIUtils;
 

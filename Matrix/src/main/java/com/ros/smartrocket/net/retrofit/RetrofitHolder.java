@@ -30,12 +30,18 @@ public class RetrofitHolder {
     public static final String CONTENT_TYPE_HEADER = "Content-type";
     private MatrixApi matrixApi;
 
+    public Retrofit getRetrofit() {
+        return retrofit;
+    }
+
+    private Retrofit retrofit;
+
     public RetrofitHolder() {
         initRetrofit();
     }
 
     private void initRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(Config.WEB_SERVICE_URL)
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())

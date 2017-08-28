@@ -16,8 +16,9 @@ import com.helpshift.All;
 import com.helpshift.Core;
 import com.helpshift.InstallConfig;
 import com.helpshift.exceptions.InstallException;
+import com.ros.smartrocket.db.entity.ErrorResponse;
 import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.net.retrofit.MatrixApi;
 import com.ros.smartrocket.net.retrofit.RetrofitHolder;
 import com.ros.smartrocket.utils.L;
@@ -25,11 +26,15 @@ import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
+import java.lang.annotation.Annotation;
 import java.util.Calendar;
 import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
 import io.fabric.sdk.android.Fabric;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
@@ -41,18 +46,25 @@ public class App extends Application {
     private MatrixLocationManager locationManager;
     private MyAccount myAccount;
     private RetrofitHolder retrofitHolder;
+    private Converter<ResponseBody, ErrorResponse> errorResponseConverter;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        retrofitHolder = new RetrofitHolder();
+        initRetrofit();
         initHS();
         initSDKs();
         initLocaleSettings();
         fillDeviceInfo();
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
+    }
+
+    private void initRetrofit() {
+        retrofitHolder = new RetrofitHolder();
+        errorResponseConverter = retrofitHolder.getRetrofit()
+                .responseBodyConverter(ErrorResponse.class, new Annotation[0]);
     }
 
     private void fillDeviceInfo() {
@@ -167,5 +179,9 @@ public class App extends Application {
 
     public MatrixApi getApi() {
         return retrofitHolder.getMatrixApi();
+    }
+
+    public Converter<ResponseBody, ErrorResponse> getErrorConverter() {
+        return errorResponseConverter;
     }
 }

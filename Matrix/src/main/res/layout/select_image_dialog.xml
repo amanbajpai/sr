@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     style="@style/CustomDialog"
     android:orientation="vertical" >
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:text="@string/take_picture"
@@ -14,7 +14,7 @@
         style="@style/DialogTitle"
         android:background="@color/green"
         custom:textStyle="bold" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/camera"
         style="@style/SelectImageDialogItem"
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/grey_light" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/gallery"
         style="@style/SelectImageDialogItem"
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/grey_light" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/remove"
         style="@style/SelectImageDialogItem"
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/cancelButton"
         style="@style/DialogButton"
         android:layout_height="0dp"

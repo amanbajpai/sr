@@ -46,7 +46,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/name"
                     style="@style/TaskListTitle"
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                    <com.ros.smartrocket.views.CustomTextView
+                    <com.ros.smartrocket.ui.views.CustomTextView
                         android:id="@+id/timeLeft"
                         style="@style/TaskListTime"
                         android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                         android:drawableStart="@drawable/sandclock_grey"
                         custom:textStyle="bold" />
 
-                    <com.ros.smartrocket.views.CustomTextView
+                    <com.ros.smartrocket.ui.views.CustomTextView
                         android:id="@+id/distance"
                         style="@style/TaskListDistance"
                         android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                         custom:textStyle="bold" />
                 </LinearLayout>
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/missionAvaileble"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:textSize="@dimen/text_size_13p6sp"
                     custom:textStyle="bold" />
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/locationName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/statusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
             android:textSize="@dimen/text_size_13p6sp"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.OptionsRow
+        <com.ros.smartrocket.ui.views.OptionsRow
             android:id="@+id/taskItemOptionsRow"
             android:layout_width="match_parent"
             android:layout_height="28dp" />

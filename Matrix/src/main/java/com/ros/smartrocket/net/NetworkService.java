@@ -35,7 +35,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationResponse;
-import com.ros.smartrocket.db.entity.ResponseError;
+import com.ros.smartrocket.db.entity.ErrorResponse;
 import com.ros.smartrocket.db.entity.Sharing;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
@@ -44,7 +44,7 @@ import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.db.entity.WeChatTokenResponse;
 import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
-import com.ros.smartrocket.helpers.WriteDataHelper;
+import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.MyLog;
@@ -287,7 +287,7 @@ public class NetworkService extends BaseNetworkService {
             startActivity(IntentUtils.getLoginIntentForLogout(this));
         } else {
             try {
-                ResponseError error = gson.fromJson(responseString, ResponseError.class);
+                ErrorResponse error = gson.fromJson(responseString, ErrorResponse.class);
                 if (error != null) {
                     operation.setResponseError(error.getErrorMessage());
                     operation.setResponseErrorCode(error.getErrorCode());

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     style="@style/CustomDialog"
     android:orientation="vertical" >
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:layout_width="fill_parent"
         android:layout_height="64dp"
         android:drawableStart="@drawable/badge_icon"
@@ -21,7 +21,7 @@
         android:contentDescription="@string/app_name"
         android:layout_margin="30dp"
         android:adjustViewBounds="true" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/rankDescription"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:text="@string/you_have_been_promoted" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/levelDescription"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey" />
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/okButton"
         style="@style/DialogButton"
         android:layout_height="0dp"

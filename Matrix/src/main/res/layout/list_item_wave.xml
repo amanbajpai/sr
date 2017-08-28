@@ -30,7 +30,7 @@
                 android:layout_marginEnd="10dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/app_name"/>
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 android:id="@+id/name"
                 style="@style/WaveListTitle"
                 android:layout_width="0dp"
@@ -47,7 +47,7 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/arrow_grey_big"/>
         </LinearLayout>
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/statusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:padding="8dp"
             android:textColor="@color/grey"
             android:textSize="@dimen/text_size_13p6sp"/>
-        <com.ros.smartrocket.views.OptionsRow
+        <com.ros.smartrocket.ui.views.OptionsRow
             android:id="@+id/waveItemOptionsRow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/options_row_in_list_item_height"/>

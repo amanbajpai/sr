@@ -12,7 +12,7 @@
         android:adjustViewBounds="true"
         android:src="@drawable/logo_color"
         android:scaleType="matrix" />-->
-    <com.ros.smartrocket.views.ImageEditorView
+    <com.ros.smartrocket.ui.views.ImageEditorView
         android:id="@+id/photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

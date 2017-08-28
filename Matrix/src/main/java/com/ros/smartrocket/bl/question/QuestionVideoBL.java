@@ -13,12 +13,12 @@ import android.widget.ImageButton;
 import android.widget.VideoView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.activity.BaseActivity;
-import com.ros.smartrocket.activity.QuestionsActivity;
+import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.ui.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.fragment.QuestionVideoFragment;
-import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.ui.fragment.QuestionVideoFragment;
+import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.SelectVideoManager;

@@ -105,7 +105,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- App -->
         <activity
-            android:name=".activity.LaunchActivity"
+            android:name=".ui.launch.LaunchActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -114,90 +114,90 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ExternalAuthDetailsActivity"
+            android:name=".ui.activity.ExternalAuthDetailsActivity"
             android:label="@string/registration_form" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/continue_with_wechat" />
         <activity
-            android:name=".activity.TutorialActivity"
+            android:name=".ui.activity.TutorialActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".activity.ReferralCasesActivity"
+            android:name=".ui.activity.ReferralCasesActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.PromoCodeActivity"
+            android:name=".ui.activity.PromoCodeActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.RegistrationActivity"
+            android:name=".ui.activity.RegistrationActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.PasswordActivity"
+            android:name=".ui.activity.PasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.ForgotPasswordActivity"
+            android:name=".ui.activity.ForgotPasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.ForgotPasswordSuccessActivity"
+            android:name=".ui.activity.ForgotPasswordSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.FullScreenImageActivity"
+            android:name=".ui.activity.FullScreenImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FullScreenVideoActivity"
+            android:name=".ui.activity.FullScreenVideoActivity"
             android:configChanges="orientation" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.TaskDetailsActivity"
+            android:name=".ui.activity.TaskDetailsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".activity.WaveDetailsActivity"
+            android:name=".ui.activity.WaveDetailsActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".activity.NotificationActivity"
+            android:name=".ui.activity.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
             android:theme="@style/CustomNotification.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.MapActivity"
+            android:name=".ui.activity.MapActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeGreen">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.ShareActivity"
+            android:name=".ui.activity.ShareActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.CheckLocationActivity"
+            android:name=".ui.activity.CheckLocationActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.EmailRedirectActivity"
+            android:name=".ui.activity.EmailRedirectActivity"
             android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -254,41 +254,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CheckLocationFailedActivity"
+            android:name=".ui.activity.CheckLocationFailedActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.ActivateAccountActivity"
+            android:name=".ui.activity.ActivateAccountActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.SetNewPasswordActivity"
+            android:name=".ui.activity.SetNewPasswordActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.QuestionsActivity"
+            android:name=".ui.activity.QuestionsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.TaskValidationActivity"
+            android:name=".ui.activity.TaskValidationActivity"
             android:configChanges="locale"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".activity.TermsAndConditionActivity"
+            android:name=".ui.activity.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.QuitQuestionActivity"
+            android:name=".ui.activity.QuitQuestionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.CashingOutActivity"
+            android:name=".ui.activity.CashingOutActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.CashingOutConfirmationActivity"
+            android:name=".ui.activity.CashingOutConfirmationActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.CashingOutSuccessActivity"
+            android:name=".ui.activity.CashingOutSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.IdCardActivity"
+            android:name=".ui.activity.IdCardActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoActionBar" />
 
@@ -296,7 +296,7 @@
             android:name=".net.NetworkService"
             android:exported="false" />
         <activity
-            android:name=".activity.PushNotificationActivity"
+            android:name=".ui.activity.PushNotificationActivity"
             android:configChanges="locale" />
         <provider
             android:name=".db.AppContentProvider"

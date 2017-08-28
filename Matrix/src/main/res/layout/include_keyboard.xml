@@ -10,19 +10,19 @@
         android:layout_marginBottom="@dimen/buttons_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyOneBtn"
             android:text="@string/key_one"
             style="@style/Key"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyTwoBtn"
             android:text="@string/key_two"
             style="@style/KeyLeftMargin"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyThreeBtn"
             android:text="@string/key_three"
             style="@style/KeyLeftMargin"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyFourBtn"
             android:text="@string/key_four"
             style="@style/KeyLeftMargin"/>
@@ -33,19 +33,19 @@
         android:layout_marginBottom="@dimen/buttons_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyFiveBtn"
             android:text="@string/key_five"
             style="@style/Key"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keySixBtn"
             android:text="@string/key_six"
             style="@style/KeyLeftMargin"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keySevenBtn"
             android:text="@string/key_seven"
             style="@style/KeyLeftMargin"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyEightBtn"
             android:text="@string/key_eight"
             style="@style/KeyLeftMargin"/>
@@ -55,19 +55,19 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyNineBtn"
             android:text="@string/key_nine"
             style="@style/Key"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyZeroBtn"
             android:text="@string/key_zero"
             style="@style/KeyLeftMargin"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyDotBtn"
             android:text="@string/key_dot"
             style="@style/KeyLeftMargin"/>
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/keyBackspaceBtn"
             android:text="@string/key_backspace"
             style="@style/KeyLeftMargin"/>

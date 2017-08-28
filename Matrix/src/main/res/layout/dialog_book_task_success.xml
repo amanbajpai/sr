@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/titleTextView"
         style="@style/DialogTitle"
         android:layout_width="fill_parent"
@@ -17,7 +17,7 @@
         android:text="@string/book_task_success_dialog_title"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/missionAvailebleAtText"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:text="@string/book_task_success_dialog_text0"
         android:visibility="gone" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/missionAvailebleAtDateTime"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:visibility="gone"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/text1"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:gravity="start"
         android:text="@string/book_task_success_dialog_text1" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/missionDueDateTime"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
         android:textSize="@dimen/text_size_20sp"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/text2"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/cancelButton"
             style="@style/DialogButton"
             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
             android:layout_height="match_parent"
             android:background="@color/grey" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/startLaterButton"
             style="@style/DialogButton"
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             android:layout_height="match_parent"
             android:background="@color/grey" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/startNowButton"
             style="@style/DialogButton"
             android:layout_width="match_parent"

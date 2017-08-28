@@ -35,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.ros.smartrocket.views.CustomTextView
+                        <com.ros.smartrocket.ui.views.CustomTextView
                             android:id="@+id/startTimeText"
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
                             android:text="@string/start_time"
                             custom:textStyle="bold" />
 
-                        <com.ros.smartrocket.views.CustomTextView
+                        <com.ros.smartrocket.ui.views.CustomTextView
                             android:id="@+id/deadlineTimeText"
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                             android:text="@string/deadline_time"
                             custom:textStyle="bold" />
 
-                        <com.ros.smartrocket.views.CustomTextView
+                        <com.ros.smartrocket.ui.views.CustomTextView
                             android:id="@+id/expireText"
                             style="@style/detailScreenTimeTypeTextStyle"
                             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.ros.smartrocket.views.CustomTextView
+                        <com.ros.smartrocket.ui.views.CustomTextView
                             android:id="@+id/startTimeTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                             android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
 
-                        <com.ros.smartrocket.views.CustomTextView
+                        <com.ros.smartrocket.ui.views.CustomTextView
                             android:id="@+id/deadlineTimeTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                             android:layout_marginTop="5dp"
                             custom:textStyle="bold" />
 
-                        <com.ros.smartrocket.views.CustomTextView
+                        <com.ros.smartrocket.ui.views.CustomTextView
                             android:id="@+id/expireTextView"
                             style="@style/detailScreenTimeTextStyle"
                             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/map_piece_green" />
 
-                    <com.ros.smartrocket.views.CustomTextView
+                    <com.ros.smartrocket.ui.views.CustomTextView
                         android:id="@+id/showMissionMapText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <com.ros.smartrocket.views.OptionsRow
+            <com.ros.smartrocket.ui.views.OptionsRow
                 android:id="@+id/waveDetailsOptionsRow"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/options_row_on_details_screen_height"
@@ -137,7 +137,7 @@
                 android:layout_marginTop="15dp"
                 android:orientation="vertical">
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/noTaskAddressText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                     android:textSize="@dimen/text_size_13p6sp"
                     android:visibility="gone" />
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/wave_missions_description"
@@ -162,7 +162,7 @@
                     android:layout_height="1px"
                     android:background="@color/black" />
 
-                <com.ros.smartrocket.views.CustomTextView
+                <com.ros.smartrocket.ui.views.CustomTextView
                     android:id="@+id/projectDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/claimNearTasksButton"
             style="@style/WaveDetailButton"
             android:layout_width="match_parent"
@@ -194,7 +194,7 @@
             android:visibility="gone"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/previewTaskButton"
             style="@style/TaskDetailButton"
             android:layout_width="match_parent"
@@ -204,7 +204,7 @@
             android:visibility="gone"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/showAllTasksButton"
             style="@style/WaveDetailButton"
             android:layout_width="match_parent"
@@ -213,7 +213,7 @@
             android:text="@string/show_missions"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/hideAllTasksButton"
             style="@style/WaveDetailButton"
             android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         style="@style/DialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="64dp"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/round_progress" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/statusText"
             style="@style/DialogText"
             android:layout_width="match_parent"

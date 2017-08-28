@@ -20,7 +20,7 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo_white" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14sp" />
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/emailEditText"
             style="@style/EditText"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:hint="@string/your_email_hint"
             android:inputType="textEmailAddress" />
 
-        <com.ros.smartrocket.views.CustomButton
+        <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/continue_btn"
             style="@style/Button"
             android:layout_width="match_parent"
@@ -57,13 +57,13 @@
             android:text="@string/continue_email_btn"
             custom:textStyle="bold" />
 
-        <com.ros.smartrocket.views.SocialLoginView
+        <com.ros.smartrocket.ui.views.SocialLoginView
             android:id="@+id/social_login_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/currentVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

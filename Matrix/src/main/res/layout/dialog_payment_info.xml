@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="20dp">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/titleTextView"
         style="@style/DialogTitle"
         android:layout_width="fill_parent"
@@ -17,7 +17,7 @@
         android:text="@string/dialog_payment_title"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/dialogText"
         style="@style/DialogText"
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:gravity="center_horizontal"
         android:text="@string/dialog_payment_description" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/dialogInstruction"
         style="@style/DialogText"
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         android:layout_below="@id/dialogInstruction"
         android:background="@color/grey" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/okButton"
         style="@style/DialogButton"
         android:layout_width="match_parent"

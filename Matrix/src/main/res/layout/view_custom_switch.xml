@@ -6,7 +6,7 @@
     android:minHeight="28dp"
     android:orientation="horizontal">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/no_btn"
         style="@style/SwitchText"
         android:layout_width="45dp"
@@ -19,7 +19,7 @@
         android:textColor="@drawable/swtch_text_selector"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/yes_btn"
         style="@style/SwitchText"
         android:layout_width="45dp"

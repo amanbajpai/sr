@@ -1,7 +1,7 @@
 package com.ros.smartrocket.utils.image;
 
-import com.ros.smartrocket.eventbus.AvatarEvent;
-import com.ros.smartrocket.eventbus.PhotoEvent;
+import com.ros.smartrocket.utils.eventbus.AvatarEvent;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 
 import de.greenrobot.event.EventBus;
 

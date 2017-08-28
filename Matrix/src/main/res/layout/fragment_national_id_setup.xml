@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -17,7 +17,7 @@
         android:textSize="@dimen/text_size_14sp"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomEditTextView
+    <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/nameEdt"
         style="@style/EditText"
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
             android:src="@drawable/ic_n_id"
             android:tint="@color/grey_dark" />
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/userNationalIdEdt"
             style="@style/EditText"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             android:src="@drawable/ic_phone"
             android:tint="@color/grey_dark" />
 
-        <com.ros.smartrocket.views.CustomEditTextView
+        <com.ros.smartrocket.ui.views.CustomEditTextView
             android:id="@+id/phoneEdt"
             style="@style/EditText"
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomButton
+    <com.ros.smartrocket.ui.views.CustomButton
         android:id="@+id/submitButton"
         style="@style/Button"
         android:layout_width="match_parent"

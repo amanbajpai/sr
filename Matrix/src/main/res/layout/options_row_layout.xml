@@ -6,7 +6,7 @@
     android:paddingTop="2dp"
     android:orientation="horizontal">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/optionsRowPrice"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_height="1dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/optionsRowExp"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_height="1dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/optionsRowLocations"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
         android:layout_height="1dp"
         android:layout_weight="1" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/optionsRowDuration"
         style="@style/TaskAndWaveOptionStyle"
         android:layout_width="wrap_content"

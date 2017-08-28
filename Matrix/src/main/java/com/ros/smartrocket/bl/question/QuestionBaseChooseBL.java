@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.adapter.AnswerBaseAdapter;
+import com.ros.smartrocket.ui.adapter.AnswerBaseAdapter;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 

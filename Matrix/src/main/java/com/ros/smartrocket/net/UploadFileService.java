@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.annimon.stream.Stream;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.bl.FilesBL;
@@ -28,9 +29,9 @@ import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
-import com.ros.smartrocket.eventbus.UploadProgressEvent;
-import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.location.MatrixLocationManager;
+import com.ros.smartrocket.utils.eventbus.UploadProgressEvent;
+import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -255,8 +256,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
 
                     MatrixLocationManager.getAddressByLocation(location,
                             (location1, countryName, cityName, districtName) -> sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(),
-                            task.getMissionId(),
-                            task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName)));
+                                    task.getMissionId(),
+                                    task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName)));
                     break;
                 case WaitingUploadTaskDbSchema.Query.TOKEN_QUERY:
                     List<WaitingUploadTask> waitingUploadTasks = WaitingUploadTaskBL
@@ -423,7 +424,8 @@ public class UploadFileService extends Service implements NetworkOperationListen
             BaseOperation operation = (BaseOperation) intent.getSerializableExtra(UploadFileNetworkService
                     .KEY_OPERATION);
             if (operation != null) {
-                networkOperationListeners.stream().filter(netListener -> netListener != null)
+                Stream.of(networkOperationListeners)
+                        .filter(netListener -> netListener != null)
                         .forEach(netListener -> {
                             if (operation.isSuccess()) {
                                 netListener.onNetworkOperationSuccess(operation);

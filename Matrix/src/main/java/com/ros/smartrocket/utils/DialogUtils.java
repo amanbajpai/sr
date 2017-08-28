@@ -13,12 +13,12 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.UpdateUser;
-import com.ros.smartrocket.dialog.DefaultInfoDialog;
-import com.ros.smartrocket.dialog.QuiteTaskDialog;
-import com.ros.smartrocket.dialog.ShowProgressDialogInterface;
-import com.ros.smartrocket.dialog.UpdateFirstLastNameDialog;
-import com.ros.smartrocket.helpers.APIFacade;
-import com.ros.smartrocket.helpers.WriteDataHelper;
+import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.ui.dialog.QuiteTaskDialog;
+import com.ros.smartrocket.ui.dialog.ShowProgressDialogInterface;
+import com.ros.smartrocket.ui.dialog.UpdateFirstLastNameDialog;
+import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
 

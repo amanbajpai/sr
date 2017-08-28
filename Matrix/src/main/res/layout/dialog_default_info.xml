@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/title"
         style="@style/DialogTitle"
         android:layout_width="fill_parent"
@@ -15,7 +15,7 @@
         android:drawablePadding="10dp"
         custom:textStyle="bold" />
 
-    <com.ros.smartrocket.views.CustomTextView
+    <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/text"
         style="@style/DialogText"
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 android:id="@+id/leftButton"
                 style="@style/DialogButton"
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/grey" />
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 android:id="@+id/rightButton"
                 style="@style/DialogButton"
                 android:layout_width="match_parent"

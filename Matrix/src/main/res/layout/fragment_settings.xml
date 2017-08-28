@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="15dp">
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             style="@style/profileSectionTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -53,7 +53,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -61,7 +61,7 @@
                 android:text="@string/location_services"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomSwitch
+            <com.ros.smartrocket.ui.views.CustomSwitch
                 android:id="@+id/locationServicesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -82,7 +82,7 @@
                 android:text="@string/social_sharing"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomSwitch
+            <com.ros.smartrocket.ui.views.CustomSwitch
                 android:id="@+id/socialSharingToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -102,7 +102,7 @@
                 android:text="@string/send_only_by_wifi"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomSwitch
+            <com.ros.smartrocket.ui.views.CustomSwitch
                 android:id="@+id/useOnlyWifiToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -122,7 +122,7 @@
                 android:text="@string/save_images_to_camera_roll"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomSwitch
+            <com.ros.smartrocket.ui.views.CustomSwitch
                 android:id="@+id/saveImageToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -142,7 +142,7 @@
                 android:text="@string/push_messages"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomSwitch
+            <com.ros.smartrocket.ui.views.CustomSwitch
                 android:id="@+id/pushMessagesToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -179,7 +179,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -197,7 +197,7 @@
                 android:popupBackground="@android:color/transparent" />
         </LinearLayout>
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             style="@style/profileSectionTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -223,7 +223,7 @@
                 android:text="@string/deadline_warning"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomSwitch
+            <com.ros.smartrocket.ui.views.CustomSwitch
                 android:id="@+id/deadlineReminderToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -236,7 +236,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal">
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -273,14 +273,14 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/rocket_settings" />
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 style="@style/settingsTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/app_version"
                 custom:textStyle="bold" />
 
-            <com.ros.smartrocket.views.CustomTextView
+            <com.ros.smartrocket.ui.views.CustomTextView
                 android:id="@+id/currentVersion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp" />
 
-        <com.ros.smartrocket.views.CustomTextView
+        <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/closeAccount"
             android:layout_marginTop="15dp"
             style="@style/settingsTextStyle"
