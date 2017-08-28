@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.db.entity.ActivateAccount;
 import com.ros.smartrocket.db.entity.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.CheckLocation;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NationalIdAccount;
@@ -31,6 +28,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.WSUrl;
+import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -69,14 +67,6 @@ public class APIFacade {
         operation.setUrl(WSUrl.POST_TERMS_AND_CONDITIONS);
         operation.setTag(Keys.POST_T_AND_C_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getAppVersion(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_APP_VERSION);
-        operation.setTag(Keys.GET_VERSION_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
@@ -138,23 +128,6 @@ public class APIFacade {
         operation.setTag(Keys.UPDATE_USER_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(updateUser);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void checkLocationForRegistration(Activity activity, String country, String city, String district,
-                                             double latitude, double longitude) {
-        CheckLocation checkLocationEntity = new CheckLocation();
-        checkLocationEntity.setCountry(country);
-        checkLocationEntity.setCity(city);
-        checkLocationEntity.setDistrict(district);
-        checkLocationEntity.setLatitude(latitude);
-        checkLocationEntity.setLongitude(longitude);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.CHECK_LOCATION);
-        operation.setTag(Keys.CHECK_LOCATION_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(checkLocationEntity);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
@@ -457,50 +430,11 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void checkEmail(Activity activity, String email) {
-        BaseOperation operation = new BaseOperation();
-        String userEmail = "";
-        try {
-            userEmail = URLEncoder.encode(email, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        operation.setUrl(WSUrl.GET_CHECK_EMAIL, userEmail);
-        operation.setTag(Keys.GET_CHECK_EMAIL_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     public void setPromoCode(Activity activity, String srCode) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.POST_PROMO_CODE, srCode);
         operation.setTag(Keys.POST_PROMO_CODE_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void externalAuth(Activity activity, ExternalAuthorize externalAuthorizeEntity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.POST_EXTERNAL_AUTHORIZE, preferencesManager.getLanguageCode());
-        operation.setTag(Keys.POST_EXTERNAL_AUTH_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(externalAuthorizeEntity);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getWeChatToken(Activity activity, String code) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_WECHAT_TOKEN, BuildConfig.WECHAT_APP_ID, BuildConfig.WECHAT_APP_SECRET, code);
-        operation.setTag(Keys.GET_WECHAT_TOKEN_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getWeChatInfo(Activity activity, String token, String openId) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_WECHAT_USER_INFO, token, openId);
-        operation.setTag(Keys.GET_WECHAT_INFO_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

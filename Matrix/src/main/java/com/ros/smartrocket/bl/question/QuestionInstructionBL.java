@@ -32,15 +32,10 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 File file = new File(question.getInstructionFileUri());
                 setImageInstructionFile(file);
             } else {
-                activity.showProgressDialog(true);
+                activity.showLoading(true);
 
                 ImageLoader.getInstance().getFileByUrlAsync(question.getPhotoUrl(),
-                        new ImageLoader.OnFileLoadCompleteListener() {
-                            @Override
-                            public void onFileLoadComplete(final File file) {
-                                setImageInstructionFile(file);
-                            }
-                        }
+                        file -> setImageInstructionFile(file)
                 );
             }
         } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
@@ -48,15 +43,10 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                 File file = new File(question.getInstructionFileUri());
                 setVideoInstructionFile(file);
             } else {
-                activity.dismissProgressDialog();
+                activity.hideLoading();
 
                 ImageLoader.getInstance().getFileByUrlAsync(question.getVideoUrl(),
-                        new ImageLoader.OnFileLoadCompleteListener() {
-                            @Override
-                            public void onFileLoadComplete(final File file) {
-                                setVideoInstructionFile(file);
-                            }
-                        }
+                        file -> setVideoInstructionFile(file)
                 );
             }
         }
@@ -72,27 +62,21 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
     public void setImageInstructionFile(final File file) {
         Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
         photoImageView.setImageBitmap(bitmap);
-        photoImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(file.getPath())) {
-                    activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath(), false));
-                }
+        photoImageView.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(file.getPath())) {
+                activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath(), false));
             }
         });
 
         if (activity != null) {
-            activity.dismissProgressDialog();
+            activity.hideLoading();
         }
     }
 
     public void setVideoInstructionFile(final File file) {
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                activity.startActivity(IntentUtils.getFullScreenVideoIntent(activity, file.getPath()));
-                return false;
-            }
+        videoView.setOnTouchListener((v, event) -> {
+            activity.startActivity(IntentUtils.getFullScreenVideoIntent(activity, file.getPath()));
+            return false;
         });
 
         playVideo(file.getPath());
@@ -101,15 +85,12 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
     public void playVideo(String videoPath) {
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-                videoView.start();
-                videoView.setBackgroundColor(Color.TRANSPARENT);
-                if (activity != null) {
-                    activity.dismissProgressDialog();
-                }
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            videoView.start();
+            videoView.setBackgroundColor(Color.TRANSPARENT);
+            if (activity != null) {
+                activity.hideLoading();
             }
         });
     }

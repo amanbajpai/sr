@@ -217,7 +217,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
                                 QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
                             } else {
-                                showProgressDialog(false);
+                                showLoading(false);
                                 apiFacade.getReDoQuestions(QuestionsActivity.this, task);
                             }
                         } else {
@@ -247,7 +247,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
                         startFragment(question);
                     } else {
-                        showProgressDialog(false);
+                        showLoading(false);
                         apiFacade.getQuestions(QuestionsActivity.this, task);
                     }
 
@@ -478,12 +478,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
             startActivity(IntentUtils.getQuitQuestionIntent(this, question));
             finishQuestionsActivity();
         }
-        dismissProgressDialog();
+        hideLoading();
     }
 
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
-        dismissProgressDialog();
+        hideLoading();
         UIUtils.showSimpleToast(this, operation.getResponseError());
     }
 

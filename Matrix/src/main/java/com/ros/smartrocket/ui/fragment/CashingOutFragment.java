@@ -67,7 +67,7 @@ public class CashingOutFragment extends BaseFragment implements NetworkOperation
 
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_cashing_out, null);
         ButterKnife.bind(this, view);
-        ((CashingOutActivity) getActivity()).showProgressDialog(false);
+        ((CashingOutActivity) getActivity()).showLoading(false);
         apiFacade.getMyAccount(getActivity());
         return view;
     }
@@ -106,7 +106,7 @@ public class CashingOutFragment extends BaseFragment implements NetworkOperation
 
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
-        ((CashingOutActivity) getActivity()).dismissProgressDialog();
+        ((CashingOutActivity) getActivity()).hideLoading();
         if (Keys.GET_MY_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
             updateData();
         } else if (Keys.SEND_ACTIVITY_OPERATION_TAG.equals(operation.getTag())) {
@@ -121,7 +121,7 @@ public class CashingOutFragment extends BaseFragment implements NetworkOperation
 
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
-        ((CashingOutActivity) getActivity()).dismissProgressDialog();
+        ((CashingOutActivity) getActivity()).hideLoading();
         UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
     }
 
@@ -183,7 +183,7 @@ public class CashingOutFragment extends BaseFragment implements NetworkOperation
                 startEditPaymentInfo();
                 break;
             case R.id.activityBtn:
-                ((CashingOutActivity) getActivity()).showProgressDialog(false);
+                ((CashingOutActivity) getActivity()).showLoading(false);
                 apiFacade.sendActivity(getActivity());
                 break;
         }

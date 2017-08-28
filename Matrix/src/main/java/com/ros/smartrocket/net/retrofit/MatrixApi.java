@@ -7,6 +7,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.CheckEmail;
 import com.ros.smartrocket.db.entity.CheckLocation;
+import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
@@ -69,7 +70,7 @@ public interface MatrixApi {
     Call<ResponseBody> updateUser(@Body UpdateUser updateUser);
 
     @POST("api/Authorize/PositionCheck")
-    Call<CheckLocation> checkLocationForRegistration(@Body CheckLocation checkLocationEntity);
+    Call<CheckLocationResponse> checkLocationForRegistration(@Body CheckLocation checkLocationEntity);
 
     @GET("api/Authorize/ReferralCases")
     Call<ReferralCases> getReferralCases(@Query("countryId") int countryId, @Query("language") String language);

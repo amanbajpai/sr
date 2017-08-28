@@ -91,9 +91,9 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
                         break;
                     }
 
-                    showProgressDialog(false);
+                    showLoading(false);
                     setPasswordButton.setEnabled(false);
-                    showProgressDialog(false);
+                    showLoading(false);
                     apiFacade.setPassword(this, email, token, password);
                 }
                 break;
@@ -105,7 +105,7 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             UIUtils.showSimpleToast(this, R.string.success);
             startActivity(IntentUtils.getLoginIntentForLogout(this));
         }
@@ -114,7 +114,7 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             setPasswordButton.setEnabled(true);
             UIUtils.showSimpleToast(this, operation.getResponseError());
         }

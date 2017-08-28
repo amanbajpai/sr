@@ -62,7 +62,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     @SuppressLint("SetTextI18n")
     @Override
     public void configureView() {
-        showProgressDialog();
+        showLoading();
         selectImageManager = new SelectImageManager();
         galleryLayout = (LinearLayout) view.findViewById(R.id.galleryLayout);
 
@@ -155,7 +155,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         L.v(TAG, "Event " + event.type);
         switch (event.type) {
             case START_LOADING:
-                showProgressDialog();
+                showLoading();
                 break;
             case IMAGE_COMPLETE:
                 MyLog.v(TAG, "ImageComplete");
@@ -206,7 +206,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     @Override
     protected void answersUpdate() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            ((BaseActivity) getActivity()).dismissProgressDialog();
+            ((BaseActivity) getActivity()).hideLoading();
         }
     }
 
@@ -376,7 +376,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
             @Override
             public void getLocationStart() {
-                showProgressDialog();
+                showLoading();
             }
 
             @Override

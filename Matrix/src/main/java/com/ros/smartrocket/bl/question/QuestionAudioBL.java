@@ -10,17 +10,17 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.interfaces.QuestionAudioPlayer;
 import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.ui.views.AudioControlsView;
+import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.StorageManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.audio.MatrixAudioPlayer;
 import com.ros.smartrocket.utils.audio.MatrixAudioRecorder;
-import com.ros.smartrocket.ui.views.AudioControlsView;
-import com.ros.smartrocket.ui.views.CustomTextView;
 import com.shuyu.waveview.AudioWaveView;
 import com.shuyu.waveview.FileUtils;
 
@@ -277,7 +277,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
                 .GetCurrentLocationListener() {
             @Override
             public void getLocationStart() {
-                showProgressDialog();
+                showLoading();
             }
 
             @Override

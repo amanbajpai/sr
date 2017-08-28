@@ -104,6 +104,11 @@ public class NetworkError implements BaseNetworkError {
         return errorCode;
     }
 
+    @Override
+    public ErrorResponse getErrorResponse() {
+        return errorResponse;
+    }
+
 
     private void handleNoInternetError() {
         errorMessageRes = R.string.no_internet;

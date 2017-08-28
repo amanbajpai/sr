@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.net.NetworkError;
+import com.ros.smartrocket.net.WSUrl;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.db.entity.WeChatTokenResponse;
 import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
-import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;
@@ -25,15 +27,17 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler, NetworkOperationListenerInterface {
+
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 
     public static final String INFO_TAG = "info_tag";
     public static final String WECHAT_TOKEN = "w_token";
     public static final String WECHAT_OPEN_ID = "w_open_id";
     private IWXAPI api;
-    private CustomProgressDialog progressDialog;
-    private APIFacade apiFacade = APIFacade.getInstance();
     WeChatTokenResponse tokenResponse;
 
 
@@ -42,10 +46,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         checkDeviceSettingsByOnResume(false);
         setContentView(R.layout.activity_launch);
-        IWXAPI api = WXAPIFactory.createWXAPI(this, BuildConfig.WECHAT_APP_ID, false);
+        api = WXAPIFactory.createWXAPI(this, BuildConfig.WECHAT_APP_ID, false);
         api.registerApp(BuildConfig.WECHAT_APP_ID);
         api.handleIntent(getIntent(), this);
-        progressDialog = CustomProgressDialog.show(this);
+        showLoading(false);
     }
 
     @Override
@@ -67,7 +71,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler,
             case BaseResp.ErrCode.ERR_OK:
                 if (resp instanceof SendAuth.Resp) {
                     SendAuth.Resp response = (SendAuth.Resp) resp;
-                    apiFacade.getWeChatToken(this, response.code);
+                    getWeChatToken(response.code);
                 } else {
                     finish();
                 }
@@ -87,41 +91,60 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler,
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
+    private void getWeChatToken(String code) {
+        Call<WeChatTokenResponse> call = App.getInstance().getApi()
+                .getWeChatToken(WSUrl.GET_WECHAT_TOKEN, BuildConfig.WECHAT_APP_ID, BuildConfig.WECHAT_APP_SECRET, code, "authorization_code");
+        call.enqueue(new Callback<WeChatTokenResponse>() {
+            @Override
+            public void onResponse(Call<WeChatTokenResponse> call, Response<WeChatTokenResponse> response) {
+                if (response.isSuccessful()) {
+                    getWeChatInfo(response.body());
+                } else {
+                    onNetworkOperationFailed(new NetworkError(response.errorBody()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeChatTokenResponse> call, Throwable t) {
+                onNetworkOperationFailed(new NetworkError(t));
+            }
+        });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
+    private void getWeChatInfo(WeChatTokenResponse tokenResponse) {
+        Call<WeChatUserInfoResponse> call = App.getInstance().getApi()
+                .getWeChatInfo(WSUrl.GET_WECHAT_USER_INFO, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
+        call.enqueue(new Callback<WeChatUserInfoResponse>() {
+            @Override
+            public void onResponse(Call<WeChatUserInfoResponse> call, Response<WeChatUserInfoResponse> response) {
+                if (response.isSuccessful()) {
+                    handleWeChatInfo(response.body());
+                } else {
+                    onNetworkOperationFailed(new NetworkError(response.errorBody()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeChatUserInfoResponse> call, Throwable t) {
+                onNetworkOperationFailed(new NetworkError(t));
+            }
+        });
     }
 
-    @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.GET_WECHAT_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
-            tokenResponse = (WeChatTokenResponse) operation.getResponseEntities().get(0);
-            apiFacade.getWeChatInfo(this, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
-        } else if (Keys.GET_WECHAT_INFO_OPERATION_TAG.equals(operation.getTag())) {
-            WeChatUserInfoResponse infoResponse = (WeChatUserInfoResponse) operation.getResponseEntities().get(0);
-            Intent i = new Intent();
-            i.putExtra(INFO_TAG, infoResponse);
-            i.putExtra(WECHAT_TOKEN, tokenResponse.getAccessToken());
-            i.putExtra(WECHAT_OPEN_ID, tokenResponse.getOpenId());
-            sendBroadcast(i.setAction(Keys.WECHAT_AUTH_SUCCESS));
-            finish();
-        }
+    private void handleWeChatInfo(WeChatUserInfoResponse infoResponse) {
+        Intent i = new Intent();
+        i.putExtra(INFO_TAG, infoResponse);
+        i.putExtra(WECHAT_TOKEN, tokenResponse.getAccessToken());
+        i.putExtra(WECHAT_OPEN_ID, tokenResponse.getOpenId());
+        sendBroadcast(i.setAction(Keys.WECHAT_AUTH_SUCCESS));
+        finish();
     }
 
-    @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                == BaseNetworkService.NO_INTERNET) {
+    public void onNetworkOperationFailed(NetworkError error) {
+        if (error.getErrorCode() == NetworkError.NO_INTERNET) {
             DialogUtils.showBadOrNoInternetDialog(this);
         } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+            UIUtils.showSimpleToast(this, error.getErrorMessageRes(), Toast.LENGTH_LONG, Gravity.BOTTOM);
         }
     }
 }

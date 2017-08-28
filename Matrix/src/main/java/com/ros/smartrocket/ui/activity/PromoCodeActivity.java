@@ -104,7 +104,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
         if (!TextUtils.isEmpty(promoCode) && !TextUtils.isEmpty(token)) {
             try {
                 promoCode = URLEncoder.encode(promoCode, "UTF-8");
-                showProgressDialog(false);
+                showLoading(false);
                 apiFacade.setPromoCode(this, promoCode);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -118,7 +118,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             continueRegistrationFlow();
         }
     }
@@ -126,7 +126,7 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                     == BaseNetworkService.NO_INTERNET) {
                 DialogUtils.showBadOrNoInternetDialog(this);

@@ -58,7 +58,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         continueButton.setEnabled(false);
 
         checkDeviceSettingsByOnResume(false);
-        showProgressDialog(true);
+        showLoading(true);
         apiFacade.getReferralCases(this, countryId);
     }
 
@@ -67,7 +67,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.continueButton:
                 continueButton.setEnabled(false);
-                showProgressDialog(false);
+                showLoading(false);
                 apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
                 break;
             default:
@@ -78,7 +78,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             ReferralCases referralCases = (ReferralCases) operation.getResponseEntities().get(0);
             referralCaseArray = referralCases.getCases();
 
@@ -103,7 +103,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             continueRegistrationFlow(-1);
         }
     }

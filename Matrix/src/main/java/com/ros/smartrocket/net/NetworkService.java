@@ -201,11 +201,6 @@ public class NetworkService extends BaseNetworkService {
                         ReferralCases referralCases = gson.fromJson(responseString, ReferralCases.class);
                         operation.responseEntities.add(referralCases);
                         break;
-                    case WSUrl.CHECK_LOCATION_ID:
-                        CheckLocationResponse checkLocationResponse = gson.fromJson(responseString,
-                                CheckLocationResponse.class);
-                        operation.responseEntities.add(checkLocationResponse);
-                        break;
                     case WSUrl.REGISTRATION_ID:
                         RegistrationResponse registrationResponse = gson.fromJson(responseString,
                                 RegistrationResponse.class);
@@ -247,21 +242,7 @@ public class NetworkService extends BaseNetworkService {
                                 AllowPushNotification.class);
                         operation.responseEntities.add(allowPushNotification);
                         break;
-                    case WSUrl.APP_VERSION_ID:
-                        AppVersion appVersion = gson.fromJson(responseString, AppVersion.class);
-                        operation.responseEntities.add(appVersion);
-                        break;
-                    case WSUrl.CHECK_EMAIL_ID:
-                        CheckEmail checkEmail = gson.fromJson(responseString, CheckEmail.class);
-                        operation.responseEntities.add(checkEmail);
-                        break;
-                    case WSUrl.EXTERNAL_AUTH_ID:
-                        ExternalAuthResponse authResponse = gson.fromJson(responseString, ExternalAuthResponse.class);
-                        operation.responseEntities.add(authResponse);
-                        getPreferencesManager().setToken(authResponse.getToken());
-                        getPreferencesManager().setTokenForUploadFile(authResponse.getToken());
-                        getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
-                        break;
+
                     case WSUrl.WECHAT_TOKEN_ID:
                         WeChatTokenResponse tokenResponse = gson.fromJson(responseString, WeChatTokenResponse.class);
                         operation.responseEntities.add(tokenResponse);

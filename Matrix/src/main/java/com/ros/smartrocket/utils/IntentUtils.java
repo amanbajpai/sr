@@ -19,7 +19,7 @@ import com.ros.smartrocket.ui.activity.CashingOutSuccessActivity;
 import com.ros.smartrocket.ui.activity.ForgotPasswordSuccessActivity;
 import com.ros.smartrocket.ui.activity.FullScreenImageActivity;
 import com.ros.smartrocket.ui.activity.FullScreenVideoActivity;
-import com.ros.smartrocket.ui.activity.LoginActivity;
+import com.ros.smartrocket.ui.login.LoginActivity;
 import com.ros.smartrocket.ui.activity.MainActivity;
 import com.ros.smartrocket.ui.activity.MapActivity;
 import com.ros.smartrocket.ui.activity.PushNotificationActivity;

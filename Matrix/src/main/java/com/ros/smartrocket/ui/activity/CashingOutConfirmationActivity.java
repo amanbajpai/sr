@@ -41,7 +41,7 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.CASHING_OUT_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             finish();
             startActivity(IntentUtils.getCashOutSuccessIntent(this));
         }
@@ -51,7 +51,7 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.CASHING_OUT_OPERATION_TAG.equals(operation.getTag())) {
             UIUtils.showSimpleToast(this, operation.getResponseError());
-            dismissProgressDialog();
+            hideLoading();
         }
     }
 
@@ -64,7 +64,7 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Netw
             case R.id.continueButton:
                 //MyAccount myAccount = App.getInstance().getMyAccount();
 
-                showProgressDialog(false);
+                showLoading(false);
                 apiFacade.cashingOut(this);
                 break;
             default:

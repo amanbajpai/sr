@@ -227,7 +227,7 @@ public class QuestionBaseBL {
         this.fragment = fragment;
     }
 
-    void showProgressDialog() {
+    void showLoading() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

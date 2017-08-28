@@ -136,7 +136,7 @@
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -194,7 +194,7 @@
             android:name=".ui.activity.ShareActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.CheckLocationActivity"
+            android:name=".ui.login.location.CheckLocationActivity"
             android:configChanges="locale" />
         <activity
             android:name=".ui.activity.EmailRedirectActivity"

@@ -45,15 +45,12 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
         videoView = (VideoView) view.findViewById(R.id.videoQuestion);
         videoView.setOnCompletionListener(this);
 
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    onClick(v);
-                }
-
-                return false;
+        videoView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                onClick(v);
             }
+
+            return false;
         });
 
         rePhotoButton = (ImageButton) view.findViewById(R.id.rePhotoButton);
@@ -96,7 +93,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
     @Override
     protected void answersUpdate() {
-        ((BaseActivity) getActivity()).dismissProgressDialog();
+        ((BaseActivity) getActivity()).hideLoading();
     }
 
     @Override
@@ -149,23 +146,18 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     }
 
     public void playPauseVideo(String videoPath) {
-        ((QuestionsActivity) getActivity()).showProgressDialog(true);
+        ((QuestionsActivity) getActivity()).showLoading(true);
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(videoPath);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                videoView.start();
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        if (getActivity() != null) {
-                            ((QuestionsActivity) getActivity()).dismissProgressDialog();
-                        }
-                        videoView.setBackgroundColor(Color.TRANSPARENT);
-                        videoView.pause();
-                    }
-                }, 700);
-            }
+        videoView.setOnPreparedListener(mp -> {
+            videoView.start();
+            new Handler().postDelayed(() -> {
+                if (getActivity() != null) {
+                    ((QuestionsActivity) getActivity()).hideLoading();
+                }
+                videoView.setBackgroundColor(Color.TRANSPARENT);
+                videoView.pause();
+            }, 700);
         });
     }
 
@@ -243,7 +235,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             .GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
-                            ((BaseActivity) getActivity()).showProgressDialog(true);
+                            ((BaseActivity) getActivity()).showLoading(true);
                         }
 
                         @Override
@@ -257,13 +249,13 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
                             }
 
                             confirmButtonPressAction(location);
-                            ((BaseActivity) getActivity()).dismissProgressDialog();
+                            ((BaseActivity) getActivity()).hideLoading();
                         }
 
                         @Override
                         public void getLocationFail(String errorText) {
                             if (!getActivity().isFinishing()) {
-                                ((BaseActivity) getActivity()).dismissProgressDialog();
+                                ((BaseActivity) getActivity()).hideLoading();
                                 UIUtils.showSimpleToast(getActivity(), errorText);
                             }
                         }

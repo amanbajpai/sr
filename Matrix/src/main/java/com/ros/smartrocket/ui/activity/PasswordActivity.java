@@ -12,6 +12,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.ui.login.LoginActivity;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 import com.ros.smartrocket.net.BaseNetworkService;
@@ -76,7 +77,7 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             LoginResponse loginResponse = (LoginResponse) operation.getResponseEntities().get(0);
 
             String password = passwordEditText.getText().toString().trim();
@@ -105,7 +106,7 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.LOGIN_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             loginButton.setEnabled(true);
             if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
                     == BaseNetworkService.ACCOUNT_NOT_ACTIVATED_ERROR_CODE) {
@@ -140,7 +141,7 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     private void login() {
         String password = passwordEditText.getText().toString().trim();
         if (!TextUtils.isEmpty(password)) {
-            if (UIUtils.deviceIsReady(this)) {
+            if (UIUtils.isDeviceReady(this)) {
                 login(email, password);
             }
         } else {
@@ -149,7 +150,7 @@ public class PasswordActivity extends BaseActivity implements NetworkOperationLi
     }
 
     private void login(String email, String password) {
-        showProgressDialog(false);
+        showLoading(false);
         Login loginEntity = new Login();
         String deviceManufacturer = UIUtils.getDeviceManufacturer();
         String deviceModel = UIUtils.getDeviceModel();

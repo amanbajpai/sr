@@ -307,25 +307,17 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         TransparentSupportMapFragment mapFragment =
                 (TransparentSupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap gm) {
-                    if (gm != null) {
-                        googleMap = gm;
-                        UiSettings uiSettings = googleMap.getUiSettings();
-                        uiSettings.setAllGesturesEnabled(false);
-                        uiSettings.setScrollGesturesEnabled(true);
-                        uiSettings.setZoomGesturesEnabled(true);
-                        uiSettings.setIndoorLevelPickerEnabled(false);
-                        googleMap.setIndoorEnabled(false);
-                        googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                            @Override
-                            public void onCameraChange(CameraPosition cameraPosition) {
-                                zoomLevel = cameraPosition.zoom;
-                            }
-                        });
-                        loadData(true);
-                    }
+            mapFragment.getMapAsync(gm -> {
+                if (gm != null) {
+                    googleMap = gm;
+                    UiSettings uiSettings = googleMap.getUiSettings();
+                    uiSettings.setAllGesturesEnabled(false);
+                    uiSettings.setScrollGesturesEnabled(true);
+                    uiSettings.setZoomGesturesEnabled(true);
+                    uiSettings.setIndoorLevelPickerEnabled(false);
+                    googleMap.setIndoorEnabled(false);
+                    googleMap.setOnCameraChangeListener(cameraPosition -> zoomLevel = cameraPosition.zoom);
+                    loadData(true);
                 }
             });
 
@@ -395,32 +387,29 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
             if (getActivity() != null) {
-                ((BaseActivity) getActivity()).showProgressDialog(true);
+                ((BaseActivity) getActivity()).showLoading(true);
             }
         }
 
-        new android.os.Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    ((BaseActivity) getActivity()).dismissProgressDialog();
-                    if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
-                        Log.d(TAG, "getAllNotMyTasksFromDB [waveId  =  " + viewItemId + "]");
-                        TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
-                    } else if (mode == Keys.MapViewMode.MY_TASKS) {
-                        Log.d(TAG, "getMyTasksForMapFromDB [waveId  =  " + viewItemId + "]");
-                        TasksBL.getMyTasksForMapFromDB(handler);
-                    } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
-                        Log.d(TAG, "getNotMyTasksFromDBbyWaveId [waveId  =  " + viewItemId + "]");
-                        TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton
-                                .isChecked());
-                    } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
-                        Log.d(TAG, "getTaskFromDBbyID [taskId  =  " + viewItemId + "]");
-                        TasksBL.getTaskFromDBbyID(handler, viewItemId, 0);
-                    }
-
-                    Log.i(TAG, "RUN loadTasksFromLocalDb() [mode  =  " + mode + "]");
+        new android.os.Handler().postDelayed(() -> {
+            if (getActivity() != null) {
+                ((BaseActivity) getActivity()).hideLoading();
+                if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
+                    Log.d(TAG, "getAllNotMyTasksFromDB [waveId  =  " + viewItemId + "]");
+                    TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
+                } else if (mode == Keys.MapViewMode.MY_TASKS) {
+                    Log.d(TAG, "getMyTasksForMapFromDB [waveId  =  " + viewItemId + "]");
+                    TasksBL.getMyTasksForMapFromDB(handler);
+                } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
+                    Log.d(TAG, "getNotMyTasksFromDBbyWaveId [waveId  =  " + viewItemId + "]");
+                    TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton
+                            .isChecked());
+                } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
+                    Log.d(TAG, "getTaskFromDBbyID [taskId  =  " + viewItemId + "]");
+                    TasksBL.getTaskFromDBbyID(handler, viewItemId, 0);
                 }
+
+                Log.i(TAG, "RUN loadTasksFromLocalDb() [mode  =  " + mode + "]");
             }
         }, 1000);
     }

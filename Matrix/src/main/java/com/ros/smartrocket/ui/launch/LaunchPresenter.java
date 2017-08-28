@@ -16,7 +16,7 @@ class LaunchPresenter<V extends LaunchMvpView> extends BasePresenter<V> implemen
 
     @Override
     public void checkVersion() {
-        if (!BuildConfig.CHINESE) {
+        if (BuildConfig.CHINESE) {
             getAppVersion();
         } else {
             getMvpView().launchApp();
@@ -24,7 +24,7 @@ class LaunchPresenter<V extends LaunchMvpView> extends BasePresenter<V> implemen
     }
 
     private void getAppVersion() {
-        getMvpView().showLoading();
+        getMvpView().showLoading(false);
         Call<AppVersion> call = App.getInstance().getApi().getAppVersion();
         call.enqueue(new Callback<AppVersion>() {
             @Override

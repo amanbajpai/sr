@@ -8,9 +8,9 @@ public class BaseFragment extends Fragment implements MvpView {
     private CustomProgressDialog progressDialog;
 
     @Override
-    public void showLoading() {
+    public void showLoading(boolean isCancelable) {
         progressDialog = CustomProgressDialog.show(getActivity());
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(isCancelable);
     }
 
     @Override

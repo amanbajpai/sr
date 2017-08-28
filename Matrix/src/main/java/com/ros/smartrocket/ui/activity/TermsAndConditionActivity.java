@@ -144,7 +144,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
         if (getIntent().getExtras() != null
                 && (getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)
                 || type == RegistrationType.SOCIAL)) {
-            showProgressDialog(true);
+            showLoading(true);
             apiFacade.sendTandC(this);
         } else {
             continueRegistrationFlow();
@@ -159,7 +159,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             if (getIntent().getExtras() != null
                     && getIntent().getExtras().getBoolean(Keys.SHOULD_SHOW_MAIN_SCREEN)) {
                 preferencesManager.setTandCShowedForCurrentUser();
@@ -174,7 +174,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.POST_T_AND_C_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             if (operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.NO_INTERNET) {
                 DialogUtils.showBadOrNoInternetDialog(this);

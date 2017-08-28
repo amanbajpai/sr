@@ -130,17 +130,6 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
         networkOperationListeners.remove(listener);
     }
 
-    public void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
-    public void showProgressDialog(boolean isCancelable) {
-        progressDialog = CustomProgressDialog.show(this);
-        progressDialog.setCancelable(isCancelable);
-    }
-
     protected void showNetworkError(BaseOperation operation) {
         UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
@@ -154,9 +143,9 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
     }
 
     @Override
-    public void showLoading() {
+    public void showLoading(boolean isCancelable) {
         progressDialog = CustomProgressDialog.show(this);
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(isCancelable);
     }
 
     @Override

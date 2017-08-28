@@ -51,7 +51,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
             finish();
             startActivity(IntentUtils.getForgotPasswordSuccessIntent(this,
                     emailEditText.getText().toString().trim()));
-            dismissProgressDialog();
+            hideLoading();
         }
 
     }
@@ -81,7 +81,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
                     break;
                 }
 
-                showProgressDialog(false);
+                showLoading(false);
                 sendButton.setEnabled(false);
                 apiFacade.forgotPassword(this, email);
 

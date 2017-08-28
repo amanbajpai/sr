@@ -188,7 +188,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
-        dismissProgressDialog();
+        hideLoading();
         if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
             task.setStartedStatusSent(true);
             TasksBL.updateTask(handler, task);
@@ -208,7 +208,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
-        dismissProgressDialog();
+        hideLoading();
         if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
             sendAnswerTextsSuccess();
         } else {
@@ -250,7 +250,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     private void validateTask(final Task task) {
-        showProgressDialog(true);
+        showLoading(true);
 
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
         location.setLatitude(task.getLatitudeToValidation());
@@ -262,7 +262,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     public void sendTextAnswers() {
         if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
-            showProgressDialog(false);
+            showLoading(false);
             apiFacade.sendAnswers(this, answerListToSend, missionId);
         } else {
             DialogUtils.showTurnOnWifiDialog(this);
@@ -366,7 +366,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                     MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                         @Override
                         public void getLocationStart() {
-                            showProgressDialog(true);
+                            showLoading(true);
                         }
 
                         @Override
@@ -378,7 +378,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                             if (!isFinishing()) {
                                 saveLocationOfTaskToDb(task, location);
 
-                                dismissProgressDialog();
+                                hideLoading();
 
                                 sendAnswers();
                             } else {
@@ -426,7 +426,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
                     @Override
                     public void getLocationStart() {
-                        showProgressDialog(true);
+                        showLoading(true);
                     }
 
                     @Override
@@ -438,7 +438,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                         if (!isFinishing()) {
                             saveLocationOfTaskToDb(task, location);
 
-                            dismissProgressDialog();
+                            hideLoading();
 
                             finishActivity();
                         } else {
@@ -461,7 +461,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         if (task.getStartedStatusSent()) {
             sendTextAnswers();
         } else {
-            showProgressDialog(false);
+            showLoading(false);
             apiFacade.startTask(this, task);
         }
     }

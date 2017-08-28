@@ -1048,7 +1048,7 @@ public class UIUtils {
         return resultString.toString();
     }
 
-    public static boolean deviceIsReady(Activity c) {
+    public static boolean isDeviceReady(Activity c) {
         boolean result = isOnline(c) && isAllLocationSourceEnabled(c)
                 && !isMockLocationEnabled(c, App.getInstance().getLocationManager().getLocation());
         if (!isOnline(c)) {

@@ -12,9 +12,7 @@ public final class WSUrl {
             "api/Authorize/ForgotPassword?email=%s&language=%s";
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
-    public static final String CHECK_LOCATION = Config.WEB_SERVICE_URL + "api/Authorize/PositionCheck";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
-    public static final String POST_EXTERNAL_AUTHORIZE = Config.WEB_SERVICE_URL + "api/Authorize/ExternalAuthorize?language=%s";
     public static final String POST_EXTERNAL_REGISTER = Config.WEB_SERVICE_URL + "api/Authorize/ExternalRegister?language=%s";
     public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
@@ -54,11 +52,9 @@ public final class WSUrl {
     public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
     public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
     public static final String POST_TERMS_AND_CONDITIONS = Config.WEB_SERVICE_URL + "api/Authorize/SetTermsAndConditions";
-    public static final String GET_APP_VERSION = Config.WEB_SERVICE_URL + "api/Authorize/Versioning";
-    public static final String GET_CHECK_EMAIL = Config.WEB_SERVICE_URL + "api/Authorize/CheckEmail?email=%s";
     public static final String POST_PROMO_CODE = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePromoCode?promoCode=%s";
-    public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
-    public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo?access_token=%s&openid=%s";
+    public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token";
+    public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo";
     public static final String CLOSE_ACCOUNT= LOGIN + "/Terminate";
 
 
@@ -71,7 +67,6 @@ public final class WSUrl {
     public static final int REGISTRATION_ID = 5;
     public static final int SUBSCRIPTION_ID = 6;
     public static final int CLAIM_TASKS_ID = 7;
-    public static final int CHECK_LOCATION_ID = 8;
     public static final int GCM_REGISTER_DEVICE_ID = 9;
     public static final int GCM_TEST_PUSH_ID = 10;
     public static final int GET_MY_ACCOUNT_ID = 11;
@@ -92,14 +87,10 @@ public final class WSUrl {
     public static final int CASHING_OUT_ID = 25;
     public static final int GET_SHARING_DATA_ID = 26;
     public static final int GET_NEW_TOKEN_ID = 27;
-    public static final int SEND_LOG_ID = 28;
     public static final int GET_ALIPAY_ACCOUNT_ID = 29;
     public static final int GET_NATIONAL_ID_ACCOUNT_ID = 30;
     public static final int ALLOW_PUSH_NOTIFICATION_ID = 32;
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
-    public static final int APP_VERSION_ID = 34;
-    public static final int CHECK_EMAIL_ID = 35;
-    public static final int EXTERNAL_AUTH_ID = 36;
     public static final int WECHAT_TOKEN_ID = 37;
     public static final int WECHAT_USER_INFO_ID = 38;
     public static final int EXTERNAL_REGISTER_ID = 39;
@@ -115,7 +106,6 @@ public final class WSUrl {
         URLS.put(REGISTRATION, REGISTRATION_ID);
         URLS.put(SUBSCRIPTION, SUBSCRIPTION_ID);
         URLS.put(CLAIM_TASK, CLAIM_TASKS_ID);
-        URLS.put(CHECK_LOCATION, CHECK_LOCATION_ID);
         URLS.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
         URLS.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
         URLS.put(GET_MY_ACCOUNT, GET_MY_ACCOUNT_ID);
@@ -139,12 +129,7 @@ public final class WSUrl {
         URLS.put(ALLOW_PUSH_NOTIFICATION, ALLOW_PUSH_NOTIFICATION_ID);
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
         URLS.put(GET_NATIONAL_ID_ACCOUNT, GET_NATIONAL_ID_ACCOUNT_ID);
-        URLS.put(GET_APP_VERSION, APP_VERSION_ID);
-        URLS.put(GET_CHECK_EMAIL, CHECK_EMAIL_ID);
-        URLS.put(POST_EXTERNAL_AUTHORIZE, EXTERNAL_AUTH_ID);
         URLS.put(POST_EXTERNAL_REGISTER, EXTERNAL_REGISTER_ID);
-        URLS.put(GET_WECHAT_TOKEN, WECHAT_TOKEN_ID);
-        URLS.put(GET_WECHAT_USER_INFO, WECHAT_USER_INFO_ID);
     }
 
     public static int matchUrl(String url) {

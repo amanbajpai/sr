@@ -97,7 +97,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Network
                 if (!isAllFieldsFilled(email)) {
                     UIUtils.showSimpleToast(this, R.string.fill_in_all_fields);
                 } else {
-                    showProgressDialog(false);
+                    showLoading(false);
                     if (selectedBirthDay != null) {
                         externalAuthorize.setBirthday(UIUtils.longToString(selectedBirthDay, 2));
                     }
@@ -155,7 +155,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Network
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.POST_EXTERNAL_REG_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             onSuccessNetworkOperation();
         }
     }
@@ -163,7 +163,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Network
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.POST_EXTERNAL_REG_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             onErrorNetworkOperation(operation);
         }
     }

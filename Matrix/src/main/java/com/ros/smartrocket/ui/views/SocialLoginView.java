@@ -20,7 +20,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -145,12 +144,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
             }
         };
         qqApi = Tencent.createInstance(Keys.QQ_APP_ID, activity);
-        qqSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                qqApi.login(activity, ALL, qqLoginListener);
-            }
-        });
+        qqSignInButton.setOnClickListener(v -> qqApi.login(activity, ALL, qqLoginListener));
     }
 
     public void handleQQResponse(JSONObject jsonObject) {
@@ -196,16 +190,13 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
 
     private void setUpWeChatLoginButton() {
         CustomButton weChatSignInButton = addSocialButton(R.string.continue_with_wechat, R.drawable.ic_wechat, R.drawable.button_green_selector);
-        weChatSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IWXAPI api = WXAPIFactory.createWXAPI(getContext(), BuildConfig.WECHAT_APP_ID, false);
-                api.registerApp(BuildConfig.WECHAT_APP_ID);
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "wechat_smart_rocket";
-                api.sendReq(req);
-            }
+        weChatSignInButton.setOnClickListener(v -> {
+            IWXAPI api = WXAPIFactory.createWXAPI(getContext(), BuildConfig.WECHAT_APP_ID, false);
+            api.registerApp(BuildConfig.WECHAT_APP_ID);
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_smart_rocket";
+            api.sendReq(req);
         });
     }
 
@@ -243,37 +234,31 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
             }
         });
         CustomButton fbSignInButton = addSocialButton(R.string.continue_with_fb, R.drawable.ic_fb, R.drawable.button_fb_selector);
-        fbSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithFb();
-            }
-        });
+        fbSignInButton.setOnClickListener(v -> signInWithFb());
     }
 
     private void getFacebookAccount(final AccessToken token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        ExternalAuthorize authorize = new ExternalAuthorize();
-                        authorize.setExternalAuthToken(token.getToken());
-                        authorize.setExternalAuthSource(FB_ID);
-                        try {
-                            authorize.setFullName(object.getString(NAME));
-                            authorize.setGender(MALE.equals(object.getString(GENDER)) ? 1 : 2);
-                            authorize.setEmail(object.getString(EMAIL));
-                        } catch (JSONException e) {
-                            Log.e("FB auth", "JSON exception", e);
-                        }
-                        onLoginSuccess(authorize);
-                    }
-                });
+                (object, response) -> handleFBAuth(token, object));
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id,name,gender,email");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    private void handleFBAuth(AccessToken token, JSONObject object) {
+        ExternalAuthorize authorize = new ExternalAuthorize();
+        authorize.setExternalAuthToken(token.getToken());
+        authorize.setExternalAuthSource(FB_ID);
+        try {
+            authorize.setFullName(object.getString(NAME));
+            authorize.setGender(MALE.equals(object.getString(GENDER)) ? 1 : 2);
+            authorize.setEmail(object.getString(EMAIL));
+        } catch (JSONException e) {
+            Log.e("FB auth", "JSON exception", e);
+        }
+        onLoginSuccess(authorize);
     }
 
     private void signInWithFb() {
@@ -284,12 +269,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
 
     private void setUpGoogleSignInBtn() {
         CustomButton gSignInButton = addSocialButton(R.string.continue_with_google, R.drawable.ic_google, R.drawable.button_orange_selector);
-        gSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithGoogle();
-            }
-        });
+        gSignInButton.setOnClickListener(v -> signInWithGoogle());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
@@ -310,12 +290,9 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private void signInWithGoogle() {
         if (mGoogleApiClient.isConnected()) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status status) {
-                            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                            activity.startActivityForResult(signInIntent, G_SIGN_IN_CODE);
-                        }
+                    status -> {
+                        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                        activity.startActivityForResult(signInIntent, G_SIGN_IN_CODE);
                     });
         }
     }

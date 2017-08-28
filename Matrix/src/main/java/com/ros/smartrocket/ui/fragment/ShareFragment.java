@@ -82,7 +82,7 @@ public class ShareFragment extends BaseFragment implements NetworkOperationListe
         shortUrl = Config.SHARE_URL;
         subject = getString(R.string.app_name);
         text = getString(R.string.share_text);
-        ((BaseActivity) getActivity()).showProgressDialog(true);
+        ((BaseActivity) getActivity()).showLoading(true);
         apiFacade.getSharingData(getActivity());
 
         ButterKnife.bind(this, view);
@@ -113,7 +113,7 @@ public class ShareFragment extends BaseFragment implements NetworkOperationListe
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_SHARING_DATA_OPERATION_TAG.equals(operation.getTag())) {
-            ((BaseActivity) getActivity()).dismissProgressDialog();
+            ((BaseActivity) getActivity()).hideLoading();
             sharing = (Sharing) operation.getResponseEntities().get(0);
             if (sharing != null) {
                 if (!TextUtils.isEmpty(sharing.getSharedText())) {
@@ -130,7 +130,7 @@ public class ShareFragment extends BaseFragment implements NetworkOperationListe
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.GET_SHARING_DATA_OPERATION_TAG.equals(operation.getTag())) {
-            ((BaseActivity) getActivity()).dismissProgressDialog();
+            ((BaseActivity) getActivity()).hideLoading();
             UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
         }
     }

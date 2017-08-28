@@ -241,7 +241,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                         break;
                 }
 
-                showProgressDialog(false);
+                showLoading(false);
                 apiFacade.registration(this, registrationEntity);
                 break;
             case R.id.cancelButton:
@@ -260,7 +260,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             PreferencesManager.getInstance().setTandCShowed(emailEditText.getText().toString().trim());
             new RegistrationSuccessDialog(this, emailEditText.getText().toString().trim());
         }
@@ -269,7 +269,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         if (Keys.REGISTRATION_OPERATION_TAG.equals(operation.getTag())) {
-            dismissProgressDialog();
+            hideLoading();
             if (operation.getResponseErrorCode() != null
                     && operation.getResponseErrorCode() == BaseNetworkService.USER_ALREADY_EXISTS_ERROR_CODE) {
                 DialogUtils.showUserAlreadyExistDialog(this);
@@ -350,7 +350,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     public void onEventMainThread(AvatarEvent event) {
         switch (event.type) {
             case START_LOADING:
-                showProgressDialog(false);
+                showLoading(false);
                 break;
             case IMAGE_COMPLETE:
                 if (event.image != null && event.image.bitmap != null) {
@@ -359,10 +359,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     profilePhotoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                 }
-                dismissProgressDialog();
+                hideLoading();
                 break;
             case SELECT_IMAGE_ERROR:
-                dismissProgressDialog();
+                hideLoading();
                 DialogUtils.showPhotoCanNotBeAddDialog(RegistrationActivity.this);
                 break;
         }

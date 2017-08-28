@@ -49,7 +49,7 @@ public final class ProductImageDialog extends DialogFragment {
 
         String url = getArguments().getString(KEY);
         L.v("IMAGE", url);
-        ((BaseActivity) getActivity()).showProgressDialog(true);
+        ((BaseActivity) getActivity()).showLoading(true);
 
         if (url != null) {
             if (url.startsWith("http")) {
@@ -90,7 +90,7 @@ public final class ProductImageDialog extends DialogFragment {
         });
 
         if (getActivity() != null) {
-            ((BaseActivity) getActivity()).dismissProgressDialog();
+            ((BaseActivity) getActivity()).hideLoading();
         }
     }
 
