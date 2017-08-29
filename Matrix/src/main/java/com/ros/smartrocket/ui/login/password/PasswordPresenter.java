@@ -36,18 +36,21 @@ class PasswordPresenter<V extends PasswordMvpView> extends BasePresenter<V> impl
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                getMvpView().hideLoading();
-
-                if (response.isSuccessful())
-                    onLoginSuccess(response.body());
-                else
-                    getMvpView().showNetworkError(new NetworkError(response.errorBody()));
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful())
+                        onLoginSuccess(response.body());
+                    else
+                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
+                }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                getMvpView().hideLoading();
-                getMvpView().showNetworkError(new NetworkError(t));
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    getMvpView().showNetworkError(new NetworkError(t));
+                }
             }
         });
     }

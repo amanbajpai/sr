@@ -29,18 +29,21 @@ class LaunchPresenter<V extends LaunchMvpView> extends BasePresenter<V> implemen
         call.enqueue(new Callback<AppVersion>() {
             @Override
             public void onResponse(Call<AppVersion> call, Response<AppVersion> response) {
-                getMvpView().hideLoading();
-                if (response.isSuccessful()) {
-                    handleAppVersion(response.body());
-                } else {
-                    getMvpView().showNetworkError(new NetworkError(response.errorBody()));
+                if (isViewAttached()) {
+                    if (response.isSuccessful()) {
+                        handleAppVersion(response.body());
+                    } else if (isViewAttached()) {
+                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<AppVersion> call, Throwable t) {
-                getMvpView().hideLoading();
-                getMvpView().showNetworkError(new NetworkError(t));
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    getMvpView().showNetworkError(new NetworkError(t));
+                }
             }
         });
     }

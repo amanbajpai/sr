@@ -17,7 +17,7 @@ import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.ui.activity.MainActivity;
 import com.ros.smartrocket.ui.activity.PromoCodeActivity;
-import com.ros.smartrocket.ui.activity.ReferralCasesActivity;
+import com.ros.smartrocket.ui.login.referral.ReferralCasesActivity;
 import com.ros.smartrocket.ui.activity.RegistrationActivity;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;

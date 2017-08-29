@@ -18,9 +18,6 @@ public final class WSUrl {
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account?language=%s";
     public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
-    public static final String GET_REFERRAL_CASES = Config.WEB_SERVICE_URL
-            + "api/Authorize/ReferralCases?countryId=%s&language=%s";
-    public static final String SAVE_REFERRAL_CASE = Config.WEB_SERVICE_URL + "api/Authorize/ReferralCase";
     public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
     public static final String ALLOW_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/AllowPushNotification";
     public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
@@ -50,7 +47,6 @@ public final class WSUrl {
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
     public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
     public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
-    public static final String POST_TERMS_AND_CONDITIONS = Config.WEB_SERVICE_URL + "api/Authorize/SetTermsAndConditions";
     public static final String POST_PROMO_CODE = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePromoCode?promoCode=%s";
     public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token";
     public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo";
@@ -75,12 +71,9 @@ public final class WSUrl {
     public static final int START_TASK_ID = 16;
     public static final int VALIDATE_TASK_ID = 17;
     public static final int SEND_ANSWERS_ID = 18;
-    public static final int GET_REFERRAL_CASES_ID = 19;
-    public static final int SAVE_REFERRAL_CASE_ID = 20;
     public static final int REJECT_TASK_ID = 21;
     public static final int ACTIVATE_ACCOUNT_ID = 22;
     public static final int UPLOAD_PHOTO_ID = 23;
-    public static final int POST_CURRENT_T_AND_C_ID = 24;
     public static final int SET_PASSWORD_ID = 24;
     public static final int CASHING_OUT_ID = 25;
     public static final int GET_SHARING_DATA_ID = 26;
@@ -89,8 +82,6 @@ public final class WSUrl {
     public static final int GET_NATIONAL_ID_ACCOUNT_ID = 30;
     public static final int ALLOW_PUSH_NOTIFICATION_ID = 32;
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
-    public static final int WECHAT_TOKEN_ID = 37;
-    public static final int WECHAT_USER_INFO_ID = 38;
 
     public static final HashMap<String, Integer> URLS;
 
@@ -111,12 +102,9 @@ public final class WSUrl {
         URLS.put(UNCLAIM_TASK, UNCLAIM_TASKS_ID);
         URLS.put(START_TASK, START_TASK_ID);
         URLS.put(VALIDATE_TASK, VALIDATE_TASK_ID);
-        URLS.put(GET_REFERRAL_CASES, GET_REFERRAL_CASES_ID);
-        URLS.put(SAVE_REFERRAL_CASE, SAVE_REFERRAL_CASE_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
         URLS.put(ACTIVATE_ACCOUNT, ACTIVATE_ACCOUNT_ID);
         URLS.put(UPDATE_USER, UPLOAD_PHOTO_ID);
-        URLS.put(POST_TERMS_AND_CONDITIONS, POST_CURRENT_T_AND_C_ID);
         URLS.put(SET_PASSWORD, SET_PASSWORD_ID);
         URLS.put(CASHING_OUT, CASHING_OUT_ID);
         URLS.put(GET_SHARING_DATA, GET_SHARING_DATA_ID);

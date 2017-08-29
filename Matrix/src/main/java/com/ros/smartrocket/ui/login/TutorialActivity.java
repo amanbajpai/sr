@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,14 +8,18 @@ import android.view.View;
 import com.rd.PageIndicatorView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.adapter.TutorialPageAdapter;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.ui.activity.PromoCodeActivity;
+import com.ros.smartrocket.ui.activity.RegistrationActivity;
+import com.ros.smartrocket.ui.adapter.TutorialPageAdapter;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
+import com.ros.smartrocket.ui.login.referral.ReferralCasesActivity;
 import com.ros.smartrocket.ui.login.terms.TermsAndConditionActivity;
+import com.ros.smartrocket.ui.views.TutorialView;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationType;
-import com.ros.smartrocket.ui.views.TutorialView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +63,7 @@ public class TutorialActivity extends BaseActivity {
 
         tutorialView = new TutorialView(this);
         tutorialView.setTextAndImages(R.string.continue_register, R.string.tut_text5, R.drawable.character5);
-        tutorialView.setLastSlide(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                continueRegistrationFlow();
-            }
-        });
+        tutorialView.setLastSlide(v -> continueRegistrationFlow());
         tutorialViews.add(tutorialView);
 
         TutorialPageAdapter mAdapter = new TutorialPageAdapter(tutorialViews);
@@ -93,6 +92,4 @@ public class TutorialActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
-
-
 }

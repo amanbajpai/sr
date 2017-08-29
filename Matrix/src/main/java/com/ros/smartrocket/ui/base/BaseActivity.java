@@ -87,6 +87,12 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideLoading();
+    }
+
     public void checkDeviceSettingsByOnResume(boolean check) {
         this.checkDeviceSettingsByOnResume = check;
     }
@@ -144,6 +150,7 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
 
     @Override
     public void showLoading(boolean isCancelable) {
+        hideLoading();
         progressDialog = CustomProgressDialog.show(this);
         progressDialog.setCancelable(isCancelable);
     }

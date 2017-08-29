@@ -1,8 +1,7 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.ui.login.referral;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,30 +12,32 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ReferralCase;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.ui.activity.PromoCodeActivity;
+import com.ros.smartrocket.ui.activity.RegistrationActivity;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
-import com.ros.smartrocket.utils.helpers.APIFacade;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.ui.views.CustomButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface, AdapterView.OnItemSelectedListener {
+public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener, ReferralMvpView,
+        AdapterView.OnItemSelectedListener {
     @BindView(R.id.referralCasesSpinner)
     Spinner referralCasesSpinner;
     @BindView(R.id.continueButton)
     CustomButton continueButton;
-    private APIFacade apiFacade = APIFacade.getInstance();
+
     private int countryId;
     private ReferralCase[] referralCaseArray;
     private RegistrationPermissions registrationPermissions;
+    private ReferralMvpPresenter<ReferralMvpView> presenter;
 
     public ReferralCasesActivity() {
     }
@@ -44,23 +45,30 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_referral_cases);
         ButterKnife.bind(this);
+        fetchArguments();
+        initUI();
+        getReferralCases();
+    }
+
+    private void fetchArguments() {
         registrationPermissions = PreferencesManager.getInstance().getRegPermissions();
+        if (getIntent() != null) countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
+    }
 
+    private void initUI() {
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-
-        if (getIntent() != null) {
-            countryId = getIntent().getIntExtra(Keys.COUNTRY_ID, 0);
-        }
-
         referralCasesSpinner.setEnabled(false);
         continueButton.setEnabled(false);
-
         checkDeviceSettingsByOnResume(false);
-        showLoading(true);
-        apiFacade.getReferralCases(this, countryId);
+    }
+
+    private void getReferralCases() {
+        presenter = new ReferralPresenter<>();
+        presenter.attachView(this);
+        presenter.getReferralCases(countryId);
     }
 
     @Override
@@ -68,8 +76,7 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.continueButton:
                 continueButton.setEnabled(false);
-                showLoading(false);
-                apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
+                presenter.saveReferralCases(countryId, getCurrentReferralCaseId());
                 break;
             default:
                 break;
@@ -77,36 +84,24 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-            hideLoading();
-            ReferralCases referralCases = (ReferralCases) operation.getResponseEntities().get(0);
-            referralCaseArray = referralCases.getCases();
+    public void onReferralCasesLoaded(ReferralCases cases) {
+        referralCaseArray = cases.getCases();
+        String[] referralCasesStringArray = new String[referralCaseArray.length + 1];
+        referralCasesStringArray[0] = "";
 
-            String[] referralCasesStringArray = new String[referralCaseArray.length + 1];
-            referralCasesStringArray[0] = "";
-            for (int i = 0; i < referralCaseArray.length; i++) {
-                referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
-            }
+        for (int i = 0; i < referralCaseArray.length; i++)
+            referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
 
-            ArrayAdapter educationLevelAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner,
-                    R.id.name, referralCasesStringArray);
-            referralCasesSpinner.setAdapter(educationLevelAdapter);
-            referralCasesSpinner.setOnItemSelectedListener(this);
-            referralCasesSpinner.setEnabled(true);
-
-        } else if (Keys.SAVE_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-            continueRegistrationFlow(getCurrentReferralCaseId());
-        }
-
+        ArrayAdapter casesAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner,
+                R.id.name, referralCasesStringArray);
+        referralCasesSpinner.setAdapter(casesAdapter);
+        referralCasesSpinner.setOnItemSelectedListener(this);
+        referralCasesSpinner.setEnabled(true);
     }
 
     @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        if (Keys.GET_REFERRAL_CASES_OPERATION_TAG.equals(operation.getTag())) {
-            hideLoading();
-            continueRegistrationFlow(-1);
-        }
+    public void onReferralCasesSaved() {
+        continueRegistrationFlow(getCurrentReferralCaseId());
     }
 
     public int getCurrentReferralCaseId() {
@@ -134,31 +129,6 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.referralCasesSpinner) {
             continueButton.setEnabled(position != 0);
@@ -167,12 +137,23 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        // do nothing
     }
 
     @OnClick(R.id.continueButton)
     public void onClick() {
         continueButton.setEnabled(false);
-        apiFacade.saveReferralCases(this, countryId, getCurrentReferralCaseId());
+        presenter.saveReferralCases(countryId, getCurrentReferralCaseId());
+    }
+
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
+        continueRegistrationFlow(-1);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

@@ -26,15 +26,22 @@ class LoginPresenter<V extends LoginMvpView> extends BasePresenter<V> implements
 
     @Override
     public void checkEmail(String email) {
-        if (!TextUtils.isEmpty(email)) {
+        if (isEmailValid(email)) {
             if (UIUtils.isAllFilesSend(email)) {
                 this.email = email;
                 checkUsersEmail();
             } else {
                 getMvpView().onNotAllFilesSent();
             }
-        } else {
+        }
+    }
+
+    private boolean isEmailValid(String email) {
+        if (TextUtils.isEmpty(email)) {
             getMvpView().onEmailFieldEmpty();
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -46,20 +53,24 @@ class LoginPresenter<V extends LoginMvpView> extends BasePresenter<V> implements
         call.enqueue(new Callback<ExternalAuthResponse>() {
             @Override
             public void onResponse(Call<ExternalAuthResponse> call, Response<ExternalAuthResponse> response) {
-                getMvpView().hideLoading();
-                if (response.isSuccessful()) {
-                    PreferencesManager.getInstance().setLastEmail(authorize.getEmail());
-                    storeUserData(response.body());
-                    getMvpView().onExternalAuth(response.body());
-                } else {
-                    handleSpecificAuthError(response.errorBody());
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        PreferencesManager.getInstance().setLastEmail(authorize.getEmail());
+                        storeUserData(response.body());
+                        getMvpView().onExternalAuth(response.body());
+                    } else {
+                        handleSpecificAuthError(response.errorBody());
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ExternalAuthResponse> call, Throwable t) {
-                getMvpView().hideLoading();
-                getMvpView().showNetworkError(new NetworkError(t));
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    getMvpView().showNetworkError(new NetworkError(t));
+                }
             }
         });
     }
@@ -89,32 +100,36 @@ class LoginPresenter<V extends LoginMvpView> extends BasePresenter<V> implements
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         Call<CheckEmail> call = App.getInstance().getApi().checkEmail(email);
         call.enqueue(new Callback<CheckEmail>() {
             @Override
             public void onResponse(Call<CheckEmail> call, Response<CheckEmail> response) {
-                getMvpView().hideLoading();
-                if (response.isSuccessful()) {
-                    CheckEmail checkEmail = response.body();
-                    handleCheckEmailResponse(checkEmail);
-                } else {
-                    getMvpView().showNetworkError(new NetworkError(response.errorBody()));
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        CheckEmail checkEmail = response.body();
+                        handleCheckEmailResponse(checkEmail);
+                    } else {
+                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<CheckEmail> call, Throwable t) {
-                getMvpView().hideLoading();
-                getMvpView().showNetworkError(new NetworkError(t));
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    getMvpView().showNetworkError(new NetworkError(t));
+                }
             }
         });
     }
 
     private void handleCheckEmailResponse(CheckEmail checkEmail) {
-        if (checkEmail.isEmailExists()) {
+        if (checkEmail.isEmailExists())
             getMvpView().onEmailExist(email);
-        } else {
+        else
             getMvpView().startRegistrationFlow(RegistrationType.NORMAL, -1);
-        }
     }
 }

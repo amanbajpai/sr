@@ -53,14 +53,6 @@ public class APIFacade {
     private APIFacade() {
     }
 
-    public void sendTandC(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.POST_TERMS_AND_CONDITIONS);
-        operation.setTag(Keys.POST_T_AND_C_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     public void forgotPassword(Activity activity, String email) {
         try {
             if (!TextUtils.isEmpty(email)) {
@@ -120,27 +112,6 @@ public class APIFacade {
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(updateUser);
         ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getReferralCases(Context context, int countryId) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_REFERRAL_CASES, String.valueOf(countryId), preferencesManager.getLanguageCode());
-        operation.setTag(Keys.GET_REFERRAL_CASES_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) context).sendNetworkOperation(operation);
-    }
-
-    public void saveReferralCases(Context context, int countryId, int referralId) {
-        SaveReferralCase caseEntity = new SaveReferralCase();
-        caseEntity.setCountryId(countryId);
-        caseEntity.setReferralId(referralId);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SAVE_REFERRAL_CASE);
-        operation.setTag(Keys.SAVE_REFERRAL_CASES_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(caseEntity);
-        ((BaseActivity) context).sendNetworkOperation(operation);
     }
 
     public void getWaves(Activity activity, double latitude, double longitude, int radius) {

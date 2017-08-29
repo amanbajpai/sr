@@ -190,10 +190,6 @@ public class NetworkService extends BaseNetworkService {
                         getPreferencesManager().setTokenForUploadFile(token.getToken());
                         getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
                         break;
-                    case WSUrl.GET_REFERRAL_CASES_ID:
-                        ReferralCases referralCases = gson.fromJson(responseString, ReferralCases.class);
-                        operation.responseEntities.add(referralCases);
-                        break;
                     case WSUrl.REGISTRATION_ID:
                         RegistrationResponse registrationResponse = gson.fromJson(responseString,
                                 RegistrationResponse.class);
@@ -234,15 +230,6 @@ public class NetworkService extends BaseNetworkService {
                         AllowPushNotification allowPushNotification = gson.fromJson(responseString,
                                 AllowPushNotification.class);
                         operation.responseEntities.add(allowPushNotification);
-                        break;
-
-                    case WSUrl.WECHAT_TOKEN_ID:
-                        WeChatTokenResponse tokenResponse = gson.fromJson(responseString, WeChatTokenResponse.class);
-                        operation.responseEntities.add(tokenResponse);
-                        break;
-                    case WSUrl.WECHAT_USER_INFO_ID:
-                        WeChatUserInfoResponse weChatUserInfoResponse = gson.fromJson(responseString, WeChatUserInfoResponse.class);
-                        operation.responseEntities.add(weChatUserInfoResponse);
                         break;
                     default:
                         break;

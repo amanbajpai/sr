@@ -32,16 +32,17 @@ public class CheckLocationPresenter<V extends CheckLocationMvpView> extends Base
         call.enqueue(new Callback<CheckLocationResponse>() {
             @Override
             public void onResponse(Call<CheckLocationResponse> call, Response<CheckLocationResponse> response) {
-                if (response.isSuccessful()) {
-                    getMvpView().onLocationChecked(response.body(), checkLocation.getLatitude(), checkLocation.getLongitude());
-                } else {
-                    getMvpView().onLocationCheckFailed();
-                }
+                if (isViewAttached())
+                    if (response.isSuccessful())
+                        getMvpView().onLocationChecked(response.body(), checkLocation.getLatitude(), checkLocation.getLongitude());
+                    else
+                        getMvpView().onLocationCheckFailed();
             }
 
             @Override
             public void onFailure(Call<CheckLocationResponse> call, Throwable t) {
-                getMvpView().onLocationCheckFailed();
+                if (isViewAttached())
+                    getMvpView().onLocationCheckFailed();
             }
         });
     }

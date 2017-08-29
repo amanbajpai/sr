@@ -121,10 +121,10 @@
             android:exported="true"
             android:label="@string/continue_with_wechat" />
         <activity
-            android:name=".ui.activity.TutorialActivity"
+            android:name=".ui.login.TutorialActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".ui.activity.ReferralCasesActivity"
+            android:name=".ui.login.referral.ReferralCasesActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
