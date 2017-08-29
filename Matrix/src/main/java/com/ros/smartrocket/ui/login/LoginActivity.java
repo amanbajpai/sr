@@ -26,7 +26,7 @@ import com.ros.smartrocket.ui.login.password.PasswordActivity;
 import com.ros.smartrocket.ui.activity.PromoCodeActivity;
 import com.ros.smartrocket.ui.activity.ReferralCasesActivity;
 import com.ros.smartrocket.ui.activity.RegistrationActivity;
-import com.ros.smartrocket.ui.activity.TermsAndConditionActivity;
+import com.ros.smartrocket.ui.login.terms.TermsAndConditionActivity;
 import com.ros.smartrocket.ui.activity.TutorialActivity;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.dialog.CheckLocationDialog;

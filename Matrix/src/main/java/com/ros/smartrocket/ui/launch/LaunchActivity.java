@@ -11,7 +11,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.ui.login.LoginActivity;
 import com.ros.smartrocket.ui.activity.MainActivity;
-import com.ros.smartrocket.ui.activity.TermsAndConditionActivity;
+import com.ros.smartrocket.ui.login.terms.TermsAndConditionActivity;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.dialog.UpdateVersionDialog;
 import com.ros.smartrocket.utils.IntentUtils;

@@ -15,7 +15,7 @@ import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.ui.activity.ForgotPasswordActivity;
 import com.ros.smartrocket.ui.activity.MainActivity;
-import com.ros.smartrocket.ui.activity.TermsAndConditionActivity;
+import com.ros.smartrocket.ui.login.terms.TermsAndConditionActivity;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.login.LoginActivity;
 import com.ros.smartrocket.ui.views.CustomButton;
@@ -47,9 +47,7 @@ public class PasswordActivity extends BaseActivity implements PasswordMvpView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getSupportActionBar() != null) getSupportActionBar().hide();
-
         setContentView(R.layout.activity_password);
         ButterKnife.bind(this);
         initUI();
@@ -63,7 +61,6 @@ public class PasswordActivity extends BaseActivity implements PasswordMvpView {
         if (getIntent().getExtras() != null) email = getIntent().getExtras().getString(EMAIL);
 
         String lastPassword = preferencesManager.getLastPassword();
-
         if (!TextUtils.isEmpty(lastPassword)) {
             passwordEditText.setText(lastPassword);
             rememberMeCheckBox.setChecked(true);
@@ -84,7 +81,6 @@ public class PasswordActivity extends BaseActivity implements PasswordMvpView {
 
     private void login() {
         String password = passwordEditText.getText().toString().trim();
-
         if (UIUtils.isDeviceReady(this)) presenter.login(email, password);
     }
 
@@ -156,8 +152,8 @@ public class PasswordActivity extends BaseActivity implements PasswordMvpView {
         loginEntity.setDeviceManufacturer(deviceManufacturer);
         loginEntity.setAppVersion(UIUtils.getAppVersion(this));
         loginEntity.setAndroidVersion(Build.VERSION.RELEASE);
-        Intent intent = getIntent();
 
+        Intent intent = getIntent();
         if (intent != null) {
             loginEntity.setCityId(intent.getIntExtra(Keys.CITY_ID, 0));
             loginEntity.setCountryId(intent.getIntExtra(Keys.COUNTRY_ID, 0));

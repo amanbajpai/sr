@@ -273,7 +273,7 @@
             android:configChanges="locale"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".ui.activity.TermsAndConditionActivity"
+            android:name=".ui.login.terms.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
             android:name=".ui.activity.QuitQuestionActivity"
