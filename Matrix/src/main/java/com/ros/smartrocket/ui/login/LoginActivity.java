@@ -21,9 +21,8 @@ import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
 import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.activity.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.ui.activity.MainActivity;
-import com.ros.smartrocket.ui.activity.PasswordActivity;
+import com.ros.smartrocket.ui.login.password.PasswordActivity;
 import com.ros.smartrocket.ui.activity.PromoCodeActivity;
 import com.ros.smartrocket.ui.activity.ReferralCasesActivity;
 import com.ros.smartrocket.ui.activity.RegistrationActivity;
@@ -35,6 +34,7 @@ import com.ros.smartrocket.ui.login.location.CheckLocationActivity;
 import com.ros.smartrocket.ui.login.location.CheckLocationMvpPresenter;
 import com.ros.smartrocket.ui.login.location.CheckLocationMvpView;
 import com.ros.smartrocket.ui.login.location.CheckLocationPresenter;
+import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
 import com.ros.smartrocket.ui.views.CustomTextView;
@@ -276,9 +276,9 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
     }
 
     @Override
-    public void onExternalLoginSuccess(ExternalAuthorize authorize) {
+    public void onExternalLoginSuccess(ExternalAuthorize extAuthorize) {
         hideLoading();
-        this.authorize = authorize;
+        authorize = extAuthorize;
         if (checkLocationResponse != null) {
             authorize.setCityId(checkLocationResponse.getCityId());
             authorize.setCountryId(checkLocationResponse.getCountryId());
@@ -290,7 +290,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
             authorize.setDeviceManufacturer(UIUtils.getDeviceManufacturer());
             authorize.setAppVersion(UIUtils.getAppVersion(this));
             authorize.setAndroidVersion(Build.VERSION.RELEASE);
-            loginPresenter.externalAuth(authorize);
+            loginPresenter.externalAuth(extAuthorize);
         }
     }
 

@@ -11,6 +11,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.ui.adapter.TutorialPageAdapter;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.ui.views.TutorialView;

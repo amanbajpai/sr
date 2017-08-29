@@ -61,7 +61,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 22
         versionCode buildNumber + 10000
-        versionName '2.4.7'
+        versionName '2.4.8'
         applicationId "com.ros.smartrocket"
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
@@ -260,6 +260,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     compile 'com.annimon:stream:1.1.8'
+    androidTestCompile 'junit:junit:4.12'
 }
 
 repositories {

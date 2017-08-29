@@ -14,6 +14,7 @@ import com.ros.smartrocket.db.entity.ReferralCase;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;

@@ -19,6 +19,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.ui.base.BaseActivity;
 import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
+import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;

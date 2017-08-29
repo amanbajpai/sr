@@ -53,15 +53,6 @@ public class APIFacade {
     private APIFacade() {
     }
 
-    public void login(Activity activity, Login loginEntity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.LOGIN);
-        operation.setTag(Keys.LOGIN_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(loginEntity);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     public void sendTandC(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.POST_TERMS_AND_CONDITIONS);
@@ -435,15 +426,6 @@ public class APIFacade {
         operation.setUrl(WSUrl.POST_PROMO_CODE, srCode);
         operation.setTag(Keys.POST_PROMO_CODE_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void externalRegistration(Activity activity, ExternalAuthorize externalAuthorizeEntity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.POST_EXTERNAL_REGISTER, preferencesManager.getLanguageCode());
-        operation.setTag(Keys.POST_EXTERNAL_REG_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(externalAuthorizeEntity);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

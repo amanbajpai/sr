@@ -184,13 +184,6 @@ public class NetworkService extends BaseNetworkService {
                         break;
                     case WSUrl.VALIDATE_TASK_ID:
                         break;
-                    case WSUrl.LOGIN_ID:
-                        LoginResponse loginResponse = gson.fromJson(responseString, LoginResponse.class);
-                        operation.responseEntities.add(loginResponse);
-                        getPreferencesManager().setToken(loginResponse.getToken());
-                        getPreferencesManager().setTokenForUploadFile(loginResponse.getToken());
-                        getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
-                        break;
                     case WSUrl.GET_NEW_TOKEN_ID:
                         Token token = gson.fromJson(responseString, Token.class);
                         getPreferencesManager().setToken(token.getToken());

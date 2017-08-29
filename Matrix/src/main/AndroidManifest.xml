@@ -114,7 +114,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.ExternalAuthDetailsActivity"
+            android:name=".ui.login.external.ExternalAuthDetailsActivity"
             android:label="@string/registration_form" />
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -140,7 +140,7 @@
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activity.PasswordActivity"
+            android:name=".ui.login.password.PasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity

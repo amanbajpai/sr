@@ -127,7 +127,7 @@ public interface MatrixApi {
     Call<MyAccount> getMyAccount(@Query("language") String language);
 
     @POST("SendActivity")
-    Call<ResponseBody> sendActivity();
+    Call<ResponseBody> sendActivity(@Query("language") String language);
 
     @POST("WithdrawMoney")
     Call<ResponseBody> cashingOut();

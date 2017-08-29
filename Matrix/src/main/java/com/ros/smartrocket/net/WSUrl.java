@@ -13,7 +13,6 @@ public final class WSUrl {
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
-    public static final String POST_EXTERNAL_REGISTER = Config.WEB_SERVICE_URL + "api/Authorize/ExternalRegister?language=%s";
     public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
@@ -60,7 +59,6 @@ public final class WSUrl {
 
 
 
-    public static final int LOGIN_ID = 1;
     public static final int GET_WAVES_ID = 2;
     public static final int GET_WAVES_TASKS_ID = 3;
     public static final int GET_MY_TASKS_ID = 4;
@@ -93,13 +91,11 @@ public final class WSUrl {
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
     public static final int WECHAT_TOKEN_ID = 37;
     public static final int WECHAT_USER_INFO_ID = 38;
-    public static final int EXTERNAL_REGISTER_ID = 39;
 
     public static final HashMap<String, Integer> URLS;
 
     static {
         URLS = new HashMap<>();
-        URLS.put(LOGIN, LOGIN_ID);
         URLS.put(GET_WAVES, GET_WAVES_ID);
         URLS.put(GET_WAVE_TASKS, GET_WAVES_TASKS_ID);
         URLS.put(GET_MY_TASKS, GET_MY_TASKS_ID);
@@ -129,7 +125,6 @@ public final class WSUrl {
         URLS.put(ALLOW_PUSH_NOTIFICATION, ALLOW_PUSH_NOTIFICATION_ID);
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
         URLS.put(GET_NATIONAL_ID_ACCOUNT, GET_NATIONAL_ID_ACCOUNT_ID);
-        URLS.put(POST_EXTERNAL_REGISTER, EXTERNAL_REGISTER_ID);
     }
 
     public static int matchUrl(String url) {

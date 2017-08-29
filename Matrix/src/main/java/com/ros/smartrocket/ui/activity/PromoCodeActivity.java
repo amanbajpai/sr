@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.ui.login.external.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.net.BaseNetworkService;
 import com.ros.smartrocket.net.BaseOperation;

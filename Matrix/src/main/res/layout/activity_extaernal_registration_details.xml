@@ -6,15 +6,16 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingBottom="20dp"
-    android:paddingStart="20dp"
     android:paddingEnd="20dp"
+    android:paddingStart="20dp"
     android:paddingTop="40dp">
 
     <LinearLayout
         android:id="@+id/birthLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="match_parent"
@@ -50,7 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="match_parent"
@@ -66,8 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
-            android:drawableStart="@drawable/mail_icon"
             android:drawablePadding="10dp"
+            android:drawableStart="@drawable/mail_icon"
             android:hint="@string/your_email_hint"
             android:inputType="textEmailAddress"
             android:paddingStart="10dp" />
