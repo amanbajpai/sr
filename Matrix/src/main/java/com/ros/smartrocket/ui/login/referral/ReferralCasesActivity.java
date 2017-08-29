@@ -27,8 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ReferralCasesActivity extends BaseActivity implements View.OnClickListener, ReferralMvpView,
+public class ReferralCasesActivity extends BaseActivity implements ReferralMvpView,
         AdapterView.OnItemSelectedListener {
+
     @BindView(R.id.referralCasesSpinner)
     Spinner referralCasesSpinner;
     @BindView(R.id.continueButton)
@@ -38,9 +39,6 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     private ReferralCase[] referralCaseArray;
     private RegistrationPermissions registrationPermissions;
     private ReferralMvpPresenter<ReferralMvpView> presenter;
-
-    public ReferralCasesActivity() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,25 +70,14 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.continueButton:
-                continueButton.setEnabled(false);
-                presenter.saveReferralCases(countryId, getCurrentReferralCaseId());
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     public void onReferralCasesLoaded(ReferralCases cases) {
         referralCaseArray = cases.getCases();
         String[] referralCasesStringArray = new String[referralCaseArray.length + 1];
         referralCasesStringArray[0] = "";
 
-        for (int i = 0; i < referralCaseArray.length; i++)
+        for (int i = 0; i < referralCaseArray.length; i++) {
             referralCasesStringArray[i + 1] = referralCaseArray[i].getCase();
+        }
 
         ArrayAdapter casesAdapter = new ArrayAdapter<>(this, R.layout.list_item_spinner,
                 R.id.name, referralCasesStringArray);
@@ -120,9 +107,10 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
         } else {
             intent = new Intent(this, RegistrationActivity.class);
         }
-        if (referralCasesId != -1) {
+
+        if (referralCasesId != -1)
             intent.putExtra(Keys.REFERRAL_CASES_ID, referralCasesId);
-        }
+
         intent.putExtras(getIntent().getExtras());
         startActivity(intent);
         finish();
@@ -130,9 +118,8 @@ public class ReferralCasesActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.referralCasesSpinner) {
+        if (parent.getId() == R.id.referralCasesSpinner)
             continueButton.setEnabled(position != 0);
-        }
     }
 
     @Override

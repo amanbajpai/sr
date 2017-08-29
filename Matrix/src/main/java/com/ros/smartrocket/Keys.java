@@ -52,18 +52,12 @@ public interface Keys {
 
     // Operation tags - Using for cache response from NetworkService
     String GET_WAVES_OPERATION_TAG = "get_waves_operation_tag";
-    String GET_REFERRAL_CASES_OPERATION_TAG = "get_referral_cases_operation_tag";
-    String SAVE_REFERRAL_CASES_OPERATION_TAG = "save_referral_cases_operation_tag";
     String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
     String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
-    String LOGIN_OPERATION_TAG = "login_operation_tag";
     String FORGOT_PASSWORD_OPERATION_TAG = "forgot_password_operation_tag";
-    String POST_T_AND_C_OPERATION_TAG = "post_t_and_c_operation_tag";
     String REGISTRATION_OPERATION_TAG = "registration_operation_tag";
     String UPDATE_USER_OPERATION_TAG = "upload_photo_operation_tag";
-    String CHECK_LOCATION_OPERATION_TAG = "check_location_operation_tag";
-    String SUBSCRIBE_OPERATION_TAG = "subscribe_operation_tag";
     String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";
     String SEND_ANSWERS_OPERATION_TAG = "send_answers_operation_tag";
     String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
@@ -85,13 +79,7 @@ public interface Keys {
     String INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "integrate_national_id_operation_tag";
     String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
     String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
-    String GET_VERSION_OPERATION_TAG = "app_version_tag";
-    String GET_CHECK_EMAIL_OPERATION_TAG = "check_email_tag";
     String POST_PROMO_CODE_OPERATION_TAG = "post_promo_code_operation_tag";
-    String POST_EXTERNAL_AUTH_TAG = "post_external_auth_tag";
-    String POST_EXTERNAL_REG_TAG = "post_external_reg_tag";
-    String GET_WECHAT_TOKEN_OPERATION_TAG = "wechat_token_tag";
-    String GET_WECHAT_INFO_OPERATION_TAG = "wechat_info_tag";
     String CLOSE_ACCOUNT_TAG = "close_account_tag";
 
     // Supported presentation modes for Tasks

@@ -254,7 +254,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.CheckLocationFailedActivity"
+            android:name=".ui.login.location.failed.CheckLocationFailedActivity"
             android:configChanges="locale" />
         <activity
             android:name=".ui.activity.ActivateAccountActivity"

@@ -17,7 +17,6 @@ public final class WSUrl {
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account?language=%s";
-    public static final String SUBSCRIPTION = Config.WEB_SERVICE_URL + "api/Authorize/RegisterApplicant";
     public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
     public static final String ALLOW_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/AllowPushNotification";
     public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
@@ -59,7 +58,6 @@ public final class WSUrl {
     public static final int GET_WAVES_TASKS_ID = 3;
     public static final int GET_MY_TASKS_ID = 4;
     public static final int REGISTRATION_ID = 5;
-    public static final int SUBSCRIPTION_ID = 6;
     public static final int CLAIM_TASKS_ID = 7;
     public static final int GCM_REGISTER_DEVICE_ID = 9;
     public static final int GCM_TEST_PUSH_ID = 10;
@@ -91,7 +89,6 @@ public final class WSUrl {
         URLS.put(GET_WAVE_TASKS, GET_WAVES_TASKS_ID);
         URLS.put(GET_MY_TASKS, GET_MY_TASKS_ID);
         URLS.put(REGISTRATION, REGISTRATION_ID);
-        URLS.put(SUBSCRIPTION, SUBSCRIPTION_ID);
         URLS.put(CLAIM_TASK, CLAIM_TASKS_ID);
         URLS.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
         URLS.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);

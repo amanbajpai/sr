@@ -248,27 +248,6 @@ public class APIFacade {
         operation.setMissionId(task.getMissionId());
     }
 
-    public void subscribe(Activity activity, String email, String countryName, String cityName,
-                          Double latitude, Double longitude, Integer districtId, Integer countryId,
-                          Integer cityId) {
-        Subscription subscriptionEntity = new Subscription();
-        subscriptionEntity.setEmail(email);
-        subscriptionEntity.setCountry(countryName);
-        subscriptionEntity.setCity(cityName);
-        subscriptionEntity.setLatitude(latitude);
-        subscriptionEntity.setLongitude(longitude);
-        subscriptionEntity.setDistrictId(districtId);
-        subscriptionEntity.setCountryId(countryId);
-        subscriptionEntity.setCityId(cityId);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SUBSCRIPTION);
-        operation.setTag(Keys.SUBSCRIBE_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(subscriptionEntity);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     public void registerGCMId(Context context, String regId, int providerType) {
         if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
