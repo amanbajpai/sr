@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.location.Location;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
@@ -109,7 +110,7 @@ public class App extends Application {
                     "smartrocket_platform_20160227023341398-aa7246f2aeba0ab",
                     installConfig);
         } catch (InstallException e) {
-            e.printStackTrace();
+            Log.e(TAG, "invalid install credentials : ", e);
         }
     }
 

@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.helpshift.Core;
 import com.helpshift.campaigns.Campaigns;
+import com.helpshift.support.ApiConfig;
+import com.helpshift.support.Metadata;
 import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.MyAccount;
@@ -19,7 +21,6 @@ public class HelpShiftUtils {
     private static final String COMPANY_NAME = "Company_Name";
     private static final String CITY = "City";
     private static final String JOINING_DATE = "Joining_Date";
-    private static final String HIDE_NAME_AND_EMAIL = "hideNameAndEmail";
     private static MyAccount account;
 
     public static void showFAQ(Activity activity) {
@@ -40,11 +41,13 @@ public class HelpShiftUtils {
     }
 
     @NonNull
-    private static HashMap<String, Object> getConfig() {
-        HashMap<String, Object> config = new HashMap<>();
-        config.put(HIDE_NAME_AND_EMAIL, true);
-        config.put(Support.CustomMetadataKey, getMetaData());
-        return config;
+    private static ApiConfig getConfig() {
+        String[] tags = new String[]{account.getCountryName().toLowerCase(), account.getCompanyName().toLowerCase()};
+        Metadata metadata = new Metadata(getMetaData(), tags);
+        return new ApiConfig.Builder()
+                .setCustomMetadata(metadata)
+                .setHideNameAndEmail(true)
+                .build();
     }
 
     @NonNull
@@ -57,7 +60,6 @@ public class HelpShiftUtils {
         customMetadata.put(CITY, account.getCityName());
         customMetadata.put(COMPANY_NAME, account.getCompanyName());
         customMetadata.put(JOINING_DATE, account.getJoined());
-        customMetadata.put(Support.TagsKey, new String[]{account.getCountryName(), account.getCompanyName()});
         return customMetadata;
     }
 }
