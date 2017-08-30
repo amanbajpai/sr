@@ -40,16 +40,16 @@ public class HelpShiftUtils {
     }
 
     @NonNull
-    private static HashMap getConfig() {
-        HashMap config = new HashMap();
+    private static HashMap<String, Object> getConfig() {
+        HashMap<String, Object> config = new HashMap<>();
         config.put(HIDE_NAME_AND_EMAIL, true);
         config.put(Support.CustomMetadataKey, getMetaData());
         return config;
     }
 
     @NonNull
-    private static HashMap getMetaData() {
-        HashMap customMetadata = new HashMap();
+    private static HashMap<String, Object> getMetaData() {
+        HashMap<String, Object> customMetadata = new HashMap<>();
         customMetadata.put(AGENT_ID, account.getId());
         customMetadata.put(AGENT_RANK_LEVEL, account.getLevelNumber());
         customMetadata.put(ROCKET_POINTS, account.getExperience());

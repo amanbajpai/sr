@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.ui.login.password.forgot;
 
 import android.os.Bundle;
 import android.text.TextUtils;

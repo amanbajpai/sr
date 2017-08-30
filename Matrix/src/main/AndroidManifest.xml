@@ -144,11 +144,11 @@
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activity.ForgotPasswordActivity"
+            android:name=".ui.login.password.forgot.ForgotPasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activity.ForgotPasswordSuccessActivity"
+            android:name=".ui.login.password.forgot.ForgotPasswordSuccessActivity"
             android:configChanges="locale" />
         <activity
             android:name=".ui.activity.FullScreenImageActivity"
