@@ -5,16 +5,14 @@ import android.text.TextUtils;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.LoginResponse;
-import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.base.BasePresenter;
+import com.ros.smartrocket.ui.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-class PasswordPresenter<V extends PasswordMvpView> extends BasePresenter<V> implements PasswordMvpPresenter<V> {
+class PasswordPresenter<V extends PasswordMvpView> extends BaseNetworkPresenter<V> implements PasswordMvpPresenter<V> {
     private String email;
     private String password;
 
@@ -30,35 +28,21 @@ class PasswordPresenter<V extends PasswordMvpView> extends BasePresenter<V> impl
     }
 
     private void loginUser(Login loginEntity) {
-        getMvpView().showLoading(false);
-
-        Call<LoginResponse> call = App.getInstance().getApi().login(loginEntity);
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful())
-                        onLoginSuccess(response.body());
-                    else
-                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    getMvpView().showNetworkError(new NetworkError(t));
-                }
-            }
-        });
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .login(loginEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnNext(this::storeUserData)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleLoginSuccess, this::showNetworkError));
     }
 
-    private void onLoginSuccess(LoginResponse response) {
-        storeUserData(response);
-        getMvpView().onLoginSuccess(response);
+    private void handleLoginSuccess(LoginResponse loginResponse) {
+        hideLoading();
+        getMvpView().onLoginSuccess(loginResponse);
     }
+
 
     private void storeUserData(LoginResponse response) {
         WriteDataHelper.prepareLogin(App.getInstance(), email);

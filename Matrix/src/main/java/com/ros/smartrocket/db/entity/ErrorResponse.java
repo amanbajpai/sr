@@ -13,7 +13,7 @@ public class ErrorResponse extends BaseEntity {
     private ErrorData data;
 
     public String getErrorMessage() {
-        return errorMessage;
+        return errorMessage == null ? "" : errorMessage;
     }
 
     public void setErrorMessage(String errorMessage) {
@@ -21,7 +21,7 @@ public class ErrorResponse extends BaseEntity {
     }
 
     public Integer getErrorCode() {
-        return errorCode;
+        return errorCode == null ? -1 : errorCode;
     }
 
     public void setErrorCode(Integer errorCode) {
@@ -29,7 +29,7 @@ public class ErrorResponse extends BaseEntity {
     }
 
     public ErrorData getData() {
-        return data;
+        return data == null ? new ErrorData() : data;
     }
 
     public void setData(ErrorData data) {

@@ -1,18 +1,15 @@
 package com.ros.smartrocket.ui.login.external;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.entity.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
-import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.base.BasePresenter;
-import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.ui.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.UIUtils;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> extends BasePresenter<V> implements ExternalRegistrationMvpPresenter<V> {
+class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> extends BaseNetworkPresenter<V> implements ExternalRegistrationMvpPresenter<V> {
     private static final int EMAIL_MASK = 1;
     private static final int BIRTH_MASK = 2;
 
@@ -45,29 +42,19 @@ class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> exten
         if (!email.isEmpty())
             externalAuthorize.setEmail(email);
 
-        getMvpView().showLoading(false);
-        Call<ResponseBody> call = App.getInstance().getApi()
-                .externalRegistration(externalAuthorize, PreferencesManager.getInstance().getLanguageCode());
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful())
-                        getMvpView().onRegistrationSuccess(email);
-                    else
-                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
-                }
-            }
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .externalRegistration(externalAuthorize, getLanguageCode())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> handleRegistration(email), this::showNetworkError)
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    getMvpView().showNetworkError(new NetworkError(t));
-                }
-            }
-        });
+        );
+    }
+
+    private void handleRegistration(String email) {
+        hideLoading();
+        getMvpView().onRegistrationSuccess(email);
     }
 
     private boolean isEmailNeeded() {

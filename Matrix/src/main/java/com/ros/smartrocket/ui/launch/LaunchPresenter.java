@@ -3,16 +3,14 @@ package com.ros.smartrocket.ui.launch;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.db.entity.AppVersion;
-import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.base.BasePresenter;
+import com.ros.smartrocket.ui.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.Version;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-class LaunchPresenter<V extends LaunchMvpView> extends BasePresenter<V> implements LaunchMvpPresenter<V> {
+class LaunchPresenter<V extends LaunchMvpView> extends BaseNetworkPresenter<V> implements LaunchMvpPresenter<V> {
 
     @Override
     public void checkVersion() {
@@ -25,30 +23,14 @@ class LaunchPresenter<V extends LaunchMvpView> extends BasePresenter<V> implemen
 
     private void getAppVersion() {
         getMvpView().showLoading(false);
-        Call<AppVersion> call = App.getInstance().getApi().getAppVersion();
-        call.enqueue(new Callback<AppVersion>() {
-            @Override
-            public void onResponse(Call<AppVersion> call, Response<AppVersion> response) {
-                if (isViewAttached()) {
-                    if (response.isSuccessful()) {
-                        handleAppVersion(response.body());
-                    } else if (isViewAttached()) {
-                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AppVersion> call, Throwable t) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    getMvpView().showNetworkError(new NetworkError(t));
-                }
-            }
-        });
+        addDisposable(App.getInstance().getApi().getAppVersion()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleAppVersion, this::showNetworkError));
     }
 
     private void handleAppVersion(AppVersion appVersion) {
+        hideLoading();
         PreferencesManager.getInstance().saveAppVersion(appVersion);
         Version currentVersion = new Version(BuildConfig.VERSION_NAME);
         Version newestVersion = new Version(appVersion.getLatestVersion());

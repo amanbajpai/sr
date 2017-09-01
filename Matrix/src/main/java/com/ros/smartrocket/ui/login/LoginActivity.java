@@ -276,7 +276,6 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
 
     @Override
     public void onExternalLoginSuccess(ExternalAuthorize extAuthorize) {
-        hideLoading();
         authorize = extAuthorize;
         if (checkLocationResponse != null) {
             authorize.setCityId(checkLocationResponse.getCityId());
@@ -290,6 +289,8 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
             authorize.setAppVersion(UIUtils.getAppVersion(this));
             authorize.setAndroidVersion(Build.VERSION.RELEASE);
             loginPresenter.externalAuth(extAuthorize);
+        } else {
+            hideLoading();
         }
     }
 
@@ -341,6 +342,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
             startActivity(intent);
             finish();
         } else {
+            preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
             startActivity(new Intent(this, MainActivity.class));
             preferencesManager.setTandCShowedForCurrentUser();
             finish();

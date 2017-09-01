@@ -1,39 +1,27 @@
 package com.ros.smartrocket.ui.login.terms;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.base.BasePresenter;
+import com.ros.smartrocket.ui.base.BaseNetworkPresenter;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-class TermsPresenter<V extends TermsMvpView> extends BasePresenter<V> implements TermsMvpPresenter<V> {
+class TermsPresenter<V extends TermsMvpView> extends BaseNetworkPresenter<V> implements TermsMvpPresenter<V> {
 
     @Override
     public void sendTermsAndConditionsViewed() {
-        getMvpView().showLoading(false);
-        Call<ResponseBody> call = App.getInstance().getApi().sendTandC();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful())
-                        getMvpView().onTermsAndConditionsSent();
-                    else
-                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
-                }
-            }
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .sendTandC()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        responseBody -> handleTaCSent(),
+                        this::showNetworkError));
+    }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    getMvpView().showNetworkError(new NetworkError(t));
-                }
-            }
-        });
+    private void handleTaCSent() {
+        hideLoading();
+        getMvpView().onTermsAndConditionsSent();
     }
 }

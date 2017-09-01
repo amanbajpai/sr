@@ -53,22 +53,6 @@ public class APIFacade {
     private APIFacade() {
     }
 
-    public void forgotPassword(Activity activity, String email) {
-        try {
-            if (!TextUtils.isEmpty(email)) {
-                BaseOperation operation = new BaseOperation();
-                operation.setUrl(WSUrl.FORGOT_PASSWORD, URLEncoder.encode(email, "UTF-8"), preferencesManager.getLanguageCode());
-                operation.setTag(Keys.FORGOT_PASSWORD_OPERATION_TAG);
-                operation.setMethod(BaseOperation.Method.GET);
-                ((BaseActivity) activity).sendNetworkOperation(operation);
-            } else {
-                UIUtils.showSimpleToast(activity, R.string.fill_in_field);
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void activateAccount(Activity activity, String email, String token) {
         ActivateAccount activateAccountEntity = new ActivateAccount();
         activateAccountEntity.setEmail(email);

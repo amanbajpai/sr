@@ -34,8 +34,11 @@ import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -46,124 +49,124 @@ import retrofit2.http.Url;
 public interface MatrixApi {
 
     @POST("api/Authorize")
-    Call<LoginResponse> login(@Body Login loginEntity);
+    Observable<LoginResponse> login(@Body Login loginEntity);
 
     @POST("api/Authorize/SetTermsAndConditions")
-    Call<ResponseBody> sendTandC();
+    Single<ResponseBody> sendTandC();
 
     @GET("api/Authorize/Versioning")
-    Call<AppVersion> getAppVersion();
+    Single<AppVersion> getAppVersion();
 
     @GET("api/Authorize/ForgotPassword")
-    Call<ResponseBody> forgotPassword(@Query("email") String email, @Query("language") String language);
+    Single<ResponseBody> forgotPassword(@Query("email") String email, @Query("language") String language);
 
     @POST("api/Authorize/Activate")
-    Call<ResponseBody> activateAccount(@Body ActivateAccount activateAccountEntity);
+    Single<ResponseBody> activateAccount(@Body ActivateAccount activateAccountEntity);
 
     @POST("api/Authorize/ChangePassword")
-    Call<ResponseBody> setPassword(@Body SetPassword setPasswordEntity);
+    Single<ResponseBody> setPassword(@Body SetPassword setPasswordEntity);
 
     @POST("api/Authorize/Register")
-    Call<RegistrationResponse> registration(@Body Registration registrationEntity, @Query("language") String language);
+    Single<RegistrationResponse> registration(@Body Registration registrationEntity, @Query("language") String language);
 
     @POST("api/Authorize/UpdateUser")
-    Call<ResponseBody> updateUser(@Body UpdateUser updateUser);
+    Single<ResponseBody> updateUser(@Body UpdateUser updateUser);
 
     @POST("api/Authorize/PositionCheck")
-    Call<CheckLocationResponse> checkLocationForRegistration(@Body CheckLocation checkLocationEntity);
+    Single<CheckLocationResponse> checkLocationForRegistration(@Body CheckLocation checkLocationEntity);
 
     @GET("api/Authorize/ReferralCases")
-    Call<ReferralCases> getReferralCases(@Query("countryId") int countryId, @Query("language") String language);
+    Single<ReferralCases> getReferralCases(@Query("countryId") int countryId, @Query("language") String language);
 
     @POST("api/Authorize/ReferralCase")
-    Call<ResponseBody> saveReferralCases(@Body SaveReferralCase caseEntity);
+    Single<ResponseBody> saveReferralCases(@Body SaveReferralCase caseEntity);
 
     @GET("api/Waves")
-    Call<Waves> getWaves(@Query("latitude") double latitude,
+    Single<Waves> getWaves(@Query("latitude") double latitude,
                          @Query("longitude") double longitude,
                          @Query("radius") int radius,
                          @Query("language") String language);
 
     @GET("api/Tasks/ByCurrentUser")
-    Call<Waves> getMyTasksOperation(@Query("language") String language);
+    Single<Waves> getMyTasksOperation(@Query("language") String language);
 
     @POST("api/Tasks/Claim")
-    Call<ClaimTaskResponse> claimTask(@Body SendTaskId sendTaskId);
+    Single<ClaimTaskResponse> claimTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/Unclaimed")
-    Call<ResponseBody> unclaimTask(@Body SendTaskId sendTaskId);
+    Single<ResponseBody> unclaimTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/Validate")
-    Call<ResponseBody> validateTaskOperation(@Body SendTaskId sendTaskId);
+    Single<ResponseBody> validateTaskOperation(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/QuestionFile")
-    Call<ResponseBody> sendFile(@Header(RetrofitHolder.CONTENT_TYPE_HEADER) String header, @Body NotUploadedFile notUploadedFile);
+    Single<ResponseBody> sendFile(@Header(RetrofitHolder.CONTENT_TYPE_HEADER) String header, @Body NotUploadedFile notUploadedFile);
 
     @POST("api/Tasks/Answers")
-    Call<ResponseBody> sendAnswers(@Body List<Answer> answers,
+    Single<ResponseBody> sendAnswers(@Body List<Answer> answers,
                                    @Query("missionId") Integer missionId,
                                    @Query("language") String language);
 
     @POST("api/Tasks/Start")
-    Call<ResponseBody> startTask(@Body SendTaskId sendTaskId);
+    Single<ResponseBody> startTask(@Body SendTaskId sendTaskId);
 
     @GET("api/Waves/Questionnaire")
-    Call<Questions> getQuestions(@Query("waveId") Integer waveId,
+    Single<Questions> getQuestions(@Query("waveId") Integer waveId,
                                  @Query("taskId") Integer taskId,
                                  @Query("language") String language);
 
     @GET("api/Tasks/Re-Do-Questions")
-    Call<Questions> getReDoQuestions(@Query("waveId") Integer waveId,
+    Single<Questions> getReDoQuestions(@Query("waveId") Integer waveId,
                                      @Query("taskId") Integer taskId,
                                      @Query("language") String language);
 
     @POST("api/Authorize/RegisterApplicant")
-    Call<ResponseBody> subscribe(@Body Subscription subscriptionEntity);
+    Single<ResponseBody> subscribe(@Body Subscription subscriptionEntity);
 
     @POST("api/Authorize/RegisterDevice")
-    Call<ResponseBody> registerGCMId(@Body RegisterDevice registerDeviceEntity);
+    Single<ResponseBody> registerGCMId(@Body RegisterDevice registerDeviceEntity);
 
     @GET("api/Authorize/Account")
-    Call<MyAccount> getMyAccount(@Query("language") String language);
+    Single<MyAccount> getMyAccount(@Query("language") String language);
 
     @POST("SendActivity")
-    Call<ResponseBody> sendActivity(@Query("language") String language);
+    Single<ResponseBody> sendActivity(@Query("language") String language);
 
     @POST("WithdrawMoney")
-    Call<ResponseBody> cashingOut();
+    Single<ResponseBody> cashingOut();
 
     @GET("api/Socials/SharingData")
-    Call<Sharing> getSharingData(@Query("language") String language);
+    Single<Sharing> getSharingData(@Query("language") String language);
 
     @POST("api/Authorize/ReIssueCredentials")
-    Call<Token> getNewToken(@Body Token token);
+    Single<Token> getNewToken(@Body Token token);
 
     @GET("api/Payments/AliPayAccount")
-    Call<AliPayAccount> getAliPayAccount();
+    Single<AliPayAccount> getAliPayAccount();
 
     @POST("api/Payments/AliPayAccount")
-    Call<ResponseBody> integrateAliPayAccount(@Body AliPayAccount aliPayAccount);
+    Single<ResponseBody> integrateAliPayAccount(@Body AliPayAccount aliPayAccount);
 
     @GET("api/Payments/NationalIdAccount")
-    Call<NationalIdAccount> getNationalIdAccount();
+    Single<NationalIdAccount> getNationalIdAccount();
 
     @POST("api/Authorize/AllowPushNotification")
-    Call<AllowPushNotification> allowPushNotification(@Body AllowPushNotification allowPushNotification);
+    Single<AllowPushNotification> allowPushNotification(@Body AllowPushNotification allowPushNotification);
 
     @GET("api/Authorize/CheckEmail")
-    Call<CheckEmail> checkEmail(@Query("email") String email);
+    Single<CheckEmail> checkEmail(@Query("email") String email);
 
     @POST("api/Authorize/UpdatePromoCode")
-    Call<ResponseBody> setPromoCode(@Query("promoCode") String promoCode);
+    Single<ResponseBody> setPromoCode(@Query("promoCode") String promoCode);
 
     @POST("api/Authorize/ExternalAuthorize")
-    Call<ExternalAuthResponse> externalAuth(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
+    Single<Response<ExternalAuthResponse>> externalAuth(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
 
     @POST("api/Authorize/ExternalRegister")
-    Call<ResponseBody> externalRegistration(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
+    Single<ResponseBody> externalRegistration(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
 
     @POST("api/Authorize/Terminate")
-    Call<ResponseBody> closeAccount();
+    Single<ResponseBody> closeAccount();
 
     @GET
     Call<WeChatTokenResponse> getWeChatToken(@Url String url,

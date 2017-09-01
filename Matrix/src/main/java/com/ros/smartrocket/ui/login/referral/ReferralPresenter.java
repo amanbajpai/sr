@@ -5,62 +5,43 @@ import android.support.annotation.NonNull;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.SaveReferralCase;
-import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.base.BasePresenter;
-import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.ui.base.BaseNetworkPresenter;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-class ReferralPresenter<V extends ReferralMvpView> extends BasePresenter<V> implements ReferralMvpPresenter<V> {
+class ReferralPresenter<V extends ReferralMvpView> extends BaseNetworkPresenter<V> implements ReferralMvpPresenter<V> {
 
     @Override
     public void getReferralCases(int countryId) {
-        getMvpView().showLoading(false);
-        Call<ReferralCases> call = App.getInstance().getApi()
-                .getReferralCases(countryId, PreferencesManager.getInstance().getLanguageCode());
-        call.enqueue(new Callback<ReferralCases>() {
-            @Override
-            public void onResponse(Call<ReferralCases> call, Response<ReferralCases> response) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful())
-                        getMvpView().onReferralCasesLoaded(response.body());
-                    else
-                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ReferralCases> call, Throwable t) {
-                onError(t);
-            }
-        });
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .getReferralCases(countryId, getLanguageCode())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(this::hideLoading)
+                .subscribe(this::handleLoadedRK, this::showNetworkError));
     }
 
     @Override
     public void saveReferralCases(int countryId, int referralCaseId) {
-        getMvpView().showLoading(false);
-        Call<ResponseBody> call = App.getInstance().getApi().saveReferralCases(getReferralCase(countryId, referralCaseId));
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    if (response.isSuccessful())
-                        getMvpView().onReferralCasesSaved();
-                    else
-                        getMvpView().showNetworkError(new NetworkError(response.errorBody()));
-                }
-            }
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .saveReferralCases(getReferralCase(countryId, referralCaseId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> handleSaveRK(), this::showNetworkError)
+        );
+    }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                onError(t);
-            }
-        });
+    private void handleSaveRK() {
+        hideLoading();
+        getMvpView().onReferralCasesSaved();
+    }
+
+    private void handleLoadedRK(ReferralCases rk) {
+        hideLoading();
+        getMvpView().onReferralCasesLoaded(rk);
     }
 
     @NonNull
@@ -69,12 +50,5 @@ class ReferralPresenter<V extends ReferralMvpView> extends BasePresenter<V> impl
         caseEntity.setCountryId(countryId);
         caseEntity.setReferralId(referralCaseId);
         return caseEntity;
-    }
-
-    private void onError(Throwable t) {
-        if (isViewAttached()) {
-            getMvpView().hideLoading();
-            getMvpView().showNetworkError(new NetworkError(t));
-        }
     }
 }

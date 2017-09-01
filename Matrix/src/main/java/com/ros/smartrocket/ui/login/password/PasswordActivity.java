@@ -86,6 +86,7 @@ public class PasswordActivity extends BaseActivity implements PasswordMvpView {
 
     @Override
     public void onLoginSuccess(LoginResponse response) {
+        preferencesManager.setLastAppVersion(UIUtils.getAppVersionCode(this));
         if (response.isShowTermsConditions()) {
             Intent intent = new Intent(this, TermsAndConditionActivity.class);
             intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);

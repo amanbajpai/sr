@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHolder {
@@ -27,7 +28,7 @@ public class RetrofitHolder {
     private static final String DEVICE_OS_VERSION_HEADER = "device-os-version";
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String APP_VERSION_HEADER = "App-version";
-    public static final String CONTENT_TYPE_HEADER = "Content-type";
+    static final String CONTENT_TYPE_HEADER = "Content-type";
     private MatrixApi matrixApi;
 
     public Retrofit getRetrofit() {
@@ -45,6 +46,7 @@ public class RetrofitHolder {
                 .baseUrl(Config.WEB_SERVICE_URL)
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         matrixApi = retrofit.create(MatrixApi.class);
     }
@@ -53,13 +55,12 @@ public class RetrofitHolder {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(TIMEOUT, TimeUnit.SECONDS);
         builder.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
-
+        builder.addInterceptor(chain -> chain.proceed(getRequestWithHeaders(chain)));
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(interceptor);
         }
-        builder.addInterceptor(chain -> chain.proceed(getRequestWithHeaders(chain)));
         return builder.build();
     }
 

@@ -1,7 +1,13 @@
 package com.ros.smartrocket.ui.base;
 
+import com.ros.smartrocket.utils.PreferencesManager;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     private V mvpView;
+    private CompositeDisposable compositeDisposable;
 
     @Override
     public void attachView(V mvpView) {
@@ -11,6 +17,7 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     @Override
     public void detachView() {
         mvpView = null;
+        unDispose();
     }
 
     public boolean isViewAttached() {
@@ -21,14 +28,20 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
         return mvpView;
     }
 
-    public void checkViewAttached() {
-        if (!isViewAttached()) throw new MvpViewNotAttachedException();
+    protected String getLanguageCode() {
+        return PreferencesManager.getInstance().getLanguageCode();
     }
 
-    public static class MvpViewNotAttachedException extends RuntimeException {
-        public MvpViewNotAttachedException() {
-            super("Please call Presenter.attachView(MvpView) before" +
-                    " requesting data to the Presenter");
+    protected void addDisposable(Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
+    }
+
+    private void unDispose() {
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
         }
     }
 }

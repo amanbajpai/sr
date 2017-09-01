@@ -8,13 +8,14 @@ import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.ui.base.BasePresenter;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CheckLocationPresenter<V extends CheckLocationMvpView> extends BasePresenter<V>
         implements CheckLocationMvpPresenter<V> {
-
 
     @Override
     public void checkLocation() {
@@ -28,23 +29,13 @@ public class CheckLocationPresenter<V extends CheckLocationMvpView> extends Base
     }
 
     private void checkLocationForRegistration(CheckLocation checkLocation) {
-        Call<CheckLocationResponse> call = App.getInstance().getApi().checkLocationForRegistration(checkLocation);
-        call.enqueue(new Callback<CheckLocationResponse>() {
-            @Override
-            public void onResponse(Call<CheckLocationResponse> call, Response<CheckLocationResponse> response) {
-                if (isViewAttached())
-                    if (response.isSuccessful())
-                        getMvpView().onLocationChecked(response.body(), checkLocation.getLatitude(), checkLocation.getLongitude());
-                    else
-                        getMvpView().onLocationCheckFailed();
-            }
-
-            @Override
-            public void onFailure(Call<CheckLocationResponse> call, Throwable t) {
-                if (isViewAttached())
-                    getMvpView().onLocationCheckFailed();
-            }
-        });
+        addDisposable(App.getInstance().getApi()
+                .checkLocationForRegistration(checkLocation)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        r -> getMvpView().onLocationChecked(r, checkLocation.getLatitude(), checkLocation.getLongitude()),
+                        throwable -> getMvpView().onLocationCheckFailed()));
     }
 
     private CheckLocation getCheckLocationEntity(Location location, String countryName, String cityName, String districtName) {

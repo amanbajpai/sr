@@ -8,8 +8,6 @@ import java.util.HashMap;
 public final class WSUrl {
     // Authorize
     public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
-    public static final String FORGOT_PASSWORD = Config.WEB_SERVICE_URL +
-            "api/Authorize/ForgotPassword?email=%s&language=%s";
     public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
     public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
     public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";

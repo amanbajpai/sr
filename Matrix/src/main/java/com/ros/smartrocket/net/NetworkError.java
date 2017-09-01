@@ -9,6 +9,7 @@ import com.ros.smartrocket.utils.L;
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 public class NetworkError implements BaseNetworkError {
 
@@ -37,19 +38,24 @@ public class NetworkError implements BaseNetworkError {
     public static final int GLOBAL_BLOCK_ERROR = 10146;
 
 
-    private int errorCode;
+    private Integer errorCode;
     private int errorMessageRes;
     private ErrorResponse errorResponse;
 
     public NetworkError(Throwable t) {
-        if (t instanceof IOException) {
+        if (t instanceof HttpException)
+            parseResponse(((HttpException) t).response().errorBody());
+        else if (t instanceof IOException)
             handleNoInternetError();
-        } else {
+        else
             handleUnknownError();
-        }
     }
 
     public NetworkError(ResponseBody errorResponseBody) {
+        parseResponse(errorResponseBody);
+    }
+
+    private void parseResponse(ResponseBody errorResponseBody) {
         try {
             errorResponse = App.getInstance().getErrorConverter().convert(errorResponseBody);
             handleError();
@@ -89,6 +95,9 @@ public class NetworkError implements BaseNetworkError {
                     break;
                 case NO_INTERNET:
                     handleNoInternetError();
+                    break;
+                default:
+                    handleUnknownError();
                     break;
             }
         }
