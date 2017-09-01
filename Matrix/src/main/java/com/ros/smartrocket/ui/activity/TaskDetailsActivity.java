@@ -28,7 +28,7 @@ import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.ui.dialog.UpdateVersionDialog;
 import com.ros.smartrocket.utils.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.utils.helpers.APIFacade;

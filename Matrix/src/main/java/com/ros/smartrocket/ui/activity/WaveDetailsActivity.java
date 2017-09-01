@@ -23,7 +23,7 @@ import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.ClaimTaskManager;
 import com.ros.smartrocket.utils.IntentUtils;

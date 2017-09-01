@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Answer;

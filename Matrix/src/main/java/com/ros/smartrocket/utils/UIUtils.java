@@ -43,7 +43,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;

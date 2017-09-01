@@ -1,0 +1,141 @@
+package com.ros.smartrocket.flow.login.promo;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
+import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.flow.login.registration.RegistrationActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.flow.login.external.ExternalAuthDetailsActivity;
+import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.net.BaseNetworkService;
+import com.ros.smartrocket.net.BaseOperation;
+import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.RegistrationType;
+import com.ros.smartrocket.utils.UIUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+
+public class PromoCodeActivity extends BaseActivity implements NetworkOperationListenerInterface {
+
+    @BindView(R.id.promoCode)
+    EditText promoCodeEdt;
+    private APIFacade apiFacade = APIFacade.getInstance();
+    private RegistrationType type;
+    private String token;
+
+    public PromoCodeActivity() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+        setContentView(R.layout.activity_promo_code);
+        ButterKnife.bind(this);
+        type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+        getToken();
+        checkDeviceSettingsByOnResume(false);
+    }
+
+    private void getToken() {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        token = TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ?
+                preferencesManager.getToken() :
+                preferencesManager.getTokenForUploadFile();
+    }
+
+    public void continueRegistrationFlow() {
+        Intent intent;
+        if (type == RegistrationType.SOCIAL) {
+            intent = new Intent(this, MainActivity.class);
+        } else if (type == RegistrationType.SOCIAL_ADDITIONAL_INFO) {
+            intent = new Intent(this, ExternalAuthDetailsActivity.class);
+        } else {
+            intent = new Intent(this, RegistrationActivity.class);
+        }
+        intent.putExtras(getIntent().getExtras());
+        intent.putExtra(Keys.PROMO_CODE, promoCodeEdt.getText().toString());
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addNetworkOperationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        removeNetworkOperationListener(this);
+        super.onStop();
+    }
+
+    @OnClick(R.id.continueButton)
+    public void onClick() {
+        String promoCode = promoCodeEdt.getText().toString();
+        if (!TextUtils.isEmpty(promoCode) && !TextUtils.isEmpty(token)) {
+            try {
+                promoCode = URLEncoder.encode(promoCode, "UTF-8");
+                showLoading(false);
+                apiFacade.setPromoCode(this, promoCode);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                continueRegistrationFlow();
+            }
+        } else {
+            continueRegistrationFlow();
+        }
+    }
+
+    @Override
+    public void onNetworkOperationSuccess(BaseOperation operation) {
+        if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
+            hideLoading();
+            continueRegistrationFlow();
+        }
+    }
+
+    @Override
+    public void onNetworkOperationFailed(BaseOperation operation) {
+        if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
+            hideLoading();
+            if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
+                    == BaseNetworkService.NO_INTERNET) {
+                DialogUtils.showBadOrNoInternetDialog(this);
+            } else {
+                UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
+            }
+        }
+    }
+}

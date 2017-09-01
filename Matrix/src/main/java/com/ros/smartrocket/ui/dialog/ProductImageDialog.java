@@ -13,7 +13,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;

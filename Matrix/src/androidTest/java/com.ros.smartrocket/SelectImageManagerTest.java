@@ -1,6 +1,6 @@
 package com.ros.smartrocket;
 
-import com.ros.smartrocket.ui.launch.LaunchActivity;
+import com.ros.smartrocket.flow.launch.LaunchActivity;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

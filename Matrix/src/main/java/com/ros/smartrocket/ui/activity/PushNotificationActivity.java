@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.ui.fragment.PushNotificationsListFragment;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;

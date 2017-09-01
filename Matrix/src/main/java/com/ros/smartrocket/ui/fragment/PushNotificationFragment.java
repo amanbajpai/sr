@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.ContextThemeWrapper;
@@ -21,7 +20,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.ui.base.BaseFragment;
+import com.ros.smartrocket.flow.base.BaseFragment;
 import com.ros.smartrocket.utils.TimeUtils;
 
 import java.util.List;

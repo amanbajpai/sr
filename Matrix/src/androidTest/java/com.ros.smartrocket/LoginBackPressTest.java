@@ -1,6 +1,6 @@
 package com.ros.smartrocket;
 
-import com.ros.smartrocket.ui.login.LoginActivity;
+import com.ros.smartrocket.flow.login.LoginActivity;
 
 import org.junit.Assert;
 import org.junit.Before;

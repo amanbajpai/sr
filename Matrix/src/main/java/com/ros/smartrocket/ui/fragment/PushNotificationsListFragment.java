@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import com.ros.smartrocket.ui.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.ui.base.BaseFragment;
+import com.ros.smartrocket.flow.base.BaseFragment;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.ArrayList;

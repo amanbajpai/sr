@@ -14,7 +14,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.ui.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.ui.base.BaseFragment;
+import com.ros.smartrocket.flow.base.BaseFragment;
 import com.ros.smartrocket.utils.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;

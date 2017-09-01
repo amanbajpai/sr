@@ -12,7 +12,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 
 public class QuitQuestionActivity extends BaseActivity implements
         View.OnClickListener {

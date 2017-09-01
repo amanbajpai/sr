@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.bl.question.QuestionInstructionBL;
 import com.ros.smartrocket.bl.question.QuestionMultipleChooseBL;

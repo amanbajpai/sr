@@ -6,21 +6,16 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ActivateAccount;
 import com.ros.smartrocket.db.entity.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.ExternalAuthorize;
-import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.NationalIdAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.Registration;
-import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.SetPassword;
-import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Token;
 import com.ros.smartrocket.db.entity.UpdateUser;
@@ -28,13 +23,10 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.WSUrl;
-import com.ros.smartrocket.ui.base.BaseActivity;
+import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.UIUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 public class APIFacade {

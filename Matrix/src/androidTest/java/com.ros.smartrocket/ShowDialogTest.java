@@ -2,7 +2,7 @@ package com.ros.smartrocket;
 
 import android.app.Dialog;
 
-import com.ros.smartrocket.ui.launch.LaunchActivity;
+import com.ros.smartrocket.flow.launch.LaunchActivity;
 import com.ros.smartrocket.utils.DialogUtils;
 
 import junit.framework.Assert;

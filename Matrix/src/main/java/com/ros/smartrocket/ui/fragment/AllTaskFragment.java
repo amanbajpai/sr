@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.base.BaseFragment;
+import com.ros.smartrocket.flow.base.BaseFragment;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;

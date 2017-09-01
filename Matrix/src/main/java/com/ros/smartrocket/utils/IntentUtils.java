@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.ui.activity.ActivateAccountActivity;
+import com.ros.smartrocket.flow.login.activate.ActivateAccountActivity;
 import com.ros.smartrocket.ui.activity.CashingOutActivity;
 import com.ros.smartrocket.ui.activity.CashingOutConfirmationActivity;
 import com.ros.smartrocket.ui.activity.CashingOutSuccessActivity;
@@ -24,14 +24,14 @@ import com.ros.smartrocket.ui.activity.MapActivity;
 import com.ros.smartrocket.ui.activity.PushNotificationActivity;
 import com.ros.smartrocket.ui.activity.QuestionsActivity;
 import com.ros.smartrocket.ui.activity.QuitQuestionActivity;
-import com.ros.smartrocket.ui.activity.SetNewPasswordActivity;
+import com.ros.smartrocket.flow.login.password.update.SetNewPasswordActivity;
 import com.ros.smartrocket.ui.activity.SettingsActivity;
 import com.ros.smartrocket.ui.activity.ShareActivity;
 import com.ros.smartrocket.ui.activity.TaskDetailsActivity;
 import com.ros.smartrocket.ui.activity.TaskValidationActivity;
 import com.ros.smartrocket.ui.activity.WaveDetailsActivity;
-import com.ros.smartrocket.ui.login.LoginActivity;
-import com.ros.smartrocket.ui.login.password.forgot.ForgotPasswordSuccessActivity;
+import com.ros.smartrocket.flow.login.LoginActivity;
+import com.ros.smartrocket.flow.login.password.forgot.ForgotPasswordSuccessActivity;
 
 import java.io.File;
 import java.net.URLEncoder;
