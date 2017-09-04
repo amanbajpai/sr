@@ -126,7 +126,7 @@ public interface MatrixApi {
     Single<ResponseBody> registerGCMId(@Body RegisterDevice registerDeviceEntity);
 
     @GET("api/Authorize/Account")
-    Single<MyAccount> getMyAccount(@Query("language") String language);
+    Observable<MyAccount> getMyAccount(@Query("language") String language);
 
     @POST("SendActivity")
     Single<ResponseBody> sendActivity(@Query("language") String language);

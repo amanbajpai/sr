@@ -12,13 +12,13 @@ import android.support.v4.app.Fragment;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.fragment.AllTaskFragment;
-import com.ros.smartrocket.utils.helpers.FragmentHelper;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
+import com.ros.smartrocket.ui.fragment.AllTaskFragment;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.helpers.FragmentHelper;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -76,10 +76,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
         fragmentHelper.startFragmentFromStack(this, fragment);
     }
 
-    public void removeFragmentFromList(Fragment fragment) {
-        fragmentHelper.removeFragmentFromList(this, fragment);
-    }
-
     public void startActivity(Activity activity) {
         Intent i = new Intent(this, activity.getClass());
         startActivity(i);
@@ -94,19 +90,12 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
         this.doubleBackToExitPressedOnce = true;
         UIUtils.showSimpleToast(this, getString(R.string.click_back_again_to_exit));
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, DOUBLE_PRESS_INTERVAL_MILLISECONDS);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_PRESS_INTERVAL_MILLISECONDS);
     }
 
     @Override
     public void onDestroy() {
         unregisterReceiver(localReceiver);
-        //App.getInstance().getLocationManager().disconnect();
         super.onDestroy();
     }
 

@@ -72,14 +72,12 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
             }
         }
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, filter);
-//        TCAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(receiver);
         super.onPause();
-//        TCAgent.onPause(this);
     }
 
     @Override
@@ -164,5 +162,9 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
 
     protected void hideActionBar() {
         if (getSupportActionBar() != null) getSupportActionBar().hide();
+    }
+
+    protected void setHomeAsUp() {
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

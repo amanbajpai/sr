@@ -20,4 +20,10 @@ public class BaseFragment extends Fragment implements MvpView {
             progressDialog.dismiss();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hideLoading();
+    }
 }

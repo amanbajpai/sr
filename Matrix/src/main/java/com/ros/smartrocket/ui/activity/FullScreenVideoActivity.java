@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.VideoView;
 
 import com.ros.smartrocket.Keys;
@@ -13,49 +12,43 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.utils.UIUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class FullScreenVideoActivity extends BaseActivity implements MediaPlayer.OnCompletionListener {
-    //private static final String TAG = FullScreenImageActivity.class.getSimpleName();
-    private VideoView videoView;
+    @BindView(R.id.video)
+    VideoView videoView;
     private int stopPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHomeAsUp();
         setContentView(R.layout.activity_full_screen_video);
-
+        ButterKnife.bind(this);
 
         String videoPath = getIntent().getStringExtra(Keys.VIDEO_FILE_PATH);
-
-        videoView = (VideoView) findViewById(R.id.video);
         if (videoPath != null) {
             videoView.setVideoPath(videoPath);
         } else {
             UIUtils.showSimpleToast(this, R.string.error);
         }
         videoView.setOnCompletionListener(this);
-        //videoView.setMediaController(new MediaController(this));
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (videoView.isPlaying()) {
-                        pauseVideo();
-                    } else {
-                        playVideo();
-                    }
+        videoView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (videoView.isPlaying()) {
+                    pauseVideo();
+                } else {
+                    playVideo();
                 }
-
-                return false;
             }
+
+            return false;
         });
 
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                videoView.setBackgroundColor(Color.TRANSPARENT);
-                videoView.start();
-            }
+        videoView.setOnPreparedListener(mp -> {
+            videoView.setBackgroundColor(Color.TRANSPARENT);
+            videoView.start();
         });
     }
 

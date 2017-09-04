@@ -56,7 +56,8 @@ class LoginPresenter<V extends LoginMvpView> extends BaseNetworkPresenter<V> imp
 
     private void checkUsersEmail() {
         showLoading(false);
-        addDisposable(App.getInstance().getApi().checkEmail(email)
+        addDisposable(App.getInstance().getApi()
+                .checkEmail(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleCheckEmailResponse, this::showNetworkError)

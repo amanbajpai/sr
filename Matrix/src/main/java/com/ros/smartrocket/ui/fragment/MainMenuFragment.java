@@ -389,7 +389,7 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, N
                 fragment = new AllTaskFragment();
                 fragment.setArguments(bundle);
                 ((MainActivity) getActivity()).startFragment(fragment);
-                ((MainActivity) getActivity()).togleMenu();
+                ((MainActivity) getActivity()).toggleMenu();
                 break;
             case R.id.myTasksButton:
                 bundle.putString(Keys.CONTENT_TYPE, Keys.MY_TASK);
@@ -398,25 +398,25 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, N
                 fragment.setArguments(bundle);
 
                 ((MainActivity) getActivity()).startFragment(fragment);
-                ((MainActivity) getActivity()).togleMenu();
+                ((MainActivity) getActivity()).toggleMenu();
                 break;
             case R.id.notificationsButton:
                 getActivity().startActivity(IntentUtils.getNotificationsIntent(getActivity()));
                 break;
             case R.id.shareButton:
                 getActivity().startActivity(IntentUtils.getShareIntent(getActivity()));
-                ((MainActivity) getActivity()).togleMenu();
+                ((MainActivity) getActivity()).toggleMenu();
                 break;
             case R.id.cashingOutLayout:
                 getActivity().startActivity(IntentUtils.getCashOutIntent(getActivity()));
-                ((MainActivity) getActivity()).togleMenu();
+                ((MainActivity) getActivity()).toggleMenu();
                 break;
             case R.id.supportButton:
                 HelpShiftUtils.showFAQ(getActivity());
                 break;
             case R.id.settingsButton:
                 getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
-                ((MainActivity) getActivity()).togleMenu();
+                ((MainActivity) getActivity()).toggleMenu();
                 break;
             default:
                 break;

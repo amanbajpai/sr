@@ -39,7 +39,6 @@ public class BaseSlidingMenuActivity extends BaseActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
-                //R.drawable.ic_drawer,
                 R.string.app_name,
                 R.string.app_name
         ) {
@@ -56,11 +55,10 @@ public class BaseSlidingMenuActivity extends BaseActivity {
 
             }
         };
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        setHomeAsUp();
+        if (getSupportActionBar() != null) getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -83,7 +81,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void togleMenu() {
+    public void toggleMenu() {
         if (mDrawerLayout.isDrawerOpen(leftDrawer)) {
             mDrawerLayout.closeDrawers();
         } else {

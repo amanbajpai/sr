@@ -7,9 +7,6 @@ import android.view.Window;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.ui.fragment.ShareFragment;
 
-/**
- * Activity for view Settings
- */
 public class ShareActivity extends BaseActivity {
 
     public ShareActivity() {

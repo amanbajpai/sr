@@ -1,14 +1,10 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.cash;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.fragment.CashingOutFragment;
 
-/**
- * Activity for view Settings
- */
 public class CashingOutActivity extends BaseActivity {
 
     public CashingOutActivity() {
@@ -17,8 +13,7 @@ public class CashingOutActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        setHomeAsUp();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(android.R.id.content, new CashingOutFragment()).commit();
         }

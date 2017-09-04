@@ -279,13 +279,13 @@
             android:name=".ui.activity.QuitQuestionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.CashingOutActivity"
+            android:name=".flow.cash.CashingOutActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.CashingOutConfirmationActivity"
+            android:name=".flow.cash.confirm.CashingOutConfirmationActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.CashingOutSuccessActivity"
+            android:name=".flow.cash.CashingOutSuccessActivity"
             android:configChanges="locale" />
         <activity
             android:name=".ui.activity.IdCardActivity"

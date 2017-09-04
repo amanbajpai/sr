@@ -16,9 +16,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.ui.fragment.TasksMapFragment;
 
-/**
- * Activity for view Task detail information
- */
 public class MapActivity extends BaseActivity {
 
     public MapActivity() {
@@ -27,14 +24,8 @@ public class MapActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // If not already added to the Fragment manager add it.
-        // If you don't do this a new Fragment will be added every time this method is  called (Such as on
-        // orientation change)
+        setHomeAsUp();
         if (savedInstanceState == null) {
-
             Intent intent = getIntent();
             if (intent != null && intent.getExtras() != null) {
                 Bundle bundle = new Bundle();
@@ -66,13 +57,14 @@ public class MapActivity extends BaseActivity {
         menu.clear();
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
 
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.task_location_title);
-
+            View view = actionBar.getCustomView();
+            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.task_location_title);
+        }
         return true;
     }
 }

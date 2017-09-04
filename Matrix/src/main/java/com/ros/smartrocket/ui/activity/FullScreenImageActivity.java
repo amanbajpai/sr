@@ -16,20 +16,17 @@ import com.ros.smartrocket.ui.views.ImageEditorView;
 import java.io.File;
 
 public class FullScreenImageActivity extends BaseActivity {
-    //private static final String TAG = FullScreenImageActivity.class.getSimpleName();
     private Bitmap bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHomeAsUp();
         setContentView(R.layout.activity_full_screen_image);
 
         Display display = getWindowManager().getDefaultDisplay();
-
         String photoUri = getIntent().getStringExtra(Keys.BITMAP_FILE_PATH);
         boolean rotateByExif = getIntent().getBooleanExtra(Keys.ROTATE_BY_EXIF, false);
-
         if (!TextUtils.isEmpty(photoUri)) {
             bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, rotateByExif);
         }

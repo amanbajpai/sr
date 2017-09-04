@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.cash;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,50 +12,42 @@ import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
-public class CashingOutSuccessActivity extends BaseActivity implements View.OnClickListener {
-    public CashingOutSuccessActivity() {
-    }
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+public class CashingOutSuccessActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cashing_out_success);
-
+        ButterKnife.bind(this);
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-
-        Button okButton = (Button) findViewById(R.id.okButton);
-        okButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.okButton:
-                finish();
-                startActivity(IntentUtils.getMainActivityIntent(this));
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
 
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_title);
+            View view = actionBar.getCustomView();
+            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.cashing_out_title);
+        }
         return true;
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        startActivity(IntentUtils.getMainActivityIntent(this));
+    }
+
+    @OnClick(R.id.okButton)
+    public void onViewClicked() {
+        finish();
         startActivity(IntentUtils.getMainActivityIntent(this));
     }
 }

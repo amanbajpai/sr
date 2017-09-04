@@ -6,9 +6,6 @@ import android.view.MenuItem;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.ui.fragment.SettingsFragment;
 
-/**
- * Activity for view Settings
- */
 public class SettingsActivity extends BaseActivity {
 
     public SettingsActivity() {

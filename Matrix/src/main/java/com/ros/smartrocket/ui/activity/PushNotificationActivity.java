@@ -20,10 +20,7 @@ public class PushNotificationActivity extends BaseActivity {
         if (TextUtils.isEmpty(PreferencesManager.getInstance().getToken())) {
             startActivity(IntentUtils.getLoginIntentForPushNotificationsActivity(this));
         }
-
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        setHomeAsUp();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(android.R.id.content, new
                     PushNotificationsListFragment()).commit();

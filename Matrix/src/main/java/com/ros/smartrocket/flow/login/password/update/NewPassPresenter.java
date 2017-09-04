@@ -19,7 +19,7 @@ class NewPassPresenter<V extends NewPassMvpView> extends BaseNetworkPresenter<V>
     }
 
     private void setNewPassword(String email, String token, String newPassword) {
-        getMvpView().showLoading(false);
+        showLoading(false);
         addDisposable(App.getInstance().getApi()
                 .setPassword(new SetPassword(email, token, newPassword))
                 .subscribeOn(Schedulers.io())
