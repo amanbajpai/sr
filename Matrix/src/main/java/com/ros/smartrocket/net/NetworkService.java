@@ -190,11 +190,6 @@ public class NetworkService extends BaseNetworkService {
                         getPreferencesManager().setTokenForUploadFile(token.getToken());
                         getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
                         break;
-                    case WSUrl.REGISTRATION_ID:
-                        RegistrationResponse registrationResponse = gson.fromJson(responseString,
-                                RegistrationResponse.class);
-                        operation.responseEntities.add(registrationResponse);
-                        break;
                     case WSUrl.GCM_REGISTER_DEVICE_ID:
                         getPreferencesManager().setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
                         break;

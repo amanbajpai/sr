@@ -56,7 +56,7 @@ public class ReferralCasesActivity extends BaseActivity implements ReferralMvpVi
     }
 
     private void initUI() {
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        hideActionBar();
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
         referralCasesSpinner.setEnabled(false);
         continueButton.setEnabled(false);

@@ -22,7 +22,7 @@ public class ForgotPasswordSuccessActivity extends BaseActivity {
         setContentView(R.layout.activity_forgot_password_success);
         ButterKnife.bind(this);
 
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        hideActionBar();
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.orange));
 
         if (getIntent() != null) email.setText(getIntent().getStringExtra(Keys.EMAIL));

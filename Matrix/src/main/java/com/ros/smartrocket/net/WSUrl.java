@@ -8,9 +8,6 @@ import java.util.HashMap;
 public final class WSUrl {
     // Authorize
     public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
-    public static final String ACTIVATE_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Activate";
-    public static final String SET_PASSWORD = Config.WEB_SERVICE_URL + "api/Authorize/ChangePassword";
-    public static final String REGISTRATION = Config.WEB_SERVICE_URL + "api/Authorize/Register?language=%s";
     public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
@@ -44,7 +41,6 @@ public final class WSUrl {
     public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
     public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
     public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
-    public static final String POST_PROMO_CODE = Config.WEB_SERVICE_URL + "api/Authorize/UpdatePromoCode?promoCode=%s";
     public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token";
     public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo";
     public static final String CLOSE_ACCOUNT= LOGIN + "/Terminate";
@@ -55,7 +51,6 @@ public final class WSUrl {
     public static final int GET_WAVES_ID = 2;
     public static final int GET_WAVES_TASKS_ID = 3;
     public static final int GET_MY_TASKS_ID = 4;
-    public static final int REGISTRATION_ID = 5;
     public static final int CLAIM_TASKS_ID = 7;
     public static final int GCM_REGISTER_DEVICE_ID = 9;
     public static final int GCM_TEST_PUSH_ID = 10;
@@ -68,9 +63,7 @@ public final class WSUrl {
     public static final int VALIDATE_TASK_ID = 17;
     public static final int SEND_ANSWERS_ID = 18;
     public static final int REJECT_TASK_ID = 21;
-    public static final int ACTIVATE_ACCOUNT_ID = 22;
     public static final int UPLOAD_PHOTO_ID = 23;
-    public static final int SET_PASSWORD_ID = 24;
     public static final int CASHING_OUT_ID = 25;
     public static final int GET_SHARING_DATA_ID = 26;
     public static final int GET_NEW_TOKEN_ID = 27;
@@ -86,7 +79,6 @@ public final class WSUrl {
         URLS.put(GET_WAVES, GET_WAVES_ID);
         URLS.put(GET_WAVE_TASKS, GET_WAVES_TASKS_ID);
         URLS.put(GET_MY_TASKS, GET_MY_TASKS_ID);
-        URLS.put(REGISTRATION, REGISTRATION_ID);
         URLS.put(CLAIM_TASK, CLAIM_TASKS_ID);
         URLS.put(GCM_REGISTER_DEVICE, GCM_REGISTER_DEVICE_ID);
         URLS.put(GCM_TEST_PUSH, GCM_TEST_PUSH_ID);
@@ -98,9 +90,7 @@ public final class WSUrl {
         URLS.put(START_TASK, START_TASK_ID);
         URLS.put(VALIDATE_TASK, VALIDATE_TASK_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
-        URLS.put(ACTIVATE_ACCOUNT, ACTIVATE_ACCOUNT_ID);
         URLS.put(UPDATE_USER, UPLOAD_PHOTO_ID);
-        URLS.put(SET_PASSWORD, SET_PASSWORD_ID);
         URLS.put(CASHING_OUT, CASHING_OUT_ID);
         URLS.put(GET_SHARING_DATA, GET_SHARING_DATA_ID);
         URLS.put(GET_NEW_TOKEN, GET_NEW_TOKEN_ID);

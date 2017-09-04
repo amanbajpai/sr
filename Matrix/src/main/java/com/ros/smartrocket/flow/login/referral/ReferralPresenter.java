@@ -19,7 +19,6 @@ class ReferralPresenter<V extends ReferralMvpView> extends BaseNetworkPresenter<
                 .getReferralCases(countryId, getLanguageCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(this::hideLoading)
                 .subscribe(this::handleLoadedRK, this::showNetworkError));
     }
 

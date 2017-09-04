@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.NetworkService;
+import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
@@ -160,5 +160,9 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    protected void hideActionBar() {
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
     }
 }

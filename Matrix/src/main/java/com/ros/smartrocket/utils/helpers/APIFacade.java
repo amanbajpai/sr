@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.db.entity.ActivateAccount;
 import com.ros.smartrocket.db.entity.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
@@ -43,42 +42,6 @@ public class APIFacade {
     }
 
     private APIFacade() {
-    }
-
-    public void activateAccount(Activity activity, String email, String token) {
-        ActivateAccount activateAccountEntity = new ActivateAccount();
-        activateAccountEntity.setEmail(email);
-        activateAccountEntity.setToken(token);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.ACTIVATE_ACCOUNT);
-        operation.setTag(Keys.ACTIVATE_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(activateAccountEntity);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void setPassword(Activity activity, String email, String token, String password) {
-        SetPassword setPasswordEntity = new SetPassword();
-        setPasswordEntity.setEmail(email);
-        setPasswordEntity.setPasswordResetToken(token);
-        setPasswordEntity.setNewPassword(password);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SET_PASSWORD);
-        operation.setTag(Keys.SET_PASSWORD_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(setPasswordEntity);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void registration(Activity activity, Registration registrationEntity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.REGISTRATION, preferencesManager.getLanguageCode());
-        operation.setTag(Keys.REGISTRATION_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(registrationEntity);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     public void updateUser(Activity activity, UpdateUser updateUser) {
@@ -344,14 +307,6 @@ public class APIFacade {
         operation.setTag(Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.POST);
         operation.getEntities().add(allowPushNotification);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void setPromoCode(Activity activity, String srCode) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.POST_PROMO_CODE, srCode);
-        operation.setTag(Keys.POST_PROMO_CODE_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

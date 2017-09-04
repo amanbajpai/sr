@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.ui.activity.MainActivity;
 import com.ros.smartrocket.flow.login.registration.RegistrationActivity;
 import com.ros.smartrocket.flow.base.BaseActivity;
@@ -31,34 +33,33 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class PromoCodeActivity extends BaseActivity implements NetworkOperationListenerInterface {
+public class PromoCodeActivity extends BaseActivity implements PromoMvpView {
 
     @BindView(R.id.promoCode)
     EditText promoCodeEdt;
-    private APIFacade apiFacade = APIFacade.getInstance();
-    private RegistrationType type;
-    private String token;
 
-    public PromoCodeActivity() {
-    }
+    private PromoMvpPresenter<PromoMvpView> presenter;
+    private RegistrationType type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_promo_code);
         ButterKnife.bind(this);
-        type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
-        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-        getToken();
-        checkDeviceSettingsByOnResume(false);
+        iniUI();
+        handleArgs();
     }
 
-    private void getToken() {
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        token = TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ?
-                preferencesManager.getToken() :
-                preferencesManager.getTokenForUploadFile();
+    private void handleArgs() {
+        type = (RegistrationType) getIntent().getSerializableExtra(Keys.REGISTRATION_TYPE);
+    }
+
+    private void iniUI() {
+        hideActionBar();
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+        checkDeviceSettingsByOnResume(false);
+        presenter = new PromoPresenter<>();
+        presenter.attachView(this);
     }
 
     public void continueRegistrationFlow() {
@@ -76,66 +77,32 @@ public class PromoCodeActivity extends BaseActivity implements NetworkOperationL
         finish();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
-    }
-
     @OnClick(R.id.continueButton)
     public void onClick() {
-        String promoCode = promoCodeEdt.getText().toString();
-        if (!TextUtils.isEmpty(promoCode) && !TextUtils.isEmpty(token)) {
-            try {
-                promoCode = URLEncoder.encode(promoCode, "UTF-8");
-                showLoading(false);
-                apiFacade.setPromoCode(this, promoCode);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                continueRegistrationFlow();
-            }
-        } else {
-            continueRegistrationFlow();
-        }
+        presenter.sendPromoCode(promoCodeEdt.getText().toString());
     }
 
     @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
-            hideLoading();
-            continueRegistrationFlow();
-        }
+    public void showNetworkError(BaseNetworkError networkError) {
+        if (networkError.getErrorCode() == NetworkError.NO_INTERNET)
+            DialogUtils.showBadOrNoInternetDialog(this);
+        else
+            UIUtils.showSimpleToast(this, networkError.getErrorMessageRes(), Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
 
     @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        if (Keys.POST_PROMO_CODE_OPERATION_TAG.equals(operation.getTag())) {
-            hideLoading();
-            if (operation.getResponseErrorCode() != null && operation.getResponseErrorCode()
-                    == BaseNetworkService.NO_INTERNET) {
-                DialogUtils.showBadOrNoInternetDialog(this);
-            } else {
-                UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
-            }
-        }
+    public void paramsNotValid() {
+        continueRegistrationFlow();
+    }
+
+    @Override
+    public void onPromoCodeSent() {
+        continueRegistrationFlow();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

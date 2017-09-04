@@ -20,7 +20,6 @@ import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.Registration;
-import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.SetPassword;
@@ -67,7 +66,7 @@ public interface MatrixApi {
     Single<ResponseBody> setPassword(@Body SetPassword setPasswordEntity);
 
     @POST("api/Authorize/Register")
-    Single<RegistrationResponse> registration(@Body Registration registrationEntity, @Query("language") String language);
+    Single<ResponseBody> registration(@Body Registration registrationEntity, @Query("language") String language);
 
     @POST("api/Authorize/UpdateUser")
     Single<ResponseBody> updateUser(@Body UpdateUser updateUser);

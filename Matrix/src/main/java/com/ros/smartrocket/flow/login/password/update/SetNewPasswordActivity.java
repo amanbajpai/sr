@@ -3,32 +3,29 @@ package com.ros.smartrocket.flow.login.password.update;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.ui.views.CustomButton;
+import com.ros.smartrocket.ui.views.CustomEditTextView;
+import com.ros.smartrocket.ui.views.CustomSwitch;
+import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.RegistrationFieldTextWatcher;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.ui.views.CustomButton;
-import com.ros.smartrocket.ui.views.CustomEditTextView;
-import com.ros.smartrocket.ui.views.CustomSwitch;
-import com.ros.smartrocket.ui.views.CustomTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SetNewPasswordActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface, SwitchCheckedChangeListener {
+public class SetNewPasswordActivity extends BaseActivity implements NewPassMvpView, SwitchCheckedChangeListener {
     @BindView(R.id.passwordEditText)
     CustomEditTextView passwordEditText;
     @BindView(R.id.showPasswordToggleButton)
@@ -37,123 +34,88 @@ public class SetNewPasswordActivity extends BaseActivity implements View.OnClick
     CustomTextView passwordValidationText;
     @BindView(R.id.setPasswordButton)
     CustomButton setPasswordButton;
-    private APIFacade apiFacade = APIFacade.getInstance();
+
+    private NewPassMvpPresenter<NewPassMvpView> presenter;
     private String email;
     private String token;
-
-    public SetNewPasswordActivity() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_set_new_password);
         ButterKnife.bind(this);
+        presenter = new NewPassPresenter<>();
+        presenter.attachView(this);
+        initUI();
+        handleArgs();
+    }
 
-        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-        setPasswordButton.setOnClickListener(this);
-        showPasswordToggleButton.setOnCheckedChangeListener(this);
-
-        checkDeviceSettingsByOnResume(false);
-
+    private void handleArgs() {
         if (getIntent() != null) {
             email = getIntent().getStringExtra(Keys.EMAIL);
             token = getIntent().getStringExtra(Keys.TOKEN);
-
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(token)) {
                 setPasswordButton.setEnabled(false);
             }
         }
+    }
 
-
+    private void initUI() {
+        hideActionBar();
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+        showPasswordToggleButton.setOnCheckedChangeListener(this);
+        checkDeviceSettingsByOnResume(false);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.setPasswordButton:
-                if (!UIUtils.isOnline(this)) {
-                    LocaleUtils.setCurrentLanguage();
-                    DialogUtils.showNetworkDialog(this);
-                } else {
-
-                    String password = passwordEditText.getText().toString().trim();
-
-                    boolean isPasswordValid = UIUtils.isPasswordValid(password);
-                    UIUtils.setEditTextColorByState(this, passwordEditText, isPasswordValid);
-                    UIUtils.setPasswordEditTextImageByState(passwordEditText, isPasswordValid);
-                    passwordValidationText.setVisibility(isPasswordValid ? View.GONE : View.VISIBLE);
-
-                    if (!isPasswordValid) {
-                        passwordEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this,
-                                passwordEditText, passwordValidationText));
-                        break;
-                    }
-
-                    showLoading(false);
-                    setPasswordButton.setEnabled(false);
-                    showLoading(false);
-                    apiFacade.setPassword(this, email, token, password);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-            hideLoading();
-            UIUtils.showSimpleToast(this, R.string.success);
-            startActivity(IntentUtils.getLoginIntentForLogout(this));
-        }
-    }
-
-    @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        if (Keys.SET_PASSWORD_OPERATION_TAG.equals(operation.getTag())) {
-            hideLoading();
-            setPasswordButton.setEnabled(true);
-            UIUtils.showSimpleToast(this, operation.getResponseError());
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override
     public void onCheckedChange(CustomSwitch customSwitch, boolean isChecked) {
         String text = passwordEditText.getText().toString().trim();
-        if (isChecked) {
+        if (isChecked)
             passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-        } else {
+        else
             passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }
         passwordEditText.setSelection(text.length());
         passwordEditText.setTypeface(FontUtils.loadFontFromAsset(getAssets(), FontUtils.getFontAssetPath(2)));
+    }
+
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
+        UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
+    }
+
+    @OnClick(R.id.setPasswordButton)
+    public void onViewClicked() {
+        if (!UIUtils.isOnline(this)) {
+            LocaleUtils.setCurrentLanguage();
+            DialogUtils.showNetworkDialog(this);
+        } else {
+            handleRestorePassword();
+        }
+    }
+
+    private void handleRestorePassword() {
+        String password = passwordEditText.getText().toString().trim();
+        presenter.changePassword(email, token, password);
+    }
+
+    @Override
+    public void passwordNotValid() {
+        UIUtils.setEditTextColorByState(this, passwordEditText, false);
+        UIUtils.setPasswordEditTextImageByState(passwordEditText, false);
+        passwordValidationText.setVisibility(View.VISIBLE);
+        passwordEditText.addTextChangedListener(new RegistrationFieldTextWatcher(this,
+                passwordEditText, passwordValidationText));
+    }
+
+    @Override
+    public void onPasswordChangeSuccess() {
+        UIUtils.showSimpleToast(this, R.string.success);
+        startActivity(IntentUtils.getLoginIntentForLogout(this));
     }
 }

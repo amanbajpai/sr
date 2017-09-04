@@ -33,7 +33,7 @@ public class ForgotPasswordActivity extends BaseActivity implements ForgotPassMv
     }
 
     private void initUI() {
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        hideActionBar();
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.orange));
         checkDeviceSettingsByOnResume(false);
     }

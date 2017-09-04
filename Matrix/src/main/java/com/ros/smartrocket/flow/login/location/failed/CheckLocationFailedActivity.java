@@ -47,7 +47,7 @@ public class CheckLocationFailedActivity extends BaseActivity implements FailedL
     }
 
     private void initUI() {
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        hideActionBar();
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
         countryEditText.setText(countryName);
         cityEditText.setText(cityName);

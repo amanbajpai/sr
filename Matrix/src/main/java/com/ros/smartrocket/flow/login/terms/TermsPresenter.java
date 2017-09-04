@@ -15,9 +15,7 @@ class TermsPresenter<V extends TermsMvpView> extends BaseNetworkPresenter<V> imp
                 .sendTandC()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        responseBody -> handleTaCSent(),
-                        this::showNetworkError));
+                .subscribe(__ -> handleTaCSent(), this::showNetworkError));
     }
 
     private void handleTaCSent() {

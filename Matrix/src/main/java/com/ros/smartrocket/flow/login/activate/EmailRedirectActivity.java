@@ -10,10 +10,6 @@ import com.ros.smartrocket.utils.IntentUtils;
 import java.util.List;
 
 public class EmailRedirectActivity extends Activity {
-
-    public EmailRedirectActivity() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

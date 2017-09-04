@@ -62,7 +62,7 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
     }
 
     private void initUI() {
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        hideActionBar();
         acceptTC.setOnCheckedChangeListener(this);
         webView.setWebViewClient(new WebViewClientWithProgress());
         webView.loadUrl(getTermsUrl());

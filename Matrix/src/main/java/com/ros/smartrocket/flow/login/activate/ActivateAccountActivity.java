@@ -2,49 +2,49 @@ package com.ros.smartrocket.flow.login.activate;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
-import com.ros.smartrocket.utils.helpers.APIFacade;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
-public class ActivateAccountActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface {
-    private APIFacade apiFacade = APIFacade.getInstance();
-    private CustomProgressDialog progressDialog;
-    private Button activateAccountButton;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ActivateAccountActivity extends BaseActivity implements ActivateMvpView {
+    @BindView(R.id.activateAccountButton)
+    CustomButton activateAccountButton;
+
     private String email;
     private String token;
-
-    public ActivateAccountActivity() {
-    }
+    private ActivateAccMvpPresenter<ActivateMvpView> presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_activate_account);
-
-        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-
-        activateAccountButton = (Button) findViewById(R.id.activateAccountButton);
-        activateAccountButton.setOnClickListener(this);
-
+        ButterKnife.bind(this);
+        presenter = new ActivateAccPresenter<>();
+        presenter.attachView(this);
+        initUI();
+        handleArgs();
         checkDeviceSettingsByOnResume(false);
+    }
 
+    private void initUI() {
+        hideActionBar();
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+    }
+
+    private void handleArgs() {
         if (getIntent() != null) {
             email = getIntent().getStringExtra(Keys.EMAIL);
             token = getIntent().getStringExtra(Keys.TOKEN);
-
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(token)) {
                 activateAccountButton.setEnabled(false);
             }
@@ -52,63 +52,28 @@ public class ActivateAccountActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activateAccountButton:
-                LocaleUtils.setCurrentLanguage();
-                if (!UIUtils.isOnline(this)) {
-                    DialogUtils.showNetworkDialog(this);
-                } else {
-                    progressDialog = CustomProgressDialog.show(this);
-                    activateAccountButton.setEnabled(false);
+    public void onAccountActivated() {
+        DialogUtils.showAccountConfirmedDialog(this);
+    }
 
-                    apiFacade.activateAccount(this, email, token);
-                }
-                break;
-            default:
-                break;
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
+        UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
+    }
+
+    @OnClick(R.id.activateAccountButton)
+    public void onViewClicked() {
+        LocaleUtils.setCurrentLanguage();
+        if (!UIUtils.isOnline(this)) {
+            DialogUtils.showNetworkDialog(this);
+        } else {
+            presenter.activateAccount(email, token);
         }
     }
 
     @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-            progressDialog.dismiss();
-            DialogUtils.showAccountConfirmedDialog(this);
-        }
-    }
-
-    @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        if (Keys.ACTIVATE_ACCOUNT_OPERATION_TAG.equals(operation.getTag())) {
-            progressDialog.dismiss();
-            activateAccountButton.setEnabled(true);
-            UIUtils.showSimpleToast(this, operation.getResponseError());
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

@@ -47,7 +47,7 @@ public class PasswordActivity extends BaseActivity implements PasswordMvpView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
+        hideActionBar();
         setContentView(R.layout.activity_password);
         ButterKnife.bind(this);
         initUI();

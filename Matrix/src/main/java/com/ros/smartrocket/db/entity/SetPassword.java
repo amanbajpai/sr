@@ -12,27 +12,9 @@ public class SetPassword extends BaseEntity {
     @SerializedName("NewPassword")
     private String newPassword;
 
-    public String getPasswordResetToken() {
-        return passwordResetToken;
-    }
-
-    public void setPasswordResetToken(String passwordResetToken) {
-        this.passwordResetToken = passwordResetToken;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public SetPassword(String email, String passwordResetToken, String newPassword) {
         this.email = email;
+        this.passwordResetToken = passwordResetToken;
+        this.newPassword = newPassword;
     }
 }
