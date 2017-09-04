@@ -149,6 +149,9 @@ public interface MatrixApi {
     @GET("api/Payments/NationalIdAccount")
     Single<NationalIdAccount> getNationalIdAccount();
 
+    @POST("api/Payments/NationalIdAccount")
+    Single<ResponseBody> integrateNationalPayAccount(@Body NationalIdAccount account);
+
     @POST("api/Authorize/AllowPushNotification")
     Single<AllowPushNotification> allowPushNotification(@Body AllowPushNotification allowPushNotification);
 

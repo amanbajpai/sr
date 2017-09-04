@@ -23,7 +23,8 @@ class LaunchPresenter<V extends LaunchMvpView> extends BaseNetworkPresenter<V> i
 
     private void getAppVersion() {
         getMvpView().showLoading(false);
-        addDisposable(App.getInstance().getApi().getAppVersion()
+        addDisposable(App.getInstance().getApi()
+                .getAppVersion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleAppVersion, this::showNetworkError));

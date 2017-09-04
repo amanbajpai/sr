@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.fragment;
+package com.ros.smartrocket.flow.settings;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -30,6 +30,7 @@ import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
@@ -51,7 +52,14 @@ import butterknife.OnClick;
 
 
 public class SettingsFragment extends BaseFragment implements SwitchCheckedChangeListener,
-        AdapterView.OnItemSelectedListener, NetworkOperationListenerInterface {
+        AdapterView.OnItemSelectedListener, SettingsMvpView {
+    private static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
+    private static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
+    private static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
+    private static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "5", "10", "25", "50"};
+    private static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
+            DateUtils.MINUTE_IN_MILLIS * 30, DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
+
     @BindView(R.id.languageSpinner)
     Spinner languageSpinner;
     @BindView(R.id.locationServicesToggleButton)
@@ -78,16 +86,9 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     CustomTextView currentVersion;
     @BindView(R.id.closeAccount)
     CustomTextView closeAccount;
-    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private APIFacade apiFacade = APIFacade.getInstance();
-    private static final int[] MONTHLY_LIMIT_MB_CODE = new int[]{0, 50, 100, 250, 500};
-    private static final String[] MONTHLY_LIMIT_MB = new String[]{"Unlimited", "50", "100", "250", "500"};
-    private static final int[] MISSION_LIMIT_MB_CODE = new int[]{0, 5, 10, 25, 50};
-    private static final String[] MISSION_LIMIT_MB = new String[]{"Unlimited", "5", "10", "25", "50"};
-    private static long[] TIME_IN_MILLIS = new long[]{DateUtils.MINUTE_IN_MILLIS * 5, DateUtils.MINUTE_IN_MILLIS * 10,
-            DateUtils.MINUTE_IN_MILLIS * 30, DateUtils.HOUR_IN_MILLIS, DateUtils.HOUR_IN_MILLIS * 2};
 
-    private ProgressDialog progressDialog;
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private SettingsMvpPresenter<SettingsMvpView> presenter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -99,36 +100,30 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
         ButterKnife.bind(this, view);
+        initUI(view);
+        presenter = new SettingsPresenter<>();
+        presenter.attachView(this);
+        setData();
+        return view;
+    }
+
+    private void initUI(ViewGroup view) {
         MONTHLY_LIMIT_MB[0] = getString(R.string.unlimited);
         MISSION_LIMIT_MB[0] = getString(R.string.unlimited);
-
         closeAccount.setPaintFlags(closeAccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
         ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
                 BuildConfig.JENKINS_BUILD_VERSION + ")");
         final MyAccount myAccount = App.getInstance().getMyAccount();
         currentVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.JENKINS_BUILD_VERSION + ")");
-        currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
-                return false;
-            }
+        currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(v -> {
+            startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
+            return false;
         });
-        setData();
-        progressDialog = new ProgressDialog(getActivity());
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
     }
 
     @Override
     public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
+        presenter.detachView();
         super.onStop();
     }
 
@@ -245,27 +240,6 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         monthLimitSpinner.setSelection(selectedItemPosition);
     }
 
-    @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG.equals(operation.getTag())) {
-            MyAccount myAccount = App.getInstance().getMyAccount();
-            AllowPushNotification allowPushNotification = (AllowPushNotification) operation.getEntities().get(0);
-            myAccount.setAllowPushNotification(allowPushNotification.getAllow());
-            App.getInstance().setMyAccount(myAccount);
-            progressDialog.dismiss();
-        } else if (Keys.CLOSE_ACCOUNT_TAG.equals(operation.getTag())) {
-            progressDialog.dismiss();
-            logOut();
-        }
-
-    }
-
-    @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        progressDialog.dismiss();
-        UIUtils.showSimpleToast(getActivity(), operation.getResponseError());
-    }
-
     public void changeTaskReminderServiceStatus() {
         if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
             getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
@@ -281,7 +255,6 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
             case R.id.languageSpinner:
                 String selectedLanguageCode = LocaleUtils.VISIBLE_LANGS_CODE[languageSpinner.getSelectedItemPosition()];
                 boolean languageChanged = LocaleUtils.setDefaultLanguage(selectedLanguageCode);
-
                 if (languageChanged) {
                     UIUtils.showSimpleToast(getActivity(), R.string.success);
                     App.getInstance().initLocaleSettings();
@@ -313,16 +286,15 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-
         inflater.inflate(R.menu.menu_settings, menu);
-
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        View view = actionBar.getCustomView();
-        ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.app_settings_title);
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            View view = actionBar.getCustomView();
+            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.app_settings_title);
+        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -338,7 +310,6 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
             default:
                 result = super.onOptionsItemSelected(item);
         }
-
         return result;
     }
 
@@ -349,13 +320,6 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         getActivity().finish();
         getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-    }
-
 
     @OnClick(R.id.closeAccount)
     public void onClick() {
@@ -371,8 +335,7 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
 
             @Override
             public void onRightButtonPressed(Dialog dialog) {
-                progressDialog.show();
-                apiFacade.closeAccount(getActivity());
+                presenter.closeAccount();
                 dialog.dismiss();
             }
         });
@@ -384,22 +347,16 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
             case R.id.deadlineReminderToggleButton:
                 deadlineReminderLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
                 preferencesManager.setUseDeadlineReminder(isChecked);
-
                 changeTaskReminderServiceStatus();
                 break;
-
             case R.id.locationServicesToggleButton:
                 preferencesManager.setUseLocationServices(isChecked);
-
                 if (!UIUtils.isAllLocationSourceEnabled(getActivity()) && preferencesManager.getUseLocationServices()) {
                     DialogUtils.showLocationDialog(getActivity(), false);
                 }
                 break;
             case R.id.pushMessagesToggleButton:
-                apiFacade.allowPushNotification(getActivity(), isChecked);
-                progressDialog.show();
-                preferencesManager.setUsePushMessages(isChecked);
-                changeTaskReminderServiceStatus();
+                presenter.allowPushNotifications(isChecked);
                 break;
             case R.id.socialSharingToggleButton:
                 preferencesManager.setUseSocialSharing(isChecked);
@@ -411,5 +368,20 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
                 preferencesManager.setUseOnlyWiFiConnaction(isChecked);
                 break;
         }
+    }
+
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
+        UIUtils.showSimpleToast(getActivity(), networkError.getErrorMessageRes());
+    }
+
+    @Override
+    public void onAccountClosed() {
+        logOut();
+    }
+
+    @Override
+    public void onPushStatusChanged() {
+        changeTaskReminderServiceStatus();
     }
 }

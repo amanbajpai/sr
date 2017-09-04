@@ -5,11 +5,8 @@ import com.ros.smartrocket.utils.UIUtils;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
+
 public class LongToStringTimeTest {
 
     @Test

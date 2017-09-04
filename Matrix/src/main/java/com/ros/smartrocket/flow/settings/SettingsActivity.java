@@ -1,10 +1,9 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.settings;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
 

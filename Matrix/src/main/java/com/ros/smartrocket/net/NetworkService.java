@@ -213,19 +213,6 @@ public class NetworkService extends BaseNetworkService {
                         Sharing sharing = gson.fromJson(responseString, Sharing.class);
                         operation.responseEntities.add(sharing);
                         break;
-                    case WSUrl.GET_ALIPAY_ACCOUNT_ID:
-                        AliPayAccount aliPayAccount = gson.fromJson(responseString, AliPayAccount.class);
-                        operation.responseEntities.add(aliPayAccount);
-                        break;
-                    case WSUrl.GET_NATIONAL_ID_ACCOUNT_ID:
-                        NationalIdAccount nationalIdAccount = gson.fromJson(responseString, NationalIdAccount.class);
-                        operation.responseEntities.add(nationalIdAccount);
-                        break;
-                    case WSUrl.ALLOW_PUSH_NOTIFICATION_ID:
-                        AllowPushNotification allowPushNotification = gson.fromJson(responseString,
-                                AllowPushNotification.class);
-                        operation.responseEntities.add(allowPushNotification);
-                        break;
                     default:
                         break;
                 }

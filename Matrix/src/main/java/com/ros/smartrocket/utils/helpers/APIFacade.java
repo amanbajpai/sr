@@ -12,9 +12,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NationalIdAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.RegisterDevice;
-import com.ros.smartrocket.db.entity.Registration;
 import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.SetPassword;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Token;
 import com.ros.smartrocket.db.entity.UpdateUser;
@@ -213,22 +211,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void sendActivity(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.SEND_ACTIVITY);
-        operation.setTag(Keys.SEND_ACTIVITY_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void cashingOut(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.CASHING_OUT);
-        operation.setTag(Keys.CASHING_OUT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     public void getSharingData(Activity activity) {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_SHARING_DATA, preferencesManager.getLanguageCode());
@@ -253,68 +235,5 @@ public class APIFacade {
         Intent intent = new Intent(context, NetworkService.class);
         intent.putExtra(NetworkService.KEY_OPERATION, operation);
         context.startService(intent);
-    }
-
-    public void getAliPayAccount(Activity activity) {
-        Token token = new Token();
-        token.setToken(preferencesManager.getToken());
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_ALIPAY_ACCOUNT);
-        operation.setTag(Keys.GET_ALIPAY_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void integrateAliPayAccount(Activity activity, AliPayAccount aliPayAccount) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_ALIPAY_ACCOUNT);
-        operation.setTag(Keys.INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(aliPayAccount);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getNationalIdAccount(Activity activity) {
-        Token token = new Token();
-        token.setToken(preferencesManager.getToken());
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
-        operation.setTag(Keys.GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void integrateNationalIdAccount(Activity activity, NationalIdAccount nationalIdAccount) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_NATIONAL_ID_ACCOUNT);
-        operation.setTag(Keys.INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(nationalIdAccount);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void allowPushNotification(Activity activity, boolean allow) {
-        AllowPushNotification allowPushNotification = new AllowPushNotification();
-        if (allow) {
-            allowPushNotification.allow();
-        } else {
-            allowPushNotification.disallow();
-        }
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.ALLOW_PUSH_NOTIFICATION);
-        operation.setTag(Keys.ALLOW_PUSH_NOTIFICATION_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(allowPushNotification);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void closeAccount(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.CLOSE_ACCOUNT);
-        operation.setTag(Keys.CLOSE_ACCOUNT_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 }

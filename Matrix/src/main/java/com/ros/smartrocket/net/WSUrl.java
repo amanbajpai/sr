@@ -6,14 +6,12 @@ import java.util.HashMap;
 
 
 public final class WSUrl {
-    // Authorize
-    public static final String LOGIN = Config.WEB_SERVICE_URL + "api/Authorize";
+
     public static final String UPDATE_USER = Config.WEB_SERVICE_URL + "api/Authorize/UpdateUser";
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     public static final String GCM_TEST_PUSH = Config.WEB_SERVICE_URL + "api/Authorize/PushMessage";
     public static final String GET_MY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Authorize/Account?language=%s";
     public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
-    public static final String ALLOW_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/AllowPushNotification";
     public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
 
     // Waves
@@ -36,14 +34,9 @@ public final class WSUrl {
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
 
     // Other
-    public static final String CASHING_OUT = Config.WEB_SERVICE_URL + "WithdrawMoney";
     public static final String GET_SHARING_DATA = Config.WEB_SERVICE_URL + "api/Socials/SharingData?language=%s";
-    public static final String GET_ALIPAY_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/AliPayAccount";
-    public static final String GET_NATIONAL_ID_ACCOUNT = Config.WEB_SERVICE_URL + "api/Payments/NationalIdAccount";
-    public static final String SEND_ACTIVITY = Config.WEB_SERVICE_URL + "SendActivity";
     public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token";
     public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo";
-    public static final String CLOSE_ACCOUNT= LOGIN + "/Terminate";
 
 
 
@@ -64,12 +57,8 @@ public final class WSUrl {
     public static final int SEND_ANSWERS_ID = 18;
     public static final int REJECT_TASK_ID = 21;
     public static final int UPLOAD_PHOTO_ID = 23;
-    public static final int CASHING_OUT_ID = 25;
     public static final int GET_SHARING_DATA_ID = 26;
     public static final int GET_NEW_TOKEN_ID = 27;
-    public static final int GET_ALIPAY_ACCOUNT_ID = 29;
-    public static final int GET_NATIONAL_ID_ACCOUNT_ID = 30;
-    public static final int ALLOW_PUSH_NOTIFICATION_ID = 32;
     public static final int TEST_PUSH_NOTIFICATION_ID = 33;
 
     public static final HashMap<String, Integer> URLS;
@@ -91,13 +80,9 @@ public final class WSUrl {
         URLS.put(VALIDATE_TASK, VALIDATE_TASK_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
         URLS.put(UPDATE_USER, UPLOAD_PHOTO_ID);
-        URLS.put(CASHING_OUT, CASHING_OUT_ID);
         URLS.put(GET_SHARING_DATA, GET_SHARING_DATA_ID);
         URLS.put(GET_NEW_TOKEN, GET_NEW_TOKEN_ID);
-        URLS.put(GET_ALIPAY_ACCOUNT, GET_ALIPAY_ACCOUNT_ID);
-        URLS.put(ALLOW_PUSH_NOTIFICATION, ALLOW_PUSH_NOTIFICATION_ID);
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
-        URLS.put(GET_NATIONAL_ID_ACCOUNT, GET_NATIONAL_ID_ACCOUNT_ID);
     }
 
     public static int matchUrl(String url) {

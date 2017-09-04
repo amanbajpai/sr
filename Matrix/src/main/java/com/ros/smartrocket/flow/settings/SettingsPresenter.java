@@ -1,0 +1,46 @@
+package com.ros.smartrocket.flow.settings;
+
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.entity.AllowPushNotification;
+import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.flow.base.BaseNetworkPresenter;
+import com.ros.smartrocket.utils.PreferencesManager;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+class SettingsPresenter<V extends SettingsMvpView> extends BaseNetworkPresenter<V> implements SettingsMvpPresenter<V> {
+    @Override
+    public void allowPushNotifications(boolean isAllowed) {
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .allowPushNotification(new AllowPushNotification(isAllowed))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onPushStatusChanges, this::showNetworkError));
+    }
+
+    private void onPushStatusChanges(AllowPushNotification allowPushNotification) {
+        MyAccount myAccount = App.getInstance().getMyAccount();
+        myAccount.setAllowPushNotification(allowPushNotification.getAllow());
+        PreferencesManager.getInstance().setUsePushMessages(allowPushNotification.getAllow());
+        App.getInstance().setMyAccount(myAccount);
+        hideLoading();
+        getMvpView().onPushStatusChanged();
+    }
+
+    @Override
+    public void closeAccount() {
+        showLoading(false);
+        addDisposable(App.getInstance().getApi()
+                .closeAccount()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(__ -> onAccountClosed(), this::showNetworkError));
+    }
+
+    private void onAccountClosed() {
+        hideLoading();
+        getMvpView().onAccountClosed();
+    }
+}

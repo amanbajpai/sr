@@ -25,7 +25,7 @@ import com.ros.smartrocket.ui.activity.PushNotificationActivity;
 import com.ros.smartrocket.ui.activity.QuestionsActivity;
 import com.ros.smartrocket.ui.activity.QuitQuestionActivity;
 import com.ros.smartrocket.flow.login.password.update.SetNewPasswordActivity;
-import com.ros.smartrocket.ui.activity.SettingsActivity;
+import com.ros.smartrocket.flow.settings.SettingsActivity;
 import com.ros.smartrocket.ui.activity.ShareActivity;
 import com.ros.smartrocket.ui.activity.TaskDetailsActivity;
 import com.ros.smartrocket.ui.activity.TaskValidationActivity;
