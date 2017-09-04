@@ -10,20 +10,23 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 class SettingsPresenter<V extends SettingsMvpView> extends BaseNetworkPresenter<V> implements SettingsMvpPresenter<V> {
+    private boolean isAllowed;
+
     @Override
     public void allowPushNotifications(boolean isAllowed) {
         showLoading(false);
+        this.isAllowed = isAllowed;
         addDisposable(App.getInstance().getApi()
                 .allowPushNotification(new AllowPushNotification(isAllowed))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onPushStatusChanges, this::showNetworkError));
+                .subscribe(__ -> onPushStatusChanges(), this::showNetworkError));
     }
 
-    private void onPushStatusChanges(AllowPushNotification allowPushNotification) {
+    private void onPushStatusChanges() {
         MyAccount myAccount = App.getInstance().getMyAccount();
-        myAccount.setAllowPushNotification(allowPushNotification.getAllow());
-        PreferencesManager.getInstance().setUsePushMessages(allowPushNotification.getAllow());
+        myAccount.setAllowPushNotification(isAllowed);
+        PreferencesManager.getInstance().setUsePushMessages(isAllowed);
         App.getInstance().setMyAccount(myAccount);
         hideLoading();
         getMvpView().onPushStatusChanged();

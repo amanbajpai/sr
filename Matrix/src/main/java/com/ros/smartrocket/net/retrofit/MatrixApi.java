@@ -153,7 +153,7 @@ public interface MatrixApi {
     Single<ResponseBody> integrateNationalPayAccount(@Body NationalIdAccount account);
 
     @POST("api/Authorize/AllowPushNotification")
-    Single<AllowPushNotification> allowPushNotification(@Body AllowPushNotification allowPushNotification);
+    Single<ResponseBody> allowPushNotification(@Body AllowPushNotification allowPushNotification);
 
     @GET("api/Authorize/CheckEmail")
     Single<CheckEmail> checkEmail(@Query("email") String email);
