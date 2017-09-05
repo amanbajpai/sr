@@ -72,6 +72,12 @@ public class UpdateNationalPaymentFragment extends BaseFragment implements Natio
         super.onStop();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+    }
+
     @OnClick(R.id.submitButton)
     public void onClick() {
         NationalIdAccount nationalIdAccount = new NationalIdAccount();

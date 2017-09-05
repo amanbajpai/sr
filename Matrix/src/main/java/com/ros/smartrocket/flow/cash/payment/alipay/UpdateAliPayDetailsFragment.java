@@ -107,6 +107,12 @@ public class UpdateAliPayDetailsFragment extends BaseFragment implements AliPayM
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+    }
+
+    @Override
     public void startProgress() {
         refreshButton.setVisibility(View.VISIBLE);
         refreshButton.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));

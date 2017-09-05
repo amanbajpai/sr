@@ -97,12 +97,17 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_settings, null);
         ButterKnife.bind(this, view);
         initUI(view);
         presenter = new SettingsPresenter<>();
-        presenter.attachView(this);
         setData();
         return view;
     }
@@ -123,8 +128,8 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
 
     @Override
     public void onStop() {
-        presenter.detachView();
         super.onStop();
+        presenter.detachView();
     }
 
     public void setData() {

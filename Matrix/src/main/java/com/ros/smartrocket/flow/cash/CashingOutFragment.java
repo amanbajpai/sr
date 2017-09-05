@@ -177,4 +177,11 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
         accountPresenter.detachView();
         super.onStop();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+        accountPresenter.attachView(this);
+    }
 }

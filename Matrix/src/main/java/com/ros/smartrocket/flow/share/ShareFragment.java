@@ -228,6 +228,12 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+    }
+
+    @Override
     public void onStop() {
         presenter.detachView();
         super.onStop();
