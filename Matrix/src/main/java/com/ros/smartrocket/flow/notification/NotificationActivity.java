@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.notification;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,6 @@ import com.ros.smartrocket.utils.MatrixContextWrapper;
 import java.util.Locale;
 
 public class NotificationActivity extends Activity implements OnClickListener {
-    //private final static String TAG = NotificationActivity.class.getSimpleName();
 
     private CharSequence title;
     private CharSequence text;
@@ -40,7 +39,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
 
         private int id;
 
-        private NotificationType(int typeId) {
+        NotificationType(int typeId) {
             this.id = typeId;
         }
 

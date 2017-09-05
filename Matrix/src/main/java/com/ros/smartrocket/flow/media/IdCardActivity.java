@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.media;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class IdCardActivity extends Activity {
-    public static final String ARG_WAVE = "com.ros.smartrocket.ui.activity.IdCardActivity.ARG_WAVE";
+    public static final String ARG_WAVE = "com.ros.smartrocket.flow.media.IdCardActivity.ARG_WAVE";
 
     @BindView(R.id.idCardUserPhoto)
     ImageView userPhoto;

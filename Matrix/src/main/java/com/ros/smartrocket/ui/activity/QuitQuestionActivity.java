@@ -14,19 +14,14 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.flow.base.BaseActivity;
 
-public class QuitQuestionActivity extends BaseActivity implements
-        View.OnClickListener {
+public class QuitQuestionActivity extends BaseActivity implements View.OnClickListener {
     private Question question;
-
-    public QuitQuestionActivity() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHomeAsUp();
         setContentView(R.layout.activity_quit_question);
-
         if (getIntent() != null) {
             question = (Question) getIntent().getSerializableExtra(Keys.QUESTION);
         }

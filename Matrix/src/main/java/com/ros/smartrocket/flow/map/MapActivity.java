@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,14 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.fragment.TasksMapFragment;
 
 public class MapActivity extends BaseActivity {
 

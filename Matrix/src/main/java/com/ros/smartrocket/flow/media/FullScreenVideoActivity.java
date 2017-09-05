@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.media;
 
 import android.graphics.Color;
 import android.media.MediaPlayer;

@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.fragment;
+package com.ros.smartrocket.flow.map;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -53,6 +53,8 @@ import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.ui.fragment.AllTaskFragment;
+import com.ros.smartrocket.ui.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
@@ -121,7 +123,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     private boolean isFirstStart = true;
     private Marker currentLocationMarker;
     private Circle circle;
-    private Overlay circleBaidu;
     private boolean isNeedRefresh = true;
     private View hideMissionsLayout;
     private SeekBar seekBarRadius;
@@ -322,17 +323,11 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-    /**
-     * Get View mode type from Intent
-     *
-     * @param bundle - fragment arguments
-     */
     private void setViewMode(Bundle bundle) {
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
 
-            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS
-                    /* && !Config.USE_BAIDU || mode == Keys.MapViewMode.WAVE_TASKS*/;
+            boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS;
             btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
             if (mode == Keys.MapViewMode.WAVE_TASKS) {
                 hideMissionsLayout.setVisibility(View.GONE);
@@ -361,9 +356,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-    /**
-     * Get Tasks
-     */
     private void loadData(boolean serverUpdate) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             AllTaskFragment.stopRefreshProgress = !serverUpdate;
@@ -378,9 +370,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-    /**
-     * Get Tasks from local db
-     */
     private void loadTasksFromLocalDb() {
         Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
@@ -412,9 +401,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }, 1000);
     }
 
-    /**
-     * Send request to server for data update
-     */
     private void updateDataFromServer() {
         if (UIUtils.isOnline(getActivity())) {
             if (mode == Keys.MapViewMode.MY_TASKS) {
@@ -428,18 +414,10 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-    /**
-     * Initiate call to server side and get my Tasks
-     */
     private void getMyTasksFromServer() {
         ((BaseActivity) getActivity()).sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
     }
 
-    /**
-     * Initiate call to server side and get Tasks
-     *
-     * @param radius - selected radius
-     */
     private void getWavesFromServer(final int radius) {
         MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
             @Override
@@ -455,16 +433,10 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
             @Override
             public void getLocationSuccess(final Location location) {
                 if (isFirstStart) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
-                        }
-                    }, 1000);
+                    new Handler().postDelayed(() -> APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius), 1000);
                 } else {
                     APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
                 }
-
             }
 
             @Override
@@ -647,12 +619,9 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
 
             MapHelper.setMapOverlayView(getActivity(), overlayView, task);
 
-            InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
-                public void onInfoWindowClick() {
-                    MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getMissionId(),
-                            task.getStatusId());
-                    baiduMap.hideInfoWindow();
-                }
+            InfoWindow.OnInfoWindowClickListener listener = () -> {
+                MapHelper.mapOverlayClickResult(getActivity(), task.getId(), task.getMissionId(), task.getStatusId());
+                baiduMap.hideInfoWindow();
             };
 
             final com.baidu.mapapi.model.LatLng ll = marker.getPosition();
@@ -668,13 +637,7 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     };
 
-    com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickDownstreamListener = new com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener() {
-        @Override
-        public boolean onMarkerClick(com.baidu.mapapi.map.Marker marker, com.twotoasters.baiduclusterkraf.ClusterPoint clusterPoint) {
-
-            return false;
-        }
-    };
+    com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickDownstreamListener = (marker, clusterPoint) -> false;
 
     @Override
     public void onClick(View v) {
@@ -779,10 +742,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-
-    /**
-     * Move camera to current location or show Toast message if location not defined.
-     */
     private void moveCameraToLocation() {
         if (mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS) {
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
@@ -827,11 +786,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-    /**
-     * Add marker with myu location on the map
-     *
-     * @param location - my current location
-     */
     private void addMyLocation(final Location location) {
         if (location != null) {
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
@@ -878,12 +832,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     };
 
-    /**
-     * Add Radius
-     *
-     * @param location - should be not null
-     */
-
     private void addRadius(Location location) {
         if (location != null && getActivity() != null && !isTracking) {
             Resources r = getActivity().getResources();
@@ -892,13 +840,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         }
     }
 
-    /**
-     * Draw circle on the map
-     *
-     * @param latitude  - current latitude
-     * @param longitude - current longitude
-     * @param radius    - current radius
-     */
     private void addCircle(final double latitude, final double longitude, final int radius, final int strokeColor, final int fillColor) {
         MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
             @Override
@@ -920,8 +861,7 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
                 com.baidu.mapapi.model.LatLng coordinates = new com.baidu.mapapi.model.LatLng(latitude, longitude);
-
-                circleBaidu = baiduMap.addOverlay(new com.baidu.mapapi.map.CircleOptions()
+                baiduMap.addOverlay(new com.baidu.mapapi.map.CircleOptions()
                         .center(coordinates)
                         .fillColor(fillColor)
                         .stroke(new Stroke(3, strokeColor))
@@ -968,12 +908,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
                 }
             }
         });
-    }
-
-    public void clearPins() {
-        if (clusterkraf != null) {
-            clusterkraf.clear();
-        }
     }
 
     @Override

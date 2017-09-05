@@ -24,6 +24,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.flow.map.TasksMapFragment;
 import com.ros.smartrocket.ui.adapter.WaveAdapter;
 import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.WaveDbSchema;

@@ -35,9 +35,6 @@ import com.ros.smartrocket.ui.views.OptionsRow;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Activity for view Task detail information
- */
 public class WaveDetailsActivity extends BaseActivity implements
         View.OnClickListener, ClaimTaskManager.ClaimTaskListener {
     @BindView(R.id.startTimeText)

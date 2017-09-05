@@ -151,10 +151,10 @@
             android:name=".flow.login.password.forgot.ForgotPasswordSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.FullScreenImageActivity"
+            android:name=".flow.media.FullScreenImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.FullScreenVideoActivity"
+            android:name=".flow.media.FullScreenVideoActivity"
             android:configChanges="orientation" />
         <activity
             android:name=".ui.activity.MainActivity"
@@ -172,12 +172,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".ui.activity.NotificationActivity"
+            android:name=".flow.notification.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
             android:theme="@style/CustomNotification.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activity.MapActivity"
+            android:name=".flow.map.MapActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.activity.MainActivity"
@@ -191,7 +191,7 @@
             android:name=".flow.settings.SettingsActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.ShareActivity"
+            android:name=".flow.share.ShareActivity"
             android:configChanges="locale" />
         <activity
             android:name=".flow.login.location.CheckLocationActivity"
@@ -288,7 +288,7 @@
             android:name=".flow.cash.CashingOutSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.IdCardActivity"
+            android:name=".flow.media.IdCardActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoActionBar" />
 
@@ -296,7 +296,7 @@
             android:name=".net.NetworkService"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.PushNotificationActivity"
+            android:name=".flow.notification.PushNotificationActivity"
             android:configChanges="locale" />
         <provider
             android:name=".db.AppContentProvider"

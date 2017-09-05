@@ -29,6 +29,8 @@ import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.flow.map.MapActivity;
+import com.ros.smartrocket.flow.media.IdCardActivity;
 import com.ros.smartrocket.ui.dialog.UpdateVersionDialog;
 import com.ros.smartrocket.utils.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.utils.helpers.APIFacade;
@@ -661,12 +663,9 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimTaskManage
         titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
         titleTextView.setText(getString(R.string.task_detail_title, wave.getName()));
         idCardView = actionBarView.findViewById(R.id.idCardButton);
-        idCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LocaleUtils.setCurrentLanguage();
-                IdCardActivity.launch(TaskDetailsActivity.this, wave);
-            }
+        idCardView.setOnClickListener(view -> {
+            LocaleUtils.setCurrentLanguage();
+            IdCardActivity.launch(TaskDetailsActivity.this, wave);
         });
         return true;
     }

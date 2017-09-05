@@ -531,6 +531,25 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         void getLocationFail(String errorText);
     }
 
+    abstract public class SimpleGetCurrentLocationListener implements GetCurrentLocationListener{
+
+        @Override
+        public void getLocationStart() {
+
+        }
+
+        @Override
+        public void getLocationInProcess() {
+
+        }
+
+        @Override
+       abstract public void getLocationSuccess(Location location);
+
+        @Override
+        abstract public void getLocationFail(String errorText);
+    }
+
     public com.google.android.gms.maps.model.LatLng getLastGooglePosition() {
         return lastGooglePosition;
     }

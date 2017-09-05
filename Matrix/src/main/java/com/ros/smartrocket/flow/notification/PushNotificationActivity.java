@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.notification;
 
 import android.os.Bundle;
 import android.text.TextUtils;

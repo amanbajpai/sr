@@ -29,6 +29,7 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.flow.media.IdCardActivity;
 import com.ros.smartrocket.ui.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.ui.fragment.QuestionAudioFragment;
 import com.ros.smartrocket.ui.fragment.QuestionInstructionFragment;
