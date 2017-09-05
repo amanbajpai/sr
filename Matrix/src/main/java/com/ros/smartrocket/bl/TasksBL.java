@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 public class TasksBL {
     public TasksBL() {
 
@@ -47,14 +49,31 @@ public class TasksBL {
         return c;
     }
 
+
+    public static Observable<List<Task>> getgetTaskFromDBbyIDObservable(Integer taskId, Integer missionId) {
+        return Observable.fromCallable(() -> convertCursorToTasksList(getTaskFromDBbyID(taskId, missionId)));
+    }
+
     public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean showHiddenTasks, Integer radius) {
         String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
-
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, Table.TASK.getName()
                         + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?" + withHiddenTaskWhere,
                 new String[]{String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC
         );
+    }
+
+    private static List<Task> getAllNotMyTasksFromDBSync(boolean showHiddenTasks) {
+        String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+        Cursor c = App.getInstance().getContentResolver().query(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, Table.TASK.getName()
+                        + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?" + withHiddenTaskWhere,
+                new String[]{String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC);
+        return TasksBL.convertCursorToTasksList(c);
+    }
+
+    public static Observable<List<Task>> getgetAllNotMyTasksObservable(boolean showHiddenTasks) {
+        return Observable.fromCallable(() -> getAllNotMyTasksFromDBSync(showHiddenTasks));
     }
 
 
@@ -80,19 +99,6 @@ public class TasksBL {
                 new String[]{String.valueOf(taskId)}, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
-    /**
-     * Get tasks for one Wave
-     *
-     * @param handler - handler for request to DB
-     * @param waveId  - waveId
-     */
-    public static void getTasksFromDBbyWaveId(AsyncQueryHandler handler, int waveId) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.WAVE_ID + "=?",
-                new String[]{String.valueOf(waveId)},
-                TaskDbSchema.SORT_ORDER_DESC);
-    }
-
     public static void getNotMyTasksFromDBbyWaveId(AsyncQueryHandler handler, int waveId, boolean withHiddenTasks) {
         String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
 
@@ -102,6 +108,21 @@ public class TasksBL {
                 new String[]{String.valueOf(waveId), String.valueOf(0)},
                 TaskDbSchema.SORT_ORDER_DESC
         );
+    }
+
+    private static List<Task> getNotMyTasksFromDBbyWaveId(int waveId, boolean withHiddenTasks) {
+        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+        Cursor c = App.getInstance().getContentResolver().query(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.WAVE_ID + "=? and "
+                        + TaskDbSchema.Columns.IS_MY + "=?" + withHiddenTaskWhere,
+                new String[]{String.valueOf(waveId), String.valueOf(0)},
+                TaskDbSchema.SORT_ORDER_DESC
+        );
+        return convertCursorToTasksList(c);
+    }
+
+    public static Observable<List<Task>> getNotMyTasksObservable(int waveId, boolean isHidden) {
+        return Observable.fromCallable(() -> getNotMyTasksFromDBbyWaveId(waveId, isHidden));
     }
 
     public static void getMyTasksFromDB(AsyncQueryHandler handler) {
@@ -121,7 +142,6 @@ public class TasksBL {
 
     public static void getMyTasksForMapFromDB(AsyncQueryHandler handler) {
         long currentTime = Calendar.getInstance().getTimeInMillis();
-
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 "
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.WITHDRAW.getStatusId()
@@ -133,6 +153,25 @@ public class TasksBL {
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.REJECTED.getStatusId(),
                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
         );
+    }
+
+    private static List<Task> getMyTasksFromDB() {
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        Cursor c = App.getInstance().getContentResolver().query(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 "
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.WITHDRAW.getStatusId()
+                        + " and " + TaskDbSchema.Columns.LONG_EXPIRE_DATE_TIME + " > " + currentTime
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.COMPLETED.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.VALIDATED.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.IN_PAYMENT_PROCESS.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.PAID.getStatusId()
+                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.REJECTED.getStatusId(),
+                null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST);
+        return convertCursorToTasksList(c);
+    }
+
+    public static Observable<List<Task>> getMyTasksForMapObservable() {
+        return Observable.fromCallable(TasksBL::getMyTasksFromDB);
     }
 
     public static void getMyTasksForMainMenuFromDB(AsyncQueryHandler handler) {

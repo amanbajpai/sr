@@ -81,13 +81,13 @@ public interface MatrixApi {
     Single<ResponseBody> saveReferralCases(@Body SaveReferralCase caseEntity);
 
     @GET("api/Waves")
-    Single<Waves> getWaves(@Query("latitude") double latitude,
+    Observable<Waves> getWaves(@Query("latitude") double latitude,
                          @Query("longitude") double longitude,
                          @Query("radius") int radius,
                          @Query("language") String language);
 
     @GET("api/Tasks/ByCurrentUser")
-    Single<Waves> getMyTasksOperation(@Query("language") String language);
+    Observable<Waves> getMyTasks(@Query("language") String language);
 
     @POST("api/Tasks/Claim")
     Single<ClaimTaskResponse> claimTask(@Body SendTaskId sendTaskId);

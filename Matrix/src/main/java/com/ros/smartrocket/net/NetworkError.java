@@ -126,6 +126,6 @@ public class NetworkError implements BaseNetworkError {
 
     private void handleUnknownError() {
         errorMessageRes = R.string.error;
-        errorCode = SERVER_INTEERNAL_ERROR;
+        errorCode = DEVICE_INTEERNAL_ERROR;
     }
 }

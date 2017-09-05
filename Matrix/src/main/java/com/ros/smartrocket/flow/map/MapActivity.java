@@ -53,7 +53,6 @@ public class MapActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);

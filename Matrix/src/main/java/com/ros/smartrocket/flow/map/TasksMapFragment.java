@@ -1,9 +1,7 @@
 package com.ros.smartrocket.flow.map;
 
 import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,7 +29,6 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,18 +47,14 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.ui.fragment.AllTaskFragment;
 import com.ros.smartrocket.ui.fragment.TransparentSupportMapFragment;
-import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.map.MapHelper;
-import com.ros.smartrocket.net.BaseNetworkService;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -79,7 +72,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class TasksMapFragment extends BaseFragment implements NetworkOperationListenerInterface,
+public class TasksMapFragment extends BaseFragment implements MapMvpView,
         View.OnClickListener, SwitchCheckedChangeListener,
         OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
 
@@ -113,8 +106,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     private float mapWidth;
     private Clusterkraf clusterkraf;
     private com.twotoasters.baiduclusterkraf.Clusterkraf baiduClusterkraf;
-
-    private AsyncQueryHandler handler;
     private Keys.MapViewMode mode;
 
     // Used for Wave and SingleTask map mode view
@@ -126,6 +117,7 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     private boolean isNeedRefresh = true;
     private View hideMissionsLayout;
     private SeekBar seekBarRadius;
+    private MapMvpPresenter<MapMvpView> presenter;
 
     public TasksMapFragment() {
     }
@@ -139,12 +131,9 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
-
         initRefreshButton();
         refreshIconState(true);
-
         LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
-
         View mapView = mapLayout.findViewById(R.id.map);
         if (savedInstanceState == null && mapView == null) {
             try {
@@ -162,8 +151,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         display = getActivity().getWindowManager().getDefaultDisplay();
         mapWidth = UIUtils.getDpFromPx(getActivity(),
                 display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
-
-        handler = new DbHandler(getActivity().getContentResolver());
 
         roundImage = (ImageView) view.findViewById(R.id.roundImage);
         roundImage.setImageResource(Config.USE_BAIDU ? R.drawable.round_baidu : R.drawable.round);
@@ -223,7 +210,7 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         });
 
         lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
-
+        presenter = new MapPresenter<>();
         return view;
     }
 
@@ -237,11 +224,12 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     @Override
     public void onResume() {
         super.onResume();
+        presenter.attachView(this);
         initTaskRadius();
         if (!isHidden() && isNeedRefresh) {
+            setViewMode(getArguments());
             isNeedRefresh = false;
             initMap();
-            setViewMode(getArguments());
         }
     }
 
@@ -255,6 +243,7 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
             lm.setZoomLevel(googleMap.getCameraPosition().zoom);
             lm.setLastGooglePosition(googleMap.getCameraPosition().target);
         }
+        presenter.detachView();
     }
 
     @Override
@@ -264,7 +253,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         if (!hidden) {
             setViewMode(getArguments());
             loadData(false);
-
             showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
         } else {
             if (isFilterShow) {
@@ -361,7 +349,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
             AllTaskFragment.stopRefreshProgress = !serverUpdate;
             refreshIconState(true);
             loadTasksFromLocalDb();
-
             if (serverUpdate) {
                 updateDataFromServer();
             }
@@ -371,7 +358,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     }
 
     private void loadTasksFromLocalDb() {
-        Log.i(TAG, "loadTasksFromLocalDb() [mode  =  " + mode + "]");
         if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
             if (getActivity() != null) {
                 ((BaseActivity) getActivity()).showLoading(true);
@@ -381,41 +367,22 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         new android.os.Handler().postDelayed(() -> {
             if (getActivity() != null) {
                 ((BaseActivity) getActivity()).hideLoading();
-                if (mode == Keys.MapViewMode.ALL_TASKS && preferencesManager.getUseLocationServices()) {
-                    Log.d(TAG, "getAllNotMyTasksFromDB [waveId  =  " + viewItemId + "]");
-                    TasksBL.getAllNotMyTasksFromDB(handler, showHiddenTasksToggleButton.isChecked(), taskRadius);
-                } else if (mode == Keys.MapViewMode.MY_TASKS) {
-                    Log.d(TAG, "getMyTasksForMapFromDB [waveId  =  " + viewItemId + "]");
-                    TasksBL.getMyTasksForMapFromDB(handler);
-                } else if (mode == Keys.MapViewMode.WAVE_TASKS && preferencesManager.getUseLocationServices() && getActivity() != null) {
-                    Log.d(TAG, "getNotMyTasksFromDBbyWaveId [waveId  =  " + viewItemId + "]");
-                    TasksBL.getNotMyTasksFromDBbyWaveId(handler, viewItemId, showHiddenTasksToggleButton
-                            .isChecked());
-                } else if (mode == Keys.MapViewMode.SINGLE_TASK && preferencesManager.getUseLocationServices() && getActivity() != null) {
-                    Log.d(TAG, "getTaskFromDBbyID [taskId  =  " + viewItemId + "]");
-                    TasksBL.getTaskFromDBbyID(handler, viewItemId, 0);
-                }
-
-                Log.i(TAG, "RUN loadTasksFromLocalDb() [mode  =  " + mode + "]");
+                if (preferencesManager.getUseLocationServices())
+                    presenter.loadTasksFromDb(viewItemId, showHiddenTasksToggleButton.isChecked(), mode);
             }
         }, 1000);
     }
 
     private void updateDataFromServer() {
         if (UIUtils.isOnline(getActivity())) {
-            if (mode == Keys.MapViewMode.MY_TASKS) {
-                getMyTasksFromServer();
-            } else if (mode == Keys.MapViewMode.ALL_TASKS) {
+            if (mode == Keys.MapViewMode.MY_TASKS)
+                presenter.getMyTasksFromServer();
+            else if (mode == Keys.MapViewMode.ALL_TASKS)
                 getWavesFromServer(taskRadius);
-            }
         } else {
             refreshIconState(false);
             UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
         }
-    }
-
-    private void getMyTasksFromServer() {
-        ((BaseActivity) getActivity()).sendNetworkOperation(APIFacade.getInstance().getMyTasksOperation());
     }
 
     private void getWavesFromServer(final int radius) {
@@ -432,11 +399,10 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
 
             @Override
             public void getLocationSuccess(final Location location) {
-                if (isFirstStart) {
-                    new Handler().postDelayed(() -> APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius), 1000);
-                } else {
-                    APIFacade.getInstance().getWaves(getActivity(), location.getLatitude(), location.getLongitude(), radius);
-                }
+                if (isFirstStart)
+                    new Handler().postDelayed(() -> presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius), 1000);
+                else
+                    presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius);
             }
 
             @Override
@@ -452,57 +418,11 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         loadData(true);
     }
 
-    /**
-     * Database Helper for Data fetching
-     */
-    private class DbHandler extends AsyncQueryHandler {
-
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    if (getActivity() != null && !getActivity().isFinishing()) {
-                        onLoadingComplete(TasksBL.convertCursorToTasksList(cursor));
-                        if (AllTaskFragment.stopRefreshProgress) {
-                            refreshIconState(false);
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
-                || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-            AllTaskFragment.stopRefreshProgress = true;
-            loadTasksFromLocalDb();
+    public void onTaskLoadingComplete(List<Task> list) {
+        if (AllTaskFragment.stopRefreshProgress) {
+            refreshIconState(false);
         }
-    }
-
-    @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        if (Keys.GET_WAVES_OPERATION_TAG.equals(operation.getTag())
-                || Keys.GET_MY_TASKS_OPERATION_TAG.equals(operation.getTag())) {
-            if (operation.getResponseStatusCode() == BaseNetworkService.DEVICE_INTEERNAL_ERROR) {
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-            } else {
-                L.i(TAG, operation.getResponseError());
-                refreshIconState(false);
-            }
-        }
-    }
-
-    private void onLoadingComplete(final List<Task> list) {
         final Location location = lm.getLocation();
 
         clearMap();
@@ -576,7 +496,6 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
             }
         }
         isFirstStart = false;
-
         if (preferencesManager.getUseLocationServices()) {
             addMyLocation(location);
         }
@@ -870,7 +789,8 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
         });
     }
 
-    private void refreshIconState(boolean isLoading) {
+    @Override
+    public void refreshIconState(boolean isLoading) {
         if (refreshButton != null && getActivity() != null) {
             if (isLoading) {
                 refreshButton.setClickable(false);
@@ -880,6 +800,12 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
                 refreshButton.clearAnimation();
             }
         }
+    }
+
+    @Override
+    public void onWavesLoaded() {
+        AllTaskFragment.stopRefreshProgress = true;
+        loadTasksFromLocalDb();
     }
 
     private void setRadiusText() {
@@ -911,15 +837,7 @@ public class TasksMapFragment extends BaseFragment implements NetworkOperationLi
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        ((BaseActivity) getActivity()).addNetworkOperationListener(this);
+    public void showNetworkError(BaseNetworkError networkError) {
+        UIUtils.showSimpleToast(getActivity(), networkError.getErrorMessageRes());
     }
-
-    @Override
-    public void onStop() {
-        ((BaseActivity) getActivity()).removeNetworkOperationListener(this);
-        super.onStop();
-    }
-
 }
