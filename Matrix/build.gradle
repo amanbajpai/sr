@@ -243,18 +243,20 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'commons-io:commons-io:2.4'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
         transitive = true;
     }
-    compile fileTree(excludes: ['baidumapapi_base_v3_7_1.jar', 'baidumapapi_map_v3_7_1.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
+    compile fileTree(excludes: ['baidumapapi_base_v4_1_0.jar', 'baidumapapi_map_v4_1_0.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
     chinaProductionCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaDevCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaStagingCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaPredevCompile fileTree(include: '*.jar', dir: '../libsChina')
+    predevCompile fileTree(include: '*.jar', dir: '../libsChina')
+    devCompile fileTree(include: '*.jar', dir: '../libsChina')
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.23.0'
     compile 'com.github.CarGuo:RecordWave:v1.1.3'
