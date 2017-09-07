@@ -493,4 +493,6 @@
     <string name="recording">錄音</string>
     <string name="recording_delete">刪除錄音?</string>
     <string name="recording_end">停止錄音?</string>
+    <string name="continue_with_fb">用Facebook登入</string>
+    <string name="continue_with_google">用Google登入</string>
 </resources>

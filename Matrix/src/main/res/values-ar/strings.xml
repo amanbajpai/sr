@@ -405,5 +405,6 @@
     <string name="recording">التسجيل الصوتي</string>
 	<string name="recording_delete">إلغاء التسجيل الصوتي</string>
 	<string name="recording_end">نهايةالتسجيل الصوتي</string>
-    <string name="continue_with_google"></string>
+	<string name="continue_with_fb">متابعة مع الفيسبوك</string>
+	<string name="continue_with_google">متابعة مع غوغل</string>
 </resources>
