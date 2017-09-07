@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -48,11 +47,14 @@ import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.flow.base.BaseFragment;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
+import com.ros.smartrocket.map.CurrentLocatiuonListener;
 import com.ros.smartrocket.map.MapHelper;
+import com.ros.smartrocket.map.OnMapStatusChangeFinishedListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.ui.fragment.AllTaskFragment;
 import com.ros.smartrocket.ui.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.ui.views.CustomSwitch;
+import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -69,55 +71,61 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class TasksMapFragment extends BaseFragment implements MapMvpView,
-        View.OnClickListener, SwitchCheckedChangeListener,
-        OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
+public class TasksMapFragment extends BaseFragment implements MapMvpView, SwitchCheckedChangeListener,
+        OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MY_LOCATION = "MyLoc";
-    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private MatrixLocationManager lm = App.getInstance().getLocationManager();
-    private ImageView btnFilter;
-    private LinearLayout rlFilterPanel;
-    private CustomSwitch showHiddenTasksToggleButton;
-    private boolean isFilterShow = false;
-    private GoogleMap googleMap;
-    private BaiduMap baiduMap;
-    private CameraPosition restoreCameraByPositionAndRadius;
-    private LatLngBounds restoreCameraByPins;
-    private com.baidu.mapapi.model.LatLngBounds restoreCameraByBaiduPins;
-    private static final int METERS_IN_KM = 1000;
-    public static int DEFAULT_TASK_RADIUS = 5000;
-    public static int taskRadius = DEFAULT_TASK_RADIUS;
-    private int sbRadiusProgress = 5;
-    private boolean isTracking = false;
     // 1% = 200m => Max = 20km
     private static final int RADIUS_DELTA = 200;
-    private TextView txtRadius;
     private static final float DEFAULT_ZOOM_LEVEL = 11f;
-    private float zoomLevel = DEFAULT_ZOOM_LEVEL;
-    private ImageView roundImage;
-    private ImageView refreshButton;
+    private static final int METERS_IN_KM = 1000;
+    public static final int DELAY_MILLIS = 1000;
+    public static int DEFAULT_TASK_RADIUS = 5000;
+    public static int taskRadius = DEFAULT_TASK_RADIUS;
 
+    @BindView(R.id.btnFilter)
+    ImageView btnFilter;
+    @BindView(R.id.roundImage)
+    ImageView roundImage;
+    @BindView(R.id.txtRadius)
+    CustomTextView txtRadius;
+    @BindView(R.id.seekBarRadius)
+    SeekBar seekBarRadius;
+    @BindView(R.id.showHiddenTasksToggleButton)
+    CustomSwitch showHiddenTasksToggleButton;
+    @BindView(R.id.hideMissionsLayout)
+    View hideMissionsLayout;
+    @BindView(R.id.hidden_panel)
+    LinearLayout rlFilterPanel;
+    Unbinder unbinder;
+    private ImageView refreshButton;
+    private PreferencesManager preferencesManager = PreferencesManager.getInstance();
+    private MatrixLocationManager lm = App.getInstance().getLocationManager();
+    private GoogleMap googleMap;
+    private BaiduMap baiduMap;
+    private CameraPosition cameraPositionByRadiusAndLocation;
+    private LatLngBounds cameraBoundsByPins;
+    private com.baidu.mapapi.model.LatLngBounds baiduCameraBoundsByPins;
     private Display display;
-    private float mapWidth;
     private Clusterkraf clusterkraf;
     private com.twotoasters.baiduclusterkraf.Clusterkraf baiduClusterkraf;
     private Keys.MapViewMode mode;
-
-    // Used for Wave and SingleTask map mode view
-    private int viewItemId = 0;
-
-    private boolean isFirstStart = true;
     private Marker currentLocationMarker;
     private Circle circle;
-    private boolean isNeedRefresh = true;
-    private View hideMissionsLayout;
-    private SeekBar seekBarRadius;
     private MapMvpPresenter<MapMvpView> presenter;
-
-    public TasksMapFragment() {
-    }
+    private int sbRadiusProgress = 5;
+    private boolean isTouchTracking = false;
+    private float zoomLevel = DEFAULT_ZOOM_LEVEL;
+    private boolean isFilterShow = false;
+    private float mapWidth;
+    private int viewItemId = 0;
+    private boolean isFirstStart = true;
+    private boolean isNeedRefresh = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -128,11 +136,8 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
-        initRefreshButton();
-        refreshIconState(true);
         LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
-        View mapView = mapLayout.findViewById(R.id.map);
-        if (savedInstanceState == null && mapView == null) {
+        if (savedInstanceState == null && mapLayout.findViewById(R.id.map) == null) {
             try {
                 if (Config.USE_BAIDU) {
                     mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
@@ -144,31 +149,27 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
                 getActivity().finish();
             }
         }
+        unbinder = ButterKnife.bind(this, view);
+        initUI();
+        lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
+        presenter = new MapPresenter<>();
+        return view;
+    }
 
+    private void initUI() {
+        initRefreshButton();
+        refreshIconState(true);
         display = getActivity().getWindowManager().getDefaultDisplay();
         mapWidth = UIUtils.getDpFromPx(getActivity(),
                 display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
-
-        roundImage = (ImageView) view.findViewById(R.id.roundImage);
         roundImage.setImageResource(Config.USE_BAIDU ? R.drawable.round_baidu : R.drawable.round);
-        btnFilter = (ImageView) view.findViewById(R.id.btnFilter);
-        btnFilter.setOnClickListener(this);
-        hideMissionsLayout = view.findViewById(R.id.hideMissionsLayout);
-
-        view.findViewById(R.id.btnMyLocation).setOnClickListener(this);
-        view.findViewById(R.id.applyButton).setOnClickListener(this);
-        showHiddenTasksToggleButton = (CustomSwitch) view.findViewById(R.id.showHiddenTasksToggleButton);
         showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
         showHiddenTasksToggleButton.setOnCheckedChangeListener(this);
-
-        rlFilterPanel = (LinearLayout) view.findViewById(R.id.hidden_panel);
-        seekBarRadius = (SeekBar) rlFilterPanel.findViewById(R.id.seekBarRadius);
-        txtRadius = (TextView) rlFilterPanel.findViewById(R.id.txtRadius);
         seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                isTracking = true;
+                isTouchTracking = true;
                 clearMap();
                 moveCameraToLocation();
                 roundImage.setVisibility(View.VISIBLE);
@@ -179,14 +180,13 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
                 sbRadiusProgress = progress;
                 taskRadius = RADIUS_DELTA * sbRadiusProgress;
                 setRadiusText();
-
                 restoreCameraPositionByRadius(lm.getLocation(), taskRadius);
                 moveCameraToLocation();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                isTracking = false;
+                isTouchTracking = false;
                 preferencesManager.setDefaultRadius(taskRadius);
                 roundImage.setVisibility(View.GONE);
                 loadTasksFromLocalDb();
@@ -205,10 +205,6 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
 
             }
         });
-
-        lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
-        presenter = new MapPresenter<>();
-        return view;
     }
 
     private void initTaskRadius() {
@@ -233,6 +229,11 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
     @Override
     public void onPause() {
         super.onPause();
+        storeZoomAndRadius();
+        presenter.detachView();
+    }
+
+    private void storeZoomAndRadius() {
         if (baiduMap != null) {
             lm.setZoomLevel(baiduMap.getMapStatus().zoom);
             lm.setLastBaiduPosition(baiduMap.getMapStatus().target);
@@ -240,41 +241,24 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             lm.setZoomLevel(googleMap.getCameraPosition().zoom);
             lm.setLastGooglePosition(googleMap.getCameraPosition().target);
         }
-        presenter.detachView();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
         if (!hidden) {
             setViewMode(getArguments());
             loadData(false);
             showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
-        } else {
-            if (isFilterShow) {
-                showFilterPanel(false);
-            }
+        } else if (isFilterShow) {
+            showFilterPanel(false);
         }
     }
 
-    /**
-     * Initialize Google Map
-     */
     private void initMap() {
         if (!MapHelper.isMapNotNull(googleMap, baiduMap)) {
             if (Config.USE_BAIDU) {
-                baiduMap = MapHelper.getBaiduMap(getActivity(), new BaiduMap.OnMapStatusChangeListener() {
-                    @Override
-                    public void onMapStatusChangeStart(MapStatus mapStatus) {
-                        // not needed
-                    }
-
-                    @Override
-                    public void onMapStatusChange(MapStatus mapStatus) {
-                        // not needed
-                    }
-
+                baiduMap = MapHelper.getBaiduMap(getActivity(), new OnMapStatusChangeFinishedListener() {
                     @Override
                     public void onMapStatusChangeFinish(MapStatus mapStatus) {
                         zoomLevel = mapStatus.zoom;
@@ -311,15 +295,12 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
     private void setViewMode(Bundle bundle) {
         if (bundle != null) {
             mode = Keys.MapViewMode.valueOf(bundle.getString(Keys.MAP_MODE_VIEWTYPE));
-
             boolean showFilterButton = mode == Keys.MapViewMode.ALL_TASKS || mode == Keys.MapViewMode.WAVE_TASKS;
             btnFilter.setVisibility(showFilterButton ? View.VISIBLE : View.INVISIBLE);
-            if (mode == Keys.MapViewMode.WAVE_TASKS) {
-                hideMissionsLayout.setVisibility(View.GONE);
-            }
-            if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
+            if (mode == Keys.MapViewMode.WAVE_TASKS) hideMissionsLayout.setVisibility(View.GONE);
+
+            if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK)
                 viewItemId = bundle.getInt(Keys.MAP_VIEW_ITEM_ID);
-            }
         }
     }
 
@@ -329,7 +310,6 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
 
     private void showFilterPanel(boolean show) {
         this.isFilterShow = show;
-
         if (isFilterShow) {
             Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.map_filter_up);
             rlFilterPanel.startAnimation(bottomUp);
@@ -346,9 +326,7 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             AllTaskFragment.stopRefreshProgress = !serverUpdate;
             refreshIconState(true);
             loadTasksFromLocalDb();
-            if (serverUpdate) {
-                updateDataFromServer();
-            }
+            if (serverUpdate) updateDataFromServer();
         } else {
             refreshIconState(false);
         }
@@ -357,17 +335,17 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
     private void loadTasksFromLocalDb() {
         if (mode == Keys.MapViewMode.WAVE_TASKS || mode == Keys.MapViewMode.SINGLE_TASK) {
             if (getActivity() != null) {
-                ((BaseActivity) getActivity()).showLoading(true);
+                showLoading(true);
             }
         }
 
-        new android.os.Handler().postDelayed(() -> {
+        new Handler().postDelayed(() -> {
             if (getActivity() != null) {
-                ((BaseActivity) getActivity()).hideLoading();
+                hideLoading();
                 if (preferencesManager.getUseLocationServices())
                     presenter.loadTasksFromDb(viewItemId, showHiddenTasksToggleButton.isChecked(), mode);
             }
-        }, 1000);
+        }, DELAY_MILLIS);
     }
 
     private void updateDataFromServer() {
@@ -383,21 +361,12 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
     }
 
     private void getWavesFromServer(final int radius) {
-        MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
+        MatrixLocationManager.getCurrentLocation(false, new CurrentLocatiuonListener() {
             @Override
-            public void getLocationStart() {
-
-            }
-
-            @Override
-            public void getLocationInProcess() {
-
-            }
-
-            @Override
-            public void getLocationSuccess(final Location location) {
+            public void getLocationSuccess(Location location) {
                 if (isFirstStart)
-                    new Handler().postDelayed(() -> presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius), 1000);
+                    new Handler().postDelayed(() ->
+                            presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius), DELAY_MILLIS);
                 else
                     presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius);
             }
@@ -417,19 +386,16 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
 
     @Override
     public void onTaskLoadingComplete(List<Task> list) {
-        if (AllTaskFragment.stopRefreshProgress) {
-            refreshIconState(false);
-        }
+        if (AllTaskFragment.stopRefreshProgress) refreshIconState(false);
+
         final Location location = lm.getLocation();
-
         clearMap();
-
         MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
             @Override
             public void useGoogleMap(GoogleMap googleMap) {
                 ArrayList<InputPoint> inputPoints = MapHelper.getGoogleMapInputPointList(list, location);
-
                 addGoogleMapPins(inputPoints);
+
                 switch (mode) {
                     case ALL_TASKS:
                     case WAVE_TASKS:
@@ -449,7 +415,6 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             @Override
             public void useBaiduMap(final BaiduMap baiduMap) {
                 ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> inputPoints = MapHelper.getBaiduMapInputPointList(list, location);
-
                 addBaiduMapPins(inputPoints);
 
                 switch (mode) {
@@ -474,28 +439,23 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
                 MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                     @Override
                     public void useGoogleMap(GoogleMap googleMap) {
-                        if (lm.getLastGooglePosition() != null) {
+                        if (lm.getLastGooglePosition() != null)
                             googleMap.moveCamera(
                                     CameraUpdateFactory.newCameraPosition(new CameraPosition(lm.getLastGooglePosition(), zoomLevel, 0, 0)));
-                        }
                     }
 
                     @Override
                     public void useBaiduMap(BaiduMap baiduMap) {
-                        if (baiduMap != null && getActivity() != null && !getActivity().isFinishing() && lm.getLastBaiduPositionPosition() != null) {
+                        if (baiduMap != null && getActivity() != null && !getActivity().isFinishing() && lm.getLastBaiduPositionPosition() != null)
                             baiduMap.setMapStatus(
                                     MapStatusUpdateFactory.newLatLngZoom(lm.getLastBaiduPositionPosition(), lm.getZoomLevel() + 1.4f));
-                        }
                     }
                 });
-            } else if (isFirstStart) {
-                moveCameraToLocation();
-            }
+            } else if (isFirstStart) moveCameraToLocation();
         }
         isFirstStart = false;
-        if (preferencesManager.getUseLocationServices()) {
-            addMyLocation(location);
-        }
+        if (preferencesManager.getUseLocationServices()) addMyLocation(location);
+
     }
 
     public void addGoogleMapPins(final ArrayList<InputPoint> inputPoints) {
@@ -513,7 +473,6 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             com.twotoasters.baiduclusterkraf.Options options = MapHelper.getBaiduClusterkrafOptions(getActivity(), mode,
                     onShowInfoWindowListener,
                     onMarkerClickDownstreamListener);
-
             baiduClusterkraf = new com.twotoasters.baiduclusterkraf.Clusterkraf(baiduMap, options, inputPoints);
         } else {
             baiduClusterkraf.replace(inputPoints);
@@ -524,15 +483,10 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
         @Override
         public boolean onShowInfoWindow(com.baidu.mapapi.map.Marker marker, com.twotoasters.baiduclusterkraf.ClusterPoint clusterPoint) {
             final Task task = (Task) marker.getExtraInfo().getSerializable(Keys.TASK);
-            //TODO Get data from local DB
-            //final Task updatedTask = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(task.getId()));
 
-            if (task == null) {
-                return false;
-            }
+            if (task == null) return false;
 
             View overlayView = LayoutInflater.from(getActivity()).inflate(R.layout.map_info_window, null);
-
             MapHelper.setMapOverlayView(getActivity(), overlayView, task);
 
             InfoWindow.OnInfoWindowClickListener listener = () -> {
@@ -548,54 +502,32 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             InfoWindow mInfoWindow = new InfoWindow(com.baidu.mapapi.map.BitmapDescriptorFactory.fromView(overlayView),
                     llInfo, 0, listener);
             baiduMap.showInfoWindow(mInfoWindow);
-
             return true;
         }
     };
-
     com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickDownstreamListener = (marker, clusterPoint) -> false;
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnMyLocation:
-                moveCameraToLocation();
-                break;
-            case R.id.applyButton:
-                toggleFilterPanel();
-                loadData(true);
-                break;
-            case R.id.btnFilter:
-                toggleFilterPanel();
-                break;
-            case R.id.refreshButton:
-                loadData(true);
-                IntentUtils.refreshProfileAndMainMenu(getActivity());
-                IntentUtils.refreshMainMenuMyTaskCount(getActivity());
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         initRefreshButton();
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     public void initRefreshButton() {
-        if (refreshButton == null) {
-            final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (refreshButton == null && actionBar != null) {
             View view = actionBar.getCustomView();
             if (view != null) {
                 refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
-                if (refreshButton != null) {
-                    refreshButton.setOnClickListener(this);
-                }
+                if (refreshButton != null) refreshButton.setOnClickListener(v -> onRefreshClick());
             }
         }
+    }
+
+    private void onRefreshClick() {
+        loadData(true);
+        IntentUtils.refreshProfileAndMainMenu(getActivity());
+        IntentUtils.refreshMainMenuMyTaskCount(getActivity());
     }
 
     /* ==============================================
@@ -609,11 +541,10 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
 
     @Override
     public boolean onInfoWindowClick(Marker marker, ClusterPoint clusterPoint) {
-        if (marker != null) {
+        if (marker != null)
             try {
                 String[] taskData = marker.getSnippet().split("_");
                 int taskId = Integer.valueOf(taskData[0]);
-                //int waveId = Integer.valueOf(taskData[1]);
                 int taskStatusId = Integer.valueOf(taskData[2]);
                 int missionId = Integer.valueOf(taskData[3]);
 
@@ -621,19 +552,17 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             } catch (Exception e) {
                 L.e(TAG, "Error info vindow click" + e, e);
             }
-        }
         return false;
     }
 
     private void restoreCameraPositionByPins(Location location, ArrayList<InputPoint> inputPoints) {
         if (location != null) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (InputPoint point : inputPoints) {
+            for (InputPoint point : inputPoints)
                 builder.include(point.getMapPosition());
-            }
-            builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
 
-            restoreCameraByPins = /*!inputPoints.isEmpty() ?*/ builder.build() /*: null*/;
+            builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
+            cameraBoundsByPins = /*!inputPoints.isEmpty() ?*/ builder.build() /*: null*/;
         }
     }
 
@@ -644,17 +573,15 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
                 builder.include(point.getMapPosition());
             }
             builder.include(new com.baidu.mapapi.model.LatLng(location.getLatitude(), location.getLongitude()));
-
-            restoreCameraByBaiduPins = /*!inputPoints.isEmpty() ?*/ builder.build() /*: null*/;
+            baiduCameraBoundsByPins = /*!inputPoints.isEmpty() ?*/ builder.build() /*: null*/;
         }
     }
 
     private void restoreCameraPositionByRadius(Location location, int radius) {
         if (location != null) {
             zoomLevel = MapHelper.getZoomForMetersWide(mapWidth, radius * 2, location.getLatitude());
-
             LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-            restoreCameraByPositionAndRadius = new CameraPosition(coordinates, zoomLevel, 0, 0);
+            cameraPositionByRadiusAndLocation = new CameraPosition(coordinates, zoomLevel, 0, 0);
         }
     }
 
@@ -663,8 +590,8 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                 @Override
                 public void useGoogleMap(GoogleMap googleMap) {
-                    if (restoreCameraByPositionAndRadius != null) {
-                        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(restoreCameraByPositionAndRadius));
+                    if (cameraPositionByRadiusAndLocation != null) {
+                        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPositionByRadiusAndLocation));
                     } else if (UIUtils.isOnline(getActivity())) {
                         UIUtils.showSimpleToast(getActivity(), R.string.current_location_not_defined, Toast.LENGTH_LONG);
                     }
@@ -684,16 +611,16 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
             MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
                 @Override
                 public void useGoogleMap(GoogleMap googleMap) {
-                    if (restoreCameraByPins != null) {
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(restoreCameraByPins, display.getWidth(),
+                    if (cameraBoundsByPins != null)
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(cameraBoundsByPins, display.getWidth(),
                                 display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150), 100));
-                    }
+
                 }
 
                 @Override
                 public void useBaiduMap(BaiduMap baiduMap) {
-                    if (restoreCameraByBaiduPins != null) {
-                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(restoreCameraByBaiduPins, display.getWidth(),
+                    if (baiduCameraBoundsByPins != null) {
+                        MapStatusUpdate cameraUpdate = MapStatusUpdateFactory.newLatLngBounds(baiduCameraBoundsByPins, display.getWidth(),
                                 display.getHeight() - UIUtils.getPxFromDp(getActivity(), 150));
                         baiduMap.animateMapStatus(cameraUpdate);
                     }
@@ -710,14 +637,13 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
 
                     LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
 
-                    if (currentLocationMarker == null) {
+                    if (currentLocationMarker == null)
                         currentLocationMarker = googleMap.addMarker(new MarkerOptions()
                                 .snippet(MY_LOCATION)
                                 .position(coordinates)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_icon)));
-                    } else {
+                    else
                         currentLocationMarker.setPosition(coordinates);
-                    }
                 }
 
                 @Override
@@ -734,22 +660,13 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
         }
     }
 
-    MatrixLocationManager.CurrentLocationUpdateListener currentLocationUpdateListener = new MatrixLocationManager.CurrentLocationUpdateListener() {
-        @Override
-        public void onUpdate(Location location) {
-            L.i(TAG, "Current location pin updated " + location.getLatitude() + ", " + location.getLongitude() + ", "
-                    + "Provider: " + location.getProvider());
-            //clearMap();
-
-            if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
-                //loadTasksFromLocalDb();
-                addMyLocation(location);
-            }
-        }
+    MatrixLocationManager.CurrentLocationUpdateListener currentLocationUpdateListener = location -> {
+        if (preferencesManager.getUseLocationServices() && lm.isConnected())
+            addMyLocation(location);
     };
 
     private void addRadius(Location location) {
-        if (location != null && getActivity() != null && !isTracking) {
+        if (location != null && getActivity() != null && !isTouchTracking) {
             Resources r = getActivity().getResources();
             addCircle(location.getLatitude(), location.getLongitude(), taskRadius, r.getColor(R.color.map_radius_stroke),
                     r.getColor(android.R.color.transparent));
@@ -821,14 +738,13 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
 
             @Override
             public void useBaiduMap(BaiduMap baiduMap) {
-                if (baiduMap != null && getActivity() != null && !getActivity().isFinishing()) {
+                if (baiduMap != null && getActivity() != null && !getActivity().isFinishing())
                     try {
                         baiduMap.clear();
                         baiduMap.setMyLocationData(new MyLocationData.Builder().build());
                     } catch (Exception e) {
                         L.e(TAG, "Clean Baidu map error", e);
                     }
-                }
             }
         });
     }
@@ -836,5 +752,27 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView,
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
         UIUtils.showSimpleToast(getActivity(), networkError.getErrorMessageRes());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.btnMyLocation, R.id.btnFilter, R.id.applyButton})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnMyLocation:
+                moveCameraToLocation();
+                break;
+            case R.id.btnFilter:
+                toggleFilterPanel();
+                break;
+            case R.id.applyButton:
+                toggleFilterPanel();
+                loadData(true);
+                break;
+        }
     }
 }
