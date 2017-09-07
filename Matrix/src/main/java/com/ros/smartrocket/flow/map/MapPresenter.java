@@ -58,7 +58,7 @@ class MapPresenter<V extends MapMvpView> extends BaseNetworkPresenter<V> impleme
     }
 
     private void getAllNotMyTasks(boolean isHidden) {
-        addDisposable(TasksBL.getgetAllNotMyTasksObservable(isHidden)
+        addDisposable(TasksBL.getAllNotMyTasksObservable(isHidden)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onTasksLoaded));
@@ -79,7 +79,7 @@ class MapPresenter<V extends MapMvpView> extends BaseNetworkPresenter<V> impleme
     }
 
     private void getTaskFromDBbyID(int itemId) {
-        addDisposable(TasksBL.getgetTaskFromDBbyIDObservable(itemId, 0)
+        addDisposable(TasksBL.getTaskFromDBbyIdObservable(itemId, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onTasksLoaded));

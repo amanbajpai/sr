@@ -24,7 +24,6 @@ import io.reactivex.Observable;
 
 public class TasksBL {
     public TasksBL() {
-
     }
 
     public static void getTasksFromDB(AsyncQueryHandler handler) {
@@ -50,17 +49,8 @@ public class TasksBL {
     }
 
 
-    public static Observable<List<Task>> getgetTaskFromDBbyIDObservable(Integer taskId, Integer missionId) {
+    public static Observable<List<Task>> getTaskFromDBbyIdObservable(Integer taskId, Integer missionId) {
         return Observable.fromCallable(() -> convertCursorToTasksList(getTaskFromDBbyID(taskId, missionId)));
-    }
-
-    public static void getAllNotMyTasksFromDB(AsyncQueryHandler handler, boolean showHiddenTasks, Integer radius) {
-        String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, Table.TASK.getName()
-                        + "." + TaskDbSchema.Columns.IS_MY.getName() + "= ?" + withHiddenTaskWhere,
-                new String[]{String.valueOf(0)}, TaskDbSchema.SORT_ORDER_DESC
-        );
     }
 
     private static List<Task> getAllNotMyTasksFromDBSync(boolean showHiddenTasks) {
@@ -72,7 +62,7 @@ public class TasksBL {
         return TasksBL.convertCursorToTasksList(c);
     }
 
-    public static Observable<List<Task>> getgetAllNotMyTasksObservable(boolean showHiddenTasks) {
+    public static Observable<List<Task>> getAllNotMyTasksObservable(boolean showHiddenTasks) {
         return Observable.fromCallable(() -> getAllNotMyTasksFromDBSync(showHiddenTasks));
     }
 
@@ -91,23 +81,6 @@ public class TasksBL {
                     new String[]{String.valueOf(taskId), String.valueOf(missionId)},
                     TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
         }
-    }
-
-    public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId, View mapItemWindow) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, mapItemWindow, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.ID + "=?",
-                new String[]{String.valueOf(taskId)}, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
-    }
-
-    public static void getNotMyTasksFromDBbyWaveId(AsyncQueryHandler handler, int waveId, boolean withHiddenTasks) {
-        String withHiddenTaskWhere = withHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
-
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.WAVE_ID + "=? and "
-                        + TaskDbSchema.Columns.IS_MY + "=?" + withHiddenTaskWhere,
-                new String[]{String.valueOf(waveId), String.valueOf(0)},
-                TaskDbSchema.SORT_ORDER_DESC
-        );
     }
 
     private static List<Task> getNotMyTasksFromDBbyWaveId(int waveId, boolean withHiddenTasks) {

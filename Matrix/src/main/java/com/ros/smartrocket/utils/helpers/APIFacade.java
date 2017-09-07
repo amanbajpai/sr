@@ -172,7 +172,7 @@ public class APIFacade {
 
     public void getReDoQuestions(Activity activity, Task task) {
         BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(task.getId()), String.valueOf(task.getWaveId()), preferencesManager.getLanguageCode());
+        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(task.getId()), String.valueOf(task.getMissionId()), preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
         fillTaskData(task, operation);
         operation.setMethod(BaseOperation.Method.GET);
