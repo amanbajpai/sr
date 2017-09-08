@@ -58,7 +58,7 @@ public class DeadlineReminderDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.goToTaskButton:
                 dismiss();
-                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskCursorFromDBbyID(taskId, missionId));
                 if (task != null) {
                     activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId, missionId,
                             task.getStatusId(), TasksBL.isPreClaimTask(task)));

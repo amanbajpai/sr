@@ -1,4 +1,4 @@
-package com.ros.smartrocket.flow.task;
+package com.ros.smartrocket.flow.task.map;
 
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -44,9 +44,8 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.flow.base.BaseFragment;
-import com.ros.smartrocket.flow.task.mvp.TaskMvpPresenter;
-import com.ros.smartrocket.flow.task.mvp.TaskMvpView;
-import com.ros.smartrocket.flow.task.mvp.TaskPresenter;
+import com.ros.smartrocket.flow.task.AllTaskFragment;
+import com.ros.smartrocket.flow.task.TaskMvpView;
 import com.ros.smartrocket.flow.wave.WaveMvpPresenter;
 import com.ros.smartrocket.flow.wave.WaveMvpView;
 import com.ros.smartrocket.flow.wave.WavePresenter;
@@ -121,7 +120,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private Keys.MapViewMode mode;
     private Marker currentLocationMarker;
     private Circle circle;
-    private TaskMvpPresenter<TaskMvpView> taskPresenter;
+    private MapTaskMvpPresenter<TaskMvpView> taskPresenter;
     private WaveMvpPresenter<WaveMvpView> wavePresenter;
     private int sbRadiusProgress = 5;
     private boolean isTouchTracking = false;
@@ -148,7 +147,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         unbinder = ButterKnife.bind(this, view);
         initUI();
         lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
-        taskPresenter = new TaskPresenter<>();
+        taskPresenter = new MapTaskPresenter<>();
         wavePresenter = new WavePresenter<>();
         return view;
     }

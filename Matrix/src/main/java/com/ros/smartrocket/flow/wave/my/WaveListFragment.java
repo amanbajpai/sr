@@ -22,7 +22,7 @@ import com.ros.smartrocket.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.flow.base.BaseFragment;
 import com.ros.smartrocket.flow.task.AllTaskFragment;
-import com.ros.smartrocket.flow.task.TasksMapFragment;
+import com.ros.smartrocket.flow.task.map.TasksMapFragment;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.map.CurrentLocatiuonListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;

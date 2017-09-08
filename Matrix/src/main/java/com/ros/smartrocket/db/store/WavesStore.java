@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.store;
 
 import android.content.ContentValues;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.annimon.stream.Stream;
@@ -27,6 +26,7 @@ public class WavesStore extends BaseStore {
                     w.setContainsDifferentRate(!isUniqueRate(w));
                     w.setRate(getMinRate(w));
                 });
+        TasksBL.removeNotMyTask(contentResolver);
         updateData(waves, false);
     }
 
@@ -48,12 +48,12 @@ public class WavesStore extends BaseStore {
         scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
         hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
         SparseArray<ContentValues> validLocationTaskContentValuesMap = TasksBL.getValidLocationTaskHashMap(contentResolver);
+        TasksBL.removeAllMyTask(contentResolver);
         updateData(waves, true);
         TasksBL.updateTasksByContentValues(contentResolver, validLocationTaskContentValuesMap);
     }
 
     private void updateData(Waves waves, boolean isMy) {
-        TasksBL.removeAllMyTask(contentResolver);
         WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, isMy);
         TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
         TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);

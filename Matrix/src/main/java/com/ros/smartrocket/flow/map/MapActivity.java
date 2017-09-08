@@ -13,7 +13,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.flow.task.TasksMapFragment;
+import com.ros.smartrocket.flow.task.map.TasksMapFragment;
 
 public class MapActivity extends BaseActivity {
 

@@ -129,7 +129,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case mission_redo:
-                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskCursorFromDBbyID(taskId, missionId));
                 if (task != null) {
                     if (TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK) {
                         startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
@@ -149,7 +149,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
                         startActivity(IntentUtils.getQuestionsIntent(this, taskId, missionId));
                         break;
                     default:
-                        Task taskToOpen = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
+                        Task taskToOpen = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskCursorFromDBbyID(taskId, missionId));
                         if (taskToOpen != null) {
                             startActivity(IntentUtils.getTaskDetailIntent(this, taskId, missionId,
                                     taskToOpen.getStatusId(), TasksBL.isPreClaimTask(taskToOpen)));

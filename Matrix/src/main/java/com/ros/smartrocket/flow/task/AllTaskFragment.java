@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.flow.task.map.TasksMapFragment;
+import com.ros.smartrocket.flow.task.my.MyTaskListFragment;
 import com.ros.smartrocket.flow.wave.my.WaveListFragment;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 import com.ros.smartrocket.utils.IntentUtils;

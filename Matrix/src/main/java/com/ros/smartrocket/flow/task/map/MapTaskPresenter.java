@@ -1,48 +1,36 @@
-package com.ros.smartrocket.flow.task.mvp;
+package com.ros.smartrocket.flow.task.map;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys.MapViewMode;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Waves;
-import com.ros.smartrocket.db.store.WavesStore;
-import com.ros.smartrocket.flow.base.BaseNetworkPresenter;
+import com.ros.smartrocket.flow.task.TaskMvpView;
+import com.ros.smartrocket.flow.task.TaskPresenter;
 
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class TaskPresenter<V extends TaskMvpView> extends BaseNetworkPresenter<V> implements TaskMvpPresenter<V> {
-    private WavesStore wavesStore = new WavesStore();
-
-    @Override
-    public void getMyTasksFromServer() {
-        getMvpView().refreshIconState(true);
-        addDisposable(App.getInstance().getApi()
-                .getMyTasks(getLanguageCode())
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnNext(this::storeMyWaves)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWavesLoaded, this::showNetworkError));
-    }
+class MapTaskPresenter<V extends TaskMvpView> extends TaskPresenter<V> implements MapTaskMvpPresenter<V> {
 
     @Override
     public void loadTasksFromDb(int itemId, boolean isHidden, MapViewMode mode) {
-        switch (mode) {
-            case ALL_TASKS:
-                getAllNotMyTasks(isHidden);
-                break;
-            case MY_TASKS:
-                getMyTasksForMapFromDB();
-                break;
-            case WAVE_TASKS:
-                getNotMyTasksFromDBbyWaveId(itemId, isHidden);
-                break;
-            case SINGLE_TASK:
-                getTaskFromDBbyID(itemId);
-                break;
+        if (isViewAttached()) {
+            getMvpView().refreshIconState(true);
+            switch (mode) {
+                case ALL_TASKS:
+                    getAllNotMyTasks(isHidden);
+                    break;
+                case MY_TASKS:
+                    getMyTasksForMapFromDB();
+                    break;
+                case WAVE_TASKS:
+                    getNotMyTasksFromDBbyWaveId(itemId, isHidden);
+                    break;
+                case SINGLE_TASK:
+                    getTaskFromDBbyID(itemId);
+                    break;
+            }
         }
     }
 
@@ -74,16 +62,7 @@ public class TaskPresenter<V extends TaskMvpView> extends BaseNetworkPresenter<V
                 .subscribe(this::onTasksLoaded));
     }
 
-    private void storeMyWaves(Waves waves) throws Exception {
-        wavesStore.storeMyWaves(waves);
-    }
-
-    private void onWavesLoaded(Waves waves) {
-        getMvpView().onTasksLoaded();
-    }
-
     private void onTasksLoaded(List<Task> tasks) {
-        getMvpView().refreshIconState(false);
         getMvpView().onTaskLoadingComplete(tasks);
     }
 

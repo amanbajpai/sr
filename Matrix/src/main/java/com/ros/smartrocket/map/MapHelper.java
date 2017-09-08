@@ -246,7 +246,7 @@ public class MapHelper {
                     startActivity(IntentUtils.getQuestionsIntent(getActivity(), taskId));
                     break;*/
             default:
-                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskFromDBbyID(taskId, missionId));
+                Task task = TasksBL.convertCursorToTaskOrNull(TasksBL.getTaskCursorFromDBbyID(taskId, missionId));
                 if (task != null) {
                     activity.startActivity(IntentUtils.getTaskDetailIntent(activity, taskId, missionId,
                             task.getStatusId(), TasksBL.isPreClaimTask(task)));
