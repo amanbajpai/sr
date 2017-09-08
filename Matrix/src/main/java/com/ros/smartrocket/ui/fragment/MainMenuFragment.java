@@ -25,6 +25,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.flow.task.AllTaskFragment;
 import com.ros.smartrocket.ui.activity.MainActivity;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.bl.TasksBL;

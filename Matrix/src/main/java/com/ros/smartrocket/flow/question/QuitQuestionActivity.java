@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.question;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -29,7 +29,6 @@ public class QuitQuestionActivity extends BaseActivity implements View.OnClickLi
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(Html.fromHtml(question.getQuestion()));
         findViewById(R.id.okButton).setOnClickListener(this);
-
         TasksBL.removeTasksByWaveId(getContentResolver(), question.getWaveId());
         QuestionsBL.removeQuestionsByWaveId(this, question.getWaveId());
     }

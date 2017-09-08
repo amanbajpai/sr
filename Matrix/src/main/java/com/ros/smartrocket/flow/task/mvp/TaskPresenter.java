@@ -1,20 +1,21 @@
-package com.ros.smartrocket.flow.map;
+package com.ros.smartrocket.flow.task.mvp;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys.MapViewMode;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Waves;
+import com.ros.smartrocket.db.store.WavesStore;
 import com.ros.smartrocket.flow.base.BaseNetworkPresenter;
-import com.ros.smartrocket.utils.helpers.WavesStoreHelper;
 
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-class MapPresenter<V extends MapMvpView> extends BaseNetworkPresenter<V> implements MapMvpPresenter<V> {
-    private WavesStoreHelper wavesStoreHelper = new WavesStoreHelper();
+public class TaskPresenter<V extends TaskMvpView> extends BaseNetworkPresenter<V> implements TaskMvpPresenter<V> {
+    private WavesStore wavesStore = new WavesStore();
+
     @Override
     public void getMyTasksFromServer() {
         getMvpView().refreshIconState(true);
@@ -23,18 +24,6 @@ class MapPresenter<V extends MapMvpView> extends BaseNetworkPresenter<V> impleme
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeMyWaves)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWavesLoaded, this::showNetworkError));
-    }
-
-    @Override
-    public void getWavesFromServer(double latitude, double longitude, int radius) {
-        getMvpView().refreshIconState(true);
-        addDisposable(App.getInstance().getApi()
-                .getWaves(latitude, longitude, radius, getLanguageCode())
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnNext(this::storeWaves)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onWavesLoaded, this::showNetworkError));
     }
@@ -85,21 +74,22 @@ class MapPresenter<V extends MapMvpView> extends BaseNetworkPresenter<V> impleme
                 .subscribe(this::onTasksLoaded));
     }
 
-
-    private void storeWaves(Waves waves) throws Exception {
-        wavesStoreHelper.storeWaves(waves);
-    }
-
     private void storeMyWaves(Waves waves) throws Exception {
-        wavesStoreHelper.storeWaves(waves);
+        wavesStore.storeMyWaves(waves);
     }
 
     private void onWavesLoaded(Waves waves) {
-        getMvpView().refreshIconState(false);
-        getMvpView().onWavesLoaded();
+        getMvpView().onTasksLoaded();
     }
 
     private void onTasksLoaded(List<Task> tasks) {
+        getMvpView().refreshIconState(false);
         getMvpView().onTaskLoadingComplete(tasks);
+    }
+
+    @Override
+    public void showNetworkError(Throwable t) {
+        getMvpView().refreshIconState(false);
+        super.showNetworkError(t);
     }
 }

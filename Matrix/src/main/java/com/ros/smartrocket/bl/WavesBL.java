@@ -28,11 +28,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 public class WavesBL {
 
     private WavesBL() {
 
     }
+
+    private static Cursor getNotMyWavesListCursor(boolean showHiddenTasks) {
+        String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        return resolver.query(WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, withHiddenTaskWhere, null, null);
+    }
+
+    public static Observable<List<Wave>> getNotMyWavesListObservableFromDB(boolean showHiddenTasks) {
+        return Observable.fromCallable(() -> convertCursorToWaveListByDistance(getNotMyWavesListCursor(showHiddenTasks)));
+    }
+
+
+    //-------------------------!!!!--------------------------//
 
     public static Cursor getWaveFromDBbyID(Integer waveId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
@@ -45,14 +60,6 @@ public class WavesBL {
         handler.startQuery(WaveDbSchema.Query.TOKEN_QUERY, null, WaveDbSchema.CONTENT_URI,
                 WaveDbSchema.Query.PROJECTION, WaveDbSchema.Columns.ID + "=?",
                 new String[]{String.valueOf(waveId)}, WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
-    }
-
-    public static void getNotMyTasksWavesListFromDB(AsyncQueryHandler handler, Integer radius, boolean showHiddenTasks) {
-        String withHiddenTaskWhere = showHiddenTasks ? "" : " and " + TaskDbSchema.Columns.IS_HIDE + "=0";
-
-        handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
-                WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, withHiddenTaskWhere, null, null
-        );
     }
 
     public static void getWaveWithNearTaskFromDB(AsyncQueryHandler handler, Integer waveId) {
@@ -145,14 +152,9 @@ public class WavesBL {
         }
     }
 
-    /**
-     * Convert cursor to Task list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList<Wave>
-     */
-    public static ArrayList<Wave> convertCursorToWaveListByDistance(Cursor cursor) {
-        ArrayList<Wave> result = new ArrayList<Wave>();
+
+    private static List<Wave> convertCursorToWaveListByDistance(Cursor cursor) {
+        List<Wave> result = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 Wave wave = Wave.fromCursorByDistance(cursor);
@@ -196,17 +198,6 @@ public class WavesBL {
             cursor.close();
         }
 
-        return result;
-    }
-
-    public static Wave.WaveTypes getWaveType(int typeId) {
-        Wave.WaveTypes result = Wave.WaveTypes.NONE;
-        for (Wave.WaveTypes type : Wave.WaveTypes.values()) {
-            if (type.getId() == typeId) {
-                result = type;
-                break;
-            }
-        }
         return result;
     }
 

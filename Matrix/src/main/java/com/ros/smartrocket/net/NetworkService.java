@@ -108,47 +108,6 @@ public class NetworkService extends BaseNetworkService {
                 switch (url) {
                     case WSUrl.GET_WAVES_ID:
                         Waves waves = gson.fromJson(responseString, Waves.class);
-                        L.i("Network Service", "WAVES FROM SERVER " + waves.getWaves().length);
-
-                        try {
-                            //Get tasks with 'scheduled' status id
-                            scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
-                            hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
-
-                            Wave[] tempWaves = waves.getWaves();
-                            for (Wave tempWave : tempWaves) {
-                                Task[] tempTasks = tempWave.getTasks();
-                                for (int j = 1; j < tempTasks.length; j++) {
-                                    if (tempTasks[j].getPrice() != tempTasks[j - 1].getPrice()) {
-                                        tempWave.setContainsDifferentRate(true);
-                                        break;
-                                    }
-                                }
-                            }
-
-                            for (Wave tempWave : tempWaves) {
-                                Task[] tempTasks = tempWave.getTasks();
-                                double min = tempTasks[0].getPrice();
-                                for (Task tempTask : tempTasks) {
-                                    if (tempTask.getPrice() < min) {
-                                        min = tempTask.getPrice();
-                                    }
-                                }
-                                tempWave.setRate(min);
-                            }
-
-                            TasksBL.removeNotMyTask(contentResolver);
-                            WavesBL.saveWaveAndTaskFromServer(contentResolver, waves, false);
-
-                            //Update task status id
-                            TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
-                            TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
-
-                        } catch (Exception e) {
-                            MyLog.logStackTrace(e);
-                            L.e(TAG, "Error updating data TASK and WAVE DB");
-                            operation.setResponseErrorCode(DEVICE_INTEERNAL_ERROR);
-                        }
 
                         break;
                     case WSUrl.GET_MY_TASKS_ID:

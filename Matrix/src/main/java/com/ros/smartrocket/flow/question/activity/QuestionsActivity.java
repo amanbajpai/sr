@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.question.activity;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -30,6 +30,7 @@ import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.flow.media.IdCardActivity;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.ui.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.ui.fragment.QuestionAudioFragment;
 import com.ros.smartrocket.ui.fragment.QuestionInstructionFragment;
@@ -63,8 +64,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class QuestionsActivity extends BaseActivity implements NetworkOperationListenerInterface,
-        OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
+public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedListener,
+        OnAnswerPageLoadingFinishedListener, QuestionMvpView {
 
     private static final String TAG = QuestionsActivity.class.getSimpleName();
     private static final String KEY_IS_STARTED = "started";
@@ -82,90 +83,65 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     @BindView(R.id.buttonsLayout)
     LinearLayout buttonsLayout;
 
-    private APIFacade apiFacade = APIFacade.getInstance();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
-    private Integer taskId;
-    private Integer missionId;
+    private int taskId;
+    private int missionId;
     private Task task = new Task();
     private Wave wave;
-
-
-    private AsyncQueryHandler handler;
     private List<Question> questions;
     private BaseQuestionFragment currentFragment;
-
     private int questionsToAnswerCount = 0;
     private boolean isRedo = false;
-
     private boolean isPreview = false;
     private boolean isAlreadyStarted;
     private boolean isDestroyed;
-
     private MenuItem idCardMenuItem;
+    private QuestionMvpPresenter<QuestionMvpView> presenter;
 
     public boolean isPreview() {
         return isPreview;
     }
 
-    public QuestionsActivity() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        L.v(TAG, "onCreate " + this);
         isDestroyed = false;
         setContentView(R.layout.activity_questions);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHomeAsUp();
         ButterKnife.bind(this);
-
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+        presenter = new QuestionPresenter<>();
+        presenter.attachView(this);
+        handleArgs();
+        presenter.loadTaskFromDBbyID(taskId, missionId);
+    }
 
+    private void handleArgs() {
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
             missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
             isPreview = getIntent().getBooleanExtra(Keys.KEY_IS_PREVIEW, false);
         }
-
-        handler = new DbHandler(getContentResolver());
-        TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        L.v(TAG, "onRestoreInstanceState");
         isAlreadyStarted = savedInstanceState.getBoolean(KEY_IS_STARTED, false);
-        if (isAlreadyStarted) {
+        if (isAlreadyStarted)
             restoreFragment();
-        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        L.v(TAG, "onSaveInstanceState");
         outState.putBoolean(KEY_IS_STARTED, true);
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
-    }
-
-    @Override
     protected void onDestroy() {
-        L.v(TAG, "onDestroy " + this);
         isDestroyed = true;
-        handler.removeCallbacksAndMessages(null);
+        presenter.detachView();
         super.onDestroy();
     }
 
@@ -175,16 +151,19 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     }
 
     private BaseQuestionFragment restoreFragment() {
-        L.v(TAG, "restoreFragment");
-        BaseQuestionFragment restoredCurrentFragment = (BaseQuestionFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.contentLayout);
+        BaseQuestionFragment restoredCurrentFragment =
+                (BaseQuestionFragment) getSupportFragmentManager().findFragmentById(R.id.contentLayout);
         if (restoredCurrentFragment != null) {
-            L.v(TAG, "restoreFragment not null " + restoredCurrentFragment);
             currentFragment = restoredCurrentFragment;
             currentFragment.setAnswerPageLoadingFinishedListener(this);
             currentFragment.setAnswerSelectedListener(this);
         }
         return restoredCurrentFragment;
+    }
+
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
+
     }
 
     class DbHandler extends AsyncQueryHandler {
@@ -202,7 +181,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                     if (task != null) {
                         UserActionsLogger.logTaskStarted(task, isPreview);
                         setTitle(task.getName());
-                        WavesBL.getWaveFromDB(handler, task.getWaveId());
+                        //WavesBL.getWaveFromDB(handler, task.getWaveId());
                         UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
 
                         isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
@@ -216,13 +195,12 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                             previousButton.setPadding(padding, padding, padding, padding);
 
                             if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
-                                QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
+                                //QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
                             } else {
-                                showLoading(false);
-                                apiFacade.getReDoQuestions(QuestionsActivity.this, task);
+                                presenter.getReDoQuestions(task);
                             }
                         } else {
-                            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
+                            //QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
                         }
                     } else {
                         finishQuestionsActivity();
@@ -248,8 +226,7 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
                         Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
                         startFragment(question);
                     } else {
-                        showLoading(false);
-                        apiFacade.getQuestions(QuestionsActivity.this, task);
+                        presenter.getQuestions(task);
                     }
 
                     break;
@@ -278,9 +255,8 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
     private int getQuestionPos(int currentQuestionOrderId) {
         int position = 1;
         for (Question question : questions) {
-            if (question.getOrderId() == currentQuestionOrderId) {
+            if (question.getOrderId() == currentQuestionOrderId)
                 return position;
-            }
             position++;
         }
         return position;
@@ -359,26 +335,20 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
 
     public void startValidationActivity() {
         TasksBL.updateTaskStatusId(taskId, missionId, Task.TaskStatusId.SCHEDULED.getStatusId());
-        if (task != null) {
+        if (task != null)
             UserActionsLogger.logTaskOnValidation(task);
-        }
         startActivity(IntentUtils.getTaskValidationIntent(this, taskId, missionId, true, isRedo));
         finishQuestionsActivity();
     }
 
     public void startFragment(Question question) {
-        L.v(TAG, "startFragment." + this + " Destroyed " + isDestroyed);
-        if (isDestroyed) {
-            return;
-        }
+        if (isDestroyed) return;
 
         if (question != null) {
             UserActionsLogger.logQuestionOpened(question, isPreview);
             L.v(TAG, "startFragment. orderId:" + question.getOrderId());
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getType(), question.getOrderId());
-
-            //int nextQuestionOrderId = AnswersBL.getNextQuestionOrderId(question);
 
             if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
                 startValidationActivity();
@@ -465,12 +435,11 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         }
     }
 
-    @Override
     public void onNetworkOperationSuccess(BaseOperation operation) {
         if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
                 || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
 
-            QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
+           // QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
         } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
             int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
                     taskId, task.getMissionId());
@@ -482,7 +451,6 @@ public class QuestionsActivity extends BaseActivity implements NetworkOperationL
         hideLoading();
     }
 
-    @Override
     public void onNetworkOperationFailed(BaseOperation operation) {
         hideLoading();
         UIUtils.showSimpleToast(this, operation.getResponseError());

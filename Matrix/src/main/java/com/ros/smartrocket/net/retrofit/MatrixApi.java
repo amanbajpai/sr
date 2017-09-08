@@ -110,12 +110,12 @@ public interface MatrixApi {
     Single<ResponseBody> startTask(@Body SendTaskId sendTaskId);
 
     @GET("api/Waves/Questionnaire")
-    Single<Questions> getQuestions(@Query("waveId") Integer waveId,
+    Observable<Questions> getQuestions(@Query("waveId") Integer waveId,
                                  @Query("taskId") Integer taskId,
                                  @Query("language") String language);
 
     @GET("api/Tasks/Re-Do-Questions")
-    Single<Questions> getReDoQuestions(@Query("waveId") Integer waveId,
+    Observable<Questions> getReDoQuestions(@Query("waveId") Integer waveId,
                                      @Query("taskId") Integer taskId,
                                      @Query("language") String language);
 

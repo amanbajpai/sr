@@ -15,7 +15,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
-import com.ros.smartrocket.ui.fragment.AllTaskFragment;
+import com.ros.smartrocket.flow.task.AllTaskFragment;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;

@@ -263,7 +263,7 @@
             android:name=".flow.login.password.update.SetNewPasswordActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.QuestionsActivity"
+            android:name=".flow.question.activity.QuestionsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
@@ -276,7 +276,7 @@
             android:name=".flow.login.terms.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".ui.activity.QuitQuestionActivity"
+            android:name=".flow.question.QuitQuestionActivity"
             android:configChanges="locale" />
         <activity
             android:name=".flow.cash.CashingOutActivity"

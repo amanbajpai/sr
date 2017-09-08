@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.fragment;
+package com.ros.smartrocket.flow.task;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,18 +21,14 @@ import android.widget.TextView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseFragment;
-import com.ros.smartrocket.flow.map.TasksMapFragment;
+import com.ros.smartrocket.flow.wave.my.WaveListFragment;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
-/**
- * Share app info fragment
- */
 public class AllTaskFragment extends BaseFragment implements OnClickListener {
     private static final String TAG = AllTaskFragment.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private ViewGroup view;
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
     private LinearLayout tabsLayout;
@@ -52,7 +48,7 @@ public class AllTaskFragment extends BaseFragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_all_task, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_all_task, null);
 
         if (getArguments() != null) {
             contentType = getArguments().getString(Keys.CONTENT_TYPE);

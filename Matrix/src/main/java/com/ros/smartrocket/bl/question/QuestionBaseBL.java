@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.activity.QuestionsActivity;
+import com.ros.smartrocket.flow.question.activity.QuestionsActivity;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.entity.Answer;

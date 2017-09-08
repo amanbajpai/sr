@@ -1,12 +1,9 @@
-package com.ros.smartrocket.flow.map;
+package com.ros.smartrocket.flow.task.mvp;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.flow.base.MvpPresenter;
 
-interface MapMvpPresenter<V extends MapMvpView> extends MvpPresenter<V> {
+public interface TaskMvpPresenter<V extends TaskMvpView> extends MvpPresenter<V> {
     void getMyTasksFromServer();
-
-    void getWavesFromServer(double latitude, double longitude, int radius);
-
     void loadTasksFromDb(int itemId, boolean isHidden, Keys.MapViewMode mode);
 }

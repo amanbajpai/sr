@@ -1,4 +1,4 @@
-package com.ros.smartrocket.flow.map;
+package com.ros.smartrocket.flow.task;
 
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -43,15 +43,19 @@ import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.flow.task.mvp.TaskMvpPresenter;
+import com.ros.smartrocket.flow.task.mvp.TaskMvpView;
+import com.ros.smartrocket.flow.task.mvp.TaskPresenter;
+import com.ros.smartrocket.flow.wave.WaveMvpPresenter;
+import com.ros.smartrocket.flow.wave.WaveMvpView;
+import com.ros.smartrocket.flow.wave.WavePresenter;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.map.CurrentLocatiuonListener;
 import com.ros.smartrocket.map.MapHelper;
 import com.ros.smartrocket.map.OnMapStatusChangeFinishedListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.ui.fragment.AllTaskFragment;
 import com.ros.smartrocket.ui.fragment.TransparentSupportMapFragment;
 import com.ros.smartrocket.ui.views.CustomSwitch;
 import com.ros.smartrocket.ui.views.CustomTextView;
@@ -76,7 +80,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class TasksMapFragment extends BaseFragment implements MapMvpView, SwitchCheckedChangeListener,
+public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveMvpView, SwitchCheckedChangeListener,
         OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MY_LOCATION = "MyLoc";
@@ -117,7 +121,8 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
     private Keys.MapViewMode mode;
     private Marker currentLocationMarker;
     private Circle circle;
-    private MapMvpPresenter<MapMvpView> presenter;
+    private TaskMvpPresenter<TaskMvpView> taskPresenter;
+    private WaveMvpPresenter<WaveMvpView> wavePresenter;
     private int sbRadiusProgress = 5;
     private boolean isTouchTracking = false;
     private float zoomLevel = DEFAULT_ZOOM_LEVEL;
@@ -138,22 +143,26 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
         LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
         if (savedInstanceState == null && mapLayout.findViewById(R.id.map) == null) {
-            try {
-                if (Config.USE_BAIDU) {
-                    mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
-                } else {
-                    mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
-                }
-            } catch (Exception e) {
-                L.e(TAG, "Error in onCreateView method.", e);
-                getActivity().finish();
-            }
+            setUpMap(mapLayout);
         }
         unbinder = ButterKnife.bind(this, view);
         initUI();
         lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
-        presenter = new MapPresenter<>();
+        taskPresenter = new TaskPresenter<>();
+        wavePresenter = new WavePresenter<>();
         return view;
+    }
+
+    private void setUpMap(LinearLayout mapLayout) {
+        try {
+            if (Config.USE_BAIDU)
+                mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_baidu_map, null));
+            else
+                mapLayout.addView(LayoutInflater.from(getActivity()).inflate(R.layout.fragment_google_map, null));
+        } catch (Exception e) {
+            L.e(TAG, "Error in onCreateView method.", e);
+            getActivity().finish();
+        }
     }
 
     private void initUI() {
@@ -217,7 +226,8 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
     @Override
     public void onResume() {
         super.onResume();
-        presenter.attachView(this);
+        taskPresenter.attachView(this);
+        wavePresenter.attachView(this);
         initTaskRadius();
         if (!isHidden() && isNeedRefresh) {
             setViewMode(getArguments());
@@ -230,7 +240,8 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
     public void onPause() {
         super.onPause();
         storeZoomAndRadius();
-        presenter.detachView();
+        taskPresenter.detachView();
+        wavePresenter.detachView();
     }
 
     private void storeZoomAndRadius() {
@@ -343,7 +354,7 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
             if (getActivity() != null) {
                 hideLoading();
                 if (preferencesManager.getUseLocationServices())
-                    presenter.loadTasksFromDb(viewItemId, showHiddenTasksToggleButton.isChecked(), mode);
+                    taskPresenter.loadTasksFromDb(viewItemId, showHiddenTasksToggleButton.isChecked(), mode);
             }
         }, DELAY_MILLIS);
     }
@@ -351,7 +362,7 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
     private void updateDataFromServer() {
         if (UIUtils.isOnline(getActivity())) {
             if (mode == Keys.MapViewMode.MY_TASKS)
-                presenter.getMyTasksFromServer();
+                taskPresenter.getMyTasksFromServer();
             else if (mode == Keys.MapViewMode.ALL_TASKS)
                 getWavesFromServer(taskRadius);
         } else {
@@ -366,9 +377,9 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
             public void getLocationSuccess(Location location) {
                 if (isFirstStart)
                     new Handler().postDelayed(() ->
-                            presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius), DELAY_MILLIS);
+                            wavePresenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius), DELAY_MILLIS);
                 else
-                    presenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius);
+                    wavePresenter.getWavesFromServer(location.getLatitude(), location.getLongitude(), radius);
             }
 
             @Override
@@ -456,6 +467,12 @@ public class TasksMapFragment extends BaseFragment implements MapMvpView, Switch
         isFirstStart = false;
         if (preferencesManager.getUseLocationServices()) addMyLocation(location);
 
+    }
+
+    @Override
+    public void onTasksLoaded() {
+        AllTaskFragment.stopRefreshProgress = true;
+        loadTasksFromLocalDb();
     }
 
     public void addGoogleMapPins(final ArrayList<InputPoint> inputPoints) {
