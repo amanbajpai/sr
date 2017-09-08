@@ -14,9 +14,6 @@ public final class WSUrl {
     public static final String GET_NEW_TOKEN = Config.WEB_SERVICE_URL + "api/Authorize/ReIssueCredentials";
     public static final String TEST_PUSH_NOTIFICATION = Config.WEB_SERVICE_URL + "api/Authorize/PushBulkMessage";
 
-    // Waves
-    public static final String GET_WAVES = Config.WEB_SERVICE_URL +
-            "api/Waves?latitude=%s&longitude=%s&radius=%s&language=%s";
     public static final String GET_WAVE_TASKS = Config.WEB_SERVICE_URL + "api/Waves/%s/Tasks";
     public static final String GET_QUESTIONS = Config.WEB_SERVICE_URL
             + "api/Waves/Questionnaire?waveId=%s&language=%s&taskId=%s";
@@ -34,14 +31,12 @@ public final class WSUrl {
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
 
     // Other
-    public static final String GET_SHARING_DATA = Config.WEB_SERVICE_URL + "api/Socials/SharingData?language=%s";
     public static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token";
     public static final String GET_WECHAT_USER_INFO= "https://api.wechat.com/sns/userinfo";
 
 
 
 
-    public static final int GET_WAVES_ID = 2;
     public static final int GET_WAVES_TASKS_ID = 3;
     public static final int GET_MY_TASKS_ID = 4;
     public static final int CLAIM_TASKS_ID = 7;
@@ -65,7 +60,6 @@ public final class WSUrl {
 
     static {
         URLS = new HashMap<>();
-        URLS.put(GET_WAVES, GET_WAVES_ID);
         URLS.put(GET_WAVE_TASKS, GET_WAVES_TASKS_ID);
         URLS.put(GET_MY_TASKS, GET_MY_TASKS_ID);
         URLS.put(CLAIM_TASK, CLAIM_TASKS_ID);
@@ -80,7 +74,6 @@ public final class WSUrl {
         URLS.put(VALIDATE_TASK, VALIDATE_TASK_ID);
         URLS.put(REJECT_TASK, REJECT_TASK_ID);
         URLS.put(UPDATE_USER, UPLOAD_PHOTO_ID);
-        URLS.put(GET_SHARING_DATA, GET_SHARING_DATA_ID);
         URLS.put(GET_NEW_TOKEN, GET_NEW_TOKEN_ID);
         URLS.put(TEST_PUSH_NOTIFICATION, TEST_PUSH_NOTIFICATION_ID);
     }

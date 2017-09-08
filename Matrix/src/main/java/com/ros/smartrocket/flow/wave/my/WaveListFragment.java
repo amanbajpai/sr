@@ -88,8 +88,8 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         presenter.detachView();
     }
 

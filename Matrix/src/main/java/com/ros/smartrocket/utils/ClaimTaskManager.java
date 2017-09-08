@@ -137,7 +137,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
                     ClaimTaskManager.this.location = location;
 
-                    Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyID(task.getWaveId()));
+                    Wave wave = WavesBL.convertCursorToWave(WavesBL.getWaveFromDBbyIdCursor(task.getWaveId()));
                     if (wave.getDownloadMediaWhenClaimingTask()
                             && wave.getMissionSize() != null
                             && wave.getMissionSize() != 0) {
@@ -463,7 +463,7 @@ public class ClaimTaskManager implements NetworkOperationListenerInterface, Show
 
         TasksBL.updateTask(handler, task, missionId);
 
-        QuestionsBL.removeQuestionsFromDB(activity, task.getWaveId(), task.getId(), task.getMissionId());
+        QuestionsBL.removeQuestionsFromDB(task);
         AnswersBL.removeAnswersByTaskId(activity, task.getId());
 
         claimTaskListener.onUnClaimed(task);

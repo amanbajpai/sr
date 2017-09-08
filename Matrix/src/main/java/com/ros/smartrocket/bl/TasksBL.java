@@ -26,11 +26,6 @@ public class TasksBL {
     public TasksBL() {
     }
 
-    public static void getTasksFromDB(AsyncQueryHandler handler) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
-    }
-
     public static Cursor getTaskFromDBbyID(Integer taskId, Integer missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor c;
@@ -51,6 +46,10 @@ public class TasksBL {
 
     public static Observable<List<Task>> getTaskFromDBbyIdObservable(Integer taskId, Integer missionId) {
         return Observable.fromCallable(() -> convertCursorToTasksList(getTaskFromDBbyID(taskId, missionId)));
+    }
+
+    public static Observable<Task> getSingleTaskFromDBbyIdObservable(Integer taskId, Integer missionId) {
+        return Observable.fromCallable(() -> convertCursorToTaskOrNull(getTaskFromDBbyID(taskId, missionId)));
     }
 
     private static List<Task> getAllNotMyTasksFromDBSync(boolean showHiddenTasks) {
@@ -96,6 +95,11 @@ public class TasksBL {
 
     public static Observable<List<Task>> getNotMyTasksObservable(int waveId, boolean isHidden) {
         return Observable.fromCallable(() -> getNotMyTasksFromDBbyWaveId(waveId, isHidden));
+    }
+
+    public static void getTasksFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
     public static void getMyTasksFromDB(AsyncQueryHandler handler) {

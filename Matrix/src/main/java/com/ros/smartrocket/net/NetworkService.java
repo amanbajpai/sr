@@ -44,6 +44,7 @@ import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;
 import com.ros.smartrocket.db.entity.WeChatTokenResponse;
 import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
+import com.ros.smartrocket.db.store.QuestionStore;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
@@ -106,10 +107,6 @@ public class NetworkService extends BaseNetworkService {
                 SparseArray<ContentValues> validLocationTaskContentValuesMap;
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
-                    case WSUrl.GET_WAVES_ID:
-                        Waves waves = gson.fromJson(responseString, Waves.class);
-
-                        break;
                     case WSUrl.GET_MY_TASKS_ID:
                         Waves myTasksWaves = gson.fromJson(responseString, Waves.class);
 
@@ -136,7 +133,12 @@ public class NetworkService extends BaseNetworkService {
 
                     case WSUrl.CLAIM_TASKS_ID:
                         ClaimTaskResponse claimTaskResponse = gson.fromJson(responseString, ClaimTaskResponse.class);
-                        storeQuestions(operation, url, claimTaskResponse.getQuestions());
+                        Task t = new Task();
+                        t.setId(operation.getTaskId());
+                        t.setMissionId(operation.getMissionId());
+                        t.setWaveId(operation.getWaveId());
+                        QuestionStore qs = new QuestionStore(t);
+                        qs.storeQuestions(claimTaskResponse.getQuestions());
                         operation.responseEntities.add(claimTaskResponse);
                         break;
                     case WSUrl.SEND_ANSWERS_ID:
@@ -162,15 +164,6 @@ public class NetworkService extends BaseNetworkService {
                         MyAccount myAccountResponse = gson.fromJson(responseString, MyAccount.class);
                         operation.responseEntities.add(myAccountResponse);
                         App.getInstance().setMyAccount(myAccountResponse);
-                        break;
-                    case WSUrl.GET_QUESTIONS_ID:
-                    case WSUrl.GET_REDO_QUESTION_ID:
-                        Questions questions = gson.fromJson(responseString, Questions.class);
-                        storeQuestions(operation, url, questions);
-                        break;
-                    case WSUrl.GET_SHARING_DATA_ID:
-                        Sharing sharing = gson.fromJson(responseString, Sharing.class);
-                        operation.responseEntities.add(sharing);
                         break;
                     default:
                         break;
@@ -223,153 +216,5 @@ public class NetworkService extends BaseNetworkService {
 
     }
 
-    private void storeQuestions(BaseOperation operation, int url, Questions questions) {
-        if (questions != null && questions.getQuestions() != null && questions.getQuestions().length > 0) {
-            int waveId = operation.getWaveId();
-            int taskId = operation.getTaskId();
-            int missionId = operation.getMissionId();
 
-            QuestionsBL.removeQuestionsFromDB(this, waveId, taskId, missionId);
-            questions.setQuestions(QuestionsBL.sortQuestionsByOrderId(questions.getQuestions()));
-
-            int i = 1;
-            for (Question question : questions.getQuestions()) {
-                if (i != 1 && question.getShowBackButton()) {
-                    question.setPreviousQuestionOrderId(i - 1);
-                }
-                i = insertQuestion(gson, contentResolver, url, taskId, missionId, i, question);
-            }
-
-            if (questions.getMissionSize() != null) {
-                WavesBL.updateWave(waveId, questions.getMissionSize());
-            }
-        }
-    }
-
-    private List<Product> makeProductList(Question question) {
-        List<Product> productList = new ArrayList<>();
-
-        Category[] categoriesArray = question.getCategoriesArray();
-        if (categoriesArray != null) {
-            for (Category category : categoriesArray) {
-                if (category.getProducts() != null) {
-                    Collections.addAll(productList, category.getProducts());
-                }
-            }
-        }
-
-        return productList;
-    }
-
-    private int insertQuestion(Gson gson, ContentResolver contentResolver, int url, int taskId, int missionId, int i,
-                               Question question) {
-        List<ContentValues> answersValues = new ArrayList<>();
-        List<ContentValues> questionValues = new ArrayList<>();
-
-        question = prepareQuestion(gson, url, taskId, missionId, i, question);
-
-        questionValues.add(question.toContentValues());
-
-        contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
-                new String[]{String.valueOf(question.getId()), String.valueOf(taskId)});
-        if (question.getChildQuestions() != null && question.getChildQuestions().length > 0) {
-            List<Product> productList = makeProductList(question);
-            int j = 1;
-            for (Question childQuestion : question.getChildQuestions()) {
-                contentResolver.delete(AnswerDbSchema.CONTENT_URI,
-                        AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
-                        new String[]{String.valueOf(childQuestion.getId()), String.valueOf(taskId)});
-                childQuestion = prepareQuestion(gson, url, taskId, missionId, j, childQuestion);
-                questionValues.add(childQuestion.toContentValues());
-                answersValues.addAll(getAnswerValues(taskId, missionId, childQuestion, productList));
-                j++;
-            }
-        }
-        answersValues.addAll(getAnswerValues(taskId, missionId, question, null));
-        if (!answersValues.isEmpty()) {
-            ContentValues[] valuesArray = new ContentValues[answersValues.size()];
-            valuesArray = answersValues.toArray(valuesArray);
-            contentResolver.bulkInsert(AnswerDbSchema.CONTENT_URI, valuesArray);
-        }
-        if (!questionValues.isEmpty()) {
-            ContentValues[] valuesArray = new ContentValues[questionValues.size()];
-            valuesArray = questionValues.toArray(valuesArray);
-            contentResolver.bulkInsert(QuestionDbSchema.CONTENT_URI, valuesArray);
-        }
-        i++;
-        return i;
-    }
-
-
-    private List<ContentValues> getAnswerValues(int taskId, int missionId, Question question,
-                                                List<Product> productList) {
-        List<ContentValues> answersValues = new ArrayList<>();
-        if (productList != null) {
-            // Insert answers for MassAudit subquestions
-            for (Product product : productList) {
-                if (question.getProductId() == null || product.getId().equals(question.getProductId())) {
-                    if (question.getAnswers() != null && question.getAnswers().length > 0) {
-                        for (Answer answer : question.getAnswers()) {
-                            answersValues.add(prepareAnswer(taskId, missionId, question, answer, product.getId()).toContentValues());
-                        }
-                    } else {
-                        Answer answer = new Answer();
-                        answersValues.add(prepareAnswer(taskId, missionId, question, answer, product.getId()).toContentValues());
-                    }
-                }
-            }
-        } else {
-            if (question.getAnswers() != null && question.getAnswers().length > 0) {
-                for (Answer answer : question.getAnswers()) {
-                    answersValues.add(prepareAnswer(taskId, missionId, question, answer, null).toContentValues());
-                }
-            } else {
-                Answer answer = new Answer();
-                answersValues.add(prepareAnswer(taskId, missionId, question, answer, null).toContentValues());
-            }
-        }
-        return answersValues;
-    }
-
-    private Answer prepareAnswer(int taskId, int missionId, Question question, Answer answer,
-                                 Integer productId) {
-        if (question.getType() == Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()
-                && question.isRedo()) {
-            answer.setChecked(false);
-        }
-        answer.setRandomId();
-        answer.setProductId(productId);
-        answer.setQuestionId(question.getId());
-        answer.setTaskId(taskId);
-        answer.setMissionId(missionId);
-        return answer;
-    }
-
-
-    private Question prepareQuestion(Gson gson, int url, int taskId, int missionId, int i,
-                                     Question question) {
-        question.setTaskId(taskId);
-        question.setMissionId(missionId);
-
-        AskIf[] askIfArray = question.getAskIfArray();
-        if (askIfArray != null) {
-            question.setAskIf(gson.toJson(askIfArray));
-        }
-
-        Category[] categoriesArray = question.getCategoriesArray();
-        if (categoriesArray != null) {
-            question.setCategories(gson.toJson(categoriesArray));
-        }
-
-        TaskLocation taskLocation = question.getTaskLocationObject();
-        if (taskLocation != null) {
-            taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
-            question.setTaskLocation(gson.toJson(taskLocation));
-        }
-        if (WSUrl.GET_REDO_QUESTION_ID == url) {
-            question.setOrderId(i);
-        }
-        return question;
-    }
 }

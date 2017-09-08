@@ -5,13 +5,13 @@ import com.ros.smartrocket.flow.base.MvpPresenter;
 
 interface QuestionMvpPresenter<V extends QuestionMvpView> extends MvpPresenter<V> {
 
-    void loadTaskFromDBbyID(Integer taskId, Integer missionId);
+    void loadReDoQuestions(Task task);
 
-    void getReDoQuestions(Task task);
-
-    void getQuestions(Task task);
+    void loadQuestions(Task task);
 
     void getQuestionsListFromDB(Task task);
 
     void getWaveFromDB(int waveId);
+
+    void getTaskFromDBbyID(Integer taskId, Integer missionId);
 }

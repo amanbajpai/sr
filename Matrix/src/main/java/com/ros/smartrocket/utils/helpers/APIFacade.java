@@ -51,25 +51,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void getWaves(Activity activity, double latitude, double longitude, int radius) {
-        if (activity != null && activity instanceof BaseActivity) {
-            try {
-                BaseOperation operation = new BaseOperation();
-                operation.setUrl(WSUrl.GET_WAVES, String.valueOf(latitude), String.valueOf(longitude),
-                        String.valueOf(radius), preferencesManager.getLanguageCode());
-                operation.setTag(Keys.GET_WAVES_OPERATION_TAG);
-                operation.setMethod(BaseOperation.Method.GET);
-                ((BaseActivity) activity).sendNetworkOperation(operation);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            L.e(TAG, "getWaves with wrong activity");
-        }
-
-    }
-
     public BaseOperation getMyTasksOperation() {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_MY_TASKS, preferencesManager.getLanguageCode());
@@ -170,15 +151,6 @@ public class APIFacade {
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
-    public void getReDoQuestions(Activity activity, Task task) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_REDO_QUESTION, String.valueOf(task.getId()), String.valueOf(task.getMissionId()), preferencesManager.getLanguageCode());
-        operation.setTag(Keys.GET_REDO_QUESTION_OPERATION_TAG);
-        fillTaskData(task, operation);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     private void fillTaskData(Task task, BaseOperation operation) {
         operation.setWaveId(task.getWaveId());
         operation.setTaskId(task.getId());
@@ -207,14 +179,6 @@ public class APIFacade {
         BaseOperation operation = new BaseOperation();
         operation.setUrl(WSUrl.GET_MY_ACCOUNT, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_MY_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getSharingData(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_SHARING_DATA, preferencesManager.getLanguageCode());
-        operation.setTag(Keys.GET_SHARING_DATA_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }

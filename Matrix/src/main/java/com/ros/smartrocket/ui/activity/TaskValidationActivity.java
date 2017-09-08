@@ -201,7 +201,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
             task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
             TasksBL.updateTask(handler, task);
-            QuestionsBL.removeQuestionsFromDB(this, task.getWaveId(), task.getId(), task.getMissionId());
+            QuestionsBL.removeQuestionsFromDB(task);
             finishActivity();
         }
     }

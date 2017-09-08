@@ -1,9 +1,6 @@
 package com.ros.smartrocket.flow.question.activity;
 
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -16,21 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.annimon.stream.Stream;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WavesBL;
-import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.flow.media.IdCardActivity;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.ui.fragment.BaseQuestionFragment;
 import com.ros.smartrocket.ui.fragment.QuestionAudioFragment;
 import com.ros.smartrocket.ui.fragment.QuestionInstructionFragment;
@@ -42,11 +38,8 @@ import com.ros.smartrocket.ui.fragment.QuestionPhotoFragment;
 import com.ros.smartrocket.ui.fragment.QuestionQuitStatementFragment;
 import com.ros.smartrocket.ui.fragment.QuestionSingleChooseFragment;
 import com.ros.smartrocket.ui.fragment.QuestionVideoFragment;
-import com.ros.smartrocket.utils.helpers.APIFacade;
-import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
-import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
+import com.ros.smartrocket.ui.views.CustomButton;
+import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
@@ -54,8 +47,6 @@ import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
-import com.ros.smartrocket.ui.views.CustomButton;
-import com.ros.smartrocket.ui.views.CustomTextView;
 
 import java.util.Collections;
 import java.util.List;
@@ -113,7 +104,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
         presenter = new QuestionPresenter<>();
         presenter.attachView(this);
         handleArgs();
-        presenter.loadTaskFromDBbyID(taskId, missionId);
+        presenter.getTaskFromDBbyID(taskId, missionId);
     }
 
     private void handleArgs() {
@@ -163,88 +154,73 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
 
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
-
+        UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
     }
 
-    class DbHandler extends AsyncQueryHandler {
+    @Override
+    public void onTaskLoadingComplete(Task taskFromDb) {
+        task = taskFromDb;
+        if (task != null) {
+            UserActionsLogger.logTaskStarted(task, isPreview);
+            setTitle(task.getName());
+            presenter.getWaveFromDB(task.getWaveId());
+            UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
+            isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
+            if (isRedo) {
+                nextButton.setBackgroundResource(R.drawable.button_red_selector);
+                previousButton.setBackgroundResource(R.drawable.button_red_selector);
+                int padding = UIUtils.getPxFromDp(QuestionsActivity.this, 10);
+                nextButton.setPadding(padding, padding, padding, padding);
+                previousButton.setPadding(padding, padding, padding, padding);
 
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    task = TasksBL.convertCursorToTaskOrNull(cursor);
-
-                    if (task != null) {
-                        UserActionsLogger.logTaskStarted(task, isPreview);
-                        setTitle(task.getName());
-                        //WavesBL.getWaveFromDB(handler, task.getWaveId());
-                        UIUtils.setActionBarBackground(QuestionsActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
-
-                        isRedo = TasksBL.getTaskStatusType(task.getStatusId()) == Task.TaskStatusId.RE_DO_TASK;
-
-                        if (isRedo) {
-                            nextButton.setBackgroundResource(R.drawable.button_red_selector);
-                            previousButton.setBackgroundResource(R.drawable.button_red_selector);
-
-                            int padding = UIUtils.getPxFromDp(QuestionsActivity.this, 10);
-                            nextButton.setPadding(padding, padding, padding, padding);
-                            previousButton.setPadding(padding, padding, padding, padding);
-
-                            if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
-                                //QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
-                            } else {
-                                presenter.getReDoQuestions(task);
-                            }
-                        } else {
-                            //QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
-                        }
-                    } else {
-                        finishQuestionsActivity();
-                    }
-                    break;
-                case WaveDbSchema.Query.TOKEN_QUERY:
-                    wave = WavesBL.convertCursorToWave(cursor);
-                    if (idCardMenuItem != null) {
-                        idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
-                    }
-                    break;
-                case QuestionDbSchema.Query.TOKEN_QUERY:
-                    questions = QuestionsBL.convertCursorToQuestionList(cursor);
-
-                    if (!questions.isEmpty()) {
-                        Collections.sort(questions);
-                        questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
-                        int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
-                                taskId, task.getMissionId());
-                        if (lastQuestionOrderId == 1) {
-                            lastQuestionOrderId = QuestionsBL.getFirstOrderId(questions);
-                        }
-                        Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
-                        startFragment(question);
-                    } else {
-                        presenter.getQuestions(task);
-                    }
-
-                    break;
-                default:
-                    break;
+                if (getIntent().getBooleanExtra(Keys.IS_REDO_REOPEN, false)) {
+                    presenter.getQuestionsListFromDB(task);
+                } else {
+                    presenter.loadReDoQuestions(task);
+                }
+            } else {
+                presenter.getQuestionsListFromDB(task);
             }
+        } else {
+            finishQuestionsActivity();
         }
+    }
+
+    @Override
+    public void onWaveLoadingComplete(Wave waveFromDb) {
+        wave = waveFromDb;
+        if (idCardMenuItem != null) idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
+    }
+
+    @Override
+    public void onQuestionsLoadingComplete(List<Question> questionsFromDb) {
+        questions = questionsFromDb;
+        if (!questions.isEmpty()) {
+            Collections.sort(questions);
+            questionsToAnswerCount = QuestionsBL.getQuestionsToAnswerCount(questions);
+            int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
+                    taskId, task.getMissionId());
+            if (lastQuestionOrderId == 1)
+                lastQuestionOrderId = QuestionsBL.getFirstOrderId(questions);
+            Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
+            startFragment(question);
+        } else {
+            presenter.loadQuestions(task);
+        }
+    }
+
+    @Override
+    public void onQuestionsLoaded() {
+        presenter.getQuestionsListFromDB(task);
     }
 
     private void finishQuestionsActivity() {
-        L.v(TAG, "!!!!! ===== FINISH ===== !!!!!");
         finish();
     }
 
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
         mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
-        if (questionType != Question.QuestionType.PHOTO.getTypeId()
-                && questionType != Question.QuestionType.VIDEO.getTypeId()) {
+        if (questionType != Question.QuestionType.PHOTO.getTypeId() && questionType != Question.QuestionType.VIDEO.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
             questionOf.setText(getString(R.string.question_of, String.valueOf(getQuestionPos(currentQuestionOrderId)), String.valueOf(questionsToAnswerCount)));
         } else {
@@ -267,33 +243,29 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
     public void startNextQuestionFragment() {
         isAlreadyStarted = false;
         if (currentFragment != null) {
-            boolean shouldStart = isPreview ? isPreview : currentFragment.saveQuestion();
+            boolean shouldStart = isPreview || currentFragment.saveQuestion();
             if (shouldStart) {
                 Question currentQuestion = currentFragment.getQuestion();
                 if (currentQuestion != null) {
                     if (currentQuestion.getType() == Question.QuestionType.REJECT.getTypeId()) {
                         startValidationActivity();
                     } else {
-                        L.v(TAG, "startNextQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
                         Question question = getQuestion(currentQuestion);
-
                         if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
                             if (!isPreview) {
                                 preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
                                         task.getMissionId(), question.getOrderId());
                             }
                             question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
-
                             QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
                             if (currentQuestion.getNextAnsweredQuestionId() != null &&
                                     currentQuestion.getNextAnsweredQuestionId() != 0 &&
                                     !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
-                                for (Question tempQuestion : questions) {
-                                    if (tempQuestion.getOrderId() > currentQuestion.getOrderId()) {
-                                        AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), tempQuestion.getId());
-                                    }
-                                }
+                                Stream.of(questions)
+                                        .filter(q -> q.getOrderId() > currentQuestion.getOrderId())
+                                        .forEach(q ->
+                                                AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), q.getId()));
                             }
                             currentQuestion.setNextAnsweredQuestionId(question.getId());
                             QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
@@ -318,7 +290,6 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
         if (currentFragment != null) {
             Question currentQuestion = currentFragment.getQuestion();
             if (currentQuestion != null) {
-                L.v(TAG, "startPreviousQuestionFragment. currentQuestionOrderId:" + currentQuestion.getOrderId());
                 UserActionsLogger.logPrevQuestionOpened(currentQuestion, isPreview);
                 int previousQuestionOrderId = (currentQuestion.getPreviousQuestionOrderId() != null &&
                         currentQuestion.getPreviousQuestionOrderId() != 0) ? currentQuestion.getPreviousQuestionOrderId() : 1;
@@ -435,27 +406,6 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
         }
     }
 
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        if (Keys.GET_QUESTIONS_OPERATION_TAG.equals(operation.getTag())
-                || Keys.GET_REDO_QUESTION_OPERATION_TAG.equals(operation.getTag())) {
-
-           // QuestionsBL.getQuestionsListFromDB(handler, task.getWaveId(), taskId, task.getMissionId(), false);
-        } else if (Keys.REJECT_TASK_OPERATION_TAG.equals(operation.getTag())) {
-            int lastQuestionOrderId = preferencesManager.getLastNotAnsweredQuestionOrderId(task.getWaveId(),
-                    taskId, task.getMissionId());
-            Question question = QuestionsBL.getQuestionWithCheckConditionByOrderId(questions, lastQuestionOrderId, isRedo);
-
-            startActivity(IntentUtils.getQuitQuestionIntent(this, question));
-            finishQuestionsActivity();
-        }
-        hideLoading();
-    }
-
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        hideLoading();
-        UIUtils.showSimpleToast(this, operation.getResponseError());
-    }
-
     @Override
     public void onAnswerSelected(Boolean selected, int questionId) {
         if (isPreview) {
@@ -503,23 +453,25 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_questions, menu);
         idCardMenuItem = menu.findItem(R.id.idCardMenuItem);
-        if (wave != null) {
-            idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
-        }
-
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        View view = actionBar.getCustomView();
-        TextView title = (TextView) view.findViewById(R.id.titleTextView);
-        if (isPreview) {
-            title.setTextColor(getResources().getColor(R.color.red));
-            title.setText(getString(R.string.preview_mode));
-        } else {
-            title.setText(R.string.question_title);
-        }
+        if (wave != null) idCardMenuItem.setVisible(wave.getIdCardStatus() == 1);
+        setUpActionBar();
         return true;
+    }
+
+    private void setUpActionBar() {
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            View view = actionBar.getCustomView();
+            TextView title = (TextView) view.findViewById(R.id.titleTextView);
+            if (isPreview) {
+                title.setTextColor(getResources().getColor(R.color.red));
+                title.setText(getString(R.string.preview_mode));
+            } else {
+                title.setText(R.string.question_title);
+            }
+        }
     }
 }

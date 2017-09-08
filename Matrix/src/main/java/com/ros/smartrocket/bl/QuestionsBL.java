@@ -16,6 +16,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
@@ -27,19 +28,46 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 public class QuestionsBL {
     private static final String TAG = QuestionsBL.class.getSimpleName();
 
     private QuestionsBL() {
-
     }
 
-    /**
-     * Make request for getting Question list
-     *
-     * @param handler - Handler for getting response from DB
-     * @param waveId  - current waveId
-     */
+    public static void removeQuestionsFromDB(Task task) {
+        App.getInstance().getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Columns.WAVE_ID + "=? and "
+                        + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(task.getWaveId()),
+                        String.valueOf(task.getId()),
+                        String.valueOf(task.getMissionId())});
+    }
+
+    private static Cursor getQuestionsListFromDB(Task task, boolean includeChildQuestions) {
+        String selection = QuestionDbSchema.Columns.WAVE_ID + "=? and "
+                + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                + QuestionDbSchema.Columns.MISSION_ID + "=?";
+
+        if (!includeChildQuestions)
+            selection += " and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + " is null";
+        return App.getInstance().getContentResolver().query(
+                QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Query.PROJECTION,
+                selection,
+                new String[]{String.valueOf(task.getWaveId()), String.valueOf(task.getId()), String.valueOf(task.getMissionId())},
+                QuestionDbSchema.SORT_ORDER_DESC);
+    }
+
+    public static Observable<List<Question>> getQestionObservable(Task task, boolean includeChildQuestions) {
+        return Observable.fromCallable(() -> convertCursorToQuestionList(getQuestionsListFromDB(task, includeChildQuestions)));
+    }
+
+    // ---------------------- !!! ----------------------//
+
+
     public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
                                               Integer missionId, boolean includeChildQuestions) {
         String selection = QuestionDbSchema.Columns.WAVE_ID + "=? and "
@@ -166,13 +194,6 @@ public class QuestionsBL {
         contentValues.putNull(QuestionDbSchema.Columns.PREVIOUS_QUESTION_ORDER_ID.getName());
 
         activity.getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues,
-                QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and "
-                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
-    }
-
-    public static void removeQuestionsFromDB(Context context, Integer waveId, int taskId, Integer missionId) {
-        context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and "
                         + QuestionDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
@@ -598,12 +619,7 @@ public class QuestionsBL {
     }
 
     public static Question[] sortQuestionsByOrderId(Question[] questions) {
-        Arrays.sort(questions, new Comparator<Question>() {
-            public int compare(Question o1, Question o2) {
-                return o1.getOrderId() - o2.getOrderId();
-            }
-        });
-
+        Arrays.sort(questions, (o1, o2) -> o1.getOrderId() - o2.getOrderId());
         return questions;
     }
 

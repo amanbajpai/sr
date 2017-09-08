@@ -46,15 +46,19 @@ public class WavesBL {
         return Observable.fromCallable(() -> convertCursorToWaveListByDistance(getNotMyWavesListCursor(showHiddenTasks)));
     }
 
-
-    //-------------------------!!!!--------------------------//
-
-    public static Cursor getWaveFromDBbyID(Integer waveId) {
+    public static Cursor getWaveFromDBbyIdCursor(Integer waveId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         return resolver.query(WaveDbSchema.CONTENT_URI, WaveDbSchema.Query.PROJECTION,
                 WaveDbSchema.Columns.ID + "=?", new String[]{String.valueOf(waveId)},
                 WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
+
+    public static Observable<Wave> getWaveFromDBbyIdObservable(Integer waveId) {
+        return Observable.fromCallable(() -> convertCursorToWave(getWaveFromDBbyIdCursor(waveId)));
+    }
+
+
+    //-------------------------!!!!--------------------------//
 
     public static void getWaveFromDB(AsyncQueryHandler handler, Integer waveId) {
         handler.startQuery(WaveDbSchema.Query.TOKEN_QUERY, null, WaveDbSchema.CONTENT_URI,
@@ -211,10 +215,8 @@ public class WavesBL {
     public static void updateWave(int waveId, int missionSize) {
         String where = WaveDbSchema.Columns.ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(waveId)};
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(WaveDbSchema.Columns.MISSION_SIZE.getName(), missionSize);
-
         App.getInstance().getContentResolver().update(WaveDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 }
