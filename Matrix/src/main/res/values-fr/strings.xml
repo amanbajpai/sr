@@ -26,7 +26,7 @@
 	<string name="approved_mission_notification_text">La Mission suivante a été approuvée. &lt;br>&lt;br> Mission : &lt;b>%3$s&lt;/b > &lt;br>Localisation : &lt;b>%4$s &lt;/b>&lt;br> Adresse : &lt;b>%5$s &lt;/b>&lt;br> ID de la tâche : &lt;b>%6$d %1$s %2$s</string>
 	<string name="approved_mission_notification_title">Félicitations !</string>
 	<string name="approved_task">Approuvé</string>
-	<string name="approx_mission_duration">"m"</string>
+	<string name="approx_mission_duration">"%dm"</string>
 	<string name="available">DISPONIBLE :</string>
 	<string name="bachelors_degree">Baccalauréat</string>
 	<string name="balance_0">0$</string>
