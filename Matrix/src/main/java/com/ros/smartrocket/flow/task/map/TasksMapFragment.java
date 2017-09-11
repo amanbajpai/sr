@@ -257,6 +257,8 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            taskPresenter.attachView(this);
+            wavePresenter.attachView(this);
             setViewMode(getArguments());
             loadData(false);
             showHiddenTasksToggleButton.setChecked(preferencesManager.getShowHiddenTask());
