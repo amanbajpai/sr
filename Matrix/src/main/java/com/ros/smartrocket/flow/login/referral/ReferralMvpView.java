@@ -8,4 +8,6 @@ interface ReferralMvpView extends NetworkMvpView {
     void onReferralCasesLoaded(ReferralCases cases);
 
     void onReferralCasesSaved();
+
+    void continueWithoutSendCases();
 }

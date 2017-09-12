@@ -91,8 +91,16 @@ public class ReferralCasesActivity extends BaseActivity implements ReferralMvpVi
         continueRegistrationFlow(getCurrentReferralCaseId());
     }
 
+    @Override
+    public void continueWithoutSendCases() {
+        continueRegistrationFlow(getCurrentReferralCaseId());
+    }
+
     public int getCurrentReferralCaseId() {
-        return referralCaseArray[referralCasesSpinner.getSelectedItemPosition() - 1].getId();
+        if (referralCasesSpinner.getSelectedItemPosition() != 0)
+            return referralCaseArray[referralCasesSpinner.getSelectedItemPosition() - 1].getId();
+        else
+            return -1;
     }
 
     public void continueRegistrationFlow(int referralCasesId) {
@@ -135,7 +143,7 @@ public class ReferralCasesActivity extends BaseActivity implements ReferralMvpVi
 
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
-        continueRegistrationFlow(-1);
+        continueRegistrationFlow(getCurrentReferralCaseId());
     }
 
     @Override
