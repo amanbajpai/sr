@@ -27,9 +27,9 @@ import com.ros.smartrocket.flow.question.QuitQuestionActivity;
 import com.ros.smartrocket.flow.login.password.update.SetNewPasswordActivity;
 import com.ros.smartrocket.flow.settings.SettingsActivity;
 import com.ros.smartrocket.flow.share.ShareActivity;
-import com.ros.smartrocket.ui.activity.TaskDetailsActivity;
-import com.ros.smartrocket.ui.activity.TaskValidationActivity;
-import com.ros.smartrocket.ui.activity.WaveDetailsActivity;
+import com.ros.smartrocket.flow.details.task.TaskDetailsActivity;
+import com.ros.smartrocket.flow.validation.TaskValidationActivity;
+import com.ros.smartrocket.flow.details.wave.WaveDetailsActivity;
 import com.ros.smartrocket.flow.login.LoginActivity;
 import com.ros.smartrocket.flow.login.password.forgot.ForgotPasswordSuccessActivity;
 

@@ -1,8 +1,5 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.details.wave;
 
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
@@ -19,24 +16,24 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.bl.WavesBL;
-import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
-import com.ros.smartrocket.utils.ClaimTaskManager;
-import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.flow.details.claim.ClaimMvpPresenter;
+import com.ros.smartrocket.flow.details.claim.ClaimMvpView;
+import com.ros.smartrocket.flow.details.claim.ClaimPresenter;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.ui.views.OptionsRow;
+import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class WaveDetailsActivity extends BaseActivity implements
-        View.OnClickListener, ClaimTaskManager.ClaimTaskListener {
+public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, WaveDetailsMvpView {
     @BindView(R.id.startTimeText)
     CustomTextView startTimeText;
     @BindView(R.id.deadlineTimeText)
@@ -73,140 +70,158 @@ public class WaveDetailsActivity extends BaseActivity implements
     CustomButton previewTaskButton;
     @BindView(R.id.buttonsLayout)
     LinearLayout buttonsLayout;
-    private TextView titleTextView;
-    private AsyncQueryHandler handler;
-    private ClaimTaskManager claimTaskManager;
 
+    private TextView titleTextView;
     private Integer waveId;
     private Integer statusId;
     private boolean isPreClaim;
     private Wave wave;
     private Task nearTask = new Task();
-
-
-    private CustomProgressDialog progressDialog;
+    private WaveDetailsMvpPresenter<WaveDetailsMvpView> waveDetailsPresenter;
+    private ClaimMvpPresenter<ClaimMvpView> claimPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_wave_details);
         ButterKnife.bind(this);
+        handleArgs();
+        initUI();
+        initPresenters();
+    }
 
-        projectDescription.setMovementMethod(LinkMovementMethod.getInstance());
-        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+    private void initPresenters() {
+        claimPresenter = new ClaimPresenter<>();
+        claimPresenter.attachView(this);
+        waveDetailsPresenter = new WaveDetailsPresenter<>();
+        waveDetailsPresenter.attachView(this);
+    }
 
+    private void handleArgs() {
         if (getIntent() != null) {
             waveId = getIntent().getIntExtra(Keys.WAVE_ID, 0);
             statusId = getIntent().getIntExtra(Keys.STATUS_ID, 0);
             isPreClaim = getIntent().getBooleanExtra(Keys.IS_PRECLAIM, false);
         }
+    }
 
-        handler = new DbHandler(getContentResolver());
-
-        timeLayout = (LinearLayout) findViewById(R.id.timeLayout);
-        optionsRow = (OptionsRow) findViewById(R.id.waveDetailsOptionsRow);
-        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
-        claimNearTasksButton.setOnClickListener(this);
+    private void initUI() {
+        setHomeAsUp();
+        projectDescription.setMovementMethod(LinkMovementMethod.getInstance());
+        UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
         claimNearTasksButton.setEnabled(false);
-        hideAllTasksButton.setOnClickListener(this);
-        showAllTasksButton.setOnClickListener(this);
-        previewTaskButton.setOnClickListener(this);
-        mapImageView = (ImageView) findViewById(R.id.mapImageView);
-        mapImageView.setOnClickListener(this);
-
         UIUtils.setActionBarBackground(this, statusId, isPreClaim);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
-        showProgressBar();
+        waveDetailsPresenter.loadWaveWithNearTaskFromDB(waveId);
     }
 
-    class DbHandler extends AsyncQueryHandler {
-        public DbHandler(ContentResolver cr) {
-            super(cr);
+    @Override
+    public void onTaskStarted(Task task) {
+        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), task.getMissionId(), task.getStatusId(),
+                TasksBL.isPreClaimTask(task)));
+        startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
+        finish();
+    }
+
+    @Override
+    public void onTaskUnclaimed() {
+        startActivity(IntentUtils.getMainActivityIntent(this));
+    }
+
+    @Override
+    public void showClaimDialog(String date) {
+
+    }
+
+    @Override
+    public void showUnClaimDialog() {
+
+    }
+
+    @Override
+    public void showDownloadMediaDialog(Wave wave) {
+
+    }
+
+    @OnClick({R.id.claimNearTasksButton, R.id.previewTaskButton, R.id.showAllTasksButton, R.id.hideAllTasksButton, R.id.mapImageView})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.claimNearTasksButton:
+                claimPresenter.claimTask();
+                break;
+            case R.id.previewTaskButton:
+                startActivity(IntentUtils.getPreviewQuestionsIntent(this, nearTask.getId(), nearTask.getMissionId()));
+                break;
+            case R.id.showAllTasksButton:
+                if (wave != null && nearTask != null)
+                    waveDetailsPresenter.setHideAllProjectTasksOnMapByID(wave.getId(), false);
+                break;
+            case R.id.hideAllTasksButton:
+                if (wave != null && nearTask != null)
+                    waveDetailsPresenter.setHideAllProjectTasksOnMapByID(wave.getId(), true);
+                break;
+            case R.id.mapImageView:
+                if (wave != null) startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
+                break;
         }
+    }
 
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            dismissProgressBar();
-            switch (token) {
-                case WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY:
-                    if (cursor != null && cursor.getCount() > 0) {
+    @Override
+    public void onTasksHided() {
+        startActivity(IntentUtils.getMainActivityIntent(this));
+        finish();
+    }
 
-                        wave = WavesBL.convertCursorToWaveWithTask(cursor);
+    @Override
+    public void onTasksUnHided() {
+        nearTask.setIsHide(false);
+        setButtonsSettings(nearTask);
+        startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
+    }
 
-                        setWaveData(wave);
-                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId(), 0);
-                    } else {
-                        if (cursor != null) {
-                            cursor.close();
-                        }
-                        WavesBL.getWaveWithNearTaskFromDB(handler, waveId);
-                    }
-                    break;
-                case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    if (cursor != null && cursor.getCount() > 0) {
-                        nearTask = TasksBL.convertCursorToTask(cursor);
-                        if (claimTaskManager != null) {
-                            removeNetworkOperationListener(claimTaskManager);
-                        }
-                        claimTaskManager = new ClaimTaskManager(WaveDetailsActivity.this, nearTask, WaveDetailsActivity.this);
+    @Override
+    public void onWaveLoadedFromDb(Wave w) {
+        setWaveData(wave);
+        waveDetailsPresenter.getTaskFromDBbyID(wave.getNearTaskId(), 0);
+    }
 
-                        claimNearTasksButton.setEnabled(!WavesBL.isPreClaimWave(wave) || wave.getIsCanBePreClaimed());
-
-
-                        setNearTaskData(nearTask);
-                    } else {
-                        if (cursor != null) {
-                            cursor.close();
-                        }
-                        TasksBL.getTaskFromDBbyID(handler, wave.getNearTaskId(), 0);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+    @Override
+    public void onNearTaskLoaded(Task task) {
+        nearTask = task;
+        claimPresenter.setTask(nearTask);
+        claimNearTasksButton.setEnabled(!WavesBL.isPreClaimWave(wave) || wave.getIsCanBePreClaimed());
+        setNearTaskData(nearTask);
     }
 
     public void setWaveData(Wave wave) {
         projectDescription.setText(TextUtils.isEmpty(wave.getDescription()) ? "" : Html.fromHtml(wave.getDescription()));
         descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
-
         long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
         long timeoutInMillisecond;
-
-        if (WavesBL.isPreClaimWave(wave)) {
+        if (WavesBL.isPreClaimWave(wave))
             timeoutInMillisecond = wave.getLongPreClaimedTaskExpireAfterStart();
-        } else {
+        else
             timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
-        }
-
         startTimeTextView.setText(UIUtils.longToString(wave.getLongStartDateTime(), 3));
         deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
         expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
         optionsRow.setData(wave, true);
-
         UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
         setColorTheme(wave);
     }
 
     public void setNearTaskData(Task task) {
-        if (titleTextView != null) {
+        if (titleTextView != null)
             titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
-        }
 
-        if (!TextUtils.isEmpty(task.getAddress())) {
+        if (!TextUtils.isEmpty(task.getAddress()))
             noTaskAddressText.setVisibility(View.GONE);
-        } else {
+        else
             noTaskAddressText.setVisibility(View.VISIBLE);
-        }
-
         setButtonsSettings(task);
     }
 
@@ -234,35 +249,19 @@ public class WaveDetailsActivity extends BaseActivity implements
             startTimeText.setTextColor(violetLightColorResId);
             deadlineTimeText.setTextColor(violetLightColorResId);
             expireText.setTextColor(violetLightColorResId);
-
             startTimeTextView.setTextColor(whiteColorResId);
             deadlineTimeTextView.setTextColor(whiteColorResId);
             expireTextView.setTextColor(whiteColorResId);
-
             showMissionMapText.setTextColor(violetLightColorResId);
-
             timeLayout.setBackgroundColor(violetColorResId);
             buttonsLayout.setBackgroundColor(violetDarkColorResId);
-
             claimNearTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
             hideAllTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
             showAllTasksButton.setBackgroundResource(R.drawable.button_violet_selector);
-
             mapImageView.setImageResource(R.drawable.map_piece_violet);
         }
     }
 
-    @Override
-    public void onClaimed(Task task) {
-        // nothing
-    }
-
-    @Override
-    public void onUnClaimed(Task task) {
-        startActivity(IntentUtils.getMainActivityIntent(this));
-    }
-
-    @Override
     public void onStartLater(Task task) {
         setButtonsSettings(task);
         startActivity(IntentUtils.getMainActivityIntent(WaveDetailsActivity.this));
@@ -270,68 +269,19 @@ public class WaveDetailsActivity extends BaseActivity implements
     }
 
     @Override
-    public void onStarted(Task task) {
-        finish();
-        startActivity(IntentUtils.getTaskDetailIntent(this, task.getId(), task.getMissionId(), task.getStatusId(),
-                TasksBL.isPreClaimTask(task)));
-        startActivity(IntentUtils.getQuestionsIntent(this, task.getId(), task.getMissionId()));
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.claimNearTasksButton:
-                claimTaskManager.claimTask();
-                break;
-            case R.id.hideAllTasksButton:
-                if (wave != null && nearTask != null) {
-                    nearTask.setIsHide(true);
-                    TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), true);
-                    startActivity(IntentUtils.getMainActivityIntent(this));
-                    finish();
-                }
-                break;
-            case R.id.showAllTasksButton:
-                if (wave != null) {
-                    if (nearTask != null) {
-                        TasksBL.setHideAllProjectTasksOnMapByID(handler, wave.getId(), false);
-                        nearTask.setIsHide(false);
-
-                        setButtonsSettings(nearTask);
-                    }
-
-                    startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
-                }
-                break;
-            case R.id.mapImageView:
-                if (wave != null) {
-                    startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
-                }
-                break;
-            case R.id.previewTaskButton:
-                startActivity(IntentUtils.getPreviewQuestionsIntent(this, nearTask.getId(), nearTask.getMissionId()));
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        View actionBarView = actionBar.getCustomView();
-
-        if (nearTask != null) {
-            titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
-            titleTextView.setText(getString(R.string.task_detail_title, nearTask.getName()));
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            View actionBarView = actionBar.getCustomView();
+            if (nearTask != null) {
+                titleTextView = (TextView) actionBarView.findViewById(R.id.titleTextView);
+                titleTextView.setText(getString(R.string.task_detail_title, nearTask.getName()));
+            }
         }
-
         return true;
     }
 
@@ -349,26 +299,16 @@ public class WaveDetailsActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onStop() {
-        if (claimTaskManager != null) {
-            claimTaskManager.onStop();
-        }
-        dismissProgressBar();
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        hideLoading();
+        claimPresenter.detachView();
+        waveDetailsPresenter.detachView();
     }
 
-    public void showProgressBar() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
 
-        progressDialog = CustomProgressDialog.show(this);
-        progressDialog.setCancelable(false);
     }
 
-    public void dismissProgressBar() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
 }

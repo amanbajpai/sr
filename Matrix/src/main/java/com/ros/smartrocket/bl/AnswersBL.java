@@ -30,11 +30,23 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 public class AnswersBL {
 
-    private AnswersBL() {
-
+    private static Integer removeAnswersByTaskId(int taskId) {
+        return App.getInstance().getContentResolver()
+                .delete(AnswerDbSchema.CONTENT_URI,
+                        AnswerDbSchema.Columns.TASK_ID + "=?",
+                        new String[]{String.valueOf(taskId)});
     }
+
+    public static Observable<Integer> getRemoveAnswersByTaskIdObservable(int taskId) {
+        return Observable.fromCallable(() -> removeAnswersByTaskId(taskId));
+    }
+
+
+    // ------------------ !!!! ----------------- //
 
     /**
      * Update missionId
@@ -424,7 +436,7 @@ public class AnswersBL {
                     task.setLatitudeToValidation(location.getLatitude());
                     task.setLongitudeToValidation(location.getLongitude());
 
-                    TasksBL.updateTask(task);
+                    TasksBL.updateTaskSync(task);
                 }
 
                 @Override
@@ -482,7 +494,7 @@ public class AnswersBL {
         task.setLatitudeToValidation(lat * 180 / Math.PI);
         task.setLongitudeToValidation(lon * 180 / Math.PI);
 
-        TasksBL.updateTask(task);
+        TasksBL.updateTaskSync(task);
     }
 
     /**
@@ -567,11 +579,6 @@ public class AnswersBL {
         contentValues.putNull(AnswerDbSchema.Columns.FILE_URI.getName());
 
         activity.getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues,
-                AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
-    }
-
-    public static void removeAnswersByTaskId(Activity activity, int taskId) {
-        activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
     }
 

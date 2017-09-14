@@ -46,30 +46,22 @@ public class WavesBL {
         return Observable.fromCallable(() -> convertCursorToWaveListByDistance(getNotMyWavesListCursor(showHiddenTasks)));
     }
 
-    public static Cursor getWaveFromDBbyIdCursor(Integer waveId) {
-        ContentResolver resolver = App.getInstance().getContentResolver();
-        return resolver.query(WaveDbSchema.CONTENT_URI, WaveDbSchema.Query.PROJECTION,
-                WaveDbSchema.Columns.ID + "=?", new String[]{String.valueOf(waveId)},
-                WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
+    private static Cursor getWaveFromDBbyIdCursor(Integer waveId) {
+        return App.getInstance().getContentResolver()
+                .query(WaveDbSchema.CONTENT_URI, WaveDbSchema.Query.PROJECTION,
+                        WaveDbSchema.Columns.ID + "=?", new String[]{String.valueOf(waveId)},
+                        WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
     }
 
     public static Observable<Wave> getWaveFromDBbyIdObservable(Integer waveId) {
         return Observable.fromCallable(() -> convertCursorToWave(getWaveFromDBbyIdCursor(waveId)));
     }
 
-
     //-------------------------!!!!--------------------------//
-
-    public static void getWaveFromDB(AsyncQueryHandler handler, Integer waveId) {
-        handler.startQuery(WaveDbSchema.Query.TOKEN_QUERY, null, WaveDbSchema.CONTENT_URI,
-                WaveDbSchema.Query.PROJECTION, WaveDbSchema.Columns.ID + "=?",
-                new String[]{String.valueOf(waveId)}, WaveDbSchema.SORT_ORDER_DESC_LIMIT_1);
-    }
 
     public static void getWaveWithNearTaskFromDB(AsyncQueryHandler handler, Integer waveId) {
         String where = " and " + Table.WAVE.getName() + "."
                 + WaveDbSchema.Columns.ID.getName() + "=" + waveId;
-
         handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
                 WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, where, null, null
         );

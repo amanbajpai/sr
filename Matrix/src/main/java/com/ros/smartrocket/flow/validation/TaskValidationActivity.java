@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.flow.validation;
 
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
@@ -525,6 +525,6 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private void saveLocationOfTaskToDb(Task task, Location location) {
         task.setLatitudeToValidation(location.getLatitude());
         task.setLongitudeToValidation(location.getLongitude());
-        TasksBL.updateTask(task);
+        TasksBL.updateTaskSync(task);
     }
 }

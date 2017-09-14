@@ -87,7 +87,7 @@ public class FileProcessingManager {
         return newDir;
     }
 
-    static File getTempFile(FileType fileType, String fileName, boolean useExternalStorage) {
+    public static File getTempFile(FileType fileType, String fileName, boolean useExternalStorage) {
         File file = null;
         try {
             if (TextUtils.isEmpty(fileName)) {
@@ -183,7 +183,7 @@ public class FileProcessingManager {
 
     }
 
-    public void copyStream(InputStream is, OutputStream os) {
+    public static void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
         try {
             byte[] bytes = new byte[buffer_size];

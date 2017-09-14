@@ -57,7 +57,7 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
 
     @Override
     public void getQuestionsListFromDB(Task task) {
-        addDisposable(QuestionsBL.getQestionObservable(task, false)
+        addDisposable(QuestionsBL.getQuestionObservable(task, false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onQuestionsRetrieved));

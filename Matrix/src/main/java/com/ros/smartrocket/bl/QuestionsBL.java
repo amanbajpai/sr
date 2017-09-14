@@ -33,7 +33,18 @@ import io.reactivex.Observable;
 public class QuestionsBL {
     private static final String TAG = QuestionsBL.class.getSimpleName();
 
-    private QuestionsBL() {
+    private static Integer removeQuestionsFromDBbyTask(Task task) {
+        return App.getInstance().getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
+                QuestionDbSchema.Columns.WAVE_ID + "=? and "
+                        + QuestionDbSchema.Columns.TASK_ID + "=? and "
+                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(task.getWaveId()),
+                        String.valueOf(task.getId()),
+                        String.valueOf(task.getMissionId())});
+    }
+
+    public static Observable<Integer> getRemoveQuestionsObservable(Task task) {
+        return Observable.fromCallable(() -> removeQuestionsFromDBbyTask(task));
     }
 
     public static void removeQuestionsFromDB(Task task) {
@@ -61,32 +72,11 @@ public class QuestionsBL {
                 QuestionDbSchema.SORT_ORDER_DESC);
     }
 
-    public static Observable<List<Question>> getQestionObservable(Task task, boolean includeChildQuestions) {
+    public static Observable<List<Question>> getQuestionObservable(Task task, boolean includeChildQuestions) {
         return Observable.fromCallable(() -> convertCursorToQuestionList(getQuestionsListFromDB(task, includeChildQuestions)));
     }
 
     // ---------------------- !!! ----------------------//
-
-
-    public static void getQuestionsListFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
-                                              Integer missionId, boolean includeChildQuestions) {
-        String selection = QuestionDbSchema.Columns.WAVE_ID + "=? and "
-                + QuestionDbSchema.Columns.TASK_ID + "=? and "
-                + QuestionDbSchema.Columns.MISSION_ID + "=?";
-
-        if (!includeChildQuestions) {
-            selection += " and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + " is null";
-        }
-        handler.startQuery(
-                QuestionDbSchema.Query.TOKEN_QUERY,
-                null,
-                QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION,
-                selection,
-                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)},
-                QuestionDbSchema.SORT_ORDER_DESC
-        );
-    }
 
     public static void getChildQuestionsListFromDB(AsyncQueryHandler handler, Integer taskId,
                                                    Integer parentQuestionId, Integer missionId) {
@@ -120,21 +110,12 @@ public class QuestionsBL {
         return convertCursorToQuestionOrNull(cursor);
     }
 
-    /**
-     * Update missionId
-     *
-     * @param waveId    - current waveId
-     * @param taskId    - current taskId
-     * @param missionId - missionId to set
-     */
     public static void setMissionId(Integer waveId, Integer taskId, Integer missionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(QuestionDbSchema.Columns.MISSION_ID.getName(), missionId);
-
         String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and (" +
                 QuestionDbSchema.Columns.MISSION_ID + "=? or " + QuestionDbSchema.Columns.MISSION_ID + " IS NULL )";
         String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(0)};
-
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 

@@ -162,12 +162,12 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.TaskDetailsActivity"
+            android:name=".flow.details.task.TaskDetailsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".ui.activity.WaveDetailsActivity"
+            android:name=".flow.details.wave.WaveDetailsActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
@@ -269,7 +269,7 @@
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activity.TaskValidationActivity"
+            android:name=".flow.validation.TaskValidationActivity"
             android:configChanges="locale"
             android:theme="@style/AppThemeGreen" />
         <activity

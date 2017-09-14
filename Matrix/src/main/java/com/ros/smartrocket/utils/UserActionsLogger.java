@@ -41,7 +41,7 @@ public final class UserActionsLogger {
         }
     }
 
-    static void logTaskWithdraw(Task task) {
+    public static void logTaskWithdraw(Task task) {
         if (task != null) {
             writeLogToFile(getTaskWithdrawText(task));
         }

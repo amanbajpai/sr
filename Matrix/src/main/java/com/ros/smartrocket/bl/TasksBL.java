@@ -114,7 +114,42 @@ public class TasksBL {
     }
 
     public static Observable<List<Task>> getMyTasksObservable() {
-        return Observable.fromCallable(() -> getMyTasksFromDB());
+        return Observable.fromCallable(TasksBL::getMyTasksFromDB);
+    }
+
+    private static Integer setHideTaskOnMapByID(Integer taskId, Integer missionId, Boolean isHide) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
+        ContentResolver cr = App.getInstance().getContentResolver();
+        if (missionId == null || missionId == 0)
+            return cr.update(TaskDbSchema.CONTENT_URI, contentValues,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
+                    new String[]{String.valueOf(taskId)});
+        else
+            return cr.update(TaskDbSchema.CONTENT_URI, contentValues,
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
+                    new String[]{String.valueOf(taskId), String.valueOf(missionId)});
+    }
+
+    public static Observable<Integer> getHideTaskOnMapByIdObservable(Integer taskId, Integer missionId, Boolean isHide) {
+        return Observable.fromCallable(() -> setHideTaskOnMapByID(taskId, missionId, isHide));
+    }
+
+    private static Integer updateTask(Task task, Integer missionId) {
+        ContentResolver cr = App.getInstance().getContentResolver();
+        if (missionId == null || missionId == 0) {
+            return cr.update(TaskDbSchema.CONTENT_URI,
+                    task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " +
+                            TaskDbSchema.Columns.MISSION_ID + " IS NULL", new String[]{String.valueOf(task.getId())});
+        } else {
+            return cr.update(TaskDbSchema.CONTENT_URI,
+                    task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
+                    new String[]{String.valueOf(task.getId()), String.valueOf(missionId)});
+        }
+    }
+
+    public static Observable<Integer> getUpdateTaskObservable(Task task, Integer missionId) {
+        return Observable.fromCallable(() -> updateTask(task, missionId));
     }
 
     // ----------------------- !!!! --------------------//
@@ -200,22 +235,6 @@ public class TasksBL {
         );
     }
 
-    public static void setHideTaskOnMapByID(AsyncQueryHandler handler, Integer taskId, Integer missionId,
-                                            Boolean isHide) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
-
-        if (missionId == null || missionId == 0) {
-            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
-                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
-                    new String[]{String.valueOf(taskId)});
-        } else {
-            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
-                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
-                    new String[]{String.valueOf(taskId), String.valueOf(missionId)});
-        }
-    }
-
     public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer waveId, Boolean isHide) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
@@ -237,24 +256,12 @@ public class TasksBL {
         }
     }
 
-    public static void updateTask(AsyncQueryHandler handler, Task task, Integer missionId) {
-        if (missionId == null || missionId == 0) {
-            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
-                    task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " +
-                            TaskDbSchema.Columns.MISSION_ID + " IS NULL", new String[]{String.valueOf(task.getId())});
-        } else {
-            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
-                    task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
-                    new String[]{String.valueOf(task.getId()), String.valueOf(missionId)});
-        }
-    }
-
     /**
      * Update task
      *
      * @param task - task to update
      */
-    public static void updateTask(Task task) {
+    public static void updateTaskSync(Task task) {
         String where = TaskDbSchema.Columns.ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(task.getId())};
 
