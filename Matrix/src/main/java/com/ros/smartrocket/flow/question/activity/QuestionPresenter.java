@@ -78,7 +78,8 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
     }
 
     private void onTaskLoaded(Task task) {
-        getMvpView().onTaskLoadingComplete(task);
+        if (task.getId() != null && task.getId() != 0)
+            getMvpView().onTaskLoadedFromDb(task);
     }
 
     private void onWaveLoaded(Wave wave) {

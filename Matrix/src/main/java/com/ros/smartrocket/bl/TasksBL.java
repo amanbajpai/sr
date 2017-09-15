@@ -47,7 +47,7 @@ public class TasksBL {
     }
 
     public static Observable<Task> getSingleTaskFromDBbyIdObservable(Integer taskId, Integer missionId) {
-        return Observable.fromCallable(() -> convertCursorToTaskOrNull(getTaskCursorFromDBbyID(taskId, missionId)));
+        return Observable.fromCallable(() -> convertCursorToTask(getTaskCursorFromDBbyID(taskId, missionId)));
     }
 
     private static List<Task> getAllNotMyTasksFromDBSync(boolean showHiddenTasks) {
@@ -131,8 +131,21 @@ public class TasksBL {
                     new String[]{String.valueOf(taskId), String.valueOf(missionId)});
     }
 
-    public static Observable<Integer> getHideTaskOnMapByIdObservable(Integer taskId, Integer missionId, Boolean isHide) {
+    public static Observable<Integer> hideTaskOnMapByIdObservable(Integer taskId, Integer missionId, Boolean isHide) {
         return Observable.fromCallable(() -> setHideTaskOnMapByID(taskId, missionId, isHide));
+    }
+
+    private static Integer setHideAllProjectTasksOnMapByID(Integer waveId, Boolean isHide) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
+        return App.getInstance().getContentResolver()
+                .update(TaskDbSchema.CONTENT_URI, contentValues,
+                        TaskDbSchema.Columns.WAVE_ID + "=?",
+                        new String[]{String.valueOf(waveId)});
+    }
+
+    public static Observable<Integer> hideAllProjectTasksOnMapByIdObservable(Integer waveId, Boolean isHide) {
+        return Observable.fromCallable(() -> setHideAllProjectTasksOnMapByID(waveId, isHide));
     }
 
     private static Integer updateTask(Task task, Integer missionId) {
@@ -233,14 +246,6 @@ public class TasksBL {
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.SCHEDULED.getStatusId() + ") ",
                 null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1
         );
-    }
-
-    public static void setHideAllProjectTasksOnMapByID(AsyncQueryHandler handler, Integer waveId, Boolean isHide) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TaskDbSchema.Columns.IS_HIDE.getName(), isHide);
-
-        handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI, contentValues,
-                TaskDbSchema.Columns.WAVE_ID + "=?", new String[]{String.valueOf(waveId)});
     }
 
     public static void updateTask(AsyncQueryHandler handler, Task task) {

@@ -144,8 +144,8 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
         ButterKnife.bind(this);
-        initUI();
         handleArgs();
+        initUI();
         initPresenters();
     }
 
@@ -188,7 +188,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
 
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
-        switch (networkError.getErrorCode()){
+        switch (networkError.getErrorCode()) {
             case NetworkError.MAXIMUM_MISSION_ERROR_CODE:
                 DialogUtils.showMaximumMissionDialog(this);
                 break;
@@ -276,9 +276,11 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
     @Override
     public void onTaskLoadedFromDb(Task loadedTask) {
         task = loadedTask;
-        claimPresenter.setTask(task);
-        setTaskData();
-        taskDetailPresenter.loadWaveFromDB(task.getWaveId());
+        if (task != null) {
+            claimPresenter.setTask(task);
+            setTaskData();
+            taskDetailPresenter.loadWaveFromDB(task.getWaveId());
+        }
     }
 
     @Override
@@ -624,9 +626,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
     @SuppressWarnings("unused")
     @OnClick(R.id.mapImageView)
     public void mapImageViewClick() {
-        if (task != null) {
-            showMap();
-        }
+        if (task != null) showMap();
     }
 
     private void showMap() {

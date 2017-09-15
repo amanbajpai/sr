@@ -1,5 +1,6 @@
 package com.ros.smartrocket.flow.details.wave;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
@@ -23,9 +24,13 @@ import com.ros.smartrocket.flow.details.claim.ClaimMvpPresenter;
 import com.ros.smartrocket.flow.details.claim.ClaimMvpView;
 import com.ros.smartrocket.flow.details.claim.ClaimPresenter;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.ui.dialog.BookTaskSuccessDialog;
+import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.ui.dialog.WithdrawTaskDialog;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.ui.views.OptionsRow;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -134,24 +139,66 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
 
     @Override
     public void showClaimDialog(String date) {
+        new BookTaskSuccessDialog(this, nearTask, date, new BookTaskSuccessDialog
+                .DialogButtonClickListener() {
+            @Override
+            public void onCancelButtonPressed(Dialog dialog) {
+                claimPresenter.unClaimTaskRequest();
+            }
 
+            @Override
+            public void onStartLaterButtonPressed(Dialog dialog) {
+                WaveDetailsActivity.this.onTaskStartLater();
+            }
+
+            @Override
+            public void onStartNowButtonPressed(Dialog dialog) {
+                claimPresenter.startTask();
+            }
+        });
     }
 
     @Override
     public void showUnClaimDialog() {
+        String dateTime = UIUtils.longToString(nearTask.getLongExpireDateTime(), 3);
+        new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
+            @Override
+            public void onNoButtonPressed(Dialog dialog) {
+            }
 
+            @Override
+            public void onYesButtonPressed(Dialog dialog) {
+                claimPresenter.unClaimTask();
+            }
+        });
     }
 
     @Override
     public void showDownloadMediaDialog(Wave wave) {
+        DialogUtils.showDownloadMediaDialog(this, wave.getMissionSize(),
+                new DefaultInfoDialog.DialogButtonClickListener() {
+                    @Override
+                    public void onLeftButtonPressed(Dialog dialog) {
+                        dialog.dismiss();
+                        claimPresenter.downloadMedia();
+                    }
 
+                    @Override
+                    public void onRightButtonPressed(Dialog dialog) {
+                        hideLoading();
+                        dialog.dismiss();
+                    }
+                });
     }
 
     @OnClick({R.id.claimNearTasksButton, R.id.previewTaskButton, R.id.showAllTasksButton, R.id.hideAllTasksButton, R.id.mapImageView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.claimNearTasksButton:
-                claimPresenter.claimTask();
+                if (nearTask != null) {
+                    claimPresenter.setTask(nearTask);
+                    claimPresenter.claimTask();
+                }
                 break;
             case R.id.previewTaskButton:
                 startActivity(IntentUtils.getPreviewQuestionsIntent(this, nearTask.getId(), nearTask.getMissionId()));
@@ -179,57 +226,60 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
     @Override
     public void onTasksUnHided() {
         nearTask.setIsHide(false);
-        setButtonsSettings(nearTask);
+        setButtonsSettings();
         startActivity(IntentUtils.getWaveMapIntent(this, wave.getId()));
     }
 
     @Override
     public void onWaveLoadedFromDb(Wave w) {
-        setWaveData(wave);
-        waveDetailsPresenter.getTaskFromDBbyID(wave.getNearTaskId(), 0);
+        wave = w;
+        setWaveData();
+        waveDetailsPresenter.loadTaskFromDBbyID(wave.getNearTaskId(), 0);
     }
 
     @Override
-    public void onNearTaskLoaded(Task task) {
+    public void onNearTaskLoadedFromDb(Task task) {
         nearTask = task;
         claimPresenter.setTask(nearTask);
         claimNearTasksButton.setEnabled(!WavesBL.isPreClaimWave(wave) || wave.getIsCanBePreClaimed());
-        setNearTaskData(nearTask);
+        setNearTaskData();
     }
 
-    public void setWaveData(Wave wave) {
-        projectDescription.setText(TextUtils.isEmpty(wave.getDescription()) ? "" : Html.fromHtml(wave.getDescription()));
-        descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
-        long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
-        long timeoutInMillisecond;
-        if (WavesBL.isPreClaimWave(wave))
-            timeoutInMillisecond = wave.getLongPreClaimedTaskExpireAfterStart();
-        else
-            timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
-        startTimeTextView.setText(UIUtils.longToString(wave.getLongStartDateTime(), 3));
-        deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
-        expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
-        optionsRow.setData(wave, true);
-        UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
-        setColorTheme(wave);
+    public void setWaveData() {
+        if (wave != null) {
+            projectDescription.setText(TextUtils.isEmpty(wave.getDescription()) ? "" : Html.fromHtml(wave.getDescription()));
+            descriptionLayout.setVisibility(TextUtils.isEmpty(wave.getDescription()) ? View.GONE : View.VISIBLE);
+            long endTimeInMillisecond = UIUtils.isoTimeToLong(wave.getEndDateTime());
+            long timeoutInMillisecond;
+            if (WavesBL.isPreClaimWave(wave))
+                timeoutInMillisecond = wave.getLongPreClaimedTaskExpireAfterStart();
+            else
+                timeoutInMillisecond = wave.getLongExpireTimeoutForClaimedTask();
+            startTimeTextView.setText(UIUtils.longToString(wave.getLongStartDateTime(), 3));
+            deadlineTimeTextView.setText(UIUtils.longToString(endTimeInMillisecond, 3));
+            expireTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, timeoutInMillisecond));
+            optionsRow.setData(wave, true);
+            UIUtils.showWaveTypeActionBarIcon(this, wave.getIcon());
+            setColorTheme();
+        }
     }
 
-    public void setNearTaskData(Task task) {
+    public void setNearTaskData() {
         if (titleTextView != null)
-            titleTextView.setText(getString(R.string.task_detail_title, task.getName()));
+            titleTextView.setText(getString(R.string.task_detail_title, nearTask.getName()));
 
-        if (!TextUtils.isEmpty(task.getAddress()))
+        if (!TextUtils.isEmpty(nearTask.getAddress()))
             noTaskAddressText.setVisibility(View.GONE);
         else
             noTaskAddressText.setVisibility(View.VISIBLE);
-        setButtonsSettings(task);
+        setButtonsSettings();
     }
 
-    public void setButtonsSettings(Task task) {
-        if (wave != null && wave.getTaskCount() == 1 && TextUtils.isEmpty(task.getAddress())) {
+    public void setButtonsSettings() {
+        if (wave != null && wave.getTaskCount() == 1 && TextUtils.isEmpty(nearTask.getAddress())) {
             claimNearTasksButton.setVisibility(View.VISIBLE);
             previewTaskButton.setVisibility(View.VISIBLE);
-            if (task.getIsHide()) {
+            if (nearTask.getIsHide()) {
                 showAllTasksButton.setVisibility(View.VISIBLE);
                 hideAllTasksButton.setVisibility(View.GONE);
             } else {
@@ -239,7 +289,7 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
         }
     }
 
-    public void setColorTheme(Wave wave) {
+    public void setColorTheme() {
         if (WavesBL.isPreClaimWave(wave)) {
             int violetLightColorResId = getResources().getColor(R.color.violet_light);
             int violetDarkColorResId = getResources().getColor(R.color.violet_dark);
@@ -262,8 +312,8 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
         }
     }
 
-    public void onStartLater(Task task) {
-        setButtonsSettings(task);
+    public void onTaskStartLater() {
+        setButtonsSettings();
         startActivity(IntentUtils.getMainActivityIntent(WaveDetailsActivity.this));
         finish();
     }

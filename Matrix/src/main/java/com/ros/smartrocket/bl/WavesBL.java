@@ -1,6 +1,6 @@
 package com.ros.smartrocket.bl;
 
-import android.content.AsyncQueryHandler;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -57,15 +57,17 @@ public class WavesBL {
         return Observable.fromCallable(() -> convertCursorToWave(getWaveFromDBbyIdCursor(waveId)));
     }
 
-    //-------------------------!!!!--------------------------//
-
-    public static void getWaveWithNearTaskFromDB(AsyncQueryHandler handler, Integer waveId) {
+    private static Cursor getWaveWithNearTaskFromDB(Integer waveId) {
         String where = " and " + Table.WAVE.getName() + "."
                 + WaveDbSchema.Columns.ID.getName() + "=" + waveId;
-        handler.startQuery(WaveDbSchema.QueryWaveByDistance.TOKEN_QUERY, null,
-                WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, where, null, null
-        );
+        return App.getInstance().getContentResolver().query(WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, where, null, null);
     }
+
+    public static Observable<Wave> getWaveWithNearTaskFromDbObservable(Integer waveId) {
+        return Observable.fromCallable(() -> convertCursorToWave(getWaveWithNearTaskFromDB(waveId)));
+    }
+
+    //-------------------------!!!!--------------------------//
 
     public static void removeAllWavesFromDB(Context context) {
         context.getContentResolver().delete(WaveDbSchema.CONTENT_URI, null, null);

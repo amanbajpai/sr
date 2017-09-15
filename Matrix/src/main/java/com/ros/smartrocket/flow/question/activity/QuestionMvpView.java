@@ -9,7 +9,7 @@ import java.util.List;
 
 interface QuestionMvpView extends NetworkMvpView {
 
-    void onTaskLoadingComplete(Task task);
+    void onTaskLoadedFromDb(Task task);
 
     void onWaveLoadingComplete(Wave wave);
 

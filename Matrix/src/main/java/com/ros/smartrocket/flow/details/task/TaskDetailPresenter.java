@@ -17,7 +17,7 @@ class TaskDetailPresenter<V extends TaskDetailsMvpView> extends BaseNetworkPrese
 
     @Override
     public void setHideTaskOnMapByID(Integer taskId, Integer missionId, boolean shouldHide) {
-        addDisposable(TasksBL.getHideTaskOnMapByIdObservable(taskId, missionId, shouldHide)
+        addDisposable(TasksBL.hideTaskOnMapByIdObservable(taskId, missionId, shouldHide)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());
@@ -51,7 +51,8 @@ class TaskDetailPresenter<V extends TaskDetailsMvpView> extends BaseNetworkPrese
     }
 
     private void onTaskLoaded(Task task) {
-        getMvpView().onTaskLoadedFromDb(task);
+        if (task.getId() != null && task.getId() != 0)
+            getMvpView().onTaskLoadedFromDb(task);
     }
 
     private void onWaveLoaded(Wave wave) {

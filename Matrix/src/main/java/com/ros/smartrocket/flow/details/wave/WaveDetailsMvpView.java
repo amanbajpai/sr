@@ -12,5 +12,5 @@ interface WaveDetailsMvpView extends NetworkMvpView {
 
     void onWaveLoadedFromDb(Wave w);
 
-    void onNearTaskLoaded(Task task);
+    void onNearTaskLoadedFromDb(Task task);
 }

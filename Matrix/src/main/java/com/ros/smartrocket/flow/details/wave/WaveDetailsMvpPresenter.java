@@ -1,6 +1,5 @@
 package com.ros.smartrocket.flow.details.wave;
 
-import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.flow.base.MvpPresenter;
 
 interface WaveDetailsMvpPresenter<V extends WaveDetailsMvpView> extends MvpPresenter<V> {
@@ -9,5 +8,5 @@ interface WaveDetailsMvpPresenter<V extends WaveDetailsMvpView> extends MvpPrese
 
     void setHideAllProjectTasksOnMapByID(Integer waveId, boolean shouldHide);
 
-    void getTaskFromDBbyID(Integer taskId, Integer waveId);
+    void loadTaskFromDBbyID(Integer taskId, Integer missionId);
 }

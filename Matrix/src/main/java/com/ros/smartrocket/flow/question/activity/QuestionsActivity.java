@@ -158,7 +158,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
     }
 
     @Override
-    public void onTaskLoadingComplete(Task taskFromDb) {
+    public void onTaskLoadedFromDb(Task taskFromDb) {
         task = taskFromDb;
         if (task != null) {
             UserActionsLogger.logTaskStarted(task, isPreview);
