@@ -387,7 +387,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     }
 
     public void onDestroy() {
-        if (mGoogleApiClient != null) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.stopAutoManage(activity);
             mGoogleApiClient.disconnect();
         }

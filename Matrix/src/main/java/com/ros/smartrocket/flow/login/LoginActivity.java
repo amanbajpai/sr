@@ -407,8 +407,8 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
         unregisterReceiver(localReceiver);
         checkLocationPresenter.detachView();
         loginPresenter.detachView();
-        if (checkLocationDialog != null && checkLocationDialog.isShowing()) {
+        socialLoginView.onDestroy();
+        if (checkLocationDialog != null && checkLocationDialog.isShowing())
             checkLocationDialog.dismiss();
-        }
     }
 }
