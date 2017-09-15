@@ -250,7 +250,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
 
             @Override
             public void onYesButtonPressed(Dialog dialog) {
-                claimPresenter.unClaimTask();
+                claimPresenter.unClaimTaskRequest();
             }
         });
     }
@@ -280,6 +280,8 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
             claimPresenter.setTask(task);
             setTaskData();
             taskDetailPresenter.loadWaveFromDB(task.getWaveId());
+        } else {
+            finish();
         }
     }
 

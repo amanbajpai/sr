@@ -58,7 +58,7 @@ public class WavesBL {
     }
 
     private static Cursor getWaveWithNearTaskFromDB(Integer waveId) {
-        String where = Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + "=" + waveId;
+        String where = " and " + Table.WAVE.getName() + "." + WaveDbSchema.Columns.ID.getName() + "=" + waveId;
         return App.getInstance().getContentResolver().query(WaveDbSchema.CONTENT_URI_WAVE_BY_DISTANCE, null, where, null, null);
     }
 

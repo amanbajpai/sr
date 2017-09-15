@@ -127,7 +127,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
         task.setLongClaimDateTime(claimTimeInMillisecond);
         task.setExpireDateTime(UIUtils.longToString(missionDueMillisecond, 2));
         task.setLongExpireDateTime(missionDueMillisecond);
-        updateTask(task, task.getMissionId());
+        updateTask(task, null);
 
         QuestionsBL.setMissionId(task.getWaveId(), task.getId(), task.getMissionId());
         AnswersBL.setMissionId(task.getId(), task.getMissionId());

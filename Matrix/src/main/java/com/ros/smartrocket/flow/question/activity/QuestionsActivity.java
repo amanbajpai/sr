@@ -160,7 +160,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
     @Override
     public void onTaskLoadedFromDb(Task taskFromDb) {
         task = taskFromDb;
-        if (task != null) {
+        if (task.getId() != null && task.getId() != 0) {
             UserActionsLogger.logTaskStarted(task, isPreview);
             setTitle(task.getName());
             presenter.getWaveFromDB(task.getWaveId());

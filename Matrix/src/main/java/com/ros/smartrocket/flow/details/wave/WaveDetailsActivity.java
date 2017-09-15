@@ -168,7 +168,7 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
 
             @Override
             public void onYesButtonPressed(Dialog dialog) {
-                claimPresenter.unClaimTask();
+                claimPresenter.unClaimTaskRequest();
             }
         });
     }
