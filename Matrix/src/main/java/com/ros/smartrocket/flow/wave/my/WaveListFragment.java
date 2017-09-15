@@ -97,6 +97,7 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            initActionBarView();
             getWaves(false);
         }
     }
