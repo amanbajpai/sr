@@ -161,27 +161,11 @@ public class TasksBL {
         }
     }
 
-    public static Observable<Integer> getUpdateTaskObservable(Task task, Integer missionId) {
+    public static Observable<Integer> updateTaskObservable(Task task, Integer missionId) {
         return Observable.fromCallable(() -> updateTask(task, missionId));
     }
 
     // ----------------------- !!!! --------------------//
-
-    public static void getTaskFromDBbyID(AsyncQueryHandler handler, Integer taskId, Integer missionId) {
-        if (missionId == null || missionId == 0) {
-            handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                    TaskDbSchema.Query.All.PROJECTION,
-                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
-                    new String[]{String.valueOf(taskId)},
-                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
-        } else {
-            handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                    TaskDbSchema.Query.All.PROJECTION,
-                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
-                    new String[]{String.valueOf(taskId), String.valueOf(missionId)},
-                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
-        }
-    }
 
     public static void getTasksFromDB(AsyncQueryHandler handler) {
         handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
@@ -248,19 +232,6 @@ public class TasksBL {
         );
     }
 
-    public static void updateTask(AsyncQueryHandler handler, Task task) {
-        Integer missionId = task.getMissionId();
-        if (missionId == null || missionId == 0) {
-            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
-                    task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " +
-                            TaskDbSchema.Columns.MISSION_ID + " IS NULL", new String[]{String.valueOf(task.getId())});
-        } else {
-            handler.startUpdate(TaskDbSchema.Query.All.TOKEN_UPDATE, null, TaskDbSchema.CONTENT_URI,
-                    task.toContentValues(), TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",
-                    new String[]{String.valueOf(task.getId()), String.valueOf(missionId)});
-        }
-    }
-
     /**
      * Update task
      *
@@ -274,19 +245,11 @@ public class TasksBL {
                 task.toContentValues(), where, whereArgs);
     }
 
-    /**
-     * Update task statusId
-     *
-     * @param taskId   - current task id
-     * @param statusId - new task status id
-     */
     public static void updateTaskStatusId(Integer taskId, Integer missionId, Integer statusId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskDbSchema.Columns.STATUS_ID.getName(), statusId);
-
         String where = TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(taskId), String.valueOf(missionId)};
-
         App.getInstance().getContentResolver().update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 

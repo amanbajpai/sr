@@ -4,7 +4,6 @@ import android.location.Location;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
@@ -14,14 +13,11 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Warning;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.store.QuestionStore;
 import com.ros.smartrocket.flow.base.BaseNetworkPresenter;
 import com.ros.smartrocket.map.CurrentLocatiuonListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.net.BaseNetworkService;
-import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
@@ -186,7 +182,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
     }
 
     private void updateTask(Task task, Integer missionId) {
-        addDisposable(TasksBL.getUpdateTaskObservable(task, missionId)
+        addDisposable(TasksBL.updateTaskObservable(task, missionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe());

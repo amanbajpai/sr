@@ -51,8 +51,7 @@ class TaskDetailPresenter<V extends TaskDetailsMvpView> extends BaseNetworkPrese
     }
 
     private void onTaskLoaded(Task task) {
-        if (task.getId() != null && task.getId() != 0)
-            getMvpView().onTaskLoadedFromDb(task);
+        getMvpView().onTaskLoadedFromDb(task);
     }
 
     private void onWaveLoaded(Wave wave) {

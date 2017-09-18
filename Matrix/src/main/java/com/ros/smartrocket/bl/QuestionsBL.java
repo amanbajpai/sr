@@ -76,6 +76,26 @@ public class QuestionsBL {
         return Observable.fromCallable(() -> convertCursorToQuestionList(getQuestionsListFromDB(task, includeChildQuestions)));
     }
 
+    private static Cursor getClosingStatementQuestionFromDB(Task task) {
+        return App.getInstance().getContentResolver()
+                .query(QuestionDbSchema.CONTENT_URI,
+                        QuestionDbSchema.Query.PROJECTION,
+                        QuestionDbSchema.Columns.WAVE_ID + "=? and " +
+                                QuestionDbSchema.Columns.TASK_ID + "=? and " +
+                                QuestionDbSchema.Columns.TYPE + "=? and " +
+                                QuestionDbSchema.Columns.MISSION_ID + "=?",
+                        new String[]{String.valueOf(task.getWaveId()),
+                                String.valueOf(task.getId()),
+                                String.valueOf(3),
+                                String.valueOf(task.getMissionId())},
+                        QuestionDbSchema.SORT_ORDER_DESC
+                );
+    }
+
+    public static Observable<List<Question>> closingStatementQuestionObservable(Task task) {
+        return Observable.fromCallable(() -> convertCursorToQuestionList(getClosingStatementQuestionFromDB(task)));
+    }
+
     // ---------------------- !!! ----------------------//
 
     public static void getChildQuestionsListFromDB(AsyncQueryHandler handler, Integer taskId,
@@ -117,24 +137,6 @@ public class QuestionsBL {
                 QuestionDbSchema.Columns.MISSION_ID + "=? or " + QuestionDbSchema.Columns.MISSION_ID + " IS NULL )";
         String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(0)};
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
-    }
-
-    /**
-     * Make request for getting Closing Statement Question
-     *
-     * @param handler - Handler for getting response from DB
-     * @param waveId  - current waveId
-     * @param taskId  - current taskId
-     */
-    public static void getClosingStatementQuestionFromDB(AsyncQueryHandler handler, Integer waveId, Integer taskId,
-                                                         Integer missionId) {
-        handler.startQuery(QuestionDbSchema.Query.TOKEN_QUERY, null, QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.TYPE + "=? and "
-                        + QuestionDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(3),
-                        String.valueOf(missionId)}, QuestionDbSchema.SORT_ORDER_DESC
-        );
     }
 
     /**

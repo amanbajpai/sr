@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -276,7 +277,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
     @Override
     public void onTaskLoadedFromDb(Task loadedTask) {
         task = loadedTask;
-        if (task != null) {
+        if (task != null && task.getId() != null) {
             claimPresenter.setTask(task);
             setTaskData();
             taskDetailPresenter.loadWaveFromDB(task.getWaveId());

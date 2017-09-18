@@ -456,21 +456,18 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
     public static void getAddressByLocation(final Location location, final GetAddressListener getAddressListener) {
         MatrixLocationManager lm = App.getInstance().getLocationManager();
-        lm.getAddress(location, new MatrixLocationManager.IAddress() {
-            @Override
-            public void onUpdate(Address address) {
-                String countryName = "";
-                String cityName = "";
-                String districtName = "";
+        lm.getAddress(location, address -> {
+            String countryName = "";
+            String cityName = "";
+            String districtName = "";
 
-                if (address != null) {
-                    countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
-                    cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
-                    districtName = !TextUtils.isEmpty(address.getSubLocality()) ? address.getSubLocality() : "";
-                }
-
-                getAddressListener.onGetAddressSuccess(location, countryName, cityName, districtName);
+            if (address != null) {
+                countryName = !TextUtils.isEmpty(address.getCountryName()) ? address.getCountryName() : "";
+                cityName = !TextUtils.isEmpty(address.getLocality()) ? address.getLocality() : "";
+                districtName = !TextUtils.isEmpty(address.getSubLocality()) ? address.getSubLocality() : "";
             }
+
+            getAddressListener.onGetAddressSuccess(location, countryName, cityName, districtName);
         });
     }
 

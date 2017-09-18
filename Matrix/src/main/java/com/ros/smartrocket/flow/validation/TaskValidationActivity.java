@@ -1,12 +1,7 @@
 package com.ros.smartrocket.flow.validation;
 
 import android.app.Dialog;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
@@ -16,7 +11,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.appevents.AppEventsLogger;
@@ -24,35 +18,31 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WaitingUploadTaskBL;
-import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.TaskDbSchema;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.flow.base.BaseActivity;
-import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
-import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.flow.validation.local.ValidationLocalMvpPresenter;
+import com.ros.smartrocket.flow.validation.local.ValidationLocalMvpView;
+import com.ros.smartrocket.flow.validation.local.ValidationLocalPresenter;
+import com.ros.smartrocket.flow.validation.net.ValidationNetMvpPresenter;
+import com.ros.smartrocket.flow.validation.net.ValidationNetMvpView;
+import com.ros.smartrocket.flow.validation.net.ValidationNetPresenter;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.net.BaseOperation;
-import com.ros.smartrocket.net.NetworkOperationListenerInterface;
 import com.ros.smartrocket.net.UploadFileService;
+import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.ui.views.CustomButton;
+import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.TaskValidationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
-import com.ros.smartrocket.ui.views.CustomButton;
-import com.ros.smartrocket.ui.views.CustomTextView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -60,8 +50,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TaskValidationActivity extends BaseActivity implements View.OnClickListener,
-        NetworkOperationListenerInterface {
+public class TaskValidationActivity extends BaseActivity implements ValidationLocalMvpView, ValidationNetMvpView, View.OnClickListener {
     @BindView(R.id.closingQuestionText)
     CustomTextView closingQuestionText;
     @BindView(R.id.missionDueTextView)
@@ -76,10 +65,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     CustomButton sendNowButton;
     @BindView(R.id.sendLaterButton)
     CustomButton sendLaterButton;
+    @BindView(R.id.recheckTaskButton)
+    CustomButton recheckTaskButton;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private MatrixLocationManager lm = App.getInstance().getLocationManager();
-    private APIFacade apiFacade = APIFacade.getInstance();
     private Calendar calendar = Calendar.getInstance();
 
 
@@ -88,13 +78,11 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     private boolean firstlySelection;
     private boolean isRedo;
     private Task task = new Task();
-
-    private AsyncQueryHandler handler;
-    private List<NotUploadedFile> notUploadedFiles = new ArrayList<>();
-    private List<Answer> answerListToSend = new ArrayList<>();
-    private boolean hasFile = false;
     private float filesSizeB = 0;
     private View actionBarView;
+
+    private ValidationLocalMvpPresenter<ValidationLocalMvpView> localPresenter;
+    private ValidationNetMvpPresenter<ValidationNetMvpView> netPresenter;
 
     public TaskValidationActivity() {
     }
@@ -104,166 +92,99 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_validation);
         ButterKnife.bind(this);
+        handleArgs();
+        initUI();
+        initPresenters();
+        localPresenter.getTaskFromDBbyID(taskId, missionId);
+    }
 
+    private void initPresenters() {
+        localPresenter = new ValidationLocalPresenter<>();
+        localPresenter.attachView(this);
+        netPresenter = new ValidationNetPresenter<>();
+        netPresenter.attachView(this);
+    }
+
+    private void initUI() {
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
+        recheckTaskButton.setOnClickListener(this);
+        recheckTaskButton.setVisibility(firstlySelection ? View.VISIBLE : View.GONE);
+        sendNowButton.setOnClickListener(this);
+        sendLaterButton.setOnClickListener(this);
+    }
 
+    private void handleArgs() {
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
             missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);
             firstlySelection = getIntent().getBooleanExtra(Keys.FIRSTLY_SELECTION, true);
             isRedo = getIntent().getBooleanExtra(Keys.IS_REDO, false);
         }
-
-        handler = new DbHandler(getContentResolver());
-
-
-        Button recheckAnswerButton = (Button) findViewById(R.id.recheckTaskButton);
-        recheckAnswerButton.setOnClickListener(this);
-        recheckAnswerButton.setVisibility(firstlySelection ? View.VISIBLE : View.GONE);
-
-        sendNowButton.setOnClickListener(this);
-        sendLaterButton.setOnClickListener(this);
-
-        TasksBL.getTaskFromDBbyID(handler, taskId, missionId);
-    }
-
-    class DbHandler extends AsyncQueryHandler {
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    if (cursor != null && cursor.getCount() > 0) {
-                        task = TasksBL.convertCursorToTask(cursor);
-
-                        if (actionBarView != null) {
-                            ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
-                        }
-
-                        answerListToSend = AnswersBL.getAnswersListToSend(task.getId(), task.getMissionId());
-                        hasFile = AnswersBL.isHasFile(answerListToSend);
-                        notUploadedFiles = AnswersBL.getTaskFilesListToUpload(task.getId(), task.getMissionId(), task.getName(), task.getLongEndDateTime());
-                        filesSizeB = AnswersBL.getTaskFilesSizeMb(notUploadedFiles);
-
-                        if (!isValidationLocationAdded(task) && isReadyToSend()) {
-                            AnswersBL.saveValidationLocation(task, answerListToSend, hasFile);
-                        }
-
-                        setTaskData(task);
-                        if (firstlySelection) {
-                            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                            QuestionsBL.getClosingStatementQuestionFromDB(handler, task.getWaveId(), task.getId(),
-                                    task.getMissionId());
-                        } else {
-                            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                            sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
-                            sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
-
-                            UIUtils.setActionBarBackground(TaskValidationActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
-                            closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
-                        }
-                    } else {
-                        TasksBL.getTaskFromDBbyID(handler, task.getId(), task.getMissionId());
-                    }
-                    break;
-                case QuestionDbSchema.Query.TOKEN_QUERY:
-                    List<Question> questions = QuestionsBL.convertCursorToQuestionList(cursor);
-                    if (!questions.isEmpty()) {
-                        Question question = questions.get(0);
-                        String string = getString(R.string.task_has_not_yet_submitted, "\n" + question.getQuestion());
-                        closingQuestionText.setMovementMethod(LinkMovementMethod.getInstance());
-                        closingQuestionText.setText(Html.fromHtml(string));
-                    } else {
-                        closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted, ""));
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     @Override
-    public void onNetworkOperationSuccess(BaseOperation operation) {
-        hideLoading();
-        if (Keys.START_TASK_OPERATION_TAG.equals(operation.getTag())) {
-            task.setStartedStatusSent(true);
-            TasksBL.updateTask(handler, task);
-            sendTextAnswers();
-        } else if (Keys.GET_NEW_TOKEN_OPERATION_TAG.equals(operation.getTag())) {
-            sendNowButtonClick();
-        } else if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
-            sendAnswerTextsSuccess();
-        } else if (Keys.VALIDATE_TASK_OPERATION_TAG.equals(operation.getTag())) {
-            task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
-            task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
-            TasksBL.updateTask(handler, task);
-            QuestionsBL.removeQuestionsFromDB(task);
-            finishActivity();
-        }
-    }
-
-    @Override
-    public void onNetworkOperationFailed(BaseOperation operation) {
-        hideLoading();
-        if (Keys.SEND_ANSWERS_OPERATION_TAG.equals(operation.getTag())) {
-            sendAnswerTextsSuccess();
+    public void onTaskLoadedFromDb(Task loadedTask) {
+        if (loadedTask.getId() != null) {
+            task = loadedTask;
+            setTaskData();
         } else {
-            UIUtils.showSimpleToast(this, operation.getResponseError());
-            sendNowButton.setEnabled(true);
-            sendLaterButton.setEnabled(true);
+            localPresenter.getTaskFromDBbyID(taskId, missionId);
         }
     }
 
-    public void setTaskData(Task task) {
-        taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", filesSizeB / 1024) + " " + getString(R.string
+    @Override
+    public void onClosingStatementQuestionLoadedFromDB(List<Question> questions) {
+        if (!questions.isEmpty()) {
+            Question question = questions.get(0);
+            String string = getString(R.string.task_has_not_yet_submitted, "\n" + question.getQuestion());
+            closingQuestionText.setMovementMethod(LinkMovementMethod.getInstance());
+            closingQuestionText.setText(Html.fromHtml(string));
+        } else {
+            closingQuestionText.setText(getString(R.string.task_has_not_yet_submitted, ""));
+        }
+    }
+
+    @Override
+    public void setTaskFilesSize(float size) {
+        filesSizeB = size;
+        taskDataSizeTextView.setText(String.format(Locale.US, "%.1f", size / 1024) + " " + getString(R.string
                 .task_data_size_mb));
+    }
+
+    public void setTaskData() {
+        if (actionBarView != null)
+            ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
         taskIdTextView.setText(String.valueOf(task.getId()));
         long expireTimeInMillisecond = task.getLongExpireDateTime();
         if (expireTimeInMillisecond != 0) {
             long dueInMillisecond = expireTimeInMillisecond - calendar.getTimeInMillis();
-
             dueInTextView.setText(UIUtils.getTimeInDayHoursMinutes(this, dueInMillisecond));
             missionDueTextView.setText(UIUtils.longToString(expireTimeInMillisecond, 3));
         } else {
             dueInTextView.setVisibility(View.INVISIBLE);
             missionDueTextView.setVisibility(View.INVISIBLE);
         }
+        if (firstlySelection) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            localPresenter.getClosingStatementQuestionFromDB(task);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            sendNowButton.setBackgroundResource(R.drawable.button_blue_selector);
+            sendLaterButton.setBackgroundResource(R.drawable.button_blue_selector);
+            UIUtils.setActionBarBackground(TaskValidationActivity.this, task.getStatusId(), TasksBL.isPreClaimTask(task));
+            closingQuestionText.setText(R.string.task_has_not_yet_submitted2);
+        }
     }
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {
-        //Add files data to DB and start upload
-        WaitingUploadTaskBL.insertWaitingUploadTask(new WaitingUploadTask(task, notUploadedFiles.size()));
-        for (NotUploadedFile notUploadedFile : notUploadedFiles) {
-            notUploadedFile.setUse3G(use3G);
-            notUploadedFile.setWaveId(task.getWaveId());
-            notUploadedFile.setLatitudeToValidation(task.getLatitudeToValidation());
-            notUploadedFile.setLongitudeToValidation(task.getLongitudeToValidation());
-
-            FilesBL.insertNotUploadedFile(notUploadedFile);
-        }
+        localPresenter.saveFilesToUpload(task, use3G);
         startService(new Intent(TaskValidationActivity.this, UploadFileService.class).setAction(Keys
                 .ACTION_CHECK_NOT_UPLOADED_FILES));
     }
 
-    private void validateTask(final Task task) {
-        showLoading(true);
-
-        Location location = new Location(LocationManager.NETWORK_PROVIDER);
-        location.setLatitude(task.getLatitudeToValidation());
-        location.setLongitude(task.getLongitudeToValidation());
-
-        MatrixLocationManager.getAddressByLocation(location, (location1, countryName, cityName, districtName)
-                -> sendNetworkOperation(apiFacade.getValidateTaskOperation(task.getWaveId(), task.getId(), task.getMissionId(), task.getLatitudeToValidation(), task.getLongitudeToValidation(), cityName)));
-    }
-
     public void sendTextAnswers() {
         if ((UIUtils.is3G(this) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(this)) {
-            showLoading(false);
-            apiFacade.sendAnswers(this, answerListToSend, missionId);
+            netPresenter.sendAnswers(localPresenter.getAnswerListToSend(), missionId);
         } else {
             DialogUtils.showTurnOnWifiDialog(this);
         }
@@ -274,48 +195,51 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
             AppEventsLogger logger = AppEventsLogger.newLogger(this);
             logger.logEvent(Keys.FB_LOGGING_SUBMITTED);
         }
-        TasksBL.updateTaskStatusId(task.getId(), task.getMissionId(), Task.TaskStatusId.COMPLETED.getStatusId());
-
-        if (hasFile) {
-            if (UIUtils.is3G(this)
-                    && (preferencesManager.get3GUploadTaskLimit() != 0 && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit())
-                    || (preferencesManager.get3GUploadMonthLimit() != 0 && preferencesManager.getUsed3GUploadMonthlySize
-                    () + filesSizeB / 1024 > preferencesManager.get3GUploadMonthLimit())) {
-                DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
-                    @Override
-                    public void onLeftButtonPressed(Dialog dialog) {
-                        dialog.dismiss();
-                        setFilesToUploadDbAndStartUpload(false);
-                        finishActivity();
-                    }
-
-                    @Override
-                    public void onRightButtonPressed(Dialog dialog) {
-                        dialog.dismiss();
-                        setFilesToUploadDbAndStartUpload(true);
-                        finishActivity();
-                    }
-                });
+        localPresenter.updateTaskStatusId(task.getId(), task.getMissionId(), Task.TaskStatusId.COMPLETED.getStatusId());
+        if (localPresenter.hasFile()) {
+            if (limitExhausted()) {
+                showLimitDialog();
             } else {
                 setFilesToUploadDbAndStartUpload(true);
                 finishActivity();
             }
         } else {
-            validateTask(task);
+            netPresenter.validateTask(task);
         }
     }
 
-    public boolean isReadyToSend() {
-        return UIUtils.isOnline(this) && UIUtils.isAllLocationSourceEnabled(this)
-                && preferencesManager.getUseLocationServices() && !UIUtils.isMockLocationEnabled(this, App.getInstance().getLocationManager().getLocation());
+    private void showLimitDialog() {
+        DialogUtils.show3GLimitExceededDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                setFilesToUploadDbAndStartUpload(false);
+                finishActivity();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                setFilesToUploadDbAndStartUpload(true);
+                finishActivity();
+            }
+        });
     }
+
+    private boolean limitExhausted() {
+        return UIUtils.is3G(this)
+                && (preferencesManager.get3GUploadTaskLimit() != 0
+                && filesSizeB / 1024 > preferencesManager.get3GUploadTaskLimit())
+                || (preferencesManager.get3GUploadMonthLimit() != 0
+                && preferencesManager.getUsed3GUploadMonthlySize() + filesSizeB / 1024 > preferencesManager.get3GUploadMonthLimit());
+    }
+
 
     public void finishActivity() {
         if (firstlySelection) {
             PreferencesManager preferencesManager = PreferencesManager.getInstance();
             preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + task.getWaveId()
                     + "_" + taskId + "_" + task.getMissionId());
-
             startActivity(IntentUtils.getMainActivityIntent(this));
         }
         finish();
@@ -325,7 +249,7 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.recheckTaskButton:
-                TasksBL.updateTaskStatusId(taskId, task.getMissionId(),
+                localPresenter.updateTaskStatusId(taskId, task.getMissionId(),
                         isRedo ? Task.TaskStatusId.RE_DO_TASK.getStatusId() : Task.TaskStatusId.STARTED.getStatusId());
 
                 Intent intent = isRedo ?
@@ -335,12 +259,10 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.sendNowButton:
-                if (TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ||
-                        System.currentTimeMillis() - preferencesManager.getTokenUpdateDate() > DateUtils.HOUR_IN_MILLIS) {
-                    apiFacade.getNewToken(this);
-                } else {
+                if (isTokenValid())
                     sendNowButtonClick();
-                }
+                else
+                    netPresenter.getNewToken();
                 break;
             case R.id.sendLaterButton:
                 sendLaterButtonClick();
@@ -350,107 +272,68 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    /**
-     * Upload task right now.
-     */
+    private boolean isTokenValid() {
+        return !TextUtils.isEmpty(preferencesManager.getTokenForUploadFile()) ||
+                !(System.currentTimeMillis() - preferencesManager.getTokenUpdateDate() > DateUtils.HOUR_IN_MILLIS);
+    }
+
+    @Override
+    public void onTaskLocationSaved(Task savedTask, boolean isSendNow) {
+        task = savedTask;
+        if (isSendNow)
+            sendAnswers();
+        else
+            finishActivity();
+    }
+
+    @Override
+    public void onTaskLocationSavedError(Task notSavedTask, String errorText) {
+        sendNowButton.setEnabled(true);
+        sendLaterButton.setEnabled(true);
+        UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
+    }
+
     public void sendNowButtonClick() {
-        if (isReadyToSend()) {
+        if (TaskValidationUtils.isTaskReadyToSend()) {
             sendNowButton.setEnabled(false);
             sendLaterButton.setEnabled(false);
-            if (!isValidationLocationAdded(task)) {
-                if (hasFile) {
-                    AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
-
+            if (!TaskValidationUtils.isValidationLocationAdded(task)) {
+                if (localPresenter.hasFile()) {
+                    localPresenter.savePhotoVideoAnswersAverageLocation(task);
                     sendAnswers();
                 } else {
-                    MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
-                        @Override
-                        public void getLocationStart() {
-                            showLoading(true);
-                        }
-
-                        @Override
-                        public void getLocationInProcess() {
-                        }
-
-                        @Override
-                        public void getLocationSuccess(Location location) {
-                            if (!isFinishing()) {
-                                saveLocationOfTaskToDb(task, location);
-
-                                hideLoading();
-
-                                sendAnswers();
-                            } else {
-                                saveLocationOfTaskToDb(task, location);
-                            }
-                        }
-
-                        @Override
-                        public void getLocationFail(String errorText) {
-                            if (!isFinishing()) {
-                                sendNowButton.setEnabled(true);
-                                sendLaterButton.setEnabled(true);
-                                UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
-                            }
-                        }
-                    });
+                    localPresenter.saveLocationOfTaskToDb(task, true);
                 }
             } else {
                 sendAnswers();
             }
         } else {
-            LocaleUtils.setCurrentLanguage();
-            if (!UIUtils.isOnline(this)) {
-                DialogUtils.showNetworkDialog(this);
-            } else if (lm.getLocation() == null || !UIUtils.isAllLocationSourceEnabled(this)
-                    || !UIUtils.isNetworkEnabled(this) || !preferencesManager.getUseLocationServices()) {
-                DialogUtils.showLocationDialog(this, true);
-            } else if (UIUtils.isMockLocationEnabled(this, lm.getLocation())) {
-                DialogUtils.showMockLocationDialog(this, true);
-            }
+            showErrorDialog();
         }
     }
 
-    /**
-     * Postpone uploading and put it into local DB with flag.
-     */
+    private void showErrorDialog() {
+        LocaleUtils.setCurrentLanguage();
+        if (!UIUtils.isOnline(this)) {
+            DialogUtils.showNetworkDialog(this);
+        } else if (lm.getLocation() == null
+                || !UIUtils.isAllLocationSourceEnabled(this)
+                || !UIUtils.isNetworkEnabled(this)
+                || !preferencesManager.getUseLocationServices()) {
+            DialogUtils.showLocationDialog(this, true);
+        } else if (UIUtils.isMockLocationEnabled(this, lm.getLocation())) {
+            DialogUtils.showMockLocationDialog(this, true);
+        }
+    }
+
     public void sendLaterButtonClick() {
         UserActionsLogger.logTaskSubmitLater(task);
-        if (!isValidationLocationAdded(task) && isReadyToSend()) {
-            if (hasFile) {
-                AnswersBL.savePhotoVideoAnswersAverageLocation(task, answerListToSend);
-
+        if (!TaskValidationUtils.isValidationLocationAdded(task) && TaskValidationUtils.isTaskReadyToSend()) {
+            if (localPresenter.hasFile()) {
+                localPresenter.savePhotoVideoAnswersAverageLocation(task);
                 finishActivity();
             } else {
-                MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager.GetCurrentLocationListener() {
-                    @Override
-                    public void getLocationStart() {
-                        showLoading(true);
-                    }
-
-                    @Override
-                    public void getLocationInProcess() {
-                    }
-
-                    @Override
-                    public void getLocationSuccess(Location location) {
-                        if (!isFinishing()) {
-                            saveLocationOfTaskToDb(task, location);
-
-                            hideLoading();
-
-                            finishActivity();
-                        } else {
-                            saveLocationOfTaskToDb(task, location);
-                        }
-                    }
-
-                    @Override
-                    public void getLocationFail(String errorText) {
-                        UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
-                    }
-                });
+                localPresenter.saveLocationOfTaskToDb(task, false);
             }
         } else {
             finishActivity();
@@ -458,25 +341,17 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
     }
 
     public void sendAnswers() {
-        if (task.getStartedStatusSent()) {
+        if (task.getStartedStatusSent())
             sendTextAnswers();
-        } else {
-            showLoading(false);
-            apiFacade.startTask(this, task);
-        }
-    }
-
-    public boolean isValidationLocationAdded(Task task) {
-        return task.getLatitudeToValidation() != 0 && task.getLongitudeToValidation() != 0;
+        else
+            netPresenter.startTask(task);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (!firstlySelection) {
-                    finish();
-                }
+                if (!firstlySelection) finish();
                 break;
             default:
                 break;
@@ -487,44 +362,67 @@ public class TaskValidationActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-        if (!firstlySelection) {
-            super.onBackPressed();
-        }
+        if (!firstlySelection) super.onBackPressed();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        actionBarView = actionBar.getCustomView();
-
-        if (task != null && !TextUtils.isEmpty(task.getName())) {
-            ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.actionbar_custom_view_simple_text);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBarView = actionBar.getCustomView();
+            if (task != null && !TextUtils.isEmpty(task.getName()))
+                ((TextView) actionBarView.findViewById(R.id.titleTextView)).setText(task.getName());
         }
-
         return true;
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        addNetworkOperationListener(this);
+    public void onNewTokenRetrieved() {
+        sendNowButtonClick();
     }
 
     @Override
-    protected void onStop() {
-        removeNetworkOperationListener(this);
-        super.onStop();
+    public void onTaskStarted() {
+        task.setStartedStatusSent(true);
+        localPresenter.updateTaskInDb(task);
+        sendTextAnswers();
     }
 
-    private void saveLocationOfTaskToDb(Task task, Location location) {
-        task.setLatitudeToValidation(location.getLatitude());
-        task.setLongitudeToValidation(location.getLongitude());
-        TasksBL.updateTaskSync(task);
+    @Override
+    public void onAnswersSent() {
+        sendAnswerTextsSuccess();
+    }
+
+    @Override
+    public void onAnswersNotSent() {
+        sendAnswerTextsSuccess();
+    }
+
+    @Override
+    public void taskOnValidation() {
+        task.setSubmittedAt(UIUtils.longToString(calendar.getTimeInMillis(), 2));
+        task.setStatusId(Task.TaskStatusId.VALIDATION.getStatusId());
+        localPresenter.updateTaskInDb(task);
+        QuestionsBL.removeQuestionsFromDB(task);
+        finishActivity();
+    }
+
+
+    @Override
+    public void showNetworkError(BaseNetworkError networkError) {
+        UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
+        sendNowButton.setEnabled(true);
+        sendLaterButton.setEnabled(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        netPresenter.detachView();
+        localPresenter.detachView();
     }
 }
