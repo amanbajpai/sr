@@ -13,7 +13,7 @@ import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.LoginResponse;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.login.password.forgot.ForgotPasswordActivity;
 import com.ros.smartrocket.presentation.login.terms.TermsAndConditionActivity;
 import com.ros.smartrocket.presentation.base.BaseActivity;

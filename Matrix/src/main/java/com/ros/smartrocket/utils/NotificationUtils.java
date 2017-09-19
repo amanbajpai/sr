@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.notification.NotificationActivity;
 import com.ros.smartrocket.presentation.notification.PushNotificationActivity;
 import com.ros.smartrocket.bl.NotificationBL;
@@ -164,7 +164,7 @@ public class NotificationUtils {
 
             NotificationBL.saveNotification(context.getContentResolver(), notification);
 
-            List<Notification> notifications = NotificationBL.convertCursorToNotificationList(NotificationBL.getUnreadNotificationsFromDB(context.getContentResolver()));
+            List<Notification> notifications = NotificationBL.convertCursorToNotificationList(NotificationBL.getUnreadNotificationsFromDB());
             PreferencesManager.getInstance().setShowPushNotifStar(true);
 
             if (!PreferencesManager.getInstance().getToken().isEmpty()) {

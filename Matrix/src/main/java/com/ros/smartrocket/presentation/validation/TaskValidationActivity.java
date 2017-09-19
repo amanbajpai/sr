@@ -22,6 +22,9 @@ import com.ros.smartrocket.bl.QuestionsBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.validation.local.ValidationLocalMvpPresenter;
 import com.ros.smartrocket.presentation.validation.local.ValidationLocalMvpView;
@@ -29,9 +32,6 @@ import com.ros.smartrocket.presentation.validation.local.ValidationLocalPresente
 import com.ros.smartrocket.presentation.validation.net.ValidationNetMvpPresenter;
 import com.ros.smartrocket.presentation.validation.net.ValidationNetMvpView;
 import com.ros.smartrocket.presentation.validation.net.ValidationNetPresenter;
-import com.ros.smartrocket.interfaces.BaseNetworkError;
-import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomTextView;
@@ -107,8 +107,8 @@ public class TaskValidationActivity extends BaseActivity implements ValidationLo
 
     private void initUI() {
         UIUtils.setActivityBackgroundColor(this, getResources().getColor(R.color.white));
-        recheckTaskButton.setOnClickListener(this);
         recheckTaskButton.setVisibility(firstlySelection ? View.VISIBLE : View.GONE);
+        recheckTaskButton.setOnClickListener(this);
         sendNowButton.setOnClickListener(this);
         sendLaterButton.setOnClickListener(this);
     }

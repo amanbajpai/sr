@@ -21,7 +21,7 @@ import com.ros.smartrocket.db.entity.RegistrationPermissions;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
 import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.login.password.PasswordActivity;
 import com.ros.smartrocket.presentation.login.promo.PromoCodeActivity;
 import com.ros.smartrocket.presentation.login.referral.ReferralCasesActivity;

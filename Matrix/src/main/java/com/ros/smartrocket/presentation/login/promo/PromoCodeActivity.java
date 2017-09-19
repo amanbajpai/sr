@@ -10,7 +10,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.login.registration.RegistrationActivity;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.login.external.ExternalAuthDetailsActivity;

@@ -19,7 +19,7 @@ import com.ros.smartrocket.presentation.cash.confirm.CashingOutConfirmationActiv
 import com.ros.smartrocket.presentation.cash.CashingOutSuccessActivity;
 import com.ros.smartrocket.presentation.media.FullScreenImageActivity;
 import com.ros.smartrocket.presentation.media.FullScreenVideoActivity;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.map.MapActivity;
 import com.ros.smartrocket.presentation.notification.PushNotificationActivity;
 import com.ros.smartrocket.presentation.question.activity.QuestionsActivity;

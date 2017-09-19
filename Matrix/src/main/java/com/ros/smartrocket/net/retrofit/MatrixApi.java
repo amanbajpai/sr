@@ -69,7 +69,7 @@ public interface MatrixApi {
     Single<ResponseBody> registration(@Body Registration registrationEntity, @Query("language") String language);
 
     @POST("api/Authorize/UpdateUser")
-    Single<ResponseBody> updateUser(@Body UpdateUser updateUser);
+    Observable<ResponseBody> updateUser(@Body UpdateUser updateUser);
 
     @POST("api/Authorize/PositionCheck")
     Single<CheckLocationResponse> checkLocationForRegistration(@Body CheckLocation checkLocationEntity);

@@ -14,9 +14,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.utils.UIUtils;
 
-/**
- * Dialog for updating user's first and last name
- */
 public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickListener {
     private DialogButtonClickListener buttonClickListener;
     private EditText nameEditText;
@@ -50,7 +47,6 @@ public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickLis
                 break;
             case R.id.updateButton:
                 String name = nameEditText.getText().toString().trim();
-
                 if (TextUtils.isEmpty(name)) {
                     UIUtils.showSimpleToast(getContext(), R.string.fill_in_all_fields);
                 } else {

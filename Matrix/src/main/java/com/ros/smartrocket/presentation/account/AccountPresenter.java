@@ -8,9 +8,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class AccountPresenter<V extends AccountMvpView> extends BaseNetworkPresenter<V> implements AccountMvpPresenter<V> {
+    private boolean showProgress;
+
+    public AccountPresenter(boolean showProgress) {
+        this.showProgress = showProgress;
+    }
+
     @Override
     public void getAccount() {
-        showLoading(false);
+        if (showProgress)
+            showLoading(false);
         addDisposable(App.getInstance().getApi()
                 .getMyAccount(getLanguageCode())
                 .subscribeOn(Schedulers.io())
@@ -21,7 +28,8 @@ public class AccountPresenter<V extends AccountMvpView> extends BaseNetworkPrese
     }
 
     private void handleAccountRetrieved(MyAccount account) {
-        hideLoading();
+        if (showProgress)
+            hideLoading();
         getMvpView().onAccountLoaded(account);
     }
 

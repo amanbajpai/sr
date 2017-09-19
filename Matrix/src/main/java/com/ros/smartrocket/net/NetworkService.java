@@ -107,11 +107,6 @@ public class NetworkService extends BaseNetworkService {
                     case WSUrl.GCM_REGISTER_DEVICE_ID:
                         getPreferencesManager().setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
                         break;
-                    case WSUrl.GET_MY_ACCOUNT_ID:
-                        MyAccount myAccountResponse = gson.fromJson(responseString, MyAccount.class);
-                        operation.responseEntities.add(myAccountResponse);
-                        App.getInstance().setMyAccount(myAccountResponse);
-                        break;
                     default:
                         break;
                 }

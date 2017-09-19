@@ -1,27 +1,19 @@
 package com.ros.smartrocket.utils.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Token;
-import com.ros.smartrocket.db.entity.UpdateUser;
 import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.WSUrl;
-import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
-
-import java.util.List;
 
 public class APIFacade {
     private static final String TAG = "APIFacade";
@@ -37,15 +29,6 @@ public class APIFacade {
     }
 
     private APIFacade() {
-    }
-
-    public void updateUser(Activity activity, UpdateUser updateUser) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UPDATE_USER);
-        operation.setTag(Keys.UPDATE_USER_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(updateUser);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     public BaseOperation getMyTasksOperation() {
@@ -103,14 +86,6 @@ public class APIFacade {
 
             this.sendRequest(context, operation);
         }
-    }
-
-    public void getMyAccount(Activity activity) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_MY_ACCOUNT, preferencesManager.getLanguageCode());
-        operation.setTag(Keys.GET_MY_ACCOUNT_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 
     public void sendRequest(Context context, BaseOperation operation) {

@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.utils.L;
@@ -12,21 +13,31 @@ import com.ros.smartrocket.utils.L;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by macbook on 09.10.15.
- */
+import io.reactivex.Observable;
+
 public class NotificationBL {
 
     private NotificationBL() {
-
     }
 
-    /**
-     * Convert cursor to Answer list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList<Notification>
-     */
+    public static Cursor getUnreadNotificationsFromDB() {
+        return App.getInstance().getContentResolver().query(NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns.READ + "=?",
+                new String[]{String.valueOf(0)}, NotificationDbSchema.SORT_ORDER_DESC);
+    }
+
+    public static Observable<Integer> unreadNotificationsObservable() {
+        return Observable.fromCallable(() -> convertCursorToUnreadNotificationsCount(getUnreadNotificationsFromDB()));
+    }
+
+    // --------------- !!!! --------------- //
+
+    public static void getNotificationsFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
+                NotificationDbSchema.Query.PROJECTION, null,
+                null, NotificationDbSchema.SORT_ORDER_DESC);
+    }
+
     public static List<Notification> convertCursorToNotificationList(Cursor cursor) {
         List<Notification> result = new ArrayList<Notification>();
         if (cursor != null) {
@@ -83,24 +94,6 @@ public class NotificationBL {
         handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
                 NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns._ID + "=?",
                 new String[]{String.valueOf(notifId)}, NotificationDbSchema.SORT_ORDER_ASC_LIMIT_1);
-    }
-
-    public static void getNotificationsFromDB(AsyncQueryHandler handler) {
-        handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
-                NotificationDbSchema.Query.PROJECTION, null,
-                null, NotificationDbSchema.SORT_ORDER_DESC);
-    }
-
-    public static void getUnreadNotificationsFromDB(AsyncQueryHandler handler) {
-        handler.startQuery(NotificationDbSchema.Query.TOKEN_QUERY, null, NotificationDbSchema.CONTENT_URI,
-                NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns.READ + "=?",
-                new String[]{String.valueOf(0)}, NotificationDbSchema.SORT_ORDER_DESC);
-    }
-
-    public static Cursor getUnreadNotificationsFromDB(ContentResolver contentResolver) {
-        return contentResolver.query(NotificationDbSchema.CONTENT_URI,
-                NotificationDbSchema.Query.PROJECTION, NotificationDbSchema.Columns.READ + "=?",
-                new String[]{String.valueOf(0)}, NotificationDbSchema.SORT_ORDER_DESC);
     }
 
     public static void removeAllNotifications(Context context) {

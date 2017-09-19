@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.presentation.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
-import com.ros.smartrocket.ui.fragment.MainMenuFragment;
+import com.ros.smartrocket.presentation.main.menu.MainMenuFragment;
 
 public class BaseSlidingMenuActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
@@ -56,7 +56,6 @@ public class BaseSlidingMenuActivity extends BaseActivity {
             }
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
         setHomeAsUp();
         if (getSupportActionBar() != null) getSupportActionBar().setHomeButtonEnabled(true);
     }
@@ -75,17 +74,13 @@ public class BaseSlidingMenuActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     public void toggleMenu() {
-        if (mDrawerLayout.isDrawerOpen(leftDrawer)) {
+        if (mDrawerLayout.isDrawerOpen(leftDrawer))
             mDrawerLayout.closeDrawers();
-        } else {
+        else
             mDrawerLayout.openDrawer(leftDrawer);
-        }
     }
 }

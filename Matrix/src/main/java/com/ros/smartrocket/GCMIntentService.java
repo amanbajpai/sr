@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.L;

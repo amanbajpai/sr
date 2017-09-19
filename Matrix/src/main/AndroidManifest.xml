@@ -157,7 +157,7 @@
             android:name=".presentation.media.FullScreenVideoActivity"
             android:configChanges="orientation" />
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -180,12 +180,12 @@
             android:name=".presentation.map.MapActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.activity.MainActivity"
+            android:parentActivityName=".presentation.main.MainActivity"
             android:theme="@style/AppThemeGreen">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".presentation.main.MainActivity" />
         </activity>
         <activity
             android:name=".presentation.settings.SettingsActivity"

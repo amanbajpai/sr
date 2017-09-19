@@ -12,12 +12,11 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.bl.AnswersBL;
 import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.db.entity.UpdateUser;
+import com.ros.smartrocket.presentation.main.menu.MenuMvpPresenter;
+import com.ros.smartrocket.presentation.main.menu.MenuMvpView;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.dialog.QuiteTaskDialog;
-import com.ros.smartrocket.ui.dialog.ShowProgressDialogInterface;
 import com.ros.smartrocket.ui.dialog.UpdateFirstLastNameDialog;
-import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
@@ -553,8 +552,7 @@ public class DialogUtils {
     /// ============================================== ID CARD ================================================= ///
     /// ======================================================================================================== ///
 
-    public static void showUpdateFirstLastNameDialog(final Activity activity, final APIFacade apiFacade,
-                                                     final ShowProgressDialogInterface progressDialog) {
+    public static void showUpdateFirstLastNameDialog(Activity activity, MenuMvpPresenter<MenuMvpView> presenter) {
         Dialog dialog = new UpdateFirstLastNameDialog(activity,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
                     @Override
@@ -564,17 +562,15 @@ public class DialogUtils {
 
                     @Override
                     public void onUpdateButtonPressed(String name) {
-                        showAreYouSureDialog(activity, apiFacade, name, progressDialog);
+                        showAreYouSureDialog(activity, name, presenter);
                     }
                 });
         dialog.show();
     }
 
-    private static void showAreYouSureDialog(final Activity activity, final APIFacade apiFacade, String name,
-                                             final ShowProgressDialogInterface progressDialog) {
+    private static void showAreYouSureDialog(final Activity activity, String name, MenuMvpPresenter<MenuMvpView> presenter) {
         DialogUtils.showAreYouSureUserNameDialog(activity, name,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
-
                     @Override
                     public void onCancelButtonPressed() {
                         // nothing
@@ -582,12 +578,7 @@ public class DialogUtils {
 
                     @Override
                     public void onUpdateButtonPressed(String name) {
-                        progressDialog.showDialog();
-
-                        UpdateUser updateUser = new UpdateUser();
-                        updateUser.setSingleName(name);
-
-                        apiFacade.updateUser(activity, updateUser);
+                        presenter.updateUserName(name);
                     }
                 });
     }

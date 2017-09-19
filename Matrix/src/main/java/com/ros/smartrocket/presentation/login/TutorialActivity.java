@@ -9,7 +9,7 @@ import com.rd.PageIndicatorView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.RegistrationPermissions;
-import com.ros.smartrocket.ui.activity.MainActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.login.promo.PromoCodeActivity;
 import com.ros.smartrocket.presentation.login.registration.RegistrationActivity;
 import com.ros.smartrocket.ui.adapter.TutorialPageAdapter;

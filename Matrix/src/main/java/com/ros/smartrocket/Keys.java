@@ -52,9 +52,7 @@ public interface Keys {
 
     // Operation tags - Using for cache response from NetworkService
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
-    String UPDATE_USER_OPERATION_TAG = "upload_photo_operation_tag";
     String VALIDATE_TASK_OPERATION_TAG = "validate_task_operation_tag";
-    String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
     String UPLOAD_TASK_FILE_OPERATION_TAG = "upload_task_file_operation_tag";
     String UPLOAD_TASK_TEMP_FILE_OPERATION_TAG = "upload_task_temp_file_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";

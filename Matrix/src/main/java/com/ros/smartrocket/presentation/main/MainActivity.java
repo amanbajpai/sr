@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.activity;
+package com.ros.smartrocket.presentation.main;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -16,7 +16,6 @@ import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.presentation.task.AllTaskFragment;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 
@@ -28,47 +27,47 @@ public class MainActivity extends BaseSlidingMenuActivity {
     private static final int DOUBLE_PRESS_INTERVAL_MILLISECONDS = 2000;
     private ResponseReceiver localReceiver;
 
-    public MainActivity() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initStartFragment();
+        startServices();
+        initPushMessaging();
+        initReceiver();
+    }
 
-        fragmentHelper.removeFragmentFromList(this, new AllTaskFragment());
-
-        Bundle bundle = new Bundle();
-        bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
-
-        Fragment fragment = new AllTaskFragment();
-        fragment.setArguments(bundle);
-        fragmentHelper.startFragmentFromStack(this, fragment);
-
-        startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
-        startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
-
-        if (!Config.USE_BAIDU) {
-            CommonUtilities.registerGCMInBackground();
-        } else {
-            L.i("MainActivity", "MainActivity JPushInterface.init");
-            JPushInterface.init(getApplicationContext());
-        }
-
+    private void initReceiver() {
         localReceiver = new ResponseReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keys.FINISH_MAIN_ACTIVITY);
-
         registerReceiver(localReceiver, intentFilter);
+    }
+
+    private void initStartFragment() {
+        fragmentHelper.removeFragmentFromList(this, new AllTaskFragment());
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.CONTENT_TYPE, Keys.FIND_TASK);
+        Fragment fragment = new AllTaskFragment();
+        fragment.setArguments(bundle);
+        fragmentHelper.startFragmentFromStack(this, fragment);
+    }
+
+    private void startServices() {
+        startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
+        startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
+    }
+
+    private void initPushMessaging() {
+        if (!Config.USE_BAIDU)
+            CommonUtilities.registerGCMInBackground();
+        else
+            JPushInterface.init(getApplicationContext());
     }
 
     public class ResponseReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (action.equals(Keys.FINISH_MAIN_ACTIVITY)) {
-                finish();
-            }
+            if (intent.getAction().equals(Keys.FINISH_MAIN_ACTIVITY)) finish();
         }
     }
 
@@ -87,7 +86,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
             super.onBackPressed();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         UIUtils.showSimpleToast(this, getString(R.string.click_back_again_to_exit));
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_PRESS_INTERVAL_MILLISECONDS);

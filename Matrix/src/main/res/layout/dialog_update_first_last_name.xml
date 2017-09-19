@@ -5,41 +5,48 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <com.ros.smartrocket.ui.views.CustomTextView
         style="@style/DialogTitle"
-        android:padding="20dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
+        android:padding="20dp"
         android:text="@string/update_first_last_name_dialog_title"
-        custom:textStyle="bold"/>
+        custom:textStyle="bold" />
+
     <com.ros.smartrocket.ui.views.CustomTextView
         style="@style/DialogText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/full_name"/>
+        android:text="@string/full_name" />
+
     <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/dialogFirstNameEditText"
         style="@style/EditText"
-        android:layout_height="48dp"
         android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:hint="@string/full_name"
-        android:inputType="textCapWords"/>
+        android:inputType="textCapWords" />
+
     <View
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey"/>
+        android:background="@color/grey" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="54dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
+
         <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/cancelButton"
             style="@style/DialogButton"
@@ -49,11 +56,13 @@
             android:layout_weight="1"
             android:text="@string/book_task_success_dialog_cancel"
             android:textColor="@color/red"
-            custom:textStyle="bold"/>
+            custom:textStyle="bold" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/grey"/>
+            android:background="@color/grey" />
+
         <com.ros.smartrocket.ui.views.CustomTextView
             android:id="@+id/updateButton"
             style="@style/DialogButton"
@@ -62,6 +71,6 @@
             android:layout_weight="1"
             android:text="@string/update"
             android:textColor="@color/green"
-            custom:textStyle="bold"/>
+            custom:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

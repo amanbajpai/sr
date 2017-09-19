@@ -73,7 +73,7 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
     private void initPresenters() {
         presenter = new ActivityPresenter<>();
         presenter.attachView(this);
-        accountPresenter = new AccountPresenter<>();
+        accountPresenter = new AccountPresenter<>(true);
         accountPresenter.attachView(this);
         accountPresenter.getAccount();
     }
