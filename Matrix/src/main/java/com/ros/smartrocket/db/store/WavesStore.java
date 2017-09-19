@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.util.SparseArray;
 
 import com.annimon.stream.Stream;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.db.bl.TasksBL;
+import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.entity.Waves;

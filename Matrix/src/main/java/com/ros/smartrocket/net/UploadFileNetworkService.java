@@ -9,7 +9,7 @@ import com.google.gson.JsonSyntaxException;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.FilesBL;
+import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.NotUploadedFile;

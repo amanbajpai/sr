@@ -1,58 +1,20 @@
 package com.ros.smartrocket.net;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WavesBL;
-import com.ros.smartrocket.db.AnswerDbSchema;
-import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.entity.AliPayAccount;
-import com.ros.smartrocket.db.entity.AllowPushNotification;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.AppVersion;
-import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.BaseEntity;
-import com.ros.smartrocket.db.entity.Category;
-import com.ros.smartrocket.db.entity.CheckEmail;
-import com.ros.smartrocket.db.entity.CheckLocationResponse;
-import com.ros.smartrocket.db.entity.ClaimTaskResponse;
-import com.ros.smartrocket.db.entity.ExternalAuthResponse;
-import com.ros.smartrocket.db.entity.LoginResponse;
-import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.db.entity.NationalIdAccount;
-import com.ros.smartrocket.db.entity.Product;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Questions;
-import com.ros.smartrocket.db.entity.ReferralCases;
-import com.ros.smartrocket.db.entity.RegistrationResponse;
 import com.ros.smartrocket.db.entity.ErrorResponse;
-import com.ros.smartrocket.db.entity.Sharing;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.TaskLocation;
-import com.ros.smartrocket.db.entity.Token;
-import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.db.entity.Waves;
-import com.ros.smartrocket.db.entity.WeChatTokenResponse;
-import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
-import com.ros.smartrocket.db.store.QuestionStore;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
-import com.ros.smartrocket.utils.MyLog;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * IntentService for API communication

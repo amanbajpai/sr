@@ -2,11 +2,11 @@ package com.ros.smartrocket.presentation.validation.local;
 
 import android.location.Location;
 
-import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.FilesBL;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WaitingUploadTaskBL;
+import com.ros.smartrocket.db.bl.AnswersBL;
+import com.ros.smartrocket.db.bl.FilesBL;
+import com.ros.smartrocket.db.bl.QuestionsBL;
+import com.ros.smartrocket.db.bl.TasksBL;
+import com.ros.smartrocket.db.bl.WaitingUploadTaskBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;

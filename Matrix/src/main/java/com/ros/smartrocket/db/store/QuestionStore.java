@@ -4,8 +4,8 @@ import android.content.ContentValues;
 
 import com.annimon.stream.Stream;
 import com.google.gson.Gson;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.db.bl.QuestionsBL;
+import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;

@@ -4,14 +4,13 @@ import android.location.Location;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.db.bl.AnswersBL;
+import com.ros.smartrocket.db.bl.QuestionsBL;
+import com.ros.smartrocket.db.bl.TasksBL;
+import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Questions;
-import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.db.store.QuestionStore;

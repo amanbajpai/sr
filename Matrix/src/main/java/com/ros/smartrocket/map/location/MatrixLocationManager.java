@@ -24,7 +24,7 @@ import com.google.android.gms.location.LocationServices;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.utils.ChinaTransformLocation;

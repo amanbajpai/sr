@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
@@ -52,9 +52,6 @@ public class NotificationActivity extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-
-        //UIUtils.setMaxActivityWidth(this, Config.MAX_ACTIVITY_WIDTH);
-
         if (getIntent() != null) {
             taskId = getIntent().getIntExtra(Keys.TASK_ID, 0);
             missionId = getIntent().getIntExtra(Keys.MISSION_ID, 0);

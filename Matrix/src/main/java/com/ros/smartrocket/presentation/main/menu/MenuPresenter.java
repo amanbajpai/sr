@@ -3,8 +3,8 @@ package com.ros.smartrocket.presentation.main.menu;
 import android.graphics.Bitmap;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.bl.NotificationBL;
-import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.bl.NotificationBL;
+import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.UpdateUser;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.BytesBitmap;

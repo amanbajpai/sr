@@ -9,18 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.base.BaseActivity;
-import com.ros.smartrocket.bl.question.QuestionBaseBL;
-import com.ros.smartrocket.bl.question.QuestionInstructionBL;
-import com.ros.smartrocket.bl.question.QuestionMultipleChooseBL;
-import com.ros.smartrocket.bl.question.QuestionNumberBL;
-import com.ros.smartrocket.bl.question.QuestionOpenCommentBL;
-import com.ros.smartrocket.bl.question.QuestionPhotoBL;
-import com.ros.smartrocket.bl.question.QuestionSingleChooseBL;
-import com.ros.smartrocket.bl.question.QuestionVideoBL;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.ui.fragment.SubQuestionsMassAuditFragment;
+import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment;
+import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
+import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChooseBL;
+import com.ros.smartrocket.presentation.question.choose.single.QuestionSingleChooseBL;
+import com.ros.smartrocket.presentation.question.comment.QuestionOpenCommentBL;
+import com.ros.smartrocket.presentation.question.instruction.QuestionInstructionBL;
+import com.ros.smartrocket.presentation.question.number.QuestionNumberBL;
+import com.ros.smartrocket.presentation.question.photo.QuestionPhotoBL;
+import com.ros.smartrocket.presentation.question.video.QuestionVideoBL;
 
 import java.util.ArrayList;
 import java.util.List;

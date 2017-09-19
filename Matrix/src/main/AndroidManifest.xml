@@ -263,7 +263,7 @@
             android:name=".presentation.login.password.update.SetNewPasswordActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".presentation.question.activity.QuestionsActivity"
+            android:name=".presentation.question.main.QuestionsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
@@ -276,7 +276,7 @@
             android:name=".presentation.login.terms.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".presentation.question.QuitQuestionActivity"
+            android:name=".presentation.question.quit.QuitQuestionActivity"
             android:configChanges="locale" />
         <activity
             android:name=".presentation.cash.CashingOutActivity"

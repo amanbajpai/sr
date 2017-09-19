@@ -5,11 +5,11 @@ import android.content.Intent;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.bl.AnswersBL;
-import com.ros.smartrocket.bl.NotificationBL;
-import com.ros.smartrocket.bl.QuestionsBL;
-import com.ros.smartrocket.bl.TasksBL;
-import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.db.bl.AnswersBL;
+import com.ros.smartrocket.db.bl.NotificationBL;
+import com.ros.smartrocket.db.bl.QuestionsBL;
+import com.ros.smartrocket.db.bl.TasksBL;
+import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.LocaleUtils;

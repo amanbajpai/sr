@@ -55,7 +55,7 @@ import com.ros.smartrocket.map.CurrentLocatiuonListener;
 import com.ros.smartrocket.map.MapHelper;
 import com.ros.smartrocket.map.OnMapStatusChangeFinishedListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.ui.fragment.TransparentSupportMapFragment;
+import com.ros.smartrocket.presentation.map.TransparentSupportMapFragment;
 import com.ros.smartrocket.ui.views.CustomSwitch;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.IntentUtils;

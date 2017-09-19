@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.question.QuestionMassAuditBL;
-import com.ros.smartrocket.bl.question.QuestionMassAuditBL.TickCrossAnswerPair;
+import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL;
+import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL.TickCrossAnswerPair;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;

@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.bl.WavesBL;
+import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.presentation.task.AllTaskFragment;

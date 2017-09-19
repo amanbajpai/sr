@@ -10,7 +10,7 @@ import android.os.IBinder;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.bl.TasksBL;
+import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.utils.L;
