@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.db.entity.AliPayAccount;
-import com.ros.smartrocket.db.entity.AllowPushNotification;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.NationalIdAccount;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.SendTaskId;
@@ -20,7 +17,7 @@ import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.net.NetworkService;
 import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.WSUrl;
-import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 
@@ -59,34 +56,6 @@ public class APIFacade {
         return operation;
     }
 
-    public void claimTask(Activity activity, Task task, double latitude, double longitude) {
-        SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(task.getId());
-        sendTaskId.setLatitude(latitude);
-        sendTaskId.setLongitude(longitude);
-        BaseOperation operation = new BaseOperation();
-
-        fillTaskData(task, operation);
-        operation.setUrl(WSUrl.CLAIM_TASK);
-        operation.setTag(Keys.CLAIM_TASK_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(sendTaskId);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void unclaimTask(Activity activity, Integer taskId, Integer missionId) {
-        SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(taskId);
-        sendTaskId.setMissionId(missionId);
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.UNCLAIM_TASK);
-        operation.setTag(Keys.UNCLAIM_TASK_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(sendTaskId);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
     public BaseOperation getValidateTaskOperation(Integer waveId, Integer taskId, Integer missionId, double latitude,
                                                   double longitude, String cityName) {
         SendTaskId sendTaskId = new SendTaskId();
@@ -118,45 +87,6 @@ public class APIFacade {
         }
     }
 
-    public void sendAnswers(Activity activity, List<Answer> answers, Integer missionId) {
-        BaseOperation operation = new BaseOperation();
-        operation.setIsArray(true);
-        operation.setUrl(WSUrl.SEND_ANSWERS, String.valueOf(missionId), preferencesManager.getLanguageCode());
-        operation.setTag(Keys.SEND_ANSWERS_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().addAll(answers);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void startTask(Activity activity, Task task) {
-        SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setWaveId(task.getWaveId());
-        sendTaskId.setTaskId(task.getId());
-        sendTaskId.setMissionId(task.getMissionId());
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.START_TASK);
-        operation.setTag(Keys.START_TASK_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(sendTaskId);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getQuestions(Activity activity, Task task) {
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_QUESTIONS, String.valueOf(task.getWaveId()), preferencesManager.getLanguageCode(), String.valueOf(task.getId()));
-        operation.setTag(Keys.GET_QUESTIONS_OPERATION_TAG);
-        fillTaskData(task, operation);
-        operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    private void fillTaskData(Task task, BaseOperation operation) {
-        operation.setWaveId(task.getWaveId());
-        operation.setTaskId(task.getId());
-        operation.setMissionId(task.getMissionId());
-    }
-
     public void registerGCMId(Context context, String regId, int providerType) {
         if (context != null && !TextUtils.isEmpty(regId) && !TextUtils.isEmpty(regId)) {
 
@@ -180,18 +110,6 @@ public class APIFacade {
         operation.setUrl(WSUrl.GET_MY_ACCOUNT, preferencesManager.getLanguageCode());
         operation.setTag(Keys.GET_MY_ACCOUNT_OPERATION_TAG);
         operation.setMethod(BaseOperation.Method.GET);
-        ((BaseActivity) activity).sendNetworkOperation(operation);
-    }
-
-    public void getNewToken(Activity activity) {
-        Token token = new Token();
-        token.setToken(preferencesManager.getToken());
-
-        BaseOperation operation = new BaseOperation();
-        operation.setUrl(WSUrl.GET_NEW_TOKEN);
-        operation.setTag(Keys.GET_NEW_TOKEN_OPERATION_TAG);
-        operation.setMethod(BaseOperation.Method.POST);
-        operation.getEntities().add(token);
         ((BaseActivity) activity).sendNetworkOperation(operation);
     }
 

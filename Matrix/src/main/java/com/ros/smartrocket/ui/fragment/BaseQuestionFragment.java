@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.bl.question.QuestionBaseBL;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
-import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.utils.LocaleUtils;
 
 public abstract class BaseQuestionFragment extends BaseFragment {

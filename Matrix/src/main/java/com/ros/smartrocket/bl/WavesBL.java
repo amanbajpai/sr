@@ -81,9 +81,7 @@ public class WavesBL {
             Project project = wave.getProject();
             String projectIcon = project != null ? project.getIcon() : null;
 
-            if (TextUtils.isEmpty(wave.getIcon())) {
-                wave.setIcon(projectIcon);
-            }
+            if (TextUtils.isEmpty(wave.getIcon())) wave.setIcon(projectIcon);
 
             Country country = wave.getCountry();
             String countryName = country != null ? country.getName() : null;

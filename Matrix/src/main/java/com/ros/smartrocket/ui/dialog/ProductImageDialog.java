@@ -13,7 +13,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
@@ -68,24 +68,16 @@ public final class ProductImageDialog extends DialogFragment {
         dismiss();
     }
 
-    private ImageLoader.OnFileLoadCompleteListener completeListener = new ImageLoader.OnFileLoadCompleteListener() {
-        @Override
-        public void onFileLoadComplete(final File file) {
-            setImageInstructionFile(file);
-        }
-    };
+    private ImageLoader.OnFileLoadCompleteListener completeListener = this::setImageInstructionFile;
 
     public void setImageInstructionFile(final File file) {
         MyLog.v("ProductImageDialog.setImageInstructionFile", file);
         Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
         imageView.setImageBitmap(bitmap);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(file.getPath())) {
-                    Activity activity = getActivity();
-                    activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath(), false));
-                }
+        imageView.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(file.getPath())) {
+                Activity activity = getActivity();
+                activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath(), false));
             }
         });
 

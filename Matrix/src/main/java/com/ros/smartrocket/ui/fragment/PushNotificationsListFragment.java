@@ -22,7 +22,7 @@ import com.ros.smartrocket.ui.adapter.NotificationAdapter;
 import com.ros.smartrocket.bl.NotificationBL;
 import com.ros.smartrocket.db.NotificationDbSchema;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.flow.base.BaseFragment;
+import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.ArrayList;

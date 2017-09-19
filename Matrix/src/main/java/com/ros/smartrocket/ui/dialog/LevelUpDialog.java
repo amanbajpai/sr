@@ -17,6 +17,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.L;
+import com.squareup.picasso.Picasso;
 
 public class LevelUpDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = LevelUpDialog.class.getSimpleName();
@@ -45,23 +46,9 @@ public class LevelUpDialog extends Dialog implements View.OnClickListener {
 
         String levelIconUrl = account.getLevelIconUrl();
         if (!TextUtils.isEmpty(levelIconUrl)) {
-            ImageLoader.getInstance().loadBitmap(levelIconUrl, ImageLoader.SMALL_IMAGE_VAR,
-                    new ImageLoader.OnFetchCompleteListener() {
-
-                        @Override
-                        public void onFetchComplete(final Bitmap result) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ((ImageView) findViewById(R.id.levelIcon)).setImageBitmap(result);
-                                }
-                            });
-                        }
-                    }
-            );
+            Picasso.with(App.getInstance()).load(levelIconUrl)
+                    .into((ImageView) findViewById(R.id.levelIcon));
         }
-
-
         findViewById(R.id.okButton).setOnClickListener(this);
     }
 

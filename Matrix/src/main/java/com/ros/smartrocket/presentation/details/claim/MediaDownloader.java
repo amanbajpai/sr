@@ -1,0 +1,118 @@
+package com.ros.smartrocket.presentation.details.claim;
+
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.ros.smartrocket.bl.QuestionsBL;
+import com.ros.smartrocket.db.entity.Category;
+import com.ros.smartrocket.db.entity.Product;
+import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.utils.FileProcessingManager;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import io.reactivex.Observable;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+final class MediaDownloader {
+
+    private MediaDownloader() {
+    }
+
+    private static int downloadInstructionQuestionFile(List<Question> questions) {
+        int filesDownloadedCount = 0;
+        for (Question question : questions) {
+            String fileUrl = "";
+            FileProcessingManager.FileType fileType = null;
+
+            if (!TextUtils.isEmpty(question.getPhotoUrl())) {
+                fileUrl = question.getPhotoUrl();
+                fileType = FileProcessingManager.FileType.IMAGE;
+            } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
+                fileUrl = question.getVideoUrl();
+                fileType = FileProcessingManager.FileType.VIDEO;
+            }
+
+            if (!fileUrl.isEmpty() && fileType != null) {
+                File resultFile = FileProcessingManager.getTempFile(fileType, null, true);
+                try {
+                    resultFile = downloadFileSync(fileUrl, resultFile);
+                    QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getTaskId(),
+                            question.getMissionId(), question.getId(), resultFile.getPath());
+                    filesDownloadedCount++;
+                } catch (IOException e) {
+                    Log.e("MediaDownloader", "Can't load file - " + fileUrl, e);
+                }
+            }
+        }
+        return filesDownloadedCount;
+    }
+
+    private static int downloadMassAuditProductFile(List<Question> questions) {
+        int filesDownloadedCount = 0;
+        for (Question question : questions) {
+            for (Category category : question.getCategoriesArray()) {
+                filesDownloadedCount += loadCategoryImage(category) ? 1 : 0;
+                if (category.getProducts() != null)
+                    for (Product product : category.getProducts())
+                        filesDownloadedCount += loadProductImage(product) ? 1 : 0;
+            }
+            QuestionsBL.updateQuestionCategories(question.getWaveId(), question.getTaskId(),
+                    question.getMissionId(), question.getId(), new Gson().toJson(question.getCategoriesArray()));
+        }
+        return filesDownloadedCount;
+    }
+
+    private static boolean loadProductImage(final Product product) {
+        if (!TextUtils.isEmpty(product.getImage()))
+            try {
+                File resultFile = FileProcessingManager.getTempFile(FileProcessingManager.FileType.IMAGE, null, true);
+                resultFile = downloadFileSync(product.getImage(), resultFile);
+                product.setCachedImage(resultFile.getAbsolutePath());
+                return true;
+            } catch (IOException e) {
+                Log.e("MediaDownloader", "Can't load file - " + product.getImage(), e);
+            }
+        return false;
+    }
+
+    private static boolean loadCategoryImage(Category category) {
+        if (!TextUtils.isEmpty(category.getImage()))
+            try {
+                File resultFile = FileProcessingManager.getTempFile(FileProcessingManager.FileType.IMAGE, null, true);
+                resultFile = downloadFileSync(category.getImage(), resultFile);
+                category.setCachedImage(resultFile.getAbsolutePath());
+                return true;
+            } catch (IOException e) {
+                Log.e("MediaDownloader", "Can't load file - " + category.getImage(), e);
+            }
+        return false;
+    }
+
+
+    private static File downloadFileSync(String downloadUrl, File file) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(downloadUrl).build();
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) {
+            throw new IOException("Failed to download file: " + response);
+        }
+        FileUtils.copyInputStreamToFile(response.body().byteStream(), file);
+        return file;
+    }
+
+    public static Observable<Integer> getDownloadInstructionQuestionsObservable(List<Question> questions) {
+        return Observable.fromCallable(() -> downloadInstructionQuestionFile(questions));
+    }
+
+    public static Observable<Integer> getDownloadMassAuditProductFileObservable(List<Question> questions) {
+        return Observable.fromCallable(() -> downloadMassAuditProductFile(questions));
+    }
+}

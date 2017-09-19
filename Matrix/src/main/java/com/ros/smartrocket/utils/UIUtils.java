@@ -1,10 +1,7 @@
 package com.ros.smartrocket.utils;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.AppOpsManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -12,9 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -38,16 +32,16 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.flow.base.BaseActivity;
 import com.ros.smartrocket.bl.FilesBL;
 import com.ros.smartrocket.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.utils.image.ActionBarIconTarget;
+import com.ros.smartrocket.utils.image.WaveTypeIconTarget;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -59,7 +53,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,9 +62,6 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.TimeZone;
 
-/**
- * Utils class for easy work with UI Views
- */
 public class UIUtils {
     private static final String TAG = "UIUtils";
     private static final SimpleDateFormat GOOGLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -87,21 +77,14 @@ public class UIUtils {
             + " yyyy  HH:mm a", Locale.ENGLISH);
     private static final SimpleDateFormat DAY_MONTH_YEAR_HOUR_MINUTE_1_FORMAT = new SimpleDateFormat("dd.MM"
             + ".yyyy / HH:mm", Locale.ENGLISH);
-    public static NumberFormat numberFormat = NumberFormat.getInstance(new Locale("en", "US"));
 
     private static final long METERS_IN_KM = 1000;
     private static final int MIN_PASSWORD_LANDTH = 8;
     private static final int MAX_PASSWORD_LANDTH = 16;
     private static final Random RANDOM = new Random();
 
-    public static final int MAX_LOG_SIZE = 80000;
+    private static final int MAX_LOG_SIZE = 80000;
 
-    /**
-     * Show simple Toast message
-     *
-     * @param context - current context
-     * @param resId   - resource id
-     */
     public static void showSimpleToast(Context context, int resId) {
         if (context != null) {
             Toast toast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
@@ -110,13 +93,6 @@ public class UIUtils {
         }
     }
 
-    /**
-     * Show simple Toast message
-     *
-     * @param context  - current context
-     * @param resId
-     * @param duration
-     */
     public static void showSimpleToast(Context context, int resId, int duration) {
         showSimpleToast(context, resId, duration, Gravity.BOTTOM);
     }
@@ -146,24 +122,10 @@ public class UIUtils {
         }.start();
     }
 
-    /**
-     * Show simple Toast message
-     *
-     * @param context - current context
-     * @param msg
-     */
     public static void showSimpleToast(Context context, String msg) {
         showSimpleToast(context, msg, Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
 
-    /**
-     * Show simple Toast message
-     *
-     * @param context  - current context
-     * @param msg
-     * @param duration
-     * @param gravity
-     */
     public static void showSimpleToast(Context context, String msg, int duration, int gravity) {
         if (context != null && msg != null) {
             Toast toast = Toast.makeText(context, msg, duration);
@@ -172,34 +134,11 @@ public class UIUtils {
         }
     }
 
-    /**
-     * Hide soft keyboard
-     *
-     * @param context  - current activity
-     * @param editText
-     */
-
     public static void hideSoftKeyboard(Context context, EditText editText) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    /**
-     * Show soft keyboard
-     *
-     * @param activity - current activity
-     */
-    public static void showSoftKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.RESULT_SHOWN, 0);
-    }
-
-    /**
-     * Get version name visible for users
-     *
-     * @param context - current context
-     * @return String
-     */
     public static String getAppVersion(Context context) {
         String currentVersion = "";
         try {
@@ -210,13 +149,6 @@ public class UIUtils {
         return currentVersion;
     }
 
-
-    /**
-     * Get developer version of application
-     *
-     * @param context - current context
-     * @return int
-     */
     public static int getAppVersionCode(Context context) {
         int currentVersion = 0;
         try {
@@ -227,81 +159,28 @@ public class UIUtils {
         return currentVersion;
     }
 
-    /**
-     * Check if app is running
-     *
-     * @param context - current context
-     */
-    public static boolean isApplicationRuning(Context context) {
-        Boolean result = false;
-        if (context != null) {
-            ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            List<RunningTaskInfo> tasks = am.getRunningTasks(1);
-            if (!tasks.isEmpty()) {
-                ComponentName topActivity = tasks.get(0).topActivity;
-                if (topActivity.getPackageName().equals(context.getPackageName())) {
-                    result = true;
-                }
-            }
-        }
-        return result;
-    }
-
     public static boolean isGooglePlayServicesAvailable(Context context) {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
         return resultCode == ConnectionResult.SUCCESS;
 
     }
 
-    /**
-     * @param context - current context
-     * @param pixels  - px
-     */
     public static int getDpFromPx(Context context, int pixels) {
         final float d = context.getResources().getDisplayMetrics().density;
         return (int) (pixels / d);
     }
 
-    /**
-     * @param context - current context
-     * @param dp      - dp
-     */
     public static int getPxFromDp(Context context, int dp) {
         final float d = context.getResources().getDisplayMetrics().density;
         return (int) (dp * d);
     }
 
-    /**
-     * @param unrounded
-     * @param precision
-     * @param roundingMode
-     */
     public static double round(double unrounded, int precision, int roundingMode) {
         BigDecimal bd = new BigDecimal(unrounded);
         BigDecimal rounded = bd.setScale(precision, roundingMode);
         return rounded.doubleValue();
     }
 
-    /**
-     * Least common multiple between the numbers
-     *
-     * @param a - number one
-     * @param b - number two
-     */
-    public static int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
-        }
-        int x = a % b;
-        return gcd(b, x);
-    }
-
-    /**
-     * Check if there is Ethernet connection
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean isOnline(Context context) {
         boolean isOnline = false;
         if (context != null) {
@@ -313,12 +192,6 @@ public class UIUtils {
         return isOnline;
     }
 
-    /**
-     * Check if there is WiFi connection
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean isWiFi(Context context) {
         boolean isOnline = false;
         if (context != null) {
@@ -330,12 +203,6 @@ public class UIUtils {
         return isOnline;
     }
 
-    /**
-     * Check if there is 3G connection
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean is3G(Context context) {
         boolean isOnline = false;
         if (context != null) {
@@ -347,12 +214,6 @@ public class UIUtils {
         return isOnline;
     }
 
-    /**
-     * Check if GPS is enabled
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean isGpsEnabled(Context context) {
         boolean isEnable = false;
         if (context != null) {
@@ -363,12 +224,6 @@ public class UIUtils {
         return isEnable;
     }
 
-    /**
-     * Check if Network provider is enabled
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean isNetworkEnabled(Context context) {
         boolean isEnable = false;
         if (context != null) {
@@ -384,12 +239,6 @@ public class UIUtils {
         return isGpsEnabled(context) && isNetworkEnabled(context);
     }
 
-    /**
-     * Check if GooglePlayServices is enabled
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean isGooglePlayServicesEnabled(Context context) {
         boolean isEnable = false;
         if (context != null) {
@@ -400,12 +249,6 @@ public class UIUtils {
         return isEnable;
     }
 
-    /**
-     * Check if MockLocation is enabled
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static boolean isMockLocationEnabled(Context context, Location location) {
         boolean isMockLocation = false;
         boolean isMockLocationNew = false;
@@ -431,34 +274,16 @@ public class UIUtils {
 
     }
 
-    /**
-     * Check if intent is available
-     *
-     * @param context - current context
-     * @param intent  - intent to check
-     * @return boolean
-     */
     public static boolean isIntentAvailable(Context context, Intent intent) {
         final PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return !list.isEmpty();
     }
 
-    /**
-     * Get device id
-     *
-     * @param context - current context
-     * @return boolean
-     */
     public static String getDeviceId(Context context) {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
 
-    /**
-     * Convert ISO time to long format
-     *
-     * @param dateString - iso string to formatting
-     */
     public static long isoTimeToLong(String dateString) {
         long result = 0;
         if (!TextUtils.isEmpty(dateString)) {
@@ -486,13 +311,6 @@ public class UIUtils {
         return longToString(result, 2);
     }
 
-    /**
-     * Return date string in selected format
-     *
-     * @param dateLong - date
-     * @param formatId - selected format
-     * @return String
-     */
     public static String longToString(long dateLong, int formatId) {
         String result;
         switch (formatId) {
@@ -552,32 +370,14 @@ public class UIUtils {
         return Calendar.getInstance().getTimeInMillis();
     }
 
-    /**
-     * Check if email is valid
-     *
-     * @param email - email to check
-     * @return boolean
-     */
     public static boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    /**
-     * Check if email is valid
-     *
-     * @param s - string to check
-     * @return boolean
-     */
     public static String getNumbersOnly(CharSequence s) {
         return s.toString().replaceAll("[^0-9]", "");
     }
 
-    /**
-     * Check if password is valid
-     *
-     * @param password - password to check
-     * @return boolean
-     */
     public static boolean isPasswordValid(String password) {
         boolean containUpperLetter = false;
         boolean containLowerLetter = false;
@@ -587,14 +387,14 @@ public class UIUtils {
                 && password.length() <= UIUtils.MAX_PASSWORD_LANDTH;
 
         char[] charArray = password.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (Character.isLetter(charArray[i]) && Character.isUpperCase(charArray[i])) {
+        for (char aCharArray : charArray) {
+            if (Character.isLetter(aCharArray) && Character.isUpperCase(aCharArray)) {
                 containUpperLetter = true;
-            } else if (Character.isLetter(charArray[i]) && Character.isLowerCase(charArray[i])) {
+            } else if (Character.isLetter(aCharArray) && Character.isLowerCase(aCharArray)) {
                 containLowerLetter = true;
-            } else if (Character.isDigit(charArray[i])) {
+            } else if (Character.isDigit(aCharArray)) {
                 containNumber = true;
-            } else if (!Character.isLetter(charArray[i]) && !Character.isDigit(charArray[i])) {
+            } else if (!Character.isLetter(aCharArray) && !Character.isDigit(aCharArray)) {
                 containSpecialSymbol = true;
             }
 
@@ -629,16 +429,8 @@ public class UIUtils {
         return s != null && s;
     }
 
-    public static boolean isFalse(Boolean s) {
-        return s == null || !s;
-    }
-
     public static int getRandomInt(int max) {
         return UIUtils.RANDOM.nextInt(max);
-    }
-
-    public static int getRandomInt(int min, int max) {
-        return UIUtils.RANDOM.nextInt(max - min + 1) + min;
     }
 
     public static void setEditTextColorByState(Context context, EditText editText, boolean isValidState) {
@@ -708,44 +500,14 @@ public class UIUtils {
         return daysText + hoursText + minutesText;
     }
 
-
     public static void showWaveTypeActionBarIcon(final BaseActivity activity, String url) {
-        ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
-            @Override
-            public void onFetchComplete(final Bitmap bitmap) {
-                if (activity != null) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Drawable drawable = new BitmapDrawable(activity.getResources(), bitmap);
-                            activity.getSupportActionBar().setIcon(drawable);
-                        }
-                    });
-                }
-            }
-        });
+        Picasso.with(activity).load(url).into(new ActionBarIconTarget(activity));
     }
 
     public static void showWaveTypeIcon(final Activity activity, final ImageView iconImageView, String url) {
-        ImageLoader.getInstance().loadBitmap(url, new ImageLoader.OnFetchCompleteListener() {
-            @Override
-            public void onFetchComplete(final Bitmap bitmap) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        iconImageView.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        });
+        Picasso.with(activity).load(url).into(new WaveTypeIconTarget(activity, iconImageView));
     }
 
-    /**
-     * Return price in right format
-     *
-     * @param balance - current balance
-     * @return String
-     */
     public static String getBalanceOrPrice(Double balance, String symbol, Integer precision, Integer roundingMode) {
         String result = null;
         if (balance != null && precision != null && roundingMode != null) {
@@ -760,12 +522,6 @@ public class UIUtils {
         return result;
     }
 
-    /**
-     * Return price in right format
-     *
-     * @param balance - current balance
-     * @return String
-     */
     public static String getBalanceOrPrice(Double balance, String symbol) {
         return getBalanceOrPrice(balance, symbol, null, null);
     }
@@ -808,49 +564,6 @@ public class UIUtils {
                 break;
         }
         activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(backgroundRes));
-    }
-
-    public static BitmapDescriptor getPinBitmap(Task task) {
-        BitmapDescriptor icon;
-        switch (TasksBL.getTaskStatusType(task.getStatusId())) {
-            case NONE:
-            case CLAIMED:
-            case STARTED:
-                if (TasksBL.isPreClaimTask(task)) {
-                    if (!task.getIsHide()) {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet);
-                    } else {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_violet_hidden);
-                    }
-                } else {
-                    if (!task.getIsHide()) {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
-                    } else {
-                        icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green_hidden);
-                    }
-                }
-                break;
-            case SCHEDULED:
-            case PENDING:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_blue);
-                break;
-            case COMPLETED:
-            case VALIDATION:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_grey);
-                break;
-            case RE_DO_TASK:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_red);
-                break;
-            case VALIDATED:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_yellow);
-                break;
-
-            default:
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.pin_green);
-                break;
-        }
-
-        return icon;
     }
 
     public static int getPinResId(Task task) {
@@ -896,27 +609,11 @@ public class UIUtils {
         return iconResId;
     }
 
-    /**
-     * Return number of hours in millisecond
-     *
-     * @param hoursCount - current hoursCount
-     * @return long
-     */
-    public static long getHoursAsMilliseconds(int hoursCount) {
-        return hoursCount * DateUtils.HOUR_IN_MILLIS;
-    }
-
     public static String getDeviceManufacturer() {
         String manufacturer = Build.MANUFACTURER;
         return capitalize(manufacturer);
     }
 
-    /**
-     * Tries to take second part of device model string, if it starts with manufacture string.
-     * Otherwise returns model string.
-     *
-     * @return device model
-     */
     public static String getDeviceModel() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;

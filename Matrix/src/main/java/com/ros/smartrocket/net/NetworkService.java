@@ -102,63 +102,10 @@ public class NetworkService extends BaseNetworkService {
         String responseString = operation.getResponseString();
         if (responseCode == BaseNetworkService.SUCCESS && responseString != null) {
             try {
-                SparseArray<ContentValues> scheduledTaskContentValuesMap;
-                SparseArray<ContentValues> hiddenTaskContentValuesMap;
-                SparseArray<ContentValues> validLocationTaskContentValuesMap;
                 int url = WSUrl.matchUrl(operation.getUrl());
                 switch (url) {
-                    case WSUrl.GET_MY_TASKS_ID:
-                        Waves myTasksWaves = gson.fromJson(responseString, Waves.class);
-
-                        try {
-                            //Get tasks with 'scheduled' status id
-                            scheduledTaskContentValuesMap = TasksBL.getScheduledTaskHashMap(contentResolver);
-                            hiddenTaskContentValuesMap = TasksBL.getHiddenTaskHashMap(contentResolver);
-                            validLocationTaskContentValuesMap = TasksBL.getValidLocationTaskHashMap(contentResolver);
-
-                            TasksBL.removeAllMyTask(contentResolver);
-                            WavesBL.saveWaveAndTaskFromServer(contentResolver, myTasksWaves, true);
-
-                            //Update task status id
-                            TasksBL.updateTasksByContentValues(contentResolver, scheduledTaskContentValuesMap);
-                            TasksBL.updateTasksByContentValues(contentResolver, hiddenTaskContentValuesMap);
-                            TasksBL.updateTasksByContentValues(contentResolver, validLocationTaskContentValuesMap);
-
-                        } catch (Exception e) {
-                            MyLog.logStackTrace(e);
-                            L.e(TAG, "Error updating data TASK and WAVE DB");
-                            operation.setResponseErrorCode(DEVICE_INTEERNAL_ERROR);
-                        }
-                        break;
-
-                    case WSUrl.CLAIM_TASKS_ID:
-                        ClaimTaskResponse claimTaskResponse = gson.fromJson(responseString, ClaimTaskResponse.class);
-                        Task t = new Task();
-                        t.setId(operation.getTaskId());
-                        t.setMissionId(operation.getMissionId());
-                        t.setWaveId(operation.getWaveId());
-                        QuestionStore qs = new QuestionStore(t);
-                        qs.storeQuestions(claimTaskResponse.getQuestions());
-                        operation.responseEntities.add(claimTaskResponse);
-                        break;
-                    case WSUrl.SEND_ANSWERS_ID:
-                        break;
-                    case WSUrl.VALIDATE_TASK_ID:
-                        break;
-                    case WSUrl.GET_NEW_TOKEN_ID:
-                        Token token = gson.fromJson(responseString, Token.class);
-                        getPreferencesManager().setToken(token.getToken());
-                        getPreferencesManager().setTokenForUploadFile(token.getToken());
-                        getPreferencesManager().setTokenUpdateDate(System.currentTimeMillis());
-                        break;
                     case WSUrl.GCM_REGISTER_DEVICE_ID:
                         getPreferencesManager().setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
-                        break;
-                    case WSUrl.GCM_TEST_PUSH_ID:
-                        L.i(TAG, "GCM [test push send]");
-//                        SubscriptionResponse subscriptionResponse = gson.fromJson(responseString,
-//                                SubscriptionResponse.class);
-//                        operation.responseEntities.add(subscriptionResponse);
                         break;
                     case WSUrl.GET_MY_ACCOUNT_ID:
                         MyAccount myAccountResponse = gson.fromJson(responseString, MyAccount.class);

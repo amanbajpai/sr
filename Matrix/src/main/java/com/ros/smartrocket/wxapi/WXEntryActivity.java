@@ -11,7 +11,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.net.WSUrl;
-import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.db.entity.WeChatTokenResponse;
 import com.ros.smartrocket.db.entity.WeChatUserInfoResponse;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -28,8 +28,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
-
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
+    private static final String GET_WECHAT_TOKEN = "https://api.wechat.com/sns/oauth2/access_token";
+    private static final String GET_WECHAT_USER_INFO = "https://api.wechat.com/sns/userinfo";
     public static final String INFO_TAG = "info_tag";
     public static final String WECHAT_TOKEN = "w_token";
     public static final String WECHAT_OPEN_ID = "w_open_id";
@@ -89,7 +90,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 
     private void getWeChatToken(String code) {
         Call<WeChatTokenResponse> call = App.getInstance().getApi()
-                .getWeChatToken(WSUrl.GET_WECHAT_TOKEN, BuildConfig.WECHAT_APP_ID, BuildConfig.WECHAT_APP_SECRET, code, "authorization_code");
+                .getWeChatToken(GET_WECHAT_TOKEN, BuildConfig.WECHAT_APP_ID, BuildConfig.WECHAT_APP_SECRET, code, "authorization_code");
         call.enqueue(new Callback<WeChatTokenResponse>() {
             @Override
             public void onResponse(Call<WeChatTokenResponse> call, Response<WeChatTokenResponse> response) {
@@ -109,7 +110,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 
     private void getWeChatInfo(WeChatTokenResponse tokenResponse) {
         Call<WeChatUserInfoResponse> call = App.getInstance().getApi()
-                .getWeChatInfo(WSUrl.GET_WECHAT_USER_INFO, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
+                .getWeChatInfo(GET_WECHAT_USER_INFO, tokenResponse.getAccessToken(), tokenResponse.getOpenId());
         call.enqueue(new Callback<WeChatUserInfoResponse>() {
             @Override
             public void onResponse(Call<WeChatUserInfoResponse> call, Response<WeChatUserInfoResponse> response) {

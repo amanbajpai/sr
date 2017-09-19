@@ -105,7 +105,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- App -->
         <activity
-            android:name=".flow.launch.LaunchActivity"
+            android:name=".presentation.launch.LaunchActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -114,47 +114,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".flow.login.external.ExternalAuthDetailsActivity"
+            android:name=".presentation.login.external.ExternalAuthDetailsActivity"
             android:label="@string/registration_form" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/continue_with_wechat" />
         <activity
-            android:name=".flow.login.TutorialActivity"
+            android:name=".presentation.login.TutorialActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".flow.login.referral.ReferralCasesActivity"
+            android:name=".presentation.login.referral.ReferralCasesActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".flow.login.promo.PromoCodeActivity"
+            android:name=".presentation.login.promo.PromoCodeActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".flow.login.registration.RegistrationActivity"
+            android:name=".presentation.login.registration.RegistrationActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".flow.login.LoginActivity"
+            android:name=".presentation.login.LoginActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".flow.login.password.PasswordActivity"
+            android:name=".presentation.login.password.PasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".flow.login.password.forgot.ForgotPasswordActivity"
+            android:name=".presentation.login.password.forgot.ForgotPasswordActivity"
             android:configChanges="locale"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".flow.login.password.forgot.ForgotPasswordSuccessActivity"
+            android:name=".presentation.login.password.forgot.ForgotPasswordSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.media.FullScreenImageActivity"
+            android:name=".presentation.media.FullScreenImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".flow.media.FullScreenVideoActivity"
+            android:name=".presentation.media.FullScreenVideoActivity"
             android:configChanges="orientation" />
         <activity
             android:name=".ui.activity.MainActivity"
@@ -162,22 +162,22 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".flow.details.task.TaskDetailsActivity"
+            android:name=".presentation.details.task.TaskDetailsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".flow.details.wave.WaveDetailsActivity"
+            android:name=".presentation.details.wave.WaveDetailsActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".flow.notification.NotificationActivity"
+            android:name=".presentation.notification.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
             android:theme="@style/CustomNotification.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".flow.map.MapActivity"
+            android:name=".presentation.map.MapActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.activity.MainActivity"
@@ -188,16 +188,16 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".flow.settings.SettingsActivity"
+            android:name=".presentation.settings.SettingsActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.share.ShareActivity"
+            android:name=".presentation.share.ShareActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.login.location.CheckLocationActivity"
+            android:name=".presentation.login.location.CheckLocationActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.login.activate.EmailRedirectActivity"
+            android:name=".presentation.login.activate.EmailRedirectActivity"
             android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -254,41 +254,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".flow.login.location.failed.CheckLocationFailedActivity"
+            android:name=".presentation.login.location.failed.CheckLocationFailedActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.login.activate.ActivateAccountActivity"
+            android:name=".presentation.login.activate.ActivateAccountActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.login.password.update.SetNewPasswordActivity"
+            android:name=".presentation.login.password.update.SetNewPasswordActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.question.activity.QuestionsActivity"
+            android:name=".presentation.question.activity.QuestionsActivity"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".flow.validation.TaskValidationActivity"
+            android:name=".presentation.validation.TaskValidationActivity"
             android:configChanges="locale"
             android:theme="@style/AppThemeGreen" />
         <activity
-            android:name=".flow.login.terms.TermsAndConditionActivity"
+            android:name=".presentation.login.terms.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.question.QuitQuestionActivity"
+            android:name=".presentation.question.QuitQuestionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.cash.CashingOutActivity"
+            android:name=".presentation.cash.CashingOutActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.cash.confirm.CashingOutConfirmationActivity"
+            android:name=".presentation.cash.confirm.CashingOutConfirmationActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.cash.CashingOutSuccessActivity"
+            android:name=".presentation.cash.CashingOutSuccessActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".flow.media.IdCardActivity"
+            android:name=".presentation.media.IdCardActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoActionBar" />
 
@@ -296,7 +296,7 @@
             android:name=".net.NetworkService"
             android:exported="false" />
         <activity
-            android:name=".flow.notification.PushNotificationActivity"
+            android:name=".presentation.notification.PushNotificationActivity"
             android:configChanges="locale" />
         <provider
             android:name=".db.AppContentProvider"

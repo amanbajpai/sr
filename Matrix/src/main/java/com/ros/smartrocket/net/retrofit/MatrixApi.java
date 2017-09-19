@@ -90,13 +90,13 @@ public interface MatrixApi {
     Observable<Waves> getMyTasks(@Query("language") String language);
 
     @POST("api/Tasks/Claim")
-    Single<ClaimTaskResponse> claimTask(@Body SendTaskId sendTaskId);
+    Observable<ClaimTaskResponse> claimTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/Unclaimed")
     Single<ResponseBody> unclaimTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/Validate")
-    Single<ResponseBody> validateTaskOperation(@Body SendTaskId sendTaskId);
+    Single<ResponseBody> validateTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/QuestionFile")
     Single<ResponseBody> sendFile(@Header(RetrofitHolder.CONTENT_TYPE_HEADER) String header, @Body NotUploadedFile notUploadedFile);

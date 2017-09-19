@@ -11,7 +11,7 @@ import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.flow.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.ui.fragment.MainMenuFragment;
 
 public class BaseSlidingMenuActivity extends BaseActivity {

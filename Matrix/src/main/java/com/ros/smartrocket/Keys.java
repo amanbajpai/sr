@@ -51,34 +51,13 @@ public interface Keys {
     String REFRESH_PUSH_NOTIFICATION_LIST = "refresh_push_notifications_list";
 
     // Operation tags - Using for cache response from NetworkService
-    String GET_WAVES_OPERATION_TAG = "get_waves_operation_tag";
-    String GET_QUESTIONS_OPERATION_TAG = "get_questions_operation_tag";
-    String GET_REDO_QUESTION_OPERATION_TAG = "get_redo_questions_operation_tag";
     String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
-    String REGISTRATION_OPERATION_TAG = "registration_operation_tag";
     String UPDATE_USER_OPERATION_TAG = "upload_photo_operation_tag";
-    String CLAIM_TASK_OPERATION_TAG = "claim_task_operation_tag";
-    String SEND_ANSWERS_OPERATION_TAG = "send_answers_operation_tag";
-    String UNCLAIM_TASK_OPERATION_TAG = "unclaim_task_operation_tag";
     String VALIDATE_TASK_OPERATION_TAG = "validate_task_operation_tag";
-    String START_TASK_OPERATION_TAG = "start_task_operation_tag";
-    String REJECT_TASK_OPERATION_TAG = "reject_task_operation_tag";
     String GET_MY_ACCOUNT_OPERATION_TAG = "get_my_account_operation_tag";
     String UPLOAD_TASK_FILE_OPERATION_TAG = "upload_task_file_operation_tag";
     String UPLOAD_TASK_TEMP_FILE_OPERATION_TAG = "upload_task_temp_file_operation_tag";
     String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
-    String SET_PASSWORD_OPERATION_TAG = "set_password_operation_tag";
-    String CASHING_OUT_OPERATION_TAG = "cashing_out_operation_tag";
-    String GET_SHARING_DATA_OPERATION_TAG = "get_sharing_data_operation_tag";
-    String GET_NEW_TOKEN_OPERATION_TAG = "get_new_token_operation_tag";
-    String GET_ALIPAY_ACCOUNT_OPERATION_TAG = "get_alipay_operation_tag";
-    String GET_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "get_national_id_operation_tag";
-    String INTEGRATE_ALIPAY_ACCOUNT_OPERATION_TAG = "integrate_alipay_operation_tag";
-    String INTEGRATE_NATIONAL_ID_ACCOUNT_OPERATION_TAG = "integrate_national_id_operation_tag";
-    String ALLOW_PUSH_NOTIFICATION_OPERATION_TAG = "allow_push_notification_operation_tag";
-    String SEND_ACTIVITY_OPERATION_TAG = "send_activity_operation_tag";
-    String POST_PROMO_CODE_OPERATION_TAG = "post_promo_code_operation_tag";
-    String CLOSE_ACCOUNT_TAG = "close_account_tag";
 
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";
