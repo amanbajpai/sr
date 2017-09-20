@@ -6,23 +6,20 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.google.android.gcm.GCMBaseIntentService;
-import com.google.android.gcm.GCMRegistrar;
+import com.ros.smartrocket.db.store.WavesStore;
+import com.ros.smartrocket.net.retrofit.helper.GcmRegistrar;
 import com.ros.smartrocket.presentation.main.MainActivity;
-import com.ros.smartrocket.utils.helpers.APIFacade;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
-/**
- * GCM Services
- */
+import io.reactivex.schedulers.Schedulers;
+
 public class GCMIntentService extends GCMBaseIntentService {
 
-    //@SuppressWarnings("hiding")
     private static final String TAG = GCMIntentService.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private APIFacade apiFacade = APIFacade.getInstance();
 
     public GCMIntentService() {
         super(Config.GCM_SENDER_ID);
@@ -32,27 +29,16 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onRegistered(Context context, String registrationId) {
         L.d(TAG, "Device registered: regId = " + registrationId);
         CommonUtilities.displayMessage(context, getString(R.string.gcm_registered));
-
         if (!Config.USE_BAIDU) {
             L.d(TAG, "Send registered to server: regId = " + registrationId);
-            APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
-            //TODO uncomment after update of GCM
-            // Core.registerDeviceToken(App.getInstance(), registrationId);
-            PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
+            new GcmRegistrar().registerGCMId(registrationId, 0);
+            preferencesManager.setGCMRegistrationId(registrationId);
         }
     }
 
     @Override
     protected void onUnregistered(Context context, String registrationId) {
-        L.d(TAG, "Device unregistered");
         CommonUtilities.displayMessage(context, getString(R.string.gcm_unregistered));
-        if (GCMRegistrar.isRegisteredOnServer(context)) {
-            L.i(TAG, "Register on Matrix server");
-        } else {
-            // This callback results from the call to unregister made on
-            // ServerUtilities when the registration to the server failed.
-            L.i(TAG, "Ignoring unregister callback");
-        }
     }
 
     @Override
@@ -60,14 +46,12 @@ public class GCMIntentService extends GCMBaseIntentService {
         Bundle extras = intent.getExtras();
         String messageJsonObject = extras.getString("message");
         L.d(TAG, "Received message [message=" + messageJsonObject + "]");
-
         if (messageJsonObject != null) {
             if (!TextUtils.isEmpty(preferencesManager.getToken())) {
-                if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName")) {
+                if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName"))
                     NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
-                }
+                getMyTasksFromServer();
 
-                apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
             }
 
             if (App.getInstance() != null && App.getInstance().getMyAccount() != null
@@ -79,14 +63,22 @@ public class GCMIntentService extends GCMBaseIntentService {
         }
     }
 
+    private void getMyTasksFromServer() {
+        App.getInstance().getApi()
+                .getMyTasks(preferencesManager.getLanguageCode())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnNext(w -> new WavesStore().storeMyWaves(w))
+                .subscribe();
+    }
+
+
     @Override
     protected void onDeletedMessages(Context context, int total) {
         L.i(TAG, "Received deleted messages notification");
         String message = getString(R.string.gcm_deleted, total);
         String title = context.getString(R.string.app_name);
-
         CommonUtilities.displayMessage(context, message);
-
         Intent intent = new Intent(context, MainActivity.class);
         NotificationUtils.generateNotification(context, title, message, intent);
     }

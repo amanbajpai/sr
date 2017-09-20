@@ -8,47 +8,70 @@ import android.database.Cursor;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilesBL {
+import io.reactivex.Observable;
+
+public final class FilesBL {
 
     private FilesBL() {
-
     }
 
-    public static void getNotUploadedFilesFromDB(AsyncQueryHandler handler, String cookie) {
-        handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, cookie, NotUploadedFileDbSchema.CONTENT_URI,
+    private static Cursor getFirstNotUploadedFileFromDB(long currentId, boolean use3GOnly) {
+        String where = NotUploadedFileDbSchema.Columns._ID + ">'" + currentId + "'";
+        if (use3GOnly) where += " and " + NotUploadedFileDbSchema.Columns.USE_3G + "==1";
+        return App.getInstance().getContentResolver().query(NotUploadedFileDbSchema.CONTENT_URI,
+                NotUploadedFileDbSchema.Query.PROJECTION, where, null, NotUploadedFileDbSchema.SORT_ORDER_ASC_LIMIT_1);
+    }
+
+    public static Observable<NotUploadedFile> firstNotUploadedFileObservable(long currentId, boolean use3GOnly) {
+        return Observable.fromCallable(() -> convertCursorToNotUploadedFile(getFirstNotUploadedFileFromDB(currentId, use3GOnly)));
+    }
+
+    private static Cursor getNotUploadedFilesFromDB() {
+        return App.getInstance().getContentResolver().query(NotUploadedFileDbSchema.CONTENT_URI,
                 NotUploadedFileDbSchema.Query.PROJECTION, null, null, NotUploadedFileDbSchema.SORT_ORDER_DESC);
     }
 
-    public static void getNotUploadedFilesCountFromDB(AsyncQueryHandler handler, String cookie) {
-        handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, cookie, NotUploadedFileDbSchema.CONTENT_URI,
-                new String[]{"count(*)"}, null, null, null);
-    }
-
-    public static void getFirstNotUploadedFileFromDB(AsyncQueryHandler handler, long currentId,
-                                                     boolean useTreeGOnly, String cookie) {
-        String where = NotUploadedFileDbSchema.Columns._ID + ">'" + currentId + "'";
-        if (useTreeGOnly) {
-            where = where + " and " + NotUploadedFileDbSchema.Columns.USE_3G + "==1";
-        }
-
-        handler.startQuery(NotUploadedFileDbSchema.Query.TOKEN_QUERY, cookie, NotUploadedFileDbSchema.CONTENT_URI,
-                NotUploadedFileDbSchema.Query.PROJECTION, where, null, NotUploadedFileDbSchema.SORT_ORDER_ASC_LIMIT_1);
+    public static Observable<List<NotUploadedFile>> notUploadedFilesObservable() {
+        return Observable.fromCallable(() -> convertCursorToNotUploadedFileList(getNotUploadedFilesFromDB()));
     }
 
     public static void updateShowNotificationStep(NotUploadedFile notUploadedFile) {
         ContentResolver resolver = App.getInstance().getContentResolver();
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(NotUploadedFileDbSchema.Columns.SHOW_NOTIFICATION_STEP_ID.getName(),
                 notUploadedFile.getShowNotificationStepId() + 1);
-
         resolver.update(NotUploadedFileDbSchema.CONTENT_URI, contentValues,
                 NotUploadedFileDbSchema.Columns.ID + "=?", new String[]{String.valueOf(notUploadedFile.getId())});
     }
+
+    private static Cursor getNotUploadedFilesCountFromDB() {
+        return App.getInstance().getContentResolver()
+                .query(NotUploadedFileDbSchema.CONTENT_URI, new String[]{"count(*)"}, null, null, null);
+    }
+
+    public static Observable<Integer> notNotUploadedFilesCountObservable() {
+        return Observable.fromCallable(() -> getNotUploadedFilesCount(getNotUploadedFilesCountFromDB()));
+    }
+
+    private static Integer getNotUploadedFilesCount(Cursor cursor) {
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        return count;
+    }
+
+    // ------------- !!! -----------------//
+
 
     public static void deleteNotUploadedFileFromDbById(long id) {
         ContentResolver resolver = App.getInstance().getContentResolver();
@@ -102,13 +125,6 @@ public class FilesBL {
         return result;
     }
 
-
-    /**
-     * Convert cursor to NotUploadedFile list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList
-     */
     public static List<NotUploadedFile> convertCursorToNotUploadedFileList(Cursor cursor) {
         List<NotUploadedFile> result = new ArrayList<NotUploadedFile>();
         if (cursor != null) {
@@ -120,14 +136,8 @@ public class FilesBL {
         return result;
     }
 
-    /**
-     * Convert cursor to NotUploadedFile
-     *
-     * @param cursor - all fields cursor
-     * @return NotUploadedFile
-     */
     public static NotUploadedFile convertCursorToNotUploadedFile(Cursor cursor) {
-        NotUploadedFile result = null;
+        NotUploadedFile result = new NotUploadedFile();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result = NotUploadedFile.fromCursor(cursor);

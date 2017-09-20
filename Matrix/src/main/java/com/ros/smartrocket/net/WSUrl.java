@@ -9,7 +9,6 @@ public final class WSUrl {
 
     public static final String GCM_REGISTER_DEVICE = Config.WEB_SERVICE_URL + "api/Authorize/RegisterDevice";
     // Tasks
-    public static final String GET_MY_TASKS = Config.WEB_SERVICE_URL + "api/Tasks/ByCurrentUser?language=%s";
     public static final String VALIDATE_TASK = Config.WEB_SERVICE_URL + "api/Tasks/Validate";
     public static final String UPLOAD_TASK_FILE = Config.WEB_SERVICE_URL + "api/Tasks/QuestionFile";
     static final int GCM_REGISTER_DEVICE_ID = 9;

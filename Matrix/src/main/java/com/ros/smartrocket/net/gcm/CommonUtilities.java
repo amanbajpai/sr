@@ -22,7 +22,7 @@ import android.os.AsyncTask;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
-import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.net.retrofit.helper.GcmRegistrar;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 
@@ -82,7 +82,7 @@ public final class CommonUtilities {
 
                     if(!Config.USE_BAIDU) {
                         L.d(TAG, "Send registered to server: regId = " + registrationId);
-                        APIFacade.getInstance().registerGCMId(App.getInstance(), registrationId, 0);
+                        new GcmRegistrar().registerGCMId(registrationId, 0);
                         //TODO uncomment after new GCM implementation
                         //Core.registerDeviceToken(App.getInstance(), registrationId);
                         PreferencesManager.getInstance().setGCMRegistrationId(registrationId);

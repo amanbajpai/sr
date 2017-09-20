@@ -93,7 +93,7 @@ public interface MatrixApi {
     Observable<ClaimTaskResponse> claimTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/Unclaimed")
-    Single<ResponseBody> unclaimTask(@Body SendTaskId sendTaskId);
+    Single<ResponseBody> unClaimTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/Validate")
     Single<ResponseBody> validateTask(@Body SendTaskId sendTaskId);

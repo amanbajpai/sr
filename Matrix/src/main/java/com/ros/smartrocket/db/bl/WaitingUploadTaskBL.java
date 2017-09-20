@@ -1,6 +1,5 @@
 package com.ros.smartrocket.db.bl;
 
-import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -12,17 +11,24 @@ import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaitingUploadTaskBL {
+import io.reactivex.Observable;
+
+public final class WaitingUploadTaskBL {
 
     private WaitingUploadTaskBL() {
-
     }
 
-    public static void getUploadedTasksFromDB(AsyncQueryHandler handler) {
-        handler.startQuery(WaitingUploadTaskDbSchema.Query.TOKEN_QUERY, null, WaitingUploadTaskDbSchema.CONTENT_URI,
+    private static Cursor getWaitingTasksFromDB() {
+        return App.getInstance().getContentResolver().query(WaitingUploadTaskDbSchema.CONTENT_URI,
                 WaitingUploadTaskDbSchema.Query.PROJECTION, WaitingUploadTaskDbSchema.Columns.ALL_FILE_SENT + " = ?",
                 new String[]{"1"}, WaitingUploadTaskDbSchema.SORT_ORDER_DESC);
     }
+
+    public static Observable<List<WaitingUploadTask>> waitingTasksObservable() {
+        return Observable.fromCallable(() -> convertCursorToWaitingUploadTaskList(getWaitingTasksFromDB()));
+    }
+
+    /// -------------- !!! --------------///
 
     public static void updateStatusToAllFileSent(int waveId, int taskId, int missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
@@ -46,7 +52,7 @@ public class WaitingUploadTaskBL {
                         "=?", new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
     }
 
-    public static WaitingUploadTask getWaitingUploadTask(int waveId, int taskId, int missionId){
+    public static WaitingUploadTask getWaitingUploadTask(int waveId, int taskId, int missionId) {
         ContentResolver resolver = App.getInstance().getContentResolver();
         Cursor c = resolver.query(WaitingUploadTaskDbSchema.CONTENT_URI, WaitingUploadTaskDbSchema.Query.PROJECTION, WaitingUploadTaskDbSchema.Columns.WAVE_ID + "=? and " +
                 WaitingUploadTaskDbSchema.Columns.TASK_ID + "=? and " +

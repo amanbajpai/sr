@@ -7,17 +7,18 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.db.store.WavesStore;
+import com.ros.smartrocket.net.retrofit.helper.GcmRegistrar;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.schedulers.Schedulers;
 
 public class JPushReceiver extends BroadcastReceiver {
     private static final String TAG = JPushReceiver.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private APIFacade apiFacade = APIFacade.getInstance();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -29,10 +30,9 @@ public class JPushReceiver extends BroadcastReceiver {
                 String registrationId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Log.d(TAG, "[MyReceiver] Registration Id : " + registrationId);
 
-                //Send the Registration Id to server...
                 if (Config.USE_BAIDU) {
                     L.d(TAG, "[MyReceiver] Send registered to server: regId = " + registrationId);
-                    APIFacade.getInstance().registerGCMId(context, registrationId, 1);
+                    new GcmRegistrar().registerGCMId(registrationId, 1);
                     preferencesManager.setGCMRegistrationId(registrationId);
                 }
 
@@ -64,11 +64,11 @@ public class JPushReceiver extends BroadcastReceiver {
         if (bundle != null) {
             for (String key : bundle.keySet()) {
                 if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
-                    sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
+                    sb.append("\nkey:").append(key).append(", value:").append(bundle.getInt(key));
                 } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
-                    sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
+                    sb.append("\nkey:").append(key).append(", value:").append(bundle.getBoolean(key));
                 } else {
-                    sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+                    sb.append("\nkey:").append(key).append(", value:").append(bundle.getString(key));
                 }
             }
         }
@@ -76,23 +76,31 @@ public class JPushReceiver extends BroadcastReceiver {
     }
 
     private void processCustomMessage(Context context, Bundle bundle) {
-        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         String messageJsonObject = bundle.getString(JPushInterface.EXTRA_EXTRA);
-
-        L.d(TAG, "Received message [message=" + message + ", messageJsonObject=" + messageJsonObject + "]");
-
-        if (!TextUtils.isEmpty(preferencesManager.getToken())) {
-            if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName")) {
-                NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
+        if (messageJsonObject != null) {
+            if (!TextUtils.isEmpty(preferencesManager.getToken())) {
+                if (preferencesManager.getUsePushMessages()
+                        && messageJsonObject.contains("TaskName")) {
+                    NotificationUtils.showTaskStatusChangedNotification(context, messageJsonObject);
+                }
+                getMyTasksFromServer();
             }
 
-            apiFacade.sendRequest(context, apiFacade.getMyTasksOperation());
+            if (App.getInstance().getMyAccount() != null
+                    && App.getInstance().getMyAccount().getAllowPushNotification()
+                    && messageJsonObject.contains("Subject")) {
+                NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
+            }
         }
+    }
 
-        if (App.getInstance().getMyAccount() != null && App.getInstance().getMyAccount().getAllowPushNotification()
-                && messageJsonObject.contains("Subject")) {
-            NotificationUtils.showAndSavePushNotification(context, messageJsonObject);
-        }
+    private void getMyTasksFromServer() {
+        App.getInstance().getApi()
+                .getMyTasks(preferencesManager.getLanguageCode())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnNext(w -> new WavesStore().storeMyWaves(w))
+                .subscribe();
     }
 
 }

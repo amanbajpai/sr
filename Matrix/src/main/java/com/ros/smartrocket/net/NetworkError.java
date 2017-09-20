@@ -4,7 +4,9 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.ErrorResponse;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 
 import java.io.IOException;
 
@@ -31,11 +33,10 @@ public class NetworkError implements BaseNetworkError {
     public static final int FILE_NOT_FOUND = 10091;
     public static final int MAXIMUM_CLAIMS_ERROR_CODE = 10126;
     public static final int SUCCESS = 200;
-    public static final int AUTORIZATION_ERROR = 401;
-    public static final int LOCAL_UPLOAD_FILE_ERROR = 3701;
-    public static final int EXTERNAL_AUTH_NEED_MORE_DATA_ERROR = 10144;
+    public static final int AUTHORIZATION_ERROR = 401;
     public static final int EMAIL_SENT_ERROR = 10145;
     public static final int GLOBAL_BLOCK_ERROR = 10146;
+    public static final int LOCAL_UPLOAD_FILE_ERROR = 3701;
 
 
     private Integer errorCode;
@@ -44,11 +45,20 @@ public class NetworkError implements BaseNetworkError {
 
     public NetworkError(Throwable t) {
         if (t instanceof HttpException)
-            parseResponse(((HttpException) t).response().errorBody());
+            handleHttpException((HttpException) t);
         else if (t instanceof IOException)
             handleNoInternetError();
         else
             handleUnknownError();
+    }
+
+    private void handleHttpException(HttpException t) {
+        if (t.response().code() == AUTHORIZATION_ERROR) {
+            WriteDataHelper.prepareLogout(App.getInstance());
+            App.getInstance().startActivity(IntentUtils.getLoginIntentForLogout(App.getInstance()));
+        } else {
+            parseResponse(t.response().errorBody());
+        }
     }
 
     public NetworkError(ResponseBody errorResponseBody) {
@@ -89,12 +99,6 @@ public class NetworkError implements BaseNetworkError {
                     break;
                 case MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE:
                     errorMessageRes = R.string.task_no_longer_available;
-                    break;
-                case AUTORIZATION_ERROR:
-                    errorMessageRes = R.string.error;
-                    break;
-                case NO_INTERNET:
-                    handleNoInternetError();
                     break;
                 default:
                     handleUnknownError();

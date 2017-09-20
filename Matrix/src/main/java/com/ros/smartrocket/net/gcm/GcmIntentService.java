@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.ros.smartrocket.utils.helpers.APIFacade;
+import com.ros.smartrocket.net.retrofit.helper.MyTaskFetcher;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.helpers.APIFacade;
 
 public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
@@ -41,11 +42,13 @@ public class GcmIntentService extends IntentService {
                     if (preferencesManager.getUsePushMessages()) {
                         NotificationUtils.showTaskStatusChangedNotification(this, messageJsonObject);
                     }
-                    apiFacade.sendRequest(this, apiFacade.getMyTasksOperation());
+                    new MyTaskFetcher().getMyTasksFromServer();
                 }
 
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
+
+
 }

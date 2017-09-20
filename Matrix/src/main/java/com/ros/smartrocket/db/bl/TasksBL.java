@@ -166,7 +166,7 @@ public class TasksBL {
     }
 
     private static Cursor getMyTasksForMainMenuFromDB() {
-       return App.getInstance().getContentResolver().query(TaskDbSchema.CONTENT_URI,
+        return App.getInstance().getContentResolver().query(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 "
                         + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.WITHDRAW.getStatusId()
                         + " and " + TaskDbSchema.Columns.LONG_EXPIRE_DATE_TIME + " > " + Calendar.getInstance().getTimeInMillis()
@@ -183,29 +183,11 @@ public class TasksBL {
         return Observable.fromCallable(() -> convertCursorToTasksCount(getMyTasksForMainMenuFromDB()));
     }
 
-    // ----------------------- !!!! --------------------//
-
-    public static void getTasksFromDB(AsyncQueryHandler handler) {
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
+    public static Observable<Task> taskToRemindObservable(long fromTime, long tillTime) {
+        return Observable.fromCallable(() -> convertCursorToTask(getTaskToRemindFromDB(fromTime, tillTime)));
     }
 
-    public static void getMyTasksForMapFromDB(AsyncQueryHandler handler) {
-        long currentTime = Calendar.getInstance().getTimeInMillis();
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 "
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.WITHDRAW.getStatusId()
-                        + " and " + TaskDbSchema.Columns.LONG_EXPIRE_DATE_TIME + " > " + currentTime
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.COMPLETED.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.VALIDATED.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.IN_PAYMENT_PROCESS.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.PAID.getStatusId()
-                        + " and " + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.REJECTED.getStatusId(),
-                null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST
-        );
-    }
-
-    public static void getTaskToRemindFromDB(AsyncQueryHandler handler, int coockie, long fromTime, long tillTime) {
+    private static Cursor getTaskToRemindFromDB(long fromTime, long tillTime) {
         String betweenClaimedTime = "("
                 + TaskDbSchema.Columns.STATUS_ID + " <> " + Task.TaskStatusId.RE_DO_TASK.getStatusId() + " and ("
                 + TaskDbSchema.Columns.LONG_CLAIM_DATE_TIME + " + " + TaskDbSchema.Columns
@@ -220,7 +202,7 @@ public class TasksBL {
                 + TaskDbSchema.Columns.LONG_REDO_DATE_TIME + " + " + TaskDbSchema.Columns
                 .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK + ") < " + tillTime + ") ";
 
-        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, coockie, TaskDbSchema.CONTENT_URI,
+        return App.getInstance().getContentResolver().query(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Query.All.PROJECTION, TaskDbSchema.Columns.IS_MY + "=1 and ("
                         + betweenClaimedTime + " or "
                         + betweenReDoTime + ") and "
@@ -231,6 +213,18 @@ public class TasksBL {
                         + TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.SCHEDULED.getStatusId() + ") ",
                 null, TaskDbSchema.SORT_ORDER_ASC_LIMIT_1
         );
+    }
+
+    public static void removeTask(int taskId) {
+        App.getInstance().getContentResolver().delete(TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
+    }
+
+    // ----------------------- !!!! --------------------//
+
+    public static void getTasksFromDB(AsyncQueryHandler handler) {
+        handler.startQuery(TaskDbSchema.Query.All.TOKEN_QUERY, null, TaskDbSchema.CONTENT_URI,
+                TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
     /**
@@ -493,11 +487,6 @@ public class TasksBL {
     public static void removeNotMyTask(ContentResolver contentResolver) {
         contentResolver.delete(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(0)});
-    }
-
-    public static void removeTask(ContentResolver contentResolver, int taskId) {
-        contentResolver.delete(TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Columns.ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
     public static void removeTasksByWaveId(ContentResolver contentResolver, int waveId) {

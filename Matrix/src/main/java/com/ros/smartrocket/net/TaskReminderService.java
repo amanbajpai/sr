@@ -1,54 +1,38 @@
 package com.ros.smartrocket.net;
 
 import android.app.Service;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.bl.TasksBL;
-import com.ros.smartrocket.db.TaskDbSchema;
 import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class TaskReminderService extends Service {
     private static final String TAG = TaskReminderService.class.getSimpleName();
+    public static final int PERIOD = 60;
+    private Disposable reminderDisposable;
+    private CompositeDisposable compositeDisposable;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private AsyncQueryHandler dbHandler;
-
-    private Timer reminderTimer;
-
-    public static final int COOKIE_DEADLINE_REMINDER = 1;
-    public static final int COOKIE_EXPIRED_TASK = 2;
-
-    public TaskReminderService() {
-    }
-
-    @Override
-    public void onCreate() {
-        L.i(TAG, "onCreate");
-
-        dbHandler = new DbHandler(getContentResolver());
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        L.i(TAG, "onStartCommand: startId=" + startId);
-
         if (intent != null) {
             String action = intent.getAction();
-            L.i(TAG, "getAction: " + action);
-
             if (Keys.ACTION_START_REMINDER_TIMER.equals(action)) {
                 startReminderTimer();
             } else if (Keys.ACTION_STOP_REMINDER_TIMER.equals(action)) {
@@ -59,98 +43,93 @@ public class TaskReminderService extends Service {
     }
 
     public void startReminderTimer() {
-        if (reminderTimer != null) {
-            L.i(TAG, "Restart reminderTimer");
-            reminderTimer.cancel();
-        } else {
-            L.i(TAG, "Start reminderTimer");
+        if (reminderDisposable != null) {
+            reminderDisposable.dispose();
+        }
+        reminderDisposable =
+                Observable.interval(0, PERIOD, TimeUnit.SECONDS, Schedulers.io())
+                        .subscribe(__ -> getTaskToRemindFromDB(), this::onError);
+    }
+
+    private void getTaskToRemindFromDB() {
+        long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
+        if (preferencesManager.getUseDeadlineReminder()) {
+            long fromTime = currentTimeInMillis + preferencesManager.getDeadlineReminderMillisecond();
+            long tillTime = fromTime + Config.DEADLINE_REMINDER_MILLISECONDS;
+            getDeadlineTaskToRemindFromDB(fromTime, tillTime);
         }
 
-        new Thread() {
-            public void run() {
-                try {
-                    reminderTimer = new Timer();
-                    reminderTimer.schedule(new TimerTask() {
-                        public void run() {
-                            L.i(TAG, "In timer. Start ReminderTimer");
-                            long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
+        if (preferencesManager.getUsePushMessages()) {
+            long fromTime = currentTimeInMillis - Config.DEADLINE_REMINDER_MILLISECONDS;
+            getExpiredTaskToRemindFromDB(fromTime, currentTimeInMillis);
+        }
+    }
 
-                            if (preferencesManager.getUseDeadlineReminder()) {
-                                long fromTime = currentTimeInMillis + preferencesManager.getDeadlineReminderMillisecond();
-                                long tillTime = fromTime + Config.DEADLINE_REMINDER_MILLISECONDS;
+    private void getExpiredTaskToRemindFromDB(long fromTime, long tillTime) {
+        addDisposable(
+                TasksBL.taskToRemindObservable(fromTime, tillTime)
+                        .observeOn(Schedulers.computation())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::expiredTaskToRemindLoaded, this::onError));
+    }
 
-                                TasksBL.getTaskToRemindFromDB(dbHandler, COOKIE_DEADLINE_REMINDER, fromTime, tillTime);
-                            }
+    private void expiredTaskToRemindLoaded(Task task) {
+        if (task.getId() != null && App.getInstance() != null) {
+            TasksBL.removeTask(task.getId());
+            NotificationUtils.startExpiredNotificationActivity(TaskReminderService.this,
+                    task.getName(), task.getCountryName(), task.getAddress());
+        }
 
-                            if (preferencesManager.getUsePushMessages()) {
-                                long fromTime = currentTimeInMillis - Config.DEADLINE_REMINDER_MILLISECONDS;
-                                long tillTime = currentTimeInMillis;
+    }
 
-                                TasksBL.getTaskToRemindFromDB(dbHandler, COOKIE_EXPIRED_TASK, fromTime, tillTime);
-                            }
-                        }
-                    }, 0, Config.DEADLINE_REMINDER_MILLISECONDS);
+    private void getDeadlineTaskToRemindFromDB(long fromTime, long tillTime) {
+        addDisposable(TasksBL.taskToRemindObservable(fromTime, tillTime)
+                .observeOn(Schedulers.computation())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::deadlineTaskToRemindLoaded, this::onError));
+    }
 
-                } catch (Exception e) {
-                    L.e(TAG, "StartReminderTimer error: " + e.getMessage(), e);
-                }
-            }
-        }.start();
+    private void deadlineTaskToRemindLoaded(Task task) {
+        if (task.getId() != null && App.getInstance() != null)
+            NotificationUtils
+                    .startDeadlineNotificationActivity(
+                            TaskReminderService.this,
+                            task.getLongExpireDateTime(),
+                            task.getWaveId(), task.getId(), task.getMissionId(),
+                            task.getName(), task.getCountryName(), task.getAddress(), task.getStatusId());
     }
 
     public void stopReminderTimer() {
-        L.i(TAG, "Stop reminderTimer");
-        if (reminderTimer != null) {
-            reminderTimer.cancel();
-        }
-    }
-
-    class DbHandler extends AsyncQueryHandler {
-
-        public DbHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, final Cursor cursor) {
-            switch (token) {
-                case TaskDbSchema.Query.All.TOKEN_QUERY:
-                    Task task = TasksBL.convertCursorToTaskOrNull(cursor);
-
-                    L.i(TAG, "Is task found: " + (task != null));
-                    if (task != null && App.getInstance() != null) {
-                        int type = (Integer) cookie;
-                        if (COOKIE_DEADLINE_REMINDER == type) {
-                            L.i(TAG, "Show Deadline reminder dialog");
-
-                            NotificationUtils.startDeadlineNotificationActivity(TaskReminderService.this,
-                                    task.getLongExpireDateTime(),
-                                    task.getWaveId(), task.getId(), task.getMissionId(),
-                                    task.getName(), task.getCountryName(), task.getAddress(), task.getStatusId());
-
-                        } else if (COOKIE_EXPIRED_TASK == type) {
-                            L.i(TAG, "Show Expire task dialog");
-                            TasksBL.removeTask(getApplication().getContentResolver(), task.getId());
-                            NotificationUtils.startExpiredNotificationActivity(TaskReminderService.this,
-                                    task.getName(), task.getCountryName(), task.getAddress());
-                        }
-                    }
-                    break;
-            }
-        }
+        if (reminderDisposable != null) reminderDisposable.dispose();
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        L.i(TAG, "onBind");
         return null;
     }
 
     @Override
     public void onDestroy() {
-        if (reminderTimer != null) {
-            reminderTimer.cancel();
-        }
+        stopReminderTimer();
+        unDispose();
+
         super.onDestroy();
+    }
+
+    protected void addDisposable(Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
+    }
+
+    private void unDispose() {
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
+    }
+
+    private void onError(Throwable t) {
+        Log.e(TAG, "Error on TaskReminderService", t);
     }
 }

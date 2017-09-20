@@ -214,7 +214,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
     public void unClaimTaskRequest() {
         showLoading(false);
         addDisposable(App.getInstance().getApi()
-                .unclaimTask(SendTaskIdMapper.getSendTaskIdForUnClaim(task))
+                .unClaimTask(SendTaskIdMapper.getSendTaskIdForUnClaim(task))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(__ -> onTaskUnclaimed(), this::showNetworkError));

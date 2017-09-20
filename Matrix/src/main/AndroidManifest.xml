@@ -291,13 +291,10 @@
             android:name=".presentation.media.IdCardActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoActionBar" />
-
-        <service
-            android:name=".net.NetworkService"
-            android:exported="false" />
         <activity
             android:name=".presentation.notification.PushNotificationActivity"
             android:configChanges="locale" />
+
         <provider
             android:name=".db.AppContentProvider"
             android:authorities="${applicationId}"

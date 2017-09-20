@@ -19,12 +19,11 @@ public class ClaimWarningParser {
                 int maxClaim = warning.getParams()[1];
 
                 String message;
-                if (currentClaim == maxClaim) {
+                if (currentClaim == maxClaim)
                     message = App.getInstance().getString(R.string.warning_last_claim, maxClaim);
-                } else {
+                else
                     message = App.getInstance().getString(R.string.warning_half_claims,
                             currentClaim, maxClaim);
-                }
                 UIUtils.showToastCustomDuration(message, 8000);
             }
         }
