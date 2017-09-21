@@ -6,16 +6,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.ros.smartrocket.net.retrofit.helper.MyTaskFetcher;
+import com.ros.smartrocket.net.helper.MyTaskFetcher;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
-import com.ros.smartrocket.utils.helpers.APIFacade;
 
 public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private APIFacade apiFacade = APIFacade.getInstance();
     private GcmManager gcmManager = GcmManager.getInstance();
 
     public GcmIntentService() {

@@ -1,6 +1,5 @@
 package com.ros.smartrocket.db.bl;
 
-import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -8,7 +7,6 @@ import android.database.Cursor;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;

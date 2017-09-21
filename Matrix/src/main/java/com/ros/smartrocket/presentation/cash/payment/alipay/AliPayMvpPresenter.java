@@ -5,5 +5,6 @@ import com.ros.smartrocket.presentation.base.MvpPresenter;
 
 interface AliPayMvpPresenter<V extends AliPayMvpView> extends MvpPresenter<V> {
     void getAliPayAccount();
+
     void integrateAliPayAccount(AliPayAccount account);
 }

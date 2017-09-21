@@ -1,7 +1,6 @@
 package com.ros.smartrocket.presentation.question.choose.multiple;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChooseBL;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
 
 public class QuestionMultipleChooseFragment extends BaseQuestionFragment {

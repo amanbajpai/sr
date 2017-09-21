@@ -15,15 +15,15 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.presentation.account.AccountMvpPresenter;
 import com.ros.smartrocket.presentation.account.AccountMvpView;
 import com.ros.smartrocket.presentation.account.AccountPresenter;
 import com.ros.smartrocket.presentation.base.BaseFragment;
-import com.ros.smartrocket.interfaces.BaseNetworkError;
-import com.ros.smartrocket.ui.dialog.ActivityLogDialog;
-import com.ros.smartrocket.ui.dialog.PaymentInfoDialog;
 import com.ros.smartrocket.presentation.cash.payment.alipay.UpdateAliPayDetailsFragment;
 import com.ros.smartrocket.presentation.cash.payment.national.UpdateNationalPaymentFragment;
+import com.ros.smartrocket.ui.dialog.ActivityLogDialog;
+import com.ros.smartrocket.ui.dialog.PaymentInfoDialog;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.IntentUtils;

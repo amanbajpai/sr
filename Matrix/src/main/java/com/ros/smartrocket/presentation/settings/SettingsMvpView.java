@@ -4,5 +4,6 @@ import com.ros.smartrocket.presentation.base.NetworkMvpView;
 
 interface SettingsMvpView extends NetworkMvpView {
     void onAccountClosed();
+
     void onPushStatusChanged();
 }

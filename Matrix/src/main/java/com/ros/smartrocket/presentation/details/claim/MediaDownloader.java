@@ -17,13 +17,19 @@ import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-final class MediaDownloader {
+public final class MediaDownloader {
+    private OnFileLoadCompleteListener listener;
+    private FileProcessingManager.FileType type = FileProcessingManager.FileType.OTHER;
 
-    private MediaDownloader() {
+    public MediaDownloader(FileProcessingManager.FileType type, OnFileLoadCompleteListener listener) {
+        this.type = type;
+        this.listener = listener;
     }
 
     private static int downloadInstructionQuestionFile(List<Question> questions) {
@@ -108,11 +114,39 @@ final class MediaDownloader {
         return file;
     }
 
-    public static Observable<Integer> getDownloadInstructionQuestionsObservable(List<Question> questions) {
+    static Observable<Integer> getDownloadInstructionQuestionsObservable(List<Question> questions) {
         return Observable.fromCallable(() -> downloadInstructionQuestionFile(questions));
     }
 
-    public static Observable<Integer> getDownloadMassAuditProductFileObservable(List<Question> questions) {
+    static Observable<Integer> getDownloadMassAuditProductFileObservable(List<Question> questions) {
         return Observable.fromCallable(() -> downloadMassAuditProductFile(questions));
+    }
+
+    public interface OnFileLoadCompleteListener {
+        void onFileLoadComplete(File result);
+
+        void onFileLoadError();
+    }
+
+    public void getMediaFileAsync(String url) {
+        Observable.fromCallable(() -> getFile(url))
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onComplete, this::onError);
+    }
+
+    private void onComplete(File file) {
+        if (listener != null) listener.onFileLoadComplete(file);
+    }
+
+    private void onError(Throwable t) {
+        if (listener != null) listener.onFileLoadError();
+        Log.e("MediaDownloader", "Video loading error", t);
+    }
+
+    private File getFile(String fileUrl) throws IOException {
+        File resultFile = FileProcessingManager.getTempFile(type, fileUrl, true);
+        resultFile = downloadFileSync(fileUrl, resultFile);
+        return resultFile;
     }
 }

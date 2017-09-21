@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.Wave;
-import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.ui.views.OptionsRow;
+import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.ros.smartrocket.net.retrofit.helper;
+package com.ros.smartrocket.net.helper;
 
 import android.util.Log;
 
@@ -15,7 +15,8 @@ public class MyTaskFetcher {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(w -> new WavesStore().storeMyWaves(w))
-                .subscribe(__ -> {}, this::onError);
+                .subscribe(__ -> {
+                }, this::onError);
     }
 
     private void onError(Throwable t) {

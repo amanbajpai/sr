@@ -11,11 +11,13 @@ import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
+import com.ros.smartrocket.db.entity.FileToUpload;
+import com.ros.smartrocket.db.entity.FileToUploadResponse;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.db.entity.LongUrl;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.db.entity.NationalIdAccount;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.ReferralCases;
 import com.ros.smartrocket.db.entity.RegisterDevice;
@@ -24,6 +26,7 @@ import com.ros.smartrocket.db.entity.SaveReferralCase;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.SetPassword;
 import com.ros.smartrocket.db.entity.Sharing;
+import com.ros.smartrocket.db.entity.ShortUrl;
 import com.ros.smartrocket.db.entity.Subscription;
 import com.ros.smartrocket.db.entity.Token;
 import com.ros.smartrocket.db.entity.UpdateUser;
@@ -40,7 +43,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -82,9 +84,9 @@ public interface MatrixApi {
 
     @GET("api/Waves")
     Observable<Waves> getWaves(@Query("latitude") double latitude,
-                         @Query("longitude") double longitude,
-                         @Query("radius") int radius,
-                         @Query("language") String language);
+                               @Query("longitude") double longitude,
+                               @Query("radius") int radius,
+                               @Query("language") String language);
 
     @GET("api/Tasks/ByCurrentUser")
     Observable<Waves> getMyTasks(@Query("language") String language);
@@ -99,25 +101,25 @@ public interface MatrixApi {
     Single<ResponseBody> validateTask(@Body SendTaskId sendTaskId);
 
     @POST("api/Tasks/QuestionFile")
-    Single<ResponseBody> sendFile(@Header(RetrofitHolder.CONTENT_TYPE_HEADER) String header, @Body NotUploadedFile notUploadedFile);
+    Observable<FileToUploadResponse> sendFile(@Body FileToUpload fileToUpload);
 
     @POST("api/Tasks/Answers")
     Single<ResponseBody> sendAnswers(@Body List<Answer> answers,
-                                   @Query("missionId") Integer missionId,
-                                   @Query("language") String language);
+                                     @Query("missionId") Integer missionId,
+                                     @Query("language") String language);
 
     @POST("api/Tasks/Start")
     Single<ResponseBody> startTask(@Body SendTaskId sendTaskId);
 
     @GET("api/Waves/Questionnaire")
     Observable<Questions> getQuestions(@Query("waveId") Integer waveId,
-                                 @Query("taskId") Integer taskId,
-                                 @Query("language") String language);
+                                       @Query("taskId") Integer taskId,
+                                       @Query("language") String language);
 
     @GET("api/Tasks/Re-Do-Questions")
     Observable<Questions> getReDoQuestions(@Query("waveId") Integer waveId,
-                                     @Query("taskId") Integer taskId,
-                                     @Query("language") String language);
+                                           @Query("taskId") Integer taskId,
+                                           @Query("language") String language);
 
     @POST("api/Authorize/RegisterApplicant")
     Single<ResponseBody> subscribe(@Body Subscription subscriptionEntity);
@@ -182,4 +184,9 @@ public interface MatrixApi {
                                                @Query("access_token") String token,
                                                @Query("openid") String openId);
 
+    @GET
+    Call<ResponseBody> getGeoCoding(@Url String url);
+
+    @POST
+    Observable<ShortUrl> getShortUrl(@Url String url, @Body LongUrl longUrl);
 }

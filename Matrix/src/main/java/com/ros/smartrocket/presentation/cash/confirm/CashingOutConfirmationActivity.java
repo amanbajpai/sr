@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 

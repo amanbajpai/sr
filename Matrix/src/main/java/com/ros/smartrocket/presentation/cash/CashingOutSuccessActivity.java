@@ -14,7 +14,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CashingOutSuccessActivity extends BaseActivity{
+public class CashingOutSuccessActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

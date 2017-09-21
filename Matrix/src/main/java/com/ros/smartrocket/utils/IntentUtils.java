@@ -13,25 +13,25 @@ import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.presentation.login.activate.ActivateAccountActivity;
 import com.ros.smartrocket.presentation.cash.CashingOutActivity;
-import com.ros.smartrocket.presentation.cash.confirm.CashingOutConfirmationActivity;
 import com.ros.smartrocket.presentation.cash.CashingOutSuccessActivity;
-import com.ros.smartrocket.presentation.media.FullScreenImageActivity;
-import com.ros.smartrocket.presentation.media.FullScreenVideoActivity;
+import com.ros.smartrocket.presentation.cash.confirm.CashingOutConfirmationActivity;
+import com.ros.smartrocket.presentation.details.task.TaskDetailsActivity;
+import com.ros.smartrocket.presentation.details.wave.WaveDetailsActivity;
+import com.ros.smartrocket.presentation.login.LoginActivity;
+import com.ros.smartrocket.presentation.login.activate.ActivateAccountActivity;
+import com.ros.smartrocket.presentation.login.password.forgot.ForgotPasswordSuccessActivity;
+import com.ros.smartrocket.presentation.login.password.update.SetNewPasswordActivity;
 import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.map.MapActivity;
+import com.ros.smartrocket.presentation.media.FullScreenImageActivity;
+import com.ros.smartrocket.presentation.media.FullScreenVideoActivity;
 import com.ros.smartrocket.presentation.notification.PushNotificationActivity;
 import com.ros.smartrocket.presentation.question.main.QuestionsActivity;
 import com.ros.smartrocket.presentation.question.quit.QuitQuestionActivity;
-import com.ros.smartrocket.presentation.login.password.update.SetNewPasswordActivity;
 import com.ros.smartrocket.presentation.settings.SettingsActivity;
 import com.ros.smartrocket.presentation.share.ShareActivity;
-import com.ros.smartrocket.presentation.details.task.TaskDetailsActivity;
 import com.ros.smartrocket.presentation.validation.TaskValidationActivity;
-import com.ros.smartrocket.presentation.details.wave.WaveDetailsActivity;
-import com.ros.smartrocket.presentation.login.LoginActivity;
-import com.ros.smartrocket.presentation.login.password.forgot.ForgotPasswordSuccessActivity;
 
 import java.io.File;
 import java.net.URLEncoder;
@@ -477,16 +477,14 @@ public class IntentUtils {
     /**
      * Return intent for opening images in full size
      *
-     * @param context        - current context
-     * @param filePath       - file path to open
-     * @param rotateFromExif - need to rotate by exif flag
+     * @param context  - current context
+     * @param filePath - file path to open
      * @return Intent
      */
 
-    public static Intent getFullScreenImageIntent(Context context, String filePath, boolean rotateFromExif) {
+    public static Intent getFullScreenImageIntent(Context context, String filePath) {
         Intent intent = new Intent(context, FullScreenImageActivity.class);
         intent.putExtra(Keys.BITMAP_FILE_PATH, filePath);
-        intent.putExtra(Keys.ROTATE_BY_EXIF, rotateFromExif);
         return intent;
     }
 

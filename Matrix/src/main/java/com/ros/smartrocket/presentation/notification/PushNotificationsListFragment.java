@@ -18,11 +18,11 @@ import android.widget.ListView;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.adapter.NotificationAdapter;
-import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.NotificationDbSchema;
+import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.entity.Notification;
 import com.ros.smartrocket.presentation.base.BaseFragment;
+import com.ros.smartrocket.ui.adapter.NotificationAdapter;
 import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.ArrayList;

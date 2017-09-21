@@ -2,12 +2,12 @@ package com.ros.smartrocket.utils.image;
 
 /**
  * Helper class for masked request code.
- *
+ * <p>
  * Makes request code in such scheme
- *
+ * <p>
  * 12bits - big part
  * 4bits - little part
- *
+ * <p>
  * 12 + 4
  */
 public final class RequestCodeImageHelper {

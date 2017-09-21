@@ -24,9 +24,9 @@ import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.presentation.task.map.TasksMapFragment;
 import com.ros.smartrocket.presentation.task.my.MyTaskListFragment;
 import com.ros.smartrocket.presentation.wave.my.WaveListFragment;
-import com.ros.smartrocket.utils.helpers.FragmentHelper;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
+import com.ros.smartrocket.utils.helpers.FragmentHelper;
 
 public class AllTaskFragment extends BaseFragment implements OnClickListener {
     private static final String TAG = AllTaskFragment.class.getSimpleName();

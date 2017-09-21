@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
 

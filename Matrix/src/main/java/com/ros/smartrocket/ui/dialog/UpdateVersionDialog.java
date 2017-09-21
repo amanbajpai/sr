@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.ui.views.CustomTextView;
+import com.ros.smartrocket.utils.L;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +56,7 @@ public class UpdateVersionDialog extends Dialog {
 
     public interface DialogButtonClickListener {
         void onCancelButtonPressed();
+
         void onOkButtonPressed();
     }
 }

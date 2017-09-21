@@ -1,8 +1,8 @@
 package com.ros.smartrocket.presentation.question.quit;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.question.instruction.QuestionInstructionBL;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
+import com.ros.smartrocket.presentation.question.instruction.QuestionInstructionBL;
 
 public class QuestionQuitStatementFragment extends BaseQuestionFragment {
     public QuestionQuitStatementFragment() {

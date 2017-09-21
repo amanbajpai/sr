@@ -10,14 +10,14 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
-import com.ros.smartrocket.ui.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
+import com.ros.smartrocket.ui.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.ui.dialog.ProductImageDialog;
 import com.ros.smartrocket.utils.eventbus.SubQuestionsSubmitEvent;
 

@@ -23,12 +23,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.StorageManager;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 
 import org.apache.commons.io.FileUtils;
 
@@ -200,10 +200,10 @@ public class SelectImageManager {
     }
 
     public static Bitmap prepareBitmap(File f) {
-        return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, false);
+        return prepareBitmap(f, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
     }
 
-    public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte, boolean rotateByExif) {
+    public static Bitmap prepareBitmap(File f, int maxSizeInPx, long maxSizeInByte) {
         Bitmap resultBitmap = null;
         try {
             L.i(TAG, "Source file size: " + f.length() + "bytes");
@@ -222,8 +222,8 @@ public class SelectImageManager {
         return resultBitmap;
     }
 
-    public static File getScaledFile(File file, int maxSizeInPx, long maxSizeInByte, boolean lastFileFromGallery) {
-        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte, !lastFileFromGallery);
+    public static File getScaledFile(File file, int maxSizeInPx, long maxSizeInByte) {
+        Bitmap bitmap = prepareBitmap(file, maxSizeInPx, maxSizeInByte);
 
         FileOutputStream fos = null;
         try {
@@ -282,7 +282,7 @@ public class SelectImageManager {
                             Bitmap pictureBitmap = BitmapFactory.decodeStream(is);
                             lastFile = saveBitmapToFile(context, pictureBitmap, prefix);
                             pictureBitmap.recycle();
-                            resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
+                            resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
                             return new ImageFileClass(resultBitmap, lastFile, true);
                         }
                     } catch (FileNotFoundException e) {
@@ -310,10 +310,10 @@ public class SelectImageManager {
                         lastFile = saveBitmapToFile(context, image, prefix);
                         image.recycle();
 
-                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
+                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
                     } else {
                         lastFile = copyFileToTempFolder(context, new File(imagePath), prefix);
-                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
+                        resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
                     }
                 } else {
                     ParcelFileDescriptor parcelFileDescriptor
@@ -323,7 +323,7 @@ public class SelectImageManager {
 
                     lastFile = saveBitmapToFile(context, image, prefix);
                     image.recycle();
-                    resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true);
+                    resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
                 }
             }
         } catch (Exception e) {
@@ -372,7 +372,7 @@ public class SelectImageManager {
             }
         }
 
-        return new ImageFileClass(prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE, true), file, false);
+        return new ImageFileClass(prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE), file, false);
     }
 
     private static Bitmap getScaledBitmapByPxSize(File f, int maxSizeInPx) {

@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.widget.Toast;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.net.BaseOperation;
 import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
@@ -38,11 +35,6 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         if (checkDeviceSettingsByOnResume) {
@@ -62,10 +54,6 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
 
     public void checkDeviceSettingsByOnResume(boolean check) {
         this.checkDeviceSettingsByOnResume = check;
-    }
-
-    protected void showNetworkError(BaseOperation operation) {
-        UIUtils.showSimpleToast(this, operation.getResponseError(), Toast.LENGTH_LONG, Gravity.BOTTOM);
     }
 
     @Override

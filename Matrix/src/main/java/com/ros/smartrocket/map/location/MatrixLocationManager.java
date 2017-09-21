@@ -24,8 +24,8 @@ import com.google.android.gms.location.LocationServices;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.TaskDbSchema;
+import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.interfaces.DistancesUpdateListener;
 import com.ros.smartrocket.utils.ChinaTransformLocation;
 import com.ros.smartrocket.utils.L;
@@ -257,7 +257,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     }
 
     /**
-     * Send request to get Address from {@link Geocoder}
+     * Send request to get Address from {@link GeoCoder}
      *
      * @param location - location to check
      * @param callback - result callback
@@ -358,22 +358,21 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
      * Void     - indicates that progress units are not used
      * String   - An address passed to onPostExecute()
      */
-    public class GetAddressTask extends AsyncTask<Location, Void, Address> {
-        private Context сontext;
+    class GetAddressTask extends AsyncTask<Location, Void, Address> {
+        private Context context;
         private IAddress callback;
 
-        public GetAddressTask(Context context, IAddress callback) {
+        GetAddressTask(Context context, IAddress callback) {
             super();
-            this.сontext = context;
+            this.context = context;
             this.callback = callback;
         }
 
         @Override
         protected Address doInBackground(Location... params) {
-            Geocoder geocoder = new Geocoder(сontext, Locale.ENGLISH);
+            GeoCoder geoCoder = new GeoCoder(context, Locale.ENGLISH);
             Location loc = params[0];
-
-            return geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude());
+            return geoCoder.getFromLocation(loc.getLatitude(), loc.getLongitude());
         }
 
         @Override
@@ -401,14 +400,11 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             currentLocationListener.getLocationSuccess(location);
         } else {
             currentLocationListener.getLocationInProcess();
-            lm.getLocationAsync(new MatrixLocationManager.ILocationUpdate() {
-                @Override
-                public void onUpdate(Location location) {
-                    if (Config.USE_BAIDU) {
-                        ChinaTransformLocation.transformFromBaiduToWorldLocation(location);
-                    }
-                    currentLocationListener.getLocationSuccess(location);
+            lm.getLocationAsync(location1 -> {
+                if (Config.USE_BAIDU) {
+                    ChinaTransformLocation.transformFromBaiduToWorldLocation(location1);
                 }
+                currentLocationListener.getLocationSuccess(location1);
             });
             L.i(TAG, "onDisconnected()");
             if (lm.isConnected()) {
@@ -510,7 +506,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         void onUpdate(Location location);
     }
 
-    public interface IAddress {
+    interface IAddress {
         void onUpdate(Address address);
     }
 
@@ -528,7 +524,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         void getLocationFail(String errorText);
     }
 
-    abstract public class SimpleGetCurrentLocationListener implements GetCurrentLocationListener{
+    abstract public class SimpleGetCurrentLocationListener implements GetCurrentLocationListener {
 
         @Override
         public void getLocationStart() {
@@ -541,7 +537,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         }
 
         @Override
-       abstract public void getLocationSuccess(Location location);
+        abstract public void getLocationSuccess(Location location);
 
         @Override
         abstract public void getLocationFail(String errorText);

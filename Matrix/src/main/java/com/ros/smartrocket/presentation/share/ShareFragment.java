@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Sharing;
-import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.utils.GoogleUrlShortenManager;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -53,7 +53,7 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
     CustomButton qzoneButton;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
-    private GoogleUrlShortenManager googleUrlShortenManager = GoogleUrlShortenManager.getInstance();
+    private GoogleUrlShortenManager googleUrlShortenManager = new GoogleUrlShortenManager();
     private String shortUrl;
     private String subject;
     private String text;
@@ -107,8 +107,8 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
     }
 
     public void getShortUrl(String longUrl) {
-        googleUrlShortenManager.getShortUrl(getActivity(), longUrl,
-                new GoogleUrlShortenManager.OnShotrUrlReadyListener() {
+        googleUrlShortenManager.getShortUrl(longUrl,
+                new GoogleUrlShortenManager.OnShortUrlReadyListener() {
                     @Override
                     public void onShortUrlReady(String url) {
                         shortUrl = url;

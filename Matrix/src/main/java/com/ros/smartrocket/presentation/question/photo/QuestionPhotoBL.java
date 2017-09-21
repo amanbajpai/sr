@@ -15,19 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
-import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.MyLog;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
@@ -332,7 +332,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                     }
 
                     if (!TextUtils.isEmpty(filePath)) {
-                        Intent intent = IntentUtils.getFullScreenImageIntent(getActivity(), filePath, rotateByExif);
+                        Intent intent = IntentUtils.getFullScreenImageIntent(getActivity(), filePath);
                         getActivity().startActivity(intent);
                     }
                     break;
@@ -404,9 +404,9 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         });
     }
 
-    public void confirmButtonPressAction(Location location) {
+    private void confirmButtonPressAction(Location location) {
         File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile,
-                SelectImageManager.SIZE_IN_PX_2_MP, 0, isLastFileFromGallery);
+                SelectImageManager.SIZE_IN_PX_2_MP, 0);
 
         if (resultImageFile.exists() && question.getAnswers().length > currentSelectedPhoto) {
             Answer answer = question.getAnswers()[currentSelectedPhoto];
@@ -461,7 +461,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         ImageView imageFrame = (ImageView) convertView.findViewById(R.id.imageFrame);
 
         if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
-            Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100, 0, false);
+            Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100, 0);
             photo.setImageBitmap(bitmap);
         } else {
             photo.setBackgroundResource(R.drawable.camera_icon);

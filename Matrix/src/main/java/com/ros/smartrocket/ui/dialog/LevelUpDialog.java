@@ -2,7 +2,6 @@ package com.ros.smartrocket.ui.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.Bitmap;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.images.ImageLoader;
 import com.ros.smartrocket.utils.L;
 import com.squareup.picasso.Picasso;
 

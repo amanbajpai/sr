@@ -11,14 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL;
-import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL.TickCrossAnswerPair;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL;
+import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL.TickCrossAnswerPair;
 import com.ros.smartrocket.utils.image.SelectImageManager;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -114,9 +114,13 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         catImage.setOnClickListener(TextUtils.isEmpty(category.getImage()) ? null : thumbListener);
         if (!TextUtils.isEmpty(image)) {
             if (image.startsWith("http")) {
-                ImageLoader.getInstance().displayImage(image, catImage, SelectImageManager.SIZE_THUMB, false, false, R.drawable.mass_audit_image, true);
+                Picasso.with(context)
+                        .load(image)
+                        .placeholder(R.drawable.loading_normal)
+                        .error(R.drawable.mass_audit_image)
+                        .into(catImage);
             } else {
-                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0, false);
+                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0);
                 catImage.setImageBitmap(bitmap);
             }
         }
@@ -192,9 +196,13 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         thumb.setOnClickListener(TextUtils.isEmpty(product.getImage()) ? null : thumbListener);
         if (!TextUtils.isEmpty(image)) {
             if (image.startsWith("http")) {
-                ImageLoader.getInstance().displayImage(image, thumb, SelectImageManager.SIZE_THUMB, false, false, R.drawable.mass_audit_image, true);
+                Picasso.with(context)
+                        .load(image)
+                        .placeholder(R.drawable.loading_normal)
+                        .error(R.drawable.mass_audit_image)
+                        .into(thumb);
             } else {
-                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0, false);
+                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0);
                 thumb.setImageBitmap(bitmap);
             }
         }

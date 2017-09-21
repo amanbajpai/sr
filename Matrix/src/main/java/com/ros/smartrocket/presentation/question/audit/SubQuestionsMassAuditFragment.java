@@ -11,14 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.presentation.base.BaseFragment;
-import com.ros.smartrocket.utils.eventbus.SubQuestionsSubmitEvent;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.presentation.base.BaseFragment;
+import com.ros.smartrocket.ui.adapter.SubQuestionsMassAuditAdapter;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.eventbus.SubQuestionsSubmitEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -163,7 +163,7 @@
 	<string name="max_distance">20 km</string>
 	<string name="maximum_mission_dialog_text">Vous avez demandé le nombre maximum de missions pour ce Projet. Pour prendre en charge plus de missions sur ce Projet, vous devez d\'abord remplir les missions existantes.</string>
 	<string name="maximum_mission_dialog_title">Limite de demandes de mission atteinte</string>
-	<string name="maximum_photo">(VOUS POUVEZ AJOUTER UN MAXIMUM DE %1$s PHOTOS)</string>
+	<string name="maximum_photo">(VOUS POUVEZ AJOUTER UN MAXIMUM DE %1$d PHOTOS)</string>
 	<string name="min_distance">0 km</string>
 	<string name="mission_address">ADRESSE DE LA MISSION</string>
 	<string name="mission_available">Mission disponible : %1$s</string>

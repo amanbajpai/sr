@@ -29,10 +29,10 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.ui.adapter.CustomInfoMapWindowAdapter;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.presentation.map.TransparentSupportBaiduMapFragment;
+import com.ros.smartrocket.ui.adapter.CustomInfoMapWindowAdapter;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
@@ -93,7 +93,7 @@ public class MapHelper {
 
         return baiduMap;
     }
-    
+
 
     public static boolean isMapNotNull(GoogleMap googleMap, BaiduMap baiduMap) {
         boolean result;

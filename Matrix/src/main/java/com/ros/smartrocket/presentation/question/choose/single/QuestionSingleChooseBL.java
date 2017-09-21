@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.presentation.question.choose.QuestionBaseChooseBL;
 import com.ros.smartrocket.ui.adapter.AnswerRadioButtonAdapter;
-import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.utils.UIUtils;
 
 public final class QuestionSingleChooseBL extends QuestionBaseChooseBL {

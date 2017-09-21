@@ -78,7 +78,7 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
     }
 
     private void onTaskLoaded(Task task) {
-            getMvpView().onTaskLoadedFromDb(task);
+        getMvpView().onTaskLoadedFromDb(task);
     }
 
     private void onWaveLoaded(Wave wave) {

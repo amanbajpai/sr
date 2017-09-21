@@ -50,13 +50,6 @@ public interface Keys {
     //Push notification
     String REFRESH_PUSH_NOTIFICATION_LIST = "refresh_push_notifications_list";
 
-    // Operation tags - Using for cache response from NetworkService
-    String GET_MY_TASKS_OPERATION_TAG = "get_my_tasks_operation_tag";
-    String VALIDATE_TASK_OPERATION_TAG = "validate_task_operation_tag";
-    String UPLOAD_TASK_FILE_OPERATION_TAG = "upload_task_file_operation_tag";
-    String UPLOAD_TASK_TEMP_FILE_OPERATION_TAG = "upload_task_temp_file_operation_tag";
-    String GCM_REGISTER_DEVICE_TAG = "gcm_register_device_tag";
-
     // Supported presentation modes for Tasks
     String CONTENT_TYPE = "content_type";
     String FIND_TASK = "find_task";
@@ -156,7 +149,7 @@ public interface Keys {
     /* ------------ Social Login -----------------------*/
     String QQ_APP_ID = "1104291659";
 
-    /* ------------ GCM parameters -----------------------*/
+    /* ------------ GCM parameters for CHINA only -----------------------*/
     String TALKING_DATA_ROW = "1068797126043F9E289911065DBB39D1";
     String TALKING_DATA_CHINA = "5BF23DC93A19BA33C9984729D825E53C";
 

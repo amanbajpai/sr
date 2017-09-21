@@ -14,7 +14,8 @@ import android.widget.ImageView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
-import com.ros.smartrocket.images.ImageLoader;
+import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
+import com.ros.smartrocket.utils.FileProcessingManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.MyLog;
@@ -50,10 +51,10 @@ public final class ProductImageDialog extends DialogFragment {
         String url = getArguments().getString(KEY);
         L.v("IMAGE", url);
         ((BaseActivity) getActivity()).showLoading(true);
-
         if (url != null) {
             if (url.startsWith("http")) {
-                ImageLoader.getInstance().getFileByUrlAsync(url, completeListener);
+                MediaDownloader md = new MediaDownloader(FileProcessingManager.FileType.IMAGE, completeListener);
+                md.getMediaFileAsync(url);
             } else {
                 setImageInstructionFile(new File(url));
             }
@@ -68,22 +69,33 @@ public final class ProductImageDialog extends DialogFragment {
         dismiss();
     }
 
-    private ImageLoader.OnFileLoadCompleteListener completeListener = this::setImageInstructionFile;
+    private MediaDownloader.OnFileLoadCompleteListener completeListener = new MediaDownloader.OnFileLoadCompleteListener() {
+        @Override
+        public void onFileLoadComplete(File result) {
+            setImageInstructionFile(result);
+        }
+
+        @Override
+        public void onFileLoadError() {
+            hideLoading();
+        }
+    };
 
     public void setImageInstructionFile(final File file) {
         MyLog.v("ProductImageDialog.setImageInstructionFile", file);
-        Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0, false);
+        Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0);
         imageView.setImageBitmap(bitmap);
         imageView.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(file.getPath())) {
                 Activity activity = getActivity();
-                activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath(), false));
+                activity.startActivity(IntentUtils.getFullScreenImageIntent(activity, file.getPath()));
             }
         });
+        hideLoading();
+    }
 
-        if (getActivity() != null) {
-            ((BaseActivity) getActivity()).hideLoading();
-        }
+    private void hideLoading() {
+        if (getActivity() != null) ((BaseActivity) getActivity()).hideLoading();
     }
 
 }

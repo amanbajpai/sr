@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface TaskMvpView extends RefreshIconMvpView {
     void onTaskLoadingComplete(List<Task> list);
+
     void onTasksLoaded();
 }

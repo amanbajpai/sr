@@ -7,9 +7,9 @@ import android.text.TextUtils;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.ros.smartrocket.db.store.WavesStore;
-import com.ros.smartrocket.net.retrofit.helper.GcmRegistrar;
-import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
+import com.ros.smartrocket.net.helper.GcmRegistrar;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;

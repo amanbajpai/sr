@@ -169,7 +169,7 @@
 	<string name="max_distance">20 كم</string>
 	<string name="maximum_mission_dialog_text">لقد وصلت إلى الحد الأقصى لعدد مرات حجز مهام هذا المشروع. لحجز مزيد من المهام في هذا المشروع، يجب إتمام المهام الحالية أولاً.</string>
 	<string name="maximum_mission_dialog_title">تم الوصول إلى الحد الأقصى لعدد مرات حجز المهام</string>
-	<string name="maximum_photo">(يمكن إضافة %1$s صورة (صور) كحد أقصى)</string>
+	<string name="maximum_photo">(يمكن إضافة %1$d صورة (صور) كحد أقصى)</string>
 	<string name="min_distance">0 كم</string>
 	<string name="mission_address">عنوان المهمة</string>
 	<string name="mission_available">المهمة المتوفرة: %1$s</string>

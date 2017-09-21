@@ -14,10 +14,10 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
 import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.ui.views.OptionsRow;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.ui.views.OptionsRow;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,7 +167,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
                 holder.statusText.setBackgroundColor(activity.getResources().getColor(R.color.grey_light));
                 holder.statusText.setTextColor(activity.getResources().getColor(R.color.grey));
-                if (progressUpdate!=null && task.getId().equals(progressUpdate.getTaskId())){
+                if (progressUpdate != null && task.getId().equals(progressUpdate.getTaskId())) {
                     holder.statusText.setText(activity.getString(R.string.mission_transmitting, getProgress()));
                 } else {
                     holder.statusText.setText(activity.getString(R.string.mission_transmitting, ""));
@@ -225,7 +225,7 @@ public class MyTaskAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private String getProgress(){
+    private String getProgress() {
         StringBuilder sb = new StringBuilder(" ");
         sb.append(progressUpdate.getUploadedFilesCount());
         sb.append("/");

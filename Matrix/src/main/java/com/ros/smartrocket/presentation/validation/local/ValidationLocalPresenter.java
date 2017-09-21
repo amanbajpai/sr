@@ -12,9 +12,9 @@ import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
-import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.map.CurrentLocatiuonListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.TaskValidationUtils;
 
 import java.util.ArrayList;

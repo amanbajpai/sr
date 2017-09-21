@@ -1,6 +1,6 @@
 package com.ros.smartrocket.presentation.base;
 
-public interface MvpView {
+interface MvpView {
 
     void showLoading(boolean isCancelable);
 

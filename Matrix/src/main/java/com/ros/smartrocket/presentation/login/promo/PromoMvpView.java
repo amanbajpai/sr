@@ -4,5 +4,6 @@ import com.ros.smartrocket.presentation.base.NetworkMvpView;
 
 interface PromoMvpView extends NetworkMvpView {
     void paramsNotValid();
+
     void onPromoCodeSent();
 }

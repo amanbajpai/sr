@@ -33,13 +33,13 @@ public class TutorialView extends LinearLayout {
         text.setTypeface(FontUtils.loadFontFromAsset(c.getAssets(), FontUtils.getFontAssetPath(0)));
     }
 
-    public void setTextAndImages(int titleRes, int textRes, int imgRes){
+    public void setTextAndImages(int titleRes, int textRes, int imgRes) {
         title.setText(titleRes);
         text.setText(textRes);
         image.setImageResource(imgRes);
     }
 
-    public void setLastSlide(OnClickListener listener){
+    public void setLastSlide(OnClickListener listener) {
         title.setOnClickListener(listener);
         title.setBackgroundResource(R.drawable.tut_button_selector);
         title.setTextColor(getResources().getColor(R.color.white));

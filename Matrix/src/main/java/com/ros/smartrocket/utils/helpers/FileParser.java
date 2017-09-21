@@ -38,7 +38,10 @@ public class FileParser {
             if (!sourceFile.exists() || sourceFile.length() == 0)
                 writeNoImageToSourceFile(sourceFile);
             files = separateFile(notUploadedFile);
-            return Observable.fromCallable(() -> getFilesToUpload(files, notUploadedFile, sourceFile.length()));
+            Observable<List<FileToUpload>> observable = Observable
+                    .fromCallable(() -> getFilesToUpload(files, notUploadedFile, sourceFile.length()));
+            cleanFiles();
+            return observable;
         } catch (IOException e) {
             cleanFiles();
             return null;
@@ -91,7 +94,7 @@ public class FileParser {
         return files;
     }
 
-    public void cleanFiles() {
+    private void cleanFiles() {
         if (files != null)
             Stream.of(files).forEach(FileUtils::deleteQuietly);
     }

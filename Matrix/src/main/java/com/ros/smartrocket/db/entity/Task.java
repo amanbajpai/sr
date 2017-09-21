@@ -319,7 +319,7 @@ public class Task extends BaseEntity {
     }
 
     public String getAddress() {
-        return address==null?"":address;
+        return address == null ? "" : address;
     }
 
     public void setAddress(String address) {
@@ -490,7 +490,7 @@ public class Task extends BaseEntity {
     }
 
     public String getLocationName() {
-        return locationName==null?"":locationName;
+        return locationName == null ? "" : locationName;
     }
 
     public void setLocationName(String locationName) {

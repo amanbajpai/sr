@@ -7,9 +7,9 @@ import android.view.View;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
+import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
 import com.ros.smartrocket.ui.views.CustomSwitch;

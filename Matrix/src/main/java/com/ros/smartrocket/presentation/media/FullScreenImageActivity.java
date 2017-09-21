@@ -9,9 +9,9 @@ import android.view.MenuItem;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.ui.views.ImageEditorView;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.SelectImageManager;
-import com.ros.smartrocket.ui.views.ImageEditorView;
 
 import java.io.File;
 
@@ -28,7 +28,7 @@ public class FullScreenImageActivity extends BaseActivity {
         String photoUri = getIntent().getStringExtra(Keys.BITMAP_FILE_PATH);
         boolean rotateByExif = getIntent().getBooleanExtra(Keys.ROTATE_BY_EXIF, false);
         if (!TextUtils.isEmpty(photoUri)) {
-            bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0, rotateByExif);
+            bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0);
         }
         if (bitmap != null) {
             ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);

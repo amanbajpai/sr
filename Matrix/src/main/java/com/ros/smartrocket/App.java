@@ -35,7 +35,6 @@ import cn.jpush.android.api.JPushInterface;
 import io.fabric.sdk.android.Fabric;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
-import retrofit2.Retrofit;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();

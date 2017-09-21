@@ -3,9 +3,9 @@ package com.ros.smartrocket.presentation.question.choose.multiple;
 import android.view.View;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.presentation.question.choose.QuestionBaseChooseBL;
 import com.ros.smartrocket.ui.adapter.AnswerCheckBoxAdapter;
-import com.ros.smartrocket.db.entity.Answer;
 
 public final class QuestionMultipleChooseBL extends QuestionBaseChooseBL {
     @Override

@@ -343,9 +343,6 @@
             android:name=".net.UploadFileService"
             android:exported="false" />
         <service
-            android:name=".net.UploadFileNetworkService"
-            android:exported="false" />
-        <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />

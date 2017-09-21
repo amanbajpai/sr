@@ -15,17 +15,20 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.bl.WaitingUploadTaskBL;
+import com.ros.smartrocket.db.entity.FileToUpload;
+import com.ros.smartrocket.db.entity.FileToUploadResponse;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.SendTaskId;
 import com.ros.smartrocket.db.entity.WaitingUploadTask;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.net.retrofit.helper.MyTaskFetcher;
+import com.ros.smartrocket.net.helper.MyTaskFetcher;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SendTaskIdMapper;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.UploadProgressEvent;
+import com.ros.smartrocket.utils.helpers.FileParser;
 
 import java.util.Calendar;
 import java.util.List;
@@ -114,14 +117,37 @@ public class UploadFileService extends Service {
     }
 
     private void sendFile(NotUploadedFile notUploadedFile) {
-
-
+        FileParser fp = new FileParser();
+        Observable<List<FileToUpload>> sendFilesObservable = fp.getFileChunksObservable(notUploadedFile);
+        if (sendFilesObservable != null)
+            startFileSending(sendFilesObservable, notUploadedFile);
+        else
+            deleteNotUploadedFileFromDb(notUploadedFile.getId());
     }
 
-    private void onFileUploaded(NotUploadedFile notUploadedFile) {
+    private void startFileSending(Observable<List<FileToUpload>> sendFilesObservable, NotUploadedFile notUploadedFile) {
+        Log.e("UPLOAD", "START SEND");
+        addDisposable(sendFilesObservable.flatMapIterable(f -> f)
+                .forEach(f -> App.getInstance().getApi().sendFile(f)
+                        .observeOn(Schedulers.io())
+                        .doOnNext(r -> updateNotUploadedFile(r, notUploadedFile))
+                        .doOnComplete(() -> finalizeUploading(notUploadedFile))
+                        .subscribe(__ -> {
+                        }, t -> onFileNotUploaded(notUploadedFile, t))));
+    }
+
+    private void updateNotUploadedFile(FileToUploadResponse response, NotUploadedFile file) {
+        Log.e("UPLOAD", "updating main files");
+        file.setPortion(file.getPortion() + 1);
+        file.setFileCode(response.getFileCode());
+        FilesBL.updatePortionAndFileCode(file.getId(), file.getPortion(), file.getFileCode());
+    }
+
+    private void finalizeUploading(NotUploadedFile notUploadedFile) {
+        Log.e("UPLOAD", "FINALIZE");
         preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                 + (int) (notUploadedFile.getFileSizeB() / 1024));
-        FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
+        deleteNotUploadedFileFromDb(notUploadedFile.getId());
         int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
         if (notUploadedFileCount == 0) {
             WaitingUploadTaskBL
@@ -129,26 +155,35 @@ public class UploadFileService extends Service {
             startWaitingTaskTimer();
             validateTask(notUploadedFile);
         }
+        checkForNext(notUploadedFile);
     }
 
     private void onFileNotUploaded(NotUploadedFile notUploadedFile, Throwable t) {
+        Log.e("UPLOAD", "FAILED");
         NetworkError networkError = new NetworkError(t);
         switch (networkError.getErrorCode()) {
             case NetworkError.FILE_NOT_FOUND:
+                finalizeUploading(notUploadedFile);
                 break;
             case NetworkError.FILE_ALREADY_UPLOADED_ERROR_CODE:
-            case NetworkError.LOCAL_UPLOAD_FILE_ERROR:
-                FilesBL.deleteNotUploadedFileFromDbById(notUploadedFile.getId());
+                deleteNotUploadedFileFromDb(notUploadedFile.getId());
                 break;
             default:
                 UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
                 break;
         }
+        checkForNext(notUploadedFile);
+    }
 
-        if (networkError.getErrorCode() != NetworkError.NO_INTERNET && canUploadNextFile(this))
+    private void checkForNext(NotUploadedFile notUploadedFile) {
+        if (UIUtils.isOnline(UploadFileService.this) && canUploadNextFile(this))
             getFirstFileForUpload(notUploadedFile.get_id());
         else
             uploadingFiles = false;
+    }
+
+    private void deleteNotUploadedFileFromDb(Integer fileId) {
+        FilesBL.deleteNotUploadedFileFromDbById(fileId);
     }
 
     private void getNotUploadedFilesFroNotification() {

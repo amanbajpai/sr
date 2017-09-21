@@ -28,7 +28,11 @@ public class RetrofitHolder {
     private static final String DEVICE_OS_VERSION_HEADER = "device-os-version";
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String APP_VERSION_HEADER = "App-version";
-    static final String CONTENT_TYPE_HEADER = "Content-type";
+    private static final String CONTENT_TYPE_HEADER = "Content-type";
+    private static final String REGION_HEADER = "Region";
+    private static final String ASIA_REGION = "Asia";
+    private static final String ASIA_CHINA_REGION = "AsiaChina";
+    private static final String SETTINGS_HEADER = "Settings";
     private MatrixApi matrixApi;
 
     public Retrofit getRetrofit() {
@@ -66,25 +70,27 @@ public class RetrofitHolder {
 
     private Request getRequestWithHeaders(Interceptor.Chain chain) {
         Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader(DEVICE_UNIQUE_HEADER, App.getInstance().getDeviceId());
-        builder.addHeader(DEVICE_TYPE_HEADER, App.getInstance().getDeviceType());
-        builder.addHeader(DEVICE_OS_VERSION_HEADER, App.getInstance().getDeviceApiNumber());
-        builder.addHeader(AUTHORIZATION_HEADER, "Bearer " + getToken());
-        builder.addHeader(APP_VERSION_HEADER, BuildConfig.VERSION_NAME);
-        builder.addHeader(CONTENT_TYPE_HEADER, "application/json");
+        if (chain.request().url().toString().contains(Config.WEB_SERVICE_URL)) {
+            builder.addHeader(DEVICE_UNIQUE_HEADER, App.getInstance().getDeviceId());
+            builder.addHeader(DEVICE_TYPE_HEADER, App.getInstance().getDeviceType());
+            builder.addHeader(DEVICE_OS_VERSION_HEADER, App.getInstance().getDeviceApiNumber());
+            builder.addHeader(AUTHORIZATION_HEADER, "Bearer " + getToken());
+            builder.addHeader(APP_VERSION_HEADER, BuildConfig.VERSION_NAME);
+            builder.addHeader(CONTENT_TYPE_HEADER, "application/json");
 
-        try {
-            JSONObject settingJsonObject = new JSONObject();
-            settingJsonObject.put("CurrentVersion", BuildConfig.VERSION_NAME);
-            if (Config.USE_BAIDU) {
-                settingJsonObject.put("Region", "AsiaChina");
-            } else {
-                settingJsonObject.put("Region", "Asia");
+            try {
+                JSONObject settingJsonObject = new JSONObject();
+                settingJsonObject.put("CurrentVersion", BuildConfig.VERSION_NAME);
+                if (Config.USE_BAIDU) {
+                    settingJsonObject.put(REGION_HEADER, ASIA_CHINA_REGION);
+                } else {
+                    settingJsonObject.put(REGION_HEADER, ASIA_REGION);
+                }
+                byte[] settingsByteArray = settingJsonObject.toString().getBytes("UTF-8");
+                builder.addHeader(SETTINGS_HEADER, Base64.encodeToString(settingsByteArray, Base64.NO_WRAP));
+            } catch (Exception e) {
+                L.e("RetrofitHolder", "Add header settings json" + e, e);
             }
-            byte[] settingsByteArray = settingJsonObject.toString().getBytes("UTF-8");
-            builder.addHeader("Settings", Base64.encodeToString(settingsByteArray, Base64.NO_WRAP));
-        } catch (Exception e) {
-            L.e("RetrofitHolder", "Add header settings json" + e, e);
         }
         return builder.build();
     }
