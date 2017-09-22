@@ -1,7 +1,9 @@
 package com.ros.smartrocket.map.location;
 
 import android.location.Address;
+import android.location.Location;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
@@ -16,6 +18,8 @@ import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 final class GeoCoder {
     private static final String TAG = "GeoCoder";
@@ -29,27 +33,26 @@ final class GeoCoder {
         if (locale != null) this.locale = locale;
     }
 
-    Address getFromLocation(double latitude, double longitude) {
+    void getFromLocation(Location location, MatrixLocationManager.IAddress callback) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
         if (latitude < -90.0 || latitude > 90.0)
             throw new IllegalArgumentException("latitude == " + latitude);
 
         if (longitude < -180.0 || longitude > 180.0)
             throw new IllegalArgumentException("longitude == " + longitude);
-        Address address = null;
-        String url;
         if (!Config.USE_BAIDU) {
-            url = getGoogleGeoCodingUrl(latitude, longitude);
-            String json = sendGetRequest(url);
-            address = getAddress(json, latitude, longitude);
+            String url = getGoogleGeoCodingUrl(location);
+            sendGetRequest(url, location, callback);
         }
-        return address;
     }
 
-    private String getGoogleGeoCodingUrl(double latitude, double longitude) {
+    private String getGoogleGeoCodingUrl(Location location) {
         return Config.GEOCODER_URL + "/maps/api/geocode/json?sensor=true&latlng=" +
-                latitude +
+                location.getLatitude() +
                 ',' +
-                longitude +
+                location.getLongitude() +
                 "&language=" +
                 locale.getLanguage() +
                 "&key=" +
@@ -58,23 +61,35 @@ final class GeoCoder {
                 "gme-redoceansolutions";
     }
 
-    String sendGetRequest(final String url) {
-        String result = null;
-        try {
-            Call<ResponseBody> call = App.getInstance().getApi().getGeoCoding(url);
-            ResponseBody responseBody = call.execute().body();
-            if (responseBody != null)
-                result = responseBody.string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+    void sendGetRequest(final String url, Location location, MatrixLocationManager.IAddress callback) {
+        Call<ResponseBody> call = App.getInstance().getApi().getGeoCoding(url);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        if (response.body() != null)
+                            callback.onUpdate(getAddress(response.body().string(), location));
+                    } catch (IOException e) {
+                        Log.e(TAG, "IOException", e);
+                        callback.onUpdate(null);
+                    }
+                } else {
+                    callback.onUpdate(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onUpdate(null);
+            }
+        });
     }
 
-    private Address getAddress(String json, double latitude, double longitude) {
+    private Address getAddress(String json, Location location) {
         Address address = new Address(locale);
-        address.setLatitude(latitude);
-        address.setLongitude(longitude);
+        address.setLatitude(location.getLatitude());
+        address.setLongitude(location.getLongitude());
 
         try {
             JSONObject o = new JSONObject(json);

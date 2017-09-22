@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -40,7 +40,6 @@ public class FileParser {
             files = separateFile(notUploadedFile);
             Observable<List<FileToUpload>> observable = Observable
                     .fromCallable(() -> getFilesToUpload(files, notUploadedFile, sourceFile.length()));
-            cleanFiles();
             return observable;
         } catch (IOException e) {
             cleanFiles();
@@ -77,7 +76,7 @@ public class FileParser {
             notUploadedFile.setPortion(0);
             notUploadedFile.setFileCode(null);
         }
-        List<File> files = new ArrayList<>(portionCount - notUploadedFile.getPortion());
+        List<File> files = Arrays.asList(new File[portionCount - notUploadedFile.getPortion()]);
         for (int i = notUploadedFile.getPortion(); i < portionCount; i++) {
             int startPosition = MAX_BYTE_SIZE * i;
             int length = MAX_BYTE_SIZE;
@@ -94,7 +93,7 @@ public class FileParser {
         return files;
     }
 
-    private void cleanFiles() {
+    public void cleanFiles() {
         if (files != null)
             Stream.of(files).forEach(FileUtils::deleteQuietly);
     }

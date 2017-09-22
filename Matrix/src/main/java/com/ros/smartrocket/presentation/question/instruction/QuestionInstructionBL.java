@@ -44,7 +44,7 @@ public final class QuestionInstructionBL extends QuestionBaseBL {
                         hideLoading();
                     }
                 });
-                md.getMediaFileAsync(question.getVideoUrl());
+                md.getMediaFileAsync(question.getPhotoUrl());
             }
         } else if (!TextUtils.isEmpty(question.getVideoUrl())) {
             if (!TextUtils.isEmpty(question.getInstructionFileUri())) {

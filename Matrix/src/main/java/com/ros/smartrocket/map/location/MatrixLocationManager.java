@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -256,15 +255,9 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         return lastLocation;
     }
 
-    /**
-     * Send request to get Address from {@link GeoCoder}
-     *
-     * @param location - location to check
-     * @param callback - result callback
-     */
-
-    public void getAddress(Location location, IAddress callback) {
-        (new GetAddressTask(this.context, callback)).execute(location);
+    private void getAddress(Location location, IAddress callback) {
+        GeoCoder geoCoder = new GeoCoder(Locale.ENGLISH);
+        geoCoder.getFromLocation(location, callback);
     }
 
     /**
@@ -347,37 +340,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
                 default:
                     break;
             }
-        }
-    }
-
-    /**
-     * A subclass of AsyncTask that calls getFromLocation() in the
-     * background. The class definition has these generic types:
-     * Location - A Location object containing
-     * the current location.
-     * Void     - indicates that progress units are not used
-     * String   - An address passed to onPostExecute()
-     */
-    class GetAddressTask extends AsyncTask<Location, Void, Address> {
-        private Context context;
-        private IAddress callback;
-
-        GetAddressTask(Context context, IAddress callback) {
-            super();
-            this.context = context;
-            this.callback = callback;
-        }
-
-        @Override
-        protected Address doInBackground(Location... params) {
-            GeoCoder geoCoder = new GeoCoder(context, Locale.ENGLISH);
-            Location loc = params[0];
-            return geoCoder.getFromLocation(loc.getLatitude(), loc.getLongitude());
-        }
-
-        @Override
-        protected void onPostExecute(Address address) {
-            this.callback.onUpdate(address);
         }
     }
 

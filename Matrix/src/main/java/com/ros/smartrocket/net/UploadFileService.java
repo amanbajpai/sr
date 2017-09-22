@@ -120,20 +120,21 @@ public class UploadFileService extends Service {
         FileParser fp = new FileParser();
         Observable<List<FileToUpload>> sendFilesObservable = fp.getFileChunksObservable(notUploadedFile);
         if (sendFilesObservable != null)
-            startFileSending(sendFilesObservable, notUploadedFile);
+            startFileSending(sendFilesObservable, notUploadedFile, fp);
         else
             deleteNotUploadedFileFromDb(notUploadedFile.getId());
     }
 
-    private void startFileSending(Observable<List<FileToUpload>> sendFilesObservable, NotUploadedFile notUploadedFile) {
+    private void startFileSending(Observable<List<FileToUpload>> sendFilesObservable,
+                                  NotUploadedFile notUploadedFile, FileParser parser) {
         Log.e("UPLOAD", "START SEND");
         addDisposable(sendFilesObservable.flatMapIterable(f -> f)
                 .forEach(f -> App.getInstance().getApi().sendFile(f)
                         .observeOn(Schedulers.io())
                         .doOnNext(r -> updateNotUploadedFile(r, notUploadedFile))
-                        .doOnComplete(() -> finalizeUploading(notUploadedFile))
+                        .doFinally(() -> finalizeUploading(notUploadedFile, parser))
                         .subscribe(__ -> {
-                        }, t -> onFileNotUploaded(notUploadedFile, t))));
+                        }, t -> onFileNotUploaded(notUploadedFile, t, parser))));
     }
 
     private void updateNotUploadedFile(FileToUploadResponse response, NotUploadedFile file) {
@@ -143,7 +144,7 @@ public class UploadFileService extends Service {
         FilesBL.updatePortionAndFileCode(file.getId(), file.getPortion(), file.getFileCode());
     }
 
-    private void finalizeUploading(NotUploadedFile notUploadedFile) {
+    private void finalizeUploading(NotUploadedFile notUploadedFile, FileParser parser) {
         Log.e("UPLOAD", "FINALIZE");
         preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                 + (int) (notUploadedFile.getFileSizeB() / 1024));
@@ -155,15 +156,16 @@ public class UploadFileService extends Service {
             startWaitingTaskTimer();
             validateTask(notUploadedFile);
         }
+        if (parser != null) parser.cleanFiles();
         checkForNext(notUploadedFile);
     }
 
-    private void onFileNotUploaded(NotUploadedFile notUploadedFile, Throwable t) {
+    private void onFileNotUploaded(NotUploadedFile notUploadedFile, Throwable t, FileParser parser) {
         Log.e("UPLOAD", "FAILED");
         NetworkError networkError = new NetworkError(t);
         switch (networkError.getErrorCode()) {
             case NetworkError.FILE_NOT_FOUND:
-                finalizeUploading(notUploadedFile);
+                finalizeUploading(notUploadedFile, parser);
                 break;
             case NetworkError.FILE_ALREADY_UPLOADED_ERROR_CODE:
                 deleteNotUploadedFileFromDb(notUploadedFile.getId());
@@ -214,7 +216,7 @@ public class UploadFileService extends Service {
     }
 
     private void validateWaitingTasks(List<WaitingUploadTask> waitingUploadTasks) {
-        waitingUploadTasks.forEach(UploadFileService.this::validateTask);
+        Stream.of(waitingUploadTasks).forEach(UploadFileService.this::validateTask);
     }
 
     private void getCountOfNotUploadedFiles() {

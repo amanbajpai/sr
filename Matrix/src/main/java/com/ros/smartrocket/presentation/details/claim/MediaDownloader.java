@@ -130,8 +130,8 @@ public final class MediaDownloader {
 
     public void getMediaFileAsync(String url) {
         Observable.fromCallable(() -> getFile(url))
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onComplete, this::onError);
     }
 
@@ -146,6 +146,8 @@ public final class MediaDownloader {
 
     private File getFile(String fileUrl) throws IOException {
         File resultFile = FileProcessingManager.getTempFile(type, fileUrl, true);
+        if (resultFile.exists())
+            return resultFile;
         resultFile = downloadFileSync(fileUrl, resultFile);
         return resultFile;
     }
