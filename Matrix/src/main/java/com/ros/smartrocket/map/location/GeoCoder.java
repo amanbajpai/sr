@@ -1,6 +1,5 @@
 package com.ros.smartrocket.map.location;
 
-import android.content.Context;
 import android.location.Address;
 import android.text.TextUtils;
 
@@ -24,14 +23,10 @@ final class GeoCoder {
     private static final String STATUS_OK = "OK";
     private static final String BAIDU_STATUS_OK = "0";
     private static final String STATUS_OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
-    private final Context context;
     private Locale locale = Locale.getDefault();
 
-    GeoCoder(Context context, Locale locale) {
-        this.context = context;
-        if (locale != null) {
-            this.locale = locale;
-        }
+    GeoCoder(Locale locale) {
+        if (locale != null) this.locale = locale;
     }
 
     Address getFromLocation(double latitude, double longitude) {
@@ -87,9 +82,8 @@ final class GeoCoder {
             if (status.equals(STATUS_OK) || status.equals(BAIDU_STATUS_OK)) {
                 JSONArray a = o.optJSONArray("results");
                 fillInAddress(address, a.getJSONObject(0));
-            } else if (status.equals(STATUS_OVER_QUERY_LIMIT)) {
+            } else if (status.equals(STATUS_OVER_QUERY_LIMIT))
                 throw new LimitExceededException();
-            }
         } catch (LimitExceededException e) {
             L.e(TAG, "Error getAddress ", e);
         } catch (Exception e) {
