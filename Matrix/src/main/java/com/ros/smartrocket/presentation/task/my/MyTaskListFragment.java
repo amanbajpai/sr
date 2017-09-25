@@ -215,6 +215,7 @@ public class MyTaskListFragment extends BaseFragment implements OnItemClickListe
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
         presenter.attachView(this);
     }
 

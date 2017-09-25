@@ -15,7 +15,6 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.bl.WaitingUploadTaskBL;
-import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.FileToUploadResponse;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.SendTaskId;
@@ -30,6 +29,7 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.utils.helpers.FileParser;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -79,7 +79,11 @@ public class UploadFileService extends Service {
         uploadFilesDisposable =
                 Observable
                         .interval(INITIAL_DELAY, CHECK_NOT_UPLOADED_FILE_PERIOD, TimeUnit.SECONDS, Schedulers.io())
-                        .subscribe(__ -> getFirstFileForUpload(0), this::onError);
+                        .subscribe(__ ->
+                        {
+                            if (!uploadingFiles && canUploadNextFile(UploadFileService.this))
+                                getFirstFileForUpload(0);
+                        }, this::onError);
     }
 
     private void startNotificationTimer() {
@@ -98,15 +102,15 @@ public class UploadFileService extends Service {
     }
 
     private void getFirstFileForUpload(long id) {
-        if (!uploadingFiles && canUploadNextFile(UploadFileService.this)) {
-            addDisposable(FilesBL.firstNotUploadedFileObservable(id, UIUtils.is3G(UploadFileService.this))
-                    .observeOn(Schedulers.computation())
-                    .subscribe(this::onNotUploadedFileLoadedFromDb, this::onError));
-        }
+        Log.e("UPLOAD", "Get first start");
+        addDisposable(FilesBL.firstNotUploadedFileObservable(id, UIUtils.is3G(UploadFileService.this))
+                .observeOn(Schedulers.computation())
+                .subscribe(this::onNotUploadedFileLoadedFromDb, this::onError));
     }
 
     private void onNotUploadedFileLoadedFromDb(NotUploadedFile notUploadedFile) {
         if (notUploadedFile.getId() != null) {
+            L.i("UPLOAD", "Not uploaded found");
             updateUploadProgress(notUploadedFile);
             uploadingFiles = true;
             sendFile(notUploadedFile);
@@ -118,45 +122,48 @@ public class UploadFileService extends Service {
 
     private void sendFile(NotUploadedFile notUploadedFile) {
         FileParser fp = new FileParser();
-        Observable<List<FileToUpload>> sendFilesObservable = fp.getFileChunksObservable(notUploadedFile);
-        if (sendFilesObservable != null)
-            startFileSending(sendFilesObservable, notUploadedFile, fp);
+        List<File> sendFiles = fp.getFileChunks(notUploadedFile);
+        if (sendFiles != null)
+            startFileSending(sendFiles, notUploadedFile, fp);
         else
             deleteNotUploadedFileFromDb(notUploadedFile.getId());
     }
 
-    private void startFileSending(Observable<List<FileToUpload>> sendFilesObservable,
+    private void startFileSending(List<File> sendFiles,
                                   NotUploadedFile notUploadedFile, FileParser parser) {
-        Log.e("UPLOAD", "START SEND");
-        addDisposable(sendFilesObservable.flatMapIterable(f -> f)
-                .forEach(f -> App.getInstance().getApi().sendFile(f)
-                        .observeOn(Schedulers.io())
-                        .doOnNext(r -> updateNotUploadedFile(r, notUploadedFile))
-                        .doFinally(() -> finalizeUploading(notUploadedFile, parser))
-                        .subscribe(__ -> {
-                        }, t -> onFileNotUploaded(notUploadedFile, t, parser))));
+        Log.e("UPLOAD", "START SEND.");
+        addDisposable(Observable.fromIterable(sendFiles)
+                .observeOn(Schedulers.io())
+                .concatMap(f -> App.getInstance().getApi().sendFile(parser.getFileToUpload(f, notUploadedFile))
+                        .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
+                .subscribe(
+                        __ -> {},
+                        __ -> {},
+                        () -> finalizeUploading(notUploadedFile, parser)));
     }
 
-    private void updateNotUploadedFile(FileToUploadResponse response, NotUploadedFile file) {
-        Log.e("UPLOAD", "updating main files");
+    private Observable<Boolean> updateNotUploadedFile(FileToUploadResponse response, NotUploadedFile file) {
+        Log.e("UPLOAD", "Updating main file - portion " + file.getPortion());
         file.setPortion(file.getPortion() + 1);
         file.setFileCode(response.getFileCode());
         FilesBL.updatePortionAndFileCode(file.getId(), file.getPortion(), file.getFileCode());
+        return Observable.just(true);
     }
 
     private void finalizeUploading(NotUploadedFile notUploadedFile, FileParser parser) {
         Log.e("UPLOAD", "FINALIZE");
+        if (parser != null) parser.cleanFiles();
         preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                 + (int) (notUploadedFile.getFileSizeB() / 1024));
         deleteNotUploadedFileFromDb(notUploadedFile.getId());
         int notUploadedFileCount = FilesBL.getNotUploadedFileCount(notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
+        Log.e("UPLOAD", "Not uploaded files count " + notUploadedFileCount);
         if (notUploadedFileCount == 0) {
             WaitingUploadTaskBL
                     .updateStatusToAllFileSent(notUploadedFile.getWaveId(), notUploadedFile.getTaskId(), notUploadedFile.getMissionId());
             startWaitingTaskTimer();
             validateTask(notUploadedFile);
         }
-        if (parser != null) parser.cleanFiles();
         checkForNext(notUploadedFile);
     }
 

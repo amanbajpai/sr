@@ -1,8 +1,8 @@
 package com.ros.smartrocket.utils.helpers;
 
 import android.net.Uri;
+import android.util.Log;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -20,11 +20,10 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import io.reactivex.Observable;
-
 public class FileParser {
-    private static int MAX_BYTE_SIZE = 1000 * 16;
+    private static int MAX_BYTE_SIZE = 1000 * 16 * 1000;
     private List<File> files;
+    private long mainFileLength;
 
     public FileParser() {
         if (!Config.USE_BAIDU) {
@@ -32,29 +31,23 @@ public class FileParser {
         }
     }
 
-    public Observable<List<FileToUpload>> getFileChunksObservable(NotUploadedFile notUploadedFile) {
+    public List<File> getFileChunks(NotUploadedFile notUploadedFile) {
         try {
             File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
             if (!sourceFile.exists() || sourceFile.length() == 0)
                 writeNoImageToSourceFile(sourceFile);
+            mainFileLength = sourceFile.length();
             files = separateFile(notUploadedFile);
-            Observable<List<FileToUpload>> observable = Observable
-                    .fromCallable(() -> getFilesToUpload(files, notUploadedFile, sourceFile.length()));
-            return observable;
+            Log.e("UPLOAD", "Files - " + files.size());
+            return files;
         } catch (IOException e) {
             cleanFiles();
             return null;
         }
     }
 
-
-    private List<FileToUpload> getFilesToUpload(List<File> files, NotUploadedFile notUploadedFile, long mainFileLength) {
-        return Stream.of(files)
-                .map(f -> getFileToUpload(f, notUploadedFile, mainFileLength))
-                .collect(Collectors.toList());
-    }
-
-    private FileToUpload getFileToUpload(File file, NotUploadedFile notUploadedFile, long mainFileLength) {
+    public FileToUpload getFileToUpload(File file, NotUploadedFile notUploadedFile) {
+        Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
         FileToUpload uploadFileEntity = new FileToUpload();
         uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
         uploadFileEntity.setMissionId(notUploadedFile.getMissionId());

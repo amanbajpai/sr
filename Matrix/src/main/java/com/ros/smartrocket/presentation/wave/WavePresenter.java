@@ -13,14 +13,16 @@ public class WavePresenter<V extends WaveMvpView> extends BaseNetworkPresenter<V
 
     @Override
     public void getWavesFromServer(double latitude, double longitude, int radius) {
-        getMvpView().refreshIconState(true);
-        addDisposable(App.getInstance().getApi()
-                .getWaves(latitude, longitude, radius, getLanguageCode())
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnNext(this::storeWaves)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(w -> onWavesLoaded(), this::showNetworkError));
+        if (isViewAttached()) {
+            getMvpView().refreshIconState(true);
+            addDisposable(App.getInstance().getApi()
+                    .getWaves(latitude, longitude, radius, getLanguageCode())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.computation())
+                    .doOnNext(this::storeWaves)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(w -> onWavesLoaded(), this::showNetworkError));
+        }
     }
 
     private void storeWaves(Waves waves) throws Exception {
