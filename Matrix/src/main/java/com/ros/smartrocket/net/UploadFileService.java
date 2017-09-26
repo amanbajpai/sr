@@ -129,16 +129,16 @@ public class UploadFileService extends Service {
             deleteNotUploadedFileFromDb(notUploadedFile.getId());
     }
 
-    private void startFileSending(List<File> sendFiles,
-                                  NotUploadedFile notUploadedFile, FileParser parser) {
+    private void startFileSending(List<File> sendFiles, NotUploadedFile notUploadedFile, FileParser parser) {
         Log.e("UPLOAD", "START SEND.");
         addDisposable(Observable.fromIterable(sendFiles)
                 .observeOn(Schedulers.io())
                 .concatMap(f -> App.getInstance().getApi().sendFile(parser.getFileToUpload(f, notUploadedFile))
+                        .doOnError(t -> onFileNotUploaded(notUploadedFile, t, parser))
                         .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
                 .subscribe(
                         __ -> {},
-                        __ -> {},
+                        t -> onFileNotUploaded(notUploadedFile, t, parser),
                         () -> finalizeUploading(notUploadedFile, parser)));
     }
 
