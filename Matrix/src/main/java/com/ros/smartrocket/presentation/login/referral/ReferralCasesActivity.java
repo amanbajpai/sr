@@ -97,7 +97,7 @@ public class ReferralCasesActivity extends BaseActivity implements ReferralMvpVi
     }
 
     public int getCurrentReferralCaseId() {
-        if (referralCasesSpinner.getSelectedItemPosition() != 0)
+        if (referralCasesSpinner.getSelectedItemPosition() != 0 && referralCaseArray != null)
             return referralCaseArray[referralCasesSpinner.getSelectedItemPosition() - 1].getId();
         else
             return -1;

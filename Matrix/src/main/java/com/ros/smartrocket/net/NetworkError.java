@@ -96,6 +96,14 @@ public class NetworkError implements BaseNetworkError {
                 case MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE:
                     errorMessageRes = R.string.task_no_longer_available;
                     break;
+                case ACCOUNT_NOT_ACTIVATED_ERROR_CODE:
+                case EMAIL_SENT_ERROR:
+                case FILE_NOT_FOUND:
+                case FILE_ALREADY_UPLOADED_ERROR_CODE:
+                case HALF_CLAIM_PER_MISSION_CODE:
+                case MAXIMUM_MISSION_ERROR_CODE:
+                    // will be handled in UI
+                    break;
                 default:
                     handleUnknownError();
                     break;

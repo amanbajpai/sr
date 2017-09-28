@@ -7,6 +7,7 @@ import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.db.entity.FileToUpload;
+import com.ros.smartrocket.db.entity.FileToUploadMultipart;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
@@ -61,6 +62,21 @@ public class FileParser {
         return uploadFileEntity;
     }
 
+    public FileToUploadMultipart getFileToUploadMultipart(File file, NotUploadedFile notUploadedFile) {
+        Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
+        FileToUploadMultipart uploadFileEntity = new FileToUploadMultipart();
+        uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
+        uploadFileEntity.setMissionId(notUploadedFile.getMissionId());
+        uploadFileEntity.setQuestionId(notUploadedFile.getQuestionId());
+        uploadFileEntity.setFileOffset((long) MAX_BYTE_SIZE * notUploadedFile.getPortion());
+        uploadFileEntity.setFileCode(notUploadedFile.getFileCode());
+        uploadFileEntity.setFilename(notUploadedFile.getFileName());
+        uploadFileEntity.setFileLength(mainFileLength);
+        uploadFileEntity.setFileBody(getFileAsByteArray(file));
+        uploadFileEntity.setLanguageCode(PreferencesManager.getInstance().getLanguageCode());
+        return uploadFileEntity;
+    }
+
     private List<File> separateFile(NotUploadedFile notUploadedFile) throws IOException {
         File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
         byte[] sourceByteArray = FileUtils.readFileToByteArray(sourceFile);
@@ -94,6 +110,15 @@ public class FileParser {
     private void writeNoImageToSourceFile(File sourceFile) throws IOException {
         InputStream inputStream = App.getInstance().getAssets().open("images/no_image5.jpg");
         FileUtils.copyInputStreamToFile(inputStream, sourceFile);
+    }
+
+    public byte[] getFileAsByteArray(File file) {
+        try {
+            return FileUtils.readFileToByteArray(file);
+        } catch (IOException e) {
+            Log.e("FileParser", "Can't convert file to byte[]", e);
+            return null;
+        }
     }
 
 }

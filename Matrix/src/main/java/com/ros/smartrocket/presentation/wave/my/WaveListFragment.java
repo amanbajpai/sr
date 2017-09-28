@@ -82,16 +82,16 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     public void onResume() {
         super.onResume();
         presenter.attachView(this);
-        if (!isHidden()) {
-            getWaves(true);
-        }
+        if (!isHidden()) getWaves(true);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         presenter.detachView();
+        refreshIconState(false);
     }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {

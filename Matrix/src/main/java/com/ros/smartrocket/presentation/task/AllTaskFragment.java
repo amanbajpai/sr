@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,14 +27,21 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class AllTaskFragment extends BaseFragment implements OnClickListener {
-    private static final String TAG = AllTaskFragment.class.getSimpleName();
+    @BindView(R.id.mapButton)
+    LinearLayout mapButton;
+    @BindView(R.id.listButton)
+    LinearLayout listButton;
+    @BindView(R.id.tabsLayout)
+    LinearLayout tabsLayout;
+    Unbinder unbinder;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private String contentType = Keys.FIND_TASK;
-    private LinearLayout tabsLayout;
-    private LinearLayout mapButton;
-    private LinearLayout listButton;
     public static boolean stopRefreshProgress;
     private PushReceiver localReceiver;
 
@@ -51,23 +57,11 @@ public class AllTaskFragment extends BaseFragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_all_task, null);
-
-        if (getArguments() != null) {
-            contentType = getArguments().getString(Keys.CONTENT_TYPE);
-        }
-
-        tabsLayout = (LinearLayout) view.findViewById(R.id.tabsLayout);
-
-        mapButton = (LinearLayout) view.findViewById(R.id.mapButton);
+        unbinder = ButterKnife.bind(this, view);
+        if (getArguments() != null) contentType = getArguments().getString(Keys.CONTENT_TYPE);
         mapButton.setOnClickListener(this);
-
-        listButton = (LinearLayout) view.findViewById(R.id.listButton);
         listButton.setOnClickListener(this);
-
-        Log.i(TAG, "onCreateView() [contentType  =  " + contentType + "]");
-
         showDefaultFragment();
-
         localReceiver = new PushReceiver();
         return view;
     }
@@ -75,14 +69,8 @@ public class AllTaskFragment extends BaseFragment implements OnClickListener {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
-        Log.i(TAG, "onHiddenChanged() [hidden  =  " + hidden + "]");
-
         if (!hidden) {
-            if (getArguments() != null) {
-                contentType = getArguments().getString(Keys.CONTENT_TYPE);
-                Log.i(TAG, "onHiddenChanged() [contentType  =  " + contentType + "]");
-            }
+            if (getArguments() != null) contentType = getArguments().getString(Keys.CONTENT_TYPE);
             showDefaultFragment();
         } else {
             fragmentHelper.hideLastFragment(getActivity());
@@ -102,43 +90,31 @@ public class AllTaskFragment extends BaseFragment implements OnClickListener {
         }
     }
 
-    /**
-     * Show Map with proper mode
-     */
     public void showMap() {
         tabsLayout.setBackgroundResource(R.drawable.tabs_map_bg);
         mapButton.setSelected(true);
         listButton.setSelected(false);
 
         Keys.MapViewMode mode = Keys.MapViewMode.ALL_TASKS;
-        if (Keys.FIND_TASK.equals(contentType)) {
+        if (Keys.FIND_TASK.equals(contentType))
             mode = Keys.MapViewMode.ALL_TASKS;
-        } else if (Keys.MY_TASK.equals(contentType)) {
+        else if (Keys.MY_TASK.equals(contentType))
             mode = Keys.MapViewMode.MY_TASKS;
-        }
         Bundle bundle = new Bundle();
         bundle.putString(Keys.MAP_MODE_VIEWTYPE, mode.toString());
-
         Fragment fragment = new TasksMapFragment();
         fragment.setArguments(bundle);
         fragmentHelper.startFragmentFromStack(getActivity(), fragment, R.id.map_list_content_frame);
     }
 
-    /**
-     * Show List with proper contentType
-     */
     public void showList() {
         tabsLayout.setBackgroundResource(R.drawable.tabs_list_bg);
         mapButton.setSelected(false);
         listButton.setSelected(true);
-
-        if (Keys.FIND_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new WaveListFragment(),
-                    R.id.map_list_content_frame);
-        } else if (Keys.MY_TASK.equals(contentType)) {
-            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment(),
-                    R.id.map_list_content_frame);
-        }
+        if (Keys.FIND_TASK.equals(contentType))
+            fragmentHelper.startFragmentFromStack(getActivity(), new WaveListFragment(), R.id.map_list_content_frame);
+        else if (Keys.MY_TASK.equals(contentType))
+            fragmentHelper.startFragmentFromStack(getActivity(), new MyTaskListFragment(), R.id.map_list_content_frame);
     }
 
     @Override
@@ -161,30 +137,25 @@ public class AllTaskFragment extends BaseFragment implements OnClickListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        View view = actionBar.getCustomView();
-        if (view == null) {
-            actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
+        if (actionBar != null) {
+            View view = actionBar.getCustomView();
+            if (view == null) actionBar.setCustomView(R.layout.actionbar_custom_view_all_task);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            view = actionBar.getCustomView();
+            if (Keys.FIND_TASK.equals(contentType))
+                ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.find_mission);
+            else if (Keys.MY_TASK.equals(contentType))
+                ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.my_missions);
+            if (PreferencesManager.getInstance().showPushNotifStar()) {
+                view.findViewById(R.id.starButton).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.starButton).setOnClickListener(this);
+            } else {
+                view.findViewById(R.id.starButton).setVisibility(View.GONE);
+                view.findViewById(R.id.starButton).setOnClickListener(null);
+            }
         }
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        view = actionBar.getCustomView();
-        if (Keys.FIND_TASK.equals(contentType)) {
-            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.find_mission);
-        } else if (Keys.MY_TASK.equals(contentType)) {
-            ((TextView) view.findViewById(R.id.titleTextView)).setText(R.string.my_missions);
-        }
-
-        if (PreferencesManager.getInstance().showPushNotifStar()) {
-            view.findViewById(R.id.starButton).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.starButton).setOnClickListener(this);
-        } else {
-            view.findViewById(R.id.starButton).setVisibility(View.GONE);
-            view.findViewById(R.id.starButton).setOnClickListener(null);
-        }
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -206,6 +177,12 @@ public class AllTaskFragment extends BaseFragment implements OnClickListener {
     public void onStop() {
         getActivity().unregisterReceiver(localReceiver);
         super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private class PushReceiver extends BroadcastReceiver {

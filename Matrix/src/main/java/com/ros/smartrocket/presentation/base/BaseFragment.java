@@ -16,9 +16,7 @@ public class BaseFragment extends Fragment implements MvpView {
 
     @Override
     public void hideLoading() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
+        if (progressDialog != null) progressDialog.dismiss();
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.bl.WaitingUploadTaskBL;
+import com.ros.smartrocket.db.entity.FileToUploadMultipart;
 import com.ros.smartrocket.db.entity.FileToUploadResponse;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.SendTaskId;
@@ -40,6 +41,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class UploadFileService extends Service {
     private static final String TAG = UploadFileService.class.getSimpleName();
@@ -124,7 +127,7 @@ public class UploadFileService extends Service {
         FileParser fp = new FileParser();
         List<File> sendFiles = fp.getFileChunks(notUploadedFile);
         if (sendFiles != null)
-            startFileSending(sendFiles, notUploadedFile, fp);
+            startFileSendingMultipart(sendFiles, notUploadedFile, fp);
         else
             deleteNotUploadedFileFromDb(notUploadedFile.getId());
     }
@@ -137,10 +140,29 @@ public class UploadFileService extends Service {
                         .doOnError(t -> onFileNotUploaded(notUploadedFile, t, parser))
                         .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
                 .subscribe(
-                        __ -> {
-                        },
+                        __ -> {},
                         t -> onFileNotUploaded(notUploadedFile, t, parser),
                         () -> finalizeUploading(notUploadedFile, parser)));
+    }
+
+    private void startFileSendingMultipart(List<File> sendFiles, NotUploadedFile notUploadedFile, FileParser parser) {
+        Log.e("UPLOAD MULTIPART", "START SEND.");
+        addDisposable(Observable.fromIterable(sendFiles)
+                .observeOn(Schedulers.io())
+                .concatMap(f -> getUploadFileObservable(f, notUploadedFile, parser)
+                        .doOnError(t -> onFileNotUploaded(notUploadedFile, t, parser))
+                        .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
+                .subscribe(
+                        __ -> {},
+                        t -> onFileNotUploaded(notUploadedFile, t, parser),
+                        () -> finalizeUploading(notUploadedFile, parser)));
+    }
+
+    private Observable<FileToUploadResponse> getUploadFileObservable(File f, NotUploadedFile notUploadedFile, FileParser parser) {
+        FileToUploadMultipart ftu = parser.getFileToUploadMultipart(f, notUploadedFile);
+        RequestBody jsonBody = RequestBody.create(MediaType.parse("multipart/form-data"), ftu.getJson());
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), ftu.getFileBody());
+        return App.getInstance().getApi().sendFileMultiPart(jsonBody, fileBody);
     }
 
     private Observable<Boolean> updateNotUploadedFile(FileToUploadResponse response, NotUploadedFile file) {
@@ -179,7 +201,7 @@ public class UploadFileService extends Service {
                 deleteNotUploadedFileFromDb(notUploadedFile.getId());
                 break;
             default:
-                new Handler(Looper.getMainLooper()).post(() -> UIUtils.showSimpleToast(App.getInstance(), networkError.getErrorMessageRes()));
+                new Handler(Looper.getMainLooper()).post(() -> UIUtils.showSimpleToast(UploadFileService.this, networkError.getErrorMessageRes()));
                 break;
         }
         checkForNext(notUploadedFile);

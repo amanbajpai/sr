@@ -208,6 +208,7 @@ public class MyTaskListFragment extends BaseFragment implements OnItemClickListe
     @Override
     public void onStop() {
         presenter.detachView();
+        refreshIconState(false);
         EventBus.getDefault().unregister(this);
         super.onStop();
     }

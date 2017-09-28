@@ -19,7 +19,9 @@ class MyWavePresenter<V extends MyWaveMvpView> extends WavePresenter<V> implemen
     }
 
     private void onWavesLoadedFromDB(List<Wave> waves) {
-        getMvpView().refreshIconState(false);
-        getMvpView().onWavesLoadingComplete(waves);
+        if (isViewAttached()) {
+            getMvpView().refreshIconState(false);
+            getMvpView().onWavesLoadingComplete(waves);
+        }
     }
 }

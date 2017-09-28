@@ -241,6 +241,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         storeZoomAndRadius();
         taskPresenter.detachView();
         wavePresenter.detachView();
+        refreshIconState(false);
     }
 
     private void storeZoomAndRadius() {
