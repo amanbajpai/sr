@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.VideoView;
 
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
@@ -44,21 +45,16 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
     public void configureView() {
         videoView = (VideoView) view.findViewById(R.id.videoQuestion);
         videoView.setOnCompletionListener(this);
-
         videoView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN)
                 onClick(v);
-            }
-
             return false;
         });
 
         rePhotoButton = (ImageButton) view.findViewById(R.id.rePhotoButton);
         rePhotoButton.setOnClickListener(this);
-
         confirmButton = (ImageButton) view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
-
         loadAnswers();
     }
 
@@ -75,7 +71,6 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
             isVideoAdded = true;
             isVideoConfirmed = true;
             videoPath = Uri.parse(answer.getFileUri()).getPath();
-
             playPauseVideo(videoPath);
         } else {
             isVideoAdded = false;
@@ -203,7 +198,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
 
                         L.e(TAG, "Free Memory size: " + UIUtils.getMemorySize(1) / 1000 + " and File size " + sourceImageFile.length() / 1000);
 
-                        if (sourceImageFile.length() > getActivity().getResources().getInteger(R.integer.max_video_file_size_byte)) {
+                        if (sourceImageFile.length() > Keys.MAX_VIDEO_FILE_SIZE_BYTE) {
                             DialogUtils.showBigFileToUploadDialog(getActivity());
                         } else {
                             videoPath = videoFilePath;
@@ -267,7 +262,7 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
         }
     }
 
-    public void confirmButtonPressAction(Location location) {
+    private void confirmButtonPressAction(Location location) {
         File sourceVideoFile = new File(videoPath);
 
         if (sourceVideoFile.exists()) {
@@ -279,11 +274,8 @@ public final class QuestionVideoBL extends QuestionBaseBL implements View.OnClic
             answer.setValue(sourceVideoFile.getName());
             answer.setLatitude(location.getLatitude());
             answer.setLongitude(location.getLongitude());
-
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-
             isVideoConfirmed = true;
-
             refreshRePhotoButton();
             refreshConfirmButton();
             refreshNextButton();

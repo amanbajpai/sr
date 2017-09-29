@@ -137,7 +137,8 @@ public class UploadFileService extends Service {
                         .doOnError(t -> onFileNotUploaded(notUploadedFile, t, parser))
                         .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
                 .subscribe(
-                        __ -> {},
+                        __ -> {
+                        },
                         t -> onFileNotUploaded(notUploadedFile, t, parser),
                         () -> finalizeUploading(notUploadedFile, parser)));
     }
@@ -178,7 +179,7 @@ public class UploadFileService extends Service {
                 deleteNotUploadedFileFromDb(notUploadedFile.getId());
                 break;
             default:
-                UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
+                new Handler(Looper.getMainLooper()).post(() -> UIUtils.showSimpleToast(App.getInstance(), networkError.getErrorMessageRes()));
                 break;
         }
         checkForNext(notUploadedFile);

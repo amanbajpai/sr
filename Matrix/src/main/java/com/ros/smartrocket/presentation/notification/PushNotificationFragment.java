@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
@@ -25,12 +26,22 @@ import com.ros.smartrocket.utils.TimeUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class PushNotificationFragment extends BaseFragment {
 
     private static final String ID = "id";
+    @BindView(R.id.subject)
+    TextView subject;
+    @BindView(R.id.time)
+    TextView time;
+    @BindView(R.id.text)
+    TextView text;
+    Unbinder unbinder;
 
     private DbHandler handler;
-    private TextView subject, time, text;
     private long notificationId;
 
     @Deprecated
@@ -55,21 +66,16 @@ public class PushNotificationFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        return localInflater.inflate(R.layout.fragment_push_notification, null);
+        View view = localInflater.inflate(R.layout.fragment_push_notification, null);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        text = (TextView) view.findViewById(R.id.text);
         text.setMovementMethod(LinkMovementMethod.getInstance());
-
-        subject = (TextView) view.findViewById(R.id.subject);
-        time = (TextView) view.findViewById(R.id.time);
-
         handler = new DbHandler(getActivity().getContentResolver());
-
         notificationId = getArguments().getLong(ID);
         NotificationBL.getNotificationFromDB(handler, notificationId);
     }
@@ -98,6 +104,12 @@ public class PushNotificationFragment extends BaseFragment {
             notification.setRead(true);
             NotificationBL.updateNotification(getActivity().getContentResolver(), notification);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     class DbHandler extends AsyncQueryHandler {

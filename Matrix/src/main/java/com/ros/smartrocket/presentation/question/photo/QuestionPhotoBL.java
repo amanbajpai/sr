@@ -226,7 +226,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         currentSelectedPhoto = 0;
     }
 
-    public void selectGalleryPhoto(int position) {
+    private void selectGalleryPhoto(int position) {
         Answer answer = question.getAnswers()[position];
 
         for (int i = 0; i < galleryLayout.getChildCount(); i++) {
@@ -273,7 +273,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         }
     }
 
-    public void refreshConfirmButton() {
+    private void refreshConfirmButton() {
         if (isBitmapAdded) {
             confirmButton.setVisibility(View.VISIBLE);
             confirmButton.setEnabled(!isBitmapConfirmed);
@@ -289,7 +289,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         }
     }
 
-    public void refreshRePhotoButton() {
+    private void refreshRePhotoButton() {
         if (isBitmapAdded) {
             rePhotoButton.setVisibility(View.VISIBLE);
         } else {
@@ -298,7 +298,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
 
     }
 
-    public void refreshDeletePhotoButton() {
+    private void refreshDeletePhotoButton() {
         if (isBitmapAdded) {
             deletePhotoButton.setVisibility(View.VISIBLE);
         } else {
@@ -322,15 +322,12 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             case R.id.photo:
                 if (isBitmapAdded) {
                     String filePath = "";
-                    boolean rotateByExif = false;
                     if (!isBitmapConfirmed) {
                         filePath = lastPhotoFile.getPath();
-                        rotateByExif = !isLastFileFromGallery;
                     } else if (question.getAnswers().length > currentSelectedPhoto) {
                         Answer answer = question.getAnswers()[currentSelectedPhoto];
                         filePath = answer.getFileUri();
                     }
-
                     if (!TextUtils.isEmpty(filePath)) {
                         Intent intent = IntentUtils.getFullScreenImageIntent(getActivity(), filePath);
                         getActivity().startActivity(intent);
@@ -339,11 +336,9 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 }
             case R.id.rePhotoButton:
                 if (question.getPhotoSource() == 0) {
-                    // From camera
                     mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
                     SelectImageManager.startCamera(fragment, mCurrentPhotoFile, question.getOrderId());
                 } else if (question.getPhotoSource() == 1) {
-                    // From gallery
                     SelectImageManager.startGallery(fragment, question.getOrderId());
                 } else {
                     File fileToPhoto = SelectImageManager.getTempFile(getActivity(), question.getTaskId().toString());
@@ -353,9 +348,8 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
                 break;
             case R.id.deletePhotoButton:
                 if (isBitmapConfirmed) {
-                    if (question.getAnswers().length > currentSelectedPhoto) {
+                    if (question.getAnswers().length > currentSelectedPhoto)
                         AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[currentSelectedPhoto]);
-                    }
                 } else {
                     isBitmapAdded = false;
                     refreshRePhotoButton();
@@ -411,7 +405,6 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
         if (resultImageFile.exists() && question.getAnswers().length > currentSelectedPhoto) {
             Answer answer = question.getAnswers()[currentSelectedPhoto];
             boolean needAddEmptyAnswer = !answer.getChecked();
-
             answer.setChecked(true);
             answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
             answer.setFileSizeB(resultImageFile.length());
@@ -419,17 +412,14 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             answer.setValue(resultImageFile.getName());
             answer.setLatitude(location.getLatitude());
             answer.setLongitude(location.getLongitude());
-            if (!isPreview()) {
+            if (!isPreview())
                 AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-            }
-            if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos()) {
+
+            if (needAddEmptyAnswer && question.getAnswers().length < question.getMaximumPhotos())
                 question.setAnswers(addEmptyAnswer(question.getAnswers()));
-            }
 
             refreshPhotoGallery(question.getAnswers());
-
             isBitmapConfirmed = true;
-
             refreshRePhotoButton();
             refreshConfirmButton();
             refreshNextButton();
@@ -440,15 +430,12 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     private boolean isLastAnswerEmpty() {
         boolean result = false;
         int lastPos = question.getAnswers().length - 1;
-        if (TextUtils.isEmpty(question.getAnswers()[lastPos].getFileUri())) {
-            result = true;
-        }
+        if (TextUtils.isEmpty(question.getAnswers()[lastPos].getFileUri())) result = true;
         return result;
     }
 
     private void refreshPhotoGallery(Answer[] answers) {
         galleryLayout.removeAllViews();
-
         for (int i = 0; i < answers.length; i++) {
             Answer answer = answers[i];
             addItemToGallery(i, answer);
@@ -467,29 +454,19 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
             photo.setBackgroundResource(R.drawable.camera_icon);
         }
 
-        if (position == currentSelectedPhoto) {
-            imageFrame.setVisibility(View.VISIBLE);
-        }
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentSelectedPhoto = position;
-                selectGalleryPhoto(position);
-            }
+        if (position == currentSelectedPhoto) imageFrame.setVisibility(View.VISIBLE);
+        convertView.setOnClickListener(v -> {
+            currentSelectedPhoto = position;
+            selectGalleryPhoto(position);
         });
 
         galleryLayout.addView(convertView);
     }
 
     private boolean isPhotosAdded() {
-        boolean result = false;
         for (Answer answer : question.getAnswers()) {
-            if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
-                result = true;
-                break;
-            }
+            if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) return true;
         }
-        return result;
+        return false;
     }
 }

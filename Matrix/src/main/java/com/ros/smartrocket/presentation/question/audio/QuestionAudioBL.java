@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
@@ -32,7 +33,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.AudioRecordHandler, MatrixAudioPlayer.AudioPlayCallback {
+class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.AudioRecordHandler, MatrixAudioPlayer.AudioPlayCallback {
     @BindView(R.id.audioView)
     AudioControlsView audioControlsView;
     @BindView(R.id.recordAudioWave)
@@ -118,7 +119,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
         if (audioRecorder != null) {
             audioControlsView.resolvePauseRecordUI();
             audioRecorder.pauseRecording();
-            DialogUtils.showEndAudioRecordingDialog(getActivity(), new DefaultInfoDialog.DialogButtonClickListener() {
+            DialogUtils.showEndAudioRecordingDialog(App.getInstance(), new DefaultInfoDialog.DialogButtonClickListener() {
                 @Override
                 public void onLeftButtonPressed(Dialog dialog) {
                     dialog.dismiss();
@@ -167,7 +168,7 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
 
     private void handleDeleteClick() {
         pausePlayer();
-        DialogUtils.showDeleteAudioRecordingDialog(getActivity(), new DefaultInfoDialog.DialogButtonClickListener() {
+        DialogUtils.showDeleteAudioRecordingDialog(App.getInstance(), new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();
@@ -222,14 +223,8 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     private void updateTimer(final String progress) {
-        if (activity != null && fragment != null && fragment.isAdded()) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    chronometer.setText(progress);
-                }
-            });
-        }
+        if (activity != null)
+            activity.runOnUiThread(() -> chronometer.setText(progress));
     }
 
     private void reset() {
@@ -305,11 +300,9 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
 
     private void saveAnswer(Location location) {
         File sourceAudioFile = new File(audioPath);
-
         if (sourceAudioFile.exists()) {
-            if (sourceAudioFile.length() > getActivity().getResources().getInteger(R.integer.max_video_file_size_byte)) {
+            if (sourceAudioFile.length() > Keys.MAX_VIDEO_FILE_SIZE_BYTE)
                 DialogUtils.showBigFileToUploadDialog(getActivity());
-            }
             Answer answer = question.getAnswers()[0];
             answer.setChecked(true);
             answer.setFileUri(audioPath);
@@ -318,9 +311,8 @@ public class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListe
             answer.setValue(sourceAudioFile.getName());
             answer.setLatitude(location.getLatitude());
             answer.setLongitude(location.getLongitude());
-            if (!isPreview()) {
+            if (!isPreview())
                 AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-            }
             isAudioAdded = true;
             refreshNextButton();
         } else {

@@ -28,10 +28,11 @@ import butterknife.BindView;
 import de.greenrobot.event.EventBus;
 
 public final class QuestionMassAuditBL extends QuestionBaseBL {
-    public static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
-    public static final int TICK = 1;
-    public static final int CROSS = 2;
+    private static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
+    private static final int TICK = 1;
+    private static final int CROSS = 2;
 
+    @BindView(R.id.massAuditMainSubQuestionText)
     TextView mainSubQuestionTextView;
     @BindView(R.id.massAuditExpandableListView)
     ExpandableListView listView;
@@ -47,18 +48,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     @Override
     public void configureView() {
-        View headerView = getActivity().getLayoutInflater().inflate(
-                R.layout.include_mass_audit_question_header, listView, false);
+        View headerView = getActivity().getLayoutInflater().inflate(R.layout.include_mass_audit_question_header, listView, false);
         listView.addHeaderView(headerView);
-
-        mainSubQuestionTextView = (TextView) view.findViewById(R.id.massAuditMainSubQuestionText);
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUTTON_CLICKED)) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUTTON_CLICKED))
             buttonClicked = savedInstanceState.getInt(STATE_BUTTON_CLICKED);
-        }
-        if (isRedo) {
+        if (isRedo)
             refreshNextButton();
-        }
     }
 
     @Override
@@ -75,7 +70,6 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
                     tickListener, crossListener, thumbListener, mainSubList, question.getOrderId());
             adapter.setData(answersMap, answersReDoMap);
         }
-
         listView.setAdapter(adapter);
         for (int i = 0; i < adapter.getGroupCount(); i++) {
             listView.expandGroup(i);
@@ -87,14 +81,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @NonNull
     private HashMap<Integer, Boolean> convertToReDoMap(Answer[] answers) {
         HashMap<Integer, Boolean> map = new HashMap<>();
-
         for (Answer answer : answers) {
             if (map.get(answer.getProductId()) == null) {
                 prepareAnswer(answer);
-                map.put(answer.getProductId(), answer.getChecked() ? true : false);
+                map.put(answer.getProductId(), answer.getChecked());
             }
         }
-
         return map;
     }
 
@@ -156,16 +148,12 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         // No
     }
 
-    public void subQuestionsLoaded(List<Question> questions) {
+    void subQuestionsLoaded(List<Question> questions) {
         Question[] subQuestions = new Question[questions.size()];
         subQuestions = questions.toArray(subQuestions);
         question.setChildQuestions(subQuestions);
-        if (subQuestions != null) {
-            mainSub = QuestionsBL.getMainSubQuestion(subQuestions);
-            if (isRedo) {
-                mainSubList = QuestionsBL.getReDoMainSubQuestionList(subQuestions);
-            }
-        }
+        mainSub = QuestionsBL.getMainSubQuestion(subQuestions);
+        if (isRedo) mainSubList = QuestionsBL.getReDoMainSubQuestionList(subQuestions);
         if (mainSub != null) {
             mainSubQuestionTextView.setMovementMethod(LinkMovementMethod.getInstance());
             mainSubQuestionTextView.setText(Html.fromHtml(mainSub.getQuestion()));
@@ -179,18 +167,15 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
     @NonNull
     private HashMap<Integer, TickCrossAnswerPair> convertToMap(Answer[] answers) {
         HashMap<Integer, TickCrossAnswerPair> map = new HashMap<>();
-
         for (Answer answer : answers) {
             if (map.get(answer.getProductId()) == null) {
                 map.put(answer.getProductId(), new TickCrossAnswerPair());
             }
-
             TickCrossAnswerPair pair = map.get(answer.getProductId());
-            if (answer.getValue().equals("1")) {
+            if (answer.getValue().equals("1"))
                 pair.tickAnswer = answer;
-            } else {
+            else
                 pair.crossAnswer = answer;
-            }
         }
         return map;
     }
@@ -212,28 +197,19 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         }
     }
 
-    private View.OnClickListener crossListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            buttonClicked = CROSS;
-            handleTickCrossTick((CategoryProductPair) v.getTag());
-        }
+    private View.OnClickListener crossListener = v -> {
+        buttonClicked = CROSS;
+        handleTickCrossTick((CategoryProductPair) v.getTag());
     };
 
-    private View.OnClickListener tickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            buttonClicked = TICK;
-            handleTickCrossTick((CategoryProductPair) v.getTag());
-        }
+    private View.OnClickListener tickListener = v -> {
+        buttonClicked = TICK;
+        handleTickCrossTick((CategoryProductPair) v.getTag());
     };
 
-    private View.OnClickListener thumbListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String url = (String) v.getTag();
-            ProductImageDialog.showDialog(activity.getSupportFragmentManager(), url);
-        }
+    private View.OnClickListener thumbListener = v -> {
+        String url = (String) v.getTag();
+        ProductImageDialog.showDialog(activity.getSupportFragmentManager(), url);
     };
 
     private void startSubQuestionsFragment(CategoryProductPair item) {
@@ -289,7 +265,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
         isRedo = b;
     }
 
-    public void setIsPreview(boolean preview) {
+    void setIsPreview(boolean preview) {
         isPreview = preview;
     }
 
@@ -301,23 +277,16 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
             return tickAnswer;
         }
 
-        public void setTickAnswer(Answer tickAnswer) {
-            this.tickAnswer = tickAnswer;
-        }
-
         public Answer getCrossAnswer() {
             return crossAnswer;
         }
 
-        public void setCrossAnswer(Answer crossAnswer) {
-            this.crossAnswer = crossAnswer;
-        }
     }
 
     public static class CategoryProductPair {
         public final Category category;
         public final Product product;
-        public final int productPosition;
+        final int productPosition;
 
         public CategoryProductPair(Category category, Product product, int productPos) {
             this.category = category;

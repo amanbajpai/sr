@@ -15,7 +15,7 @@ public interface Keys {
     String FORGOT_PASS = "SetNewPassword";
     String BITMAP_FILE_PATH = "bitmap_file_path";
     String VIDEO_FILE_PATH = "video_file_path";
-    String ROTATE_BY_EXIF = "rotate_by_exif";
+    long MAX_VIDEO_FILE_SIZE_BYTE = 90000000;
     String FINISH_MAIN_ACTIVITY = "finish_main_activity";
     String UPLOAD_FILES_PROGRESS = "upload_files_progress";
     String REGISTRATION_PERMISSIONS = "registration_permissions";

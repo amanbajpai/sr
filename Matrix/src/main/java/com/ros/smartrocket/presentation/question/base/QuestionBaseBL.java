@@ -24,11 +24,12 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.presentation.question.main.QuestionsActivity;
-import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 
 import java.util.Arrays;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class QuestionBaseBL {
@@ -41,12 +42,15 @@ public class QuestionBaseBL {
     protected Fragment fragment;
     protected View view;
     protected Product product;
-    private CustomProgressDialog progressDialog;
+    @BindView(R.id.presetValidationComment)
+    TextView presetValidationComment;
+    @BindView(R.id.validationComment)
+    TextView validationComment;
 
     protected TextView questionText;
 
     public final void initView(View view, Question question, Bundle savedInstanceState, BaseActivity activity,
-                               Fragment fragment, Product product) {
+                               BaseFragment fragment, Product product) {
         ButterKnife.bind(this, view);
         this.savedInstanceState = savedInstanceState;
         this.product = product;
@@ -55,22 +59,18 @@ public class QuestionBaseBL {
         this.fragment = fragment;
         this.view = view;
         this.handler = new BaseDbHandler(activity.getContentResolver());
-
         configureView();
         validateView();
     }
 
     protected void validateView() {
         questionText = (TextView) view.findViewById(R.id.questionText);
-        TextView presetValidationComment = (TextView) view.findViewById(R.id.presetValidationComment);
-        TextView validationComment = (TextView) view.findViewById(R.id.validationComment);
-
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
-        if (!TextUtils.isEmpty(question.getSubQuestionNumber())) {
+        if (!TextUtils.isEmpty(question.getSubQuestionNumber()))
             questionText.setText(Html.fromHtml(question.getSubQuestionNumber() + this.question.getQuestion()));
-        } else {
+        else
             questionText.setText(Html.fromHtml(this.question.getQuestion()));
-        }
+
         validationComment.setMovementMethod(LinkMovementMethod.getInstance());
         presetValidationComment.setMovementMethod(LinkMovementMethod.getInstance());
         if (!TextUtils.isEmpty(this.question.getPresetValidationText())) {
@@ -104,12 +104,11 @@ public class QuestionBaseBL {
     }
 
     public void loadAnswers() {
-        if (product != null) {
+        if (product != null)
             AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
                     product.getId());
-        } else {
+        else
             AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
-        }
     }
 
     protected Integer getProductId() {
@@ -141,13 +140,11 @@ public class QuestionBaseBL {
     }
 
     public void refreshNextButton() {
-        if (answerSelectedListener != null) {
+        if (answerSelectedListener != null)
             answerSelectedListener.onAnswerSelected(true, question.getId());
-        }
 
-        if (answerPageLoadingFinishedListener != null) {
+        if (answerPageLoadingFinishedListener != null)
             answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
-        }
     }
 
     public FragmentActivity getActivity() {
@@ -173,16 +170,12 @@ public class QuestionBaseBL {
 
         @Override
         protected void onUpdateComplete(int token, Object cookie, int result) {
-            if (token == AnswerDbSchema.Query.TOKEN_UPDATE) {
-                answersUpdate();
-            }
+            if (token == AnswerDbSchema.Query.TOKEN_UPDATE) answersUpdate();
         }
 
         @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
-            if (token == AnswerDbSchema.Query.TOKEN_DELETE) {
-                answersDeleteComplete();
-            }
+            if (token == AnswerDbSchema.Query.TOKEN_DELETE) answersDeleteComplete();
         }
     }
 
@@ -194,7 +187,6 @@ public class QuestionBaseBL {
         answer.setMissionId(question.getMissionId());
         answer.setProductId(product != null ? product.getId() : 0);
 
-        //Save empty answer to DB
         if (!isPreview()) {
             Uri uri = getActivity().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
             long id = ContentUris.parseId(uri);
@@ -203,7 +195,6 @@ public class QuestionBaseBL {
 
         Answer[] resultAnswerArray = Arrays.copyOf(currentAnswerArray, currentAnswerArray.length + 1);
         resultAnswerArray[currentAnswerArray.length] = answer;
-
         return resultAnswerArray;
     }
 
@@ -229,18 +220,13 @@ public class QuestionBaseBL {
 
     protected void showLoading() {
         getActivity().runOnUiThread(() -> {
-            hideProgressDialog();
-            if (progressDialog == null || !progressDialog.isShowing()) {
-                progressDialog = CustomProgressDialog.show(getActivity());
-                progressDialog.setCancelable(false);
-            }
+            if (activity != null)
+                activity.hideLoading();
         });
 
     }
 
     protected void hideProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
+        if (activity != null) activity.hideLoading();
     }
 }

@@ -26,7 +26,6 @@
     <!-- Photo Question gallery -->
     <dimen name="item_width">65dp</dimen>
     <dimen name="item_height">65dp</dimen>
-    <integer name="max_video_file_size_byte">90000000</integer>
 
     <!-- Layout -->
     <dimen name="buttons_margin">10dp</dimen>
