@@ -18,6 +18,8 @@ public class FileToUploadMultipart extends BaseEntity {
     private String filename;
     @SerializedName("FileLength")
     private Long fileLength;
+    @SerializedName("ChunkSize")
+    private Long chunkSize;
     @SerializedName("FileOffset")
     private Long fileOffset;
     @SerializedName("LanguageCode")
@@ -102,5 +104,13 @@ public class FileToUploadMultipart extends BaseEntity {
 
     public void setFileBody(byte[] fileBody) {
         this.fileBody = fileBody;
+    }
+
+    public Long getChunkSize() {
+        return chunkSize;
+    }
+
+    public void setChunkSize(Long chunkSize) {
+        this.chunkSize = chunkSize;
     }
 }

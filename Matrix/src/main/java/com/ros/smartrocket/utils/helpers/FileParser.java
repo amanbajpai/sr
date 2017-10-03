@@ -73,6 +73,7 @@ public class FileParser {
         uploadFileEntity.setFilename(notUploadedFile.getFileName());
         uploadFileEntity.setFileLength(mainFileLength);
         uploadFileEntity.setFileBody(getFileAsByteArray(file));
+        uploadFileEntity.setChunkSize((long) uploadFileEntity.getFileBody().length);
         uploadFileEntity.setLanguageCode(PreferencesManager.getInstance().getLanguageCode());
         return uploadFileEntity;
     }
