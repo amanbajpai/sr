@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Sharing;
@@ -141,42 +143,56 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
     @OnClick({R.id.emailButton, R.id.facebookButton, R.id.linkedinButton, R.id.messageButton, R.id.sinaWeiboButton, R.id.tencentWeiboButton, R.id.twitterButton, R.id.wechatButton, R.id.whatsappButton, R.id.qzoneButton})
     public void onViewClicked(View view) {
         Intent intent = null;
+        String shareType = "";
         switch (view.getId()) {
             case R.id.emailButton:
+                shareType = "Email";
                 intent = IntentUtils.getEmailIntent(subject, "", text + " " + shortUrl);
                 break;
             case R.id.messageButton:
+                shareType = "Sms";
                 intent = IntentUtils.getSmsIntent(getActivity(), "", text + " " + shortUrl);
                 break;
             case R.id.facebookButton:
+                shareType = "Facebook";
                 intent = IntentUtils.getShareFacebookIntent(subject, shortUrl);
                 break;
             case R.id.twitterButton:
+                shareType = "Twitter";
                 intent = IntentUtils.getShareTwitterIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.linkedinButton:
+                shareType = "LinkedIn";
                 intent = IntentUtils.getShareLinkedInIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.whatsappButton:
+                shareType = "WhatsApp";
                 intent = IntentUtils.getShareWhatsAppIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.wechatButton:
+                shareType = "WeChat";
                 intent = IntentUtils.getShareWeChatIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.tencentWeiboButton:
+                shareType = "tencentWeibo";
                 intent = IntentUtils.getShareTencentWeiboIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.sinaWeiboButton:
+                shareType = "sinaWeibo";
                 intent = IntentUtils.getShareSinaWeiboIntent(subject, text + " " + shortUrl);
                 break;
             case R.id.qzoneButton:
+                shareType = "Qzone";
                 intent = IntentUtils.getShareQZoneIntent(subject, text + " " + shortUrl);
                 break;
             default:
                 break;
         }
-
         if (preferencesManager.getUseSocialSharing() && intent != null) {
+            App.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("Share")
+                    .setAction(shareType)
+                    .build());
             if (IntentUtils.isIntentAvailable(getActivity(), intent)) {
                 getActivity().startActivity(intent);
             } else {

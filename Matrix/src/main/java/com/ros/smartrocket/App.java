@@ -12,6 +12,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
@@ -39,6 +41,7 @@ import retrofit2.Converter;
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
     private static App instance;
+    private static Tracker tracker;
 
     private String deviceId;
     private int deviceApiNumber;
@@ -183,5 +186,13 @@ public class App extends Application {
 
     public Converter<ResponseBody, ErrorResponse> getErrorConverter() {
         return errorResponseConverter;
+    }
+
+    synchronized public Tracker getDefaultTracker() {
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return tracker;
     }
 }
