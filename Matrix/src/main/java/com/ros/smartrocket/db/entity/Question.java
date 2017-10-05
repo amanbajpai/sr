@@ -95,9 +95,9 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     @SerializedName("AllowMultiplyPhotos")
     private Boolean allowMultiplyPhotos;
     @SerializedName("MinValue")
-    private Integer minValue;
+    private Double minValue;
     @SerializedName("MaxValue")
-    private Integer maxValue;
+    private Double maxValue;
     @SerializedName("PatternType")
     private Integer patternType;
     @SerializedName("VideoSource")
@@ -187,8 +187,8 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setValidationComment(c.getString(QuestionDbSchema.Query.VALIDATION_COMMENT));
             result.setPresetValidationText(c.getString(QuestionDbSchema.Query.PRESENT_VALIDATION_TEXT));
 
-            result.setMinValue(c.getInt(QuestionDbSchema.Query.MIN_VALUES));
-            result.setMaxValue(c.getInt(QuestionDbSchema.Query.MAX_VALUES));
+            result.setMinValue(c.getDouble(QuestionDbSchema.Query.MIN_VALUES));
+            result.setMaxValue(c.getDouble(QuestionDbSchema.Query.MAX_VALUES));
             result.setPatternType(c.getInt(QuestionDbSchema.Query.PATTERN_TYPE));
             result.setVideoSource(c.getInt(QuestionDbSchema.Query.VIDEO_SOURCE));
             result.setPhotoSource(c.getInt(QuestionDbSchema.Query.PHOTO_SOURCE));
@@ -331,19 +331,19 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     }
 
 
-    public Integer getMinValue() {
-        return minValue;
+    public Double getMinValue() {
+        return minValue != null ? minValue : Double.valueOf(0);
     }
 
-    public void setMinValue(Integer minValue) {
+    public void setMinValue(Double minValue) {
         this.minValue = minValue;
     }
 
-    public Integer getMaxValue() {
-        return maxValue;
+    public Double getMaxValue() {
+        return maxValue != null ? maxValue : Double.valueOf(0);
     }
 
-    public void setMaxValue(Integer maxValue) {
+    public void setMaxValue(Double maxValue) {
         this.maxValue = maxValue;
     }
 

@@ -31,8 +31,8 @@ public interface QuestionDbSchema {
         VALIDATION_COMMENT("validationComment", DBType.TEXT),
         PRESENT_VALIDATION_TEXT("presetValidationText", DBType.TEXT),
 
-        MIN_VALUES("minValue", DBType.NUMERIC),
-        MAX_VALUES("maxValue", DBType.NUMERIC),
+        MIN_VALUES("minValue", DBType.FLOAT),
+        MAX_VALUES("maxValue", DBType.FLOAT),
         PATTERN_TYPE("patternType", DBType.NUMERIC),
         VIDEO_SOURCE("videoSource", DBType.NUMERIC),
         PHOTO_SOURCE("photoSource", DBType.NUMERIC),

@@ -38,9 +38,12 @@ public final class QuestionNumberBL extends QuestionBaseBL {
         }
 
         TextView conditionText = (TextView) view.findViewById(R.id.conditionText);
-        conditionText.setText(activity.getString(R.string.write_your_number,
-                question.getMinValue(), question.getMaxValue()));
-
+        if (question.getPatternType() == 1)
+            conditionText.setText(activity.getString(R.string.write_your_number,
+                    question.getMinValue(), question.getMaxValue()));
+        else
+            conditionText.setText(activity.getString(R.string.write_your_number,
+                    question.getMinValue().intValue(), question.getMaxValue().intValue()));
         loadAnswers();
     }
 
