@@ -57,27 +57,20 @@ public class CustomProgressDialog extends Dialog {
         return null;
     }
 
-    public static CustomProgressDialog show(Activity activity) {
-        if (activity != null) {
-            inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public static CustomProgressDialog show(Context context) {
+        if (context != null) {
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = inflater.inflate(R.layout.progres_dialog, null);
 
             ImageView loadingImage = (ImageView) view.findViewById(R.id.loading_image);
-            loadingImage.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.rotate));
+            loadingImage.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate));
 
-            CustomProgressDialog dialog = new CustomProgressDialog(activity);
+            CustomProgressDialog dialog = new CustomProgressDialog(context);
             dialog.setCancelable(true);
             dialog.addContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-            try {
-                if (!activity.isFinishing()) {
-                    dialog.show();
-                }
-                return dialog;
-            } catch (Exception e) {
-                L.e(TAG, "Error show dialog: " + e.getMessage(), e);
-            }
+            dialog.show();
+            return dialog;
         }
         return null;
     }

@@ -1,7 +1,6 @@
 package com.ros.smartrocket.presentation.question.base;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -13,83 +12,68 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
-import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.utils.LocaleUtils;
 
-public abstract class BaseQuestionFragment extends BaseFragment {
-    protected QuestionBaseBL questionBL;
+public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>, V extends BaseQuestionMvpView> extends BaseFragment {
+    protected Question question;
+    protected P presenter;
+    protected V view;
 
-    public abstract int getLayoutResId();
-
-    public BaseQuestionFragment(QuestionBaseBL questionBL) {
-        super();
-        this.questionBL = questionBL;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         ViewGroup view = (ViewGroup) localInflater.inflate(getLayoutResId(), null);
-        Question question = (Question) getArguments().getSerializable(Keys.QUESTION);
-        questionBL.initView(view, question, savedInstanceState, (BaseActivity) getActivity(), this, null);
-
+        question = (Question) getArguments().getSerializable(Keys.QUESTION);
         return view;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        questionBL.onPause();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        presenter.attachView(view);
         LocaleUtils.setCurrentLanguage();
-        questionBL.onStart();
     }
 
     @Override
     public void onStop() {
-        questionBL.onStop();
         super.onStop();
+        presenter.detachView();
     }
 
     @Override
-    public void onDestroy() {
-        questionBL.destroyView();
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (view != null) view.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        questionBL.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LocaleUtils.setCurrentLanguage();
-        if (!questionBL.onActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+    public abstract P getPresenter();
+
+    public abstract V getMvpView();
+
 
     public boolean saveQuestion() {
-        return questionBL.saveQuestion();
+        return presenter.saveQuestion();
     }
 
     public Question getQuestion() {
-        return questionBL.getQuestion();
+        return presenter.getQuestion();
     }
 
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {
-        questionBL.setAnswerSelectedListener(answerSelectedListener);
+        //questionBL.setAnswerSelectedListener(answerSelectedListener);
     }
 
     public void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener listener) {
-        questionBL.setAnswerPageLoadingFinishedListener(listener);
+        //questionBL.setAnswerPageLoadingFinishedListener(listener);
     }
+
+    public abstract int getLayoutResId();
 }

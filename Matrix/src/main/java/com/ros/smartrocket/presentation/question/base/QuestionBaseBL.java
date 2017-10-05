@@ -65,22 +65,6 @@ public class QuestionBaseBL {
 
     protected void validateView() {
         questionText = (TextView) view.findViewById(R.id.questionText);
-        questionText.setMovementMethod(LinkMovementMethod.getInstance());
-        if (!TextUtils.isEmpty(question.getSubQuestionNumber()))
-            questionText.setText(Html.fromHtml(question.getSubQuestionNumber() + this.question.getQuestion()));
-        else
-            questionText.setText(Html.fromHtml(this.question.getQuestion()));
-
-        validationComment.setMovementMethod(LinkMovementMethod.getInstance());
-        presetValidationComment.setMovementMethod(LinkMovementMethod.getInstance());
-        if (!TextUtils.isEmpty(this.question.getPresetValidationText())) {
-            presetValidationComment.setText(Html.fromHtml(this.question.getPresetValidationText()));
-            presetValidationComment.setVisibility(View.VISIBLE);
-        }
-        if (!TextUtils.isEmpty(this.question.getValidationComment())) {
-            validationComment.setText(Html.fromHtml(this.question.getValidationComment()));
-            validationComment.setVisibility(View.VISIBLE);
-        }
     }
 
     protected void configureView() {
