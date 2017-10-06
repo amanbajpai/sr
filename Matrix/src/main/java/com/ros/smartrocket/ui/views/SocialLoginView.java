@@ -267,17 +267,19 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private void setUpGoogleSignInBtn() {
         CustomButton gSignInButton = addSocialButton(R.string.continue_with_google, R.drawable.ic_google, R.drawable.button_orange_selector);
         gSignInButton.setOnClickListener(v -> signInWithGoogle());
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
-                .requestProfile()
-                .requestIdToken("318949058113-59oe5om5c2496k08vsfesna671rtvn1n.apps.googleusercontent.com")
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .enableAutoManage(activity, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .addApi(Plus.API)
-                .build();
+        if (mGoogleApiClient == null) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                    .requestProfile()
+                    .requestIdToken("318949058113-59oe5om5c2496k08vsfesna671rtvn1n.apps.googleusercontent.com")
+                    .build();
+            mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                    .enableAutoManage(activity, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .addApi(Plus.API)
+                    .build();
+        }
     }
 
     @Override
