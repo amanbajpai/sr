@@ -11,7 +11,6 @@ import com.ros.smartrocket.db.entity.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
-import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.FileToUploadResponse;
 import com.ros.smartrocket.db.entity.Login;
 import com.ros.smartrocket.db.entity.LoginResponse;
@@ -38,6 +37,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -103,12 +103,9 @@ public interface MatrixApi {
     @POST("api/Tasks/Validate")
     Single<ResponseBody> validateTask(@Body SendTaskId sendTaskId);
 
-    @POST("api/Tasks/QuestionFile")
-    Observable<FileToUploadResponse> sendFile(@Body FileToUpload fileToUpload);
-
     @Multipart
     @POST("api/Tasks/QuestionFilePlain")
-    Observable<FileToUploadResponse> sendFileMultiPart(@Part("fileModel") RequestBody model, @Part("questionFile") RequestBody filePart);
+    Observable<FileToUploadResponse> sendFileMultiPart(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 
     @POST("api/Tasks/Answers")
     Single<ResponseBody> sendAnswers(@Body List<Answer> answers,

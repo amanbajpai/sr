@@ -42,6 +42,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class UploadFileService extends Service {
@@ -132,19 +133,6 @@ public class UploadFileService extends Service {
             deleteNotUploadedFileFromDb(notUploadedFile.getId());
     }
 
-    private void startFileSending(List<File> sendFiles, NotUploadedFile notUploadedFile, FileParser parser) {
-        Log.e("UPLOAD", "START SEND.");
-        addDisposable(Observable.fromIterable(sendFiles)
-                .observeOn(Schedulers.io())
-                .concatMap(f -> App.getInstance().getApi().sendFile(parser.getFileToUpload(f, notUploadedFile))
-                        .doOnError(t -> onFileNotUploaded(notUploadedFile, t, parser))
-                        .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
-                .subscribe(
-                        __ -> {},
-                        t -> onFileNotUploaded(notUploadedFile, t, parser),
-                        () -> finalizeUploading(notUploadedFile, parser)));
-    }
-
     private void startFileSendingMultipart(List<File> sendFiles, NotUploadedFile notUploadedFile, FileParser parser) {
         Log.e("UPLOAD MULTIPART", "START SEND.");
         addDisposable(Observable.fromIterable(sendFiles)
@@ -161,7 +149,10 @@ public class UploadFileService extends Service {
     private Observable<FileToUploadResponse> getUploadFileObservable(File f, NotUploadedFile notUploadedFile, FileParser parser) {
         FileToUploadMultipart ftu = parser.getFileToUploadMultipart(f, notUploadedFile);
         RequestBody jsonBody = RequestBody.create(MediaType.parse("multipart/form-data"), ftu.getJson());
-        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), ftu.getFileBody());
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), f);
+        MultipartBody.Part fileBody =
+                MultipartBody.Part.createFormData("questionFile", f.getName(), requestFile);
         return App.getInstance().getApi().sendFileMultiPart(jsonBody, fileBody);
     }
 

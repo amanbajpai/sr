@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
-import com.ros.smartrocket.db.entity.FileToUpload;
 import com.ros.smartrocket.db.entity.FileToUploadMultipart;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -22,15 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileParser {
-    private static int MAX_BYTE_SIZE = 1000 * 16 * 1000;
+    private static int MAX_BYTE_SIZE = 1024 * 1000;
     private List<File> files;
     private long mainFileLength;
-
-    public FileParser() {
-        if (!Config.USE_BAIDU) {
-            MAX_BYTE_SIZE = 32 * 1000;
-        }
-    }
 
     public List<File> getFileChunks(NotUploadedFile notUploadedFile) {
         try {
@@ -47,21 +39,6 @@ public class FileParser {
         }
     }
 
-    public FileToUpload getFileToUpload(File file, NotUploadedFile notUploadedFile) {
-        Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
-        FileToUpload uploadFileEntity = new FileToUpload();
-        uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
-        uploadFileEntity.setMissionId(notUploadedFile.getMissionId());
-        uploadFileEntity.setQuestionId(notUploadedFile.getQuestionId());
-        uploadFileEntity.setFileOffset((long) MAX_BYTE_SIZE * notUploadedFile.getPortion());
-        uploadFileEntity.setFileCode(notUploadedFile.getFileCode());
-        uploadFileEntity.setFilename(notUploadedFile.getFileName());
-        uploadFileEntity.setFileLength(mainFileLength);
-        uploadFileEntity.setFileBase64String(SelectImageManager.getFileAsString(file));
-        uploadFileEntity.setLanguageCode(PreferencesManager.getInstance().getLanguageCode());
-        return uploadFileEntity;
-    }
-
     public FileToUploadMultipart getFileToUploadMultipart(File file, NotUploadedFile notUploadedFile) {
         Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
         FileToUploadMultipart uploadFileEntity = new FileToUploadMultipart();
@@ -72,8 +49,7 @@ public class FileParser {
         uploadFileEntity.setFileCode(notUploadedFile.getFileCode());
         uploadFileEntity.setFilename(notUploadedFile.getFileName());
         uploadFileEntity.setFileLength(mainFileLength);
-        uploadFileEntity.setFileBody(getFileAsByteArray(file));
-        uploadFileEntity.setChunkSize((long) uploadFileEntity.getFileBody().length);
+        uploadFileEntity.setChunkSize(file.length());
         uploadFileEntity.setLanguageCode(PreferencesManager.getInstance().getLanguageCode());
         return uploadFileEntity;
     }

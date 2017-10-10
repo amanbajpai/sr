@@ -3,6 +3,8 @@ package com.ros.smartrocket.db.entity;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
+
 public class FileToUploadMultipart extends BaseEntity {
     @SkipFieldInContentValues
     private static final long serialVersionUID = 5410835468659163928L;
@@ -24,7 +26,6 @@ public class FileToUploadMultipart extends BaseEntity {
     private Long fileOffset;
     @SerializedName("LanguageCode")
     private String languageCode;
-    private transient byte[] fileBody;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -54,32 +55,16 @@ public class FileToUploadMultipart extends BaseEntity {
         this.questionId = questionId;
     }
 
-    public String getFileCode() {
-        return fileCode;
-    }
-
     public void setFileCode(String fileCode) {
         this.fileCode = fileCode;
-    }
-
-    public String getFilename() {
-        return filename;
     }
 
     public void setFilename(String filename) {
         this.filename = filename;
     }
 
-    public Long getFileLength() {
-        return fileLength;
-    }
-
     public void setFileLength(Long fileLength) {
         this.fileLength = fileLength;
-    }
-
-    public Long getFileOffset() {
-        return fileOffset;
     }
 
     public void setFileOffset(Long fileOffset) {
@@ -96,18 +81,6 @@ public class FileToUploadMultipart extends BaseEntity {
 
     public String getJson() {
         return new Gson().toJson(this);
-    }
-
-    public byte[] getFileBody() {
-        return fileBody;
-    }
-
-    public void setFileBody(byte[] fileBody) {
-        this.fileBody = fileBody;
-    }
-
-    public Long getChunkSize() {
-        return chunkSize;
     }
 
     public void setChunkSize(Long chunkSize) {
