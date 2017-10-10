@@ -16,18 +16,20 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.ui.dialog.CustomProgressDialog;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseQuestionView extends LinearLayout implements BaseQuestionMvpView {
-    private CustomProgressDialog progressDialog;
-    protected Question question;
+public abstract class BaseQuestionView extends LinearLayout implements BaseQuestionMvpView {
     @BindView(R.id.presetValidationComment)
     TextView presetValidationComment;
     @BindView(R.id.validationComment)
     TextView validationComment;
     @BindView(R.id.questionText)
     TextView questionText;
+    private CustomProgressDialog progressDialog;
+    protected Question question;
 
     public BaseQuestionView(Context context) {
         super(context);
@@ -49,9 +51,7 @@ public class BaseQuestionView extends LinearLayout implements BaseQuestionMvpVie
         ButterKnife.bind(this);
     }
 
-    public int getLayoutResId() {
-        return 1;
-    }
+    public abstract int getLayoutResId();
 
     @Override
     public void validateView(Question question) {
@@ -74,9 +74,7 @@ public class BaseQuestionView extends LinearLayout implements BaseQuestionMvpVie
     }
 
     @Override
-    public void configureView(Question question) {
-
-    }
+    public abstract void configureView(Question question);
 
     @Override
     public void answersDeleteComplete() {
@@ -89,9 +87,7 @@ public class BaseQuestionView extends LinearLayout implements BaseQuestionMvpVie
     }
 
     @Override
-    public void fillViewWithAnswers(Answer[] answers) {
-
-    }
+    public abstract void fillViewWithAnswers(List<Answer> answers);
 
     @Override
     public void hideLoading() {

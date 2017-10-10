@@ -3,6 +3,7 @@ package com.ros.smartrocket.db.bl;
 import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -45,6 +46,46 @@ public class AnswersBL {
         return Observable.fromCallable(() -> removeAnswersByTaskId(taskId));
     }
 
+    private static Cursor getAnswersListFromDB(Question question, Product product) {
+        return App.getInstance().getContentResolver().query(
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
+                        + AnswerDbSchema.Columns.PRODUCT_ID + "=?",
+                new String[]{String.valueOf(question.getId()),
+                        String.valueOf(question.getTaskId()),
+                        String.valueOf(question.getMissionId()),
+                        String.valueOf(product.getId())},
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+
+    private static Cursor getAnswersListFromDB(Question question) {
+        return App.getInstance().getContentResolver().query(
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
+                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
+                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(question.getId()),
+                        String.valueOf(question.getTaskId()),
+                        String.valueOf(question.getMissionId())},
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+
+    public static Observable<List<Answer>> getAnswersListFromDBObservable(Question question, Product product) {
+        if (product == null)
+            return Observable.fromCallable(() -> convertCursorToAnswerList(getAnswersListFromDB(question)));
+        else
+            return Observable.fromCallable(() -> convertCursorToAnswerList(getAnswersListFromDB(question, product)));
+    }
+
+    public static void insert(Answer answer){
+        Uri uri = App.getInstance().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
+        long id = ContentUris.parseId(uri);
+    }
+
 
     // ------------------ !!!! ----------------- //
 
@@ -63,26 +104,6 @@ public class AnswersBL {
         String[] whereArgs = new String[]{String.valueOf(taskId), String.valueOf(0)};
 
         App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues, where, whereArgs);
-    }
-
-    /**
-     * Make request for getting Answer list
-     *
-     * @param handler    - Handler for getting response from DB
-     * @param questionId - question id
-     */
-    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
-                                            Integer questionId) {
-        handler.startQuery(
-                AnswerDbSchema.Query.TOKEN_QUERY,
-                null,
-                AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
-                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
-                        + AnswerDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId), String.valueOf(missionId)},
-                AnswerDbSchema.SORT_ORDER_ASC);
     }
 
     /**
@@ -190,28 +211,6 @@ public class AnswersBL {
                 AnswerDbSchema.SORT_ORDER_ASC);
     }
 
-    /**
-     * Make request for getting Answer list
-     *
-     * @param handler    - Handler for getting response from DB
-     * @param questionId - question id
-     * @param productId  - Product Id
-     */
-    public static void getAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId,
-                                            Integer questionId, Integer productId) {
-        handler.startQuery(
-                AnswerDbSchema.Query.TOKEN_QUERY,
-                null,
-                AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION,
-                AnswerDbSchema.Columns.QUESTION_ID + "=? and "
-                        + AnswerDbSchema.Columns.TASK_ID + "=? and "
-                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
-                        + AnswerDbSchema.Columns.PRODUCT_ID + "=?",
-                new String[]{String.valueOf(questionId), String.valueOf(taskId),
-                        String.valueOf(missionId), String.valueOf(productId)},
-                AnswerDbSchema.SORT_ORDER_ASC);
-    }
 
     /**
      * Make request for update Answers
@@ -516,14 +515,8 @@ public class AnswersBL {
         return result;
     }
 
-    /**
-     * Convert cursor to Answer list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList<Answer>
-     */
-    public static List<Answer> convertCursorToAnswerList(Cursor cursor) {
-        List<Answer> result = new ArrayList<Answer>();
+    private static List<Answer> convertCursorToAnswerList(Cursor cursor) {
+        List<Answer> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(Answer.fromCursor(cursor));
@@ -533,13 +526,6 @@ public class AnswersBL {
         return result;
     }
 
-
-    /**
-     * Get next question orderId by answer routing.
-     *
-     * @param question - question id
-     * @return int
-     */
     public static int getNextQuestionOrderId(Question question, List<Question> questions) {
         int orderId = 0;
 

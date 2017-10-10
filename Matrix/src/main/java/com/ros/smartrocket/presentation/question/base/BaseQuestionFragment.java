@@ -18,7 +18,7 @@ import com.ros.smartrocket.utils.LocaleUtils;
 public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>, V extends BaseQuestionMvpView> extends BaseFragment {
     protected Question question;
     protected P presenter;
-    protected V view;
+    protected V mvpView;
 
 
     @Override
@@ -27,13 +27,15 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         ViewGroup view = (ViewGroup) localInflater.inflate(getLayoutResId(), null);
         question = (Question) getArguments().getSerializable(Keys.QUESTION);
+        presenter = getPresenter();
+        mvpView = getMvpView();
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        presenter.attachView(view);
+        presenter.attachView(mvpView);
         LocaleUtils.setCurrentLanguage();
     }
 
@@ -46,7 +48,7 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (view != null) view.onDestroy();
+        if (mvpView != null) mvpView.onDestroy();
     }
 
     @Override

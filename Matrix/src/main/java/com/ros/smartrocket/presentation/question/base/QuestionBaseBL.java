@@ -88,11 +88,6 @@ public class QuestionBaseBL {
     }
 
     public void loadAnswers() {
-        if (product != null)
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
-                    product.getId());
-        else
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
     }
 
     protected Integer getProductId() {

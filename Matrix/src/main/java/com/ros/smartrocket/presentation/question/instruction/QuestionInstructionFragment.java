@@ -3,9 +3,15 @@ package com.ros.smartrocket.presentation.question.instruction;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
 
+import butterknife.BindView;
+import butterknife.Unbinder;
 
-public class QuestionInstructionFragment extends BaseQuestionFragment<InstructionMvpPresenter<InstructionView>, InstructionView> {
-    private InstructionMvpPresenter<InstructionView> presenter;
+
+public class QuestionInstructionFragment extends BaseQuestionFragment<InstructionMvpPresenter<InstructionMvpView>, InstructionMvpView> {
+    @BindView(R.id.instructionView)
+    InstructionView instructionView;
+    Unbinder unbinder;
+    private InstructionMvpPresenter<InstructionMvpView> presenter;
 
     @Override
     public int getLayoutResId() {
@@ -13,14 +19,20 @@ public class QuestionInstructionFragment extends BaseQuestionFragment<Instructio
     }
 
     @Override
-    public InstructionMvpPresenter<InstructionView> getPresenter() {
-        if (presenter== null)
+    public InstructionMvpPresenter<InstructionMvpView> getPresenter() {
+        if (presenter == null)
             presenter = new InstructionPresenter<>(question);
         return presenter;
     }
 
     @Override
-    public InstructionView getMvpView() {
-        return null;
+    public InstructionMvpView getMvpView() {
+        return instructionView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

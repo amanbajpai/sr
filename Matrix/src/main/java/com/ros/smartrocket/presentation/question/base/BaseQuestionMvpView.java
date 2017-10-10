@@ -4,6 +4,8 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.base.MvpView;
 
+import java.util.List;
+
 public interface BaseQuestionMvpView extends MvpView {
     void validateView(Question question);
 
@@ -13,7 +15,7 @@ public interface BaseQuestionMvpView extends MvpView {
 
     void answersUpdate();
 
-    void fillViewWithAnswers(Answer[] answers);
+    void fillViewWithAnswers(List<Answer> answers);
 
     void onDestroy();
 
