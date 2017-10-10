@@ -48,7 +48,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Externa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHomeAsUp();
         setContentView(R.layout.activity_extaernal_registration_details);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();

@@ -92,7 +92,7 @@ public class RegistrationActivity extends BaseActivity implements RegistrationMv
     }
 
     private void initUI() {
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHomeAsUp();
         checkDeviceSettingsByOnResume(false);
         avatarImageManager = new AvatarImageManager();
         showPasswordToggleButton.setOnCheckedChangeListener(this);
