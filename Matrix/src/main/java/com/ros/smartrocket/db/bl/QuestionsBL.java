@@ -483,7 +483,7 @@ public class QuestionsBL {
     public static String getAnswerValue(Question question) {
         String result = null;
         if (question != null) {
-            Answer[] answers = question.getAnswers();
+            List<Answer> answers = question.getAnswers();
 
             if (answers != null) {
                 for (Answer answer : answers) {

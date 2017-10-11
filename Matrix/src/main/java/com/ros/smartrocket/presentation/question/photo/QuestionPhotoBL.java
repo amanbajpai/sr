@@ -213,7 +213,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
 
     @Override
     protected void answersDeleteComplete() {
-        if (question.getAnswers().length == question.getMaximumPhotos() && !isLastAnswerEmpty()) {
+        if (question.getAnswers().size() == question.getMaximumPhotos() && !isLastAnswerEmpty()) {
             question.setAnswers(addEmptyAnswer(question.getAnswers()));
         }
         if (getProductId() != null) {
@@ -227,7 +227,7 @@ public class QuestionPhotoBL extends QuestionBaseBL implements View.OnClickListe
     }
 
     private void selectGalleryPhoto(int position) {
-        Answer answer = question.getAnswers()[position];
+        Answer answer = question.getAnswers().get(position);
 
         for (int i = 0; i < galleryLayout.getChildCount(); i++) {
             View convertView = galleryLayout.getChildAt(i);

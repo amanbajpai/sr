@@ -14,11 +14,6 @@ import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment;
 import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
-import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChooseBL;
-import com.ros.smartrocket.presentation.question.choose.single.QuestionSingleChooseBL;
-import com.ros.smartrocket.presentation.question.comment.QuestionOpenCommentBL;
-import com.ros.smartrocket.presentation.question.instruction.QuestionInstructionBL;
-import com.ros.smartrocket.presentation.question.number.QuestionNumberBL;
 import com.ros.smartrocket.presentation.question.photo.QuestionPhotoBL;
 import com.ros.smartrocket.presentation.question.video.QuestionVideoBL;
 
@@ -50,16 +45,16 @@ public class SubQuestionsMassAuditAdapter {
             convertView = inflater.inflate(R.layout.item_question_number, parent, false);
             bl = new QuestionNumberBL();
         } else if (type == Question.QuestionType.OPEN_COMMENT.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_open_comment, parent, false);
+            convertView = inflater.inflate(R.layout.view_question_comment, parent, false);
             bl = new QuestionOpenCommentBL();
         } else if (type == Question.QuestionType.INSTRUCTION.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_instruction, parent, false);
+            convertView = inflater.inflate(R.layout.view_question_instruction, parent, false);
             bl = new QuestionInstructionBL();
         } else if (type == Question.QuestionType.SINGLE_CHOICE.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_choose, parent, false);
+            convertView = inflater.inflate(R.layout.view_question_choose, parent, false);
             bl = new QuestionSingleChooseBL();
         } else if (type == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_choose, parent, false);
+            convertView = inflater.inflate(R.layout.view_question_choose, parent, false);
             bl = new QuestionMultipleChooseBL();
         } else if (type == Question.QuestionType.VIDEO.getTypeId()) {
             convertView = inflater.inflate(R.layout.item_question_video, parent, false);

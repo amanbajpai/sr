@@ -357,7 +357,7 @@
 	<string name="withdraw_task_dialog_text2">Se retirer de la mission ne peut être annulé et affecte votre réputation.</string>
 	<string name="withdraw_task_dialog_text3">Voulez-vous vous retirer de la mission ?</string>
 	<string name="withdraw_task_dialog_title">Se retirer de la mission</string>
-	<string name="write_your_number">ÉCRIVEZ UN NUMÉRO ENTRE %1$s ET %2$s</string>
+	<string name="write_your_number">ÉCRIVEZ UN NUMÉRO ENTRE %1$d ET %2$d</string>
 	<string name="you_have_been_promoted">Vous avez été promu au rang de <b >%1$s (Niveau %2$s)</b ></string>
 	<string name="you_have_been_promoted_ok">OK</string>
 	<string name="you_have_no_tasks">Vous n\'avez aucune mission en cours. Rendez-vous dans « Nouvelles missions » pour demander et accomplir de nouvelles missions.</string>

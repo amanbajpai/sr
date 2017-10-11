@@ -12,7 +12,6 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.cash.CashingOutActivity;
 import com.ros.smartrocket.presentation.cash.CashingOutSuccessActivity;
 import com.ros.smartrocket.presentation.cash.confirm.CashingOutConfirmationActivity;
@@ -28,7 +27,6 @@ import com.ros.smartrocket.presentation.media.FullScreenImageActivity;
 import com.ros.smartrocket.presentation.media.FullScreenVideoActivity;
 import com.ros.smartrocket.presentation.notification.PushNotificationActivity;
 import com.ros.smartrocket.presentation.question.main.QuestionsActivity;
-import com.ros.smartrocket.presentation.question.quit.QuitQuestionActivity;
 import com.ros.smartrocket.presentation.settings.SettingsActivity;
 import com.ros.smartrocket.presentation.share.ShareActivity;
 import com.ros.smartrocket.presentation.validation.TaskValidationActivity;
@@ -156,17 +154,6 @@ public class IntentUtils {
         return intent;
     }
 
-    /**
-     * Return intent for opening Quit Question screen
-     *
-     * @param context - context
-     * @return Intent
-     */
-    public static Intent getQuitQuestionIntent(Context context, Question question) {
-        Intent intent = new Intent(context, QuitQuestionActivity.class);
-        intent.putExtra(Keys.QUESTION, question);
-        return intent;
-    }
 
     /**
      * Return intent for opening Quit Question screen

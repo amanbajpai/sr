@@ -101,7 +101,7 @@ public final class QuestionMassAuditBL extends QuestionBaseBL {
 
     @Override
     public boolean saveQuestion() {
-        if (question != null && question.getAnswers() != null && question.getAnswers().length > 0) {
+        if (question != null && question.getAnswers() != null && question.getAnswers().size() > 0) {
             AnswersBL.updateAnswersToDB(handler, question.getAnswers());
             return true;
         } else {

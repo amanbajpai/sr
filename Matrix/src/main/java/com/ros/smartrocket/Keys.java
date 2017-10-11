@@ -114,6 +114,7 @@ public interface Keys {
 
     //Question
     String QUESTION = "question";
+    String IS_PREVIEW = "is_preview";
     String LAST_NOT_ANSWERED_QUESTION_ORDER_ID = "last_not_answered_question_order_id";
     String FIRSTLY_SELECTION = "firstly_selection";
     String IS_REDO = "is_redo";

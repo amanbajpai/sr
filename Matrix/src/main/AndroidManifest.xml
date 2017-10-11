@@ -276,9 +276,6 @@
             android:name=".presentation.login.terms.TermsAndConditionActivity"
             android:configChanges="locale" />
         <activity
-            android:name=".presentation.question.quit.QuitQuestionActivity"
-            android:configChanges="locale" />
-        <activity
             android:name=".presentation.cash.CashingOutActivity"
             android:configChanges="locale" />
         <activity

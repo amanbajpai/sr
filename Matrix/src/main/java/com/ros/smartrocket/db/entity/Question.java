@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.QuestionDbSchema;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Question extends BaseEntity implements Serializable, Comparable<Question> {
     @SkipFieldInContentValues
@@ -151,7 +152,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
     @SkipFieldInContentValues
     @SerializedName("Answers")
-    private Answer[] answers;
+    private List<Answer> answers;
 
     private transient String instructionFileUri;
 
@@ -239,11 +240,11 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         this.waveId = waveId;
     }
 
-    public Answer[] getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Answer[] answers) {
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 
@@ -492,5 +493,12 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         this.isRequired = isRequired;
     }
 
+    public void setFirstAnswer(String value) {
+        if (answers != null && !answers.isEmpty()) {
+            Answer answer = answers.get(0);
+            answer.setValue(value);
+            answer.setChecked(true);
+        }
+    }
 
 }

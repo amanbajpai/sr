@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class BaseQuestionView extends LinearLayout implements BaseQuestionMvpView {
+public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> extends LinearLayout implements BaseQuestionMvpView {
     @BindView(R.id.presetValidationComment)
     TextView presetValidationComment;
     @BindView(R.id.validationComment)
@@ -29,7 +29,7 @@ public abstract class BaseQuestionView extends LinearLayout implements BaseQuest
     @BindView(R.id.questionText)
     TextView questionText;
     private CustomProgressDialog progressDialog;
-    protected Question question;
+    protected P presenter;
 
     public BaseQuestionView(Context context) {
         super(context);
@@ -104,5 +104,15 @@ public abstract class BaseQuestionView extends LinearLayout implements BaseQuest
     @Override
     public void onDestroy() {
         hideLoading();
+    }
+
+    @Override
+    public String getAnswerValue() {
+        return "";
+    }
+
+
+    public void setPresenter(P presenter) {
+        this.presenter = presenter;
     }
 }

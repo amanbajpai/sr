@@ -151,22 +151,12 @@ public class MatrixAudioPlayer implements QuestionAudioPlayer, MP3RadioStreamDel
     public void onRadioPlayerStopped(MP3RadioStreamPlayer mp3RadioStreamPlayer) {
         isPlayEnded = true;
         isPlaying = false;
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                onPlayStopped();
-            }
-        });
+        handler.post(this::onPlayStopped);
     }
 
     @Override
     public void onRadioPlayerError(MP3RadioStreamPlayer mp3RadioStreamPlayer) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                onPlayError();
-            }
-        });
+        handler.post(this::onPlayError);
     }
 
     @Override

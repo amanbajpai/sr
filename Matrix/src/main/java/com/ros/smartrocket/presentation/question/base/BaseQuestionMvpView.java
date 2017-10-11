@@ -19,4 +19,5 @@ public interface BaseQuestionMvpView extends MvpView {
 
     void onDestroy();
 
+    String getAnswerValue();
 }

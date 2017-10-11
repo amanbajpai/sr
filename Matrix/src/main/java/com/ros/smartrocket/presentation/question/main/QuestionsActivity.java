@@ -30,9 +30,9 @@ import com.ros.smartrocket.presentation.media.IdCardActivity;
 import com.ros.smartrocket.presentation.question.audio.QuestionAudioFragment;
 import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditFragment;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
-import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChooseFragment;
-import com.ros.smartrocket.presentation.question.choose.single.QuestionSingleChooseFragment;
-import com.ros.smartrocket.presentation.question.comment.QuestionOpenCommentFragment;
+import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChoiceFragment;
+import com.ros.smartrocket.presentation.question.choose.single.QuestionSingleChoiceFragment;
+import com.ros.smartrocket.presentation.question.comment.QuestionCommentFragment;
 import com.ros.smartrocket.presentation.question.instruction.QuestionInstructionFragment;
 import com.ros.smartrocket.presentation.question.number.QuestionNumberFragment;
 import com.ros.smartrocket.presentation.question.photo.QuestionPhotoFragment;
@@ -334,19 +334,21 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
 
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putSerializable(Keys.QUESTION, question);
+            fragmentBundle.putSerializable(Keys.IS_REDO, isRedo);
+            fragmentBundle.putSerializable(Keys.IS_PREVIEW, isPreview);
 
             switch (QuestionsBL.getQuestionType(question.getType())) {
                 case MULTIPLE_CHOICE:
-                    currentFragment = new QuestionMultipleChooseFragment();
+                    currentFragment = new QuestionMultipleChoiceFragment();
                     break;
                 case SINGLE_CHOICE:
-                    currentFragment = new QuestionSingleChooseFragment();
+                    currentFragment = new QuestionSingleChoiceFragment();
                     break;
                 case PHOTO:
                     currentFragment = new QuestionPhotoFragment();
                     break;
                 case OPEN_COMMENT:
-                    currentFragment = new QuestionOpenCommentFragment();
+                    currentFragment = new QuestionCommentFragment();
                     break;
                 case VIDEO:
                     currentFragment = new QuestionVideoFragment();
@@ -364,8 +366,6 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
                     break;
                 case MASS_AUDIT:
                     currentFragment = new QuestionMassAuditFragment();
-                    fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
-                    fragmentBundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
                     break;
                 case AUDIO:
                     currentFragment = new QuestionAudioFragment();

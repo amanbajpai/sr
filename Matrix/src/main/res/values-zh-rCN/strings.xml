@@ -241,7 +241,7 @@
     <string name="question_of">%2$s条问题之第%1$s条</string>
     <string name="choose_one_answer">请选择一个答案</string>
     <string name="choose_one_or_more_answers">请选择一个或多个答案</string>
-    <string name="write_your_number">请填写一个%1$s和%2$s之间的数字</string>
+    <string name="write_your_number">请填写一个%1$d和%2$d之间的数字</string>
     <string name="maximum_photo">\n(最多可以拍摄%1$d张照片)</string>
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title">放弃任务</string>

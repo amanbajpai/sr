@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.question.number.QuestionNumberFragment"
-    android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".presentation.question.number.QuestionNumberFragment">
+
+    <com.ros.smartrocket.presentation.question.number.NumberView
+        android:id="@+id/numberView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            android:id="@+id/headerQuestion6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/include_question_header_with_condition"/>
-        <com.ros.smartrocket.ui.views.CustomTextView
-            android:id="@+id/answerTextView"
-            style="@style/EditText"
-            android:background="@drawable/field"
-            android:textSize="@dimen/text_size_15sp"
-            android:hint="@string/enter_here"
-            android:lines="1"
-            android:maxLines="1"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Space
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"/>
-        <include
-            layout="@layout/include_keyboard"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 </ScrollView>

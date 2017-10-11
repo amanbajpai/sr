@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/fragment_question_number">
+
+    <include
+        android:id="@+id/headerQuestion6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/include_question_header_with_condition" />
+
+    <com.ros.smartrocket.ui.views.CustomTextView
+        android:id="@+id/answerTextView"
+        style="@style/EditText"
+        android:background="@drawable/field"
+        android:textSize="@dimen/text_size_15sp"
+        android:hint="@string/enter_here"
+        android:lines="1"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <include
+        layout="@layout/include_keyboard"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+</LinearLayout>

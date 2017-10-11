@@ -41,21 +41,17 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
         File file = new File(filePath);
         recorder = new MP3Recorder(file);
         recorder.setDataList(audioWave.getRecList(), UIUtils.getMaxAudioWaveSize());
-        WeakReference<Handler> handler = new WeakReference<Handler>(new Handler() {
+        WeakReference<Handler> handler = new WeakReference<>(new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if (msg.what == MP3Recorder.ERROR_TYPE) {
-                    onRecordError();
-                }
+                if (msg.what == MP3Recorder.ERROR_TYPE) onRecordError();
             }
         });
         recorder.setErrorHandler(handler.get());
         try {
             recorder.start();
-            if (recordHandler != null) {
-                recordHandler.onRecordProgress("00:00");
-            }
+            if (recordHandler != null) recordHandler.onRecordProgress("00:00");
             scheduleTimer();
             audioWave.startView();
         } catch (IOException e) {
@@ -68,16 +64,14 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
 
     private void scheduleTimer() {
         timer = new Timer();
+        // TODO replace with RxJava
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!isRecording || recorder == null) {
-                    return;
-                }
+                if (!isRecording || recorder == null) return;
                 time++;
-                if (recordHandler != null) {
+                if (recordHandler != null)
                     recordHandler.onRecordProgress(TimeUtils.toTime(time * TimeUtils.ONE_SECOND_IN_MILL));
-                }
             }
         }, TimeUtils.ONE_SECOND_IN_MILL, TimeUtils.ONE_SECOND_IN_MILL);
     }

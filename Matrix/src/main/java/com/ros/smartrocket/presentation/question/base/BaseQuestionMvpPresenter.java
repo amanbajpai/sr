@@ -2,6 +2,8 @@ package com.ros.smartrocket.presentation.question.base;
 
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
+import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.presentation.base.MvpPresenter;
 
 import java.util.List;
@@ -13,6 +15,28 @@ public interface BaseQuestionMvpPresenter<V extends BaseQuestionMvpView> extends
 
     void loadAnswers();
 
-    List<Answer> addEmptyAnswer(List<Answer> currentAnswerArray);
+    void addEmptyAnswer();
+
+    boolean isRedo();
+
+    void setRedo(boolean redo);
+
+    boolean isPreview();
+
+    void setPreview(boolean preview);
+
+    void refreshNextButton(boolean isSelected);
+
+    void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener);
+
+    void setAnswerPageLoadingFinishedListener(OnAnswerPageLoadingFinishedListener listener);
+
+    void onAnswersDeleted();
+
+    void onAnswersUpdated();
+
+    void onAnswersLoadedFromDb(List<Answer> answers);
+
+    void deleteAnswer(Answer answer);
 
 }

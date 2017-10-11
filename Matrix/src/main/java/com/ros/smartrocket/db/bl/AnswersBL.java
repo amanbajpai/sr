@@ -31,6 +31,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public class AnswersBL {
@@ -81,11 +82,36 @@ public class AnswersBL {
             return Observable.fromCallable(() -> convertCursorToAnswerList(getAnswersListFromDB(question, product)));
     }
 
-    public static void insert(Answer answer){
+    public static long insert(Answer answer) {
         Uri uri = App.getInstance().getContentResolver().insert(AnswerDbSchema.CONTENT_URI, answer.toContentValues());
-        long id = ContentUris.parseId(uri);
+        return ContentUris.parseId(uri);
     }
 
+    private static int updateAnswersInDB(List<Answer> answers) {
+        int count = 0;
+        for (Answer answer : answers) {
+            count += App.getInstance()
+                    .getContentResolver()
+                    .update(AnswerDbSchema.CONTENT_URI,
+                            answer.toContentValues(),
+                            AnswerDbSchema.Columns._ID + "=?",
+                            new String[]{String.valueOf(answer.get_id())});
+        }
+        return count;
+    }
+
+    public static Completable getUpdateAnswersInDBObservable(List<Answer> answers) {
+        return Completable.fromCallable(() -> updateAnswersInDB(answers));
+    }
+
+    private static int deleteAnswerFromDB(Answer answer) {
+        return App.getInstance().getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Columns._ID + "=?", new String[]{String.valueOf(answer.get_id())});
+    }
+
+    public static Completable getDeleteAnswerFromDBObservable(Answer answer) {
+        return Completable.fromCallable(() -> deleteAnswerFromDB(answer));
+    }
 
     // ------------------ !!!! ----------------- //
 
@@ -211,15 +237,7 @@ public class AnswersBL {
                 AnswerDbSchema.SORT_ORDER_ASC);
     }
 
-
-    /**
-     * Make request for update Answers
-     *
-     * @param handler - Handler for getting response from DB
-     * @param answers - answers array
-     */
-
-    public static void updateAnswersToDB(AsyncQueryHandler handler, Answer[] answers) {
+    public static void updateAnswersToDB(AsyncQueryHandler handler, List<Answer> answers) {
         for (Answer answer : answers) {
             handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI,
                     answer.toContentValues(), AnswerDbSchema.Columns._ID + "=?",
@@ -299,18 +317,6 @@ public class AnswersBL {
         return sb.toString();
     }
 
-
-    /**
-     * Make request for delete Answer
-     *
-     * @param handler - Handler for getting response from DB
-     * @param answer  - answer to delete
-     */
-
-    public static void deleteAnswerFromDB(AsyncQueryHandler handler, Answer answer) {
-        handler.startDelete(AnswerDbSchema.Query.TOKEN_DELETE, null, AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Columns._ID + "=?", new String[]{String.valueOf(answer.get_id())});
-    }
 
     /**
      * Return file's list to upload by task id

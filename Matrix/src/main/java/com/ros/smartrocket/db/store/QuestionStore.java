@@ -100,7 +100,7 @@ public class QuestionStore extends BaseStore {
             Stream.of(productList)
                     .filter(product -> question.getProductId() == null || product.getId().equals(question.getProductId()))
                     .forEach(product -> {
-                        if (question.getAnswers() != null && question.getAnswers().length > 0)
+                        if (question.getAnswers() != null && question.getAnswers().size() > 0)
                             Stream.of(question.getAnswers())
                                     .forEach(a -> answersValues.add(prepareAnswer(question, a, product.getId()).toContentValues()));
                         else
@@ -108,7 +108,7 @@ public class QuestionStore extends BaseStore {
 
                     });
         } else {
-            if (question.getAnswers() != null && question.getAnswers().length > 0)
+            if (question.getAnswers() != null && question.getAnswers().size() > 0)
                 for (Answer answer : question.getAnswers()) {
                     answersValues.add(prepareAnswer(question, answer, null).toContentValues());
                 }

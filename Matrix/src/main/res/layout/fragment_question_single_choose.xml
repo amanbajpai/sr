@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.ros.smartrocket.presentation.question.comment.CommentView
-        android:id="@+id/commentView"
+    <com.ros.smartrocket.presentation.question.choose.single.SingleChoiceView
+        android:id="@+id/singleChooseView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </ScrollView>

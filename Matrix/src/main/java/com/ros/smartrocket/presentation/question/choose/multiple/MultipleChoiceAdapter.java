@@ -1,4 +1,4 @@
-package com.ros.smartrocket.ui.adapter;
+package com.ros.smartrocket.presentation.question.choose.multiple;
 
 import android.content.Context;
 import android.text.Editable;
@@ -12,11 +12,13 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
+import com.ros.smartrocket.presentation.question.choose.AnswerChoiceBaseAdapter;
+import com.ros.smartrocket.presentation.question.choose.ChoiceMvpPresenter;
+import com.ros.smartrocket.presentation.question.choose.ChoiceMvpView;
 
-public class AnswerCheckBoxAdapter extends AnswerBaseAdapter {
-    public AnswerCheckBoxAdapter(Context context, OnAnswerSelectedListener answerSelectedListener) {
-        super(context, answerSelectedListener);
+class MultipleChoiceAdapter extends AnswerChoiceBaseAdapter {
+    MultipleChoiceAdapter(Context context, ChoiceMvpPresenter<ChoiceMvpView> presenter) {
+        super(context, presenter);
     }
 
     @Override
@@ -25,17 +27,15 @@ public class AnswerCheckBoxAdapter extends AnswerBaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.answer_check_box_row, parent, false);
             holder = new ViewHolder();
-
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
             holder.otherAnswerEditText = (EditText) convertView.findViewById(R.id.otherAnswerEditText);
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Answer answer = answers[position];
+        final Answer answer = answers.get(position);
         holder.checkBox.setChecked(answer.getChecked());
 
         if (Integer.valueOf(answer.getValue()) >= 1000) {
@@ -57,17 +57,7 @@ public class AnswerCheckBoxAdapter extends AnswerBaseAdapter {
                     answer.setAnswer(s.toString());
                     answer.setChecked(!TextUtils.isEmpty(s.toString()));
                     checkBox.setChecked(!TextUtils.isEmpty(s.toString()));
-
-                    if (answerSelectedListener != null) {
-                        boolean selected = false;
-                        for (Answer answer : getData()) {
-                            if (answer.getChecked()) {
-                                selected = true;
-                                break;
-                            }
-                        }
-                        answerSelectedListener.onAnswerSelected(selected, answer.getQuestionId());
-                    }
+                    if (presenter != null) presenter.refreshNextButton(getData());
                 }
             });
         } else {
@@ -79,17 +69,13 @@ public class AnswerCheckBoxAdapter extends AnswerBaseAdapter {
         return convertView;
     }
 
-    public static class ViewHolder {
+    static class ViewHolder {
         private TextView name;
         private CheckBox checkBox;
         private EditText otherAnswerEditText;
 
-        public CheckBox getCheckBox() {
+        CheckBox getCheckBox() {
             return checkBox;
-        }
-
-        public TextView getName() {
-            return name;
         }
     }
 }

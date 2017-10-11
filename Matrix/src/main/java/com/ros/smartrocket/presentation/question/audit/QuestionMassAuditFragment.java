@@ -14,10 +14,6 @@ import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
 import java.util.List;
 
 public class QuestionMassAuditFragment extends BaseQuestionFragment {
-
-    public static final String KEY_IS_REDO = "com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment.KEY_IS_REDO";
-    public static final String KEY_IS_PREVIEW = "com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment.KEY_IS_PREVIEW";
-
     public QuestionMassAuditFragment() {
         super(new QuestionMassAuditBL());
     }

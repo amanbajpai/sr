@@ -1,39 +1,34 @@
 package com.ros.smartrocket.presentation.question.audio;
 
 import android.app.Dialog;
-import android.location.Location;
-import android.net.Uri;
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.QuestionAudioPlayer;
 import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
-import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
+import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.views.AudioControlsView;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.StorageManager;
-import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.audio.MatrixAudioPlayer;
 import com.ros.smartrocket.utils.audio.MatrixAudioRecorder;
 import com.shuyu.waveview.AudioWaveView;
-import com.shuyu.waveview.FileUtils;
 
-import java.io.File;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, MatrixAudioRecorder.AudioRecordHandler, MatrixAudioPlayer.AudioPlayCallback {
+public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
+        implements AudioMvpView, MatrixAudioRecorder.AudioRecordHandler, MatrixAudioPlayer.AudioPlayCallback,
+        View.OnClickListener {
     @BindView(R.id.audioView)
     AudioControlsView audioControlsView;
     @BindView(R.id.recordAudioWave)
@@ -44,40 +39,86 @@ class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, Ma
     CustomTextView chronometer;
     private QuestionAudioRecorder audioRecorder;
     private QuestionAudioPlayer audioPlayer;
-    private boolean isAudioAdded = false;
-    private String audioPath;
-    private static final Random RANDOM = new Random();
 
-    @Override
-    public void configureView() {
-        ButterKnife.bind(view);
-        audioRecorder = new MatrixAudioRecorder(audioWave, this);
-        audioPlayer = new MatrixAudioPlayer(audioWave, this);
-        audioControlsView.setOnControlsClickListener(this);
-        loadAnswers();
+    public AudioView(Context context) {
+        super(context);
+    }
+
+    public AudioView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public AudioView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     @Override
-    public void fillViewWithAnswers(Answer[] answers) {
-        if (answers.length == 0) {
-            question.setAnswers(addEmptyAnswer(answers));
-        } else {
-            question.setAnswers(answers);
-        }
+    public void configureView(Question question) {
+        audioRecorder = new MatrixAudioRecorder(audioWave, this);
+        audioPlayer = new MatrixAudioPlayer(audioWave, this);
+        audioControlsView.setOnControlsClickListener(this);
+        presenter.loadAnswers();
+    }
+
+    @Override
+    public void fillViewWithAnswers(List<Answer> answers) {
+        if (answers.isEmpty())
+            presenter.addEmptyAnswer();
         questionLayout.setVisibility(View.VISIBLE);
-        Answer answer = question.getAnswers()[0];
-        if (answer.getChecked() && answer.getFileUri() != null) {
-            isAudioAdded = true;
-            audioPath = Uri.parse(answer.getFileUri()).getPath();
+        if (presenter.isAudioAdded())
             audioControlsView.resolveDefaultPlayingUI();
-        } else {
-            isAudioAdded = false;
-            audioPath = generateAudioFilePath();
+        else
             audioControlsView.resolveDefaultRecordUI();
-        }
         audioWave.setVisibility(View.VISIBLE);
         updateFilePath();
-        refreshNextButton();
+        presenter.refreshNextButton();
+    }
+
+    private void updateFilePath() {
+        audioPlayer.setFilePath(presenter.getFilePath());
+        audioRecorder.setFilePath(presenter.getFilePath());
+    }
+
+    private void stopRecord() {
+        audioWave.stopView();
+        audioRecorder.stopRecording();
+        audioControlsView.resolveDefaultPlayingUI();
+        presenter.saveAnswerWithLocation();
+    }
+
+    @Override
+    public void onRecordError() {
+        presenter.setAudioAdded(false);
+        audioControlsView.resolveDefaultRecordUI();
+        reset();
+    }
+
+    @Override
+    public void onRecordProgress(String progress) {
+        updateTimer(progress);
+    }
+
+    @Override
+    public void onPlayProgress(String progress) {
+        updateTimer(progress);
+    }
+
+    private void updateTimer(final String progress) {
+        // TODO do something
+        if (activity != null)
+            activity.runOnUiThread(() -> chronometer.setText(progress));
+    }
+
+    @Override
+    public void onPlayError() {
+        presenter.setAudioAdded(false);
+        reset();
+    }
+
+    @Override
+    public void onPlayStopped() {
+        if (audioWave != null) audioWave.stopView();
+        audioControlsView.resolveDefaultPlayingUI();
     }
 
     @Override
@@ -183,51 +224,17 @@ class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, Ma
     }
 
     private void deleteRecord() {
-        if (isAudioAdded) {
-            AnswersBL.deleteAnswerFromDB(handler, question.getAnswers()[0]);
-        }
-        isAudioAdded = false;
-        FileUtils.deleteFile(audioPath);
+        presenter.deleteAnswer();
         reset();
     }
 
     @Override
-    public void onRecordError() {
-        isAudioAdded = false;
-        audioControlsView.resolveDefaultRecordUI();
-        reset();
+    public void showBigFileToUploadDialog() {
+        DialogUtils.showBigFileToUploadDialog(getContext());
     }
 
     @Override
-    public void onPlayError() {
-        isAudioAdded = false;
-        reset();
-    }
-
-    @Override
-    public void onPlayStopped() {
-        if (audioWave != null) {
-            audioWave.stopView();
-        }
-        audioControlsView.resolveDefaultPlayingUI();
-    }
-
-    @Override
-    public void onRecordProgress(String progress) {
-        updateTimer(progress);
-    }
-
-    @Override
-    public void onPlayProgress(String progress) {
-        updateTimer(progress);
-    }
-
-    private void updateTimer(final String progress) {
-        if (activity != null)
-            activity.runOnUiThread(() -> chronometer.setText(progress));
-    }
-
-    private void reset() {
+    public void reset() {
         audioWave.stopView();
         if (audioPlayer != null) {
             audioPlayer.reset();
@@ -236,101 +243,19 @@ class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, Ma
             audioRecorder.reset();
         }
         chronometer.setText(R.string.def_timer);
-        audioPath = generateAudioFilePath();
+        presenter.generateAudioFilePath();
         updateFilePath();
         audioControlsView.resolveDefaultRecordUI();
-        refreshNextButton();
-    }
-
-
-    private String generateAudioFilePath() {
-        return StorageManager.getAudioCacheDirPath(App.getInstance()) + "/" + question.getTaskId().toString() + "_" + Calendar.getInstance().getTimeInMillis() + "_"
-                + RANDOM.nextInt(Integer.MAX_VALUE) + ".mp3";
-    }
-
-    private void updateFilePath() {
-        audioPlayer.setFilePath(audioPath);
-        audioRecorder.setFilePath(audioPath);
-    }
-
-    @Override
-    public void refreshNextButton() {
-        if (answerSelectedListener != null) {
-            boolean selected = isAudioAdded;
-            answerSelectedListener.onAnswerSelected(selected, question.getId());
-        }
-
-        if (answerPageLoadingFinishedListener != null) {
-            answerPageLoadingFinishedListener.onAnswerPageLoadingFinished();
-        }
-    }
-
-    private void stopRecord() {
-        audioWave.stopView();
-        audioRecorder.stopRecording();
-        audioControlsView.resolveDefaultPlayingUI();
-        MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager
-                .GetCurrentLocationListener() {
-            @Override
-            public void getLocationStart() {
-                showLoading();
-            }
-
-            @Override
-            public void getLocationInProcess() {
-            }
-
-            @Override
-            public void getLocationSuccess(Location location) {
-                if (getActivity() == null) {
-                    return;
-                }
-                hideProgressDialog();
-                saveAnswer(location);
-            }
-
-            @Override
-            public void getLocationFail(String errorText) {
-                if (!getActivity().isFinishing()) {
-                    UIUtils.showSimpleToast(getActivity(), errorText);
-                }
-            }
-        });
-    }
-
-    private void saveAnswer(Location location) {
-        File sourceAudioFile = new File(audioPath);
-        if (sourceAudioFile.exists()) {
-            if (sourceAudioFile.length() > Keys.MAX_VIDEO_FILE_SIZE_BYTE)
-                DialogUtils.showBigFileToUploadDialog(getActivity());
-            Answer answer = question.getAnswers()[0];
-            answer.setChecked(true);
-            answer.setFileUri(audioPath);
-            answer.setFileSizeB(sourceAudioFile.length());
-            answer.setFileName(sourceAudioFile.getName());
-            answer.setValue(sourceAudioFile.getName());
-            answer.setLatitude(location.getLatitude());
-            answer.setLongitude(location.getLongitude());
-            if (!isPreview())
-                AnswersBL.updateAnswersToDB(handler, question.getAnswers());
-            isAudioAdded = true;
-            refreshNextButton();
-        } else {
-            reset();
-        }
+        presenter.refreshNextButton();
     }
 
 
     @Override
-    protected void answersDeleteComplete() {
-        if (getProductId() != null) {
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
-                    getProductId());
-        } else {
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
-        }
+    public int getLayoutResId() {
+        return R.layout.view_audio_question;
     }
 
+    // TODO implement in base view ovveride here
     @Override
     public void onPause() {
         super.onPause();
@@ -376,6 +301,5 @@ class QuestionAudioBL extends QuestionBaseBL implements View.OnClickListener, Ma
         }
         audioWave = null;
     }
-
 
 }
