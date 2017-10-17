@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <com.ros.smartrocket.presentation.question.photo.PhotoView
+        android:id="@+id/photoView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <include layout="@layout/include_question_header"/>
-        <Space
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"/>
-        <include layout="@layout/include_question_photo_content"/>
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 </ScrollView>

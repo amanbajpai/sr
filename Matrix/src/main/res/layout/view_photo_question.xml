@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_question_header" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:layout_marginBottom="5dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/galleryLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_light">
+
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@drawable/camera_icon"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop" />
+
+            <ImageButton
+                android:id="@+id/rePhotoButton"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="top|start"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_square_active"
+                android:contentDescription="@string/app_name"
+                android:padding="10dp"
+                android:src="@drawable/refresh_square_red" />
+
+            <ImageButton
+                android:id="@+id/deletePhotoButton"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_square_active"
+                android:contentDescription="@string/app_name"
+                android:padding="10dp"
+                android:src="@drawable/delete_square_red" />
+
+            <ImageButton
+                android:id="@+id/confirmButton"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_square_active"
+                android:contentDescription="@string/app_name"
+                android:padding="10dp"
+                android:src="@drawable/check_square_green"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -283,11 +283,11 @@ public class SelectImageManager {
                             lastFile = saveBitmapToFile(context, pictureBitmap, prefix);
                             pictureBitmap.recycle();
                             resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE);
-                            return new ImageFileClass(resultBitmap, lastFile, true);
+                            return new ImageFileClass(resultBitmap, lastFile);
                         }
                     } catch (FileNotFoundException e) {
                         L.e(TAG, "GetBitmapFromGallery error" + e.getMessage(), e);
-                        return new ImageFileClass(null, null, true);
+                        return new ImageFileClass(null, null);
                     }
                 }
 
@@ -329,7 +329,7 @@ public class SelectImageManager {
         } catch (Exception e) {
             L.e(TAG, "GetBitmapFromGallery error" + e.getMessage(), e);
         }
-        return new ImageFileClass(resultBitmap, lastFile, true);
+        return new ImageFileClass(resultBitmap, lastFile);
     }
 
     private static ImageFileClass getBitmapFromCamera(Intent intent, Context context) {
@@ -372,7 +372,7 @@ public class SelectImageManager {
             }
         }
 
-        return new ImageFileClass(prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE), file, false);
+        return new ImageFileClass(prepareBitmap(file, MAX_SIZE_IN_PX, MAX_SIZE_IN_BYTE), file);
     }
 
     private static Bitmap getScaledBitmapByPxSize(File f, int maxSizeInPx) {
@@ -553,12 +553,10 @@ public class SelectImageManager {
     public static class ImageFileClass {
         public final Bitmap bitmap;
         public final File imageFile;
-        public final boolean isFileFromGallery;
 
-        public ImageFileClass(Bitmap bitmap, File imageFile, boolean isFileFromGallery) {
+        public ImageFileClass(Bitmap bitmap, File imageFile) {
             this.bitmap = bitmap;
             this.imageFile = imageFile;
-            this.isFileFromGallery = isFileFromGallery;
         }
     }
 

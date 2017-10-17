@@ -11,13 +11,13 @@ public interface BaseQuestionMvpView extends MvpView {
 
     void configureView(Question question);
 
-    void answersDeleteComplete();
-
-    void answersUpdate();
-
     void fillViewWithAnswers(List<Answer> answers);
 
     void onDestroy();
 
     String getAnswerValue();
+
+    void onPause();
+
+    void onStart();
 }

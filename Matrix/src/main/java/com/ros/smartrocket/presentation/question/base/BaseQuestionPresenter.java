@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.question.base;
 
+import android.content.Intent;
+
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Product;
@@ -49,8 +51,7 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
         addDisposable(AnswersBL.getAnswersListFromDBObservable(question, product)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onAnswersLoadedFromDb, t -> {
-                })
+                .subscribe(this::onAnswersLoadedFromDb, t -> {})
         );
     }
 
@@ -78,6 +79,11 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onAnswersDeleted));
+    }
+
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
+        return false;
     }
 
     @Override

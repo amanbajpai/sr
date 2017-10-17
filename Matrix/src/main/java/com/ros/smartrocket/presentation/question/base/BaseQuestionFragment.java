@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.question.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -61,6 +62,7 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     public void onStart() {
         super.onStart();
         presenter.attachView(mvpView);
+        mvpView.onStart();
         LocaleUtils.setCurrentLanguage();
     }
 
@@ -80,6 +82,12 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mvpView.onPause();
     }
 
     public abstract P getPresenter();
@@ -104,4 +112,11 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     }
 
     public abstract int getLayoutResId();
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LocaleUtils.setCurrentLanguage();
+        if (!presenter.onActivityResult(requestCode, resultCode, data))
+            super.onActivityResult(requestCode, resultCode, data);
+    }
 }

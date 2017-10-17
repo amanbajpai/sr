@@ -76,10 +76,10 @@ public class AnswersBL {
     }
 
     public static Observable<List<Answer>> getAnswersListFromDBObservable(Question question, Product product) {
-        if (product == null)
-            return Observable.fromCallable(() -> convertCursorToAnswerList(getAnswersListFromDB(question)));
-        else
+        if (product != null && product.getId() != null)
             return Observable.fromCallable(() -> convertCursorToAnswerList(getAnswersListFromDB(question, product)));
+        else
+            return Observable.fromCallable(() -> convertCursorToAnswerList(getAnswersListFromDB(question)));
     }
 
     public static long insert(Answer answer) {

@@ -4,5 +4,5 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <include layout="@layout/include_question_header"/>
-    <include layout="@layout/include_question_photo_content"/>
+    <include layout="@layout/view_photo_question"/>
 </LinearLayout>

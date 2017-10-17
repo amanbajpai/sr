@@ -27,7 +27,7 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
     @BindView(R.id.validationComment)
     TextView validationComment;
     @BindView(R.id.questionText)
-    TextView questionText;
+    public TextView questionText;
     private CustomProgressDialog progressDialog;
     protected P presenter;
 
@@ -77,16 +77,6 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
     public abstract void configureView(Question question);
 
     @Override
-    public void answersDeleteComplete() {
-
-    }
-
-    @Override
-    public void answersUpdate() {
-
-    }
-
-    @Override
     public abstract void fillViewWithAnswers(List<Answer> answers);
 
     @Override
@@ -111,6 +101,15 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
         return "";
     }
 
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onStart() {
+
+    }
 
     public void setPresenter(P presenter) {
         this.presenter = presenter;

@@ -62,8 +62,6 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
 
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
-        if (answers.isEmpty())
-            presenter.addEmptyAnswer();
         questionLayout.setVisibility(View.VISIBLE);
         if (presenter.isAudioAdded())
             audioControlsView.resolveDefaultPlayingUI();
@@ -104,9 +102,7 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
     }
 
     private void updateTimer(final String progress) {
-        // TODO do something
-        if (activity != null)
-            activity.runOnUiThread(() -> chronometer.setText(progress));
+        chronometer.setText(progress);
     }
 
     @Override
@@ -236,12 +232,8 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
     @Override
     public void reset() {
         audioWave.stopView();
-        if (audioPlayer != null) {
-            audioPlayer.reset();
-        }
-        if (audioRecorder != null) {
-            audioRecorder.reset();
-        }
+        if (audioPlayer != null) audioPlayer.reset();
+        if (audioRecorder != null) audioRecorder.reset();
         chronometer.setText(R.string.def_timer);
         presenter.generateAudioFilePath();
         updateFilePath();
@@ -255,27 +247,21 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
         return R.layout.view_audio_question;
     }
 
-    // TODO implement in base view ovveride here
     @Override
     public void onPause() {
         super.onPause();
-        hideProgressDialog();
         if (audioPlayer != null) {
-            if (audioPlayer.isPlaying()) {
+            if (audioPlayer.isPlaying())
                 pausePlayer();
-            } else {
+            else
                 audioPlayer.stop();
-            }
         }
-        if (audioWave != null) {
-            audioWave.stopView();
-        }
+        if (audioWave != null) audioWave.stopView();
     }
 
     @Override
-    public void destroyView() {
+    public void onDestroy() {
         clearResources();
-        super.destroyView();
     }
 
     @Override

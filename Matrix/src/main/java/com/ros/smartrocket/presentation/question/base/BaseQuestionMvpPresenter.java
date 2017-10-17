@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.question.base;
 
+import android.content.Intent;
+
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
@@ -39,4 +41,5 @@ public interface BaseQuestionMvpPresenter<V extends BaseQuestionMvpView> extends
 
     void deleteAnswer(Answer answer);
 
+    boolean onActivityResult(int requestCode, int resultCode, Intent intent);
 }

@@ -5,7 +5,6 @@ import android.net.Uri;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
-import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
@@ -30,7 +29,7 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
 
     @Override
     public void onAnswersLoadedFromDb(List<Answer> answers) {
-        super.onAnswersLoadedFromDb(answers);
+        if (answers.isEmpty()) addEmptyAnswer();
         Answer answer = question.getAnswers().get(0);
         if (answer.getChecked() && answer.getFileUri() != null) {
             isAudioAdded = true;
@@ -39,16 +38,12 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
             isAudioAdded = false;
             generateAudioFilePath();
         }
+        super.onAnswersLoadedFromDb(answers);
     }
 
     @Override
     public void onAnswersDeleted() {
-        if (getProductId() != null) {
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId(),
-                    getProductId());
-        } else {
-            AnswersBL.getAnswersListFromDB(handler, question.getTaskId(), question.getMissionId(), question.getId());
-        }
+        loadAnswers();
     }
 
     @Override
@@ -81,7 +76,6 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
             @Override
             public void getLocationFail(String errorText) {
                 if (isViewAttached())
-                    // TODO move it
                     UIUtils.showSimpleToast(App.getInstance(), errorText);
             }
         });
@@ -103,8 +97,7 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
             answer.setValue(sourceAudioFile.getName());
             answer.setLatitude(location.getLatitude());
             answer.setLongitude(location.getLongitude());
-            if (!isPreview())
-                saveQuestion();
+            if (!isPreview()) saveQuestion();
             isAudioAdded = true;
             refreshNextButton();
         } else {

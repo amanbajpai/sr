@@ -3,6 +3,7 @@ package com.ros.smartrocket.utils.audio;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.czt.mp3recorder.MP3Recorder;
 import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
@@ -13,16 +14,20 @@ import com.shuyu.waveview.AudioWaveView;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MatrixAudioRecorder implements QuestionAudioRecorder {
+    private Disposable timerDisposable;
     private AudioWaveView audioWave;
     private MP3Recorder recorder;
     private String filePath;
     private boolean isRecording;
     private AudioRecordHandler recordHandler;
-    private Timer timer;
     private long time;
 
 
@@ -63,17 +68,23 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
     }
 
     private void scheduleTimer() {
-        timer = new Timer();
-        // TODO replace with RxJava
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (!isRecording || recorder == null) return;
-                time++;
-                if (recordHandler != null)
-                    recordHandler.onRecordProgress(TimeUtils.toTime(time * TimeUtils.ONE_SECOND_IN_MILL));
-            }
-        }, TimeUtils.ONE_SECOND_IN_MILL, TimeUtils.ONE_SECOND_IN_MILL);
+        if (timerDisposable != null) timerDisposable.dispose();
+        timerDisposable =
+                Observable
+                        .interval(1, 1, TimeUnit.SECONDS, Schedulers.io())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(__ ->
+                        {
+                            if (recordHandler != null && isRecording && recorder != null) {
+                                time++;
+                                recordHandler.onRecordProgress(TimeUtils.toTime(time * TimeUtils.ONE_SECOND_IN_MILL));
+                            }
+                        }, this::onTimerError);
+    }
+
+    private void onTimerError(Throwable t) {
+        Log.e("MatrixAudioRecorder", "Error on MatrixAudioRecorder Timer", t);
     }
 
     @Override
@@ -117,9 +128,9 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
     }
 
     private void cancelTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
+        if (timerDisposable != null) {
+            timerDisposable.dispose();
+            timerDisposable = null;
         }
     }
 
