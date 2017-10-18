@@ -20,7 +20,7 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
     private Product product;
     private boolean isPreview;
     private boolean isRedo;
-    private OnAnswerSelectedListener answerSelectedListener;
+    protected OnAnswerSelectedListener answerSelectedListener;
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
 
 

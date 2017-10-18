@@ -117,8 +117,10 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
 
             @Override
             public void getLocationFail(String errorText) {
-                if (isViewAttached())
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
                     UIUtils.showSimpleToast(App.getInstance(), errorText);
+                }
             }
         });
     }

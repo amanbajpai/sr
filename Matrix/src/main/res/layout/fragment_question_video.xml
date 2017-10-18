@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/include_question_header"/>
-    <include layout="@layout/include_question_video_content"/>
+
+    <com.ros.smartrocket.presentation.question.video.VideoQuestionView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

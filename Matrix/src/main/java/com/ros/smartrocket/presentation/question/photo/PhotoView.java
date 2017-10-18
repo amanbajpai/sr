@@ -1,9 +1,7 @@
 package com.ros.smartrocket.presentation.question.photo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -20,7 +18,6 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
@@ -107,7 +104,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
                 presenter.onPhotoClicked(currentSelectedPhoto);
                 break;
             case R.id.rePhotoButton:
-
+                presenter.onPhotoRequested(currentSelectedPhoto);
                 break;
             case R.id.deletePhotoButton:
                 presenter.onPhotoDeleted(currentSelectedPhoto);
