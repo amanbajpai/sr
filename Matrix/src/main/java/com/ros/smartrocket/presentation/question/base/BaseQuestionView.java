@@ -46,7 +46,7 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
         init();
     }
 
-    private void init() {
+    protected void init() {
         LayoutInflater.from(getContext()).inflate(getLayoutResId(), this, true);
         ButterKnife.bind(this);
     }

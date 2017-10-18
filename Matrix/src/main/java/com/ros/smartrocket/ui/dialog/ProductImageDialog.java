@@ -36,7 +36,6 @@ public final class ProductImageDialog extends DialogFragment {
     public static void showDialog(FragmentManager fm, String url) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY, url);
-
         DialogFragment dialog = new ProductImageDialog();
         dialog.setArguments(bundle);
         dialog.show(fm, "product_image_dialog");

@@ -12,10 +12,9 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.base.BaseActivity;
-import com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment;
+import com.ros.smartrocket.presentation.question.audit.subquestion.SubQuestionsMassAuditFragment;
 import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
-import com.ros.smartrocket.presentation.question.photo.QuestionPhotoBL;
-import com.ros.smartrocket.presentation.question.video.QuestionVideoBL;
+
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.ros.smartrocket.presentation.question.audit;
+package com.ros.smartrocket.presentation.question.audit.subquestion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
@@ -31,10 +32,10 @@ import de.greenrobot.event.EventBus;
 
 public class SubQuestionsMassAuditFragment extends BaseFragment implements
         OnAnswerSelectedListener, OnAnswerPageLoadingFinishedListener {
-    public static final String KEY_QUES = "com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment.KEY_QUESTIONS";
-    public static final String KEY_TITLE = "com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment.KEY_TITLE";
-    public static final String KEY_PRODUCT = "com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment.KEY_PRODUCT";
-    public static final String KEY_PRODUCT_POS = "com.ros.smartrocket.presentation.question.audit.SubQuestionsMassAuditFragment.KEY_PRODUCT_POS";
+    public static final String KEY_QUES = "KEY_QUESTIONS";
+    public static final String KEY_TITLE = "KEY_TITLE";
+    public static final String KEY_PRODUCT = "KEY_PRODUCT";
+    public static final String KEY_PRODUCT_POS = "KEY_PRODUCT_POS";
 
     @BindView(R.id.massAuditSubquestionsLayout)
     LinearLayout subQuestionsLayout;
@@ -64,11 +65,10 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_PRODUCT_POS, productPosition);
         bundle.putSerializable(KEY_PRODUCT, product);
-        bundle.putBoolean(QuestionMassAuditFragment.KEY_IS_REDO, isRedo);
-        bundle.putBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, isPreview);
+        bundle.putBoolean(Keys.IS_REDO, isRedo);
+        bundle.putBoolean(Keys.IS_PREVIEW, isPreview);
         Fragment fragment = new SubQuestionsMassAuditFragment();
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -85,8 +85,8 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
         super.onActivityCreated(savedInstanceState);
 
         product = (Product) getArguments().getSerializable(KEY_PRODUCT);
-        isRedo = getArguments().getBoolean(QuestionMassAuditFragment.KEY_IS_REDO, false);
-        isPreview = getArguments().getBoolean(QuestionMassAuditFragment.KEY_IS_PREVIEW, false);
+        isRedo = getArguments().getBoolean(Keys.IS_REDO, false);
+        isPreview = getArguments().getBoolean(Keys.IS_PREVIEW, false);
         submitButton.setEnabled(isPreview);
         productPosition = getArguments().getInt(KEY_PRODUCT_POS);
 
@@ -119,8 +119,8 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
             }
         }
 
-        adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
-                childQuestions.toArray(new Question[childQuestions.size()]), product);
+//        adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
+//                childQuestions.toArray(new Question[childQuestions.size()]), product);
         int pos = 0;
         int itemsSize = adapter.getCount() - 1;
         for (int i = 0; i < adapter.getCount(); i++) {

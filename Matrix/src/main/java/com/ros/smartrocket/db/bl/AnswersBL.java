@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -109,18 +110,45 @@ public class AnswersBL {
                 AnswerDbSchema.Columns._ID + "=?", new String[]{String.valueOf(answer.get_id())});
     }
 
-    public static Completable getDeleteAnswerFromDBObservable(Answer answer) {
+    public static Completable deleteAnswerFromDBObservable(Answer answer) {
         return Completable.fromCallable(() -> deleteAnswerFromDB(answer));
+    }
+
+    private static Cursor getSubQuestionsAnswersListFromDB(Question question) {
+        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID)
+                .append("=? and ")
+                .append(AnswerDbSchema.Columns.MISSION_ID)
+                .append("=? and (");
+        ArrayList<String> args = new ArrayList<>();
+        args.add(String.valueOf(question.getTaskId()));
+        args.add(String.valueOf(question.getMissionId()));
+        List<Question> subQuestions = question.getChildQuestions();
+        for (int i = 0; i < subQuestions.size(); i++) {
+            where.append(AnswerDbSchema.Columns.QUESTION_ID).append(" =? ");
+            if (i != subQuestions.size() - 1) {
+                where.append(" or ");
+            }
+            args.add(String.valueOf(subQuestions.get(i).getId()));
+        }
+        where.append(" ) and ")
+                .append(AnswerDbSchema.Columns.CHECKED)
+                .append("=? ");
+        args.add(String.valueOf(1));
+
+        return App.getInstance().getContentResolver().query(
+                AnswerDbSchema.CONTENT_URI,
+                AnswerDbSchema.Query.PROJECTION,
+                where.toString(),
+                args.toArray(new String[args.size()]),
+                AnswerDbSchema.SORT_ORDER_ASC);
+    }
+
+    public static Observable<List<Answer>> subQuestionsAnswersListObservable(Question question) {
+        return Observable.fromCallable(() -> convertCursorToAnswerList(getSubQuestionsAnswersListFromDB(question)));
     }
 
     // ------------------ !!!! ----------------- //
 
-    /**
-     * Update missionId
-     *
-     * @param taskId    - current taskId
-     * @param missionId - missionId to set
-     */
     public static void setMissionId(Integer taskId, Integer missionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.MISSION_ID.getName(), missionId);
@@ -132,11 +160,6 @@ public class AnswersBL {
         App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    /**
-     * Make request for getting Answer list
-     *
-     * @param handler - Handler for getting response from DB
-     */
     public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Category[] categories) {
 
         StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
@@ -162,58 +185,6 @@ public class AnswersBL {
 
             args.add(String.valueOf(products.get(i).getId()));
         }
-
-
-//        handler.startQuery(
-//                AnswerDbSchema.Query.TOKEN_QUERY,
-//                null,
-//                AnswerDbSchema.CONTENT_URI,
-//                AnswerDbSchema.Query.PROJECTION,
-//                AnswerDbSchema.Columns.TASK_ID + "=? and "
-//                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
-//                        + AnswerDbSchema.Columns.PRODUCT_ID + " =?",
-//                new String[]{String.valueOf(taskId), String.valueOf(missionId), "1,2,3"},
-//                AnswerDbSchema.SORT_ORDER_ASC);
-
-        handler.startQuery(
-                AnswerDbSchema.Query.TOKEN_QUERY,
-                null,
-                AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION,
-                where.toString(),
-                args.toArray(new String[args.size()]),
-                AnswerDbSchema.SORT_ORDER_ASC);
-    }
-
-    /**
-     * Make request for getting Answer list
-     *
-     * @param handler - Handler for getting response from DB
-     */
-
-    public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Question[] questions) {
-
-        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
-                .append(AnswerDbSchema.Columns.MISSION_ID + "=? and (");
-
-        ArrayList<String> args = new ArrayList<>();
-        args.add(String.valueOf(taskId));
-        args.add(String.valueOf(missionId));
-
-        for (int i = 0; i < questions.length; i++) {
-            where.append(AnswerDbSchema.Columns.QUESTION_ID + " =? ");
-            if (i != questions.length - 1) {
-                where.append(" or ");
-            }
-
-            args.add(String.valueOf(questions[i].getId()));
-        }
-
-//        where.append(AnswerDbSchema.Columns.QUESTION_ID + "=? ");
-//        args.add(String.valueOf(questions[0].getId()));
-
-        where.append(" ) and ").append(AnswerDbSchema.Columns.CHECKED + "=? ");
-        args.add(String.valueOf(1));
 
 
 //        handler.startQuery(
@@ -271,7 +242,7 @@ public class AnswersBL {
                 new String[]{String.valueOf(taskId), String.valueOf(missionId), String.valueOf(questionId)});
     }
 
-    public static void clearSubAnswersInDB(Integer taskId, Integer missionId, Integer productId, Question[] questions) {
+    public static void clearSubAnswersInDB(Integer taskId, Integer missionId, Integer productId, List<Question> questions) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
         List<Question> subQuestions = getSubQuestions(questions);
@@ -285,14 +256,10 @@ public class AnswersBL {
         }
     }
 
-    private static List<Question> getSubQuestions(Question[] questions) {
-        List<Question> subQuestions = new ArrayList<>();
-        for (Question q : questions) {
-            if (q.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
-                subQuestions.add(q);
-            }
-        }
-        return subQuestions;
+    private static List<Question> getSubQuestions(List<Question> questions) {
+        return Stream.of(questions)
+                .filter(q -> q.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId())
+                .collect(com.annimon.stream.Collectors.toList());
     }
 
     private static String[] getSubQuestionParams(List<Question> questions, Integer taskId, Integer missionId, Integer productId) {
@@ -317,15 +284,6 @@ public class AnswersBL {
         return sb.toString();
     }
 
-
-    /**
-     * Return file's list to upload by task id
-     *
-     * @param taskId      - current task id
-     * @param endDateTime - task finish date
-     * @return List<NotUploadedFile>
-     */
-
     public static List<NotUploadedFile> getTaskFilesListToUpload(Integer taskId, Integer missionId, String taskName,
                                                                  long endDateTime) {
         ContentResolver resolver = App.getInstance().getContentResolver();
@@ -334,9 +292,9 @@ public class AnswersBL {
                         AnswerDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId)}, null);
 
-        Answer[] answers = convertCursorToAnswersArray(cursor);
+        List<Answer> answers = convertCursorToAnswerList(cursor);
 
-        List<NotUploadedFile> notUploadedFiles = new ArrayList<NotUploadedFile>();
+        List<NotUploadedFile> notUploadedFiles = new ArrayList<>();
         for (Answer answer : answers) {
             if (!TextUtils.isEmpty(answer.getFileUri())) {
                 NotUploadedFile fileToUpload = new NotUploadedFile();
@@ -359,13 +317,6 @@ public class AnswersBL {
         return notUploadedFiles;
     }
 
-    /**
-     * Make request for getting size of files in MB
-     *
-     * @param filesToUpload - files to upload
-     * @return Float
-     */
-
     public static float getTaskFilesSizeMb(List<NotUploadedFile> filesToUpload) {
         long resultSizeInB = 0;
         for (NotUploadedFile fileToUpload : filesToUpload) {
@@ -378,12 +329,6 @@ public class AnswersBL {
         return resultSizeInB / (float) 1024;
     }
 
-    /**
-     * Return size of file as String in MB or KB
-     *
-     * @param size - file size
-     * @return String
-     */
     public String size(int size) {
         String hrSize;
         double m = size / 1024.0;
@@ -419,7 +364,6 @@ public class AnswersBL {
                 break;
             }
         }
-
         return hasFile;
     }
 
@@ -452,12 +396,6 @@ public class AnswersBL {
         }
     }
 
-    /**
-     * Calculate average location for list of answers. And Save it to local DB
-     *
-     * @param task
-     * @param answerList
-     */
     public static void savePhotoVideoAnswersAverageLocation(final Task task, final List<Answer> answerList) {
         int photoVideoAnswerCount = 0;
 
@@ -502,26 +440,7 @@ public class AnswersBL {
         TasksBL.updateTaskSync(task);
     }
 
-    /**
-     * Convert cursor to Answer array
-     *
-     * @param cursor - all fields cursor
-     * @return Answer[]
-     */
-    public static Answer[] convertCursorToAnswersArray(Cursor cursor) {
-        Answer[] result = new Answer[]{};
-        if (cursor != null) {
-            result = new Answer[cursor.getCount()];
-
-            while (cursor.moveToNext()) {
-                result[cursor.getPosition()] = Answer.fromCursor(cursor);
-            }
-            cursor.close();
-        }
-        return result;
-    }
-
-    private static List<Answer> convertCursorToAnswerList(Cursor cursor) {
+    public static List<Answer> convertCursorToAnswerList(Cursor cursor) {
         List<Answer> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {

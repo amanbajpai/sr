@@ -9,9 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.text.Html;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -142,7 +139,7 @@ public class QuestionBaseBL {
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             if (token == AnswerDbSchema.Query.TOKEN_QUERY) {
-                Answer[] answers = AnswersBL.convertCursorToAnswersArray(cursor);
+                Answer[] answers = null;
                 fillViewWithAnswers(answers);
             }
         }

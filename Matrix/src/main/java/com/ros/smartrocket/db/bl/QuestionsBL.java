@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.bl;
 
 import android.app.Activity;
-import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -95,39 +94,24 @@ public class QuestionsBL {
         return Observable.fromCallable(() -> convertCursorToQuestionList(getClosingStatementQuestionFromDB(task)));
     }
 
-    // ---------------------- !!! ----------------------//
+    public static Observable<List<Question>> childQuestionsListObservable(Question question) {
+        return Observable.fromCallable(() -> convertCursorToQuestionList(getChildQuestionsCursorFromDB(question)));
+    }
 
-    public static void getChildQuestionsListFromDB(AsyncQueryHandler handler, Integer taskId,
-                                                   Integer parentQuestionId, Integer missionId) {
-        handler.startQuery(
-                QuestionDbSchema.Query.TOKEN_QUERY,
-                null,
+    private static Cursor getChildQuestionsCursorFromDB(Question question) {
+        return App.getInstance().getContentResolver().query(
                 QuestionDbSchema.CONTENT_URI,
                 QuestionDbSchema.Query.PROJECTION,
                 QuestionDbSchema.Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.PARENT_QUESTION_ID + "=? and "
                         + QuestionDbSchema.Columns.MISSION_ID + "=?",
-                new String[]{String.valueOf(taskId), String.valueOf(parentQuestionId), String.valueOf(missionId)},
+                new String[]{String.valueOf(question.getTaskId()),
+                        String.valueOf(question.getId()),
+                        String.valueOf(question.getMissionId())},
                 QuestionDbSchema.SORT_ORDER_SUBQUESTIONS
         );
     }
 
-    /**
-     * Make request for getting Question
-     *
-     * @param waveId - current waveId
-     */
-    public static Question getQuestionsFromDB(Integer waveId, Integer taskId, Integer missionId, Integer questionId) {
-        Cursor cursor = App.getInstance().getContentResolver().query(QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Query.PROJECTION, QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
-                        .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.MISSION_ID + "=? and " +
-                        QuestionDbSchema.Columns.ID + "=?",
-                new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId), String
-                        .valueOf(questionId)},
-                QuestionDbSchema.SORT_ORDER_DESC
-        );
-
-        return convertCursorToQuestionOrNull(cursor);
-    }
+    // ---------------------- !!! ----------------------//
 
     public static void setMissionId(Integer waveId, Integer taskId, Integer missionId) {
         ContentValues contentValues = new ContentValues();
@@ -138,12 +122,6 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    /**
-     * Update previous question orderId
-     *
-     * @param questionId              - current questionId
-     * @param previousQuestionOrderId - orderId of previous question
-     */
     public static void updatePreviousQuestionOrderId(Integer questionId, Integer previousQuestionOrderId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(QuestionDbSchema.Columns.PREVIOUS_QUESTION_ORDER_ID.getName(), previousQuestionOrderId);
@@ -154,12 +132,6 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    /**
-     * Update next answered question Id
-     *
-     * @param questionId             - current questionId
-     * @param nextAnsweredQuestionId - question Id of next answered question
-     */
     public static void updateNextAnsweredQuestionId(Integer questionId, Integer nextAnsweredQuestionId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(QuestionDbSchema.Columns.NEXT_ANSWERED_QUESTION_ID.getName(), nextAnsweredQuestionId);
@@ -179,11 +151,6 @@ public class QuestionsBL {
                 QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema.Columns.TASK_ID + "=? and "
                         + QuestionDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(waveId), String.valueOf(taskId), String.valueOf(missionId)});
-    }
-
-    public static void removeQuestionsByWaveId(Context context, Integer waveId) {
-        context.getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
-                QuestionDbSchema.Columns.WAVE_ID + "=?", new String[]{String.valueOf(waveId)});
     }
 
     public static void removeAllQuestionsFromDB(Context context) {
@@ -218,12 +185,6 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    /**
-     * Convert cursor to Question list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList<Question>
-     */
     public static List<Question> convertCursorToQuestionList(Cursor cursor) {
         List<Question> result = new ArrayList<Question>();
         if (cursor != null) {
@@ -235,48 +196,6 @@ public class QuestionsBL {
         return result;
     }
 
-    /**
-     * Convert cursor to Question
-     *
-     * @param cursor - all fields cursor
-     * @return Question
-     */
-    public static Question convertCursorToQuestionOrNull(Cursor cursor) {
-        Question result = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                result = Question.fromCursor(cursor);
-            }
-            cursor.close();
-        }
-        return result;
-    }
-
-    /**
-     * Get Question by Id
-     *
-     * @param questions
-     * @param questionId
-     * @return
-     */
-    /*public static Question getQuestionById(ArrayList<Question> questions, int questionId) {
-        Question result = null;
-        for (Question question : questions) {
-            if (question.getId() == questionId) {
-                result = question;
-                break;
-            }
-        }
-        return result;
-    }*/
-
-    /**
-     * Get Question by orderId
-     *
-     * @param questions - question list
-     * @param orderId   - orderId to select
-     * @return Question
-     */
     public static Question getQuestionByOrderId(List<Question> questions, int orderId) {
         Question result = null;
         for (Question question : questions) {
@@ -289,32 +208,6 @@ public class QuestionsBL {
         return result;
     }
 
-    /**
-     * Get Question by id
-     *
-     * @param questions - question list
-     * @param id        - questionId
-     * @return Question
-     */
-    public static Question getQuestionById(List<Question> questions, int id) {
-        Question result = null;
-        for (Question question : questions) {
-            if (question.getId() == id) {
-                result = question;
-                break;
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Get Question by orderId
-     *
-     * @param questions - question list
-     * @param orderId   - orderId to select
-     * @return Question
-     */
     public static Question getQuestionWithCheckConditionByOrderId(List<Question> questions, int orderId, boolean isRedo) {
         Question result = null;
         boolean continueLoop = true;
@@ -452,8 +345,8 @@ public class QuestionsBL {
         return result;
     }
 
-    private static Answer[] getAnswers(Question previousQuestion) {
-        Answer[] answers = null;
+    private static List<Answer> getAnswers(Question previousQuestion) {
+        List<Answer> answers = null;
         Cursor c = App.getInstance().getContentResolver().query(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Query.PROJECTION,
                 AnswerDbSchema.Columns.QUESTION_ID + "=? and "
@@ -462,13 +355,13 @@ public class QuestionsBL {
                 new String[]{String.valueOf(previousQuestion.getId()), String.valueOf(previousQuestion.getTaskId()), String.valueOf(previousQuestion.getMissionId())},
                 AnswerDbSchema.SORT_ORDER_ASC);
         if (c != null) {
-            answers = AnswersBL.convertCursorToAnswersArray(c);
+            answers = AnswersBL.convertCursorToAnswerList(c);
             c.close();
         }
         return answers;
     }
 
-    public static int getOrderIdFromRoutingCondition(Question question) {
+    private static int getOrderIdFromRoutingCondition(Question question) {
         int orderId = 0;
         AskIf[] askIfArray = question.getAskIfArray();
         for (AskIf askIf : askIfArray) {
@@ -480,7 +373,7 @@ public class QuestionsBL {
         return orderId;
     }
 
-    public static String getAnswerValue(Question question) {
+    private static String getAnswerValue(Question question) {
         String result = null;
         if (question != null) {
             List<Answer> answers = question.getAnswers();
@@ -548,7 +441,7 @@ public class QuestionsBL {
     }
 
     @Nullable
-    public static Question getMainSubQuestion(Question[] subQuestions) {
+    public static Question getMainSubQuestion(List<Question> subQuestions) {
         for (Question childQuestion : subQuestions) {
             if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
                 return childQuestion;
@@ -558,7 +451,7 @@ public class QuestionsBL {
     }
 
     @Nullable
-    public static List<Question> getReDoMainSubQuestionList(Question[] subQuestions) {
+    public static List<Question> getReDoMainSubQuestionList(List<Question> subQuestions) {
         List<Question> reDoMainSubQuestionList = new ArrayList<>();
         for (Question childQuestion : subQuestions) {
             if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
@@ -569,7 +462,7 @@ public class QuestionsBL {
     }
 
     @Nullable
-    public static boolean hasReDoNotMainSub(Question[] subQuestions, Integer productId) {
+    public static boolean hasReDoNotMainSub(List<Question> subQuestions, Integer productId) {
         for (Question childQuestion : subQuestions) {
             if (getQuestionType(childQuestion.getType()) != Question.QuestionType.MAIN_SUB_QUESTION
                     && productId.equals(childQuestion.getProductId())) {

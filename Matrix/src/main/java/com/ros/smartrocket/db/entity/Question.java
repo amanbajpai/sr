@@ -132,7 +132,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
     @SkipFieldInContentValues
     @SerializedName("Children")
-    private Question[] childrenQuestions;
+    private List<Question> childrenQuestions;
     @SkipFieldInContentValues
     private transient String subQuestionNumber;
 
@@ -469,11 +469,11 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         return categories;
     }
 
-    public Question[] getChildQuestions() {
+    public List<Question> getChildQuestions() {
         return childrenQuestions;
     }
 
-    public void setChildQuestions(Question[] childrenQuestions) {
+    public void setChildQuestions(List<Question> childrenQuestions) {
         this.childrenQuestions = childrenQuestions;
     }
 

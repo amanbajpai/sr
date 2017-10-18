@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePresenter<V> implements BaseQuestionMvpPresenter<V> {
     protected Question question;
-    private Product product;
+    protected Product product;
     private boolean isPreview;
     private boolean isRedo;
     protected OnAnswerSelectedListener answerSelectedListener;
@@ -75,7 +75,7 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
 
     @Override
     public void deleteAnswer(Answer answer) {
-        addDisposable(AnswersBL.getDeleteAnswerFromDBObservable(answer)
+        addDisposable(AnswersBL.deleteAnswerFromDBObservable(answer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onAnswersDeleted));

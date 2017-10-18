@@ -16,7 +16,7 @@ import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL;
-import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL.TickCrossAnswerPair;
+import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswerPair;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.squareup.picasso.Picasso;
 
@@ -37,28 +37,23 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     private int questionNumber;
     private List<Question> reDoMainSubList = new ArrayList<>();
 
-    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
-                                          View.OnClickListener crossListener, View.OnClickListener thumbListener, int questionNumber) {
+    public MassAuditExpandableListAdapter(Context context, Question question, View.OnClickListener tickListener,
+                                          View.OnClickListener crossListener, View.OnClickListener thumbListener) {
         this.context = context;
-        this.categories = categories;
+        this.categories = question.getCategoriesArray();
         this.tickListener = tickListener;
         this.crossListener = crossListener;
         this.thumbListener = thumbListener;
         this.isRedo = false;
-        this.questionNumber = questionNumber;
+        this.questionNumber = question.getOrderId();
     }
 
-    public MassAuditExpandableListAdapter(Context context, Category[] categories, View.OnClickListener tickListener,
+    public MassAuditExpandableListAdapter(Context context, Question question, View.OnClickListener tickListener,
                                           View.OnClickListener crossListener, View.OnClickListener thumbListener,
-                                          List<Question> reDoMainSubList, int questionNumber) {
-        this.context = context;
-        this.categories = categories;
-        this.tickListener = tickListener;
-        this.crossListener = crossListener;
-        this.thumbListener = thumbListener;
+                                          List<Question> reDoMainSubList) {
+        this(context, question, tickListener, crossListener, thumbListener);
         this.isRedo = true;
         this.reDoMainSubList = reDoMainSubList;
-        this.questionNumber = questionNumber;
     }
 
     @Override
