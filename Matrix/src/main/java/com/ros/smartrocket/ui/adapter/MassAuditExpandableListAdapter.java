@@ -111,8 +111,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             if (image.startsWith("http")) {
                 Picasso.with(context)
                         .load(image)
-                        .placeholder(R.drawable.mass_audit_image)
-                        .error(R.drawable.mass_audit_image)
+                        .error(R.color.mass_audit_grey)
                         .into(catImage);
             } else {
                 Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0);
@@ -193,8 +192,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             if (image.startsWith("http")) {
                 Picasso.with(context)
                         .load(image)
-                        .placeholder(R.drawable.loading_normal)
-                        .error(R.drawable.mass_audit_image)
+                        .error(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey)
                         .into(thumb);
             } else {
                 Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0);

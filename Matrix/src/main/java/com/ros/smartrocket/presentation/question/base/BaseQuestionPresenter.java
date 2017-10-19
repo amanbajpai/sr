@@ -10,6 +10,7 @@ import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.presentation.base.BasePresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,7 +32,7 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
     @Override
     public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && !question.getAnswers().isEmpty()) {
-            addDisposable(AnswersBL.getUpdateAnswersInDBObservable(question.getAnswers())
+            addDisposable(AnswersBL.getUpdateAnswersInDBObservable(new ArrayList<>(question.getAnswers()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::onAnswersUpdated));

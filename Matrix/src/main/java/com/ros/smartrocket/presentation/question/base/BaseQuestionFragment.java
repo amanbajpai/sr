@@ -70,6 +70,7 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     public void onStop() {
         super.onStop();
         presenter.detachView();
+        mvpView.onStop();
     }
 
     @Override

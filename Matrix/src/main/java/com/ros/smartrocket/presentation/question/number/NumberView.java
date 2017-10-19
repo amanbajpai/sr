@@ -90,6 +90,16 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
         }
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.keyBackspaceBtn)
+    void onBackspaceClick() {
+        String text = answerTextView.getText().toString();
+        if (text.length() > 0) {
+            answerTextView.setText(text.substring(0, text.length() - 1));
+            presenter.onNumberEntered(answerTextView.getText().toString());
+        }
+    }
+
     @Override
     public String getAnswerValue() {
         return answerTextView.getText().toString();
