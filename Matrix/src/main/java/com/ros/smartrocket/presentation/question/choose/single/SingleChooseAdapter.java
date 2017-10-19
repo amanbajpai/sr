@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.presentation.question.choose.AnswerChoiceBaseAdapter;
-import com.ros.smartrocket.presentation.question.choose.ChoiceMvpPresenter;
-import com.ros.smartrocket.presentation.question.choose.ChoiceMvpView;
+import com.ros.smartrocket.presentation.question.choose.AnswerChooseBaseAdapter;
+import com.ros.smartrocket.presentation.question.choose.ChooseMvpPresenter;
+import com.ros.smartrocket.presentation.question.choose.ChooseMvpView;
 
-class SingleChoiceAdapter extends AnswerChoiceBaseAdapter {
-    SingleChoiceAdapter(Context context, ChoiceMvpPresenter<ChoiceMvpView> presenter) {
+class SingleChooseAdapter extends AnswerChooseBaseAdapter {
+    SingleChooseAdapter(Context context, ChooseMvpPresenter<ChooseMvpView> presenter) {
         super(context, presenter);
     }
 

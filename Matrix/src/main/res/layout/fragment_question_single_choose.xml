@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ros.smartrocket.presentation.question.choose.single.SingleChoiceView
+    <com.ros.smartrocket.presentation.question.choose.single.SingleChooseView
         android:id="@+id/singleChooseView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

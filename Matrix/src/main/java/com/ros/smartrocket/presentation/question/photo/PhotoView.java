@@ -72,7 +72,6 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     @Override
     public void configureView(Question question) {
         showLoading(false);
-        EventBus.getDefault().register(this);
 //        if (savedInstanceState != null) {
 //            mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
 //            currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
@@ -122,13 +121,19 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void onPause() {
         hideLoading();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override

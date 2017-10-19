@@ -30,10 +30,9 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public class WavesBL {
+public final class WavesBL {
 
     private WavesBL() {
-
     }
 
     private static Cursor getNotMyWavesListCursor(boolean showHiddenTasks) {
@@ -161,13 +160,7 @@ public class WavesBL {
         return result;
     }
 
-    /**
-     * Convert cursor to Task list
-     *
-     * @param cursor - all fields cursor
-     * @return Wave
-     */
-    public static Wave convertCursorToWaveWithTask(Cursor cursor) {
+    private static Wave convertCursorToWaveWithTask(Cursor cursor) {
         Wave result = null;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -178,13 +171,7 @@ public class WavesBL {
         return result;
     }
 
-    /**
-     * Convert cursor to Wave
-     *
-     * @param cursor - all fields cursor
-     * @return Wave
-     */
-    public static Wave convertCursorToWave(Cursor cursor) {
+    private static Wave convertCursorToWave(Cursor cursor) {
         Wave result = new Wave();
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -200,9 +187,6 @@ public class WavesBL {
         return UIUtils.isoTimeToLong(wave.getStartDateTime()) > Calendar.getInstance().getTimeInMillis();
     }
 
-    /**
-     * Update wave
-     */
     public static void updateWave(int waveId, int missionSize) {
         String where = WaveDbSchema.Columns.ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(waveId)};

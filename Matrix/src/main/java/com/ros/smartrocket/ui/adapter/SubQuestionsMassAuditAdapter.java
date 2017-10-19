@@ -1,128 +1,138 @@
 package com.ros.smartrocket.ui.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ros.smartrocket.R;
+import com.annimon.stream.Stream;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.presentation.base.MvpPresenter;
 import com.ros.smartrocket.presentation.question.audit.subquestion.SubQuestionsMassAuditFragment;
-import com.ros.smartrocket.presentation.question.base.QuestionBaseBL;
-
+import com.ros.smartrocket.presentation.question.base.BaseQuestionMvpPresenter;
+import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
+import com.ros.smartrocket.presentation.question.choose.ChoosePresenter;
+import com.ros.smartrocket.presentation.question.choose.multiple.MultipleChooseView;
+import com.ros.smartrocket.presentation.question.choose.single.SingleChooseView;
+import com.ros.smartrocket.presentation.question.comment.CommentPresenter;
+import com.ros.smartrocket.presentation.question.comment.CommentView;
+import com.ros.smartrocket.presentation.question.instruction.InstructionPresenter;
+import com.ros.smartrocket.presentation.question.instruction.InstructionView;
+import com.ros.smartrocket.presentation.question.number.NumberPresenter;
+import com.ros.smartrocket.presentation.question.number.NumberView;
+import com.ros.smartrocket.presentation.question.photo.PhotoPresenter;
+import com.ros.smartrocket.presentation.question.photo.PhotoView;
+import com.ros.smartrocket.presentation.question.photo.helper.PhotoQuestionHelper;
+import com.ros.smartrocket.presentation.question.video.VideoPresenter;
+import com.ros.smartrocket.presentation.question.video.VideoQuestionView;
+import com.ros.smartrocket.presentation.question.video.helper.VideoQuestionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubQuestionsMassAuditAdapter {
-    private final FragmentActivity activity;
     private final SubQuestionsMassAuditFragment fragment;
     private final Question[] items;
     private final Product product;
-    private List<QuestionBaseBL> blList;
+    private List<BaseQuestionMvpPresenter> presenters;
+    private List<BaseQuestionView> views;
+    private boolean isPreview;
+    private boolean isRedo;
 
-    public SubQuestionsMassAuditAdapter(FragmentActivity activity, SubQuestionsMassAuditFragment fragment,
-                                        Question[] items, Product product) {
-        this.activity = activity;
+    public SubQuestionsMassAuditAdapter(SubQuestionsMassAuditFragment fragment, Question[] items, Product product) {
         this.fragment = fragment;
         this.items = items;
         this.product = product;
-        this.blList = new ArrayList<>();
+        this.presenters = new ArrayList<>();
+        this.views = new ArrayList<>();
     }
 
-    public View getView(int position, View convertView, ViewGroup parent, Bundle savedInstanceState) {
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public View getView(int position, Bundle savedInstanceState) {
         int type = getItemViewType(position);
-
-        QuestionBaseBL bl = null;
+        BaseQuestionMvpPresenter presenter = null;
+        BaseQuestionView mvpView = null;
         if (type == Question.QuestionType.NUMBER.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_number, parent, false);
-            bl = new QuestionNumberBL();
+            mvpView = new NumberView(fragment.getContext());
+            presenter = new NumberPresenter(items[position]);
         } else if (type == Question.QuestionType.OPEN_COMMENT.getTypeId()) {
-            convertView = inflater.inflate(R.layout.view_question_comment, parent, false);
-            bl = new QuestionOpenCommentBL();
+            mvpView = new CommentView(fragment.getContext());
+            presenter = new CommentPresenter(items[position]);
         } else if (type == Question.QuestionType.INSTRUCTION.getTypeId()) {
-            convertView = inflater.inflate(R.layout.view_question_instruction, parent, false);
-            bl = new QuestionInstructionBL();
+            mvpView = new InstructionView(fragment.getContext());
+            presenter = new InstructionPresenter(items[position]);
         } else if (type == Question.QuestionType.SINGLE_CHOICE.getTypeId()) {
-            convertView = inflater.inflate(R.layout.view_question_choose, parent, false);
-            bl = new QuestionSingleChooseBL();
+            mvpView = new SingleChooseView(fragment.getContext());
+            presenter = new ChoosePresenter(items[position]);
         } else if (type == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()) {
-            convertView = inflater.inflate(R.layout.view_question_choose, parent, false);
-            bl = new QuestionMultipleChooseBL();
+            mvpView = new MultipleChooseView(fragment.getContext());
+            presenter = new ChoosePresenter(items[position]);
         } else if (type == Question.QuestionType.VIDEO.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_video, parent, false);
-            bl = new QuestionVideoBL();
+            mvpView = new VideoQuestionView(fragment.getContext());
+            presenter = new VideoPresenter(items[position], new VideoQuestionHelper(fragment.getActivity()));
         } else if (type == Question.QuestionType.PHOTO.getTypeId()) {
-            convertView = inflater.inflate(R.layout.item_question_photo, parent, false);
-            bl = new QuestionPhotoBL();
+            mvpView = new PhotoView(fragment.getContext());
+            presenter = new PhotoPresenter(items[position], new PhotoQuestionHelper(fragment));
         }
 
-        if (bl != null) {
-            bl.setAnswerPageLoadingFinishedListener(fragment);
-            bl.setAnswerSelectedListener(fragment);
-            bl.initView(convertView, items[position], savedInstanceState, (BaseActivity) activity, fragment, product);
-            bl.loadAnswers();
-            blList.add(bl);
+        if (presenter != null) {
+            presenter.setPreview(isPreview);
+            presenter.setRedo(isRedo);
+            presenter.setProduct(product);
+            presenter.setAnswerPageLoadingFinishedListener(fragment);
+            presenter.setAnswerSelectedListener(fragment);
+            mvpView.setPresenter(presenter);
+            presenter.attachView(mvpView);
+            presenters.add(presenter);
+            views.add(mvpView);
         }
-        return convertView;
+        return mvpView;
     }
 
     public boolean saveQuestions() {
         boolean success = true;
-
-        for (QuestionBaseBL bl : blList) {
-            success = bl.saveQuestion() && success;
-        }
-
+        for (BaseQuestionMvpPresenter p : presenters)
+            success = p.saveQuestion() && success;
         return success;
     }
 
     public void onPause() {
-        for (QuestionBaseBL bl : blList) {
-            bl.onPause();
-        }
+        Stream.of(views)
+                .forEach(BaseQuestionView::onPause);
     }
 
     public void onStart() {
-        for (QuestionBaseBL bl : blList) {
-            bl.onStart();
+        for (int i = 0; i < presenters.size(); i++) {
+            if (!presenters.get(i).isViewAttached())
+                presenters.get(i).attachView(views.get(i));
         }
+        Stream.of(views)
+                .forEach(BaseQuestionView::onStart);
     }
 
     public void onStop() {
-        for (QuestionBaseBL bl : blList) {
-            bl.onStop();
-        }
+        Stream.of(views)
+                .forEach(BaseQuestionView::onStop);
+        Stream.of(presenters)
+                .forEach(MvpPresenter::detachView);
     }
 
     public void onDestroy() {
-        for (QuestionBaseBL bl : blList) {
-            bl.destroyView();
-        }
+        Stream.of(views)
+                .forEach(BaseQuestionView::onDestroy);
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        for (QuestionBaseBL bl : blList) {
-            bl.onSaveInstanceState(outState);
-        }
+
     }
 
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        boolean handled = false;
-        for (QuestionBaseBL bl : blList) {
-            handled = bl.onActivityResult(requestCode, resultCode, data);
-        }
-
-        return handled;
+        Stream.of(presenters)
+                .forEach(p -> p.onActivityResult(requestCode, resultCode, data));
+        return true;
     }
 
-    public int getItemViewType(int position) {
+    private int getItemViewType(int position) {
         return items[position].getType();
     }
 
@@ -130,7 +140,11 @@ public class SubQuestionsMassAuditAdapter {
         return items.length;
     }
 
-    public Question getItem(int position) {
-        return items[position];
+    public void setRedo(boolean redo) {
+        isRedo = redo;
+    }
+
+    public void setPreview(boolean preview) {
+        isPreview = preview;
     }
 }

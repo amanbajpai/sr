@@ -338,7 +338,7 @@ public class DialogUtils {
                 preferencesManager.remove(Keys.LAST_NOT_ANSWERED_QUESTION_ORDER_ID + "_" + waveId + "_" + taskId +
                         "_" + missionId);
 
-                AnswersBL.clearTaskUserAnswers(activity, taskId, missionId);
+                AnswersBL.clearTaskUserAnswers(activity, taskId);
                 QuestionsBL.recoverQuestionTable(activity, waveId, taskId, missionId);
                 dialog.dismiss();
                 activity.finish();

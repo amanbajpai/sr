@@ -20,6 +20,7 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
         unDispose();
     }
 
+    @Override
     public boolean isViewAttached() {
         return mvpView != null;
     }

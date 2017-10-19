@@ -123,8 +123,8 @@ public final class FilesBL {
         return result;
     }
 
-    public static List<NotUploadedFile> convertCursorToNotUploadedFileList(Cursor cursor) {
-        List<NotUploadedFile> result = new ArrayList<NotUploadedFile>();
+    private static List<NotUploadedFile> convertCursorToNotUploadedFileList(Cursor cursor) {
+        List<NotUploadedFile> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(NotUploadedFile.fromCursor(cursor));
@@ -134,7 +134,7 @@ public final class FilesBL {
         return result;
     }
 
-    public static NotUploadedFile convertCursorToNotUploadedFile(Cursor cursor) {
+    private static NotUploadedFile convertCursorToNotUploadedFile(Cursor cursor) {
         NotUploadedFile result = new NotUploadedFile();
         if (cursor != null) {
             while (cursor.moveToNext()) {

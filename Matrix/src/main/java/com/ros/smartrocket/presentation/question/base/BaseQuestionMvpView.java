@@ -20,4 +20,6 @@ public interface BaseQuestionMvpView extends MvpView {
     void onPause();
 
     void onStart();
+
+    void onStop();
 }

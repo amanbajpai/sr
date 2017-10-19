@@ -227,12 +227,7 @@ public class TasksBL {
                 TaskDbSchema.Query.All.PROJECTION, null, null, TaskDbSchema.SORT_ORDER_DESC);
     }
 
-    /**
-     * Update task
-     *
-     * @param task - task to update
-     */
-    public static void updateTaskSync(Task task) {
+    static void updateTaskSync(Task task) {
         String where = TaskDbSchema.Columns.ID + "=?";
         String[] whereArgs = new String[]{String.valueOf(task.getId())};
 
@@ -248,24 +243,16 @@ public class TasksBL {
         App.getInstance().getContentResolver().update(TaskDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    /**
-     * 1. Get data from DB
-     * 2. Update distance
-     *
-     * @param currentLocation - user current location
-     * @param cursor          - Cursor with data set from DB
-     */
-
     public static void calculateTaskDistance(AsyncQueryHandler handler, final Location currentLocation, Cursor cursor) {
         new RecalculateDistanceAsyncTask(handler, cursor).execute(currentLocation);
     }
 
 
-    public static class RecalculateDistanceAsyncTask extends AsyncTask<Location, Void, Void> {
+    private static class RecalculateDistanceAsyncTask extends AsyncTask<Location, Void, Void> {
         private AsyncQueryHandler handler;
         private Cursor cursor;
 
-        public RecalculateDistanceAsyncTask(AsyncQueryHandler handler, Cursor cursor) {
+        RecalculateDistanceAsyncTask(AsyncQueryHandler handler, Cursor cursor) {
             this.handler = handler;
             this.cursor = cursor;
         }
@@ -287,8 +274,6 @@ public class TasksBL {
                         taskLocation.setLongitude(task.getLongitude());
 
                         float distance = currentLocation.distanceTo(taskLocation);
-                        /*L.e("Distance", "Task id = " + task.getId());
-                        L.e("Distance", "Distance = " + distance);*/
                         contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), distance);
                     } else {
                         contentValues.put(TaskDbSchema.Columns.DISTANCE.getName(), 0f);
@@ -305,13 +290,6 @@ public class TasksBL {
         }
     }
 
-    /**
-     * Calculates distance to the task according to specific Location
-     *
-     * @param task            task to get location for
-     * @param currentLocation location to distance calculation
-     * @return distance to task or 0 if location of the task is not specified
-     */
     public static float getDistanceForTask(Task task, Location currentLocation) {
         Location taskLocation = new Location(LocationManager.NETWORK_PROVIDER);
         if (task.getLatitude() != null && task.getLongitude() != null && currentLocation != null) {
@@ -323,13 +301,7 @@ public class TasksBL {
         }
     }
 
-    /**
-     * Convert cursor to Task list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList<Task>
-     */
-    public static List<Task> convertCursorToTasksList(Cursor cursor) {
+    private static List<Task> convertCursorToTasksList(Cursor cursor) {
         List<Task> result = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
@@ -341,13 +313,7 @@ public class TasksBL {
         return result;
     }
 
-    /**
-     * Convert cursor to Task
-     *
-     * @param cursor - all fields cursor
-     * @return Task
-     */
-    public static Task convertCursorToTask(Cursor cursor) {
+    private static Task convertCursorToTask(Cursor cursor) {
         Task result = new Task();
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -359,18 +325,9 @@ public class TasksBL {
         return result;
     }
 
-    /**
-     * Convert cursor to Tasks count
-     *
-     * @param cursor - all fields cursor
-     * @return int
-     */
-    public static int convertCursorToTasksCount(Cursor cursor) {
+    private static int convertCursorToTasksCount(Cursor cursor) {
         int result = 0;
-        if (cursor != null) {
-            result = cursor.getCount();
-        }
-
+        if (cursor != null) result = cursor.getCount();
         return result;
     }
 
@@ -404,9 +361,7 @@ public class TasksBL {
         Cursor scheduledTasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
                 TaskDbSchema.Columns.STATUS_ID + "=" + Task.TaskStatusId.SCHEDULED.getStatusId(),
                 null, null);
-
-        //Get tasks with 'scheduled' status id
-        SparseArray<ContentValues> scheduledContentValuesMap = new SparseArray<ContentValues>();
+        SparseArray<ContentValues> scheduledContentValuesMap = new SparseArray<>();
         if (scheduledTasksCursor != null) {
             while (scheduledTasksCursor.moveToNext()) {
                 ContentValues contentValues = new ContentValues();
@@ -428,7 +383,7 @@ public class TasksBL {
         Cursor tasksCursor = contentResolver.query(TaskDbSchema.CONTENT_URI, projection,
                 TaskDbSchema.Columns.IS_HIDE + "=1", null, null);
 
-        SparseArray<ContentValues> contentValuesMap = new SparseArray<ContentValues>();
+        SparseArray<ContentValues> contentValuesMap = new SparseArray<>();
         if (tasksCursor != null) {
             while (tasksCursor.moveToNext()) {
                 ContentValues contentValues = new ContentValues();
@@ -487,11 +442,6 @@ public class TasksBL {
     public static void removeNotMyTask(ContentResolver contentResolver) {
         contentResolver.delete(TaskDbSchema.CONTENT_URI,
                 TaskDbSchema.Columns.IS_MY + "=?", new String[]{String.valueOf(0)});
-    }
-
-    public static void removeTasksByWaveId(ContentResolver contentResolver, int waveId) {
-        contentResolver.delete(TaskDbSchema.CONTENT_URI,
-                TaskDbSchema.Columns.WAVE_ID + "=?", new String[]{String.valueOf(waveId)});
     }
 
     public static void removeAllTasksFromDB(Context context) {

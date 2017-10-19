@@ -50,7 +50,7 @@ public class QuestionStore extends BaseStore {
         question = prepareQuestion(i, question);
         questionValues.add(question.toContentValues());
         deleteAnswers(question);
-        if (question.getChildQuestions() != null && question.getChildQuestions().length > 0) {
+        if (question.getChildQuestions() != null && question.getChildQuestions().size() > 0) {
             List<Product> productList = makeProductList(question.getCategoriesArray());
             int j = 1;
             for (Question childQuestion : question.getChildQuestions()) {

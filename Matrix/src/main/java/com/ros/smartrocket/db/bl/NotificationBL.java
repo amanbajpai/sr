@@ -39,39 +39,24 @@ public class NotificationBL {
     }
 
     public static List<Notification> convertCursorToNotificationList(Cursor cursor) {
-        List<Notification> result = new ArrayList<Notification>();
+        List<Notification> result = new ArrayList<>();
         if (cursor != null) {
-            while (cursor.moveToNext()) {
+            while (cursor.moveToNext())
                 result.add(Notification.fromCursor(cursor));
-            }
             cursor.close();
         }
         return result;
     }
 
-    public static int convertCursorToUnreadNotificationsCount(Cursor cursor) {
+    private static int convertCursorToUnreadNotificationsCount(Cursor cursor) {
         int result = 0;
-        if (cursor != null) {
-            result = cursor.getCount();
-        }
-
-        return result;
-    }
-
-    public static ArrayList<Notification> createFakeNotifications() {
-        ArrayList<Notification> result = new ArrayList<>();
-        result.add(new Notification("test1", true));
-        result.add(new Notification("test2 test2 test2 test2 test2 test2 ", false));
-        result.add(new Notification("test3 test3 test3 test3 test3 test3 ", true));
-        result.add(new Notification("test4 test4 test4 test4 test4 test4 ", false));
-        result.add(new Notification("test5 test5 test5 test5 test5 test5 ", false));
+        if (cursor != null) result = cursor.getCount();
         return result;
     }
 
     public static void saveNotification(ContentResolver contentResolver, Notification notification) {
-        if (notification.getTimestamp() == 0) {
+        if (notification.getTimestamp() == 0)
             notification.setTimestamp(System.currentTimeMillis());
-        }
         contentResolver.insert(NotificationDbSchema.CONTENT_URI, notification.toContentValues());
         L.i("NOTIFICATION BL", "INSERTED");
     }

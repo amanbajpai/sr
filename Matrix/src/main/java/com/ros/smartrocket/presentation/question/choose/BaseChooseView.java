@@ -17,22 +17,22 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public abstract class BaseChoiceView extends BaseQuestionView<ChoiceMvpPresenter<ChoiceMvpView>> implements ChoiceMvpView {
+public abstract class BaseChooseView extends BaseQuestionView<ChooseMvpPresenter<ChooseMvpView>> implements ChooseMvpView {
     @BindView(R.id.conditionText)
     TextView conditionText;
     @BindView(R.id.choiceListLayout)
     LinearLayout answerLayout;
-    protected AnswerChoiceBaseAdapter adapter;
+    protected AnswerChooseBaseAdapter adapter;
 
-    public BaseChoiceView(Context context) {
+    public BaseChooseView(Context context) {
         super(context);
     }
 
-    public BaseChoiceView(Context context, @Nullable AttributeSet attrs) {
+    public BaseChooseView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BaseChoiceView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BaseChooseView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -65,7 +65,7 @@ public abstract class BaseChoiceView extends BaseQuestionView<ChoiceMvpPresenter
         presenter.loadAnswers();
     }
 
-    protected abstract AnswerChoiceBaseAdapter getAdapter();
+    protected abstract AnswerChooseBaseAdapter getAdapter();
 
     protected abstract void handleClick(View item, int position);
 

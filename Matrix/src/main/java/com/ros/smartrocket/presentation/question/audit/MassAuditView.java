@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
@@ -21,10 +22,7 @@ import com.ros.smartrocket.ui.views.CustomTextView;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
-
 public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAuditMvpView>> implements MassAuditMvpView {
-    @BindView(R.id.massAuditExpandableListView)
     ExpandableListView listView;
     CustomTextView massAuditMainSubQuestionText;
     private MassAuditExpandableListAdapter adapter;
@@ -45,6 +43,12 @@ public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAu
     }
 
     @Override
+    protected void init() {
+        LayoutInflater.from(getContext()).inflate(getLayoutResId(), this, true);
+        listView = (ExpandableListView) findViewById(R.id.massAuditExpandableListView);
+    }
+
+    @Override
     public int getLayoutResId() {
         return R.layout.view_mass_question;
     }
@@ -53,6 +57,9 @@ public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAu
     public void configureView(Question question) {
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.include_mass_audit_question_header, listView, false);
         massAuditMainSubQuestionText = (CustomTextView) headerView.findViewById(R.id.massAuditMainSubQuestionText);
+        presetValidationComment = (TextView) headerView.findViewById(R.id.presetValidationComment);
+        validationComment = (TextView) headerView.findViewById(R.id.validationComment);
+        questionText = (TextView) headerView.findViewById(R.id.questionText);
         listView.addHeaderView(headerView);
 //        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUTTON_CLICKED))
 //            buttonClicked = savedInstanceState.getInt(STATE_BUTTON_CLICKED);

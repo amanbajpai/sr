@@ -15,7 +15,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditBL;
+import com.ros.smartrocket.presentation.question.audit.additional.CategoryProductPair;
 import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswerPair;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.squareup.picasso.Picasso;
@@ -177,7 +177,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             }
         }
 
-        QuestionMassAuditBL.CategoryProductPair pair = new QuestionMassAuditBL.CategoryProductPair(category, product, questionNumber);
+        CategoryProductPair pair = new CategoryProductPair(category, product, questionNumber);
         tickButton.setTag(pair);
         tickButton.setOnClickListener(tickListener);
 
@@ -206,11 +206,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     }
 
     private boolean isTickAction() {
-        if (!reDoMainSubList.isEmpty() && reDoMainSubList.get(0).getAction() == Question.ACTION_CROSS) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(!reDoMainSubList.isEmpty() && reDoMainSubList.get(0).getAction() == Question.ACTION_CROSS);
     }
 
     private void setIcon(ImageView button, int resId) {
@@ -219,9 +215,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
 
     private boolean isRedoMain(Integer productId) {
         for (Question question : reDoMainSubList) {
-            if (productId.equals(question.getProductId()) && question.isRedo()) {
-                return true;
-            }
+            if (productId.equals(question.getProductId()) && question.isRedo()) return true;
         }
         return false;
     }
@@ -229,7 +223,6 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
     private void setButtonsVisibility(ImageView firstButton, ImageView secondButton, int visibility) {
         firstButton.setVisibility(View.VISIBLE);
         secondButton.setVisibility(visibility);
-//        crossButton.setImageResource(visibility == View.VISIBLE ? R.drawable.);
     }
 
 

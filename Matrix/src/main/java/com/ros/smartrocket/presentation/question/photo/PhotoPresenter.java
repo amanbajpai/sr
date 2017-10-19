@@ -149,6 +149,8 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 filePath = answer.getFileUri();
             }
             photoQuestionHelper.showFullScreenImage(filePath);
+        } else {
+            onPhotoRequested(photoPos);
         }
     }
 

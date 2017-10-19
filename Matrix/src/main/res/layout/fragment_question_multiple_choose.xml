@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ros.smartrocket.presentation.question.choose.multiple.MultipleChoiceView
+    <com.ros.smartrocket.presentation.question.choose.multiple.MultipleChooseView
         android:id="@+id/multipleChooseView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

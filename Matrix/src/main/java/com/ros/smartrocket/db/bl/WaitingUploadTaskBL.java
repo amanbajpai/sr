@@ -66,13 +66,7 @@ public final class WaitingUploadTaskBL {
         resolver.insert(WaitingUploadTaskDbSchema.CONTENT_URI, waitingUploadTask.toContentValues());
     }
 
-    /**
-     * Convert cursor to WaitingUploadTask list
-     *
-     * @param cursor - all fields cursor
-     * @return ArrayList
-     */
-    public static List<WaitingUploadTask> convertCursorToWaitingUploadTaskList(Cursor cursor) {
+    private static List<WaitingUploadTask> convertCursorToWaitingUploadTaskList(Cursor cursor) {
         List<WaitingUploadTask> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -83,13 +77,7 @@ public final class WaitingUploadTaskBL {
         return result;
     }
 
-    /**
-     * Convert cursor to WaitingUploadTask
-     *
-     * @param cursor - all fields cursor
-     * @return WaitingUploadTask
-     */
-    public static WaitingUploadTask convertCursorToWaitingUploadTask(Cursor cursor) {
+    private static WaitingUploadTask convertCursorToWaitingUploadTask(Cursor cursor) {
         WaitingUploadTask result = null;
         if (cursor != null) {
             while (cursor.moveToNext()) {

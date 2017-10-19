@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
 
 public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> extends LinearLayout implements BaseQuestionMvpView {
     @BindView(R.id.presetValidationComment)
-    TextView presetValidationComment;
+    public TextView presetValidationComment;
     @BindView(R.id.validationComment)
-    TextView validationComment;
+    public TextView validationComment;
     @BindView(R.id.questionText)
     public TextView questionText;
     private CustomProgressDialog progressDialog;
@@ -108,6 +108,11 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
 
     @Override
     public void onStart() {
+
+    }
+
+    @Override
+    public void onStop() {
 
     }
 

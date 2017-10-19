@@ -6,9 +6,9 @@ import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 
 import java.util.List;
 
-public class ChoicePresenter<V extends ChoiceMvpView> extends BaseQuestionPresenter<V> implements ChoiceMvpPresenter<V> {
+public class ChoosePresenter<V extends ChooseMvpView> extends BaseQuestionPresenter<V> implements ChooseMvpPresenter<V> {
 
-    public ChoicePresenter(Question question) {
+    public ChoosePresenter(Question question) {
         super(question);
     }
 

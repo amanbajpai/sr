@@ -11,10 +11,15 @@ import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
 
-class InstructionPresenter<V extends InstructionMvpView> extends BaseQuestionPresenter<V> implements InstructionMvpPresenter<V> {
+public class InstructionPresenter<V extends InstructionMvpView> extends BaseQuestionPresenter<V> implements InstructionMvpPresenter<V> {
 
     public InstructionPresenter(Question question) {
         super(question);
+    }
+
+    @Override
+    public boolean saveQuestion() {
+        return true;
     }
 
     @Override

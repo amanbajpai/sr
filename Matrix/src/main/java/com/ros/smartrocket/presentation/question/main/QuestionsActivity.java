@@ -30,8 +30,8 @@ import com.ros.smartrocket.presentation.media.IdCardActivity;
 import com.ros.smartrocket.presentation.question.audio.QuestionAudioFragment;
 import com.ros.smartrocket.presentation.question.audit.QuestionMassAuditFragment;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
-import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChoiceFragment;
-import com.ros.smartrocket.presentation.question.choose.single.QuestionSingleChoiceFragment;
+import com.ros.smartrocket.presentation.question.choose.multiple.QuestionMultipleChooseFragment;
+import com.ros.smartrocket.presentation.question.choose.single.QuestionSingleChooseFragment;
 import com.ros.smartrocket.presentation.question.comment.QuestionCommentFragment;
 import com.ros.smartrocket.presentation.question.instruction.QuestionInstructionFragment;
 import com.ros.smartrocket.presentation.question.number.QuestionNumberFragment;
@@ -339,10 +339,10 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
 
             switch (QuestionsBL.getQuestionType(question.getType())) {
                 case MULTIPLE_CHOICE:
-                    currentFragment = new QuestionMultipleChoiceFragment();
+                    currentFragment = new QuestionMultipleChooseFragment();
                     break;
                 case SINGLE_CHOICE:
-                    currentFragment = new QuestionSingleChoiceFragment();
+                    currentFragment = new QuestionSingleChooseFragment();
                     break;
                 case PHOTO:
                     currentFragment = new QuestionPhotoFragment();

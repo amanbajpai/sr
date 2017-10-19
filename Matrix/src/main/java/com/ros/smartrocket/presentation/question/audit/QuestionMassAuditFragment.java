@@ -3,6 +3,7 @@ package com.ros.smartrocket.presentation.question.audit;
 import android.os.Bundle;
 
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.presentation.question.audit.additional.MassAuditNavigator;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
 
 import butterknife.BindView;
@@ -19,7 +20,7 @@ public class QuestionMassAuditFragment extends BaseQuestionFragment<MassAuditMvp
 
     @Override
     public MassAuditMvpPresenter<MassAuditMvpView> getPresenter() {
-        return new MassAuditPresenter<>(question, navigator);
+        return new MassAuditPresenter<>(question, new MassAuditNavigator(getActivity()));
     }
 
     @Override

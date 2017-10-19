@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.question.audit.additional;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Question;
@@ -9,9 +9,9 @@ import com.ros.smartrocket.presentation.question.audit.subquestion.SubQuestionsM
 import com.ros.smartrocket.ui.dialog.ProductImageDialog;
 
 public class MassAuditNavigator implements Navigator {
-    private AppCompatActivity activity;
+    private FragmentActivity activity;
 
-    public MassAuditNavigator(AppCompatActivity activity) {
+    public MassAuditNavigator(FragmentActivity activity) {
         this.activity = activity;
     }
 

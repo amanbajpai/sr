@@ -51,7 +51,8 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
         addDisposable(AnswersBL.getAnswersListFromDBObservable(question, product)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onAnswersLoadedFromDb, t -> {})
+                .subscribe(this::onAnswersLoadedFromDb, t -> {
+                })
         );
     }
 
@@ -84,6 +85,11 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
         return false;
+    }
+
+    @Override
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

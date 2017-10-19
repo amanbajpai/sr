@@ -7,25 +7,25 @@ import android.view.View;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.presentation.question.choose.AnswerChoiceBaseAdapter;
-import com.ros.smartrocket.presentation.question.choose.BaseChoiceView;
+import com.ros.smartrocket.presentation.question.choose.AnswerChooseBaseAdapter;
+import com.ros.smartrocket.presentation.question.choose.BaseChooseView;
 
-public class MultipleChoiceView extends BaseChoiceView {
-    public MultipleChoiceView(Context context) {
+public class MultipleChooseView extends BaseChooseView {
+    public MultipleChooseView(Context context) {
         super(context);
     }
 
-    public MultipleChoiceView(Context context, @Nullable AttributeSet attrs) {
+    public MultipleChooseView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MultipleChoiceView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MultipleChooseView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
-    protected AnswerChoiceBaseAdapter getAdapter() {
-        return new MultipleChoiceAdapter(getContext(), presenter);
+    protected AnswerChooseBaseAdapter getAdapter() {
+        return new MultipleChooseAdapter(getContext(), presenter);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MultipleChoiceView extends BaseChoiceView {
     protected void handleClick(View item, int position) {
         Answer answer = adapter.getItem(position);
         answer.toggleChecked();
-        MultipleChoiceAdapter.ViewHolder viewHolder = (MultipleChoiceAdapter.ViewHolder) item.getTag();
+        MultipleChooseAdapter.ViewHolder viewHolder = (MultipleChooseAdapter.ViewHolder) item.getTag();
         viewHolder.getCheckBox().setChecked(answer.getChecked());
         presenter.refreshNextButton(adapter.getData());
     }

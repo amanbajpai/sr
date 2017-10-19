@@ -13,7 +13,6 @@ import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AskIf;
-import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
@@ -186,7 +185,7 @@ public class QuestionsBL {
     }
 
     public static List<Question> convertCursorToQuestionList(Cursor cursor) {
-        List<Question> result = new ArrayList<Question>();
+        List<Question> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 result.add(Question.fromCursor(cursor));
@@ -196,7 +195,7 @@ public class QuestionsBL {
         return result;
     }
 
-    public static Question getQuestionByOrderId(List<Question> questions, int orderId) {
+    private static Question getQuestionByOrderId(List<Question> questions, int orderId) {
         Question result = null;
         for (Question question : questions) {
             if (question.getOrderId() == orderId) {
@@ -236,7 +235,7 @@ public class QuestionsBL {
         return result;
     }
 
-    public static boolean checkCondition(Question question, List<Question> questions) {
+    private static boolean checkCondition(Question question, List<Question> questions) {
         AskIf[] askIfArray = question.getAskIfArray();
         boolean result = true;
         Integer previousConditionOperator = null;
@@ -389,12 +388,6 @@ public class QuestionsBL {
         return result;
     }
 
-    /**
-     * Get Questions to answer count
-     *
-     * @param questions - question list
-     * @return Integer
-     */
     public static int getQuestionsToAnswerCount(List<Question> questions) {
         int result = 0;
         for (Question question : questions) {
@@ -405,30 +398,6 @@ public class QuestionsBL {
         return result;
     }
 
-    /**
-     * Set Question by orderId
-     *
-     * @param questions
-     * @param questionToSet
-     */
-    /*public static void setQuestionByOrderId(ArrayList<Question> questions, Question questionToSet) {
-        int index = 0;
-        for (int i = 0; i < questions.size(); i++) {
-            Question question = questions.get(i);
-            if (question.getOrderId() == questionToSet.getOrderId()) {
-                index = i;
-                break;
-            }
-        }
-        questions.set(index, questionToSet);
-    }*/
-
-    /**
-     * Set Question by orderId
-     *
-     * @param typeId - question type id
-     * @return QuestionType
-     */
     public static Question.QuestionType getQuestionType(int typeId) {
         Question.QuestionType result = Question.QuestionType.NONE;
         for (Question.QuestionType type : Question.QuestionType.values()) {
@@ -498,17 +467,6 @@ public class QuestionsBL {
         return questions;
     }
 
-    public static int getProductsFromCategoriesCount(Category[] categories) {
-        int count = 0;
-        for (int i = 0; i < categories.length; i++) {
-            count += categories[i].getProducts().length;
-        }
-        return count;
-    }
-
-    /**
-     * Used for take first orderId, because it can be not 1;
-     */
     public static int getFirstOrderId(List<Question> questions) {
         return questions != null && !questions.isEmpty() ? questions.get(0).getOrderId() : 1;
     }

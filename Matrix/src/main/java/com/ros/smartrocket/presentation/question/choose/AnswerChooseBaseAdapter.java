@@ -9,12 +9,12 @@ import com.ros.smartrocket.db.entity.Answer;
 
 import java.util.List;
 
-public abstract class AnswerChoiceBaseAdapter extends BaseAdapter implements ListAdapter {
+public abstract class AnswerChooseBaseAdapter extends BaseAdapter implements ListAdapter {
     protected List<Answer> answers;
     protected LayoutInflater inflater;
-    protected ChoiceMvpPresenter<ChoiceMvpView> presenter;
+    protected ChooseMvpPresenter<ChooseMvpView> presenter;
 
-    public AnswerChoiceBaseAdapter(Context context, ChoiceMvpPresenter<ChoiceMvpView> presenter) {
+    public AnswerChooseBaseAdapter(Context context, ChooseMvpPresenter<ChooseMvpView> presenter) {
         this.inflater = LayoutInflater.from(context);
         this.presenter = presenter;
     }

@@ -1,7 +1,6 @@
 package com.ros.smartrocket.db.bl;
 
 import android.app.Activity;
-import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -9,22 +8,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.Table;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
@@ -160,62 +158,6 @@ public class AnswersBL {
         App.getInstance().getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
-    public static void getSubQuestionsAnswersListFromDB(AsyncQueryHandler handler, Integer taskId, Integer missionId, Category[] categories) {
-
-        StringBuilder where = new StringBuilder().append(AnswerDbSchema.Columns.TASK_ID + "=? and ")
-                .append(AnswerDbSchema.Columns.MISSION_ID + "=? and ");
-
-        ArrayList<Product> products = new ArrayList<>();
-        ArrayList<String> args = new ArrayList<>();
-        args.add(String.valueOf(taskId));
-        args.add(String.valueOf(missionId));
-
-        for (int i = 0; i < categories.length; i++) {
-            Product[] tempProducts = categories[i].getProducts();
-            for (int j = 0; j < tempProducts.length; j++) {
-                products.add(tempProducts[j]);
-            }
-        }
-
-        for (int i = 0; i < products.size(); i++) {
-            where.append(AnswerDbSchema.Columns.PRODUCT_ID + " =? ");
-            if (i != products.size() - 1) {
-                where.append(" or ");
-            }
-
-            args.add(String.valueOf(products.get(i).getId()));
-        }
-
-
-//        handler.startQuery(
-//                AnswerDbSchema.Query.TOKEN_QUERY,
-//                null,
-//                AnswerDbSchema.CONTENT_URI,
-//                AnswerDbSchema.Query.PROJECTION,
-//                AnswerDbSchema.Columns.TASK_ID + "=? and "
-//                        + AnswerDbSchema.Columns.MISSION_ID + "=? and "
-//                        + AnswerDbSchema.Columns.PRODUCT_ID + " =?",
-//                new String[]{String.valueOf(taskId), String.valueOf(missionId), "1,2,3"},
-//                AnswerDbSchema.SORT_ORDER_ASC);
-
-        handler.startQuery(
-                AnswerDbSchema.Query.TOKEN_QUERY,
-                null,
-                AnswerDbSchema.CONTENT_URI,
-                AnswerDbSchema.Query.PROJECTION,
-                where.toString(),
-                args.toArray(new String[args.size()]),
-                AnswerDbSchema.SORT_ORDER_ASC);
-    }
-
-    public static void updateAnswersToDB(AsyncQueryHandler handler, List<Answer> answers) {
-        for (Answer answer : answers) {
-            handler.startUpdate(AnswerDbSchema.Query.TOKEN_UPDATE, null, AnswerDbSchema.CONTENT_URI,
-                    answer.toContentValues(), AnswerDbSchema.Columns._ID + "=?",
-                    new String[]{String.valueOf(answer.get_id())});
-        }
-    }
-
     public static void updateQuitStatmentAnswer(Question question) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), true);
@@ -267,9 +209,9 @@ public class AnswersBL {
         params.add(String.valueOf(taskId));
         params.add(String.valueOf(missionId));
         params.add(String.valueOf(productId));
-        for (Question q : questions) {
-            params.add(String.valueOf(q.getId()));
-        }
+        params.addAll(Stream.of(questions)
+                .map(q -> String.valueOf(q.getId()))
+                .collect(Collectors.toList()));
         return params.toArray(new String[params.size()]);
     }
 
@@ -277,9 +219,7 @@ public class AnswersBL {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i <= count; i++) {
             sb.append("?");
-            if (i != count) {
-                sb.append(",");
-            }
+            if (i != count) sb.append(",");
         }
         return sb.toString();
     }
@@ -295,37 +235,37 @@ public class AnswersBL {
         List<Answer> answers = convertCursorToAnswerList(cursor);
 
         List<NotUploadedFile> notUploadedFiles = new ArrayList<>();
-        for (Answer answer : answers) {
-            if (!TextUtils.isEmpty(answer.getFileUri())) {
-                NotUploadedFile fileToUpload = new NotUploadedFile();
-                fileToUpload.setRandomId();
-                fileToUpload.setTaskId(answer.getTaskId());
-                fileToUpload.setMissionId(answer.getMissionId());
-                fileToUpload.setTaskName(taskName);
-                fileToUpload.setQuestionId(answer.getQuestionId());
-                fileToUpload.setFileUri(answer.getFileUri());
-                fileToUpload.setFileSizeB(answer.getFileSizeB());
-                fileToUpload.setFileName(answer.getFileName());
-                fileToUpload.setShowNotificationStepId(0);
-                fileToUpload.setPortion(0);
-                fileToUpload.setAddedToUploadDateTime(UIUtils.getCurrentTimeInMilliseconds());
-                fileToUpload.setEndDateTime(endDateTime);
-
-                notUploadedFiles.add(fileToUpload);
-            }
-        }
+        Stream.of(answers)
+                .filter(answer -> !TextUtils.isEmpty(answer.getFileUri()))
+                .forEach(answer ->
+                        notUploadedFiles.add(getNotUploadedFile(taskName, endDateTime, answer)));
         return notUploadedFiles;
+    }
+
+    @NonNull
+    private static NotUploadedFile getNotUploadedFile(String taskName, long endDateTime, Answer answer) {
+        NotUploadedFile fileToUpload = new NotUploadedFile();
+        fileToUpload.setRandomId();
+        fileToUpload.setTaskId(answer.getTaskId());
+        fileToUpload.setMissionId(answer.getMissionId());
+        fileToUpload.setTaskName(taskName);
+        fileToUpload.setQuestionId(answer.getQuestionId());
+        fileToUpload.setFileUri(answer.getFileUri());
+        fileToUpload.setFileSizeB(answer.getFileSizeB());
+        fileToUpload.setFileName(answer.getFileName());
+        fileToUpload.setShowNotificationStepId(0);
+        fileToUpload.setPortion(0);
+        fileToUpload.setAddedToUploadDateTime(UIUtils.getCurrentTimeInMilliseconds());
+        fileToUpload.setEndDateTime(endDateTime);
+        return fileToUpload;
     }
 
     public static float getTaskFilesSizeMb(List<NotUploadedFile> filesToUpload) {
         long resultSizeInB = 0;
         for (NotUploadedFile fileToUpload : filesToUpload) {
             File file = new File(Uri.parse(fileToUpload.getFileUri()).getPath());
-            if (file.exists()) {
-                resultSizeInB = resultSizeInB + file.length();
-            }
+            if (file.exists()) resultSizeInB = resultSizeInB + file.length();
         }
-
         return resultSizeInB / (float) 1024;
     }
 
@@ -333,12 +273,10 @@ public class AnswersBL {
         String hrSize;
         double m = size / 1024.0;
         DecimalFormat dec = new DecimalFormat("0.00");
-
-        if (m > 1) {
+        if (m > 1)
             hrSize = dec.format(m).concat(" MB");
-        } else {
+        else
             hrSize = dec.format(size).concat(" KB");
-        }
         return hrSize;
     }
 
@@ -348,11 +286,8 @@ public class AnswersBL {
                 AnswerDbSchema.Columns.TASK_ID + "=? and " + AnswerDbSchema.Columns.CHECKED + "=? and " +
                         AnswerDbSchema.Columns.MISSION_ID + "=? and " +
                         AnswerDbSchema.Columns.VALUE + " IS NOT NULL and " +
-                        AnswerDbSchema.Columns.VALUE + " !=? "
-
-                /* and " + AnswerDbSchema.Columns.FILE_URI + " IS NULL"*/,
+                        AnswerDbSchema.Columns.VALUE + " !=? ",
                 new String[]{String.valueOf(taskId), String.valueOf(1), String.valueOf(missionId), ""}, null);
-
         return convertCursorToAnswerList(cursor);
     }
 
@@ -404,11 +339,7 @@ public class AnswersBL {
         double z = 0;
 
         for (Answer answer : answerList) {
-            L.e("AnswerBL", "Answer Latitude: " + answer.getLatitude());
-            L.e("AnswerBL", "Answer Longitude: " + answer.getLongitude());
-            if (answer.getLatitude() == 0 || answer.getLongitude() == 0) {
-                continue;
-            }
+            if (answer.getLatitude() == 0 || answer.getLongitude() == 0) continue;
             photoVideoAnswerCount++;
 
             double lat = answer.getLatitude() * Math.PI / 180;
@@ -431,16 +362,13 @@ public class AnswersBL {
         double hyp = Math.sqrt(x * x + y * y);
         double lat = Math.atan2(z, hyp);
 
-        L.e("AnswerBL", "Result Latitude: " + lat * 180 / Math.PI);
-        L.e("AnswerBL", "Result Longitude: " + lon * 180 / Math.PI);
-
         task.setLatitudeToValidation(lat * 180 / Math.PI);
         task.setLongitudeToValidation(lon * 180 / Math.PI);
 
         TasksBL.updateTaskSync(task);
     }
 
-    public static List<Answer> convertCursorToAnswerList(Cursor cursor) {
+    static List<Answer> convertCursorToAnswerList(Cursor cursor) {
         List<Answer> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -478,33 +406,20 @@ public class AnswersBL {
         return orderId;
     }
 
-    public static void clearTaskUserAnswers(Activity activity, int taskId, int missionId) {
+    public static void clearTaskUserAnswers(Activity activity, int taskId) {
         activity.getContentResolver().delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.TASK_ID + "=? and "
                         + AnswerDbSchema.Columns.FILE_URI.getName() + " IS NOT NULL", new String[]{String.valueOf
-                        (taskId)}
-        );
+                        (taskId)});
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(AnswerDbSchema.Columns.CHECKED.getName(), false);
         contentValues.putNull(AnswerDbSchema.Columns.FILE_URI.getName());
-
         activity.getContentResolver().update(AnswerDbSchema.CONTENT_URI, contentValues,
                 AnswerDbSchema.Columns.TASK_ID + "=?", new String[]{String.valueOf(taskId)});
     }
 
     public static void removeAllAnswers(Context context) {
         context.getContentResolver().delete(AnswerDbSchema.CONTENT_URI, null, null);
-    }
-
-    @Nullable
-    public static Answer getAnswer(Answer[] answers, Integer id, String value) {
-        for (Answer answer : answers) {
-            if (answer.getProductId().equals(id) && answer.getValue().equals(value)) {
-                return answer;
-            }
-        }
-
-        return null;
     }
 }

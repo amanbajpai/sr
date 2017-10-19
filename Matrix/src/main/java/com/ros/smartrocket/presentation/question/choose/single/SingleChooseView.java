@@ -8,26 +8,26 @@ import android.widget.EditText;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.presentation.question.choose.AnswerChoiceBaseAdapter;
-import com.ros.smartrocket.presentation.question.choose.BaseChoiceView;
+import com.ros.smartrocket.presentation.question.choose.AnswerChooseBaseAdapter;
+import com.ros.smartrocket.presentation.question.choose.BaseChooseView;
 import com.ros.smartrocket.utils.UIUtils;
 
-public class SingleChoiceView extends BaseChoiceView {
-    public SingleChoiceView(Context context) {
+public class SingleChooseView extends BaseChooseView {
+    public SingleChooseView(Context context) {
         super(context);
     }
 
-    public SingleChoiceView(Context context, @Nullable AttributeSet attrs) {
+    public SingleChooseView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SingleChoiceView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SingleChooseView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
-    protected AnswerChoiceBaseAdapter getAdapter() {
-        return new SingleChoiceAdapter(getContext(), presenter);
+    protected AnswerChooseBaseAdapter getAdapter() {
+        return new SingleChooseAdapter(getContext(), presenter);
     }
 
     @Override

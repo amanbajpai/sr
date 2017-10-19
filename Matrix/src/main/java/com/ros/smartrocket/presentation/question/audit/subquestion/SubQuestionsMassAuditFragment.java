@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
@@ -47,11 +50,11 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
     View bottomSubQuestions;
     @BindView(R.id.submitSubQuestionsButton)
     Button submitButton;
+    private boolean isRedo;
 
     private LayoutInflater inflater;
     private SubQuestionsMassAuditAdapter adapter;
     private Product product;
-    private boolean isRedo;
     private boolean isPreview;
     private int loadedSubQuestionsCount;
     private int productPosition;
@@ -113,18 +116,19 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
             }
         }
 
-        for (Question question : childQuestions) {
-            if (question.isRequired()) {
-                requiredQuestionsSet.add(question.getId());
-            }
-        }
+        requiredQuestionsSet.addAll(
+                Stream.of(childQuestions)
+                        .filter(Question::isRequired)
+                        .map(BaseEntity::getId)
+                        .collect(Collectors.toList()));
 
-//        adapter = new SubQuestionsMassAuditAdapter(getActivity(), this,
-//                childQuestions.toArray(new Question[childQuestions.size()]), product);
+        adapter = new SubQuestionsMassAuditAdapter(this, childQuestions.toArray(new Question[childQuestions.size()]), product);
+        adapter.setRedo(isRedo);
+        adapter.setPreview(isPreview);
         int pos = 0;
         int itemsSize = adapter.getCount() - 1;
         for (int i = 0; i < adapter.getCount(); i++) {
-            View item = adapter.getView(i, null, subQuestionsLayout, savedInstanceState);
+            View item = adapter.getView(i, savedInstanceState);
             if (item != null && item.getParent() == null) {
                 subQuestionsLayout.addView(item);
                 if (pos < itemsSize) {
@@ -136,17 +140,12 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
     }
 
     private String getSubQuestionNumber(int pos) {
-        StringBuffer sb = new StringBuffer("<b>Q");
-        sb.append(productPosition);
-        sb.append(".");
-        sb.append(pos);
-        sb.append("</b> ");
-        return sb.toString();
+        return "<b>Q" + productPosition +
+                "." +
+                pos +
+                "</b> ";
     }
 
-    /**
-     * @return divider view
-     */
     protected View getDivider() {
         LinearLayout div = (LinearLayout) inflater.inflate(R.layout.divider, null, false);
         int height = UIUtils.getPxFromDp(getContext(), 1);
@@ -216,19 +215,17 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
     @Override
     public void onAnswerPageLoadingFinished() {
         loadedSubQuestionsCount++;
-        if (loadedSubQuestionsCount == adapter.getCount()) {
+        if (loadedSubQuestionsCount == adapter.getCount())
             bottomSubQuestions.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void onAnswerSelected(Boolean selected, int questionId) {
         if (!isPreview) {
-            if (selected) {
+            if (selected)
                 set.add(questionId);
-            } else {
+            else
                 set.remove(questionId);
-            }
             submitButton.setEnabled(set.containsAll(requiredQuestionsSet));
         }
     }
