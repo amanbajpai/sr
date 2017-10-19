@@ -111,7 +111,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
             if (image.startsWith("http")) {
                 Picasso.with(context)
                         .load(image)
-                        .placeholder(R.drawable.loading_normal)
+                        .placeholder(R.drawable.mass_audit_image)
                         .error(R.drawable.mass_audit_image)
                         .into(catImage);
             } else {
