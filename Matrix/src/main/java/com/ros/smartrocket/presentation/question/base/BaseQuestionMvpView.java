@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.question.base;
 
+import android.os.Bundle;
+
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.base.MvpView;
@@ -22,4 +24,8 @@ public interface BaseQuestionMvpView extends MvpView {
     void onStart();
 
     void onStop();
+
+    void onSaveInstanceState(Bundle outState);
+
+    void setInstanceState(Bundle outState);
 }

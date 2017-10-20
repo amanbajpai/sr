@@ -36,17 +36,19 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
         ViewGroup view = (ViewGroup) localInflater.inflate(getLayoutResId(), null);
         unbinder = ButterKnife.bind(this, view);
         handleArgs();
-        initPresenter();
+        initPresenter(savedInstanceState);
         return view;
     }
 
-    private void initPresenter() {
+    private void initPresenter(Bundle savedInstanceState) {
         presenter = getPresenter();
         presenter.setPreview(isPreview);
         presenter.setRedo(isRedo);
         presenter.setAnswerPageLoadingFinishedListener(answerPageLoadingFinishedListener);
         presenter.setAnswerSelectedListener(answerSelectedListener);
         mvpView = getMvpView();
+        mvpView.setInstanceState(savedInstanceState);
+        presenter.attachView(mvpView);
     }
 
     protected void handleArgs() {
@@ -61,7 +63,6 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     @Override
     public void onStart() {
         super.onStart();
-        presenter.attachView(mvpView);
         mvpView.onStart();
         LocaleUtils.setCurrentLanguage();
     }
@@ -69,19 +70,20 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     @Override
     public void onStop() {
         super.onStop();
-        presenter.detachView();
         mvpView.onStop();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        presenter.detachView();
         if (mvpView != null) mvpView.onDestroy();
         unbinder.unbind();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        if (mvpView != null) mvpView.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 

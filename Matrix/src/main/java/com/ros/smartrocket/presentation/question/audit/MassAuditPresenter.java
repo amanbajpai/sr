@@ -12,6 +12,7 @@ import com.ros.smartrocket.presentation.question.audit.additional.CategoryProduc
 import com.ros.smartrocket.presentation.question.audit.additional.Navigator;
 import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswerPair;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
+import com.ros.smartrocket.utils.eventbus.SubQuestionsSubmitEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +160,19 @@ public class MassAuditPresenter<V extends MassAuditMvpView> extends BaseQuestion
     @Override
     public void openThumbnail(String path) {
         navigator.openThumbnailDialog(path);
+    }
+
+    @Override
+    public void onEventReceived(SubQuestionsSubmitEvent event, int buttonClicked) {
+        if (isRedo()) {
+            updateTickCrossState(event.productId, buttonClicked);
+            answersReDoMap.put(event.productId, true);
+            getMvpView().setRedoData(answersReDoMap);
+            refreshNextButton();
+        } else {
+            saveQuestion();
+            updateTickCrossState(event.productId, buttonClicked);
+        }
     }
 
     private void updateRedoAnswers(Integer productId) {

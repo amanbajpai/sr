@@ -188,9 +188,8 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!adapter.onActivityResult(requestCode, resultCode, data)) {
+        if (!adapter.onActivityResult(requestCode, resultCode, data))
             super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     @SuppressWarnings("unused")

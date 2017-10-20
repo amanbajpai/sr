@@ -102,6 +102,7 @@ public class NetworkError implements BaseNetworkError {
                 case FILE_ALREADY_UPLOADED_ERROR_CODE:
                 case HALF_CLAIM_PER_MISSION_CODE:
                 case MAXIMUM_MISSION_ERROR_CODE:
+                    errorMessageRes = R.string.error;
                     // will be handled in UI
                     break;
                 default:

@@ -132,7 +132,6 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
     @Override
     public void onStart() {
-        super.onStart();
         EventBus.getDefault().register(this);
     }
 

@@ -3,7 +3,6 @@ package com.ros.smartrocket.ui.adapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.db.entity.Product;
@@ -82,6 +81,7 @@ public class SubQuestionsMassAuditAdapter {
             presenter.setAnswerPageLoadingFinishedListener(fragment);
             presenter.setAnswerSelectedListener(fragment);
             mvpView.setPresenter(presenter);
+            mvpView.setInstanceState(savedInstanceState);
             presenter.attachView(mvpView);
             presenters.add(presenter);
             views.add(mvpView);
@@ -113,17 +113,18 @@ public class SubQuestionsMassAuditAdapter {
     public void onStop() {
         Stream.of(views)
                 .forEach(BaseQuestionView::onStop);
-        Stream.of(presenters)
-                .forEach(MvpPresenter::detachView);
     }
 
     public void onDestroy() {
+        Stream.of(presenters)
+                .forEach(MvpPresenter::detachView);
         Stream.of(views)
                 .forEach(BaseQuestionView::onDestroy);
     }
 
     public void onSaveInstanceState(Bundle outState) {
-
+        Stream.of(views)
+                .forEach(v -> v.onSaveInstanceState(outState));
     }
 
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {

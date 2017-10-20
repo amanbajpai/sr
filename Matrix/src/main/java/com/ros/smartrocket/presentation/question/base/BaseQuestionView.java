@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.question.base;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
     public TextView questionText;
     private CustomProgressDialog progressDialog;
     protected P presenter;
+    protected Bundle state;
 
     public BaseQuestionView(Context context) {
         super(context);
@@ -114,6 +116,15 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
     @Override
     public void onStop() {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
+    @Override
+    public void setInstanceState(Bundle outState) {
+        state = outState;
     }
 
     public void setPresenter(P presenter) {

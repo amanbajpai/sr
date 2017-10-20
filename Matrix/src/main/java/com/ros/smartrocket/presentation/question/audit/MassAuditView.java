@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.question.audit;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -18,16 +19,20 @@ import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswe
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.adapter.MassAuditExpandableListAdapter;
 import com.ros.smartrocket.ui.views.CustomTextView;
+import com.ros.smartrocket.utils.eventbus.SubQuestionsSubmitEvent;
 
 import java.util.HashMap;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAuditMvpView>> implements MassAuditMvpView {
-    ExpandableListView listView;
-    CustomTextView massAuditMainSubQuestionText;
-    private MassAuditExpandableListAdapter adapter;
     public static final int TICK = 1;
     public static final int CROSS = 2;
+    public static final String STATE_BUTTON_CLICKED = "QuestionMassAuditBL.STATE_BUTTON_CLICKED";
+    private ExpandableListView listView;
+    private CustomTextView massAuditMainSubQuestionText;
+    private MassAuditExpandableListAdapter adapter;
     private int buttonClicked;
 
     public MassAuditView(Context context) {
@@ -55,14 +60,14 @@ public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAu
 
     @Override
     public void configureView(Question question) {
+        if (state != null && state.containsKey(STATE_BUTTON_CLICKED))
+            buttonClicked = state.getInt(STATE_BUTTON_CLICKED);
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.include_mass_audit_question_header, listView, false);
         massAuditMainSubQuestionText = (CustomTextView) headerView.findViewById(R.id.massAuditMainSubQuestionText);
         presetValidationComment = (TextView) headerView.findViewById(R.id.presetValidationComment);
         validationComment = (TextView) headerView.findViewById(R.id.validationComment);
         questionText = (TextView) headerView.findViewById(R.id.questionText);
         listView.addHeaderView(headerView);
-//        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUTTON_CLICKED))
-//            buttonClicked = savedInstanceState.getInt(STATE_BUTTON_CLICKED);
         if (presenter.isRedo())
             presenter.refreshNextButton();
     }
@@ -70,6 +75,12 @@ public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAu
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
         // not needed
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_BUTTON_CLICKED, buttonClicked);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -129,4 +140,21 @@ public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAu
     private void handleTickCrossTick(CategoryProductPair pair) {
         presenter.handleTickCrossTick(pair, buttonClicked);
     }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(SubQuestionsSubmitEvent event) {
+        if (presenter != null) presenter.onEventReceived(event, buttonClicked);
+    }
+
+
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+    }
+
 }

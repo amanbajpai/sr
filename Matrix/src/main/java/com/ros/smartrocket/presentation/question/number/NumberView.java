@@ -2,6 +2,7 @@ package com.ros.smartrocket.presentation.question.number;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpView>> implements NumberMvpView {
+    public static final String EXTRA_TEXT_VIEW_NUMBER = "com.ros.smartrocket.EXTRA_TEXT_VIEW_NUMBER";
     public static final int DECIMAL_PATTERN = 1;
     @BindView(R.id.answerTextView)
     TextView answerTextView;
@@ -48,6 +50,9 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
 
     @Override
     public void configureView(Question question) {
+        if (state != null && state.containsKey(EXTRA_TEXT_VIEW_NUMBER))
+            answerTextView.setText(state.getString(EXTRA_TEXT_VIEW_NUMBER));
+
         if (question.getPatternType() == DECIMAL_PATTERN)
             dotButton.setText(R.string.key_dot);
         else
@@ -109,4 +114,10 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
     public void setPatternType(int patternType) {
         this.patternType = patternType;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(EXTRA_TEXT_VIEW_NUMBER, answerTextView.getText().toString());
+    }
+
 }
