@@ -9,10 +9,6 @@ public class ExternalAuthResponse extends BaseEntity {
         return showTermsConditions;
     }
 
-    public void setShowTermsConditions(boolean showTermsConditions) {
-        this.showTermsConditions = showTermsConditions;
-    }
-
     public String getToken() {
         return token;
     }
@@ -23,9 +19,5 @@ public class ExternalAuthResponse extends BaseEntity {
 
     public boolean isRegistrationRequested() {
         return registrationRequested;
-    }
-
-    public void setRegistrationRequested(boolean registrationRequested) {
-        this.registrationRequested = registrationRequested;
     }
 }

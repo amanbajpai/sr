@@ -75,7 +75,6 @@ class LoginPresenter<V extends LoginMvpView> extends BaseNetworkPresenter<V> imp
     private void handleExternalAuthResponse(Response<ExternalAuthResponse> response) {
         hideLoading();
         if (response.isSuccessful()) {
-            PreferencesManager.getInstance().setLastEmail(externalAuthEmail);
             storeUserData(response.body());
             getMvpView().onExternalAuth(response.body());
         } else {
@@ -86,7 +85,7 @@ class LoginPresenter<V extends LoginMvpView> extends BaseNetworkPresenter<V> imp
     private void handleSpecificAuthError(ResponseBody responseBody) {
         NetworkError networkError = new NetworkError(responseBody);
         ErrorResponse errorResponse = networkError.getErrorResponse();
-        if (errorResponse != null && errorResponse.getData() != null) {
+        if (errorResponse != null && errorResponse.getData() != null && errorResponse.getErrorCode() == NetworkError.EXTERNAL_AUTH_NEED_MORE_DATA_ERROR) {
             int registrationBitMask = errorResponse.getData().getMissingFields();
             getMvpView().startRegistrationFlow(RegistrationType.SOCIAL_ADDITIONAL_INFO, registrationBitMask);
         } else {
@@ -96,6 +95,7 @@ class LoginPresenter<V extends LoginMvpView> extends BaseNetworkPresenter<V> imp
 
     private void storeUserData(ExternalAuthResponse authResponse) {
         PreferencesManager pm = PreferencesManager.getInstance();
+        pm.setLastEmail(externalAuthEmail);
         pm.setToken(authResponse.getToken());
         pm.setTokenForUploadFile(authResponse.getToken());
         pm.setTokenUpdateDate(System.currentTimeMillis());

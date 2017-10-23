@@ -1,5 +1,6 @@
 package com.ros.smartrocket.presentation.login.external;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.ui.dialog.DatePickerDialog;
 import com.ros.smartrocket.ui.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
@@ -73,7 +75,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Externa
 
             presenter = new ExternalRegistrationPresenter<>(bundle.getInt(BITMASK), externalAuthorize);
             presenter.attachView(this);
-
+            presenter.setUpUI();
             initUI();
         } else {
             setResult(RESULT_CANCELED);
@@ -171,7 +173,7 @@ public class ExternalAuthDetailsActivity extends BaseActivity implements Externa
 
     @Override
     public void onRegistrationSuccess(String email) {
-        PreferencesManager.getInstance().setTandCShowed(email);
-        new RegistrationSuccessDialog(this, email);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

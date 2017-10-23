@@ -171,7 +171,7 @@ public interface MatrixApi {
     Single<Response<ExternalAuthResponse>> externalAuth(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
 
     @POST("api/Authorize/ExternalRegister")
-    Single<ResponseBody> externalRegistration(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
+    Single<ExternalAuthResponse> externalRegistration(@Body ExternalAuthorize externalAuthorizeEntity, @Query("language") String language);
 
     @POST("api/Authorize/Terminate")
     Single<ResponseBody> closeAccount();

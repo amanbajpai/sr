@@ -1,8 +1,10 @@
 package com.ros.smartrocket.presentation.login.external;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.entity.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,10 +21,10 @@ class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> exten
     ExternalRegistrationPresenter(int bitMasc, ExternalAuthorize externalAuthorize) {
         this.bitMasc = bitMasc;
         this.externalAuthorize = externalAuthorize;
-        setUpUI();
     }
 
-    private void setUpUI() {
+    @Override
+    public void setUpUI() {
         if (isBirthdayNeeded()) getMvpView().showDoBField();
         if (isEmailNeeded()) getMvpView().showEmailField();
     }
@@ -46,14 +48,17 @@ class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> exten
                 .externalRegistration(externalAuthorize, getLanguageCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(r -> handleRegistration(email), this::showNetworkError)
+                .subscribe(r -> handleRegistration(email, r), this::showNetworkError)
 
         );
     }
 
-    private void handleRegistration(String email) {
+    private void handleRegistration(String email, ExternalAuthResponse response) {
         hideLoading();
-        getMvpView().onRegistrationSuccess(email);
+        if (response != null) {
+            storeUserData(email, response);
+            getMvpView().onRegistrationSuccess(email);
+        }
     }
 
     private boolean isEmailNeeded() {
@@ -68,5 +73,14 @@ class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> exten
         boolean result = !isEmailNeeded() || !email.isEmpty();
         result &= !isBirthdayNeeded() || selectedBirthDay != null;
         return result;
+    }
+
+    private void storeUserData(String email, ExternalAuthResponse authResponse) {
+        PreferencesManager pm = PreferencesManager.getInstance();
+        pm.setTandCShowed(email);
+        pm.setLastAppVersion(UIUtils.getAppVersionCode(App.getInstance()));
+        pm.setToken(authResponse.getToken());
+        pm.setTokenForUploadFile(authResponse.getToken());
+        pm.setTokenUpdateDate(System.currentTimeMillis());
     }
 }
