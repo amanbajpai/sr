@@ -202,6 +202,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
         authorize.setExternalAuthSource(WECHAT_ID);
         authorize.setExternalAuthToken(token);
         authorize.setAdditionalAuthClaims(new AdditionalAuthClaim(openId));
+        authorize.setFullName(info.getNickname());
         authorize.setGender(info.getSex());
         onLoginSuccess(authorize);
     }
