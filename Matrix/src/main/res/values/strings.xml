@@ -3,7 +3,7 @@
     <string name="app_name">SmartRocket</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
     <!-- LOGIN ACTIVITY -->
-    <string name="version_var">v.%1$s</string>
+    <string name="version_var" translatable="false">v.%1$s</string>
     <string name="your_email_hint">Your e-mail</string>
     <string name="your_password_hint">Your password</string>
     <string name="forgot_your_password">Forgot your password?</string>
@@ -20,8 +20,8 @@
     <string name="user_not_found_error_text">User Not Found</string>
     <string name="user_already_exists_error_text">User already exists</string>
     <string name="password_token_not_valid_error_text">Please use the latest generated password reset link.</string>
-    <string name="zero">0</string>
-    <string name="dollar_symbol">$</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="dollar_symbol"  translatable="false">$</string>
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register">CONTINUE</string>
     <string name="welcome_to_smart_rocket">Welcome to SmartRocket registration!</string>
@@ -60,7 +60,7 @@
     <string name="reputation">Reputation</string>
     <string name="level_name">Rank</string>
     <string name="logout">Logout</string>
-    <string name="level_0">0</string>
+    <string name="level_0" translatable="false">0</string>
     <string name="balance_0">0$</string>
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry">Sorry! SmartRocket is not recruiting in your area.</string>
@@ -455,18 +455,18 @@
         and then open the Mission again and click “Submit Now”.</string>
     <string name="turn_on_wifi_dialog_ok">OK</string>
     <!-- NUMBERS -->
-    <string name="key_one">1</string>
-    <string name="key_two">2</string>
-    <string name="key_three">3</string>
-    <string name="key_four">4</string>
-    <string name="key_five">5</string>
-    <string name="key_six">6</string>
-    <string name="key_seven">7</string>
-    <string name="key_eight">8</string>
-    <string name="key_nine">9</string>
-    <string name="key_zero">0</string>
-    <string name="key_dot">.</string>
-    <string name="key_backspace">&lt;--</string>
+    <string name="key_one" translatable="false">1</string>
+    <string name="key_two" translatable="false">2</string>
+    <string name="key_three" translatable="false">3</string>
+    <string name="key_four" translatable="false">4</string>
+    <string name="key_five" translatable="false">5</string>
+    <string name="key_six" translatable="false">6</string>
+    <string name="key_seven" translatable="false">7</string>
+    <string name="key_eight" translatable="false">8</string>
+    <string name="key_nine" translatable="false">9</string>
+    <string name="key_zero" translatable="false">0</string>
+    <string name="key_dot" translatable="false">.</string>
+    <string name="key_backspace" translatable="false">&lt;--</string>
     <string name="delete">Delete</string>
     <string name="new_push_notifications_header">New SmartRocket notifications</string>
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
@@ -483,8 +483,8 @@
     <string name="id_card_agent_id">ID: %d</string>
     <string name="identification_card">Identification Card</string>
     <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s?</string>
-    <string name="approx_mission_duration">"%dm"</string>
-    <string name="mission_size_dialog_text">This mission file is %sMB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
+    <string name="approx_mission_duration" translatable="false">"%dm"</string>
+    <string name="mission_size_dialog_text">This mission file is %1$s MB and will now download to your device. Please connect to Wi-Fi if you do not wish to use your data</string>
 
     <string name="preview_task">PREVIEW</string>
     <string name="preview_mode">PREVIEW MODE</string>
@@ -496,7 +496,7 @@
     <string name="warning_half_claims">You have now withdrawn form or expired  %1$d missions this project. Once this number reaches  %2$d, you will no longer be able to claim missions on this project</string>
     <string name="warning_last_claim">You have now withdrawn form or expired %1$d missions this project which is the maximum number of expirires/withdrawls allowed on his project. If you expire or withdraw from one more mission on this project you will not be able to claim any further missions on this project</string>
     <!--<string name="facebook_app_id">352079911843664</string>-->
-    <string name="facebook_app_id">360659224276381</string>
+    <string name="facebook_app_id" translatable="false">360659224276381</string>
     <string name="full_name">Full name</string>
     <string name="national_id_header">IMPORTANT: Your name must be your full/official name. Ensure all details are correct before submitting.</string>
     <string name="national_id_number_hint">Your National ID No.</string>
@@ -520,7 +520,7 @@
     <string name="tut_text4">Earn real cash instantly.</string>
     <string name="tut_title_5">Join our Crew.</string>
     <string name="tut_text5">Join now and start earning today!</string>
-    <string name="fb_login_protocol_scheme">fb360659224276381</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb360659224276381</string>
     <string name="or">OR</string>
     <string name="continue_with_fb">CONTINUE WITH FACEBOOK</string>
     <string name="continue_with_google">CONTINUE WITH GOOGLE</string>
@@ -528,11 +528,13 @@
 
     <string name="password_label">Enter your password</string>
 
-    <string name="english">English</string>
-    <string name="chinese_simple">中文（简体）</string>
-    <string name="chinese_traditional_hk">繁中 (香港)</string>
-    <string name="chinese_traditional_tw">繁中 (臺灣)</string>
-    <string name="arabic">عربي</string>
+    <string name="english"  translatable="false">English</string>
+    <string name="chinese_simple" translatable="false">中文（简体）</string>
+    <string name="chinese_traditional_hk" translatable="false">繁中 (香港)</string>
+    <string name="chinese_traditional_tw" translatable="false">繁中 (臺灣)</string>
+    <string name="arabic" translatable="false">عربي</string>
+    <string name="indonesian" translatable="false">Indonesian</string>
+    <string name="malaya" translatable="false">Indonesian</string>
     <string name="continue_with_qq">Continue with QQ</string>
     <string name="continue_with_wechat">Continue with Wechat</string>
 
@@ -543,7 +545,7 @@
     <string name="why_email">Important messages related to your SmartRocket Account a sent via email. \nIn some markets, an email address is also required to create and manage a SmartRocket Payment Account.\nYou must provide a valid email address to join SmartRocket.</string>
     <string name="why_dob_title">Why do we need your birthday?</string>
     <string name="why_email_title">Why do we need your email?</string>
-    <string name="french">Français</string>
+    <string name="french" translatable="false">Français</string>
     <string name="already_member">YOU ARE ALREADY A MEMBER OF OUR CREW!</string>
     <string name="global_block_error">SmartRocket is temporary unavailable</string>
     <string name="dialog_payment_title">Enter payment details</string>
@@ -552,5 +554,5 @@
     <string name="recording">Audio recording</string>
     <string name="recording_end">End recording?</string>
     <string name="recording_delete">Delete recording?</string>
-    <string name="def_timer">00:00</string>
+    <string name="def_timer" translatable="false">00:00</string>
 </resources>

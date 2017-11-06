@@ -25,7 +25,6 @@
 	<string name="approved_mission_notification_text">تمت الموافقة على المهمة التالية. &lt;br>&lt;br> المهمة: &lt;b >%3$s&lt;/b > &lt;br>الموقع: &lt;b >%4$s &lt;/b >&lt;br> العنوان: &lt;b >%5$s &lt;/b >&lt;br> معرِّف المهمة: &lt;b >%6$d %1$s %2$s</string>
 	<string name="approved_mission_notification_title">تهانينا.</string>
 	<string name="approved_task">تمت الموافقة</string>
-	<string name="approx_mission_duration">"%dm"</string>
 	<string name="available">المتوفر:</string>
 	<string name="bachelors_degree">درجةالباكالوريا</string>
 	<string name="balance_0">0$</string>
@@ -105,7 +104,6 @@
 	<string name="error_too_much_claims">عذرًا، لقد تجاوزت الحد الأقصى لعدد مرات انتهاء صلاحية المهام أو الانسحاب منها في هذا المشروع، ولا يمكنك حجز مهام في هذا المشروع بعد الآن.</string>
 	<string name="expire_mission_notification_text">انتهت صلاحية المهمة التالية وتمت إزالتها من قائمة المهام &lt;br>&lt;br>المهمة: &lt;b >%1$s&lt;/b > &lt;br>الموقع: &lt;b >%2$s&lt;/b > &lt;br> العنوان: &lt;b >%3$s&lt;/b ></string>
 	<string name="expire_mission_notification_title">انتهت الصلاحية</string>
-	<string name="facebook_app_id">360659224276381</string>
 	<string name="fetching_alipay_account_info">جارٍ إحضار معلومات حساب AliPay&#8230;</string>
 	<string name="fill_in_all_fields">الرجاء إتمام كل العناصر</string>
 	<string name="fill_in_field">الرجاء تعبئة الحقل</string>
@@ -141,20 +139,8 @@
 	<string name="in_validation_task">قيد التحقق</string>
 	<string name="internet_connection_is_bad">اتصال الإنترنت غير مستقر، الرجاء تغيير مصدر الإنترنت.</string>
 	<string name="junior_secondary_school">مدرسة إعدادية</string>
-	<string name="key_dot">.</string>
-	<string name="key_eight">8</string>
-	<string name="key_five">5</string>
-	<string name="key_four">4</string>
-	<string name="key_nine">9</string>
-	<string name="key_one">1</string>
-	<string name="key_seven">7</string>
-	<string name="key_six">6</string>
-	<string name="key_three">3</string>
-	<string name="key_two">2</string>
-	<string name="key_zero">0</string>
 	<string name="language">اللغة</string>
 	<string name="last_name">الاسمالعائلي</string>
-	<string name="level_0">0</string>
 	<string name="level_name">الدرجة</string>
 	<string name="loading_missions">جارٍ تحميل المهام&#8230;</string>
 	<string name="location_services">خدمة تحديد الموقع</string>

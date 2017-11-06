@@ -17,7 +17,6 @@
     <string name="user_not_found_error_text">此用户不存在</string>
     <string name="user_already_exists_error_text">用户已经存在</string>
     <string name="password_token_not_valid_error_text">请使用最新建立的密码重設链接</string>
-    <string name="zero">0</string>
     <!-- WHERE YOU KNOW ABOUT US -->
     <string name="continue_register">继续</string>
     <string name="welcome_to_smart_rocket">欢迎来到智慧飞船注册页面！</string>
@@ -55,7 +54,6 @@
     <string name="rocket_points">飞船里数</string>
     <string name="level_name">等级</string>
     <string name="logout">离开</string>
-    <string name="level_0">0</string>
     <string name="balance_0">0$</string>
     <!-- CHECKING FAIL ACTIVITY -->
     <string name="sorry">对不起！智慧飞船暂时不在您所在的地区进行招聘。</string>
@@ -446,7 +444,6 @@
     <string name="error_too_much_claims">抱歉，任务过期次数或退出任务次数已超出上限，你不能再领取此任务</string>
     <string name="warning_half_claims">现在你将会退出任务或%1$d任务期限将至。 如其退出或到期次数达到%2$d次,你将会被取消领取此任务的权限</string>
     <string name="warning_last_claim">现在你将会退出任务或已达到上限为%1$d次的任务退出或过期次数。如你再退出任务或任务再次过期,你便会失去领取此任务的权限。</string>
-    <string name="facebook_app_id">360659224276381</string>
     <string name="dialog_update_app_title">更新应用程式</string>
     <string name="dialog_update_app_text">你现在用的应用程序是旧版本(%1$s)，你要把应用程序更新至(%2$s)版本以后才可以认领任务，你现在要更新吗？</string>
     <string name="tut_title_1">智慧飞船.</string>

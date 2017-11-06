@@ -26,7 +26,6 @@
 	<string name="approved_mission_notification_text">La Mission suivante a été approuvée. &lt;br>&lt;br> Mission : &lt;b>%3$s&lt;/b > &lt;br>Localisation : &lt;b>%4$s &lt;/b>&lt;br> Adresse : &lt;b>%5$s &lt;/b>&lt;br> ID de la tâche : &lt;b>%6$d %1$s %2$s</string>
 	<string name="approved_mission_notification_title">Félicitations !</string>
 	<string name="approved_task">Approuvé</string>
-	<string name="approx_mission_duration">"%dm"</string>
 	<string name="available">DISPONIBLE :</string>
 	<string name="bachelors_degree">Baccalauréat</string>
 	<string name="balance_0">0$</string>
@@ -110,8 +109,6 @@
 	<string name="error_too_much_claims">Désolé, vous avez dépassé l\'expiration/retrait d\'\'échéance de mission maximale sur ce projet, et vous ne pouvez plus prétendre à des missions sur ce projet.</string>
 	<string name="expire_mission_notification_text">La mission suivante a expiré et a été supprimée de votre liste de Missions &lt;br> &lt;br> Mission : &lt;b>%1$s &lt;/b> &lt;br>Localisation : &lt;b>%2$s &lt;/b > &lt;br> Adresse : &lt;b >%3$s&lt;/b></string>
 	<string name="expire_mission_notification_title">Expiré</string>
-	<string name="facebook_app_id">360659224276381</string>
-	<string name="fb_login_protocol_scheme">fb360659224276381</string>
 	<string name="fetching_alipay_account_info">Extraction d\'informations de compte AliPay…</string>
 	<string name="fill_in_all_fields">Veuillez compléter tous les éléments</string>
 	<string name="fill_in_field">Veuillez remplir le champ</string>
@@ -148,7 +145,6 @@
 	<string name="junior_secondary_school">Premier cycle du secondaire</string>
 	<string name="language">Langue</string>
 	<string name="last_name">Nom</string>
-	<string name="level_0">0</string>
 	<string name="level_name">Rang</string>
 	<string name="loading_missions">Chargement des Missions…</string>
 	<string name="location_services">Services de localisation</string>
@@ -206,7 +202,6 @@
 	<string name="password_validation_text">Votre mot de passe doit comporter entre 8 et 16 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial (!, @, #, $, Etc.).</string>
 	<string name="phone_number_hint">Numéro de téléphone</string>
 	<string name="please_write_in">Autre - veuillez préciser</string>
-	<string name="preview_mode">PRÉVISUALISATION</string>
 	<string name="preview_task">VISUALISER</string>
 	<string name="previous">PRÉCÉDENT</string>
 	<string name="primary_school">École primaire</string>
@@ -367,7 +362,6 @@
 	<string name="your_email_hint">Votre e-mail</string>
 	<string name="your_password_hint">Votre mot de passe</string>
 	<string name="your_version_outdated">Votre version de SmartRocket est obsolète. Veuillez la mettre à jour pour accéder à l\'application</string>
-	<string name="zero">0</string>
 	<string name="zoom_to_this_radius">Définir le rayon de zoom par défaut</string>
     <string name="close_account">FERMER COMPTE</string>
 	<string name="close_account_btn">Fermer mon compte SmartRocket</string>
@@ -402,4 +396,5 @@
     <string name="recording">Enregistrement vocal</string>
 	<string name="recording_delete">Supprimer l\'enregistrement vocal?</string>
 	<string name="recording_end">Fin de l\'enregistrement vocal?</string>
+	<string name="preview_mode">PRÉVISUALISATION</string>
 </resources>
