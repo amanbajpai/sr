@@ -268,7 +268,7 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
     private void setUpGoogleSignInBtn() {
         CustomButton gSignInButton = addSocialButton(R.string.continue_with_google, R.drawable.ic_google, R.drawable.button_orange_selector);
         gSignInButton.setOnClickListener(v -> signInWithGoogle());
-        if (mGoogleApiClient == null) {
+        if (mGoogleApiClient == null && activity!=null && !activity.isDestroyed()) {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .requestScopes(new Scope(Scopes.PLUS_LOGIN))

@@ -6,6 +6,7 @@ import com.ros.smartrocket.db.entity.ExternalAuthorize;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.ValidationUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -70,7 +71,7 @@ class ExternalRegistrationPresenter<V extends ExternalRegistrationMvpView> exten
     }
 
     private boolean isAllFieldsFilled(Long selectedBirthDay, String email) {
-        boolean result = !isEmailNeeded() || !email.isEmpty();
+        boolean result = !isEmailNeeded() || ValidationUtils.validEmail(email);
         result &= !isBirthdayNeeded() || selectedBirthDay != null;
         return result;
     }
