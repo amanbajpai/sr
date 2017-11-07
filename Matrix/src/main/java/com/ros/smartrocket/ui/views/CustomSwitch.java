@@ -40,13 +40,10 @@ public class CustomSwitch extends LinearLayout {
         inflate(c, R.layout.view_custom_switch, this);
         ButterKnife.bind(this);
         updateButtons();
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isChecked = !isChecked;
-                updateButtons();
-                onCheckedChange();
-            }
+        setOnClickListener(v -> {
+            isChecked = !isChecked;
+            updateButtons();
+            onCheckedChange();
         });
     }
 

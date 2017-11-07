@@ -348,13 +348,13 @@
     <!-- Detail screen -->
     <style name="detailScreenTimeTypeTextStyle">
         <item name="android:textColor">@color/grey</item>
-        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
         <item name="android:gravity">start</item>
     </style>
 
     <style name="detailScreenTimeTextStyle">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">start</item>
         <item name="android:layout_marginStart">2dp</item>
@@ -411,7 +411,7 @@
 
     <style name="SwitchText" parent="@android:style/Widget.TextView">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_13p6sp</item>
+        <item name="android:textSize">@dimen/text_size_12sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
