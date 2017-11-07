@@ -18,4 +18,10 @@
     <item
         android:id="@+id/lanArabic"
         android:title="@string/arabic" />
+    <item
+        android:id="@+id/lanIndonesian"
+        android:title="@string/indonesian" />
+    <item
+        android:id="@+id/lanMalaya"
+        android:title="@string/malaysian" />
 </menu>

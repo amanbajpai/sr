@@ -150,6 +150,12 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
             case 5:
                 language.setText(R.string.arabic);
                 break;
+            case 6:
+                language.setText(R.string.indonesian);
+                break;
+            case 7:
+                language.setText(R.string.malaysian);
+                break;
         }
 
     }
@@ -246,6 +252,14 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
             case R.id.lanArabic:
                 onLanguageChanged("ar");
                 language.setText(R.string.arabic);
+                return true;
+            case R.id.lanIndonesian:
+                onLanguageChanged("in");
+                language.setText(R.string.indonesian);
+                return true;
+            case R.id.lanMalaya:
+                onLanguageChanged("ms");
+                language.setText(R.string.malaysian);
                 return true;
             default:
                 return false;
