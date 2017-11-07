@@ -1,14 +1,18 @@
 package com.ros.smartrocket.map.location;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -66,7 +70,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         this.context = context;
         requested = new LinkedList<>();
         handler = new DbHandler(context.getContentResolver());
-
         startLocationClient();
     }
 
@@ -110,44 +113,38 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         notifyAllRequestedLocation();
     }
 
+    @SuppressLint("MissingPermission")
     public void startGpsLocationClient() {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
-
-        isConnected = true;
-
-        notifyAllRequestedLocation();
+        if (isPermissionGuaranteed()) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Keys.UPDATE_INTERVAL, 0, this);
+            isConnected = true;
+            notifyAllRequestedLocation();
+        }
     }
 
-    /**
-     * GOOGLE location listeners
-     */
-
+    @SuppressLint("MissingPermission")
     @Override
     public void onConnected(Bundle bundle) {
         L.i(TAG, "onConnected() [bundle = " + bundle + "]");
         isConnected = true;
 
-        // Create the LocationRequest object
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         locationRequest.setInterval(Keys.UPDATE_INTERVAL);
         locationRequest.setFastestInterval(Keys.FASTEST_INTERVAL);
 
-            /*
-             * Create a new location client, using the enclosing class to
-             * handle callbacks.
-             */
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, locationRequest, this);
-
-        try {
-            this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        } catch (Exception e) {
-            L.e(TAG, "onConnected. locationClient error" + e.getMessage(), e);
+        if (isPermissionGuaranteed()) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, locationRequest, this);
+            try {
+                this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            } catch (Exception e) {
+                L.e(TAG, "onConnected. locationClient error" + e.getMessage(), e);
+            }
+            notifyAllRequestedLocation();
         }
-        notifyAllRequestedLocation();
     }
 
     @Override
@@ -221,9 +218,10 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
      *
      * @return null if not connected to Google Play Service or
      */
+    @SuppressLint("MissingPermission")
     public Location getLocation() {
         if (!Config.USE_BAIDU) {
-            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            if (mGoogleApiClient != null && mGoogleApiClient.isConnected() && isPermissionGuaranteed()) {
                 this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             }
             ChinaTransformLocation.transformFromWorldToChinaLocation(lastLocation);
@@ -247,11 +245,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
                 startLocationClient();
             }
         }
-
-//        lastLocation = new Location("TEST");
-//        lastLocation.setLatitude(23.1259819);
-//        lastLocation.setLongitude(112.9476641);
-
         return lastLocation;
     }
 
@@ -349,6 +342,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
      * @param force                   - if true than get location asynchronously, false - block Thread and wait update!
      * @param currentLocationListener - result callback
      */
+    @SuppressLint("MissingPermission")
     public static void getCurrentLocation(final boolean force, final GetCurrentLocationListener currentLocationListener) {
         MatrixLocationManager lm = App.getInstance().getLocationManager();
 
@@ -371,7 +365,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             L.i(TAG, "onDisconnected()");
             if (lm.isConnected()) {
                 if (!Config.USE_BAIDU) {
-                    if (lm.mGoogleApiClient.isConnected()) {
+                    if (lm.mGoogleApiClient.isConnected() && MatrixLocationManager.isPermissionGuaranteed()) {
                         LocationServices.FusedLocationApi.requestLocationUpdates(
                                 lm.mGoogleApiClient, lm.locationRequest, lm);
                     } else {
@@ -531,5 +525,9 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
     public boolean isLastLocationSaved() {
         return lastBaiduPosition != null || lastGooglePosition != null;
+    }
+
+    public static boolean isPermissionGuaranteed() {
+        return !(ActivityCompat.checkSelfPermission(App.getInstance(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(App.getInstance(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED);
     }
 }

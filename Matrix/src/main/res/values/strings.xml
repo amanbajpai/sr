@@ -533,8 +533,8 @@
     <string name="chinese_traditional_hk" translatable="false">繁中 (香港)</string>
     <string name="chinese_traditional_tw" translatable="false">繁中 (臺灣)</string>
     <string name="arabic" translatable="false">عربي</string>
-    <string name="indonesian" translatable="false">Indonesian</string>
-    <string name="malaysian" translatable="false">Malaysian</string>
+    <string name="indonesian" translatable="false">Bahasa Indonesia</string>
+    <string name="malaysian" translatable="false">Bahasa Malayu</string>
     <string name="continue_with_qq">Continue with QQ</string>
     <string name="continue_with_wechat">Continue with Wechat</string>
 

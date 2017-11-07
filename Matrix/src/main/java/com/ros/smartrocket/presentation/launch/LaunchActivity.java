@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.github.euzee.permission.CallbackBuilder;
+import com.github.euzee.permission.PermissionCallback;
+import com.github.euzee.permission.PermissionUtil;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
@@ -24,6 +27,7 @@ import cn.jpush.android.api.JPushInterface;
 public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private LaunchMvpPresenter<LaunchMvpView> presenter;
+    private PermissionCallback permissionCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
         setContentView(R.layout.activity_launch);
         presenter = new LaunchPresenter<>();
         presenter.attachView(this);
-        presenter.checkVersion();
+        initPermissionCallbacks();
     }
 
     public void launchApp() {
@@ -76,6 +80,7 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
 
     protected void onResume() {
         super.onResume();
+        checkPermission();
         JPushInterface.onResume(this);
     }
 
@@ -88,5 +93,16 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
+    }
+
+    private void checkPermission() {
+        PermissionUtil.locationBoth(this, permissionCallback);
+    }
+
+    private void initPermissionCallbacks() {
+        permissionCallback = new CallbackBuilder()
+                .onGranted(() -> presenter.checkVersion())
+                .onDenied(this::launchApp)
+                .build();
     }
 }

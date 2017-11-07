@@ -1,5 +1,6 @@
 package com.ros.smartrocket.presentation.base;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.ros.smartrocket.utils.UIUtils;
 
 import java.util.Locale;
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity implements MvpView {
 
     public static final String KEY_SAVED_ACTIVITY_INTENT = "KEY_SAVED_ACTIVITY_INTENT";
@@ -85,4 +87,6 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
     protected void setHomeAsUp() {
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 }

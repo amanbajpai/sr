@@ -217,7 +217,7 @@ public class UIUtils {
     public static boolean isGpsEnabled(Context context) {
         boolean isEnable = false;
         if (context != null) {
-            LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             isEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }
 
@@ -227,7 +227,7 @@ public class UIUtils {
     public static boolean isNetworkEnabled(Context context) {
         boolean isEnable = false;
         if (context != null) {
-            LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             isEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }
 
