@@ -55,11 +55,11 @@ android {
     ext.buildNumber = env.BUILD_NUMBER ?: '0'
     ext.buildNumber = buildNumber.toInteger()
     compileSdkVersion 24
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode buildNumber + 10000
         versionName '2.5.3'
         applicationId "com.ros.smartrocket"
@@ -219,13 +219,13 @@ android {
 
 dependencies {
     // support
-    compile 'com.google.android.gms:play-services-base:11.0.2'
-    compile 'com.google.android.gms:play-services-maps:11.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.0.2'
-    compile 'com.google.android.gms:play-services-plus:11.0.2'
-    compile 'com.google.android.gms:play-services-location:11.0.2'
-    compile 'com.google.android.gms:play-services-gcm:11.0.2'
-    compile 'com.google.android.gms:play-services-analytics:11.0.2'
+    compile 'com.google.android.gms:play-services-base:11.4.2'
+    compile 'com.google.android.gms:play-services-maps:11.4.2'
+    compile 'com.google.android.gms:play-services-auth:11.4.2'
+    compile 'com.google.android.gms:play-services-plus:11.4.2'
+    compile 'com.google.android.gms:play-services-location:11.4.2'
+    compile 'com.google.android.gms:play-services-gcm:11.4.2'
+    compile 'com.google.android.gms:play-services-analytics:11.4.2'
 
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'

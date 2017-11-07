@@ -12,17 +12,22 @@ import java.util.Locale;
 
 public class LocaleUtils {
     public static final String DEFAULT_LANG = java.util.Locale.getDefault().toString();
-    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_HK", "zh_TW", "fr", "ar"};
+    public static final String[] VISIBLE_LANGS_CODE = new String[]{"en", "zh_CN", "zh_HK", "zh_TW", "fr", "ar", "in", "ms"};
     public static String[] VISIBLE_LANGUAGE = new String[]{getStringById(R.string.english), getStringById(R.string.chinese_simple),
             getStringById(R.string.chinese_traditional_hk), getStringById(R.string.chinese_traditional_tw),
-            getStringById(R.string.french), getStringById(R.string.arabic)};
+            getStringById(R.string.french), getStringById(R.string.arabic),
+            getStringById(R.string.indonesian), getStringById(R.string.malaysian)};
 
     public static boolean setDefaultLanguage(String languageCode) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         boolean languageChanged = !preferencesManager.getLanguageCode().equals(languageCode);
         preferencesManager.setLanguageCode(languageCode);
-        Support.setSDKLanguage(getCurrentLocale().getLanguage());
+        Support.setSDKLanguage(getHsLanguage());
         return languageChanged;
+    }
+
+    private static String getHsLanguage() {
+        return getCurrentLocale().getLanguage().equals("in") ? "id" : getCurrentLocale().getLanguage();
     }
 
     public static Locale getCurrentLocale() {
@@ -43,6 +48,12 @@ public class LocaleUtils {
         } else if (isArabicLanguage(currentLanguageCode)) {
             locale = new Locale("ar", "MA");
             Support.setSDKLanguage("ar");
+        } else if (isIndonesianLanguage(currentLanguageCode)) {
+            locale = new Locale("in");
+            Support.setSDKLanguage("id");
+        } else if (isMalaysianLanguage(currentLanguageCode)) {
+            locale = new Locale("ms");
+            Support.setSDKLanguage("ms");
         } else {
             locale = new Locale(currentLanguageCode);
             Support.setSDKLanguage(currentLanguageCode);
@@ -70,6 +81,14 @@ public class LocaleUtils {
         return languageCode.startsWith("ar");
     }
 
+    private static boolean isIndonesianLanguage(String languageCode) {
+        return languageCode.startsWith("in");
+    }
+
+    private static boolean isMalaysianLanguage(String languageCode) {
+        return languageCode.startsWith("ms");
+    }
+
     public static String getCorrectLanguageCode(String languageCode) {
         if (!TextUtils.isEmpty(languageCode)) {
             switch (languageCode) {
@@ -93,6 +112,16 @@ public class LocaleUtils {
                 case "ar":
                     languageCode = "ar";
                     break;
+                case "in":
+                case "in_ID":
+                    languageCode = "in";
+                    break;
+                case "ms":
+                case "ms_MY":
+                case "ms_BN":
+                case "ms_SG":
+                    languageCode = "ms";
+                    break;
                 default:
                     languageCode = "en";
                     break;
@@ -106,6 +135,10 @@ public class LocaleUtils {
             return "ar";
         } else if (isFrenchLanguage(DEFAULT_LANG)) {
             return "fr";
+        }else if (isIndonesianLanguage(DEFAULT_LANG)) {
+            return "in";
+        }else if (isMalaysianLanguage(DEFAULT_LANG)) {
+            return "ms";
         } else if (isSimpleChinaLanguage(DEFAULT_LANG) || isTraditionalChinaHKLanguage(DEFAULT_LANG) || isTraditionalChinaHKLanguage(DEFAULT_LANG)) {
             return DEFAULT_LANG;
         } else {
@@ -119,12 +152,10 @@ public class LocaleUtils {
         String supportedLanguage = preferencesManager.getLanguageCode();
         if (!TextUtils.isEmpty(supportedLanguage)) {
             setDefaultLanguage(supportedLanguage);
-            Log.e("Language Setted", supportedLanguage);
         } else {
             supportedLanguage = getLanguageCodeFromSupported();
             preferencesManager.setLanguageCode(supportedLanguage);
             setDefaultLanguage(supportedLanguage);
-            Log.e("Language Setted", supportedLanguage);
         }
     }
 
