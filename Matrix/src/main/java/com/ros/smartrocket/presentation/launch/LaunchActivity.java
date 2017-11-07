@@ -1,8 +1,12 @@
 package com.ros.smartrocket.presentation.launch;
 
+import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -96,13 +100,30 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     }
 
     private void checkPermission() {
-        PermissionUtil.locationBoth(this, permissionCallback);
+        PermissionUtil.checkGroup(this, permissionCallback,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO});
     }
 
     private void initPermissionCallbacks() {
         permissionCallback = new CallbackBuilder()
                 .onGranted(() -> presenter.checkVersion())
-                .onDenied(this::launchApp)
+                .onDenied(this::showPermissionSettings)
                 .build();
+    }
+
+    private void showPermissionSettings() {
+        try {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", getPackageName(), null));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.v("Permission Setting", "No Activity", e);
+        }
+
     }
 }

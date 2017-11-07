@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -22,8 +23,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 
+import com.ros.smartrocket.App;
+import com.ros.smartrocket.MatrixFileProvider;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.BytesBitmap;
+import com.ros.smartrocket.utils.FileProcessingManager;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -101,21 +105,21 @@ public class SelectImageManager {
         fragment.startActivityForResult(i, GALLERY);
     }
 
-    public static void startCamera(Activity activity, File filePath) {
+    public static void startCamera(Activity activity, File file) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+        i.putExtra(MediaStore.EXTRA_OUTPUT, FileProcessingManager.getUriFromFile(file));
         activity.startActivityForResult(i, CAMERA);
     }
 
-    public static void startCamera(Fragment sourceFragment, File filePath) {
+    public static void startCamera(Fragment sourceFragment, File file) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+        i.putExtra(MediaStore.EXTRA_OUTPUT, FileProcessingManager.getUriFromFile(file));
         sourceFragment.startActivityForResult(i, CAMERA);
     }
 
-    public static void startCamera(Fragment sourceFragment, File filePath, int bigPartCode) {
+    public static void startCamera(Fragment sourceFragment, File file, int bigPartCode) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+        i.putExtra(MediaStore.EXTRA_OUTPUT, FileProcessingManager.getUriFromFile(file));
         sourceFragment.startActivityForResult(i, RequestCodeImageHelper.makeRequestCode(bigPartCode, CAMERA));
     }
 

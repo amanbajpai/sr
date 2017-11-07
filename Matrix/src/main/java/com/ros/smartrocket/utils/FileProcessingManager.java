@@ -1,10 +1,14 @@
 package com.ros.smartrocket.utils;
 
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
+import com.ros.smartrocket.MatrixFileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -221,5 +225,13 @@ public class FileProcessingManager {
 
     private boolean shouldClearFile(File file) {
         return file.exists() && getFileSizeInMB(file) > MAX_FILE_SIZE_IN_MB;
+    }
+
+    public static Uri getUriFromFile(File file) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            return MatrixFileProvider.getUriForFile(App.getInstance(), BuildConfig.APPLICATION_ID + ".provider", file);
+        } else {
+            return Uri.fromFile(file);
+        }
     }
 }

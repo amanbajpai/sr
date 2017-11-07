@@ -213,7 +213,7 @@ public class IntentUtils {
         Intent intent = getEmailIntent(subject, email, text);
         File file = FileProcessingManager.getTempFile(FileProcessingManager.FileType.TEXT, FileProcessingManager.FILE_LOGS, true);
         if (file != null) {
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            intent.putExtra(Intent.EXTRA_STREAM, FileProcessingManager.getUriFromFile(file));
         }
         return intent;
     }

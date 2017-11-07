@@ -46,12 +46,9 @@
     <!-- Map -->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!-- App must have this permission to use the library -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- Crach loger -->
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <!-- Get Photo -->
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -67,6 +64,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup, label">
+
+        <provider
+            android:name=".MatrixFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <!-- FB -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
