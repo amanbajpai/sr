@@ -108,10 +108,10 @@
     <string name="unlimited">Unlimited</string>
     <string name="term_and_conditions"><u>TERMS &amp; CONDITIONS</u></string>
     <string name="term_and_conditions_title">Terms &amp; Conditions</string>
-    <string name="close_account_title">Close SmartRocket Account</string>
-    <string name="close_account_btn">Close my SmartRocket Account</string>
-    <string name="close_account_text">WARNING: pressing \'Close Account\' will permanently close this SmartRocket Account.\nYou will forfeit any remaining SmartRocket cash balance.\n\nThis action cannot be undone.</string>
-    <string name="close_account">CLOSE ACCOUNT</string>
+    <string name="close_account_title">Delete SmartRocket Account</string>
+    <string name="close_account_btn">Delete my SmartRocket Account</string>
+    <string name="close_account_text">WARNING: pressing \'Delete Account\' will permanently delete this SmartRocket Account. You will forfeit any remaining SmartRocket cash balance. This action cannot be undone.</string>
+    <string name="close_account">DELETE ACCOUNT</string>
     <!-- SHARE AND REFER FRAGMENT-->
     <string name="share_title">Share</string>
     <string name="share_text">I\'ve been having fun (and making money) with SmartRocket app
@@ -414,7 +414,7 @@
         &lt;br>&lt;br>Mission: &lt;b >%2$s&lt;/b > &lt;br>Location: &lt;b >%3$s&lt;/b >
     &lt;br> Address: &lt;b >%4$s&lt;/b ></string>
     <!--notification button-->
-    <string name="close_message">Close Message</string>
+    <string name="close_message">Delete Message</string>
     <string name="open_mission">Open Mission</string>
     <!-- MAX CLAIMS PER TASK -->
     <string name="task_no_longer_available">Task no longer available</string>
@@ -471,7 +471,7 @@
     <string name="new_push_notifications_header">New SmartRocket notifications</string>
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
     <string name="new_push_notification">New notification</string>
-    <string name="close">CLOSE</string>
+    <string name="close">DELETE</string>
     <!-- ID CARDS -->
     <string name="update_first_last_name_dialog_title">You can only change your name once. Please use your real name because we will provide digital ID cards for some projects.</string>
     <string name="update_name_not_allowed">You have already changed your name once and can no longer change your name. Contact support@smart-rocket.com if required.</string>

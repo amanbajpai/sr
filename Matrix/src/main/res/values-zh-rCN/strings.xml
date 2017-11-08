@@ -411,7 +411,7 @@
     <string name="enter_valid_alipay_username">实名[或账号]看来有错误，请作出修改。</string>
     <string name="enter_valid_email_phone">实名[或账号]看来有错误，请作出修改。</string>
     <string name="hint_your_registered_alipay_phone_or_email">您注册的支付宝账号（手机或邮箱)</string>
-    <string name="update_payment_details_save_and_close">储存并关闭</string>
+    <string name="update_payment_details_save_and_close">删除信息</string>
 
 
     <!-- TURN ON WIFI OR CHANGE SETTINGS DIALOG -->
@@ -472,11 +472,11 @@
     <string name="activity_log_description_toast">您在智慧飞船帐户的活动日志文件已发送到：</string>
     <string name="activity_log_title">要求取得活动日志</string>
     <string name="already_member">我们的队员</string>
-    <string name="close">关闭</string>
-    <string name="close_account">关闭帐户</string>
-    <string name="close_account_btn">关闭我在智慧飞船的帐户</string>
-    <string name="close_account_text">警告：按下“关闭帐户”将永久关闭此智慧飞船帐户。您在智慧飞船剩余的现金余额将被没收。无法撤消此操作。</string>
-    <string name="close_account_title">关闭智慧飞船帐户</string>
+    <string name="close">删除</string>
+    <string name="close_account">删除帐户</string>
+    <string name="close_account_btn">删除我在智慧飞船的帐户</string>
+    <string name="close_account_text">警告：按下“删除帐户”将永久删除此智慧飞船帐户。您在智慧飞船剩余的现金余额将被没收。无法撤消此操作。</string>
+    <string name="close_account_title">删除智慧飞船帐户</string>
     <string name="continue_email_btn">以电子邮件继续</string>
     <string name="do_not_show_message">不要再显示此消息</string>
     <string name="forgot_password_success_text2">...的链接重设智慧飞船密码。</string>

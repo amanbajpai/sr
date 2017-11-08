@@ -66,8 +66,8 @@
 	<string name="close">刪除</string>
 	<string name="close_account">刪除帳戶</string>
 	<string name="close_account_btn">刪除我在SmartRocket的帳戶</string>
-	<string name="close_account_text">警告：按下“刪除帳戶”將永久刪除此SmartRocket帳戶。您在SmartRocket剩餘的現金餘額將被沒收。無法撤消此操作。</string>
-	<string name="close_account_title">刪除SmartRocket帳戶</string>
+	<string name="close_account_text">警告：按下“刪除帳戶”將永久刪除此SmartRocket帳戶。 您在SmartRocket剩餘的現金餘額將被沒收。 無法撤消此操作。</string>
+	<string name="close_account_title">刪除刪除SmartRocket帳戶帳戶</string>
 	<string name="close_message">刪除訊息</string>
 	<string name="confirm">確認</string>
 	<string name="confirm_and_register">註冊</string>

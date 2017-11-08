@@ -374,7 +374,7 @@
 		<item quantity="one">يوم</item>
 		<item quantity="other">أيام</item>
 	</plurals>
-    <string name="close_account">حساب مغلق</string>
+    <string name="close_account">إغلاق الحساب</string>
 	<string name="close_account_btn">إغلاق حسابي سمارتروكيت</string>
 	<string name="close_account_text">تحذير: الضغط على \"إغلاق الحساب\" إلى إغلاق حساب سمارتروكيت بشكل دائم.سيؤدي إلى خسران أي رصيد نقدي سمارتروكيت متبقي. لا يمكن التراجع عن هذا الإجراء.</string>
 	<string name="close_account_title">إغلاق حسابي سمارتروكيت</string>
