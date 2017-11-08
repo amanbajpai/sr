@@ -30,7 +30,8 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     }
 
     protected String getLanguageCode() {
-        return PreferencesManager.getInstance().getLanguageCode();
+        String code = PreferencesManager.getInstance().getLanguageCode();
+        return "in".equals(code) ? "id" : code;
     }
 
     protected void addDisposable(Disposable disposable) {
