@@ -153,7 +153,7 @@ public class MyAccount extends BaseEntity {
     }
 
     public String getLevelIconUrl() {
-        return levelIconUrl;
+        return TextUtils.isEmpty(levelIconUrl) ? "" : levelIconUrl.replaceAll(" ", "%20");
     }
 
     public void setLevelIconUrl(String levelIconUrl) {
@@ -161,7 +161,7 @@ public class MyAccount extends BaseEntity {
     }
 
     public Integer getTermsAndConditionsVersion() {
-        return termsAndConditionsVersion != null ? termsAndConditionsVersion : 1;
+        return termsAndConditionsVersion;
     }
 
     public void setTermsAndConditionsVersion(Integer termsAndConditionsVersion) {
