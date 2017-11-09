@@ -19,17 +19,17 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services-maps:11.4.2'
-    compile 'com.nineoldandroids:library:2.4.0'
+    implementation "com.google.android.gms:play-services-maps:$rootProject.ext.GPS_VERSION"
+    implementation 'com.nineoldandroids:library:2.4.0'
 }
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 24
+        targetSdkVersion 26
     }
 
     lintOptions {
