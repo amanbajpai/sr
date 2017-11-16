@@ -32,6 +32,7 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private LaunchMvpPresenter<LaunchMvpView> presenter;
     private PermissionCallback permissionCallback;
+    private boolean isPermissionsRequested;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,12 +101,15 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     }
 
     private void checkPermission() {
-        PermissionUtil.checkGroup(this, permissionCallback,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO});
+        if (!isPermissionsRequested) {
+            isPermissionsRequested = true;
+            PermissionUtil.checkGroup(this, permissionCallback,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.RECORD_AUDIO});
+        }
     }
 
     private void initPermissionCallbacks() {
@@ -117,6 +121,7 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
 
     private void showPermissionSettings() {
         try {
+            isPermissionsRequested = false;
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.fromParts("package", getPackageName(), null));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -40,6 +40,7 @@ import retrofit2.Converter;
 
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
+    public static final String ANDROID = "android";
     private static App instance;
     private static Tracker tracker;
 
@@ -73,7 +74,11 @@ public class App extends Application {
     private void fillDeviceInfo() {
         deviceId = UIUtils.getDeviceId(this);
         deviceApiNumber = android.os.Build.VERSION.SDK_INT;
-        deviceType = "android";
+        deviceType = ANDROID;
+        initLocationManager();
+    }
+
+    public void initLocationManager() {
         locationManager = new MatrixLocationManager(getApplicationContext());
     }
 
