@@ -396,7 +396,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
             @Override
             public void getLocationSuccess(Location location) {
-
                 getAddressByLocation(location, getAddressListener);
             }
 

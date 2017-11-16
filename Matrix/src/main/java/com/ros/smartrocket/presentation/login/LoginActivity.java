@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -69,7 +70,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
     private boolean startPushNotificationActivity;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private RegistrationPermissions registrationPermissions;
-    private CheckLocationDialog checkLocationDialog;
+    private CheckLocationDialog checkLocationDialog = null;
     private CheckLocationResponse checkLocationResponse;
     double latitude;
     double longitude;
@@ -79,6 +80,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.getInstance().initLocationManager();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
