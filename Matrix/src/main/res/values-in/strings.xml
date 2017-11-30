@@ -380,7 +380,7 @@
 	<string name="withdraw_task_dialog_text2">Pengunduran diri dari misi tidak dapat dibatalkan dan akan mempengaruhi reputasi Anda.</string>
 	<string name="withdraw_task_dialog_text3">Anda ingin mundur dari misi?</string>
 	<string name="withdraw_task_dialog_title">Mundur dari misi</string>
-	<string name="write_your_number">TULIS ANGKA ANTARA %1$s HINGGA %2$s</string>
+	<string name="write_your_number">TULIS ANGKA ANTARA %1$.2f HINGGA %2$.2f</string>
 	<string name="yes_button">ya</string>
 	<string name="you_have_been_promoted">Anda telah dipromosikan ke peringkat &lt;b>%1$s (Level %2$s)&lt;/b></string>
 	<string name="you_have_been_promoted_ok">OK</string>

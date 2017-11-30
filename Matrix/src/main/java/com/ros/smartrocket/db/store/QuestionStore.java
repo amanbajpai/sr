@@ -13,6 +13,7 @@ import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.Category;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.QuestionType;
 import com.ros.smartrocket.db.entity.Questions;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
@@ -119,7 +120,7 @@ public class QuestionStore extends BaseStore {
     }
 
     private Answer prepareAnswer(Question question, Answer answer, Integer productId) {
-        if (question.getType() == Question.QuestionType.MAIN_SUB_QUESTION.getTypeId() && question.isRedo()) {
+        if (question.getType() == QuestionType.MAIN_SUB_QUESTION.getTypeId() && question.isRedo()) {
             answer.setChecked(false);
         }
         answer.setRandomId();

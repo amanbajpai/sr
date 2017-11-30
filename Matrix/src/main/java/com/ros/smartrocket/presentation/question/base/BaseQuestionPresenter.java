@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.question.base;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.entity.Answer;
@@ -52,9 +53,12 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
         addDisposable(AnswersBL.getAnswersListFromDBObservable(question, product)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onAnswersLoadedFromDb, t -> {
-                })
+                .subscribe(this::onAnswersLoadedFromDb, this::logAnswerLoadingFail)
         );
+    }
+
+    private int logAnswerLoadingFail(Throwable t) {
+        return Log.e("BaseQuestion", "Loading of Answers from DB is FAILED", t);
     }
 
     @Override

@@ -16,11 +16,9 @@ import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.ui.dialog.DatePickerDialog;
-import com.ros.smartrocket.ui.dialog.RegistrationSuccessDialog;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import butterknife.BindView;

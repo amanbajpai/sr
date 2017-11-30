@@ -377,7 +377,7 @@
 	<string name="withdraw_task_dialog_text2">因為退出任務後即無法復原，且會影響您的聲譽。</string>
 	<string name="withdraw_task_dialog_text3">是否要退出任務？</string>
 	<string name="withdraw_task_dialog_title">退出任務</string>
-	<string name="write_your_number">請填寫%1$s到%2$s之間的數字</string>
+	<string name="write_your_number">請填寫%1$.2f到%2$.2f之間的數字</string>
 	<string name="yes_button">是</string>
 	<string name="you_have_been_promoted">您已晉升至&lt;b>%1$s（第%2$s級）&lt;/b></string>
 	<string name="you_have_been_promoted_ok">確定</string>

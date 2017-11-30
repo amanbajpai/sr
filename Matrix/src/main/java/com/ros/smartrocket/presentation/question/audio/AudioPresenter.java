@@ -30,7 +30,7 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
     @Override
     public void onAnswersLoadedFromDb(List<Answer> answers) {
         if (answers.isEmpty()) addEmptyAnswer();
-        Answer answer = question.getAnswers().get(0);
+        Answer answer = answers.get(0);
         if (answer.getChecked() && answer.getFileUri() != null) {
             isAudioAdded = true;
             filePath = Uri.parse(answer.getFileUri()).getPath();

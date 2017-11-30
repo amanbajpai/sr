@@ -9,4 +9,6 @@ public interface VideoMvpPresenter<V extends VideoMvpView> extends BaseQuestionM
     void onVideoRequested();
 
     void onVideoConfirmed();
+
+    boolean isVideoAdded();
 }

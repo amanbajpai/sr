@@ -11,7 +11,6 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -20,11 +19,8 @@ import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 
-import com.ros.smartrocket.App;
-import com.ros.smartrocket.MatrixFileProvider;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.FileProcessingManager;
@@ -154,45 +150,31 @@ public class SelectImageManager {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setContentView(v);
 
-        v.findViewById(R.id.gallery).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (fragment != null) {
-                    startGallery(fragment);
-                } else {
-                    startGallery(activity);
-                }
+        v.findViewById(R.id.gallery).setOnClickListener(v1 -> {
+            dialog.dismiss();
+            if (fragment != null) {
+                startGallery(fragment);
+            } else {
+                startGallery(activity);
             }
         });
 
-        v.findViewById(R.id.camera).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (fragment != null) {
-                    startCamera(fragment, file);
-                } else {
-                    startCamera(activity, file);
-                }
+        v.findViewById(R.id.camera).setOnClickListener(v12 -> {
+            dialog.dismiss();
+            if (fragment != null) {
+                startCamera(fragment, file);
+            } else {
+                startCamera(activity, file);
             }
         });
 
         v.findViewById(R.id.remove).setVisibility(showRemoveButton ? View.VISIBLE : View.GONE);
-        v.findViewById(R.id.remove).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                onImageRemoved();
-            }
+        v.findViewById(R.id.remove).setOnClickListener(v13 -> {
+            dialog.dismiss();
+            onImageRemoved();
         });
 
-        v.findViewById(R.id.cancelButton).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        v.findViewById(R.id.cancelButton).setOnClickListener(v14 -> dialog.dismiss());
 
         dialog.show();
     }

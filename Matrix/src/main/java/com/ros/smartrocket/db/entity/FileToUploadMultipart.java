@@ -3,8 +3,6 @@ package com.ros.smartrocket.db.entity;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.File;
-
 public class FileToUploadMultipart extends BaseEntity {
     @SkipFieldInContentValues
     private static final long serialVersionUID = 5410835468659163928L;

@@ -12,7 +12,7 @@ public class QuestionVideoFragment extends BaseQuestionFragment<VideoMvpPresente
 
     @Override
     public VideoMvpPresenter<VideoMvpView> getPresenter() {
-        return new VideoPresenter<>(question, new VideoQuestionHelper(getActivity()));
+        return new VideoPresenter<>(question, new VideoQuestionHelper(this));
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.QuestionType;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.Wave;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
@@ -220,7 +221,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
 
     public void refreshMainProgress(int questionType, int currentQuestionOrderId) {
         mainProgressBar.setProgress((int) (((float) (currentQuestionOrderId - 1) / questionsToAnswerCount * 100)));
-        if (questionType != Question.QuestionType.PHOTO.getTypeId() && questionType != Question.QuestionType.VIDEO.getTypeId()) {
+        if (questionType != QuestionType.PHOTO.getTypeId() && questionType != QuestionType.VIDEO.getTypeId()) {
             questionOfLayout.setVisibility(View.VISIBLE);
             questionOf.setText(getString(R.string.question_of, String.valueOf(getQuestionPos(currentQuestionOrderId)), String.valueOf(questionsToAnswerCount)));
         } else {
@@ -247,11 +248,11 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
             if (shouldStart) {
                 Question currentQuestion = currentFragment.getQuestion();
                 if (currentQuestion != null) {
-                    if (currentQuestion.getType() == Question.QuestionType.REJECT.getTypeId()) {
+                    if (currentQuestion.getType() == QuestionType.REJECT.getTypeId()) {
                         startValidationActivity();
                     } else {
                         Question question = getQuestion(currentQuestion);
-                        if (question != null && question.getType() != Question.QuestionType.VALIDATION.getTypeId()) {
+                        if (question != null && question.getType() != QuestionType.VALIDATION.getTypeId()) {
                             if (!isPreview) {
                                 preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
                                         task.getMissionId(), question.getOrderId());
@@ -321,7 +322,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
             buttonsLayout.setVisibility(View.INVISIBLE);
             refreshMainProgress(question.getType(), question.getOrderId());
 
-            if (question.getType() == Question.QuestionType.VALIDATION.getTypeId()) {
+            if (question.getType() == QuestionType.VALIDATION.getTypeId()) {
                 startValidationActivity();
                 return;
             }
@@ -410,7 +411,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
     public void onAnswerSelected(Boolean selected, int questionId) {
         if (isPreview) {
             Question nextQuestion = currentFragment == null ? null : getQuestion(currentFragment.getQuestion());
-            if (nextQuestion == null || nextQuestion.getType() == Question.QuestionType.VALIDATION.getTypeId() || currentFragment.getQuestion().getType() == Question.QuestionType.REJECT.getTypeId()) {
+            if (nextQuestion == null || nextQuestion.getType() == QuestionType.VALIDATION.getTypeId() || currentFragment.getQuestion().getType() == QuestionType.REJECT.getTypeId()) {
                 nextButton.setEnabled(false);
             } else {
                 nextButton.setEnabled(true);

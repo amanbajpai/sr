@@ -1,31 +1,31 @@
 package com.ros.smartrocket.presentation.question.video.helper;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 import com.ros.smartrocket.utils.SelectVideoManager;
 
 public class VideoQuestionHelper implements VideoHelper {
-    private Activity activity;
+    private Fragment fragment;
     private SelectVideoManager selectVideoManager = SelectVideoManager.getInstance();
 
-    public VideoQuestionHelper(Activity activity) {
-        this.activity = activity;
+    public VideoQuestionHelper(Fragment fragment) {
+        this.fragment = fragment;
     }
 
     @Override
     public void showSelectVideoDialog() {
-        selectVideoManager.showSelectVideoDialog(activity, true);
+        selectVideoManager.showSelectVideoDialog(fragment, true);
     }
 
     @Override
     public void startCamera() {
-        selectVideoManager.startCamera(activity);
+        selectVideoManager.startCamera(fragment);
     }
 
     @Override
     public void startGallery() {
-        selectVideoManager.startGallery(activity);
+        selectVideoManager.startGallery(fragment);
     }
 
     @Override

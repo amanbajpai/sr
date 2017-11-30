@@ -33,7 +33,7 @@
             waveview:waveColor="@color/red" />
 
         <com.ros.smartrocket.ui.views.AudioControlsView
-            android:id="@+id/audioView"
+            android:id="@+id/audioControlsView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:animateLayoutChanges="true"

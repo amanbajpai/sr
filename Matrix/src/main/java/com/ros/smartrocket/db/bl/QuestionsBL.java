@@ -14,6 +14,7 @@ import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.AskIf;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.QuestionType;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.db.entity.TaskLocation;
 import com.ros.smartrocket.utils.L;
@@ -299,7 +300,7 @@ public class QuestionsBL {
 
                         String answerValue = getAnswerValue(previousQuestion);
 
-                        if (previousQuestion.getType() == Question.QuestionType.NUMBER.getTypeId()) {
+                        if (previousQuestion.getType() == QuestionType.NUMBER.getTypeId()) {
                             String[] valuesArray = value.split("-");
                             int minValue = Integer.valueOf(valuesArray[0]);
                             int maxValue = Integer.valueOf(valuesArray[1]);
@@ -398,9 +399,9 @@ public class QuestionsBL {
         return result;
     }
 
-    public static Question.QuestionType getQuestionType(int typeId) {
-        Question.QuestionType result = Question.QuestionType.NONE;
-        for (Question.QuestionType type : Question.QuestionType.values()) {
+    public static QuestionType getQuestionType(int typeId) {
+        QuestionType result = QuestionType.NONE;
+        for (QuestionType type : QuestionType.values()) {
             if (type.getTypeId() == typeId) {
                 result = type;
                 break;
@@ -412,7 +413,7 @@ public class QuestionsBL {
     @Nullable
     public static Question getMainSubQuestion(List<Question> subQuestions) {
         for (Question childQuestion : subQuestions) {
-            if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
+            if (getQuestionType(childQuestion.getType()) == QuestionType.MAIN_SUB_QUESTION) {
                 return childQuestion;
             }
         }
@@ -423,7 +424,7 @@ public class QuestionsBL {
     public static List<Question> getReDoMainSubQuestionList(List<Question> subQuestions) {
         List<Question> reDoMainSubQuestionList = new ArrayList<>();
         for (Question childQuestion : subQuestions) {
-            if (getQuestionType(childQuestion.getType()) == Question.QuestionType.MAIN_SUB_QUESTION) {
+            if (getQuestionType(childQuestion.getType()) == QuestionType.MAIN_SUB_QUESTION) {
                 reDoMainSubQuestionList.add(childQuestion);
             }
         }
@@ -433,7 +434,7 @@ public class QuestionsBL {
     @Nullable
     public static boolean hasReDoNotMainSub(List<Question> subQuestions, Integer productId) {
         for (Question childQuestion : subQuestions) {
-            if (getQuestionType(childQuestion.getType()) != Question.QuestionType.MAIN_SUB_QUESTION
+            if (getQuestionType(childQuestion.getType()) != QuestionType.MAIN_SUB_QUESTION
                     && productId.equals(childQuestion.getProductId())) {
                 return true;
             }
@@ -443,12 +444,12 @@ public class QuestionsBL {
 
     @NonNull
     public static List<Question> getInstructionQuestionList(List<Question> questions) {
-        return getQuestionList(questions, Question.QuestionType.INSTRUCTION.getTypeId());
+        return getQuestionList(questions, QuestionType.INSTRUCTION.getTypeId());
     }
 
     @NonNull
     public static List<Question> getMassAuditQuestionList(List<Question> questions) {
-        return getQuestionList(questions, Question.QuestionType.MASS_AUDIT.getTypeId());
+        return getQuestionList(questions, QuestionType.MASS_AUDIT.getTypeId());
     }
 
     @NonNull

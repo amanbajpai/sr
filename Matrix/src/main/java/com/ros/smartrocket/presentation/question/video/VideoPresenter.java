@@ -33,7 +33,7 @@ public class VideoPresenter<V extends VideoMvpView> extends BaseQuestionPresente
     @Override
     public void onAnswersLoadedFromDb(List<Answer> answers) {
         if (answers.isEmpty()) addEmptyAnswer();
-        Answer answer = question.getAnswers().get(0);
+        Answer answer = answers.get(0);
         if (answer.getChecked() && answer.getFileUri() != null) {
             isVideoAdded = true;
             isVideoConfirmed = true;
@@ -162,5 +162,10 @@ public class VideoPresenter<V extends VideoMvpView> extends BaseQuestionPresente
     public void onAnswersUpdated() {
         if (isViewAttached())
             getMvpView().hideLoading();
+    }
+
+    @Override
+    public boolean isVideoAdded() {
+        return isVideoAdded;
     }
 }

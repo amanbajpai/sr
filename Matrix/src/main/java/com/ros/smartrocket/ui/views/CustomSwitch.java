@@ -3,7 +3,6 @@ package com.ros.smartrocket.ui.views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;

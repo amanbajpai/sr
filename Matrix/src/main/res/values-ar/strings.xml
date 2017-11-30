@@ -349,7 +349,7 @@
 	<string name="withdraw_task_dialog_text2">لا يمكن التراجع عن الانسحاب من هذه المهمة، وسيكون للانسحاب أثر سلبي على سمعتك.</string>
 	<string name="withdraw_task_dialog_text3">هل تريد الانسحاب من المهمة؟</string>
 	<string name="withdraw_task_dialog_title">الانسحاب من المهمة</string>
-	<string name="write_your_number">اكتب رقمًا بين %1$d و%2$d</string>
+	<string name="write_your_number">اكتب رقمًا بين %2$.2f و%2$.2f</string>
 	<string name="yes_button">نعم</string>
 	<string name="you_have_been_promoted">لقد تمت ترقيتك إلى درجة <b >%1$s (المستوى %2$s)</b ></string>
 	<string name="you_have_been_promoted_ok">موافق</string>

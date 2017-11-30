@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,34 +35,35 @@ public class SelectVideoManager {
         return instance;
     }
 
-    public void startGallery(Activity activity) {
+    public void startGallery(Fragment fragment) {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-        if (!IntentUtils.isIntentAvailable(activity, i)) {
+        if (!IntentUtils.isIntentAvailable(fragment.getActivity(), i)) {
             i = new Intent(Intent.ACTION_GET_CONTENT);
             i.setType("video/*");
         }
-        activity.startActivityForResult(i, GALLERY);
+        fragment.startActivityForResult(i, GALLERY);
     }
 
-    public void startCamera(Activity activity) {
-        lastFile = getTempFile(activity);
+    public void startCamera(Fragment fragment) {
+        lastFile = getTempFile(fragment.getActivity());
         Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if (i.resolveActivity(activity.getPackageManager()) != null) {
-            activity.startActivityForResult(i, CAMERA);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, FileProcessingManager.getUriFromFile(lastFile));
+        if (i.resolveActivity(fragment.getActivity().getPackageManager()) != null) {
+            fragment.startActivityForResult(i, CAMERA);
         }
     }
 
-    public Dialog showSelectVideoDialog(final Activity activity, final boolean showRemoveButton) {
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public Dialog showSelectVideoDialog(final Fragment fragment, final boolean showRemoveButton) {
+        LayoutInflater inflater = (LayoutInflater) fragment.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.select_image_dialog, null);
         v.findViewById(R.id.gallery).setOnClickListener(v1 -> {
             selectVideoDialog.dismiss();
-            startGallery(activity);
+            startGallery(fragment);
         });
 
         v.findViewById(R.id.camera).setOnClickListener(v12 -> {
             selectVideoDialog.dismiss();
-            startCamera(activity);
+            startCamera(fragment);
         });
 
         v.findViewById(R.id.remove).setVisibility(showRemoveButton ? View.VISIBLE : View.GONE);
@@ -72,7 +74,7 @@ public class SelectVideoManager {
 
         v.findViewById(R.id.cancelButton).setOnClickListener(v14 -> selectVideoDialog.dismiss());
 
-        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(fragment.getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setContentView(v);

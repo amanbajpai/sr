@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.Question;
@@ -29,7 +28,7 @@ import butterknife.BindView;
 public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
         implements AudioMvpView, MatrixAudioRecorder.AudioRecordHandler, MatrixAudioPlayer.AudioPlayCallback,
         View.OnClickListener {
-    @BindView(R.id.audioView)
+    @BindView(R.id.audioControlsView)
     AudioControlsView audioControlsView;
     @BindView(R.id.recordAudioWave)
     AudioWaveView audioWave;
@@ -156,7 +155,7 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
         if (audioRecorder != null) {
             audioControlsView.resolvePauseRecordUI();
             audioRecorder.pauseRecording();
-            DialogUtils.showEndAudioRecordingDialog(App.getInstance(), new DefaultInfoDialog.DialogButtonClickListener() {
+            DialogUtils.showEndAudioRecordingDialog(getContext(), new DefaultInfoDialog.DialogButtonClickListener() {
                 @Override
                 public void onLeftButtonPressed(Dialog dialog) {
                     dialog.dismiss();
@@ -205,7 +204,7 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
 
     private void handleDeleteClick() {
         pausePlayer();
-        DialogUtils.showDeleteAudioRecordingDialog(App.getInstance(), new DefaultInfoDialog.DialogButtonClickListener() {
+        DialogUtils.showDeleteAudioRecordingDialog(getContext(), new DefaultInfoDialog.DialogButtonClickListener() {
             @Override
             public void onLeftButtonPressed(Dialog dialog) {
                 dialog.dismiss();

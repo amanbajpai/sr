@@ -21,6 +21,7 @@ import com.ros.smartrocket.db.entity.Answer;
 import com.ros.smartrocket.db.entity.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.QuestionType;
 import com.ros.smartrocket.db.entity.Task;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -200,7 +201,7 @@ public class AnswersBL {
 
     private static List<Question> getSubQuestions(List<Question> questions) {
         return Stream.of(questions)
-                .filter(q -> q.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId())
+                .filter(q -> q.getType() != QuestionType.MAIN_SUB_QUESTION.getTypeId())
                 .collect(com.annimon.stream.Collectors.toList());
     }
 

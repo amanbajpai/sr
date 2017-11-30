@@ -26,8 +26,8 @@ public class VideoQuestionView extends BaseQuestionView<VideoMvpPresenter<VideoM
     public static final int DELAY_MILLIS = 700;
     @BindView(R.id.videoQuestion)
     VideoView videoView;
-    @BindView(R.id.rePhotoButton)
-    ImageButton rePhotoButton;
+    @BindView(R.id.reVideoButton)
+    ImageButton reVideoButton;
     @BindView(R.id.confirmButton)
     ImageButton confirmButton;
     private int stopPosition = 0;
@@ -65,10 +65,10 @@ public class VideoQuestionView extends BaseQuestionView<VideoMvpPresenter<VideoM
         presenter.refreshNextButton();
     }
 
-    @OnClick({R.id.rePhotoButton, R.id.confirmButton})
+    @OnClick({R.id.reVideoButton, R.id.confirmButton})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rePhotoButton:
+            case R.id.reVideoButton:
                 presenter.onVideoRequested();
                 break;
             case R.id.confirmButton:
@@ -100,7 +100,7 @@ public class VideoQuestionView extends BaseQuestionView<VideoMvpPresenter<VideoM
 
     @Override
     public void refreshReVideoButton(boolean isVideoAdded) {
-        rePhotoButton.setVisibility(isVideoAdded ? VISIBLE : GONE);
+        reVideoButton.setVisibility(isVideoAdded ? VISIBLE : GONE);
     }
 
     @Override
@@ -146,9 +146,13 @@ public class VideoQuestionView extends BaseQuestionView<VideoMvpPresenter<VideoM
     }
 
     private void onVideoViewClicked() {
-        if (videoView.isPlaying())
-            pauseVideo();
-        else
-            playVideo();
+        if (presenter.isVideoAdded()) {
+            if (videoView.isPlaying())
+                pauseVideo();
+            else
+                playVideo();
+        } else {
+            presenter.onVideoRequested();
+        }
     }
 }

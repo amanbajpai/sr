@@ -376,7 +376,7 @@
 	<string name="withdraw_task_dialog_text2">Keluar daripada misi tidak boleh dibuat asal dan menjejaskan reputasi anda.</string>
 	<string name="withdraw_task_dialog_text3">Adakah anda mahu keluar daripada misi?</string>
 	<string name="withdraw_task_dialog_title">Keluar daripada misi</string>
-	<string name="write_your_number">TULISKAN NOMBOR ANTARA %1$s DAN %2$s</string>
+	<string name="write_your_number">TULISKAN NOMBOR ANTARA %1$.2f DAN %2$.2f</string>
 	<string name="yes_button">ya</string>
 	<string name="you_have_been_promoted">Anda telah dinaikkan ke kedudukan &lt;b >%1$s (Tahap %2$s)&lt;/b ></string>
 	<string name="you_have_been_promoted_ok">OK</string>

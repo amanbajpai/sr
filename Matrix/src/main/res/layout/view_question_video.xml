@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:minHeight="400dp">
 
     <include layout="@layout/include_question_header" />
 
@@ -20,7 +21,7 @@
             android:visibility="invisible" />
 
         <ImageButton
-            android:id="@+id/rePhotoButton"
+            android:id="@+id/reVideoButton"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="top|start"

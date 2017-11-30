@@ -1,7 +1,6 @@
 package com.ros.smartrocket.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.helpshift.support.Support;

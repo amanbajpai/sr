@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.annimon.stream.Stream;
+import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
 import com.ros.smartrocket.presentation.base.MvpPresenter;
+import com.ros.smartrocket.presentation.question.audio.AudioPresenter;
+import com.ros.smartrocket.presentation.question.audio.AudioView;
 import com.ros.smartrocket.presentation.question.audit.subquestion.SubQuestionsMassAuditFragment;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionMvpPresenter;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
@@ -51,27 +54,39 @@ public class SubQuestionsMassAuditAdapter {
         int type = getItemViewType(position);
         BaseQuestionMvpPresenter presenter = null;
         BaseQuestionView mvpView = null;
-        if (type == Question.QuestionType.NUMBER.getTypeId()) {
-            mvpView = new NumberView(fragment.getContext());
-            presenter = new NumberPresenter(items[position]);
-        } else if (type == Question.QuestionType.OPEN_COMMENT.getTypeId()) {
-            mvpView = new CommentView(fragment.getContext());
-            presenter = new CommentPresenter(items[position]);
-        } else if (type == Question.QuestionType.INSTRUCTION.getTypeId()) {
-            mvpView = new InstructionView(fragment.getContext());
-            presenter = new InstructionPresenter(items[position]);
-        } else if (type == Question.QuestionType.SINGLE_CHOICE.getTypeId()) {
-            mvpView = new SingleChooseView(fragment.getContext());
-            presenter = new ChoosePresenter(items[position]);
-        } else if (type == Question.QuestionType.MULTIPLE_CHOICE.getTypeId()) {
-            mvpView = new MultipleChooseView(fragment.getContext());
-            presenter = new ChoosePresenter(items[position]);
-        } else if (type == Question.QuestionType.VIDEO.getTypeId()) {
-            mvpView = new VideoQuestionView(fragment.getContext());
-            presenter = new VideoPresenter(items[position], new VideoQuestionHelper(fragment.getActivity()));
-        } else if (type == Question.QuestionType.PHOTO.getTypeId()) {
-            mvpView = new PhotoView(fragment.getContext());
-            presenter = new PhotoPresenter(items[position], new PhotoQuestionHelper(fragment));
+        switch (QuestionsBL.getQuestionType(type)) {
+            case NUMBER:
+                mvpView = new NumberView(fragment.getContext());
+                presenter = new NumberPresenter(items[position]);
+                break;
+            case OPEN_COMMENT:
+                mvpView = new CommentView(fragment.getContext());
+                presenter = new CommentPresenter(items[position]);
+                break;
+            case INSTRUCTION:
+                mvpView = new InstructionView(fragment.getContext());
+                presenter = new InstructionPresenter(items[position]);
+                break;
+            case SINGLE_CHOICE:
+                mvpView = new SingleChooseView(fragment.getContext());
+                presenter = new ChoosePresenter(items[position]);
+                break;
+            case MULTIPLE_CHOICE:
+                mvpView = new MultipleChooseView(fragment.getContext());
+                presenter = new ChoosePresenter(items[position]);
+                break;
+            case VIDEO:
+                mvpView = new VideoQuestionView(fragment.getContext());
+                presenter = new VideoPresenter(items[position], new VideoQuestionHelper(fragment));
+                break;
+            case PHOTO:
+                mvpView = new PhotoView(fragment.getContext());
+                presenter = new PhotoPresenter(items[position], new PhotoQuestionHelper(fragment));
+                break;
+            case AUDIO:
+                mvpView = new AudioView(fragment.getContext());
+                presenter = new AudioPresenter(items[position]);
+                break;
         }
 
         if (presenter != null) {

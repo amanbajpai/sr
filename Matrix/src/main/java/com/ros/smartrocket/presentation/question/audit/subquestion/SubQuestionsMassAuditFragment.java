@@ -17,6 +17,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.Product;
 import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.QuestionType;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.presentation.base.BaseFragment;
@@ -101,7 +102,7 @@ public class SubQuestionsMassAuditFragment extends BaseFragment implements
         if (questions != null) {
             int pos = 0;
             for (Question question : questions) {
-                if (question.getType() != Question.QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
+                if (question.getType() != QuestionType.MAIN_SUB_QUESTION.getTypeId()) {
                     pos++;
                     question.setSubQuestionNumber(getSubQuestionNumber(pos));
                     if (isRedo) {

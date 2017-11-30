@@ -263,7 +263,7 @@
     <string name="question_of">QUESTION %1$s OF %2$s</string>
     <string name="choose_one_answer">CHOOSE ONE ANSWER</string>
     <string name="choose_one_or_more_answers">CHOOSE ONE OR MORE ANSWERS</string>
-    <string name="write_your_number">WRITE A NUMBER BETWEEN %1$d AND %2$d</string>
+    <string name="write_your_number">WRITE A NUMBER BETWEEN %1$.2f AND %2$.2f</string>
     <string name="maximum_photo">\n(YOU MAY ADD A MAXIMUM OF %1$d PHOTOS)</string>
     <!-- QUITE TASK DIALOG -->
     <string name="quite_task_dialog_title">Quit mission</string>
