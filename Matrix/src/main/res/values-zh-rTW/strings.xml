@@ -63,7 +63,7 @@
 	<string name="choose_one_answer">選擇一個答案</string>
 	<string name="choose_one_or_more_answers">選擇一或多個答案</string>
 	<string name="click_back_again_to_exit">請再按一下「返回」以退出</string>
-	<string name="close">刪除</string>
+	<string name="close">關閉</string>
 	<string name="close_account">刪除帳戶</string>
 	<string name="close_account_btn">刪除我在SmartRocket的帳戶</string>
 	<string name="close_account_text">警告：按下“刪除帳戶”將永久刪除此SmartRocket帳戶。 您在SmartRocket剩餘的現金餘額將被沒收。 無法撤消此操作。</string>

@@ -472,7 +472,7 @@
     <string name="activity_log_description_toast">您在智慧飞船帐户的活动日志文件已发送到：</string>
     <string name="activity_log_title">要求取得活动日志</string>
     <string name="already_member">我们的队员</string>
-    <string name="close">删除</string>
+    <string name="close">關閉</string>
     <string name="close_account">删除帐户</string>
     <string name="close_account_btn">删除我在智慧飞船的帐户</string>
     <string name="close_account_text">警告：按下“删除帐户”将永久删除此智慧飞船帐户。您在智慧飞船剩余的现金余额将被没收。无法撤消此操作。</string>

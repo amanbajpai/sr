@@ -467,7 +467,7 @@
     <string name="activity_log_description_toast">您SmartRocket帳戶的活動日誌文件已發送到：</string>
     <string name="activity_log_title">要求取得活動日誌</string>
     <string name="already_member">我們的隊員</string>
-    <string name="close">刪除</string>
+    <string name="close">關閉</string>
     <string name="close_account">刪除帳戶</string>
     <string name="close_account_btn">刪除我在SmartRocket的帳戶</string>
     <string name="close_account_title">刪除SmartRocket帳戶</string>

@@ -471,7 +471,7 @@
     <string name="new_push_notifications_header">New SmartRocket notifications</string>
     <string name="new_push_notifications_body">You have new notifications. Click to open</string>
     <string name="new_push_notification">New notification</string>
-    <string name="close">DELETE</string>
+    <string name="close">CLOSE</string>
     <!-- ID CARDS -->
     <string name="update_first_last_name_dialog_title">You can only change your name once. Please use your real name because we will provide digital ID cards for some projects.</string>
     <string name="update_name_not_allowed">You have already changed your name once and can no longer change your name. Contact support@smart-rocket.com if required.</string>
