@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.github.euzee.permission.CallbackBuilder;
 import com.github.euzee.permission.PermissionCallback;
 import com.github.euzee.permission.PermissionUtil;
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
@@ -103,12 +104,15 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     private void checkPermission() {
         if (!isPermissionsRequested) {
             isPermissionsRequested = true;
-            PermissionUtil.checkGroup(this, permissionCallback,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.RECORD_AUDIO});
+            if (BuildConfig.CHINESE)
+                PermissionUtil.checkGroup(this, permissionCallback,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE});
+            else
+                PermissionUtil.checkGroup(this, permissionCallback,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+
+                                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO});
         }
     }
 
