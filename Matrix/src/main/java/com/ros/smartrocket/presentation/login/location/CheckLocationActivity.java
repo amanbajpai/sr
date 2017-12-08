@@ -92,28 +92,32 @@ public class CheckLocationActivity extends BaseActivity implements View.OnClickL
 
     private void continueFlow(CheckLocationResponse serverResponse, double latitude, double longitude) {
         Intent intent;
-        if (registrationPermissions.isSlidersEnable()) {
-            intent = new Intent(CheckLocationActivity.this, TutorialActivity.class);
-        } else if (registrationPermissions.isTermsEnable()) {
-            intent = new Intent(CheckLocationActivity.this, TermsAndConditionActivity.class);
-        } else if (registrationPermissions.isReferralEnable()) {
-            intent = new Intent(CheckLocationActivity.this, ReferralCasesActivity.class);
-        } else if (registrationPermissions.isSrCodeEnable()) {
-            intent = new Intent(CheckLocationActivity.this, PromoCodeActivity.class);
-        } else {
-            intent = new Intent(CheckLocationActivity.this, RegistrationActivity.class);
+        registrationPermissions = serverResponse.getRegistrationPermissions();
+        if (registrationPermissions != null) {
+            PreferencesManager.getInstance().saveRegistrationPermissions(registrationPermissions);
+            if (registrationPermissions.isSlidersEnable()) {
+                intent = new Intent(CheckLocationActivity.this, TutorialActivity.class);
+            } else if (registrationPermissions.isTermsEnable()) {
+                intent = new Intent(CheckLocationActivity.this, TermsAndConditionActivity.class);
+            } else if (registrationPermissions.isReferralEnable()) {
+                intent = new Intent(CheckLocationActivity.this, ReferralCasesActivity.class);
+            } else if (registrationPermissions.isSrCodeEnable()) {
+                intent = new Intent(CheckLocationActivity.this, PromoCodeActivity.class);
+            } else {
+                intent = new Intent(CheckLocationActivity.this, RegistrationActivity.class);
+            }
+            if (getIntent().getExtras() != null) {
+                intent.putExtras(getIntent().getExtras());
+            }
+            intent.putExtra(Keys.COUNTRY_ID, serverResponse.getCountryId());
+            intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
+            intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
+            intent.putExtra(Keys.COUNTRY_NAME, serverResponse.getCountryName());
+            intent.putExtra(Keys.CITY_NAME, serverResponse.getCityName());
+            intent.putExtra(Keys.LATITUDE, latitude);
+            intent.putExtra(Keys.LONGITUDE, longitude);
+            startActivity(intent);
         }
-        if (getIntent().getExtras() != null) {
-            intent.putExtras(getIntent().getExtras());
-        }
-        intent.putExtra(Keys.COUNTRY_ID, serverResponse.getCountryId());
-        intent.putExtra(Keys.CITY_ID, serverResponse.getCityId());
-        intent.putExtra(Keys.DISTRICT_ID, serverResponse.getDistrictId());
-        intent.putExtra(Keys.COUNTRY_NAME, serverResponse.getCountryName());
-        intent.putExtra(Keys.CITY_NAME, serverResponse.getCityName());
-        intent.putExtra(Keys.LATITUDE, latitude);
-        intent.putExtra(Keys.LONGITUDE, longitude);
-        startActivity(intent);
     }
 
     private void openLocationFailedActivity(CheckLocationResponse serverResponse, double latitude, double longitude) {
