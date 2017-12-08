@@ -30,7 +30,7 @@ class PasswordPresenter<V extends PasswordMvpView> extends BaseNetworkPresenter<
     private void loginUser(Login loginEntity) {
         showLoading(false);
         addDisposable(App.getInstance().getApi()
-                .login(loginEntity)
+                .login(loginEntity, getLanguageCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeUserData)

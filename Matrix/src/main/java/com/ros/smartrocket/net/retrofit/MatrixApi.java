@@ -53,7 +53,7 @@ import retrofit2.http.Url;
 public interface MatrixApi {
 
     @POST("api/Authorize")
-    Observable<LoginResponse> login(@Body Login loginEntity);
+    Observable<LoginResponse> login(@Body Login loginEntity, @Query("language") String language);
 
     @POST("api/Authorize/SetTermsAndConditions")
     Single<ResponseBody> sendTandC();
