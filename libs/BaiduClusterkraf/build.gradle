@@ -21,9 +21,7 @@ repositories {
 
 dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
-    compile files('../baidumapapi_base_v4_1_0.jar')
-    compile files('../baidumapapi_map_v4_1_0.jar')
-    compile files('../locSDK_6.13.jar')
+    implementation files('../BaiduLBS_Android.jar')
 }
 
 android {

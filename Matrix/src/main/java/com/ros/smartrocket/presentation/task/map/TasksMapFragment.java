@@ -274,6 +274,11 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
             if (Config.USE_BAIDU) {
                 baiduMap = MapHelper.getBaiduMap(getActivity(), new OnMapStatusChangeFinishedListener() {
                     @Override
+                    public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+
+                    }
+
+                    @Override
                     public void onMapStatusChangeFinish(MapStatus mapStatus) {
                         zoomLevel = mapStatus.zoom;
                     }

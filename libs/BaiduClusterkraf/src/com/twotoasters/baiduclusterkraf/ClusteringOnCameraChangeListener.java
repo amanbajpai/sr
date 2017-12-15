@@ -30,6 +30,11 @@ class ClusteringOnCameraChangeListener implements BaiduMap.OnMapStatusChangeList
     }
 
     @Override
+    public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+
+    }
+
+    @Override
     public void onMapStatusChange(MapStatus mapStatus) {
 
     }
