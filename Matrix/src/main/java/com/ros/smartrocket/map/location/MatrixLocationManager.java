@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -388,19 +389,23 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         MatrixLocationManager.getCurrentLocation(force, new MatrixLocationManager.GetCurrentLocationListener() {
             @Override
             public void getLocationStart() {
+                Log.e("Start", "S");
             }
 
             @Override
             public void getLocationInProcess() {
+                Log.e("Start", "P");
             }
 
             @Override
             public void getLocationSuccess(Location location) {
+                Log.e("Start", "S");
                 getAddressByLocation(location, getAddressListener);
             }
 
             @Override
             public void getLocationFail(String errorText) {
+                Log.e("Start", "F");
                 UIUtils.showSimpleToast(App.getInstance(), errorText);
             }
         });

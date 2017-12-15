@@ -45,6 +45,8 @@ final class GeoCoder {
         if (!Config.USE_BAIDU) {
             String url = getGoogleGeoCodingUrl(location);
             sendGetRequest(url, location, callback);
+        } else {
+            callback.onUpdate(null);
         }
     }
 
