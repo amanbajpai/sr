@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="60dp"
+        android:paddingEnd="20dp"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:paddingTop="60dp">
 
         <com.ros.smartrocket.ui.views.CustomTextView
             android:layout_width="match_parent"
@@ -45,8 +45,8 @@
             android:enabled="false"
             android:gravity="center"
             android:paddingBottom="5dp"
-            android:paddingStart="20dp"
             android:paddingEnd="20dp"
+            android:paddingStart="20dp"
             android:paddingTop="5dp"
             android:text="@string/cashing_out_cash_out"
             android:textColor="@color/white"
@@ -78,43 +78,30 @@
             custom:textStyle="bold" />
     </LinearLayout>
 
+    <com.ros.smartrocket.ui.views.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/cash_out_instruction"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_13p6sp"
+        custom:textStyle="bold" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@android:color/transparent" />
 
-    <LinearLayout
+    <com.ros.smartrocket.ui.views.CustomButton
+        android:id="@+id/updatePaymentBtn"
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.ros.smartrocket.ui.views.CustomButton
-            android:id="@+id/updatePaymentBtn"
-            style="@style/Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_red_selector"
-            android:text="@string/setup"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            custom:textStyle="bold" />
-
-        <View
-            android:id="@+id/bntDivider"
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
-        <com.ros.smartrocket.ui.views.CustomButton
-            android:id="@+id/activityBtn"
-            style="@style/Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_orange_selector"
-            android:text="@string/activity_btn"
-            android:textColor="@color/white"
-            custom:textStyle="bold" />
-    </LinearLayout>
+        android:background="@drawable/button_red_selector"
+        android:text="@string/my_account"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        custom:textStyle="bold" />
 </LinearLayout>

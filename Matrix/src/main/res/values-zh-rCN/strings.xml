@@ -490,7 +490,6 @@
     <string name="or">或</string>
     <string name="setup">設定</string>
     <string name="dialog_payment_description">你必须先输入你的收款账户资料才能从SmartRocket 进行提款</string>
-    <string name="dialog_payment_instruction">按下\"设定\"去继续</string>
     <string name="dialog_payment_title">输入你的收款账户资料</string>
     <string name="global_block_error">智慧飞船暂时无法使用</string>
     <string name="recording">录音</string>

@@ -96,8 +96,7 @@
 	<string name="dialog_first_name">Nama Pertama</string>
 	<string name="dialog_last_name">Nama Keluarga</string>
 	<string name="dialog_payment_description">Anda mesti memasukkan dahulu butiran pembayaran anda untuk mengeluarkan wang tunai pendapatan SmartRocket anda</string>
-	<string name="dialog_payment_instruction">Tekan butang PENYEDIAAN untuk teruskan</string>
-	<string name="dialog_payment_title">Masukkan butiran pembayaran</string>
+    <string name="dialog_payment_title">Masukkan butiran pembayaran</string>
 	<string name="dialog_update_app_text">Anda menggunakan versi lama (%1$s) aplikasi. Anda tidak akan dapat menuntut misi sehingga anda mengemas kini ke versi terkini (%2$s). Kemas kini sekarang?</string>
 	<string name="dialog_update_app_title">Kemas kini aplikasi</string>
 	<string name="distance_km">km</string>

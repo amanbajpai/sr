@@ -12,8 +12,8 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
-import com.ros.smartrocket.presentation.main.menu.MenuMvpPresenter;
-import com.ros.smartrocket.presentation.main.menu.MenuMvpView;
+import com.ros.smartrocket.presentation.account.MyAccountMvpPresenter;
+import com.ros.smartrocket.presentation.account.MyAccountMvpView;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.dialog.QuiteTaskDialog;
 import com.ros.smartrocket.ui.dialog.UpdateFirstLastNameDialog;
@@ -552,7 +552,7 @@ public class DialogUtils {
     /// ============================================== ID CARD ================================================= ///
     /// ======================================================================================================== ///
 
-    public static void showUpdateFirstLastNameDialog(Activity activity, MenuMvpPresenter<MenuMvpView> presenter) {
+    public static void showUpdateFirstLastNameDialog(Activity activity, MyAccountMvpPresenter<MyAccountMvpView> presenter) {
         Dialog dialog = new UpdateFirstLastNameDialog(activity,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
                     @Override
@@ -568,7 +568,7 @@ public class DialogUtils {
         dialog.show();
     }
 
-    private static void showAreYouSureDialog(final Activity activity, String name, MenuMvpPresenter<MenuMvpView> presenter) {
+    private static void showAreYouSureDialog(final Activity activity, String name, MyAccountMvpPresenter<MyAccountMvpView> presenter) {
         DialogUtils.showAreYouSureUserNameDialog(activity, name,
                 new UpdateFirstLastNameDialog.DialogButtonClickListener() {
                     @Override

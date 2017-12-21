@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/myAccountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_light"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/photoImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/cam" />
+
+                <ImageView
+                    android:id="@+id/uploadPhotoProgressImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/round_progress"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/nameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="@string/app_name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16sp"
+                custom:textStyle="bold" />
+
+            <com.ros.smartrocket.ui.views.CustomButton
+                android:id="@+id/activityBtn"
+                style="@style/Button"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.5"
+                android:background="@drawable/button_orange_selector"
+                android:text="@string/activity_btn"
+                android:textColor="@color/white"
+                custom:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

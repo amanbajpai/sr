@@ -1,4 +1,4 @@
-package com.ros.smartrocket.presentation.account;
+package com.ros.smartrocket.presentation.account.base;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.MyAccount;

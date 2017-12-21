@@ -2,7 +2,6 @@ package com.ros.smartrocket.presentation.cash;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
@@ -16,18 +15,14 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
-import com.ros.smartrocket.presentation.account.AccountMvpPresenter;
-import com.ros.smartrocket.presentation.account.AccountMvpView;
-import com.ros.smartrocket.presentation.account.AccountPresenter;
+import com.ros.smartrocket.presentation.account.base.AccountMvpPresenter;
+import com.ros.smartrocket.presentation.account.base.AccountMvpView;
+import com.ros.smartrocket.presentation.account.base.AccountPresenter;
 import com.ros.smartrocket.presentation.base.BaseFragment;
-import com.ros.smartrocket.presentation.cash.payment.alipay.UpdateAliPayDetailsFragment;
-import com.ros.smartrocket.presentation.cash.payment.national.UpdateNationalPaymentFragment;
-import com.ros.smartrocket.ui.dialog.ActivityLogDialog;
 import com.ros.smartrocket.ui.dialog.PaymentInfoDialog;
 import com.ros.smartrocket.ui.views.CustomButton;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.IntentUtils;
-import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.math.BigDecimal;
@@ -36,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CashingOutFragment extends BaseFragment implements ActivityMvpView, AccountMvpView {
+public class CashingOutFragment extends BaseFragment implements AccountMvpView {
     @BindView(R.id.updatePaymentBtn)
     CustomButton updatePaymentBtn;
     @BindView(R.id.currentBalance)
@@ -47,11 +42,8 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
     CustomTextView minBalance;
     @BindView(R.id.paymentInProgress)
     CustomTextView paymentInProgress;
-    @BindView(R.id.bntDivider)
-    View bntDivider;
 
     private MyAccount myAccount;
-    private ActivityMvpPresenter<ActivityMvpView> presenter;
     private AccountMvpPresenter<AccountMvpView> accountPresenter;
 
     @Override
@@ -71,8 +63,6 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
     }
 
     private void initPresenters() {
-        presenter = new ActivityPresenter<>();
-        presenter.attachView(this);
         accountPresenter = new AccountPresenter<>(true);
         accountPresenter.attachView(this);
         accountPresenter.getAccount();
@@ -94,31 +84,20 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
     }
 
     private void startEditPaymentInfo() {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(android.R.id.content, myAccount.isAliPay()
-                ? new UpdateAliPayDetailsFragment()
-                : new UpdateNationalPaymentFragment());
-        fragmentTransaction.addToBackStack(myAccount.isAliPay()
-                ? UpdateAliPayDetailsFragment.class.getSimpleName() :
-                UpdateNationalPaymentFragment.class.getSimpleName());
-        fragmentTransaction.commit();
+        getActivity().startActivity(IntentUtils.getMyAccountIntent(getActivity()));
     }
 
-    @OnClick({R.id.cashOutButton, R.id.updatePaymentBtn, R.id.activityBtn})
+    @OnClick({R.id.cashOutButton, R.id.updatePaymentBtn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cashOutButton:
-                if (myAccount.canWithdraw()) {
+                if (myAccount.canWithdraw())
                     getActivity().startActivity(IntentUtils.getCashOutConfirmationIntent(getActivity()));
-                } else {
+                else
                     new PaymentInfoDialog(getActivity());
-                }
                 break;
             case R.id.updatePaymentBtn:
                 startEditPaymentInfo();
-                break;
-            case R.id.activityBtn:
-                presenter.sendActivity();
                 break;
         }
     }
@@ -129,28 +108,10 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
     }
 
     @Override
-    public void onActivitySent() {
-        if (PreferencesManager.getInstance().getShowActivityDialog()) {
-            new ActivityLogDialog(getActivity(), PreferencesManager.getInstance().getLastEmail());
-        } else {
-            UIUtils.showSimpleToast(getActivity(), getString(R.string.activity_log_description_toast)
-                    + PreferencesManager.getInstance().getLastEmail());
-        }
-    }
-
-    @Override
     public void onAccountLoaded(MyAccount account) {
         myAccount = account;
-        if (myAccount.isPaymentSettingsEnabled()) {
-            updatePaymentBtn.setVisibility(View.VISIBLE);
-        } else {
-            updatePaymentBtn.setVisibility(View.GONE);
-            bntDivider.setVisibility(View.GONE);
-        }
 
-        if (myAccount.isWithdrawEnabled()) {
-            cashOutButton.setEnabled(true);
-        }
+        if (myAccount.isWithdrawEnabled()) cashOutButton.setEnabled(true);
 
         if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
             minBalance.setVisibility(View.VISIBLE);
@@ -173,7 +134,6 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
 
     @Override
     public void onStop() {
-        presenter.detachView();
         accountPresenter.detachView();
         super.onStop();
     }
@@ -181,7 +141,6 @@ public class CashingOutFragment extends BaseFragment implements ActivityMvpView,
     @Override
     public void onStart() {
         super.onStart();
-        presenter.attachView(this);
         accountPresenter.attachView(this);
     }
 }

@@ -1,4 +1,4 @@
-package com.ros.smartrocket.presentation.cash;
+package com.ros.smartrocket.presentation.account.activity;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
@@ -6,7 +6,7 @@ import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-class ActivityPresenter<V extends ActivityMvpView> extends BaseNetworkPresenter<V> implements ActivityMvpPresenter<V> {
+public class ActivityPresenter<V extends ActivityMvpView> extends BaseNetworkPresenter<V> implements ActivityMvpPresenter<V> {
 
     @Override
     public void sendActivity() {

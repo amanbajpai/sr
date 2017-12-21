@@ -99,8 +99,7 @@
 	<string name="dialog_first_name">Nama Depan</string>
 	<string name="dialog_last_name">Nama Belakang</string>
 	<string name="dialog_payment_description">Anda harus memasukkan rincian pembayaran terlebih dulu agar dapat mencairkan pendapatan SmartRocket</string>
-	<string name="dialog_payment_instruction">Tekan tombol KONFIGURASI untuk melanjutkan</string>
-	<string name="dialog_payment_title">Masukkan rincian pembayaran</string>
+    <string name="dialog_payment_title">Masukkan rincian pembayaran</string>
 	<string name="dialog_update_app_text">Anda menggunakan aplikasi versi lama (%1$s). Anda tidak dapat mengklaim misi sebelum memperbarui ke versi terkini (%2$s). Perbarui sekarang?</string>
 	<string name="dialog_update_app_title">Perbarui aplikasi</string>
 	<string name="distance_km">km</string>

@@ -7,10 +7,4 @@ public interface MenuMvpView extends NetworkMvpView {
 
     void setMyTasksCount(int count);
 
-    void onUserImageUpdated();
-
-    void onUserNameUpdated();
-
-    void onUserUpdateFailed();
-
 }

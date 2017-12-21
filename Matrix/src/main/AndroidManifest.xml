@@ -72,7 +72,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <!-- FB -->
@@ -263,6 +263,9 @@
         </activity>
         <activity
             android:name=".presentation.login.location.failed.CheckLocationFailedActivity"
+            android:configChanges="locale" />
+        <activity
+            android:name=".presentation.account.MyAccountActivity"
             android:configChanges="locale" />
         <activity
             android:name=".presentation.login.activate.ActivateAccountActivity"

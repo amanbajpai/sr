@@ -96,8 +96,7 @@
 	<string name="dialog_first_name">名字</string>
 	<string name="dialog_last_name">姓氏</string>
 	<string name="dialog_payment_description">您必須先輸入付款資料，才能提領您的SmartRocket收入</string>
-	<string name="dialog_payment_instruction">請按「設定」按鈕以繼續</string>
-	<string name="dialog_payment_title">輸入付款資料</string>
+    <string name="dialog_payment_title">輸入付款資料</string>
 	<string name="dialog_update_app_text">您使用的是舊版(%1$s)應用程式。您必須更新至最新版本(%2$s)才能認領任務。立即更新？</string>
 	<string name="dialog_update_app_title">更新應用程式</string>
 	<string name="distance_km">km</string>

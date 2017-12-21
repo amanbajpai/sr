@@ -12,45 +12,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
-import com.ros.smartrocket.presentation.account.AccountMvpPresenter;
-import com.ros.smartrocket.presentation.account.AccountMvpView;
-import com.ros.smartrocket.presentation.account.AccountPresenter;
+import com.ros.smartrocket.presentation.account.base.AccountMvpPresenter;
+import com.ros.smartrocket.presentation.account.base.AccountMvpView;
+import com.ros.smartrocket.presentation.account.base.AccountPresenter;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.task.AllTaskFragment;
 import com.ros.smartrocket.ui.dialog.LevelUpDialog;
 import com.ros.smartrocket.ui.views.CustomTextView;
-import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.HelpShiftUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.utils.eventbus.AvatarEvent;
-import com.ros.smartrocket.utils.image.AvatarImageManager;
-import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 public class MainMenuFragment extends BaseFragment implements OnClickListener, AccountMvpView, MenuMvpView {
-    private static final String STATE_PHOTO = "com.ros.smartrocket.MainMenuFragment.STATE_PHOTO";
     @BindView(R.id.photoImageView)
     ImageView photoImageView;
     @BindView(R.id.uploadPhotoProgressImage)
@@ -84,9 +75,6 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private ResponseReceiver localReceiver;
-    private File mCurrentPhotoFile;
-    private MyAccount myAccount;
-    private AvatarImageManager avatarImageManager;
     private AccountMvpPresenter<AccountMvpView> accountPresenter;
     private MenuMvpPresenter<MenuMvpView> menuPresenter;
 
@@ -96,11 +84,7 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_main_menu, null);
         ButterKnife.bind(this, view);
-        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PHOTO))
-            mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
-        avatarImageManager = new AvatarImageManager();
         levelProgressBar.setOnTouchListener((v, event) -> true);
-
         initReceiver();
         setData(App.getInstance().getMyAccount());
         return view;
@@ -122,20 +106,12 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
         getActivity().registerReceiver(localReceiver, intentFilter);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(STATE_PHOTO, mCurrentPhotoFile);
-        super.onSaveInstanceState(outState);
-    }
-
     public void setData(MyAccount myAccount) {
-        this.myAccount = myAccount;
         showAvatar(myAccount.getPhotoUrl());
         showLevelIcon(myAccount.getLevelIconUrl());
 
         agentId.setText(String.valueOf(myAccount.getId()));
         nameTextView.setText(myAccount.getSingleName());
-        nameTextView.setOnClickListener(this);
         balanceTextView.setText(UIUtils.getBalanceOrPrice(myAccount.getBalance(),
                 myAccount.getCurrencySign(), 2, BigDecimal.ROUND_DOWN));
         levelName.setText(String.valueOf(myAccount.getLevelName()));
@@ -196,21 +172,6 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
         myTasksCount.setText(String.valueOf(count));
     }
 
-    @Override
-    public void onUserImageUpdated() {
-        finishUploadingPhoto();
-    }
-
-    @Override
-    public void onUserNameUpdated() {
-        accountPresenter.getAccount();
-    }
-
-    @Override
-    public void onUserUpdateFailed() {
-        finishUploadingPhoto();
-    }
-
     public class ResponseReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -225,31 +186,11 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
         }
     }
 
-    public void finishUploadingPhoto() {
-        uploadPhotoProgressImage.clearAnimation();
-        uploadPhotoProgressImage.setVisibility(View.GONE);
-        accountPresenter.getAccount();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (intent != null && intent.getData() != null) {
-            intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-            avatarImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
-        } else if (mCurrentPhotoFile != null) {
-            intent = new Intent();
-            intent.putExtra(SelectImageManager.EXTRA_PHOTO_FILE, mCurrentPhotoFile);
-            intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
-            avatarImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
-        }
-    }
-
     @Override
     public void onStart() {
         super.onStart();
         initPresenters();
         accountPresenter.getAccount();
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -263,52 +204,13 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
     public void onStop() {
         accountPresenter.detachView();
         menuPresenter.detachView();
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
-    @Override
-    public void onDestroy() {
-        if (getActivity() != null) getActivity().unregisterReceiver(localReceiver);
-        super.onDestroy();
-    }
-
-    @SuppressWarnings("unused")
-    public void onEventMainThread(AvatarEvent event) {
-        switch (event.type) {
-            case START_LOADING:
-                uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                        R.anim.rotate));
-                uploadPhotoProgressImage.setVisibility(View.VISIBLE);
-                break;
-            case IMAGE_COMPLETE:
-                if (event.image != null && event.image.bitmap != null) {
-                    uploadPhotoProgressImage.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate));
-                    uploadPhotoProgressImage.setVisibility(View.VISIBLE);
-                    photoImageView.setImageBitmap(event.image.bitmap);
-                    menuPresenter.updateUserImage(event.image.bitmap);
-                } else {
-                    photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
-                }
-                break;
-            case SELECT_IMAGE_ERROR:
-                uploadPhotoProgressImage.clearAnimation();
-                uploadPhotoProgressImage.setVisibility(View.GONE);
-                DialogUtils.showPhotoCanNotBeAddDialog(getActivity());
-                break;
-        }
-    }
-
-    @OnClick({R.id.notificationsButton, R.id.photoImageView, R.id.findTasksButton, R.id.myTasksButton, R.id.cashingOutLayout, R.id.shareButton, R.id.supportButton, R.id.settingsButton})
+    @OnClick({R.id.myAccountLayout, R.id.nameTextView, R.id.myAccountButton, R.id.notificationsButton, R.id.findTasksButton, R.id.myTasksButton, R.id.cashingOutLayout, R.id.shareButton, R.id.supportButton, R.id.settingsButton})
     public void onClick(View view) {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
-            case R.id.photoImageView:
-                changeUserAvatar();
-                break;
-            case R.id.nameTextView:
-                changeUserName();
-                break;
             case R.id.findTasksButton:
                 startAllTaskFragment(bundle);
                 break;
@@ -328,6 +230,12 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
                 break;
             case R.id.supportButton:
                 HelpShiftUtils.showFAQ(getActivity());
+                break;
+            case R.id.myAccountLayout:
+            case R.id.myAccountButton:
+            case R.id.nameTextView:
+                getActivity().startActivity(IntentUtils.getMyAccountIntent(getActivity()));
+                ((MainActivity) getActivity()).toggleMenu();
                 break;
             case R.id.settingsButton:
                 getActivity().startActivity(IntentUtils.getSettingIntent(getActivity()));
@@ -359,20 +267,14 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
         ((MainActivity) getActivity()).toggleMenu();
     }
 
-    private void changeUserAvatar() {
-        mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
-        avatarImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
-    }
-
-    private void changeUserName() {
-        if (myAccount != null && myAccount.getIsUpdateNameRequired())
-            DialogUtils.showUpdateFirstLastNameDialog(getActivity(), menuPresenter);
-        else
-            UIUtils.showSimpleToast(getContext(), R.string.update_name_not_allowed, Toast.LENGTH_LONG);
-    }
-
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
         UIUtils.showSimpleToast(getActivity(), networkError.getErrorMessageRes());
+    }
+
+    @Override
+    public void onDestroy() {
+        if (getActivity() != null) getActivity().unregisterReceiver(localReceiver);
+        super.onDestroy();
     }
 }

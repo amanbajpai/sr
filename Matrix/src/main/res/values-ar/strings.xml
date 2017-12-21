@@ -386,8 +386,7 @@
 	<string name="why_email_title">لماذا نحتاج إلى بريدك الإلكتروني؟</string>
 	<string name="why_need_this">لماذا نحتاج إلى هذا؟</string>
 	<string name="dialog_payment_description">"يجب عليك أولا إدخال تفاصيل الدفع الخاصة بك من أجل استفادة من أرباحك SmartRocket "</string>
-	<string name="dialog_payment_instruction">اضغط على زر  إعداد لمواصلة</string>
-	<string name="dialog_payment_title">أدخل تفاصيل الدفع</string>
+    <string name="dialog_payment_title">أدخل تفاصيل الدفع</string>
     <string name="recording">التسجيل الصوتي</string>
 	<string name="recording_delete">إلغاء التسجيل الصوتي</string>
 	<string name="recording_end">نهايةالتسجيل الصوتي</string>
