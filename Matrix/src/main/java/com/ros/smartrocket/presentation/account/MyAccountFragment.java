@@ -45,11 +45,18 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     ImageView uploadPhotoProgressImage;
     @BindView(R.id.nameTextView)
     CustomTextView nameTextView;
+    @BindView(R.id.agentIdTxt)
+    CustomTextView agentIdTxt;
+    @BindView(R.id.emailTxt)
+    CustomTextView emailTxt;
+    @BindView(R.id.joinDateTxt)
+    CustomTextView joinDateTxt;
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
     private MyAccount myAccount;
     private MyAccountMvpPresenter<MyAccountMvpView> accPresenter;
     private ActivityMvpPresenter<ActivityMvpView> activityPresenter;
+    private PreferencesManager preferences = PreferencesManager.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +75,9 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
         this.myAccount = myAccount;
         showAvatar(myAccount.getPhotoUrl());
         nameTextView.setText(myAccount.getSingleName());
+        agentIdTxt.setText(String.valueOf(myAccount.getId()));
+        emailTxt.setText(preferences.getLastEmail());
+        joinDateTxt.setText(UIUtils.getFormattedJoiningDate(myAccount.getJoined()));
     }
 
     private void initPresenters() {
@@ -127,7 +137,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
                     photoImageView.setImageBitmap(event.image.bitmap);
                     accPresenter.updateUserImage(event.image.bitmap);
                 } else {
-                    //photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
+                    photoImageView.setImageResource(R.drawable.btn_camera_error_selector);
                 }
                 break;
             case SELECT_IMAGE_ERROR:

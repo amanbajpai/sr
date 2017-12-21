@@ -66,5 +66,120 @@
                 android:textColor="@color/white"
                 custom:textStyle="bold" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp">
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                style="@style/detailScreenTimeTypeTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agent_id"
+                android:textSize="@dimen/text_size_15sp"
+                custom:textStyle="bold" />
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/agentIdTxt"
+                style="@style/detailScreenTimeTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/text_size_15sp"
+                custom:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp">
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                style="@style/detailScreenTimeTypeTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textSize="@dimen/text_size_15sp"
+                custom:textStyle="bold" />
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/emailTxt"
+                style="@style/detailScreenTimeTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/text_size_15sp"
+                custom:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp">
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                style="@style/detailScreenTimeTypeTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/join_date"
+                android:textSize="@dimen/text_size_15sp"
+                custom:textStyle="bold" />
+
+            <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/joinDateTxt"
+                style="@style/detailScreenTimeTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/text_size_15sp"
+                custom:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            style="@style/mainMenuDividerStyle"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="7dp" />
+
+        <com.ros.smartrocket.ui.views.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:text="@string/payment_details_fields"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            custom:textStyle="bold" />
+
+        <com.ros.smartrocket.ui.views.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/payment_details_info"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_size_13sp"
+            custom:textStyle="bold" />
+
+        <com.ros.smartrocket.ui.views.CustomButton
+            android:id="@+id/submit"
+            style="@style/WaveDetailButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_green_selector"
+            android:text="@string/submit"
+            custom:textStyle="bold" />
     </LinearLayout>
 </ScrollView>
