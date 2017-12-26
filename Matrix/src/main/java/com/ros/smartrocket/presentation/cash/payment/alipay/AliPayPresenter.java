@@ -3,8 +3,8 @@ package com.ros.smartrocket.presentation.cash.payment.alipay;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.AliPayAccount;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.AliPayAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.ValidationUtils;

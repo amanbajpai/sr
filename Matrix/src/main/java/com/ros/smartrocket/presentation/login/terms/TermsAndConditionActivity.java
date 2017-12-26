@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.db.entity.account.register.RegistrationPermissions;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseActivity;

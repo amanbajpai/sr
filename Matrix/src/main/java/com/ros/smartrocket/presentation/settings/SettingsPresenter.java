@@ -2,7 +2,7 @@ package com.ros.smartrocket.presentation.settings;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 

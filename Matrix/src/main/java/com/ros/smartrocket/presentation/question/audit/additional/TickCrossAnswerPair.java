@@ -1,6 +1,6 @@
 package com.ros.smartrocket.presentation.question.audit.additional;
 
-import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.question.Answer;
 
 public class TickCrossAnswerPair {
     private Answer tickAnswer;

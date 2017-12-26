@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.task.my;
 
 import com.ros.smartrocket.db.bl.TasksBL;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.presentation.task.TaskMvpView;
 import com.ros.smartrocket.presentation.task.TaskPresenter;
 

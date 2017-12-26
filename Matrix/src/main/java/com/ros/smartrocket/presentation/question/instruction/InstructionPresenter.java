@@ -3,7 +3,7 @@ package com.ros.smartrocket.presentation.question.instruction;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 import com.ros.smartrocket.utils.FileProcessingManager;

@@ -1,6 +1,6 @@
 package com.ros.smartrocket.presentation.question.number;
 
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 import com.ros.smartrocket.utils.L;
 

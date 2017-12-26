@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Category;
-import com.ros.smartrocket.db.entity.Product;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.Category;
+import com.ros.smartrocket.db.entity.question.Product;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.audit.additional.CategoryProductPair;
 import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswerPair;
 import com.ros.smartrocket.utils.image.SelectImageManager;

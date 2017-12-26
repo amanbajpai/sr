@@ -1,6 +1,6 @@
 package com.ros.smartrocket.presentation.question.audit;
 
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswerPair;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionMvpView;
 

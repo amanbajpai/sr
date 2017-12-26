@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.db.entity.task.Wave;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
 import com.squareup.picasso.Picasso;

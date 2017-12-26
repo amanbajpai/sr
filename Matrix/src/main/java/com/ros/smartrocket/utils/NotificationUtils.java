@@ -28,7 +28,7 @@ import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.CustomNotificationStatus;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.presentation.notification.NotificationActivity;
 import com.ros.smartrocket.presentation.notification.PushNotificationActivity;

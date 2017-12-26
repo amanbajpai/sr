@@ -3,8 +3,8 @@ package com.ros.smartrocket.presentation.login.referral;
 import android.support.annotation.NonNull;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.ReferralCases;
-import com.ros.smartrocket.db.entity.SaveReferralCase;
+import com.ros.smartrocket.db.entity.account.register.ReferralCases;
+import com.ros.smartrocket.db.entity.account.register.SaveReferralCase;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 

@@ -1,12 +1,12 @@
 package com.ros.smartrocket.db;
 
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.file.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Notification;
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.WaitingUploadTask;
-import com.ros.smartrocket.db.entity.Wave;
+import com.ros.smartrocket.db.entity.question.Question;
+import com.ros.smartrocket.db.entity.task.Task;
+import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
+import com.ros.smartrocket.db.entity.task.Wave;
 
 @SuppressWarnings("rawtypes")
 public enum Table {

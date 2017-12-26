@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.account.register.Registration;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.net.NetworkError;

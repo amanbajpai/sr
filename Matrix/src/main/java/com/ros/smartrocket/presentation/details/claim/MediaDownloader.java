@@ -5,9 +5,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.bl.QuestionsBL;
-import com.ros.smartrocket.db.entity.Category;
-import com.ros.smartrocket.db.entity.Product;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Category;
+import com.ros.smartrocket.db.entity.question.Product;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.utils.FileProcessingManager;
 
 import org.apache.commons.io.FileUtils;

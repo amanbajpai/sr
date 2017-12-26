@@ -11,7 +11,7 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.utils.UIUtils;
 import com.twotoasters.baiduclusterkraf.ClusterPoint;
 import com.twotoasters.baiduclusterkraf.MarkerOptionsChooser;

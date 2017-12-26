@@ -2,10 +2,10 @@ package com.ros.smartrocket.utils;
 
 import android.location.Location;
 
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.WaitingUploadTask;
+import com.ros.smartrocket.db.entity.file.NotUploadedFile;
+import com.ros.smartrocket.db.entity.task.SendTaskId;
+import com.ros.smartrocket.db.entity.task.Task;
+import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
 
 public final class SendTaskIdMapper {
 

@@ -2,7 +2,7 @@ package com.ros.smartrocket.presentation.question.photo;
 
 import android.graphics.Bitmap;
 
-import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionMvpView;
 
 import java.util.List;

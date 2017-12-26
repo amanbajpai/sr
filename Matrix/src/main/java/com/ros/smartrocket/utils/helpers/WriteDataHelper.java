@@ -10,7 +10,7 @@ import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.bl.WavesBL;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;

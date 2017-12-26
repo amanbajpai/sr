@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.login.password.update;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.SetPassword;
+import com.ros.smartrocket.db.entity.account.SetPassword;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.UIUtils;
 

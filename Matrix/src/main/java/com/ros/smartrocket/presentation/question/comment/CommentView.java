@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
 

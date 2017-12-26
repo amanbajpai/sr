@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.db.bl.QuestionsBL;
-import com.ros.smartrocket.db.entity.Product;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Product;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.base.MvpPresenter;
 import com.ros.smartrocket.presentation.question.audio.AudioPresenter;
 import com.ros.smartrocket.presentation.question.audio.AudioView;

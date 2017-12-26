@@ -1,8 +1,8 @@
 package com.ros.smartrocket.presentation.login.external;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.ExternalAuthResponse;
-import com.ros.smartrocket.db.entity.ExternalAuthorize;
+import com.ros.smartrocket.db.entity.account.ExternalAuthResponse;
+import com.ros.smartrocket.db.entity.account.ExternalAuthorize;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;

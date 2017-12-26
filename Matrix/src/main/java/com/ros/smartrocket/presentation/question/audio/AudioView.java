@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.interfaces.QuestionAudioPlayer;
 import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;

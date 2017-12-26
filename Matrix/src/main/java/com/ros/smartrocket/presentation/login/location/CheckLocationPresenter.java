@@ -3,7 +3,7 @@ package com.ros.smartrocket.presentation.login.location;
 import android.location.Location;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.CheckLocation;
+import com.ros.smartrocket.db.entity.location.CheckLocation;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.base.BasePresenter;
 

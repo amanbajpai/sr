@@ -2,8 +2,8 @@ package com.ros.smartrocket.presentation.question.base;
 
 import android.os.Bundle;
 
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.base.MvpView;
 
 import java.util.List;

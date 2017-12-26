@@ -1,7 +1,7 @@
 package com.ros.smartrocket.utils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 
 public final class TaskValidationUtils {
 

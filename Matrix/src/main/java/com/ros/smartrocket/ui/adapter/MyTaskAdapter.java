@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.ProgressUpdate;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.ui.views.OptionsRow;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;

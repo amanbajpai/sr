@@ -37,7 +37,7 @@ import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.bl.TasksBL;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.utils.image.ActionBarIconTarget;
 import com.ros.smartrocket.utils.image.WaveTypeIconTarget;

@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.Answer;
+import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.presentation.question.choose.AnswerChooseBaseAdapter;
 import com.ros.smartrocket.presentation.question.choose.ChooseMvpPresenter;
 import com.ros.smartrocket.presentation.question.choose.ChooseMvpView;

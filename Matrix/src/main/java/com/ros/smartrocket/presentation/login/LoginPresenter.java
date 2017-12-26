@@ -3,10 +3,10 @@ package com.ros.smartrocket.presentation.login;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.CheckEmail;
-import com.ros.smartrocket.db.entity.ErrorResponse;
-import com.ros.smartrocket.db.entity.ExternalAuthResponse;
-import com.ros.smartrocket.db.entity.ExternalAuthorize;
+import com.ros.smartrocket.db.entity.account.CheckEmail;
+import com.ros.smartrocket.db.entity.error.ErrorResponse;
+import com.ros.smartrocket.db.entity.account.ExternalAuthResponse;
+import com.ros.smartrocket.db.entity.account.ExternalAuthorize;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;

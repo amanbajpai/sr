@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.presentation.account.activity.ActivityMvpPresenter;
 import com.ros.smartrocket.presentation.account.activity.ActivityMvpView;

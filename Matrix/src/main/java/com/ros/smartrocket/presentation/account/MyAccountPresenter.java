@@ -3,7 +3,7 @@ package com.ros.smartrocket.presentation.account;
 import android.graphics.Bitmap;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.UpdateUser;
+import com.ros.smartrocket.db.entity.account.UpdateUser;
 import com.ros.smartrocket.presentation.account.base.AccountPresenter;
 import com.ros.smartrocket.utils.BytesBitmap;
 

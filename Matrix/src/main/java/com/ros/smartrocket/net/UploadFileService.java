@@ -15,11 +15,11 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.bl.WaitingUploadTaskBL;
-import com.ros.smartrocket.db.entity.FileToUploadMultipart;
-import com.ros.smartrocket.db.entity.FileToUploadResponse;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
-import com.ros.smartrocket.db.entity.SendTaskId;
-import com.ros.smartrocket.db.entity.WaitingUploadTask;
+import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
+import com.ros.smartrocket.db.entity.file.FileToUploadResponse;
+import com.ros.smartrocket.db.entity.file.NotUploadedFile;
+import com.ros.smartrocket.db.entity.task.SendTaskId;
+import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.net.helper.MyTaskFetcher;
 import com.ros.smartrocket.utils.L;
@@ -147,7 +147,7 @@ public class UploadFileService extends Service {
     }
 
     private Observable<FileToUploadResponse> getUploadFileObservable(File f, NotUploadedFile notUploadedFile, FileParser parser) {
-        FileToUploadMultipart ftu = parser.getFileToUploadMultipart(f, notUploadedFile);
+        TaskFileToUpload ftu = parser.getFileToUploadMultipart(f, notUploadedFile);
         RequestBody jsonBody = RequestBody.create(MediaType.parse("multipart/form-data"), ftu.getJson());
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), f);

@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.validation.local;
 
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.question.Question;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.presentation.base.NetworkMvpView;
 
 import java.util.List;

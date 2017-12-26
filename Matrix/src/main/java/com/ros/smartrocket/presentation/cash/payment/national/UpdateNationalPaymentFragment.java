@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.db.entity.NationalIdAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.db.entity.account.NationalIdAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.ui.views.CustomEditTextView;

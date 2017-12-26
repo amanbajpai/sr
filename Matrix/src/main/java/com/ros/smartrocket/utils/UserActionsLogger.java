@@ -2,8 +2,8 @@ package com.ros.smartrocket.utils;
 
 import android.support.annotation.NonNull;
 
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.question.Question;
+import com.ros.smartrocket.db.entity.task.Task;
 
 import java.util.Calendar;
 import java.util.TimeZone;

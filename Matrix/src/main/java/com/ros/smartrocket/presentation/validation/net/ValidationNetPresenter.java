@@ -4,9 +4,9 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Task;
-import com.ros.smartrocket.db.entity.Token;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.task.Task;
+import com.ros.smartrocket.db.entity.account.Token;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;

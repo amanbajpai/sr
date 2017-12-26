@@ -3,7 +3,7 @@ package com.ros.smartrocket.presentation.login.registration;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.Registration;
+import com.ros.smartrocket.db.entity.account.register.Registration;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.UIUtils;
 

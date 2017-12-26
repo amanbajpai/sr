@@ -8,7 +8,7 @@ import android.view.View;
 import com.rd.PageIndicatorView;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.db.entity.account.register.RegistrationPermissions;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.login.external.ExternalAuthDetailsActivity;
 import com.ros.smartrocket.presentation.login.promo.PromoCodeActivity;

@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.NotUploadedFileDbSchema;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.file.NotUploadedFile;
 
 import java.util.ArrayList;
 import java.util.List;

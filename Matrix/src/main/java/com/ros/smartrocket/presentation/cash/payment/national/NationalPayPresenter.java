@@ -3,8 +3,8 @@ package com.ros.smartrocket.presentation.cash.payment.national;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.MyAccount;
-import com.ros.smartrocket.db.entity.NationalIdAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.db.entity.account.NationalIdAccount;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -1,7 +1,7 @@
 package com.ros.smartrocket.db.store;
 
-import com.ros.smartrocket.db.entity.Question;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.question.Question;
+import com.ros.smartrocket.db.entity.task.Task;
 
 public class ReDoQuestionStore extends QuestionStore {
 

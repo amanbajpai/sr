@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.ExternalAuthorize;
+import com.ros.smartrocket.db.entity.account.ExternalAuthorize;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseActivity;

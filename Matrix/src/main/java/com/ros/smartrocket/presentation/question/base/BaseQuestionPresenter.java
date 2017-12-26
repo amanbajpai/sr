@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.ros.smartrocket.db.bl.AnswersBL;
-import com.ros.smartrocket.db.entity.Answer;
-import com.ros.smartrocket.db.entity.Product;
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.Product;
+import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.presentation.base.BasePresenter;

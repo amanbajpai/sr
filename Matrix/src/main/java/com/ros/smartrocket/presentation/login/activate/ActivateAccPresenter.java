@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.login.activate;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.ActivateAccount;
+import com.ros.smartrocket.db.entity.account.register.ActivateAccount;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

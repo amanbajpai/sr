@@ -5,8 +5,8 @@ import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.FileToUploadMultipart;
-import com.ros.smartrocket.db.entity.NotUploadedFile;
+import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
+import com.ros.smartrocket.db.entity.file.NotUploadedFile;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
@@ -39,9 +39,9 @@ public class FileParser {
         }
     }
 
-    public FileToUploadMultipart getFileToUploadMultipart(File file, NotUploadedFile notUploadedFile) {
+    public TaskFileToUpload getFileToUploadMultipart(File file, NotUploadedFile notUploadedFile) {
         Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
-        FileToUploadMultipart uploadFileEntity = new FileToUploadMultipart();
+        TaskFileToUpload uploadFileEntity = new TaskFileToUpload();
         uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
         uploadFileEntity.setMissionId(notUploadedFile.getMissionId());
         uploadFileEntity.setQuestionId(notUploadedFile.getQuestionId());

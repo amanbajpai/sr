@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.utils.UIUtils;
 
 public class UpdateFirstLastNameDialog extends Dialog implements View.OnClickListener {

@@ -1,5 +1,7 @@
 package com.ros.smartrocket.db.entity;
 
+import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
+
 /**
  * Used for update files upload progress
  */

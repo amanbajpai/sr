@@ -9,9 +9,9 @@ import android.widget.Spinner;
 
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.ReferralCase;
-import com.ros.smartrocket.db.entity.ReferralCases;
-import com.ros.smartrocket.db.entity.RegistrationPermissions;
+import com.ros.smartrocket.db.entity.account.register.ReferralCase;
+import com.ros.smartrocket.db.entity.account.register.ReferralCases;
+import com.ros.smartrocket.db.entity.account.register.RegistrationPermissions;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.login.external.ExternalAuthDetailsActivity;

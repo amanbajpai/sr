@@ -9,7 +9,7 @@ import com.helpshift.support.ApiConfig;
 import com.helpshift.support.Metadata;
 import com.helpshift.support.Support;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 
 import java.util.HashMap;
 

@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.question.audit.additional;
 
-import com.ros.smartrocket.db.entity.Category;
-import com.ros.smartrocket.db.entity.Product;
+import com.ros.smartrocket.db.entity.question.Category;
+import com.ros.smartrocket.db.entity.question.Product;
 
 public  class CategoryProductPair {
     public final Category category;

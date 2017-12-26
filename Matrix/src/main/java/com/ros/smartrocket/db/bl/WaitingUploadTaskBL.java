@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.WaitingUploadTaskDbSchema;
-import com.ros.smartrocket.db.entity.WaitingUploadTask;
+import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,7 +17,7 @@ import android.widget.ListView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.TasksBL;
-import com.ros.smartrocket.db.entity.Task;
+import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseFragment;

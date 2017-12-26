@@ -3,8 +3,8 @@ package com.ros.smartrocket.presentation.login.password;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.Login;
-import com.ros.smartrocket.db.entity.LoginResponse;
+import com.ros.smartrocket.db.entity.account.Login;
+import com.ros.smartrocket.db.entity.account.LoginResponse;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;

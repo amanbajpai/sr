@@ -1,6 +1,6 @@
 package com.ros.smartrocket.presentation.question.audit.additional;
 
-import com.ros.smartrocket.db.entity.Question;
+import com.ros.smartrocket.db.entity.question.Question;
 
 public interface Navigator {
 

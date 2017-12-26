@@ -18,7 +18,7 @@ import android.widget.SeekBar;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.MyAccount;
+import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.presentation.account.base.AccountMvpPresenter;
 import com.ros.smartrocket.presentation.account.base.AccountMvpView;
