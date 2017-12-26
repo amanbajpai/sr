@@ -148,16 +148,16 @@ public interface MatrixApi {
     @POST("api/Authorize/ReIssueCredentials")
     Single<Token> getNewToken(@Body Token token);
 
-    @GET("api/Payments/AliPayAccount")
+    @GET("api/PaymentsData/AliPayAccount")
     Single<AliPayAccount> getAliPayAccount();
 
-    @POST("api/Payments/AliPayAccount")
+    @POST("api/PaymentsData/AliPayAccount")
     Single<ResponseBody> integrateAliPayAccount(@Body AliPayAccount aliPayAccount);
 
-    @GET("api/Payments/NationalIdAccount")
+    @GET("api/PaymentsData/NationalIdAccount")
     Single<NationalIdAccount> getNationalIdAccount();
 
-    @POST("api/Payments/NationalIdAccount")
+    @POST("api/PaymentsData/NationalIdAccount")
     Single<ResponseBody> integrateNationalPayAccount(@Body NationalIdAccount account);
 
     @POST("api/Authorize/AllowPushNotification")
@@ -204,5 +204,5 @@ public interface MatrixApi {
 
     @Multipart
     @POST("api/PaymentFieldFile")
-    Single<FileToUploadResponse> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
+    Single<String> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 }

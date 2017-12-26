@@ -172,6 +172,11 @@
             android:textSize="@dimen/text_size_13sp"
             custom:textStyle="bold" />
 
+        <com.ros.smartrocket.ui.views.payment.PaymentInfoView
+            android:id="@+id/paymentInfoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <com.ros.smartrocket.ui.views.CustomButton
             android:id="@+id/submit"
             style="@style/WaveDetailButton"

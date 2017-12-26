@@ -15,13 +15,18 @@ import android.widget.Toast;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.db.entity.payment.PaymentField;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.presentation.account.activity.ActivityMvpPresenter;
 import com.ros.smartrocket.presentation.account.activity.ActivityMvpView;
 import com.ros.smartrocket.presentation.account.activity.ActivityPresenter;
 import com.ros.smartrocket.presentation.base.BaseFragment;
+import com.ros.smartrocket.presentation.payment.PaymentMvpPresenter;
+import com.ros.smartrocket.presentation.payment.PaymentMvpView;
+import com.ros.smartrocket.presentation.payment.PaymentPresenter;
 import com.ros.smartrocket.ui.dialog.ActivityLogDialog;
 import com.ros.smartrocket.ui.views.CustomTextView;
+import com.ros.smartrocket.ui.views.payment.PaymentInfoView;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
@@ -31,13 +36,14 @@ import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-public class MyAccountFragment extends BaseFragment implements MyAccountMvpView, ActivityMvpView {
+public class MyAccountFragment extends BaseFragment implements MyAccountMvpView, ActivityMvpView, PaymentMvpView {
     private static final String STATE_PHOTO = "com.ros.smartrocket.presentation.account.my.STATE_PHOTO";
     @BindView(R.id.photoImageView)
     ImageView photoImageView;
@@ -51,11 +57,15 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     CustomTextView emailTxt;
     @BindView(R.id.joinDateTxt)
     CustomTextView joinDateTxt;
+    @BindView(R.id.paymentInfoView)
+    PaymentInfoView paymentInfoView;
+
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
     private MyAccount myAccount;
     private MyAccountMvpPresenter<MyAccountMvpView> accPresenter;
     private ActivityMvpPresenter<ActivityMvpView> activityPresenter;
+    private PaymentMvpPresenter<PaymentMvpView> paymentPresenter;
     private PreferencesManager preferences = PreferencesManager.getInstance();
 
     @Override
@@ -83,6 +93,8 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     private void initPresenters() {
         accPresenter = new MyAccountPresenter<>(false);
         accPresenter.attachView(this);
+        paymentPresenter = new PaymentPresenter<>();
+        paymentPresenter.attachView(this);
         activityPresenter = new ActivityPresenter<>();
         activityPresenter.attachView(this);
     }
@@ -190,16 +202,17 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
         super.onStart();
         initPresenters();
         accPresenter.getAccount();
-        activityPresenter.attachView(this);
+        paymentPresenter.getPaymentFields();
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
+        super.onStop();
         accPresenter.detachView();
         activityPresenter.detachView();
+        paymentPresenter.detachView();
         EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 
     @OnClick({R.id.photoImageView, R.id.uploadPhotoProgressImage, R.id.nameTextView, R.id.activityBtn})
@@ -225,5 +238,25 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
                     .into(photoImageView);
         else
             photoImageView.setImageResource(R.drawable.cam);
+    }
+
+    @Override
+    public void onPaymentFieldsLoaded(List<PaymentField> fields) {
+        paymentInfoView.fillPaymentInfoViews(fields);
+    }
+
+    @Override
+    public void onPaymentsSaved() {
+
+    }
+
+    @Override
+    public void onPaymentsSavedError() {
+
+    }
+
+    @Override
+    public void onPaymentFieldsEmpty() {
+
     }
 }

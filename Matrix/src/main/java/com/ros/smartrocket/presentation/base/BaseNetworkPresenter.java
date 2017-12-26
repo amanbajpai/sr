@@ -5,8 +5,10 @@ import com.ros.smartrocket.net.NetworkError;
 public class BaseNetworkPresenter<V extends NetworkMvpView> extends BasePresenter<V> {
 
     public void showNetworkError(Throwable t) {
-        hideLoading();
-        getMvpView().showNetworkError(new NetworkError(t));
+        if (isViewAttached()) {
+            hideLoading();
+            getMvpView().showNetworkError(new NetworkError(t));
+        }
     }
 
     public void showLoading(boolean isCancelable) {
