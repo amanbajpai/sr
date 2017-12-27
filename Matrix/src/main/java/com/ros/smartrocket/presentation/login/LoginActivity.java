@@ -176,6 +176,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
         }
         if (serverResponse != null) {
             checkLocationResponse = serverResponse;
+            preferencesManager.setInt(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());
             this.latitude = latitude;
             this.longitude = longitude;
             registrationPermissions = checkLocationResponse.getRegistrationPermissions();

@@ -64,7 +64,6 @@ import java.util.TimeZone;
 
 public class UIUtils {
     private static final String TAG = "UIUtils";
-    private static final SimpleDateFormat JOIN_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ", Locale.ENGLISH);
     private static final SimpleDateFormat GOOGLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
     private static final SimpleDateFormat ISO_DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.ENGLISH);
@@ -317,7 +316,7 @@ public class UIUtils {
         if (!TextUtils.isEmpty(date)) {
             try {
                 UIUtils.GOOGLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-                result = JOIN_DATE_FORMAT.parse(date).getTime();
+                result = ISO_DATE_FORMAT2.parse(date).getTime();
             } catch (Exception e) {
                 L.e("isoTimeToLong", "Parse error" + e, e);
             }

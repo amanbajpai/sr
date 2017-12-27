@@ -166,7 +166,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
 
     private void initUI() {
         initRefreshButton();
-        refreshIconState(true);
         display = getActivity().getWindowManager().getDefaultDisplay();
         mapWidth = UIUtils.getDpFromPx(getActivity(),
                 display.getWidth() - UIUtils.getPxFromDp(getActivity(), 20));
@@ -241,7 +240,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         storeZoomAndRadius();
         taskPresenter.detachView();
         wavePresenter.detachView();
-        refreshIconState(false);
     }
 
     private void storeZoomAndRadius() {
@@ -343,11 +341,8 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private void loadData(boolean serverUpdate) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             AllTaskFragment.stopRefreshProgress = !serverUpdate;
-            refreshIconState(true);
             loadTasksFromLocalDb();
             if (serverUpdate) updateDataFromServer();
-        } else {
-            refreshIconState(false);
         }
     }
 
@@ -374,7 +369,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
             else if (mode == Keys.MapViewMode.ALL_TASKS)
                 getWavesFromServer(taskRadius);
         } else {
-            refreshIconState(false);
             UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
         }
     }
@@ -405,8 +399,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
 
     @Override
     public void onTaskLoadingComplete(List<Task> list) {
-        if (AllTaskFragment.stopRefreshProgress) refreshIconState(false);
-
         final Location location = lm.getLocation();
         clearMap();
         MapHelper.mapChooser(googleMap, baiduMap, new MapHelper.SelectMapInterface() {
@@ -543,7 +535,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         if (refreshButton == null && actionBar != null) {
             View view = actionBar.getCustomView();
             if (view != null) {
-                refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+                refreshButton = view.findViewById(R.id.refreshButton);
                 if (refreshButton != null) refreshButton.setOnClickListener(v -> onRefreshClick());
             }
         }

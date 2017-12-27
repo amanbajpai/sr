@@ -10,6 +10,11 @@ public class PaymentInfo implements Serializable {
     @SerializedName("Value")
     private String value;
 
+    public PaymentInfo(int paymentFieldId, String value) {
+        this.paymentFieldId = paymentFieldId;
+        this.value = value;
+    }
+
     public int getPaymentFieldId() {
         return paymentFieldId;
     }

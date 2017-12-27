@@ -1,28 +1,30 @@
 package com.ros.smartrocket.presentation.payment;
 
+import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.payment.PaymentField;
 import com.ros.smartrocket.db.entity.payment.PaymentInfo;
 import com.ros.smartrocket.db.entity.payment.PaymentsData;
-import com.ros.smartrocket.db.entity.payment.SavePaymentInfoRequest;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
+import com.ros.smartrocket.utils.PreferencesManager;
 
 import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPresenter<V> implements PaymentMvpPresenter<V> {
+    private String imagePath;
     private PaymentsData paymentsData;
 
     @Override
     public void getPaymentFields() {
         getMvpView().showLoading(false);
-        MyAccount account = App.getInstance().getMyAccount();
-        addDisposable(App.getInstance().getApi().getPaymentFields(account.getCountryCode(), getLanguageCode())
+        int countryId = PreferencesManager.getInstance().getInt(Keys.COUNTRY_ID, 0);
+        addDisposable(App.getInstance().getApi().getPaymentFields(countryId, getLanguageCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onPaymentFieldsLoaded, this::showNetworkError));
@@ -31,29 +33,33 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     @Override
     public void savePaymentsInfo(PaymentsData paymentsData) {
         this.paymentsData = paymentsData;
-        if (paymentsData.getPaymentImageInfo() != null)
-            savePaymentImage(paymentsData.getPaymentImageInfo());
+        if (!TextUtils.isEmpty(imagePath))
+            savePaymentImage();
         else if (!paymentsData.getPaymentTextInfos().isEmpty())
-            saveTextPaymentsInfo(paymentsData);
+            saveAllPaymentsInfo(paymentsData.getPaymentTextInfos());
+        else
+            getMvpView().onPaymentFieldsEmpty();
     }
 
-    private void savePaymentImage(PaymentInfo paymentImageInfo) {
+    private void savePaymentImage() {
         showLoading(false);
-        addDisposable(getSavePaymentImageSingle(paymentImageInfo)
+        addDisposable(getSavePaymentImageSingle(imagePath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> onPaymentImageSaved(s, paymentImageInfo), this::showNetworkError));
+                .subscribe(this::onPaymentImageSaved, this::showNetworkError));
     }
 
-    private void onPaymentImageSaved(String s, PaymentInfo paymentImageInfo) {
+    private void onPaymentImageSaved(String s) {
+        PaymentInfo paymentImageInfo = paymentsData.getPaymentImageInfo();
         paymentImageInfo.setValue(s);
-        paymentsData.getPaymentTextInfos().add(paymentImageInfo);
-        saveTextPaymentsInfo(paymentsData);
+        List<PaymentInfo> paymentInfoList = paymentsData.getPaymentTextInfos();
+        paymentInfoList.add(paymentImageInfo);
+        saveAllPaymentsInfo(paymentInfoList);
     }
 
-    private void saveTextPaymentsInfo(PaymentsData paymentsData) {
+    private void saveAllPaymentsInfo(List<PaymentInfo> paymentInfoList) {
         showLoading(false);
-        addDisposable(getSavePaymentInfoSingle(paymentsData.getPaymentTextInfos())
+        addDisposable(App.getInstance().getApi().savePaymentInfo(paymentInfoList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(rb -> onAllPaymentsSaved(), this::showNetworkError));
@@ -73,12 +79,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
         }
     }
 
-    private Single<ResponseBody> getSavePaymentInfoSingle(List<PaymentInfo> data) {
-        SavePaymentInfoRequest request = new SavePaymentInfoRequest(data);
-        return App.getInstance().getApi().savePaymentInfo(request);
-    }
-
-    private Single<String> getSavePaymentImageSingle(PaymentInfo info) {
+    private Single<String> getSavePaymentImageSingle(String imgPath) {
         return App.getInstance().getApi().sendPaymentFile(null, null);
     }
 }

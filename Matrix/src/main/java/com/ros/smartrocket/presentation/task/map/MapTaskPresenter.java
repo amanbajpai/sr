@@ -16,7 +16,6 @@ class MapTaskPresenter<V extends TaskMvpView> extends TaskPresenter<V> implement
     @Override
     public void loadTasksFromDb(int itemId, boolean isHidden, MapViewMode mode) {
         if (isViewAttached()) {
-            getMvpView().refreshIconState(true);
             switch (mode) {
                 case ALL_TASKS:
                     getAllNotMyTasks(isHidden);
@@ -68,7 +67,9 @@ class MapTaskPresenter<V extends TaskMvpView> extends TaskPresenter<V> implement
 
     @Override
     public void showNetworkError(Throwable t) {
-        getMvpView().refreshIconState(false);
-        super.showNetworkError(t);
+        if (isViewAttached()) {
+            getMvpView().refreshIconState(false);
+            super.showNetworkError(t);
+        }
     }
 }

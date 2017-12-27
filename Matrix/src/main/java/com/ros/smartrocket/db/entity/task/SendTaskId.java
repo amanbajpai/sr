@@ -1,6 +1,7 @@
 package com.ros.smartrocket.db.entity.task;
 
 import com.google.gson.annotations.SerializedName;
+import com.ros.smartrocket.db.entity.BaseEntity;
 
 public class SendTaskId extends BaseEntity {
     private static final long serialVersionUID = 2857267798118484900L;

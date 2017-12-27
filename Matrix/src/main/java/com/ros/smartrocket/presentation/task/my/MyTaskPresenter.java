@@ -13,7 +13,6 @@ import io.reactivex.schedulers.Schedulers;
 class MyTaskPresenter<V extends TaskMvpView> extends TaskPresenter<V> implements MyTaskMvpPresenter<V> {
     @Override
     public void loadMyTasksFromDb() {
-        getMvpView().refreshIconState(true);
         addDisposable(TasksBL.getMyTasksObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -21,6 +20,6 @@ class MyTaskPresenter<V extends TaskMvpView> extends TaskPresenter<V> implements
     }
 
     private void OnTasksLoadedFromDb(List<Task> tasks) {
-        getMvpView().onTaskLoadingComplete(tasks);
+        if (isViewAttached()) getMvpView().onTaskLoadingComplete(tasks);
     }
 }

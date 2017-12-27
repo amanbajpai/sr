@@ -30,12 +30,15 @@ public class WavePresenter<V extends WaveMvpView> extends BaseNetworkPresenter<V
     }
 
     private void onWavesLoaded() {
-        getMvpView().onWavesLoaded();
+        if (isViewAttached()) {
+            getMvpView().refreshIconState(false);
+            getMvpView().onWavesLoaded();
+        }
     }
 
     @Override
     public void showNetworkError(Throwable t) {
         super.showNetworkError(t);
-        getMvpView().refreshIconState(false);
+        if (isViewAttached()) getMvpView().refreshIconState(false);
     }
 }

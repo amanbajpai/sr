@@ -89,7 +89,6 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     public void onPause() {
         super.onPause();
         presenter.detachView();
-        refreshIconState(false);
     }
 
 
@@ -105,13 +104,11 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     private void getWaves(final boolean updateFromServer) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             AllTaskFragment.stopRefreshProgress = !updateFromServer;
-            refreshIconState(true);
             App.getInstance().getLocationManager().recalculateDistances(() -> {
                 presenter.loadNotMyWavesListFromDB(preferencesManager.getShowHiddenTask());
                 if (updateFromServer) updateDataFromServer();
             });
         } else {
-            refreshIconState(false);
             adapter.setData(new ArrayList<>());
         }
     }
@@ -188,7 +185,7 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
 
     public void initRefreshButton(ActionBar actionBar) {
         View view = actionBar.getCustomView();
-        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
+        refreshButton = view.findViewById(R.id.refreshButton);
         if (refreshButton != null) refreshButton.setOnClickListener(v -> refreshData());
     }
 
@@ -217,7 +214,6 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
         adapter.setData(list);
         if (AllTaskFragment.stopRefreshProgress) {
             if (adapter.getCount() == 0) emptyListTextView.setText(R.string.no_mission_available);
-            refreshIconState(false);
         }
     }
 }

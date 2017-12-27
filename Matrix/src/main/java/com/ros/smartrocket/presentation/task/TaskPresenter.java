@@ -3,6 +3,7 @@ package com.ros.smartrocket.presentation.task;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.task.Waves;
 import com.ros.smartrocket.db.store.WavesStore;
+import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -13,6 +14,7 @@ public class TaskPresenter<V extends TaskMvpView> extends BaseNetworkPresenter<V
 
     @Override
     public void getMyTasksFromServer() {
+        getMvpView().refreshIconState(true);
         addDisposable(App.getInstance().getApi()
                 .getMyTasks(getLanguageCode())
                 .subscribeOn(Schedulers.io())
@@ -27,6 +29,18 @@ public class TaskPresenter<V extends TaskMvpView> extends BaseNetworkPresenter<V
     }
 
     private void onTasksLoaded() {
-        getMvpView().onTasksLoaded();
+        if (isViewAttached()) {
+            getMvpView().refreshIconState(false);
+            getMvpView().onTasksLoaded();
+        }
+    }
+
+    @Override
+    public void showNetworkError(Throwable t) {
+        if (isViewAttached()) {
+            hideLoading();
+            getMvpView().refreshIconState(false);
+            getMvpView().showNetworkError(new NetworkError(t));
+        }
     }
 }

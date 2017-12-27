@@ -215,7 +215,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.photoImageView, R.id.uploadPhotoProgressImage, R.id.nameTextView, R.id.activityBtn})
+    @OnClick({R.id.photoImageView, R.id.uploadPhotoProgressImage, R.id.nameTextView, R.id.activityBtn, R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.photoImageView:
@@ -226,6 +226,9 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
                 break;
             case R.id.activityBtn:
                 activityPresenter.sendActivity();
+                break;
+            case R.id.submit:
+                paymentPresenter.savePaymentsInfo(paymentInfoView.getPaymentsData());
                 break;
         }
     }

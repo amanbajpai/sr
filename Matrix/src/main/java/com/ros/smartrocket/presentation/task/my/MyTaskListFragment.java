@@ -60,13 +60,11 @@ public class MyTaskListFragment extends BaseFragment implements OnItemClickListe
         initUI();
         presenter = new MyTaskPresenter<>();
         presenter.attachView(this);
-        refreshIconState(true);
         return view;
     }
 
     private void initUI() {
         initActionBarView();
-        refreshIconState(true);
         adapter = new MyTaskAdapter(getActivity());
         emptyListLTextView.setText(R.string.loading_missions);
         taskList.setEmptyView(emptyListLTextView);
@@ -97,13 +95,11 @@ public class MyTaskListFragment extends BaseFragment implements OnItemClickListe
 
     private void getMyTasks(boolean updateFromServer) {
         AllTaskFragment.stopRefreshProgress = !updateFromServer;
-        refreshIconState(true);
         presenter.loadMyTasksFromDb();
         if (updateFromServer) {
             if (UIUtils.isOnline(getActivity())) {
                 presenter.getMyTasksFromServer();
             } else {
-                refreshIconState(false);
                 UIUtils.showSimpleToast(getActivity(), R.string.no_internet);
             }
         }
@@ -129,7 +125,6 @@ public class MyTaskListFragment extends BaseFragment implements OnItemClickListe
         adapter.setData(list);
         if (AllTaskFragment.stopRefreshProgress) {
             if (adapter.getCount() == 0) emptyListLTextView.setText(R.string.you_have_no_tasks);
-            refreshIconState(false);
         }
     }
 
@@ -208,7 +203,6 @@ public class MyTaskListFragment extends BaseFragment implements OnItemClickListe
     @Override
     public void onStop() {
         presenter.detachView();
-        refreshIconState(false);
         EventBus.getDefault().unregister(this);
         super.onStop();
     }

@@ -3,6 +3,7 @@ package com.ros.smartrocket.net.retrofit;
 import com.ros.smartrocket.db.entity.account.register.ActivateAccount;
 import com.ros.smartrocket.db.entity.account.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
+import com.ros.smartrocket.db.entity.payment.PaymentInfo;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.AppVersion;
 import com.ros.smartrocket.db.entity.account.CheckEmail;
@@ -22,7 +23,6 @@ import com.ros.smartrocket.db.entity.question.Questions;
 import com.ros.smartrocket.db.entity.account.register.ReferralCases;
 import com.ros.smartrocket.db.entity.RegisterDevice;
 import com.ros.smartrocket.db.entity.account.register.Registration;
-import com.ros.smartrocket.db.entity.payment.SavePaymentInfoRequest;
 import com.ros.smartrocket.db.entity.account.register.SaveReferralCase;
 import com.ros.smartrocket.db.entity.task.SendTaskId;
 import com.ros.smartrocket.db.entity.account.SetPassword;
@@ -196,13 +196,13 @@ public interface MatrixApi {
     @POST
     Observable<ShortUrl> getShortUrl(@Url String url, @Body LongUrl longUrl);
 
-    @GET("api/PaymentFields")
-    Single<List<PaymentField>> getPaymentFields(@Query("countryId") String countryId, @Query("language") String language);
+    @GET("PaymentFields")
+    Single<List<PaymentField>> getPaymentFields(@Query("countryId") int countryId, @Query("language") String language);
 
-    @POST("api/SavePaymentFields")
-    Single<ResponseBody> savePaymentInfo(@Body SavePaymentInfoRequest request);
+    @POST("SavePaymentFields")
+    Single<ResponseBody> savePaymentInfo(@Body List<PaymentInfo> request);
 
     @Multipart
-    @POST("api/PaymentFieldFile")
+    @POST("PaymentFieldFile")
     Single<String> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 }
