@@ -11,7 +11,7 @@ import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
-import com.ros.smartrocket.presentation.question.photo.helper.PhotoHelper;
+import com.ros.smartrocket.utils.helpers.photo.PhotoHelper;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;

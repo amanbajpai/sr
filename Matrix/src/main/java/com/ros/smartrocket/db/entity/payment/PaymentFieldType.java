@@ -1,7 +1,7 @@
 package com.ros.smartrocket.db.entity.payment;
 
 public enum PaymentFieldType {
-    NA("na"), TEXT("Text"), PHOTO("photo");
+    NA("na"), TEXT("Text"), PHOTO("Photo");
 
     private final String name;
 

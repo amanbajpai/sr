@@ -62,7 +62,7 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
             conditionText.setText(getContext().getString(R.string.write_your_number,
                     question.getMinValue(), question.getMaxValue()));
         else
-            conditionText.setText(getContext().getString(R.string.write_your_number,
+            conditionText.setText(getContext().getString(R.string.write_your_number_int,
                     question.getMinValue().intValue(), question.getMaxValue().intValue()));
         presenter.loadAnswers();
     }

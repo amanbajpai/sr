@@ -196,13 +196,13 @@ public interface MatrixApi {
     @POST
     Observable<ShortUrl> getShortUrl(@Url String url, @Body LongUrl longUrl);
 
-    @GET("PaymentFields")
+    @GET("api/PaymentFields")
     Single<List<PaymentField>> getPaymentFields(@Query("countryId") int countryId, @Query("language") String language);
 
-    @POST("SavePaymentFields")
+    @POST("api/SavePaymentFields")
     Single<ResponseBody> savePaymentInfo(@Body List<PaymentInfo> request);
 
     @Multipart
-    @POST("PaymentFieldFile")
+    @POST("api/PaymentFieldFile")
     Single<String> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 }

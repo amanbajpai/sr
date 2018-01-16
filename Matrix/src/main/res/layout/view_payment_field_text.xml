@@ -40,6 +40,5 @@
         android:padding="10dp"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_14sp"
-        android:paddingEnd="10dp"
         custom:textStyle="bold" />
 </LinearLayout>

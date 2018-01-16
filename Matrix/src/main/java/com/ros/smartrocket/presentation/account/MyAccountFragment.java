@@ -2,6 +2,8 @@ package com.ros.smartrocket.presentation.account;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -17,6 +19,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.db.entity.payment.PaymentField;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.interfaces.PhotoActionsListener;
 import com.ros.smartrocket.presentation.account.activity.ActivityMvpPresenter;
 import com.ros.smartrocket.presentation.account.activity.ActivityMvpView;
 import com.ros.smartrocket.presentation.account.activity.ActivityPresenter;
@@ -31,6 +34,8 @@ import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.AvatarEvent;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
+import com.ros.smartrocket.utils.helpers.photo.PhotoManager;
 import com.ros.smartrocket.utils.image.AvatarImageManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.squareup.picasso.Picasso;
@@ -43,7 +48,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-public class MyAccountFragment extends BaseFragment implements MyAccountMvpView, ActivityMvpView, PaymentMvpView {
+public class MyAccountFragment extends BaseFragment implements MyAccountMvpView, ActivityMvpView, PaymentMvpView, PhotoActionsListener {
     private static final String STATE_PHOTO = "com.ros.smartrocket.presentation.account.my.STATE_PHOTO";
     @BindView(R.id.photoImageView)
     ImageView photoImageView;
@@ -59,6 +64,8 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     CustomTextView joinDateTxt;
     @BindView(R.id.paymentInfoView)
     PaymentInfoView paymentInfoView;
+    @BindView(R.id.txt_why_this)
+    CustomTextView txtWhyThis;
 
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
@@ -74,9 +81,14 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         ViewGroup view = (ViewGroup) localInflater.inflate(R.layout.fragment_my_account, null);
         ButterKnife.bind(this, view);
+        txtWhyThis.setPaintFlags(txtWhyThis.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PHOTO))
             mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
         avatarImageManager = new AvatarImageManager();
+        paymentInfoView.setPhotoActionsListener(this);
+        initPresenters();
+        accPresenter.getAccount();
+        paymentPresenter.getPaymentFields();
         setData(App.getInstance().getMyAccount());
         return view;
     }
@@ -93,7 +105,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     private void initPresenters() {
         accPresenter = new MyAccountPresenter<>(false);
         accPresenter.attachView(this);
-        paymentPresenter = new PaymentPresenter<>();
+        paymentPresenter = new PaymentPresenter<>(new PhotoManager(this));
         paymentPresenter.attachView(this);
         activityPresenter = new ActivityPresenter<>();
         activityPresenter.attachView(this);
@@ -132,6 +144,11 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
         uploadPhotoProgressImage.clearAnimation();
         uploadPhotoProgressImage.setVisibility(View.GONE);
         accPresenter.getAccount();
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(PhotoEvent event) {
+        paymentPresenter.onPhotoEvent(event);
     }
 
     @SuppressWarnings("unused")
@@ -174,6 +191,12 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (!paymentPresenter.onActivityResult(requestCode, resultCode, intent)) {
+            handleAvatar(requestCode, resultCode, intent);
+        }
+    }
+
+    private void handleAvatar(int requestCode, int resultCode, Intent intent) {
         if (intent != null && intent.getData() != null) {
             intent.putExtra(SelectImageManager.EXTRA_PREFIX, SelectImageManager.PREFIX_PROFILE);
             avatarImageManager.onActivityResult(requestCode, resultCode, intent, getActivity());
@@ -196,26 +219,27 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
         super.onSaveInstanceState(outState);
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        initPresenters();
-        accPresenter.getAccount();
-        paymentPresenter.getPaymentFields();
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        accPresenter.detachView();
-        activityPresenter.detachView();
-        paymentPresenter.detachView();
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.photoImageView, R.id.uploadPhotoProgressImage, R.id.nameTextView, R.id.activityBtn, R.id.submit})
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        accPresenter.detachView();
+        activityPresenter.detachView();
+        paymentPresenter.detachView();
+    }
+
+    @OnClick({R.id.photoImageView, R.id.uploadPhotoProgressImage, R.id.nameTextView, R.id.activityBtn, R.id.submit, R.id.txt_why_this})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.photoImageView:
@@ -229,6 +253,9 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
                 break;
             case R.id.submit:
                 paymentPresenter.savePaymentsInfo(paymentInfoView.getPaymentsData());
+                break;
+            case R.id.txt_why_this:
+                DialogUtils.showWhyWeNeedThisDialog(getContext(), R.string.payment_details_fields, R.string.payment_details_info);
                 break;
         }
     }
@@ -250,16 +277,41 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
 
     @Override
     public void onPaymentsSaved() {
-
+        paymentPresenter.getPaymentFields();
     }
 
     @Override
     public void onPaymentsSavedError() {
-
+        UIUtils.showSimpleToast(getContext(), R.string.error);
     }
 
     @Override
     public void onPaymentFieldsEmpty() {
+        UIUtils.showSimpleToast(getContext(), R.string.fill_in_all_fields);
+    }
 
+    @Override
+    public void showPhotoCanNotBeAddDialog() {
+        DialogUtils.showPhotoCanNotBeAddDialog(getContext());
+    }
+
+    @Override
+    public void setBitmap(Bitmap bitmap) {
+        paymentInfoView.setPhoto(bitmap);
+    }
+
+    @Override
+    public void addPhoto() {
+        paymentPresenter.onPhotoRequested();
+    }
+
+    @Override
+    public void deletePhoto() {
+        paymentPresenter.onPhotoDeleted();
+    }
+
+    @Override
+    public void showPhoto(String url) {
+        paymentPresenter.onPhotoClicked(url);
     }
 }

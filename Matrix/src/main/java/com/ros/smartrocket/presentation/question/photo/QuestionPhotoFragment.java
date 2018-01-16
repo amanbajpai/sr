@@ -2,7 +2,7 @@ package com.ros.smartrocket.presentation.question.photo;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
-import com.ros.smartrocket.presentation.question.photo.helper.PhotoQuestionHelper;
+import com.ros.smartrocket.utils.helpers.photo.PhotoManager;
 
 import butterknife.BindView;
 
@@ -13,7 +13,7 @@ public class QuestionPhotoFragment extends BaseQuestionFragment<PhotoMvpPresente
 
     @Override
     public PhotoMvpPresenter<PhotoMvpView> getPresenter() {
-        return new PhotoPresenter<>(question, new PhotoQuestionHelper(this));
+        return new PhotoPresenter<>(question, new PhotoManager(this));
     }
 
     @Override

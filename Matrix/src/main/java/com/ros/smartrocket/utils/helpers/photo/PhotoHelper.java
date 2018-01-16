@@ -1,4 +1,4 @@
-package com.ros.smartrocket.presentation.question.photo.helper;
+package com.ros.smartrocket.utils.helpers.photo;
 
 import android.content.Intent;
 

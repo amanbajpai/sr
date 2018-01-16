@@ -14,11 +14,10 @@ class LaunchPresenter<V extends LaunchMvpView> extends BaseNetworkPresenter<V> i
 
     @Override
     public void checkVersion() {
-        if (BuildConfig.CHINESE) {
+        if (BuildConfig.CHINESE)
             getAppVersion();
-        } else {
+        else
             getMvpView().launchApp();
-        }
     }
 
     private void getAppVersion() {
@@ -35,10 +34,9 @@ class LaunchPresenter<V extends LaunchMvpView> extends BaseNetworkPresenter<V> i
         PreferencesManager.getInstance().saveAppVersion(appVersion);
         Version currentVersion = new Version(BuildConfig.VERSION_NAME);
         Version newestVersion = new Version(appVersion.getLatestVersion());
-        if (currentVersion.compareTo(newestVersion) < 0) {
+        if (currentVersion.compareTo(newestVersion) < 0)
             getMvpView().showUpdateAppDialog(currentVersion, newestVersion, appVersion.getLatestVersionLink());
-        } else {
+        else
             getMvpView().launchApp();
-        }
     }
 }

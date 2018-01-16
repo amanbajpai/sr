@@ -1,6 +1,7 @@
 package com.ros.smartrocket.ui.views.payment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import com.ros.smartrocket.db.entity.payment.PaymentField;
 import com.ros.smartrocket.db.entity.payment.PaymentFieldType;
 import com.ros.smartrocket.db.entity.payment.PaymentInfo;
 import com.ros.smartrocket.db.entity.payment.PaymentsData;
+import com.ros.smartrocket.interfaces.PhotoActionsListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class PaymentInfoView extends LinearLayout {
     LinearLayout container;
     private List<PaymentInfoTextView> paymentInfoTextViews = new ArrayList<>();
     private PaymentInfoImageView paymentInfoImageView;
+    private PhotoActionsListener listener;
 
 
     public PaymentInfoView(Context context) {
@@ -57,8 +60,9 @@ public class PaymentInfoView extends LinearLayout {
                     container.addView(pitv);
                     break;
                 case PHOTO:
-//TODO                    paymentInfoImageView = getPaymentInfoImageView(f);
-//                    addView(paymentInfoImageView);
+                    paymentInfoImageView = getPaymentInfoImageView(f);
+                    paymentInfoImageView.setListener(listener);
+                    container.addView(paymentInfoImageView);
                     break;
             }
         }
@@ -66,7 +70,7 @@ public class PaymentInfoView extends LinearLayout {
     }
 
     private PaymentInfoImageView getPaymentInfoImageView(PaymentField f) {
-        return null;
+        return new PaymentInfoImageView(getContext(), f, listener);
     }
 
     private PaymentInfoTextView getPaymentInfoTextView(PaymentField f) {
@@ -83,5 +87,13 @@ public class PaymentInfoView extends LinearLayout {
         }
         pd.setPaymentTextInfos(paymentInfoList);
         return pd;
+    }
+
+    public void setPhotoActionsListener(PhotoActionsListener listener) {
+        this.listener = listener;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        if (paymentInfoImageView != null) paymentInfoImageView.setPhoto(photo);
     }
 }

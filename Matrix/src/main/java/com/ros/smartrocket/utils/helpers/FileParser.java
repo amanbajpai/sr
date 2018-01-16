@@ -39,6 +39,20 @@ public class FileParser {
         }
     }
 
+    public List<File> getFileChunks(File sourceFile, NotUploadedFile notUploadedFile) {
+        try {
+            if (!sourceFile.exists() || sourceFile.length() == 0)
+                writeNoImageToSourceFile(sourceFile);
+            mainFileLength = sourceFile.length();
+            files = separateFile(notUploadedFile);
+            Log.e("UPLOAD", "Files - " + files.size());
+            return files;
+        } catch (IOException e) {
+            cleanFiles();
+            return null;
+        }
+    }
+
     public TaskFileToUpload getFileToUploadMultipart(File file, NotUploadedFile notUploadedFile) {
         Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
         TaskFileToUpload uploadFileEntity = new TaskFileToUpload();

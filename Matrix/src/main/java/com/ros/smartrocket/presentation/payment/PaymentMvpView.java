@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.payment;
 
+import android.graphics.Bitmap;
+
 import com.ros.smartrocket.db.entity.payment.PaymentField;
 import com.ros.smartrocket.presentation.base.NetworkMvpView;
 
@@ -13,4 +15,8 @@ public interface PaymentMvpView extends NetworkMvpView {
     void onPaymentsSavedError();
 
     void onPaymentFieldsEmpty();
+
+    void showPhotoCanNotBeAddDialog();
+
+    void setBitmap(Bitmap bitmap);
 }

@@ -72,16 +72,6 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     @Override
     public void configureView(Question question) {
         showLoading(false);
-//        if (savedInstanceState != null) {
-//            mCurrentPhotoFile = (File) savedInstanceState.getSerializable(STATE_PHOTO);
-//            currentSelectedPhoto = savedInstanceState.getInt(STATE_SELECTED_FRAME, 0);
-//            lastPhotoFile = (File) savedInstanceState.getSerializable(EXTRA_LAST_PHOTO_FILE);
-//            isLastFileFromGallery = savedInstanceState.getBoolean(EXTRA_IS_PHOTO_FROM_GALLERY);
-//            isImageRequested = savedInstanceState.getBoolean(IS_IMAGE_REQUESTED);
-//            if (lastPhotoFile != null && lastPhotoFile.exists()) {
-//                photoImageView.setImageURI(Uri.fromFile(lastPhotoFile));
-//            }
-//        }
     }
 
     @Override

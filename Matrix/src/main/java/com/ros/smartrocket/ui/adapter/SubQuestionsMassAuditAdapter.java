@@ -25,7 +25,7 @@ import com.ros.smartrocket.presentation.question.number.NumberPresenter;
 import com.ros.smartrocket.presentation.question.number.NumberView;
 import com.ros.smartrocket.presentation.question.photo.PhotoPresenter;
 import com.ros.smartrocket.presentation.question.photo.PhotoView;
-import com.ros.smartrocket.presentation.question.photo.helper.PhotoQuestionHelper;
+import com.ros.smartrocket.utils.helpers.photo.PhotoManager;
 import com.ros.smartrocket.presentation.question.video.VideoPresenter;
 import com.ros.smartrocket.presentation.question.video.VideoQuestionView;
 import com.ros.smartrocket.presentation.question.video.helper.VideoQuestionHelper;
@@ -81,7 +81,7 @@ public class SubQuestionsMassAuditAdapter {
                 break;
             case PHOTO:
                 mvpView = new PhotoView(fragment.getContext());
-                presenter = new PhotoPresenter(items[position], new PhotoQuestionHelper(fragment));
+                presenter = new PhotoPresenter(items[position], new PhotoManager(fragment));
                 break;
             case AUDIO:
                 mvpView = new AudioView(fragment.getContext());

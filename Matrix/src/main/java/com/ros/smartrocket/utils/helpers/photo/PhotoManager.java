@@ -1,4 +1,4 @@
-package com.ros.smartrocket.presentation.question.photo.helper;
+package com.ros.smartrocket.utils.helpers.photo;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -9,11 +9,11 @@ import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
 
-public class PhotoQuestionHelper implements PhotoHelper {
+public class PhotoManager implements PhotoHelper {
     private Fragment fragment;
     private SelectImageManager selectImageManager;
 
-    public PhotoQuestionHelper(Fragment fragment) {
+    public PhotoManager(Fragment fragment) {
         this.fragment = fragment;
         selectImageManager = new SelectImageManager();
     }
