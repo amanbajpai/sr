@@ -167,7 +167,7 @@ android {
 
     productFlavors {
         predev {
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://predev.api.matrix.osiris.pp.ciklum.com/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"https://predev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://predev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
@@ -175,14 +175,14 @@ android {
         }
 
         chinaPredev {
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://predev.api.matrix.osiris.pp.ciklum.com/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"https://predev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
             buildConfigField "boolean", "CHINESE", "true"
             dimension "mode"
         }
         dev {
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"https://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://dev.agents.matrix.osiris.pp.ciklum.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
@@ -203,7 +203,7 @@ android {
             dimension "mode"
         }
         chinaDev {
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://dev.api.matrix.osiris.pp.ciklum.com/\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"https://dev.api.matrix.osiris.pp.ciklum.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smartrocket.cn\""
             buildConfigField "String", "GEOCODER_URL", "\"http://api.map.baidu.com/geocoder/v2\""
             buildConfigField "boolean", "CHINESE", "true"

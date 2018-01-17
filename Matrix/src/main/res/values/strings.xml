@@ -564,6 +564,6 @@
     <string name="email">Email:</string>
     <string name="join_date">Joining Date:</string>
     <string name="payment_details_fields">Payment Details Fields</string>
-    <string name="payment_details_info">The below fields are mandatory requirements to make payments to you and to fulfill local tax law. You can only cash out your balance once these fields are filled. Failure to complete the fields accurately and honestly will result in your account termination.</string>
+    <string name="payment_details_info" translatable="false">The below fields are mandatory requirements to make payments to you and to fulfill local tax law. You can only cash out your balance once these fields are filled. Failure to complete the fields accurately and honestly will result in your account termination.</string>
 
 </resources>
