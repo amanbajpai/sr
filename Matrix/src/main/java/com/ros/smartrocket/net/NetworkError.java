@@ -37,7 +37,7 @@ public class NetworkError implements BaseNetworkError {
 
 
     private Integer errorCode = -1;
-    private int errorMessageRes;
+    private int errorMessageRes = R.string.error;
     private ErrorResponse errorResponse;
 
     public NetworkError(Throwable t) {

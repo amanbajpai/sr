@@ -123,7 +123,7 @@ public interface MatrixApi {
                                        @Query("language") String language);
 
     @GET("api/Tasks/Re-Do-Questions")
-    Observable<Questions> getReDoQuestions(@Query("waveId") Integer waveId,
+    Observable<Questions> getReDoQuestions(@Query("missionId") Integer waveId,
                                            @Query("taskId") Integer taskId,
                                            @Query("language") String language);
 

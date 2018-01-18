@@ -25,7 +25,7 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
         showLoading(false);
         this.task = task;
         addDisposable(App.getInstance().getApi()
-                .getReDoQuestions(task.getWaveId(), task.getId(), getLanguageCode())
+                .getReDoQuestions(task.getMissionId(), task.getId(), getLanguageCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeReDoQuestions)
