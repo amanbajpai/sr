@@ -311,7 +311,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     }
 
     @Override
-    public void showPhoto(String url) {
+    public void onPhotoClicked(String url) {
         paymentPresenter.onPhotoClicked(url);
     }
 }

@@ -41,9 +41,4 @@ public class TaskFileToUpload extends FileToUpload {
         this.questionId = questionId;
     }
 
-    public String getJson() {
-        return new Gson().toJson(this);
-    }
-
-
 }

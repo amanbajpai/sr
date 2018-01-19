@@ -15,6 +15,10 @@ public class PaymentInfo implements Serializable {
         this.value = value;
     }
 
+    public PaymentInfo(PaymentField paymentField) {
+        this(paymentField.getId(), paymentField.getValue());
+    }
+
     public int getPaymentFieldId() {
         return paymentFieldId;
     }

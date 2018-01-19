@@ -1,5 +1,6 @@
 package com.ros.smartrocket.db.entity.file;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.ros.smartrocket.db.entity.BaseEntity;
 
@@ -63,4 +64,7 @@ public class FileToUpload extends BaseEntity {
         this.chunkSize = chunkSize;
     }
 
+    public String getJson() {
+        return new Gson().toJson(this);
+    }
 }

@@ -86,6 +86,7 @@ public class PaymentInfoView extends LinearLayout {
                 paymentInfoList.add(pi);
         }
         pd.setPaymentTextInfos(paymentInfoList);
+        pd.setPaymentImage(paymentInfoImageView.getPaymentInfo());
         return pd;
     }
 

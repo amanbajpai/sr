@@ -162,7 +162,8 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
         } else if (question.getPhotoSource() == 1) {
             photoQuestionHelper.startGallery(question.getOrderId());
         } else {
-            photoQuestionHelper.showSelectImageDialog(question.getTaskId().toString());
+            mCurrentPhotoFile = photoQuestionHelper.getTempFile(question.getTaskId().toString());
+            photoQuestionHelper.showSelectImageDialog(false,mCurrentPhotoFile);
         }
         isImageRequested = true;
     }

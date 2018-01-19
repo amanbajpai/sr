@@ -5,9 +5,15 @@ import com.ros.smartrocket.db.entity.BaseEntity;
 
 public class FileToUploadResponse extends BaseEntity {
     @SerializedName("FileCode")
-    String fileCode;
+    private String fileCode;
+    @SerializedName("FileUrl")
+    private String fileUrl;
 
     public String getFileCode() {
         return fileCode;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
     }
 }

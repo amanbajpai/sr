@@ -17,7 +17,8 @@ public class BaseNotUploadedFile extends BaseEntity {
     private String fileCode;
     @SerializedName("FileName")
     private String fileName;
-
+    private Long fileSizeB;
+    private String fileId;
 
     public Long getEndDateTime() {
         return endDateTime;
@@ -65,6 +66,22 @@ public class BaseNotUploadedFile extends BaseEntity {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public Long getFileSizeB() {
+        return fileSizeB;
+    }
+
+    public void setFileSizeB(Long fileSizeB) {
+        this.fileSizeB = fileSizeB;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public enum NotificationStepId {

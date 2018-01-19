@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.media;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -11,11 +12,13 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.ui.views.ImageEditorView;
 import com.ros.smartrocket.utils.UIUtils;
-import com.ros.smartrocket.utils.image.SelectImageManager;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 
 public class FullScreenImageActivity extends BaseActivity {
+    private Target bitmapTarget;
     private Bitmap bitmap;
 
     @Override
@@ -23,20 +26,55 @@ public class FullScreenImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setHomeAsUp();
         setContentView(R.layout.activity_full_screen_image);
-
-        Display display = getWindowManager().getDefaultDisplay();
         String photoUri = getIntent().getStringExtra(Keys.BITMAP_FILE_PATH);
-        if (!TextUtils.isEmpty(photoUri)) {
-            bitmap = SelectImageManager.prepareBitmap(new File(photoUri), SelectImageManager.SIZE_IN_PX_2_MP, 0);
+        createBitmapTarget();
+        if (!TextUtils.isEmpty(photoUri))
+            loadImage(photoUri);
+        else
+            showError();
+    }
+
+    private void loadImage(String photoUri) {
+        if (photoUri.startsWith("http")) {
+            Picasso.with(this).load(photoUri).into(bitmapTarget);
+        } else {
+            Picasso.with(this).load(new File(photoUri)).into(bitmapTarget);
         }
+    }
+
+    private void showImage() {
+        Display display = getWindowManager().getDefaultDisplay();
         if (bitmap != null) {
-            ImageEditorView photo = (ImageEditorView) findViewById(R.id.photo);
+            ImageEditorView photo = findViewById(R.id.photo);
             photo.setViewSize(display.getWidth(), display.getHeight() - UIUtils.getPxFromDp(this, 70));
             photo.setCanRotate(false);
             photo.setBitmap(bitmap);
         } else {
-            UIUtils.showSimpleToast(this, R.string.error);
+            showError();
         }
+    }
+
+    private void createBitmapTarget() {
+        bitmapTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap result, Picasso.LoadedFrom from) {
+                bitmap = result;
+                showImage();
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                showError();
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
+        };
+    }
+
+    private void showError() {
+        UIUtils.showSimpleToast(FullScreenImageActivity.this, R.string.error);
     }
 
     @Override
@@ -52,9 +90,6 @@ public class FullScreenImageActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if (bitmap != null) {
-            bitmap.recycle();
-        }
         super.onDestroy();
     }
 }

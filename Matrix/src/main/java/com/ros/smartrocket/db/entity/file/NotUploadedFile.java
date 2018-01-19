@@ -23,7 +23,6 @@ public class NotUploadedFile extends BaseNotUploadedFile {
     private Double latitudeToValidation;
 
     private Boolean use3G;
-    private Long fileSizeB;
     private Integer showNotificationStepId;
     private Boolean taskValidated;
 
@@ -93,15 +92,6 @@ public class NotUploadedFile extends BaseNotUploadedFile {
         this.use3G = use3G;
     }
 
-    public Long getFileSizeB() {
-        return fileSizeB;
-    }
-
-    public void setFileSizeB(Long fileSizeB) {
-        this.fileSizeB = fileSizeB;
-    }
-
-
     public Integer getShowNotificationStepId() {
         return showNotificationStepId;
     }
@@ -148,5 +138,10 @@ public class NotUploadedFile extends BaseNotUploadedFile {
 
     public void setWaveId(Integer waveId) {
         this.waveId = waveId;
+    }
+
+    @Override
+    public String getFileId() {
+        return taskId != null ? taskId.toString() : "0";
     }
 }

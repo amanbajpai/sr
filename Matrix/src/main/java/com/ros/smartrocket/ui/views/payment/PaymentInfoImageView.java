@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.payment.PaymentField;
+import com.ros.smartrocket.db.entity.payment.PaymentInfo;
 import com.ros.smartrocket.interfaces.PhotoActionsListener;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.squareup.picasso.Picasso;
@@ -26,6 +27,7 @@ public class PaymentInfoImageView extends LinearLayout {
     LinearLayout photoActionsLayout;
     @BindView(R.id.description)
     CustomTextView description;
+
     private PaymentField paymentField;
     private PhotoActionsListener listener;
 
@@ -61,11 +63,12 @@ public class PaymentInfoImageView extends LinearLayout {
 
     public void setImage() {
         if (!TextUtils.isEmpty(paymentField.getValue())) {
+            photo.setVisibility(VISIBLE);
             Picasso.with(getContext())
                     .load(paymentField.getValue())
+                    .placeholder(R.drawable.loading_normal)
                     .error(R.drawable.cam)
                     .into(photo);
-            photo.setVisibility(VISIBLE);
             photoActionsLayout.setVisibility(VISIBLE);
         } else {
             photoActionsLayout.setVisibility(GONE);
@@ -73,14 +76,12 @@ public class PaymentInfoImageView extends LinearLayout {
         }
     }
 
-    @OnClick({R.id.icon, R.id.photo, R.id.rePhotoButton, R.id.deletePhotoButton})
+    @OnClick({R.id.photo, R.id.rePhotoButton, R.id.deletePhotoButton})
     public void onViewClicked(View view) {
         if (listener != null)
             switch (view.getId()) {
-                case R.id.icon:
-                    break;
                 case R.id.photo:
-                    listener.addPhoto();
+                    listener.onPhotoClicked(paymentField.getValue());
                     break;
                 case R.id.rePhotoButton:
                     listener.addPhoto();
@@ -101,6 +102,10 @@ public class PaymentInfoImageView extends LinearLayout {
             photoActionsLayout.setVisibility(GONE);
             photo.setVisibility(GONE);
         }
+    }
+
+    public PaymentInfo getPaymentInfo() {
+        return new PaymentInfo(paymentField);
     }
 
     public void setListener(PhotoActionsListener listener) {

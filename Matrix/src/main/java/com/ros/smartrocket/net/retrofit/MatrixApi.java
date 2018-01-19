@@ -204,5 +204,5 @@ public interface MatrixApi {
 
     @Multipart
     @POST("api/PaymentFieldFile")
-    Single<String> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
+    Observable<FileToUploadResponse> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 }

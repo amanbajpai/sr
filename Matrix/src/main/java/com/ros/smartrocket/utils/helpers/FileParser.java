@@ -5,8 +5,11 @@ import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
+import com.ros.smartrocket.db.entity.file.BaseNotUploadedFile;
 import com.ros.smartrocket.db.entity.file.NotUploadedFile;
+import com.ros.smartrocket.db.entity.file.NotUploadedPaymentImage;
+import com.ros.smartrocket.db.entity.file.PaymentFileToUpload;
+import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
@@ -39,7 +42,7 @@ public class FileParser {
         }
     }
 
-    public List<File> getFileChunks(File sourceFile, NotUploadedFile notUploadedFile) {
+    public List<File> getFileChunks(File sourceFile, BaseNotUploadedFile notUploadedFile) {
         try {
             if (!sourceFile.exists() || sourceFile.length() == 0)
                 writeNoImageToSourceFile(sourceFile);
@@ -54,7 +57,6 @@ public class FileParser {
     }
 
     public TaskFileToUpload getFileToUploadMultipart(File file, NotUploadedFile notUploadedFile) {
-        Log.e("UPLOAD", "GetFileTU  Portion - < " + notUploadedFile.getPortion());
         TaskFileToUpload uploadFileEntity = new TaskFileToUpload();
         uploadFileEntity.setTaskId(notUploadedFile.getTaskId());
         uploadFileEntity.setMissionId(notUploadedFile.getMissionId());
@@ -68,7 +70,19 @@ public class FileParser {
         return uploadFileEntity;
     }
 
-    private List<File> separateFile(NotUploadedFile notUploadedFile) throws IOException {
+    public PaymentFileToUpload getPaymentFileToUploadMultipart(File file, NotUploadedPaymentImage notUploadedFile) {
+        PaymentFileToUpload uploadFileEntity = new PaymentFileToUpload();
+        uploadFileEntity.setPaymentFieldId(notUploadedFile.getPaymentFieldId());
+        uploadFileEntity.setFileOffset((long) MAX_BYTE_SIZE * notUploadedFile.getPortion());
+        uploadFileEntity.setFileCode(notUploadedFile.getFileCode());
+        uploadFileEntity.setFilename(notUploadedFile.getFileName());
+        uploadFileEntity.setFileLength(mainFileLength);
+        uploadFileEntity.setChunkSize(file.length());
+        uploadFileEntity.setLanguageCode(PreferencesManager.getInstance().getLanguageCode());
+        return uploadFileEntity;
+    }
+
+    private List<File> separateFile(BaseNotUploadedFile notUploadedFile) throws IOException {
         File sourceFile = new File(Uri.parse(notUploadedFile.getFileUri()).getPath());
         byte[] sourceByteArray = FileUtils.readFileToByteArray(sourceFile);
         int portionCount = (int) Math.ceil((double) sourceByteArray.length / MAX_BYTE_SIZE);
@@ -84,7 +98,7 @@ public class FileParser {
                 length = sourceByteArray.length - startPosition;
             byte[] tempByteArray = new byte[length];
             System.arraycopy(sourceByteArray, startPosition, tempByteArray, 0, length);
-            File tempFile = SelectImageManager.getTempFile(App.getInstance(), notUploadedFile.getTaskId().toString());
+            File tempFile = SelectImageManager.getTempFile(App.getInstance(), notUploadedFile.getFileId());
             FileOutputStream fos = new FileOutputStream(tempFile, false);
             fos.write(tempByteArray);
             fos.close();

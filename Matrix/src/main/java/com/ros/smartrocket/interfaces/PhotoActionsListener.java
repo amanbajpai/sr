@@ -5,5 +5,5 @@ public interface PhotoActionsListener {
 
     void deletePhoto();
 
-    void showPhoto(String url);
+    void onPhotoClicked(String url);
 }
