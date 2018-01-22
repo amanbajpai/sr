@@ -496,4 +496,13 @@
     <string name="recording">录音</string>
     <string name="recording_delete">删除录音?</string>
     <string name="recording_end">停止录音?</string>
+    <string name="dialog_payment_instruction">请按“我的账户”继续</string>
+    <string name="my_account">我的账户</string>
+    <string name="cash_out_instruction">你必须填写所有 “我的账户” 里的资料才可以提款。</string>
+    <string name="agent_id">队员ID：</string>
+    <string name="email">电邮：</string>
+    <string name="join_date">注册日期：</string>
+    <string name="payment_details_fields">款项资讯</string>
+    <string name="payment_details_info">因为法律规定的税务过程，所以你必须填写以下资料才可以提款。如果你没有如实填写以下资料的话，你的账户将会被删除。</string>
+    <string name="why_we_need_payment_details">为什么我们需要知道以下资料</string>
 </resources>

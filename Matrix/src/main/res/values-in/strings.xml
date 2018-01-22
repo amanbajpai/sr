@@ -393,5 +393,14 @@
 	<string name="your_version_outdated">Versi SmartRocket Anda telah kedaluwarsa. Perbarui untuk mengakses aplikasi</string>
 	<string name="zoom_to_this_radius">Atur radius zoom default</string>
 	<string name="account_confirmed_dialog_text1">Akun SmartRocket Anda kini telah diaktifkan! Pertama, Anda harus menyelesaikan serangkaian misi pelatihan singkat untuk membantu menavigasi Aplikasi dan memenuhi syarat sebagai anggota kru. Setelah itu, Anda dapat mulai mengklaim misi untuk memperoleh uang tunai dan Poin Rocket. Anda dapat setiap saat memperoleh bantuan, akses Tanya Jawab dan pelatihan melalui tombol \"Dukungan\" dalam Menu Aplikasi SmartRocket. Selamat bergabung!</string>
+    <string name="dialog_payment_instruction">Tekan tombol \"Akun Saya\" untuk melanjutkan</string>
+	<string name="my_account">Akun Saya</string>
+	<string name="cash_out_instruction">Anda hanya bisa mencairkan sekali setelah menyelesaikan semua bidang di \"Akun Saya\"</string>
+	<string name="agent_id">"ID Agen: "</string>
+	<string name="email">E-mail:</string>
+	<string name="join_date">Tanggal Registrasi:</string>
+	<string name="payment_details_fields">Rincian Pembayaran:</string>
+	<string name="payment_details_info">"Untuk memenuhi hukum pajak setempat, bidang di bawah ini adalah persyaratan wajib untuk melakukan pembayaran kepada Anda. Anda hanya bisa mencairkan saldo Anda begitu bidang ini terisi. Kegagalan untuk melengkapi bidang dengan akurat dan jujur "</string>
+	<string name="why_we_need_payment_details">Mengapa kami membutuhkan rincian pembayaran</string>
 
 </resources>

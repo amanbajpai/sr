@@ -390,4 +390,13 @@
 	<string name="your_version_outdated">您的SmartRocket版本已過時。請更新以存取應用程式</string>
 	<string name="zoom_to_this_radius">設定預設縮放半徑</string>
 	<string name="account_confirmed_dialog_text1">您的 SmartRocket 帳戶已啟用！首先，您必須完成一連串簡短的訓練任務，以瞭解如何使用此應用程式，並取得成員資格。之後，可立即認領任務，賺取現金及飛行里數。您隨時可以透過 SmartRocket 應用程式選單中的「支援」按鈕取得協助、瀏覽常見問題及訓練。歡迎加入！</string>
+    <string name="dialog_payment_instruction">請按“我的賬戶”繼續</string>
+	<string name="my_account">我的賬戶</string>
+	<string name="cash_out_instruction">你必須填寫所有 “我的賬戶” 裡的資料才可以提款。</string>
+	<string name="agent_id">隊員ID：</string>
+	<string name="email">電郵：</string>
+	<string name="join_date">註冊日期：</string>
+	<string name="payment_details_fields">款項資訊</string>
+	<string name="payment_details_info">因為法律規定的稅務過程，所以你必須填寫以下資料才可以提款。如果你沒有如實填寫以下資料的話，你的賬戶將會被刪除。</string>
+	<string name="why_we_need_payment_details">為什麼我們需要知道以下資料</string>
 </resources>

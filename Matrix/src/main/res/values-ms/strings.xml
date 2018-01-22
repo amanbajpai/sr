@@ -389,5 +389,14 @@
 	<string name="your_version_outdated">Versi SmartRocket anda sudah Lapuk. Sila kemas kininya untuk mengakses aplikasi</string>
 	<string name="zoom_to_this_radius">Tetapkan jejari zum lalai</string>
 	<string name="account_confirmed_dialog_text1">Akaun SmartRocket anda kini telah diaktifkan! Pertama, anda perlu melengkapkan siri pendek misi latihan untuk membantu anda menavigasi Aplikasi dan melayakkan anda sebagai ahli kru. Selepas itu, anda boleh mula menuntut misi untuk wang tunai sebenar dan Mata Rocket. Pada bila-bila masa, anda boleh mendapatkan bantuan, mengakses Soalan Lazim dan berlatih menerusi butang “Sokongan” dalam Menu Aplikasi SmartRocket. Selamat datang!</string>
+    <string name="dialog_payment_instruction">Sila tekan \"Akaun Saya\" untuk meneruskan</string>
+	<string name="my_account">Akaun Saya</string>
+	<string name="cash_out_instruction">Anda mesti mengisi semua maklumat dalam \"Akaun Saya\" untuk mengeluarkan wang.</string>
+	<string name="agent_id">"ID Ejen: "</string>
+	<string name="email">E-mel:</string>
+	<string name="join_date">Tarikh Pendaftaran:</string>
+	<string name="payment_details_fields">Butiran Pembayaran:</string>
+	<string name="payment_details_info">cukai tempatan, anda mesti mengisikan bidang bawah. Anda hanya boleh mengeluarkan baki anda sebaik sahaja bidang ini diisikan. Akaun anda akan ditamatkan kalau anda gagal mengisikan bidang bawah dengan tepat and jujur.</string>
+	<string name="why_we_need_payment_details">Kenapa kita memerlukan butiran pembayaran bawah</string>
 
 </resources>

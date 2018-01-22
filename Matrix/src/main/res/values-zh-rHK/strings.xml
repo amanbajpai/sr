@@ -492,4 +492,13 @@
     <string name="continue_with_fb">用Facebook登入</string>
     <string name="continue_with_google">用Google登入</string>
     <string name="close_account_text">警告：按下“刪除帳戶”將永久刪除此SmartRocket帳戶。 您在SmartRocket剩餘的現金餘額將被沒收。 無法撤消此操作</string>
+    <string name="dialog_payment_instruction">請按“我的賬戶”繼續</string>
+    <string name="my_account">我的賬戶</string>
+    <string name="cash_out_instruction">你必須填寫所有 “我的賬戶” 裡的資料才可以提款。</string>
+    <string name="agent_id">隊員ID：</string>
+    <string name="email">電郵：</string>
+    <string name="join_date">註冊日期：</string>
+    <string name="payment_details_fields">款項資訊</string>
+    <string name="payment_details_info">因為法律規定的稅務過程，所以你必須填寫以下資料才可以提款。如果你沒有如實填寫以下資料的話，你的賬戶將會被刪除。</string>
+    <string name="why_we_need_payment_details">為什麼我們需要知道以下資料</string>
 </resources>

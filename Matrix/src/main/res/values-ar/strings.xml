@@ -393,4 +393,13 @@
 	<string name="recording_end">نهايةالتسجيل الصوتي</string>
 	<string name="continue_with_fb">متابعة مع الفيسبوك</string>
 	<string name="continue_with_google">متابعة مع غوغل</string>
+    <string name="dialog_payment_instruction">اضغط على زر حسابي للمتابعة</string>
+	<string name="my_account">" حسابي"</string>
+	<string name="cash_out_instruction">"يمكنك نقد أموالك بمجرد الانتهاء من ملء  جميع الحقول في حسابي "</string>
+	<string name="agent_id">رقم تعريف الوكيل :</string>
+	<string name="email">البريد الإلكتروني:</string>
+	<string name="join_date">تاريخ الانضمام:</string>
+	<string name="payment_details_fields">حقول تفاصيل الدفع</string>
+	<string name="payment_details_info">الحقول التالية هي متطلبات إلزامية لتسديد الدفعات لك وفقا لقانون الضرائب المحلي. يمكنك  صرف رصيدك بمجرد ملء هذه الحقول. يؤدي الإخفاق في ملء الحقول بدقة وأمانة إلى إلغلاق حسابك.</string>
+	<string name="why_we_need_payment_details">لماذا نحتاج إلى تفاصيل الدفع</string>
 </resources>

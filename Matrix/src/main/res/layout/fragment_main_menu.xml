@@ -364,7 +364,7 @@
             style="@style/MainMenuButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/menu_settings"
+            android:drawableStart="@drawable/ic_menu_account"
             android:text="@string/my_account"
             custom:textStyle="bold" />
 
