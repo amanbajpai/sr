@@ -13,8 +13,6 @@ public interface PaymentMvpPresenter<V extends PaymentMvpView> extends MvpPresen
 
     void onPhotoEvent(PhotoEvent event);
 
-    void onPhotoDeleted();
-
     void onPhotoClicked(String path);
 
     void onPhotoRequested();

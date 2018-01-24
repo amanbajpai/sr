@@ -182,13 +182,6 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     }
 
     @Override
-    public void onPhotoDeleted() {
-        lastPhotoFile = null;
-        currentPhotoFile = null;
-        getMvpView().setBitmap(null);
-    }
-
-    @Override
     public void onPhotoClicked(String url) {
         if (lastPhotoFile != null) {
             photoHelper.showFullScreenImage(lastPhotoFile.getPath());

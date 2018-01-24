@@ -306,11 +306,6 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     }
 
     @Override
-    public void deletePhoto() {
-        paymentPresenter.onPhotoDeleted();
-    }
-
-    @Override
     public void onPhotoClicked(String url) {
         paymentPresenter.onPhotoClicked(url);
     }

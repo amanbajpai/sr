@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
@@ -23,10 +24,10 @@ public class PaymentInfoImageView extends LinearLayout {
     AppCompatImageView icon;
     @BindView(R.id.photo)
     AppCompatImageView photo;
-    @BindView(R.id.photoActionsLayout)
-    LinearLayout photoActionsLayout;
     @BindView(R.id.description)
     CustomTextView description;
+    @BindView(R.id.rePhotoButton)
+    ImageButton rePhotoButton;
 
     private PaymentField paymentField;
     private PhotoActionsListener listener;
@@ -69,14 +70,14 @@ public class PaymentInfoImageView extends LinearLayout {
                     .placeholder(R.drawable.loading_normal)
                     .error(R.drawable.cam)
                     .into(photo);
-            photoActionsLayout.setVisibility(VISIBLE);
+            rePhotoButton.setVisibility(VISIBLE);
         } else {
-            photoActionsLayout.setVisibility(GONE);
+            rePhotoButton.setVisibility(GONE);
             photo.setImageResource(R.drawable.camera_icon);
         }
     }
 
-    @OnClick({R.id.photo, R.id.rePhotoButton, R.id.deletePhotoButton})
+    @OnClick({R.id.photo, R.id.rePhotoButton})
     public void onViewClicked(View view) {
         if (listener != null)
             switch (view.getId()) {
@@ -86,9 +87,6 @@ public class PaymentInfoImageView extends LinearLayout {
                 case R.id.rePhotoButton:
                     listener.addPhoto();
                     break;
-                case R.id.deletePhotoButton:
-                    listener.deletePhoto();
-                    break;
             }
     }
 
@@ -97,9 +95,9 @@ public class PaymentInfoImageView extends LinearLayout {
         if (image != null) {
             photo.setImageBitmap(image);
             photo.setVisibility(VISIBLE);
-            photoActionsLayout.setVisibility(VISIBLE);
+            rePhotoButton.setVisibility(VISIBLE);
         } else {
-            photoActionsLayout.setVisibility(GONE);
+            rePhotoButton.setVisibility(GONE);
             photo.setVisibility(GONE);
         }
     }
