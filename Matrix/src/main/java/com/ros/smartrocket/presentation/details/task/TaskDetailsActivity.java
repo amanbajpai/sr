@@ -195,6 +195,9 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
             case NetworkError.MAXIMUM_CLAIMS_ERROR_CODE:
                 UIUtils.showToastCustomDuration(getString(networkError.getErrorMessageRes()), 8000);
                 break;
+            case NetworkError.EXCEEDED_MAX_CASH_ERROR:
+                DialogUtils.showMaximumCashDialog(this);
+                break;
             default:
                 UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
                 break;

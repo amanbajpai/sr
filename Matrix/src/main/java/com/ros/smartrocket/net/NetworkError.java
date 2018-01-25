@@ -34,6 +34,7 @@ public class NetworkError implements BaseNetworkError {
     public static final int EMAIL_SENT_ERROR = 10145;
     private static final int GLOBAL_BLOCK_ERROR = 10146;
     public static final int EXTERNAL_AUTH_NEED_MORE_DATA_ERROR = 10144;
+    public static final int EXCEEDED_MAX_CASH_ERROR = 10148;
 
 
     private Integer errorCode = -1;

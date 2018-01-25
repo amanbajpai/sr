@@ -347,11 +347,26 @@ public class DialogUtils {
         return dialog;
     }
 
-    /**
-     * Show account not activated Dialog message
-     *
-     * @param activity - current activity
-     */
+    public static Dialog showMaximumCashDialog(Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.green, R.drawable.info_icon,
+                context.getText(R.string.cashing_out_title),
+                context.getString(R.string.max_cash_details),
+                0, R.string.close);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
+
     public static Dialog showMaximumMissionDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.color.green, R.drawable.info_icon,
                 activity.getText(R.string.maximum_mission_dialog_title),
@@ -372,11 +387,7 @@ public class DialogUtils {
         return dialog;
     }
 
-    /**
-     * Age verification Dialog message
-     *
-     * @param context - current context
-     */
+
     public static Dialog showAgeVerificationDialog(final Context context) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(context, 0, R.drawable.plus_18,
                 context.getText(R.string.age_verification_dialog_title),
