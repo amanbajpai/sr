@@ -15,10 +15,10 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.entity.location.CheckLocationResponse;
 import com.ros.smartrocket.db.entity.account.ExternalAuthResponse;
 import com.ros.smartrocket.db.entity.account.ExternalAuthorize;
 import com.ros.smartrocket.db.entity.account.register.RegistrationPermissions;
+import com.ros.smartrocket.db.entity.location.CheckLocationResponse;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SocialLoginListener;
 import com.ros.smartrocket.net.NetworkError;
@@ -171,9 +171,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
     }
 
     public void onLocationChecked(CheckLocationResponse serverResponse, double latitude, double longitude) {
-        if (checkLocationDialog != null) {
-            checkLocationDialog.checkLocationSuccess();
-        }
+        if (checkLocationDialog != null) checkLocationDialog.checkLocationSuccess();
         if (serverResponse != null) {
             checkLocationResponse = serverResponse;
             preferencesManager.setInt(Keys.COUNTRY_ID, checkLocationResponse.getCountryId());

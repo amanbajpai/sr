@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -53,6 +54,8 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
     CustomButton whatsappButton;
     @BindView(R.id.qzoneButton)
     CustomButton qzoneButton;
+    @BindView(R.id.shareLayout)
+    LinearLayout shareLayout;
 
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private GoogleUrlShortenManager googleUrlShortenManager = new GoogleUrlShortenManager();
@@ -91,17 +94,21 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
         text = getString(R.string.share_text);
     }
 
-    public void showButtons(int bitMask) {
-        showButtonIfNeed(emailButton, bitMask, SocialNetworks.Email.getId());
-        showButtonIfNeed(messageButton, bitMask, SocialNetworks.Message.getId());
-        showButtonIfNeed(twitterButton, bitMask, SocialNetworks.Twitter.getId());
-        showButtonIfNeed(facebookButton, bitMask, SocialNetworks.Facebook.getId());
-        showButtonIfNeed(linkedinButton, bitMask, SocialNetworks.LinkedIn.getId());
-        showButtonIfNeed(whatsappButton, bitMask, SocialNetworks.WhatsApp.getId());
-        showButtonIfNeed(wechatButton, bitMask, SocialNetworks.WeChat.getId());
-        showButtonIfNeed(tencentWeiboButton, bitMask, SocialNetworks.TencentWeibo.getId());
-        showButtonIfNeed(sinaWeiboButton, bitMask, SocialNetworks.SinaWeibo.getId());
-        showButtonIfNeed(qzoneButton, bitMask, SocialNetworks.Qzone.getId());
+    public void showButtons(Integer bitMask) {
+        if (bitMask != null) {
+            showButtonIfNeed(emailButton, bitMask, SocialNetworks.Email.getId());
+            showButtonIfNeed(messageButton, bitMask, SocialNetworks.Message.getId());
+            showButtonIfNeed(twitterButton, bitMask, SocialNetworks.Twitter.getId());
+            showButtonIfNeed(facebookButton, bitMask, SocialNetworks.Facebook.getId());
+            showButtonIfNeed(linkedinButton, bitMask, SocialNetworks.LinkedIn.getId());
+            showButtonIfNeed(whatsappButton, bitMask, SocialNetworks.WhatsApp.getId());
+            showButtonIfNeed(wechatButton, bitMask, SocialNetworks.WeChat.getId());
+            showButtonIfNeed(tencentWeiboButton, bitMask, SocialNetworks.TencentWeibo.getId());
+            showButtonIfNeed(sinaWeiboButton, bitMask, SocialNetworks.SinaWeibo.getId());
+            showButtonIfNeed(qzoneButton, bitMask, SocialNetworks.Qzone.getId());
+        } else {
+            shareLayout.setVisibility(View.GONE);
+        }
     }
 
     public void showButtonIfNeed(Button button, int bitMask, int socialId) {
