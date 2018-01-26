@@ -348,7 +348,7 @@ public class DialogUtils {
     }
 
     public static Dialog showMaximumCashDialog(Context context) {
-        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.green, R.drawable.info_icon,
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
                 context.getText(R.string.cashing_out_title),
                 context.getString(R.string.max_cash_details),
                 0, R.string.close);
