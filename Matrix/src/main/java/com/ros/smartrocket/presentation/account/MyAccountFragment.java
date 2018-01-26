@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ros.smartrocket.App;
@@ -66,6 +67,8 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     PaymentInfoView paymentInfoView;
     @BindView(R.id.txt_why_this)
     CustomTextView txtWhyThis;
+    @BindView(R.id.paymentLayout)
+    LinearLayout paymentLayout;
 
     private File mCurrentPhotoFile;
     private AvatarImageManager avatarImageManager;
@@ -272,6 +275,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
 
     @Override
     public void onPaymentFieldsLoaded(List<PaymentField> fields) {
+        paymentLayout.setVisibility(View.VISIBLE);
         paymentInfoView.fillPaymentInfoViews(fields);
     }
 
@@ -281,12 +285,12 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     }
 
     @Override
-    public void onPaymentsSavedError() {
-        UIUtils.showSimpleToast(getContext(), R.string.error);
+    public void onPaymentFieldsEmpty() {
+        paymentLayout.setVisibility(View.GONE);
     }
 
     @Override
-    public void onPaymentFieldsEmpty() {
+    public void onPaymentFieldsNotFilled() {
         UIUtils.showSimpleToast(getContext(), R.string.fill_in_all_fields);
     }
 

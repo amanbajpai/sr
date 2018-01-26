@@ -62,7 +62,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
         else if (!paymentsData.getPaymentTextInfos().isEmpty())
             saveAllPaymentsInfo(paymentsData.getPaymentTextInfos());
         else
-            getMvpView().onPaymentFieldsEmpty();
+            getMvpView().onPaymentFieldsNotFilled();
     }
 
     private void savePaymentImage() {
@@ -99,7 +99,10 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     private void onPaymentFieldsLoaded(List<PaymentField> pf) {
         if (isViewAttached()) {
             hideLoading();
-            getMvpView().onPaymentFieldsLoaded(pf);
+            if (pf != null && !pf.isEmpty())
+                getMvpView().onPaymentFieldsLoaded(pf);
+            else
+                getMvpView().onPaymentFieldsEmpty();
         }
     }
 

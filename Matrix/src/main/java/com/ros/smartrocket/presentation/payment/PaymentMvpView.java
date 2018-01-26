@@ -12,9 +12,9 @@ public interface PaymentMvpView extends NetworkMvpView {
 
     void onPaymentsSaved();
 
-    void onPaymentsSavedError();
-
     void onPaymentFieldsEmpty();
+
+    void onPaymentFieldsNotFilled();
 
     void showPhotoCanNotBeAddDialog();
 

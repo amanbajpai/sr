@@ -151,43 +151,51 @@
             android:layout_height="1dp"
             android:layout_margin="7dp" />
 
-        <com.ros.smartrocket.ui.views.CustomTextView
+        <LinearLayout
+            android:id="@+id/paymentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/payment_details_fields"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16sp"
-            custom:textStyle="bold" />
+            android:visibility="gone"
+            android:orientation="vertical">
 
-        <com.ros.smartrocket.ui.views.CustomTextView
-            android:id="@+id/txt_why_this"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/why_need_this"
-            android:layout_marginEnd="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_14sp"
-            custom:textStyle="bold" />
+            <com.ros.smartrocket.ui.views.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/payment_details_fields"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16sp"
+                custom:textStyle="bold" />
 
-        <com.ros.smartrocket.ui.views.payment.PaymentInfoView
-            android:id="@+id/paymentInfoView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/txt_why_this"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/why_need_this"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/text_size_14sp"
+                custom:textStyle="bold" />
 
-        <com.ros.smartrocket.ui.views.CustomButton
-            android:id="@+id/submit"
-            style="@style/WaveDetailButton"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_green_selector"
-            android:text="@string/submit"
-            custom:textStyle="bold" />
+            <com.ros.smartrocket.ui.views.payment.PaymentInfoView
+                android:id="@+id/paymentInfoView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.ros.smartrocket.ui.views.CustomButton
+                android:id="@+id/submit"
+                style="@style/WaveDetailButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_green_selector"
+                android:text="@string/submit"
+                custom:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
