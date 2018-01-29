@@ -367,6 +367,26 @@ public class DialogUtils {
         return dialog;
     }
 
+    public static Dialog showFillPaymentInfoDialog(Context context) {
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context, R.color.red, R.drawable.info_icon,
+                context.getText(R.string.dialog_payment_title),
+                context.getString(R.string.dialog_payment_description),
+                R.string.cancel, R.string.my_account);
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                context.startActivity(IntentUtils.getMyAccountIntent(context));
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
+
     public static Dialog showMaximumMissionDialog(final Activity activity) {
         DefaultInfoDialog dialog = new DefaultInfoDialog(activity, R.color.green, R.drawable.info_icon,
                 activity.getText(R.string.maximum_mission_dialog_title),

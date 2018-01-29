@@ -39,6 +39,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     private File lastPhotoFile;
     private File currentPhotoFile;
     private PhotoHelper photoHelper;
+    private List<PaymentField> paymentFields;
 
     public PaymentPresenter(PhotoHelper photoHelper) {
         this.photoHelper = photoHelper;
@@ -57,13 +58,24 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     @Override
     public void savePaymentsInfo(PaymentsData paymentsData) {
         this.paymentsData = paymentsData;
-        if (lastPhotoFile != null)
-            savePaymentImage();
-        else if (!paymentsData.getPaymentTextInfos().isEmpty())
-            saveAllPaymentsInfo(paymentsData.getPaymentTextInfos());
-        else
+        if (isAllFieldsFilled()) {
+            if (lastPhotoFile != null)
+                savePaymentImage();
+            else if (!paymentsData.getPaymentTextInfos().isEmpty())
+                saveAllPaymentsInfo(paymentsData.getPaymentTextInfos());
+        } else {
             getMvpView().onPaymentFieldsNotFilled();
+        }
     }
+
+    private boolean isAllFieldsFilled() {
+        return paymentFields != null && paymentFields.size() == paymentsData.getFieldsCount() && isPhotoFieldFilled();
+    }
+
+    private boolean isPhotoFieldFilled() {
+        return paymentsData.getPaymentImageInfo() == null || lastPhotoFile != null;
+    }
+
 
     private void savePaymentImage() {
         showLoading(false);
@@ -97,6 +109,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     }
 
     private void onPaymentFieldsLoaded(List<PaymentField> pf) {
+        paymentFields = pf;
         if (isViewAttached()) {
             hideLoading();
             if (pf != null && !pf.isEmpty())

@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
+import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseActivity;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -56,7 +58,10 @@ public class CashingOutConfirmationActivity extends BaseActivity implements Conf
 
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
-        UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
+        if (networkError.getErrorCode() == NetworkError.PAYMENT_FIELDS_ERROR)
+            DialogUtils.showFillPaymentInfoDialog(this);
+        else
+            UIUtils.showSimpleToast(this, networkError.getErrorMessageRes());
     }
 
     @Override

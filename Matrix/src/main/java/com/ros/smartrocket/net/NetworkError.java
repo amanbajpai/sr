@@ -35,6 +35,7 @@ public class NetworkError implements BaseNetworkError {
     private static final int GLOBAL_BLOCK_ERROR = 10146;
     public static final int EXTERNAL_AUTH_NEED_MORE_DATA_ERROR = 10144;
     public static final int EXCEEDED_MAX_CASH_ERROR = 10148;
+    public static final int PAYMENT_FIELDS_ERROR = 10150;
 
 
     private Integer errorCode = -1;
@@ -105,6 +106,7 @@ public class NetworkError implements BaseNetworkError {
                 case HALF_CLAIM_PER_MISSION_CODE:
                 case MAXIMUM_MISSION_ERROR_CODE:
                 case EXCEEDED_MAX_CASH_ERROR:
+                case PAYMENT_FIELDS_ERROR:
                     errorMessageRes = R.string.error;
                     break;
                 default:

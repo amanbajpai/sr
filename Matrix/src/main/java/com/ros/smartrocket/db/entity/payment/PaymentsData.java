@@ -21,4 +21,9 @@ public class PaymentsData {
     public void setPaymentImage(PaymentInfo paymentImageInfo) {
         this.paymentImageInfo = paymentImageInfo;
     }
+
+    public int getFieldsCount() {
+        int count = paymentImageInfo != null ? 1 : 0;
+        return count += paymentTextInfos.size();
+    }
 }
