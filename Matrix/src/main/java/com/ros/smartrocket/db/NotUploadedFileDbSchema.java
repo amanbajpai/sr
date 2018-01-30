@@ -33,7 +33,10 @@ public interface NotUploadedFileDbSchema {
 
         TASK_VALIDATED("taskValidated", DBType.INT),
 
-        DELETED("deleted", DBType.INT);
+        DELETED("deleted", DBType.INT),
+
+        FILE_ID("fileId", DBType.TEXT);
+
 
         private String columnName;
         private DBType type;
@@ -89,7 +92,8 @@ public interface NotUploadedFileDbSchema {
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LATITUDE_TO_VALIDATION.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.LONGITUDE_TO_VALIDATION.getName(),
                 Table.NOT_UPLOADED_FILE.getName() + "." + Columns.TASK_VALIDATED.getName(),
-                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.WAVE_ID.getName()
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.WAVE_ID.getName(),
+                Table.NOT_UPLOADED_FILE.getName() + "." + Columns.FILE_ID.getName()
         };
 
         int _ID = 0;
@@ -115,5 +119,6 @@ public interface NotUploadedFileDbSchema {
 
         int TASK_VALIDATED = 17;
         int WAVE_ID = 18;
+        int FILE_ID = 19;
     }
 }

@@ -55,6 +55,7 @@ public class NotUploadedFile extends BaseNotUploadedFile {
             result.setLongitudeToValidation(c.getDouble(NotUploadedFileDbSchema.Query.LONGITUDE_TO_VALIDATION));
 
             result.setTaskValidated(c.getInt(NotUploadedFileDbSchema.Query.TASK_VALIDATED) == 1);
+            result.setFileId(c.getString(NotUploadedFileDbSchema.Query.FILE_ID));
         }
         L.d("NotUploadedFile", result.toString());
         return result;
