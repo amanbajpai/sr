@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.entity.file.BaseNotUploadedFile;
 import com.ros.smartrocket.db.entity.file.FileToUploadResponse;
@@ -48,7 +47,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     @Override
     public void getPaymentFields() {
         getMvpView().showLoading(false);
-        int countryId = PreferencesManager.getInstance().getInt(Keys.COUNTRY_ID, 0);
+        int countryId = App.getInstance().getMyAccount().getCountryId();
         addDisposable(App.getInstance().getApi().getPaymentFields(countryId, getLanguageCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -72,6 +72,8 @@ public class MyAccount extends BaseEntity {
     private String countryCode;
     @SerializedName("CompanyName")
     private String companyName = "";
+    @SerializedName("CountryId")
+    private Integer countryId;
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -313,5 +315,13 @@ public class MyAccount extends BaseEntity {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Integer getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
     }
 }
