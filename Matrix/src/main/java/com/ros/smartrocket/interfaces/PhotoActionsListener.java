@@ -1,7 +1,7 @@
 package com.ros.smartrocket.interfaces;
 
 public interface PhotoActionsListener {
-    void addPhoto();
+    void addPhoto(int fieldId);
 
-    void onPhotoClicked(String url);
+    void onPhotoClicked(String url, int fieldId);
 }

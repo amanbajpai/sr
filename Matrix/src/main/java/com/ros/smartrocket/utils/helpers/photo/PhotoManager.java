@@ -31,9 +31,9 @@ public class PhotoManager implements PhotoHelper {
     }
 
     @Override
-    public void showSelectImageDialog(boolean showDeletePhoto, File file) {
+    public void showSelectImageDialog(boolean showDeletePhoto, File file, int code) {
         if (fragment != null && fragment.isAdded()) {
-            selectImageManager.showSelectImageDialog(fragment, showDeletePhoto, file);
+            selectImageManager.showSelectImageDialog(fragment, showDeletePhoto, file, code);
         }
     }
 

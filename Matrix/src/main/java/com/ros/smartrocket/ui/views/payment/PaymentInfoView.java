@@ -2,6 +2,7 @@ package com.ros.smartrocket.ui.views.payment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ public class PaymentInfoView extends LinearLayout {
     @BindView(R.id.container)
     LinearLayout container;
     private List<PaymentInfoTextView> paymentInfoTextViews = new ArrayList<>();
-    private PaymentInfoImageView paymentInfoImageView;
+    private List<PaymentInfoImageView> paymentInfoImageViews = new ArrayList<>();
     private PhotoActionsListener listener;
 
 
@@ -52,16 +53,17 @@ public class PaymentInfoView extends LinearLayout {
     public void fillPaymentInfoViews(List<PaymentField> paymentFields) {
         container.removeAllViews();
         paymentInfoTextViews.clear();
+        paymentInfoImageViews.clear();
         for (PaymentField f : paymentFields) {
             switch (PaymentFieldType.fromName(f.getType())) {
                 case TEXT:
-                    PaymentInfoTextView pitv = getPaymentInfoTextView(f);
-                    paymentInfoTextViews.add(pitv);
-                    container.addView(pitv);
+                    PaymentInfoTextView paymentInfoTextView = getPaymentInfoTextView(f);
+                    paymentInfoTextViews.add(paymentInfoTextView);
+                    container.addView(paymentInfoTextView);
                     break;
                 case PHOTO:
-                    paymentInfoImageView = getPaymentInfoImageView(f);
-                    paymentInfoImageView.setListener(listener);
+                    PaymentInfoImageView paymentInfoImageView = getPaymentInfoImageView(f);
+                    paymentInfoImageViews.add(paymentInfoImageView);
                     container.addView(paymentInfoImageView);
                     break;
             }
@@ -79,22 +81,41 @@ public class PaymentInfoView extends LinearLayout {
 
     public PaymentsData getPaymentsData() {
         PaymentsData pd = new PaymentsData();
-        List<PaymentInfo> paymentInfoList = new ArrayList<>();
+        pd.setPaymentTextInfos(getPaymentTextInfos());
+        pd.setPaymentImageInfos(getPaymentImageInfos());
+        return pd;
+    }
+
+    @NonNull
+    private List<PaymentInfo> getPaymentTextInfos() {
+        List<PaymentInfo> paymentTextInfoList = new ArrayList<>();
         for (PaymentInfoTextView tv : paymentInfoTextViews) {
             PaymentInfo pi = tv.getPaymentInfo();
             if (pi != null)
-                paymentInfoList.add(pi);
+                paymentTextInfoList.add(pi);
         }
-        pd.setPaymentTextInfos(paymentInfoList);
-        if (paymentInfoImageView != null) pd.setPaymentImage(paymentInfoImageView.getPaymentInfo());
-        return pd;
+        return paymentTextInfoList;
+    }
+
+    @NonNull
+    private List<PaymentInfo> getPaymentImageInfos() {
+        List<PaymentInfo> paymentImageInfoList = new ArrayList<>();
+        for (PaymentInfoImageView tv : paymentInfoImageViews) {
+            PaymentInfo pi = tv.getPaymentInfo();
+            if (pi != null)
+                paymentImageInfoList.add(pi);
+        }
+        return paymentImageInfoList;
     }
 
     public void setPhotoActionsListener(PhotoActionsListener listener) {
         this.listener = listener;
     }
 
-    public void setPhoto(Bitmap photo) {
-        if (paymentInfoImageView != null) paymentInfoImageView.setPhoto(photo);
+    public void setPhoto(Bitmap photo, int fieldId) {
+        for (PaymentInfoImageView piv : paymentInfoImageViews) {
+            if (piv.getFieldId() == fieldId)
+                piv.setPhoto(photo);
+        }
     }
 }

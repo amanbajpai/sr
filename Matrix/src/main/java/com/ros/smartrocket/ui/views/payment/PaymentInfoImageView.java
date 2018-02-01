@@ -38,6 +38,7 @@ public class PaymentInfoImageView extends LinearLayout {
 
     public PaymentInfoImageView(Context context, PaymentField paymentField, PhotoActionsListener listener) {
         super(context);
+        this.listener = listener;
         this.paymentField = paymentField;
         init(context);
     }
@@ -82,10 +83,10 @@ public class PaymentInfoImageView extends LinearLayout {
         if (listener != null)
             switch (view.getId()) {
                 case R.id.photo:
-                    listener.onPhotoClicked(paymentField.getValue());
+                    listener.onPhotoClicked(paymentField.getValue(), paymentField.getId());
                     break;
                 case R.id.rePhotoButton:
-                    listener.addPhoto();
+                    listener.addPhoto(paymentField.getId());
                     break;
             }
     }
@@ -102,11 +103,12 @@ public class PaymentInfoImageView extends LinearLayout {
         }
     }
 
+    public int getFieldId() {
+        return paymentField.getId();
+    }
+
     public PaymentInfo getPaymentInfo() {
         return new PaymentInfo(paymentField);
     }
 
-    public void setListener(PhotoActionsListener listener) {
-        this.listener = listener;
-    }
 }

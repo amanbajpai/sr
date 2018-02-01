@@ -3,6 +3,7 @@ package com.ros.smartrocket.presentation.payment;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.bl.FilesBL;
@@ -18,9 +19,11 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.helpers.FileParser;
 import com.ros.smartrocket.utils.helpers.photo.PhotoHelper;
+import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -32,13 +35,13 @@ import okhttp3.RequestBody;
 
 public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPresenter<V> implements PaymentMvpPresenter<V> {
     private static final String PAYMENT_PHOTO = "payment_photo";
-    private String imagePath;
     private boolean isImageRequested;
     private PaymentsData paymentsData;
-    private File lastPhotoFile;
     private File currentPhotoFile;
     private PhotoHelper photoHelper;
     private List<PaymentField> paymentFields;
+    private SparseArray<File> photos = new SparseArray<>();
+    private SparseArray<String> photoUrls = new SparseArray<>();
 
     public PaymentPresenter(PhotoHelper photoHelper) {
         this.photoHelper = photoHelper;
@@ -47,6 +50,8 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     @Override
     public void getPaymentFields() {
         getMvpView().showLoading(false);
+        photos.clear();
+        photoUrls.clear();
         int countryId = App.getInstance().getMyAccount().getCountryId();
         addDisposable(App.getInstance().getApi().getPaymentFields(countryId, getLanguageCode())
                 .subscribeOn(Schedulers.io())
@@ -58,46 +63,68 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     public void savePaymentsInfo(PaymentsData paymentsData) {
         this.paymentsData = paymentsData;
         if (isAllFieldsFilled()) {
-            if (lastPhotoFile != null)
-                savePaymentImage();
+            if (photos.size() != 0)
+                savePaymentImages();
             else if (!paymentsData.getPaymentTextInfos().isEmpty())
-                saveAllPaymentsInfo(paymentsData.getPaymentTextInfos());
+                saveAllPaymentsInfo();
         } else {
             getMvpView().onPaymentFieldsNotFilled();
         }
     }
 
     private boolean isAllFieldsFilled() {
-        return paymentFields != null && paymentFields.size() == paymentsData.getFieldsCount() && isPhotoFieldFilled();
+        return paymentFields != null && paymentFields.size() == paymentsData.getFieldsCount() && isPhotoFieldsFilled();
     }
 
-    private boolean isPhotoFieldFilled() {
-        return paymentsData.getPaymentImageInfo() == null || lastPhotoFile != null;
+    private boolean isPhotoFieldsFilled() {
+        return paymentsData.getPaymentImageInfos() == null || isAllPhotosAdded();
+    }
+
+    private boolean isAllPhotosAdded() {
+        for (PaymentInfo pi : paymentsData.getPaymentImageInfos())
+            if (photos.get(pi.getPaymentFieldId()) == null && TextUtils.isEmpty(pi.getValue()))
+                return false;
+        return true;
     }
 
 
-    private void savePaymentImage() {
+    private void savePaymentImages() {
         showLoading(false);
-        sendFile();
+        sendFiles();
     }
 
-    private void onPaymentImageSaved() {
-        List<PaymentInfo> paymentInfoList = paymentsData.getPaymentTextInfos();
-        if (!TextUtils.isEmpty(imagePath)) {
-            PaymentInfo paymentImageInfo = paymentsData.getPaymentImageInfo();
-            paymentImageInfo.setValue(imagePath);
-            paymentInfoList.add(paymentImageInfo);
-            imagePath = null;
+    private void saveAllPaymentsInfo() {
+        List<PaymentInfo> paymentInfos = getPaymentInfoList();
+        if (!paymentInfos.isEmpty()) {
+            showLoading(false);
+            addDisposable(App.getInstance().getApi().savePaymentInfo(paymentInfos)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(rb -> onAllPaymentsSaved(), this::showNetworkError));
+        } else {
+            hideLoading();
         }
-        saveAllPaymentsInfo(paymentInfoList);
     }
 
-    private void saveAllPaymentsInfo(List<PaymentInfo> paymentInfoList) {
-        showLoading(false);
-        addDisposable(App.getInstance().getApi().savePaymentInfo(paymentInfoList)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(rb -> onAllPaymentsSaved(), this::showNetworkError));
+    private List<PaymentInfo> getPaymentInfoList() {
+        List<PaymentInfo> paymentInfos = new ArrayList<>();
+        if (paymentsData.getPaymentTextInfos() != null)
+            paymentInfos.addAll(paymentsData.getPaymentTextInfos());
+        if (paymentsData.getPaymentImageInfos() != null)
+            paymentInfos.addAll(getAllImagePaymentsInfos());
+        return paymentInfos;
+    }
+
+    private List<PaymentInfo> getAllImagePaymentsInfos() {
+        List<PaymentInfo> paymentImageInfos = new ArrayList<>();
+        for (PaymentInfo pi : paymentsData.getPaymentImageInfos()) {
+            String url = photoUrls.get(pi.getPaymentFieldId());
+            if (!TextUtils.isEmpty(url)) {
+                pi.setValue(url);
+                paymentImageInfos.add(pi);
+            }
+        }
+        return paymentImageInfos;
     }
 
     private void onAllPaymentsSaved() {
@@ -118,35 +145,42 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
         }
     }
 
-    private void sendFile() {
-        FileParser fp = new FileParser();
-        NotUploadedPaymentImage notUploadedFile = getNotUploadedFile(paymentsData.getPaymentImageInfo().getPaymentFieldId());
-        List<File> sendFiles = fp.getFileChunks(lastPhotoFile, notUploadedFile);
-        if (sendFiles != null)
-            startFileSendingMultipart(sendFiles, notUploadedFile, fp);
-    }
-
-    private void startFileSendingMultipart(List<File> sendFiles, NotUploadedPaymentImage notUploadedFile, FileParser parser) {
-        Log.e("UPLOAD MULTIPART", "START SEND.");
-        addDisposable(Observable.fromIterable(sendFiles)
+    private void sendFiles() {
+        addDisposable(Observable.fromIterable(paymentsData.getPaymentImageInfos())
                 .subscribeOn(Schedulers.io())
-                .concatMap(f -> getUploadFileObservable(f, notUploadedFile, parser)
-                        .doOnError(this::onFileNotUploaded)
-                        .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
+                .concatMap(this::getFileSendObservable)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         __ -> {
                         },
                         this::onFileNotUploaded,
-                        () -> onFileUploadSuccess(notUploadedFile, parser)));
+                        this::saveAllPaymentsInfo));
     }
 
-    private Observable<Boolean> updateNotUploadedFile(FileToUploadResponse response, BaseNotUploadedFile file) {
+    private Observable<Boolean> getFileSendObservable(PaymentInfo info) {
+        FileParser fp = new FileParser();
+        NotUploadedPaymentImage notUploadedFile = getNotUploadedFile(info.getPaymentFieldId(), photos.get(info.getPaymentFieldId()));
+        List<File> sendFiles = fp.getFileChunks(photos.get(info.getPaymentFieldId()), notUploadedFile);
+        return getFileSendingMultipartObservable(sendFiles, notUploadedFile, fp);
+    }
+
+    private Observable<Boolean> getFileSendingMultipartObservable(List<File> sendFiles, NotUploadedPaymentImage notUploadedFile, FileParser parser) {
+        Log.e("UPLOAD MULTIPART", "START SEND.");
+        return Observable.fromIterable(sendFiles)
+                .subscribeOn(Schedulers.io())
+                .concatMap(f -> getUploadFileObservable(f, notUploadedFile, parser)
+                        .doOnError(this::onFileNotUploaded)
+                        .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
+                .doOnComplete(() -> onFileUploadSuccess(notUploadedFile, parser))
+                .doOnError(this::onFileNotUploaded);
+    }
+
+    private Observable<Boolean> updateNotUploadedFile(FileToUploadResponse response, NotUploadedPaymentImage file) {
         Log.e("UPLOAD", "Updating main file - portion " + file.getPortion());
         file.setPortion(file.getPortion() + 1);
         file.setFileCode(response.getFileCode());
         FilesBL.updatePortionAndFileCode(file.getId(), file.getPortion(), file.getFileCode());
-        imagePath = response.getFileUrl();
+        photoUrls.put(file.getPaymentFieldId(), response.getFileUrl());
         return Observable.just(true);
     }
 
@@ -156,7 +190,6 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         preferencesManager.setUsed3GUploadMonthlySize(preferencesManager.getUsed3GUploadMonthlySize()
                 + (int) (notUploadedFile.getFileSizeB() / 1024));
-        onPaymentImageSaved();
     }
 
     private void onFileNotUploaded(Throwable t) {
@@ -184,8 +217,9 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
                 break;
             case IMAGE_COMPLETE:
                 if (event.image != null) {
-                    lastPhotoFile = event.image.imageFile;
-                    getMvpView().setBitmap(event.image.bitmap);
+                    int fieldId = RequestCodeImageHelper.getBigPart(event.requestCode);
+                    photos.put(fieldId, event.image.imageFile);
+                    getMvpView().setBitmap(event.image.bitmap, fieldId);
                     getMvpView().hideLoading();
                 }
                 break;
@@ -197,21 +231,21 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     }
 
     @Override
-    public void onPhotoClicked(String url) {
-        if (lastPhotoFile != null) {
-            photoHelper.showFullScreenImage(lastPhotoFile.getPath());
+    public void onPhotoClicked(String url, int fieldId) {
+        if (photos.get(fieldId) != null) {
+            photoHelper.showFullScreenImage(photos.get(fieldId).getPath());
         } else if (!TextUtils.isEmpty(url)) {
             photoHelper.showFullScreenImage(url);
         } else {
-            onPhotoRequested();
+            onPhotoRequested(fieldId);
         }
     }
 
     @Override
-    public void onPhotoRequested() {
+    public void onPhotoRequested(int fieldId) {
         isImageRequested = true;
         currentPhotoFile = photoHelper.getTempFile(PAYMENT_PHOTO);
-        photoHelper.showSelectImageDialog(false, currentPhotoFile);
+        photoHelper.showSelectImageDialog(false, currentPhotoFile, fieldId);
     }
 
     @Override
@@ -235,13 +269,13 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
         return false;
     }
 
-    private NotUploadedPaymentImage getNotUploadedFile(int id) {
+    private NotUploadedPaymentImage getNotUploadedFile(int id, File file) {
         NotUploadedPaymentImage fileToUpload = new NotUploadedPaymentImage();
         fileToUpload.setRandomId();
         fileToUpload.setPaymentFieldId(id);
-        fileToUpload.setFileUri(lastPhotoFile.getPath());
-        fileToUpload.setFileSizeB(lastPhotoFile.length());
-        fileToUpload.setFileName(lastPhotoFile.getName());
+        fileToUpload.setFileUri(file.getPath());
+        fileToUpload.setFileSizeB(file.length());
+        fileToUpload.setFileName(file.getName());
         fileToUpload.setPortion(0);
         return fileToUpload;
     }

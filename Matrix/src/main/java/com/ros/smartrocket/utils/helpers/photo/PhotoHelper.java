@@ -10,7 +10,7 @@ public interface PhotoHelper {
 
     void startCamera(File file, Integer orderId);
 
-    void showSelectImageDialog(final boolean showRemoveButton, final File file);
+    void showSelectImageDialog(final boolean showRemoveButton, final File file, int code);
 
     void showFullScreenImage(String path);
 

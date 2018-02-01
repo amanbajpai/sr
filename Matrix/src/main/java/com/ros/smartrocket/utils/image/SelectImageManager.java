@@ -130,16 +130,16 @@ public class SelectImageManager {
 
 
     public void showSelectImageDialog(final Fragment fragment, final boolean showRemoveButton,
-                                      final File file) {
-        showSelectImageDialog(showRemoveButton, file, fragment, null);
+                                      final File file, int code) {
+        showSelectImageDialog(showRemoveButton, file, fragment, null, code);
     }
 
     public void showSelectImageDialog(final Activity activity, final boolean showRemoveButton, final File file) {
-        showSelectImageDialog(showRemoveButton, file, null, activity);
+        showSelectImageDialog(showRemoveButton, file, null, activity, 0);
     }
 
     private void showSelectImageDialog(final boolean showRemoveButton, final File file,
-                                       final Fragment fragment, final Activity activity) {
+                                       final Fragment fragment, final Activity activity, int code) {
         Activity contextActivity = fragment != null ? fragment.getActivity() : activity;
 
         LayoutInflater inflater = (LayoutInflater) contextActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -153,7 +153,7 @@ public class SelectImageManager {
         v.findViewById(R.id.gallery).setOnClickListener(v1 -> {
             dialog.dismiss();
             if (fragment != null) {
-                startGallery(fragment);
+                startGallery(fragment, code);
             } else {
                 startGallery(activity);
             }
@@ -162,7 +162,7 @@ public class SelectImageManager {
         v.findViewById(R.id.camera).setOnClickListener(v12 -> {
             dialog.dismiss();
             if (fragment != null) {
-                startCamera(fragment, file);
+                startCamera(fragment, file, code);
             } else {
                 startCamera(activity, file);
             }

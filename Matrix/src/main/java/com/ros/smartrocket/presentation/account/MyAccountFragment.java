@@ -182,7 +182,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
 
     private void changeUserAvatar() {
         mCurrentPhotoFile = SelectImageManager.getTempFile(getActivity(), SelectImageManager.PREFIX_PROFILE);
-        avatarImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile);
+        avatarImageManager.showSelectImageDialog(this, false, mCurrentPhotoFile, 0);
     }
 
     private void changeUserName() {
@@ -300,17 +300,17 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
     }
 
     @Override
-    public void setBitmap(Bitmap bitmap) {
-        paymentInfoView.setPhoto(bitmap);
+    public void setBitmap(Bitmap bitmap, int fieldId) {
+        paymentInfoView.setPhoto(bitmap, fieldId);
     }
 
     @Override
-    public void addPhoto() {
-        paymentPresenter.onPhotoRequested();
+    public void addPhoto(int fieldId) {
+        paymentPresenter.onPhotoRequested(fieldId);
     }
 
     @Override
-    public void onPhotoClicked(String url) {
-        paymentPresenter.onPhotoClicked(url);
+    public void onPhotoClicked(String url, int fieldId) {
+        paymentPresenter.onPhotoClicked(url, fieldId);
     }
 }

@@ -18,5 +18,5 @@ public interface PaymentMvpView extends NetworkMvpView {
 
     void showPhotoCanNotBeAddDialog();
 
-    void setBitmap(Bitmap bitmap);
+    void setBitmap(Bitmap bitmap, int fieldId);
 }

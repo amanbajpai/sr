@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PaymentsData {
     private List<PaymentInfo> paymentTextInfos;
-    private PaymentInfo paymentImageInfo;
+    private List<PaymentInfo> paymentImageInfos;
 
     public List<PaymentInfo> getPaymentTextInfos() {
         return paymentTextInfos;
@@ -14,16 +14,16 @@ public class PaymentsData {
         this.paymentTextInfos = paymentTextInfos;
     }
 
-    public PaymentInfo getPaymentImageInfo() {
-        return paymentImageInfo;
+    public List<PaymentInfo> getPaymentImageInfos() {
+        return paymentImageInfos;
     }
 
-    public void setPaymentImage(PaymentInfo paymentImageInfo) {
-        this.paymentImageInfo = paymentImageInfo;
+    public void setPaymentImageInfos(List<PaymentInfo> paymentImageInfos) {
+        this.paymentImageInfos = paymentImageInfos;
     }
 
     public int getFieldsCount() {
-        int count = paymentImageInfo != null ? 1 : 0;
-        return count += paymentTextInfos.size();
+        return (paymentImageInfos != null ? paymentImageInfos.size() : 0)
+                + (paymentTextInfos != null ? paymentTextInfos.size() : 0);
     }
 }

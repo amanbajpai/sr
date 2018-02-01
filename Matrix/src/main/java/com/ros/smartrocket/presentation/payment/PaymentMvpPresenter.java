@@ -13,9 +13,9 @@ public interface PaymentMvpPresenter<V extends PaymentMvpView> extends MvpPresen
 
     void onPhotoEvent(PhotoEvent event);
 
-    void onPhotoClicked(String path);
+    void onPhotoClicked(String path, int fieldId);
 
-    void onPhotoRequested();
+    void onPhotoRequested(int fieldId);
 
     boolean onActivityResult(int requestCode, int resultCode, Intent intent);
 }
