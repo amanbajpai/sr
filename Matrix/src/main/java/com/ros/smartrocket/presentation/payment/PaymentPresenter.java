@@ -158,6 +158,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
     }
 
     private Observable<Boolean> getFileSendObservable(PaymentInfo info) {
+        if (photos.get(info.getPaymentFieldId()) == null) return Observable.just(true);
         FileParser fp = new FileParser();
         NotUploadedPaymentImage notUploadedFile = getNotUploadedFile(info.getPaymentFieldId(), photos.get(info.getPaymentFieldId()));
         List<File> sendFiles = fp.getFileChunks(photos.get(info.getPaymentFieldId()), notUploadedFile);

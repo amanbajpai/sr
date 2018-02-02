@@ -18,12 +18,9 @@ import com.ros.smartrocket.interfaces.PhotoActionsListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PaymentInfoView extends LinearLayout {
-    @BindView(R.id.container)
-    LinearLayout container;
     private List<PaymentInfoTextView> paymentInfoTextViews = new ArrayList<>();
     private List<PaymentInfoImageView> paymentInfoImageViews = new ArrayList<>();
     private PhotoActionsListener listener;
@@ -47,27 +44,28 @@ public class PaymentInfoView extends LinearLayout {
     private void init(Context c) {
         LayoutInflater inflater = LayoutInflater.from(c);
         inflater.inflate(R.layout.view_payment, this, true);
+        setOrientation(VERTICAL);
         ButterKnife.bind(this);
     }
 
     public void fillPaymentInfoViews(List<PaymentField> paymentFields) {
-        container.removeAllViews();
+        removeAllViews();
         paymentInfoTextViews.clear();
         paymentInfoImageViews.clear();
-        for (PaymentField f : paymentFields) {
-            switch (PaymentFieldType.fromName(f.getType())) {
-                case TEXT:
-                    PaymentInfoTextView paymentInfoTextView = getPaymentInfoTextView(f);
-                    paymentInfoTextViews.add(paymentInfoTextView);
-                    container.addView(paymentInfoTextView);
-                    break;
-                case PHOTO:
-                    PaymentInfoImageView paymentInfoImageView = getPaymentInfoImageView(f);
-                    paymentInfoImageViews.add(paymentInfoImageView);
-                    container.addView(paymentInfoImageView);
-                    break;
+            for (PaymentField f : paymentFields) {
+                switch (PaymentFieldType.fromName(f.getType())) {
+                    case TEXT:
+                        PaymentInfoTextView paymentInfoTextView = getPaymentInfoTextView(f);
+                        paymentInfoTextViews.add(paymentInfoTextView);
+                        addView(paymentInfoTextView);
+                        break;
+                    case PHOTO:
+                        PaymentInfoImageView paymentInfoImageView = getPaymentInfoImageView(f);
+                        paymentInfoImageViews.add(paymentInfoImageView);
+                        addView(paymentInfoImageView);
+                        break;
+                }
             }
-        }
         invalidate();
     }
 

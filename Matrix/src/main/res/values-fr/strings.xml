@@ -400,10 +400,11 @@
     <string name="dialog_payment_instruction">Appuyez sur le bouton Mon compte pour continue</string>
 	<string name="my_account">Mon compte</string>
 	<string name="cash_out_instruction">Vous pouvez encaisser une fois que vous avez rempli tous les champs de Mon compte</string>
-	<string name="agent_id">ID de l\'agent</string>
+	<string name="agent_id">ID de l\'agent:</string>
 	<string name="email">L\'adresse mail :</string>
 	<string name="join_date">Date d\'inscription:</string>
 	<string name="payment_details_fields">Détails du paiement</string>
 	<string name="payment_details_info">Les champs ci-dessous sont obligatoires pour effectuer des paiements et pour respecter la législation fiscale locale. Vous ne pouvez encaisser votre solde que lorsque ces champs sont remplis. Si vous ne remplissez pas les champs avec précision et honnêteté, votre compte sera résilié.</string>
 	<string name="why_we_need_payment_details">Pourquoi nous avons besoin de détails de paiement</string>
+    <string name="max_cash_details">Vous avez dépassé le solde maximum autorisé. Veuillez encaisser votre solde avant de réclamer d\'autres missions.</string>
 </resources>

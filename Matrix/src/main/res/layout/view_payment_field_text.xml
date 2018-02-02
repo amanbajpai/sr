@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:padding="10dp"
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:background="@color/grey_light"
+        tools:src="@drawable/menu_account"
+        android:tint="@color/grey_dark" />
+
+    <com.ros.smartrocket.ui.views.CustomEditTextView
+        android:id="@+id/value"
+        style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey_light"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:layout_marginEnd="5dp"
-            android:background="@color/grey_light"
-            android:tint="@color/grey_dark" />
-
-        <com.ros.smartrocket.ui.views.CustomEditTextView
-            android:id="@+id/value"
-            style="@style/EditText"
-            android:layout_gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_14sp" />
-    </LinearLayout>
+        android:layout_alignBottom="@id/icon"
+        android:layout_alignTop="@id/icon"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/icon"
+        android:maxLines="1"
+        android:maxLength="50"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_14sp"
+        tools:text="Some very cool text" />
 
     <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/icon"
+        android:background="@color/white"
         android:gravity="start"
         android:lineSpacingExtra="5dp"
         android:padding="10dp"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_14sp"
-        custom:textStyle="bold" />
-</LinearLayout>
+        custom:textStyle="bold"
+        tools:text="Some very cool text" />
+</merge>

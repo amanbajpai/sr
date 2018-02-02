@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,46 +10,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/myAccountLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey_light"
-            android:orientation="horizontal"
             android:padding="10dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/photoImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/cam" />
-
-                <ImageView
-                    android:id="@+id/uploadPhotoProgressImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/round_progress"
-                    android:visibility="gone" />
-            </FrameLayout>
+            <ImageView
+                android:id="@+id/photoImageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/cam" />
 
             <com.ros.smartrocket.ui.views.CustomTextView
                 android:id="@+id/nameTextView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="20dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:layout_toEndOf="@id/photoImageView"
+                android:layout_toStartOf="@id/activityBtn"
                 android:text="@string/app_name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16sp"
@@ -57,28 +45,28 @@
             <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/activityBtn"
                 style="@style/Button"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="0.5"
                 android:background="@drawable/button_orange_selector"
                 android:text="@string/activity_btn"
                 android:textColor="@color/white"
                 custom:textStyle="bold" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp">
+            android:padding="10dp">
 
             <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/agentIdLabel"
                 style="@style/detailScreenTimeTypeTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:text="@string/agent_id"
                 android:textSize="@dimen/text_size_15sp"
                 custom:textStyle="bold" />
@@ -89,22 +77,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/agentIdLabel"
                 android:textSize="@dimen/text_size_15sp"
-                custom:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp">
+                custom:textStyle="bold"
+                tools:text="Some Cool text" />
 
             <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/emailTxtLabel"
                 style="@style/detailScreenTimeTypeTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/agentIdLabel"
+                android:layout_marginTop="10dp"
                 android:text="@string/email"
                 android:textSize="@dimen/text_size_15sp"
                 custom:textStyle="bold" />
@@ -114,23 +99,21 @@
                 style="@style/detailScreenTimeTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/emailTxtLabel"
                 android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/emailTxtLabel"
                 android:textSize="@dimen/text_size_15sp"
-                custom:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp">
+                custom:textStyle="bold"
+                tools:text="Some Cool text" />
 
             <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/joinDateTxtLabel"
                 style="@style/detailScreenTimeTypeTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/emailTxtLabel"
+                android:layout_marginTop="10dp"
                 android:text="@string/join_date"
                 android:textSize="@dimen/text_size_15sp"
                 custom:textStyle="bold" />
@@ -140,10 +123,13 @@
                 style="@style/detailScreenTimeTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/joinDateTxtLabel"
                 android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/joinDateTxtLabel"
                 android:textSize="@dimen/text_size_15sp"
-                custom:textStyle="bold" />
-        </LinearLayout>
+                custom:textStyle="bold"
+                tools:text="Some Cool text" />
+        </RelativeLayout>
 
         <View
             style="@style/mainMenuDividerStyle"
@@ -151,14 +137,15 @@
             android:layout_height="1dp"
             android:layout_margin="7dp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/paymentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <com.ros.smartrocket.ui.views.CustomTextView
+                android:id="@+id/paymentDetailsLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
@@ -170,9 +157,10 @@
                 custom:textStyle="bold" />
 
             <com.ros.smartrocket.ui.views.CustomTextView
-                android:id="@+id/txt_why_this"
+                android:id="@+id/txtWhyThis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/paymentDetailsLabel"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="7dp"
                 android:layout_marginStart="7dp"
@@ -185,17 +173,19 @@
             <com.ros.smartrocket.ui.views.payment.PaymentInfoView
                 android:id="@+id/paymentInfoView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtWhyThis" />
 
             <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/submit"
                 style="@style/WaveDetailButton"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_below="@id/paymentInfoView"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_green_selector"
                 android:text="@string/submit"
                 custom:textStyle="bold" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

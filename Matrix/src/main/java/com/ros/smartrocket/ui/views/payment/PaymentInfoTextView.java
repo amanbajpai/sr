@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.payment.PaymentField;
@@ -15,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PaymentInfoTextView extends LinearLayout {
+public class PaymentInfoTextView extends RelativeLayout {
     @BindView(R.id.icon)
     AppCompatImageView icon;
     @BindView(R.id.value)
@@ -36,6 +37,7 @@ public class PaymentInfoTextView extends LinearLayout {
 
     private void init(Context c) {
         inflate(c, R.layout.view_payment_field_text, this);
+        setBackgroundResource(R.color.grey_light);
         ButterKnife.bind(this);
         fillData();
     }

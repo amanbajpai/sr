@@ -402,4 +402,5 @@
 	<string name="payment_details_fields">حقول تفاصيل الدفع</string>
 	<string name="payment_details_info">الحقول التالية هي متطلبات إلزامية لتسديد الدفعات لك وفقا لقانون الضرائب المحلي. يمكنك  صرف رصيدك بمجرد ملء هذه الحقول. يؤدي الإخفاق في ملء الحقول بدقة وأمانة إلى إلغلاق حسابك.</string>
 	<string name="why_we_need_payment_details">لماذا نحتاج إلى تفاصيل الدفع</string>
+    <string name="max_cash_details">قد تجاوزت   الرصيد الأقصى المسموح به. يرجى صرف رصيدك قبل المطالبة بأي بعثات أخرى</string>
 </resources>

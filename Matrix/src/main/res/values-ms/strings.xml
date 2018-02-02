@@ -398,5 +398,6 @@
 	<string name="payment_details_fields">Butiran Pembayaran:</string>
 	<string name="payment_details_info">cukai tempatan, anda mesti mengisikan bidang bawah. Anda hanya boleh mengeluarkan baki anda sebaik sahaja bidang ini diisikan. Akaun anda akan ditamatkan kalau anda gagal mengisikan bidang bawah dengan tepat and jujur.</string>
 	<string name="why_we_need_payment_details">Kenapa kita memerlukan butiran pembayaran bawah</string>
+    <string name="max_cash_details">Anda sudah melebihi baki maksimum yang dibenarkan. Sila mengeluarkan baki anda sebelum menuntut sebarang misi lanjut.</string>
 
 </resources>

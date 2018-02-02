@@ -402,5 +402,6 @@
 	<string name="payment_details_fields">Rincian Pembayaran:</string>
 	<string name="payment_details_info">"Untuk memenuhi hukum pajak setempat, bidang di bawah ini adalah persyaratan wajib untuk melakukan pembayaran kepada Anda. Anda hanya bisa mencairkan saldo Anda begitu bidang ini terisi. Kegagalan untuk melengkapi bidang dengan akurat dan jujur "</string>
 	<string name="why_we_need_payment_details">Mengapa kami membutuhkan rincian pembayaran</string>
+    <string name="max_cash_details">Anda saat ini melebihi batas maksimum yang diijinkan. Tolong keluarkan saldo Anda sebelum mengklaim misi lebih lanjut</string>
 
 </resources>

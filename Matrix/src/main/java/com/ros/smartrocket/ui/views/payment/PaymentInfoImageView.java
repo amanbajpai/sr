@@ -6,7 +6,8 @@ import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.payment.PaymentField;
@@ -19,11 +20,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PaymentInfoImageView extends LinearLayout {
+public class PaymentInfoImageView extends RelativeLayout {
     @BindView(R.id.icon)
     AppCompatImageView icon;
     @BindView(R.id.photo)
-    AppCompatImageView photo;
+    ImageView photo;
     @BindView(R.id.description)
     CustomTextView description;
     @BindView(R.id.rePhotoButton)
@@ -45,6 +46,7 @@ public class PaymentInfoImageView extends LinearLayout {
 
     private void init(Context c) {
         inflate(c, R.layout.view_payment_field_image, this);
+        setBackgroundResource(R.color.grey_light);
         ButterKnife.bind(this);
         fillData();
     }
@@ -68,6 +70,8 @@ public class PaymentInfoImageView extends LinearLayout {
             photo.setVisibility(VISIBLE);
             Picasso.with(getContext())
                     .load(paymentField.getValue())
+                    .resize(800, 0)
+                    .onlyScaleDown()
                     .placeholder(R.drawable.loading_normal)
                     .error(R.drawable.cam)
                     .into(photo);
