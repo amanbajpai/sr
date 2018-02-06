@@ -10,49 +10,15 @@ import com.ros.smartrocket.db.entity.Country;
 public class Wave extends BaseEntity {
     @SkipFieldInContentValues
     private static final long serialVersionUID = 5410835468659163958L;
-
-    public enum WaveTypes {
-        NONE(0), TYPE_1(1), TYPE_2(2), TYPE_3(3), TYPE_4(4), TYPE_5(5);
-
-        private int id;
-
-        private WaveTypes(int typeId) {
-            this.id = typeId;
-        }
-
-        public int getId() {
-            return id;
-        }
-    }
-
-    @SerializedName("ClaimableBeforeLive")
-    private Boolean claimableBeforeLive;
     @SerializedName("IsCanBePreClaimed")
     private Boolean isCanBePreClaimed;
-    @SerializedName("ConcurrentClaimsPerAgent")
-    private Integer concurrentClaimsPerAgent;
     @SerializedName("DescriptionFormatted")
     private String description;
     @SerializedName("EndDateTime")
     private String endDateTime;
-    @SerializedName("ExpectedEndDateTime")
-    private String expectedEndDateTime;
-    @SerializedName("ExpectedStartDateTime")
     private String expectedStartDateTime;
-    @SerializedName("ExternalWaveId")
-    private String externalWaveId;
-    @SerializedName("MaximumClaimsPerAgent")
-    private Integer maximumClaimsPerAgent;
     @SerializedName("Name")
     private String name;
-    @SerializedName("SuspensionTarget")
-    private Integer suspensionTarget;
-    @SerializedName("TargetMaximum")
-    private Integer targetMaximum;
-    @SerializedName("TargetMinimum")
-    private Integer targetMinimum;
-    @SerializedName("ViewableBeforeLive")
-    private Boolean viewableBeforeLive;
     @SerializedName("ExperienceOffer")
     private Double experienceOffer;
     @SerializedName("ApproxMissionDuration")
@@ -144,20 +110,9 @@ public class Wave extends BaseEntity {
             result.setDescription(c.getString(WaveDbSchema.Query.DESCRIPTION));
             result.setLongitude(c.getFloat(WaveDbSchema.Query.LONGITUDE));
             result.setLatitude(c.getFloat(WaveDbSchema.Query.LATITUDE));
-
-            result.setClaimableBeforeLive(c.getInt(WaveDbSchema.Query.CLAIMABLE_BEFORE_LIVE) == 1);
             result.setIsCanBePreClaimed(c.getInt(WaveDbSchema.Query.CAN_BE_PRE_CLAIMED) == 1);
-            result.setViewableBeforeLive(c.getInt(WaveDbSchema.Query.VIEWABLE_BEFORE_LIVE) == 1);
-            result.setConcurrentClaimsPerAgent(c.getInt(WaveDbSchema.Query.CONCURRENT_CLAIMS_PER_AGENT));
-            result.setExternalWaveId(c.getString(WaveDbSchema.Query.EXTERNAL_WAVE_ID));
             result.setStartDateTime(c.getString(WaveDbSchema.Query.START_DATE_TIME));
-            result.setSuspensionTarget(c.getInt(WaveDbSchema.Query.SUSPENSION_TARGET));
-            result.setTargetMaximum(c.getInt(WaveDbSchema.Query.TARGET_MAXIMUM));
-            result.setTargetMinimum(c.getInt(WaveDbSchema.Query.TARGET_MINIMUM));
-
-            result.setMaximumClaimsPerAgent(c.getInt(WaveDbSchema.Query.MAXIMUM_CLAIMS_PER_AGENT));
             result.setEndDateTime(c.getString(WaveDbSchema.Query.END_DATE_TIME));
-            result.setExpectedEndDateTime(c.getString(WaveDbSchema.Query.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(WaveDbSchema.Query.EXPECTED_START_DATE_TIME));
             result.setExperienceOffer(c.getDouble(WaveDbSchema.Query.EXPERIENCE_OFFER));
 
@@ -194,30 +149,15 @@ public class Wave extends BaseEntity {
             result.setDescription(c.getString(WaveDbSchema.QueryWaveByDistance.DESCRIPTION));
             result.setLongitude(c.getFloat(WaveDbSchema.QueryWaveByDistance.LONGITUDE));
             result.setLatitude(c.getFloat(WaveDbSchema.QueryWaveByDistance.LATITUDE));
-
-            result.setClaimableBeforeLive(c.getInt(WaveDbSchema.QueryWaveByDistance.CLAIMABLE_BEFORE_LIVE) == 1);
             result.setIsCanBePreClaimed(c.getInt(WaveDbSchema.QueryWaveByDistance.CAN_BE_PRE_CLAIMED) == 1);
-            result.setViewableBeforeLive(c.getInt(WaveDbSchema.QueryWaveByDistance.VIEWABLE_BEFORE_LIVE) == 1);
-            result.setConcurrentClaimsPerAgent(c.getInt(WaveDbSchema.QueryWaveByDistance
-                    .CONCURRENT_CLAIMS_PER_AGENT));
-            result.setExternalWaveId(c.getString(WaveDbSchema.QueryWaveByDistance.EXTERNAL_ID));
             result.setStartDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.START_DATE_TIME));
-            result.setSuspensionTarget(c.getInt(WaveDbSchema.QueryWaveByDistance.SUSPENSION_TARGET));
-            result.setTargetMaximum(c.getInt(WaveDbSchema.QueryWaveByDistance.TARGET_MAXIMUM));
-            result.setTargetMinimum(c.getInt(WaveDbSchema.QueryWaveByDistance.TARGET_MINIMUM));
-
-            result.setMaximumClaimsPerAgent(c.getInt(WaveDbSchema.QueryWaveByDistance.MAXIMUM_CLAIMS_PER_AGENT));
             result.setEndDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.END_DATE_TIME));
-            result.setExpectedEndDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.EXPECTED_END_DATE_TIME));
             result.setExpectedStartDateTime(c.getString(WaveDbSchema.QueryWaveByDistance.EXPECTED_START_DATE_TIME));
-
             result.setNearTaskId(c.getInt(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_ID));
             result.setNearTaskDistance(c.getFloat(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_DISTANCE));
             result.setTaskCount(c.getInt(WaveDbSchema.QueryWaveByDistance.TASK_COUNT));
             result.setNearTaskPrice(c.getDouble(WaveDbSchema.QueryWaveByDistance.NEAR_TASK_PRICE));
-
             result.setExperienceOffer(c.getDouble(WaveDbSchema.QueryWaveByDistance.EXPERIENCE_OFFER));
-
             result.setLongExpireTimeoutForClaimedTask(c.getLong(WaveDbSchema.QueryWaveByDistance
                     .LONG_EXPIRE_TIMEOUT_FOR_CLAIMED_TASK));
             result.setExpireTimeoutForClaimedTask(c.getInt(WaveDbSchema.QueryWaveByDistance
@@ -273,38 +213,6 @@ public class Wave extends BaseEntity {
         this.latitude = latitude;
     }
 
-    public Boolean getClaimableBeforeLive() {
-        return claimableBeforeLive;
-    }
-
-    public void setClaimableBeforeLive(Boolean claimableBeforeLive) {
-        this.claimableBeforeLive = claimableBeforeLive;
-    }
-
-    public Boolean getViewableBeforeLive() {
-        return viewableBeforeLive;
-    }
-
-    public void setViewableBeforeLive(Boolean viewableBeforeLive) {
-        this.viewableBeforeLive = viewableBeforeLive;
-    }
-
-    public Integer getConcurrentClaimsPerAgent() {
-        return concurrentClaimsPerAgent;
-    }
-
-    public void setConcurrentClaimsPerAgent(Integer concurrentClaimsPerAgent) {
-        this.concurrentClaimsPerAgent = concurrentClaimsPerAgent;
-    }
-
-    public String getExternalWaveId() {
-        return externalWaveId;
-    }
-
-    public void setExternalWaveId(String externalWaveId) {
-        this.externalWaveId = externalWaveId;
-    }
-
     public String getStartDateTime() {
         return startDateTime;
     }
@@ -313,52 +221,12 @@ public class Wave extends BaseEntity {
         this.startDateTime = startDateTime;
     }
 
-    public Integer getSuspensionTarget() {
-        return suspensionTarget;
-    }
-
-    public void setSuspensionTarget(Integer suspensionTarget) {
-        this.suspensionTarget = suspensionTarget;
-    }
-
-    public Integer getTargetMaximum() {
-        return targetMaximum;
-    }
-
-    public void setTargetMaximum(Integer targetMaximum) {
-        this.targetMaximum = targetMaximum;
-    }
-
-    public Integer getTargetMinimum() {
-        return targetMinimum;
-    }
-
-    public void setTargetMinimum(Integer targetMinimum) {
-        this.targetMinimum = targetMinimum;
-    }
-
-    public Integer getMaximumClaimsPerAgent() {
-        return maximumClaimsPerAgent;
-    }
-
-    public void setMaximumClaimsPerAgent(Integer maximumClaimsPerAgent) {
-        this.maximumClaimsPerAgent = maximumClaimsPerAgent;
-    }
-
     public String getEndDateTime() {
         return endDateTime;
     }
 
     public void setEndDateTime(String endDateTime) {
         this.endDateTime = endDateTime;
-    }
-
-    public String getExpectedEndDateTime() {
-        return expectedEndDateTime;
-    }
-
-    public void setExpectedEndDateTime(String expectedEndDateTime) {
-        this.expectedEndDateTime = expectedEndDateTime;
     }
 
     public String getExpectedStartDateTime() {
@@ -473,7 +341,6 @@ public class Wave extends BaseEntity {
     public void setNearTaskCurrencySign(String nearTaskCurrencySign) {
         this.nearTaskCurrencySign = nearTaskCurrencySign;
     }
-
 
     public String getIcon() {
         return icon;

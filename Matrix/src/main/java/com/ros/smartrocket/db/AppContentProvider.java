@@ -115,19 +115,8 @@ public class AppContentProvider extends ContentProvider {
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.DESCRIPTION.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LONGITUDE.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.LATITUDE.getName(),
-
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CLAIMABLE_BEFORE_LIVE.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.VIEWABLE_BEFORE_LIVE.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.CONCURRENT_CLAIMS_PER_AGENT.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXTERNAL_WAVE_ID.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.START_DATE_TIME.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.SUSPENSION_TARGET.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.TARGET_MAXIMUM.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.TARGET_MINIMUM.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.MAXIMUM_CLAIMS_PER_AGENT.getName(),
-
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.END_DATE_TIME.getName(),
-                        Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPECTED_END_DATE_TIME.getName(),
                         Table.WAVE.getName() + "." + WaveDbSchema.Columns.EXPECTED_START_DATE_TIME.getName(),
 
                         Table.TASK.getName() + "." + TaskDbSchema.Columns.DISTANCE.getName(),
