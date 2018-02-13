@@ -34,6 +34,7 @@ class PasswordPresenter<V extends PasswordMvpView> extends BaseNetworkPresenter<
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeUserData)
+                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleLoginSuccess, this::showNetworkError));
     }

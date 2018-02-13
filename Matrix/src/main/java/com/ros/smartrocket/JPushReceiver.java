@@ -100,7 +100,11 @@ public class JPushReceiver extends BroadcastReceiver {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(w -> new WavesStore().storeMyWaves(w))
+                .doOnError(this::handleNetworkError)
                 .subscribe();
     }
 
+    private void handleNetworkError(Throwable throwable) {
+        L.i(TAG, "Network error");
+    }
 }

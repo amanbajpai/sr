@@ -15,6 +15,7 @@ public class MyTaskFetcher {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(w -> new WavesStore().storeMyWaves(w))
+                .doOnError(this::onError)
                 .subscribe(__ -> {
                 }, this::onError);
     }

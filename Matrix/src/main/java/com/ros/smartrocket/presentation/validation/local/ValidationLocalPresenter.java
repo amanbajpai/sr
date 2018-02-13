@@ -34,6 +34,7 @@ public class ValidationLocalPresenter<V extends ValidationLocalMvpView> extends 
         addDisposable(TasksBL.getSingleTaskFromDBbyIdObservable(taskId, missionId)
                 .subscribeOn(Schedulers.io())
                 .doOnNext(this::handleTask)
+                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onTaskLoaded));
     }

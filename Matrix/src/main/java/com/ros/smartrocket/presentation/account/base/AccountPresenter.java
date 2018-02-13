@@ -23,6 +23,7 @@ public class AccountPresenter<V extends AccountMvpView> extends BaseNetworkPrese
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeAccount)
+                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleAccountRetrieved, this::showNetworkError));
     }
