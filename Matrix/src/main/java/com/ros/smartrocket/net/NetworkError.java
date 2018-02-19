@@ -36,6 +36,8 @@ public class NetworkError implements BaseNetworkError {
     public static final int EXTERNAL_AUTH_NEED_MORE_DATA_ERROR = 10144;
     public static final int EXCEEDED_MAX_CASH_ERROR = 10148;
     public static final int PAYMENT_FIELDS_ERROR = 10150;
+    public static final int USER_TERMINATED_ERROR = 10079;
+
 
 
     private Integer errorCode = -1;
@@ -98,6 +100,9 @@ public class NetworkError implements BaseNetworkError {
                     break;
                 case MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE:
                     errorMessageRes = R.string.task_no_longer_available;
+                    break;
+                case USER_TERMINATED_ERROR:
+                    errorMessageRes = R.string.user_terminated_error;
                     break;
                 case ACCOUNT_NOT_ACTIVATED_ERROR_CODE:
                 case EMAIL_SENT_ERROR:

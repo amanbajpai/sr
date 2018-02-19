@@ -556,6 +556,7 @@
     <string name="recording_end">End recording?</string>
     <string name="recording_delete">Delete recording?</string>
     <string name="def_timer" translatable="false">00:00</string>
+    <string name="user_terminated_error">User is terminated</string>
 
     <!--MY ACCOUNT-->
     <string name="my_account">My Account</string>

@@ -318,7 +318,7 @@ public class MyAccount extends BaseEntity {
     }
 
     public Integer getCountryId() {
-        return countryId;
+        return countryId == null ? 0 : countryId;
     }
 
     public void setCountryId(Integer countryId) {
