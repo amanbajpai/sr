@@ -218,7 +218,6 @@ public class QuestionsBL {
                     if (question.getOrderId() == orderId) {
                         if (isRedo || checkCondition(question, questions)) {
                             result = question;
-
                         } else {
                             int routingOrderId = getOrderIdFromRoutingCondition(question);
                             if (routingOrderId != 0) {
@@ -242,15 +241,13 @@ public class QuestionsBL {
         Integer previousConditionOperator = null;
         TaskLocation taskLocation = question.getTaskLocationObject();
 
-        askifloop:
         for (AskIf askIf : askIfArray) {
             String sourceKey = askIf.getSourceKey();
             String value = askIf.getValue();
+
             Integer operator = askIf.getOperator();
             Integer nextConditionOperator = askIf.getNextConditionOperator();
-
             boolean currentConditionResult = false;
-
             switch (AskIf.ConditionSourceType.getSourceTypeById(askIf.getSourceType())) {
                 case LOCATION_RETAILER:
                     try {
@@ -299,7 +296,6 @@ public class QuestionsBL {
                         previousQuestion.setAnswers(getAnswers(previousQuestion));
 
                         String answerValue = getAnswerValue(previousQuestion);
-
                         if (previousQuestion.getType() == QuestionType.NUMBER.getTypeId()) {
                             String[] valuesArray = value.split("-");
                             int minValue = Integer.valueOf(valuesArray[0]);
@@ -326,9 +322,8 @@ public class QuestionsBL {
                     }
                     break;
                 case ROUTING:
-                    break askifloop;
+                    continue;
                 default:
-                    L.e(TAG, "WRONG condition type: " + askIf.getSourceType());
                     break;
             }
 

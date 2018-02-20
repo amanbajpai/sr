@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -245,6 +246,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
         isAlreadyStarted = false;
         if (currentFragment != null) {
             boolean shouldStart = isPreview || currentFragment.saveQuestion();
+
             if (shouldStart) {
                 Question currentQuestion = currentFragment.getQuestion();
                 if (currentQuestion != null) {

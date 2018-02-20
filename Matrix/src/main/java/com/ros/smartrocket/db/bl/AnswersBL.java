@@ -24,6 +24,7 @@ import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.question.QuestionType;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.UIUtils;
 
 import java.io.File;
@@ -87,7 +88,7 @@ public class AnswersBL {
         return ContentUris.parseId(uri);
     }
 
-    private static int updateAnswersInDB(List<Answer> answers) {
+    public static int updateAnswersInDB(List<Answer> answers) {
         int count = 0;
         for (Answer answer : answers) {
             count += App.getInstance()
@@ -98,10 +99,6 @@ public class AnswersBL {
                             new String[]{String.valueOf(answer.get_id())});
         }
         return count;
-    }
-
-    public static Completable getUpdateAnswersInDBObservable(List<Answer> answers) {
-        return Completable.fromCallable(() -> updateAnswersInDB(answers));
     }
 
     private static int deleteAnswerFromDB(Answer answer) {

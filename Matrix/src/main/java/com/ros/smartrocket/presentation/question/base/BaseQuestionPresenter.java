@@ -33,10 +33,8 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
     @Override
     public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && !question.getAnswers().isEmpty()) {
-            addDisposable(AnswersBL.getUpdateAnswersInDBObservable(new ArrayList<>(question.getAnswers()))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::onAnswersUpdated));
+            AnswersBL.updateAnswersInDB(question.getAnswers());
+            onAnswersUpdated();
             return true;
         } else {
             return false;
@@ -145,6 +143,7 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
     public void onAnswersUpdated() {
 
     }
+
 
     @Override
     public void attachView(V mvpView) {

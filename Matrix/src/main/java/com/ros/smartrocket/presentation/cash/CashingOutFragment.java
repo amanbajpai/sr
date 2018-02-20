@@ -110,14 +110,13 @@ public class CashingOutFragment extends BaseFragment implements AccountMvpView {
     @Override
     public void onAccountLoaded(MyAccount account) {
         myAccount = account;
-
         if (myAccount.isWithdrawEnabled()) cashOutButton.setEnabled(true);
 
         if (myAccount.getBalance() < myAccount.getMinimalWithdrawAmount()) {
             minBalance.setVisibility(View.VISIBLE);
             minBalance.setText(getActivity().getString(R.string.cashing_out_minimum_balance,
                     UIUtils.getBalanceOrPrice(myAccount.getMinimalWithdrawAmount(),
-                            myAccount.getCurrencySign(), 0, BigDecimal.ROUND_DOWN)
+                            myAccount.getCurrencySign(), 2, BigDecimal.ROUND_DOWN)
             ));
         }
 
