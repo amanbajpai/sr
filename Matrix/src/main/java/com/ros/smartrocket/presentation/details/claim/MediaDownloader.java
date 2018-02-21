@@ -53,7 +53,7 @@ public final class MediaDownloader {
                     QuestionsBL.updateInstructionFileUri(question.getWaveId(), question.getTaskId(),
                             question.getMissionId(), question.getId(), resultFile.getPath());
                     filesDownloadedCount++;
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.e("MediaDownloader", "Can't load file - " + fileUrl, e);
                 }
             }

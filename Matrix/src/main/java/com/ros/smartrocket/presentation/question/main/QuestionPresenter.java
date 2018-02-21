@@ -29,9 +29,9 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeReDoQuestions)
-                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onQuestionsRetrieved, this::showNetworkError));
+                .doOnError(this::showNetworkError)
+                .subscribe(this::onQuestionsRetrieved, t->{}));
     }
 
     @Override
@@ -43,9 +43,9 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeQuestions)
-                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onQuestionsRetrieved, this::showNetworkError));
+                .doOnError(this::showNetworkError)
+                .subscribe(this::onQuestionsRetrieved, t->{}));
     }
 
     @Override

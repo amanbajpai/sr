@@ -46,9 +46,9 @@ class TaskDetailPresenter<V extends TaskDetailsMvpView> extends BaseNetworkPrese
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeMyWaves)
-                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(__ -> onTasksLoaded(), this::showNetworkError));
+                .doOnError(this::showNetworkError)
+                .subscribe(__ -> onTasksLoaded(), t->{}));
     }
 
     private void onTaskLoaded(Task task) {

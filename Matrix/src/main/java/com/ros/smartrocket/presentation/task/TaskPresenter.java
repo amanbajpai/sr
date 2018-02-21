@@ -20,9 +20,9 @@ public class TaskPresenter<V extends TaskMvpView> extends BaseNetworkPresenter<V
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeMyWaves)
-                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(__ -> onTasksLoaded(), this::showNetworkError));
+                .doOnError(this::showNetworkError)
+                .subscribe(__ -> onTasksLoaded(), t->{}));
     }
 
     private void storeMyWaves(Waves waves) throws Exception {

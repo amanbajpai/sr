@@ -52,9 +52,9 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(this::storeQuestions)
-                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(__ -> findLocation(), this::showNetworkError));
+                .doOnError(this::showNetworkError)
+                .subscribe(__ -> findLocation(), t->{}));
     }
 
     private void findLocation() {
@@ -99,9 +99,9 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
                 .subscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.computation())
                 .doOnNext(r -> storeQuestions(r.getQuestions()))
-                .doOnError(this::showNetworkError)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleClaimResponse, this::showNetworkError));
+                .doOnError(this::showNetworkError)
+                .subscribe(this::handleClaimResponse, t->{}));
     }
 
     private void handleClaimResponse(ClaimTaskResponse response) {
