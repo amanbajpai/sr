@@ -563,10 +563,17 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
     @SuppressWarnings("unused")
     @OnClick(R.id.bookTaskButton)
     public void claimTask() {
+        if (BuildConfig.CHINESE)
+            checkVersion();
+        else
+            claimPresenter.claimTask();
+    }
+
+    private void checkVersion() {
         final AppVersion appVersion = PreferencesManager.getInstance().getAppVersion();
         Version currentVersion = new Version(BuildConfig.VERSION_NAME);
         Version newestVersion = new Version(appVersion.getLatestVersion());
-        if (currentVersion.compareTo(newestVersion) > 0) {
+        if (currentVersion.compareTo(newestVersion) < 0) {
             new UpdateVersionDialog(this, currentVersion.toString(), newestVersion.toString(), new UpdateVersionDialog.DialogButtonClickListener() {
                 @Override
                 public void onCancelButtonPressed() {
