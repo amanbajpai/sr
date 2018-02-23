@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
+import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
@@ -34,6 +35,13 @@ public class MainActivity extends BaseSlidingMenuActivity {
         startServices();
         initPushMessaging();
         initReceiver();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (BuildConfig.CHINESE)
+            JPushInterface.onResume(this);
     }
 
     private void initReceiver() {
@@ -95,6 +103,13 @@ public class MainActivity extends BaseSlidingMenuActivity {
     public void onDestroy() {
         unregisterReceiver(localReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (BuildConfig.CHINESE)
+            JPushInterface.onPause(this);
     }
 
 }

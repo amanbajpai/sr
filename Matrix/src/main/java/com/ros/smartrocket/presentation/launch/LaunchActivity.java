@@ -27,8 +27,6 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.Version;
 
-import cn.jpush.android.api.JPushInterface;
-
 public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private LaunchMvpPresenter<LaunchMvpView> presenter;
@@ -87,12 +85,6 @@ public class LaunchActivity extends BaseActivity implements LaunchMvpView {
     protected void onResume() {
         super.onResume();
         checkPermission();
-        JPushInterface.onResume(this);
-    }
-
-    protected void onPause() {
-        super.onPause();
-        JPushInterface.onPause(this);
     }
 
     @Override
