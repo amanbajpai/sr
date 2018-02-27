@@ -14,7 +14,8 @@ buildscript {
 ext {
     // dependency
     SUPPORT_LIBRARY_VERSION = '26.1.0'
-    GPS_VERSION = '11.4.2'
+//    GPS_VERSION = '11.4.2'
+    GPS_VERSION = '11.0.4'
 }
 
 allprojects {
