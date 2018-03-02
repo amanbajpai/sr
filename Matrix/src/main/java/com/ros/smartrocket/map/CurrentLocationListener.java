@@ -4,7 +4,7 @@ import android.location.Location;
 
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 
-public abstract class CurrentLocatiuonListener implements MatrixLocationManager.GetCurrentLocationListener {
+public abstract class CurrentLocationListener implements MatrixLocationManager.GetCurrentLocationListener {
     @Override
     public void getLocationStart() {
         // not needed

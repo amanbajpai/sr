@@ -49,6 +49,7 @@ import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
+import com.ros.smartrocket.utils.eventbus.QuitQuestionFlowAction;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +57,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedListener,
         OnAnswerPageLoadingFinishedListener, QuestionMvpView {
@@ -468,13 +470,37 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
             View view = actionBar.getCustomView();
-            TextView title = (TextView) view.findViewById(R.id.titleTextView);
+            TextView title = view.findViewById(R.id.titleTextView);
             if (isPreview) {
                 title.setTextColor(getResources().getColor(R.color.red));
                 title.setText(getString(R.string.preview_mode));
             } else {
                 title.setText(R.string.question_title);
             }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        Log.e("Expiry", "Stop");
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(QuitQuestionFlowAction event) {
+        Log.e("Expiry", "Event get");
+        Log.e("Expiry", "Action tId=" + event.getTaskId() + " mId=" + event.getMissionId());
+        Log.e("Expiry", "Question tId=" + taskId + " mId=" + missionId);
+        if (taskId == event.getTaskId() && missionId == event.getMissionId()) {
+            Log.e("Expiry", "Finish");
+            finish();
         }
     }
 }

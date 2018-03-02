@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
@@ -30,6 +31,9 @@ import io.reactivex.Observable;
 
 public class QuestionsBL {
     private static final String TAG = QuestionsBL.class.getSimpleName();
+    public static final int ONE_ANSWER_OPERATOR = 1;
+    public static final int NO_ANSWERS_OPERATOR = 2;
+    public static final int ANY_QUESTION_OPERATOR = 3;
 
     private static Integer removeQuestionsFromDBbyTask(Task task) {
         return App.getInstance().getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
@@ -240,18 +244,16 @@ public class QuestionsBL {
         boolean result = true;
         Integer previousConditionOperator = null;
         TaskLocation taskLocation = question.getTaskLocationObject();
-
         for (AskIf askIf : askIfArray) {
             String sourceKey = askIf.getSourceKey();
             String value = askIf.getValue();
-
             Integer operator = askIf.getOperator();
             Integer nextConditionOperator = askIf.getNextConditionOperator();
             boolean currentConditionResult = false;
             switch (AskIf.ConditionSourceType.getSourceTypeById(askIf.getSourceType())) {
                 case LOCATION_RETAILER:
                     try {
-                        currentConditionResult = operator == 1 ?
+                        currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
                                 (taskLocation != null && value.equals(taskLocation.getRetailerName())) :
                                 (taskLocation == null || !value.equals(taskLocation.getRetailerName()));
                     } catch (Exception e) {
@@ -261,7 +263,7 @@ public class QuestionsBL {
                     break;
                 case LOCATION_STATE:
                     try {
-                        currentConditionResult = operator == 1 ?
+                        currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
                                 (taskLocation != null && value.equals(String.valueOf(taskLocation.getStateId()))) :
                                 (taskLocation == null || !value.equals(String.valueOf(taskLocation.getStateId())));
                     } catch (Exception e) {
@@ -270,7 +272,7 @@ public class QuestionsBL {
                     break;
                 case LOCATION_CITY:
                     try {
-                        currentConditionResult = operator == 1 ?
+                        currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
                                 (taskLocation != null && value.equals(String.valueOf(taskLocation.getCityId()))) :
                                 (taskLocation == null || !value.equals(String.valueOf(taskLocation.getCityId())));
                     } catch (Exception e) {
@@ -282,7 +284,7 @@ public class QuestionsBL {
                         JSONObject customFieldJsonObject = new JSONObject(taskLocation.getCustomFields());
                         String customFieldValue = customFieldJsonObject.optString(sourceKey);
 
-                        currentConditionResult = operator == 1 ?
+                        currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
                                 (!TextUtils.isEmpty(customFieldValue) && value.equals(customFieldValue))
                                 :
                                 (TextUtils.isEmpty(customFieldValue) || !value.equals(customFieldValue));
@@ -294,28 +296,13 @@ public class QuestionsBL {
                     Question previousQuestion = getQuestionByOrderId(questions, Integer.valueOf(sourceKey));
                     if (previousQuestion != null) {
                         previousQuestion.setAnswers(getAnswers(previousQuestion));
-
                         String answerValue = getAnswerValue(previousQuestion);
                         if (previousQuestion.getType() == QuestionType.NUMBER.getTypeId()) {
-                            String[] valuesArray = value.split("-");
-                            int minValue = Integer.valueOf(valuesArray[0]);
-                            int maxValue = Integer.valueOf(valuesArray[1]);
-
-                            if (answerValue == null) {
-                                currentConditionResult = false;
-                            } else {
-                                int intAnswerValue = Integer.valueOf(answerValue);
-
-                                currentConditionResult = operator == 1 ?
-                                        (intAnswerValue >= minValue && intAnswerValue <= maxValue)
-                                        :
-                                        (intAnswerValue < minValue && intAnswerValue > maxValue);
-                            }
+                            currentConditionResult = getCurrentConditionResultNumber(value, operator, answerValue);
+                        } else if (previousQuestion.getType() == QuestionType.MULTIPLE_CHOICE.getTypeId()) {
+                            currentConditionResult = getCurrentConditionResultMultiple(previousQuestion, operator, answerValue);
                         } else {
-                            currentConditionResult = operator == 1 ?
-                                    (answerValue != null && value.equals(answerValue))
-                                    :
-                                    (answerValue != null && !value.equals(answerValue));
+                            currentConditionResult = getCurrentConditionResultDefault(value, operator, answerValue);
                         }
                     } else {
                         currentConditionResult = true;
@@ -326,18 +313,62 @@ public class QuestionsBL {
                 default:
                     break;
             }
-
             if (previousConditionOperator != null) {
                 result = previousConditionOperator == 1 ? (result && currentConditionResult) : (result || currentConditionResult);
             } else {
                 result = currentConditionResult;
             }
-
             previousConditionOperator = nextConditionOperator;
-
         }
-
         return result;
+    }
+
+    private static boolean getCurrentConditionResultMultiple(Question question, Integer operator, String answerValue) {
+        boolean currentConditionResult = false;
+        long conditionAnswersCount = Stream.of(question.getAnswers())
+                .filter(a -> a.getChecked() && answerValue.equals(a.getValue()))
+                .count();
+        if (answerValue != null)
+            switch (operator) {
+                case ONE_ANSWER_OPERATOR:
+                    long checkedAnswersCount = Stream.of(question.getAnswers())
+                            .filter(Answer::getChecked).count();
+                    currentConditionResult = checkedAnswersCount == 1 && conditionAnswersCount == 1;
+                    break;
+                case NO_ANSWERS_OPERATOR:
+                    currentConditionResult = conditionAnswersCount == 0;
+                    break;
+                case ANY_QUESTION_OPERATOR:
+                    currentConditionResult = conditionAnswersCount != 0;
+                    break;
+            }
+        return currentConditionResult;
+    }
+
+    private static boolean getCurrentConditionResultDefault(String value, Integer operator, String answerValue) {
+        boolean currentConditionResult;
+        currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
+                (answerValue != null && value.equals(answerValue))
+                :
+                (answerValue != null && !value.equals(answerValue));
+        return currentConditionResult;
+    }
+
+    private static boolean getCurrentConditionResultNumber(String value, Integer operator, String answerValue) {
+        boolean currentConditionResult;
+        String[] valuesArray = value.split("-");
+        int minValue = Integer.valueOf(valuesArray[0]);
+        int maxValue = Integer.valueOf(valuesArray[1]);
+        if (answerValue == null) {
+            currentConditionResult = false;
+        } else {
+            int intAnswerValue = Integer.valueOf(answerValue);
+            currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
+                    (intAnswerValue >= minValue && intAnswerValue <= maxValue)
+                    :
+                    (intAnswerValue < minValue && intAnswerValue > maxValue);
+        }
+        return currentConditionResult;
     }
 
     private static List<Answer> getAnswers(Question previousQuestion) {
@@ -372,7 +403,6 @@ public class QuestionsBL {
         String result = null;
         if (question != null) {
             List<Answer> answers = question.getAnswers();
-
             if (answers != null) {
                 for (Answer answer : answers) {
                     if (answer.getChecked()) {

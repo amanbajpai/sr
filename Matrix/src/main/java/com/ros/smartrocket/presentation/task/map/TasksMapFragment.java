@@ -45,7 +45,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
-import com.ros.smartrocket.map.CurrentLocatiuonListener;
+import com.ros.smartrocket.map.CurrentLocationListener;
 import com.ros.smartrocket.map.MapHelper;
 import com.ros.smartrocket.map.OnMapStatusChangeFinishedListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
@@ -374,7 +374,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     }
 
     private void getWavesFromServer(final int radius) {
-        MatrixLocationManager.getCurrentLocation(false, new CurrentLocatiuonListener() {
+        MatrixLocationManager.getCurrentLocation(false, new CurrentLocationListener() {
             @Override
             public void getLocationSuccess(Location location) {
                 if (isFirstStart)

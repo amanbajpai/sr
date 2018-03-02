@@ -42,6 +42,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.TaskValidationUtils;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.UserActionsLogger;
+import com.ros.smartrocket.utils.eventbus.QuitQuestionFlowAction;
 
 import java.util.Calendar;
 import java.util.List;
@@ -49,6 +50,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class TaskValidationActivity extends BaseActivity implements ValidationLocalMvpView, ValidationNetMvpView, View.OnClickListener {
     @BindView(R.id.closingQuestionText)
@@ -424,5 +426,22 @@ public class TaskValidationActivity extends BaseActivity implements ValidationLo
         super.onDestroy();
         netPresenter.detachView();
         localPresenter.detachView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(QuitQuestionFlowAction event) {
+        if (taskId == event.getTaskId() && missionId == event.getMissionId()) finish();
     }
 }

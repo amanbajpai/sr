@@ -69,23 +69,17 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
-    /**
-     * Start popup-notification about expired task
-     *
-     * @param context        - current context
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
-     */
-    public static void startExpiredNotificationActivity(Context context, String missionName,
-                                                        String locationName, String missionAddress) {
+    public static void startExpiredNotificationActivity(Context context, Task task) {
 
-        Spanned notificationText = Html.fromHtml(context.getString(R.string.expire_mission_notification_text, missionName,
-                locationName, missionAddress));
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.expire_mission_notification_text,
+                task.getName(), task.getCountryName(), task.getAddress()));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        intent.putExtra(Keys.WAVE_ID, task.getWaveId());
+        intent.putExtra(Keys.TASK_ID, task.getId());
+        intent.putExtra(Keys.MISSION_ID, task.getMissionId());
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_expired.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
         intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);

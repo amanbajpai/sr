@@ -21,7 +21,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.task.Wave;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
-import com.ros.smartrocket.map.CurrentLocatiuonListener;
+import com.ros.smartrocket.map.CurrentLocationListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseFragment;
@@ -116,7 +116,7 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     private void updateDataFromServer() {
         final int radius = TasksMapFragment.taskRadius;
         if (UIUtils.isOnline(getActivity())) {
-            MatrixLocationManager.getCurrentLocation(false, new CurrentLocatiuonListener() {
+            MatrixLocationManager.getCurrentLocation(false, new CurrentLocationListener() {
                 @Override
                 public void getLocationSuccess(Location location) {
                     if (isFirstStart)
