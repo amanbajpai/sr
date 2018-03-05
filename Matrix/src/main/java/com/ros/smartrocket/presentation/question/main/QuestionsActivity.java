@@ -490,16 +490,11 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        Log.e("Expiry", "Stop");
     }
 
     @SuppressWarnings("unused")
     public void onEventMainThread(QuitQuestionFlowAction event) {
-        Log.e("Expiry", "Event get");
-        Log.e("Expiry", "Action tId=" + event.getTaskId() + " mId=" + event.getMissionId());
-        Log.e("Expiry", "Question tId=" + taskId + " mId=" + missionId);
         if (taskId == event.getTaskId() && missionId == event.getMissionId()) {
-            Log.e("Expiry", "Finish");
             finish();
         }
     }

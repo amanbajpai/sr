@@ -300,7 +300,7 @@ public class QuestionsBL {
                         if (previousQuestion.getType() == QuestionType.NUMBER.getTypeId()) {
                             currentConditionResult = getCurrentConditionResultNumber(value, operator, answerValue);
                         } else if (previousQuestion.getType() == QuestionType.MULTIPLE_CHOICE.getTypeId()) {
-                            currentConditionResult = getCurrentConditionResultMultiple(previousQuestion, operator, answerValue);
+                            currentConditionResult = getCurrentConditionResultMultiple(previousQuestion, operator, value);
                         } else {
                             currentConditionResult = getCurrentConditionResultDefault(value, operator, answerValue);
                         }

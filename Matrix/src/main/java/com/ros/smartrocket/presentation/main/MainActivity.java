@@ -18,9 +18,11 @@ import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.presentation.task.AllTaskFragment;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.eventbus.LogOutAction;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 
 import cn.jpush.android.api.JPushInterface;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseSlidingMenuActivity {
     private FragmentHelper fragmentHelper = new FragmentHelper();
@@ -111,5 +113,23 @@ public class MainActivity extends BaseSlidingMenuActivity {
         if (BuildConfig.CHINESE)
             JPushInterface.onPause(this);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(LogOutAction event) {
+        finish();
+    }
+
 
 }
