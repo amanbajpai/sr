@@ -17,8 +17,8 @@
         android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:background="@color/grey_light"
-        tools:src="@drawable/menu_account"
-        android:tint="@color/grey_dark" />
+        android:tint="@color/grey_dark"
+        tools:src="@drawable/menu_account" />
 
     <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/value"
@@ -30,8 +30,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/icon"
-        android:maxLines="1"
         android:maxLength="50"
+        android:maxLines="1"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_14sp"
         tools:text="Some very cool text" />
@@ -49,4 +49,12 @@
         android:textSize="@dimen/text_size_14sp"
         custom:textStyle="bold"
         tools:text="Some very cool text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/description"
+        android:background="@drawable/dash_line"
+        android:layerType="software" />
 </merge>

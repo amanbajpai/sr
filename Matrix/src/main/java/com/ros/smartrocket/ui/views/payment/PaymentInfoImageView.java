@@ -14,6 +14,7 @@ import com.ros.smartrocket.db.entity.payment.PaymentField;
 import com.ros.smartrocket.db.entity.payment.PaymentInfo;
 import com.ros.smartrocket.interfaces.PhotoActionsListener;
 import com.ros.smartrocket.ui.views.CustomTextView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -67,6 +68,7 @@ public class PaymentInfoImageView extends RelativeLayout {
 
     public void setImage() {
         if (!TextUtils.isEmpty(paymentField.getValue())) {
+            rePhotoButton.setVisibility(GONE);
             photo.setVisibility(VISIBLE);
             Picasso.with(getContext())
                     .load(paymentField.getValue())
@@ -74,8 +76,17 @@ public class PaymentInfoImageView extends RelativeLayout {
                     .onlyScaleDown()
                     .placeholder(R.drawable.loading_normal)
                     .error(R.drawable.cam)
-                    .into(photo);
-            rePhotoButton.setVisibility(VISIBLE);
+                    .into(photo, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            rePhotoButton.setVisibility(VISIBLE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            rePhotoButton.setVisibility(GONE);
+                        }
+                    });
         } else {
             rePhotoButton.setVisibility(GONE);
             photo.setImageResource(R.drawable.camera_icon);

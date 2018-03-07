@@ -31,9 +31,9 @@ import io.reactivex.Observable;
 
 public class QuestionsBL {
     private static final String TAG = QuestionsBL.class.getSimpleName();
-    public static final int ONE_ANSWER_OPERATOR = 1;
-    public static final int NO_ANSWERS_OPERATOR = 2;
-    public static final int ANY_QUESTION_OPERATOR = 3;
+    private static final int ONE_ANSWER_OPERATOR = 1;
+    private static final int NO_ANSWERS_OPERATOR = 2;
+    private static final int ANY_QUESTION_OPERATOR = 3;
 
     private static Integer removeQuestionsFromDBbyTask(Task task) {
         return App.getInstance().getContentResolver().delete(QuestionDbSchema.CONTENT_URI,
@@ -363,10 +363,9 @@ public class QuestionsBL {
             currentConditionResult = false;
         } else {
             int intAnswerValue = Integer.valueOf(answerValue);
-            currentConditionResult = operator == ONE_ANSWER_OPERATOR ?
-                    (intAnswerValue >= minValue && intAnswerValue <= maxValue)
-                    :
-                    (intAnswerValue < minValue && intAnswerValue > maxValue);
+            currentConditionResult = operator == ONE_ANSWER_OPERATOR
+                    ? (intAnswerValue >= minValue && intAnswerValue <= maxValue)
+                    : (intAnswerValue < minValue && intAnswerValue > maxValue);
         }
         return currentConditionResult;
     }
