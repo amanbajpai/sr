@@ -217,11 +217,11 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
                 getMvpView().showLoading(false);
                 break;
             case IMAGE_COMPLETE:
+                getMvpView().hideLoading();
                 if (event.image != null) {
                     int fieldId = RequestCodeImageHelper.getBigPart(event.requestCode);
                     photos.put(fieldId, event.image.imageFile);
                     getMvpView().setBitmap(event.image.bitmap, fieldId);
-                    getMvpView().hideLoading();
                 }
                 break;
             case SELECT_IMAGE_ERROR:
@@ -256,6 +256,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
                 intent.putExtra(SelectImageManager.EXTRA_PREFIX, PAYMENT_PHOTO);
                 photoHelper.onActivityResult(requestCode, resultCode, intent);
                 isImageRequested = false;
+                showLoading(true);
                 return true;
             }
             if (currentPhotoFile != null) {
@@ -264,6 +265,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
                 intent.putExtra(SelectImageManager.EXTRA_PREFIX, PAYMENT_PHOTO);
                 photoHelper.onActivityResult(requestCode, resultCode, intent);
                 isImageRequested = false;
+                showLoading(true);
                 return true;
             }
         }
