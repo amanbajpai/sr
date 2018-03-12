@@ -195,6 +195,13 @@ android {
             buildConfigField "boolean", "CHINESE", "false"
             dimension "mode"
         }
+        cdnStaging {
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://192.168.0.88/MatrixApi/\""
+            buildConfigField "String", "PROFILE_PAGE_URL", "\"http://192.168.0.88/MatrixApi\""
+            buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
+            buildConfigField "boolean", "CHINESE", "false"
+            dimension "mode"
+        }
         production {
             buildConfigField "String", "WEB_SERVICE_URL", "\"https://matrixapi.red-ocean.net/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://crew.smart-rocket.net/\""
