@@ -76,8 +76,7 @@ public class TaskReminderService extends Service {
     private void expiredTaskToRemindLoaded(Task task) {
         if (task.getId() != null && App.getInstance() != null) {
             TasksBL.removeTask(task.getId());
-            NotificationUtils.startExpiredNotificationActivity(TaskReminderService.this,
-                    task.getName(), task.getCountryName(), task.getAddress());
+            NotificationUtils.startExpiredNotificationActivity(TaskReminderService.this, task);
         }
 
     }

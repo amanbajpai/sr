@@ -14,7 +14,7 @@ import com.ros.smartrocket.db.entity.question.Questions;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.db.entity.task.Wave;
 import com.ros.smartrocket.db.store.QuestionStore;
-import com.ros.smartrocket.map.CurrentLocatiuonListener;
+import com.ros.smartrocket.map.CurrentLocationListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -58,7 +58,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
     }
 
     private void findLocation() {
-        MatrixLocationManager.getCurrentLocation(false, new CurrentLocatiuonListener() {
+        MatrixLocationManager.getCurrentLocation(false, new CurrentLocationListener() {
             @Override
             public void getLocationSuccess(Location location) {
                 if (!isViewAttached()) return;

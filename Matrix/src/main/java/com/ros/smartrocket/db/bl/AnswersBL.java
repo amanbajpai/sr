@@ -379,7 +379,6 @@ public class AnswersBL {
 
     public static int getNextQuestionOrderId(Question question, List<Question> questions) {
         int orderId = 0;
-
         if (question != null && questions != null) {
             if (question.getRouting() != null && question.getRouting() != 0) {
                 orderId = question.getRouting();

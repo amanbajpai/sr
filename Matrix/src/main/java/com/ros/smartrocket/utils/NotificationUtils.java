@@ -1,13 +1,14 @@
 package com.ros.smartrocket.utils;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -45,6 +46,7 @@ import java.util.List;
 public class NotificationUtils {
     private static final String TAG = NotificationUtils.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "101";
 
     /**
      * Start popup-notification about not uploaded files
@@ -69,23 +71,17 @@ public class NotificationUtils {
         context.startActivity(intent);
     }
 
-    /**
-     * Start popup-notification about expired task
-     *
-     * @param context        - current context
-     * @param missionName    - current missionName
-     * @param locationName   - current locationName
-     * @param missionAddress - current missionAddress
-     */
-    public static void startExpiredNotificationActivity(Context context, String missionName,
-                                                        String locationName, String missionAddress) {
+    public static void startExpiredNotificationActivity(Context context, Task task) {
 
-        Spanned notificationText = Html.fromHtml(context.getString(R.string.expire_mission_notification_text, missionName,
-                locationName, missionAddress));
+        Spanned notificationText = Html.fromHtml(context.getString(R.string.expire_mission_notification_text,
+                task.getName(), task.getCountryName(), task.getAddress()));
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        intent.putExtra(Keys.WAVE_ID, task.getWaveId());
+        intent.putExtra(Keys.TASK_ID, task.getId());
+        intent.putExtra(Keys.MISSION_ID, task.getMissionId());
         intent.putExtra(Keys.NOTIFICATION_TYPE_ID, NotificationActivity.NotificationType.mission_expired.getId());
         intent.putExtra(Keys.TITLE_BACKGROUND_COLOR_RES_ID, R.color.red);
         intent.putExtra(Keys.TITLE_ICON_RES_ID, R.drawable.info_icon);
@@ -358,18 +354,16 @@ public class NotificationUtils {
      * @return Boolean
      */
     public static Boolean generateNotification(Context context, String title, String message, Intent intent) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.drawable.ic_notification);
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
-        mBuilder.setAutoCancel(true);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(message);
-        mBuilder.setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(Html.fromHtml(message).toString()));
-
-
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        mBuilder.setSound(sound);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(sound)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(Html.fromHtml(message).toString()))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(App.getInstance());
         stackBuilder.addParentStack(MainActivity.class);
@@ -378,11 +372,16 @@ public class NotificationUtils {
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
-                .NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = context.getString(R.string.app_name);
+            String description = "";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription(description);
+            if (notificationManager != null) notificationManager.createNotificationChannel(channel);
+        }
 
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
         return true;
     }
 

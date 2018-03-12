@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -15,8 +16,13 @@ import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
+import com.ros.smartrocket.utils.eventbus.QuitQuestionFlowAction;
 
 import java.util.Locale;
+
+import de.greenrobot.event.EventBus;
+
+import static com.ros.smartrocket.presentation.notification.NotificationActivity.NotificationType.mission_expired;
 
 public class NotificationActivity extends Activity implements OnClickListener {
 
@@ -66,7 +72,7 @@ public class NotificationActivity extends Activity implements OnClickListener {
             showLeftButton = getIntent().getBooleanExtra(Keys.SHOW_LEFT_BUTTON, false);
         }
 
-        TextView titleTextView = (TextView) findViewById(R.id.title);
+        TextView titleTextView = findViewById(R.id.title);
         titleTextView.setText(title);
 
         if (titleBackgroundColorResId != 0) {
@@ -81,12 +87,12 @@ public class NotificationActivity extends Activity implements OnClickListener {
             }
         }
 
-        TextView message = ((TextView) findViewById(R.id.text));
+        TextView message = findViewById(R.id.text);
         message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setText(text);
 
-        TextView leftButton = (TextView) findViewById(R.id.leftButton);
-        TextView rightButton = (TextView) findViewById(R.id.rightButton);
+        TextView leftButton = findViewById(R.id.leftButton);
+        TextView rightButton = findViewById(R.id.rightButton);
 
         if (showLeftButton && leftButtonResId != 0) {
             leftButton.setText(leftButtonResId);
@@ -121,6 +127,10 @@ public class NotificationActivity extends Activity implements OnClickListener {
     public void clickByRightButton() {
         switch (getNotificationType(notificationTypeId)) {
             case mission_expired:
+                Log.e("Expiry", "Event sent");
+                EventBus.getDefault().post(new QuitQuestionFlowAction(taskId, missionId));
+                finish();
+                break;
             case mission_approved:
             case mission_rejected:
                 finish();

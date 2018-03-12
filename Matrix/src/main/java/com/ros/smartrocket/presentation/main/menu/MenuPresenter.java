@@ -30,6 +30,7 @@ class MenuPresenter<V extends MenuMvpView> extends BaseNetworkPresenter<V> imple
     }
 
     private void setUnreadNotificationsCount(int count) {
-        getMvpView().setUnreadNotificationsCount(count);
+        if (isViewAttached())
+            getMvpView().setUnreadNotificationsCount(count);
     }
 }

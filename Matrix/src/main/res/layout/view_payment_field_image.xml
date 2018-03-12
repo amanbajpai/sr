@@ -26,6 +26,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/icon"
         android:adjustViewBounds="true"
         custom:srcCompat="@drawable/camera_icon" />
@@ -34,9 +35,9 @@
         android:id="@+id/rePhotoButton"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_marginEnd="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@id/photo"
         android:background="@drawable/btn_square_active"
         android:contentDescription="@string/app_name"
         android:padding="10dp"
@@ -55,4 +56,12 @@
         android:textSize="@dimen/text_size_14sp"
         custom:textStyle="bold"
         tools:text="Some very cool text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/description"
+        android:layerType="software"
+        android:background="@drawable/dash_line" />
 </merge>

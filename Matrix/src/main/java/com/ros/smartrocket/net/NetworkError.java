@@ -1,15 +1,20 @@
 package com.ros.smartrocket.net;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.error.ErrorResponse;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
+import com.ros.smartrocket.utils.eventbus.LogOutAction;
 import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 
 import java.io.IOException;
 
+import de.greenrobot.event.EventBus;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
@@ -39,7 +44,6 @@ public class NetworkError implements BaseNetworkError {
     public static final int USER_TERMINATED_ERROR = 10079;
 
 
-
     private Integer errorCode = -1;
     private int errorMessageRes = R.string.error;
     private ErrorResponse errorResponse;
@@ -57,6 +61,7 @@ public class NetworkError implements BaseNetworkError {
         if (t.response().code() == AUTHORIZATION_ERROR) {
             WriteDataHelper.prepareLogout(App.getInstance());
             App.getInstance().startActivity(IntentUtils.getLoginIntentForLogout(App.getInstance()));
+            new Handler(Looper.getMainLooper()).post(() -> EventBus.getDefault().post(new LogOutAction()));
         } else {
             parseResponse(t.response().errorBody());
         }
