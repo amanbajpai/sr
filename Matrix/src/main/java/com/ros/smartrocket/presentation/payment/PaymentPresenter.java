@@ -1,5 +1,6 @@
 package com.ros.smartrocket.presentation.payment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -251,7 +252,7 @@ public class PaymentPresenter<V extends PaymentMvpView> extends BaseNetworkPrese
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (isImageRequested) {
+        if (isImageRequested && resultCode == Activity.RESULT_OK) {
             if (intent != null && intent.getData() != null) {
                 intent.putExtra(SelectImageManager.EXTRA_PREFIX, PAYMENT_PHOTO);
                 photoHelper.onActivityResult(requestCode, resultCode, intent);

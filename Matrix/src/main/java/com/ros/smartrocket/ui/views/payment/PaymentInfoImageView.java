@@ -85,6 +85,7 @@ public class PaymentInfoImageView extends RelativeLayout {
                         @Override
                         public void onError() {
                             rePhotoButton.setVisibility(GONE);
+                            paymentField.setValue(null);
                         }
                     });
         } else {
