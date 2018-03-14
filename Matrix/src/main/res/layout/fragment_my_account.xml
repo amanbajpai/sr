@@ -32,11 +32,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="20dp"
                 android:layout_toEndOf="@id/photoImageView"
                 android:layout_toStartOf="@id/activityBtn"
+                android:background="@android:color/transparent"
                 android:text="@string/app_name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16sp"
@@ -170,11 +170,19 @@
                 android:textSize="@dimen/text_size_14sp"
                 custom:textStyle="bold" />
 
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/txtWhyThis"
+                android:background="@drawable/dash_line"
+                android:layerType="software" />
+
             <com.ros.smartrocket.ui.views.payment.PaymentInfoView
                 android:id="@+id/paymentInfoView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtWhyThis" />
+                android:layout_below="@id/divider" />
 
             <com.ros.smartrocket.ui.views.CustomButton
                 android:id="@+id/submit"
@@ -182,7 +190,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@id/paymentInfoView"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/button_green_selector"
                 android:text="@string/submit"
                 custom:textStyle="bold" />

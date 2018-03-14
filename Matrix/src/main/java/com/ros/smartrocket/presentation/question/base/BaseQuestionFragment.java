@@ -103,7 +103,7 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     }
 
     public Question getQuestion() {
-        return presenter.getQuestion();
+        return presenter == null ? null : presenter.getQuestion();
     }
 
     public void setAnswerSelectedListener(OnAnswerSelectedListener answerSelectedListener) {

@@ -505,5 +505,5 @@
     <string name="payment_details_fields">款项资讯</string>
     <string name="payment_details_info">因为法律规定的税务过程，所以你必须填写以下资料才可以提款。如果你没有如实填写以下资料的话，你的账户将会被删除。</string>
     <string name="why_we_need_payment_details">为什么我们需要知道以下资料</string>
-    <string name="max_cash_details">你已经超出了可以提款的上限。请你先提款后才认领新任务吧！</string>
+    <string name="max_cash_details">你账户的余额已经超过可提款的最高限制。请你先提款后才可以继续认领新任务。</string>
 </resources>
